@@ -1,0 +1,278 @@
+/* =====================================================
+   VENUES
+   ===================================================== */
+.section {
+  padding: var(--space-2xl) var(--content-padding);
+  background: var(--white);
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-md);
+  padding-bottom: var(--space-xl);
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.title {
+  composes: sectionTitle from "@/components/Shared.module.css";
+  color: var(--black);
+}
+
+.headerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.totalLabel {
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--gray-400);
+  text-align: right;
+}
+
+.totalNum {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--black);
+  line-height: 1;
+}
+
+/* Venue Accordions */
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.accordionItem {
+  background: var(--gray-100);
+  overflow: hidden;
+}
+
+.trigger {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+}
+
+.trigger:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.triggerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.accordionName {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.accordionCount {
+  font-family: var(--font-display);
+  font-size: 11px;
+  background: var(--black);
+  color: var(--white);
+  padding: 3px 8px;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+}
+
+.triggerRight {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+.accordionDesc {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gray-400);
+}
+
+.accordionIcon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--black);
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.isOpen .accordionIcon {
+  transform: rotate(45deg);
+}
+
+/* Accordion Content */
+.accordionContent {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s var(--ease-out-expo);
+}
+
+.isOpen .accordionContent {
+  grid-template-rows: 1fr;
+}
+
+.accordionInner {
+  overflow: hidden;
+}
+
+.accordionBody {
+  padding: var(--space-sm) var(--space-md);
+}
+
+/* Venue Entries */
+.entries {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.entry {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.entry:last-child {
+  border-bottom: none;
+}
+
+.num {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  color: var(--gray-400);
+  min-width: 24px;
+}
+
+.name {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--black);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  flex: 1;
+}
+
+.tag {
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--white);
+  background: var(--pink);
+  padding: 2px 6px;
+}
+
+.program {
+  font-size: var(--text-xs);
+  color: var(--gray-600);
+  width: 100%;
+  padding-left: 24px;
+  margin-top: 4px;
+}
+
+/* Subgroup labels */
+.subgroupLabel {
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--pink);
+  margin: var(--space-md) 0 var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--gray-200);
+}
+
+.subgroupLabel:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* ---- Tablet (768px+) ---- */
+@media (min-width: 768px) {
+  .section {
+    padding: var(--section-padding-y) var(--content-padding);
+  }
+
+  .trigger {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+  }
+
+  .accordionCount {
+    padding: 4px 10px;
+  }
+
+  .accordionIcon {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+
+  .accordionBody {
+    padding: var(--space-lg) var(--space-lg);
+  }
+
+  .entry {
+    flex-wrap: nowrap;
+    gap: var(--space-sm);
+    padding: 12px 0;
+  }
+
+  .num {
+    min-width: 32px;
+  }
+
+  .tag {
+    padding: 3px 8px;
+  }
+
+  .program {
+    width: auto;
+    text-align: right;
+    margin-left: auto;
+    padding-left: var(--space-md);
+    margin-top: 0;
+  }
+
+  .subgroupLabel {
+    letter-spacing: 3px;
+  }
+}

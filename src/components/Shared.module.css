@@ -1,0 +1,141 @@
+/* =====================================================
+   SHARED — CTA buttons, section containers, effects
+   ===================================================== */
+
+/* ---- Section Container ---- */
+.sectionContainer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding-y) var(--content-padding);
+}
+
+/* ---- CTA Button ---- */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--white);
+  background: transparent;
+  border: 1px solid var(--gray-750);
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all var(--duration-normal) ease;
+}
+
+.cta:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
+.ctaArrow {
+  transition: transform var(--duration-normal) ease;
+}
+
+.cta:hover .ctaArrow {
+  transform: translateX(4px);
+}
+
+/* ---- Gradient Border Hover ---- */
+.gradientBorderHover {
+  position: relative;
+}
+
+.gradientBorderHover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--pink) 0%,
+    var(--chartreuse) 50%,
+    var(--pink) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.gradientBorderHover:hover::before {
+  opacity: 1;
+  animation: gradientBorderShift 2s linear infinite;
+}
+
+@keyframes gradientBorderShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* ---- Vacuum Sealed / Plastic Sheen ---- */
+.vacuumSealed {
+  position: relative;
+  background: var(--gray-900);
+  border: 1px solid var(--gray-850);
+  padding: var(--card-padding);
+  overflow: hidden;
+}
+
+.plasticSheen {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 55%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.vacuumSealed:hover .plasticSheen {
+  animation: sheenSlide 0.8s ease-out forwards;
+}
+
+@keyframes sheenSlide {
+  to {
+    left: 130%;
+  }
+}
+
+/* ---- Section Title ---- */
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+@media (min-width: 1600px) {
+  .sectionTitle {
+    font-size: var(--text-2xl);
+  }
+}
+
+@media (min-width: 1800px) {
+  .sectionTitle {
+    font-size: var(--text-3xl);
+  }
+}

@@ -1,0 +1,93 @@
+/* =====================================================
+   READ MORE — Expandable Text
+   ===================================================== */
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: transparent;
+  border: 1px solid var(--gray-300);
+  padding: 10px 16px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gray-600);
+  cursor: pointer;
+  margin-top: var(--space-lg);
+  transition: all var(--duration-normal) ease;
+}
+
+.btn:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
+.btnDark {
+  border-color: var(--gray-750);
+  color: var(--gray-500);
+  margin-bottom: var(--space-3xl);
+}
+
+.btnDark:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
+.icon {
+  font-size: 14px;
+  transition: transform var(--duration-normal) ease;
+}
+
+.btn[aria-expanded="true"] .icon {
+  transform: rotate(45deg);
+}
+
+/* Expandable Text (Mobile Only) */
+.expandable {
+  max-height: 180px;
+  overflow: hidden;
+  position: relative;
+  transition: max-height var(--duration-slow) var(--ease-out-expo);
+}
+
+.expandable::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--white));
+  pointer-events: none;
+  transition: opacity var(--duration-normal) ease;
+}
+
+.dark::after {
+  background: linear-gradient(to bottom, transparent, var(--black));
+}
+
+.isExpanded {
+  max-height: 2000px;
+}
+
+.isExpanded::after {
+  opacity: 0;
+}
+
+/* Hide read more on tablet+ */
+@media (min-width: 768px) {
+  .btn {
+    display: none;
+  }
+
+  .expandable {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .expandable::after {
+    display: none;
+  }
+}

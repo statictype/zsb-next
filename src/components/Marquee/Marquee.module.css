@@ -1,0 +1,44 @@
+/* =====================================================
+   MARQUEE
+   ===================================================== */
+.container {
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--black);
+  border-top: 1px solid var(--gray-850);
+  border-bottom: 1px solid var(--gray-850);
+  padding: var(--space-md) 0;
+}
+
+.content {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--gray-700);
+  animation: marqueeScroll 20s linear infinite;
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (min-width: 768px) {
+  .content {
+    font-size: var(--text-xl);
+    letter-spacing: 6px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .content {
+    font-size: var(--text-2xl);
+    letter-spacing: 8px;
+  }
+}

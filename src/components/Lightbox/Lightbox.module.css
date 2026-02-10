@@ -1,0 +1,129 @@
+/* =====================================================
+   LIGHTBOX — CSS Module
+   ===================================================== */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  cursor: zoom-out;
+}
+
+.isActive {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ---- Image ---- */
+.image {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform 0.5s var(--ease-out-expo), opacity 0.4s ease;
+}
+
+.isActive .image {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* ---- Close Button ---- */
+.close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  width: var(--btn-size);
+  height: var(--btn-size);
+  background: transparent;
+  border: 1px solid var(--gray-700);
+  color: var(--white);
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--duration-normal) ease;
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .close {
+    top: 32px;
+    right: 32px;
+  }
+}
+
+.close:hover {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--white);
+}
+
+/* ---- Caption ---- */
+.caption {
+  position: absolute;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--gray-500);
+}
+
+@media (min-width: 768px) {
+  .caption {
+    bottom: 32px;
+  }
+}
+
+/* ---- Navigation Arrows ---- */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--btn-size);
+  height: var(--btn-size);
+  background: transparent;
+  border: 1px solid var(--gray-750);
+  color: var(--white);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--duration-normal) ease;
+  z-index: 10;
+}
+
+.nav:hover {
+  background: var(--pink);
+  border-color: var(--pink);
+}
+
+.navPrev {
+  left: var(--space-md);
+}
+
+.navNext {
+  right: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .navPrev {
+    left: 32px;
+  }
+  .navNext {
+    right: 32px;
+  }
+}

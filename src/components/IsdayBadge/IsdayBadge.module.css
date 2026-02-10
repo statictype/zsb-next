@@ -1,0 +1,108 @@
+/* =====================================================
+   ISDAY OFFICIAL PARTICIPANT BADGE
+   ===================================================== */
+.card {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--gray-200);
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-lg) var(--space-md);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 153, 0.05) 0%,
+    rgba(255, 255, 255, 0.9) 40%,
+    rgba(248, 248, 250, 1) 100%
+  );
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+}
+
+.title {
+  font-family: var(--font-paragraph);
+  font-weight: 300;
+  font-size: var(--text-2xl);
+  color: var(--pink);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gray-700);
+  margin-top: var(--space-xs);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--space-md);
+  padding: 8px var(--space-md);
+  background: var(--gray-800);
+  color: var(--white);
+  border-radius: 3px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.pillIcon {
+  width: 6px;
+  height: 6px;
+  background: var(--chartreuse);
+  border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+  .inner {
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .title {
+    font-size: var(--text-3xl);
+    letter-spacing: -1px;
+  }
+
+  .subtitle {
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-top: var(--space-sm);
+  }
+
+  .pill {
+    margin-top: var(--space-lg);
+    padding: 10px var(--space-lg);
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .pillIcon {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: var(--text-2xl);
+  }
+}
+
+@media (min-width: 1600px) {
+  .title {
+    font-size: var(--text-3xl);
+  }
+}

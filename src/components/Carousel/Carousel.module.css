@@ -1,0 +1,407 @@
+/* =====================================================
+   GALLERY CAROUSEL — CSS Module
+   ===================================================== */
+
+/* ---- Section ---- */
+.section {
+  padding: var(--section-padding-y) 0;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Atmospheric grain overlay */
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---- Header ---- */
+.header {
+  max-width: var(--max-width);
+  margin: 0 auto var(--space-xl);
+  padding: 0 var(--content-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 768px) {
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+/* ---- Title ---- */
+.title {
+  composes: sectionTitle from "@/components/Shared.module.css";
+  color: var(--white);
+}
+
+/* ---- Count / Theme label ---- */
+.count {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.count::before {
+  content: "";
+  width: 40px;
+  height: 1px;
+  background: var(--gray-750);
+}
+
+/* ---- Carousel Container ---- */
+.carousel {
+  position: relative;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--content-padding);
+  z-index: 2;
+}
+
+/* ---- Viewport & Track ---- */
+.viewport {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.track {
+  display: flex;
+  transition: transform 0.8s var(--ease-out-expo);
+  will-change: transform;
+}
+
+/* ---- Slide ---- */
+.slide {
+  min-width: 100%;
+  width: 100%;
+  flex: 0 0 100%;
+  display: grid;
+  gap: var(--space-md);
+  box-sizing: border-box;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
+  height: 80vh;
+}
+
+/* Desktop layouts */
+@media (min-width: 768px) {
+  .slide {
+    height: var(--carousel-height);
+    max-height: none;
+    grid-template-rows: 1fr;
+  }
+
+  /* Layout: 3 equal columns */
+  .layoutTrio {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Layout: 2 equal columns */
+  .layoutDuo {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Layout: Featured (2/3) + Portrait (1/3) */
+  .layoutFeaturedPortrait {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  /* Layout: Featured (2/3) + 2 Stacked (1/3) */
+  .layoutFeaturedStack {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .layoutFeaturedStack .item:first-child {
+    grid-row: 1 / -1;
+  }
+
+  /* Layout: Full width single image */
+  .layoutFull {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  .layoutFeaturedPortrait,
+  .layoutFeaturedStack {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* ---- Gallery Item ---- */
+.item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--gray-900);
+}
+
+.item img {
+  transition: transform 1.2s var(--ease-out-expo), filter 0.6s ease;
+  filter: brightness(0.9) contrast(1.05);
+}
+
+.item:hover img {
+  transform: scale(1.05);
+  filter: brightness(1) contrast(1.1);
+}
+
+/* Gradient border hover effect */
+.item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--pink) 0%,
+    var(--chartreuse) 50%,
+    var(--pink) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.item:hover::before {
+  opacity: 1;
+  animation: gradientBorderShift 2s linear infinite;
+}
+
+@keyframes gradientBorderShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* ---- Item Overlay ---- */
+.itemOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.3) 40%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out-expo);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--card-padding);
+}
+
+.item:hover .itemOverlay {
+  opacity: 1;
+}
+
+.itemInfo {
+  transform: translateY(20px);
+  transition: transform 0.6s var(--ease-out-expo);
+}
+
+.item:hover .itemInfo {
+  transform: translateY(0);
+}
+
+.itemCaption {
+  font-size: var(--text-sm);
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* ---- Controls ---- */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-top: var(--space-2xl);
+  padding: 0 2px;
+}
+
+@media (min-width: 768px) {
+  .controls {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* ---- Nav Arrows ---- */
+.nav {
+  display: flex;
+  gap: var(--space-md);
+  order: 1;
+}
+
+@media (min-width: 768px) {
+  .nav {
+    order: 0;
+  }
+}
+
+.btn {
+  width: var(--btn-size);
+  height: var(--btn-size);
+  background: transparent;
+  border: 2px solid var(--gray-750);
+  color: var(--white);
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s var(--ease-out-expo);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--pink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out-expo);
+  z-index: -1;
+}
+
+.btn:hover {
+  border-color: var(--pink);
+  color: var(--white);
+}
+
+.btn:hover::before {
+  transform: scaleX(1);
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn:disabled:hover::before {
+  transform: scaleX(0);
+}
+
+.btn:disabled:hover {
+  border-color: var(--gray-750);
+}
+
+/* ---- Progress ---- */
+.progressWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  flex: 1;
+  max-width: 100%;
+  order: 0;
+}
+
+@media (min-width: 768px) {
+  .progressWrap {
+    max-width: 600px;
+    margin: 0 48px;
+    order: 1;
+  }
+}
+
+.progress {
+  width: 100%;
+  height: 2px;
+  background: var(--gray-850);
+  position: relative;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pink) 0%, var(--chartreuse) 100%);
+  transition: width 0.6s var(--ease-out-expo);
+  position: relative;
+}
+
+.progressBar::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  background: var(--chartreuse);
+  border-radius: 50%;
+}
+
+/* ---- Dots ---- */
+.dots {
+  display: flex;
+  gap: 8px;
+  order: 2;
+}
+
+.dot {
+  width: 24px;
+  height: 3px;
+  background: var(--gray-750);
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .dot {
+    width: 32px;
+  }
+}
+
+.dotActive {
+  background: var(--chartreuse);
+  width: 36px;
+}
+
+@media (min-width: 768px) {
+  .dotActive {
+    width: 48px;
+  }
+}
+
+.dot:not(.dotActive):hover {
+  background: var(--gray-600);
+}
