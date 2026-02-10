@@ -1,7 +1,10 @@
+'use client'
+
 import Link from 'next/link'
 import styles from './Footer.module.css'
 
-const BARCODE_LABEL = `ZSB\u20142021\u2014${new Date().getFullYear()}`
+const CURRENT_YEAR = new Date().getFullYear()
+const BARCODE_LABEL = `ZSB\u20142021\u2014${CURRENT_YEAR}`
 
 const EXPLORE_LINKS = [
   { label: 'About', href: '#' },
@@ -52,8 +55,6 @@ function FooterLink({
 }
 
 export function Footer() {
-  const currentYear = new Date().getFullYear()
-
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
@@ -136,7 +137,7 @@ export function Footer() {
           <div className={styles.tagline}>
             Art <span>&times;</span> Urban <span>&times;</span> Space
           </div>
-          <div>&copy; {currentYear} Bucharest Sculpture Days</div>
+          <div>&copy; {CURRENT_YEAR} Bucharest Sculpture Days</div>
         </div>
       </div>
     </footer>

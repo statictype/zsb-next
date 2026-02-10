@@ -60,7 +60,7 @@ export function Hero({
             alt={heroImage.alt}
             width={600}
             height={800}
-            priority
+            preload
           />
         </div>
       )}

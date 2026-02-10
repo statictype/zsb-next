@@ -153,6 +153,7 @@ export default function HomePage() {
               src={spotlightImages.hero.basePath}
               alt={spotlightImages.hero.alt}
               fill
+              preload
               sizes="(max-width: 767px) 100vw, 66vw"
               className={styles.galleryHeroImage}
             />

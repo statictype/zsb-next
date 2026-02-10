@@ -225,6 +225,7 @@ export default function PartnersPage() {
                 src="/img/2025/optimized/_DSC5665"
                 alt="ZSB 2025 — performance and audience in the exhibition space"
                 fill
+                preload
                 sizes="(max-width: 1023px) 100vw, 50vw"
                 className={styles.heroImageImg}
               />

@@ -1,0 +1,120 @@
+/* =====================================================
+   ERROR BOUNDARY
+   ===================================================== */
+
+.page {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--black);
+  overflow: hidden;
+  padding: var(--space-xl) var(--content-padding);
+}
+
+/* ---- Noise ---- */
+.noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* ---- Pink glow ---- */
+.glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: var(--pink);
+  filter: blur(180px);
+  opacity: 0.08;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* ---- Content ---- */
+.content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 520px;
+}
+
+/* ---- Icon ---- */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--gray-800);
+  margin-bottom: var(--space-xl);
+  color: var(--pink);
+}
+
+/* ---- Title ---- */
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--white);
+  margin-bottom: var(--space-md);
+  line-height: 1;
+}
+
+/* ---- Message ---- */
+.message {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  line-height: 1.8;
+  margin-bottom: var(--space-2xl);
+}
+
+/* ---- Actions ---- */
+.actions {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--white);
+  background: transparent;
+  border: 1px solid var(--gray-750);
+  padding: 14px 28px;
+  cursor: pointer;
+  transition: all var(--duration-normal) ease;
+}
+
+.btn:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
+.btnPrimary {
+  border-color: var(--pink);
+  background: rgba(255, 0, 153, 0.08);
+}
+
+.btnPrimary:hover {
+  background: rgba(255, 0, 153, 0.15);
+}

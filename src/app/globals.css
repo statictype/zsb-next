@@ -72,7 +72,7 @@
 
   /* Fonts — mapped from next/font CSS variables */
   --font-display: var(--font-dela-gothic), sans-serif;
-  --font-body: "PP Formula Light", sans-serif;
+  --font-body: var(--font-pp-formula), sans-serif;
   --font-paragraph: var(--font-raleway), sans-serif;
 }
 
@@ -169,19 +169,6 @@
     --text-hero: 140px;
     --text-base: 21px;
   }
-}
-
-/* ---- PP Formula (CDN) ---- */
-@font-face {
-  font-family: "PP Formula Light";
-  src:
-    url("https://db.onlinewebfonts.com/t/90086041478debf63c2c71d84047e5c1.woff2")
-    format("woff2"),
-    url("https://db.onlinewebfonts.com/t/90086041478debf63c2c71d84047e5c1.woff")
-    format("woff");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
 }
 
 /* ---- Reset ---- */

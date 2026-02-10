@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { Dela_Gothic_One, Raleway } from 'next/font/google'
+import localFont from 'next/font/local'
+import { Suspense } from 'react'
 import { Footer } from '@/components/Footer/Footer'
 import { Navigation } from '@/components/Navigation/Navigation'
 import './globals.css'
@@ -17,6 +19,13 @@ const raleway = Raleway({
   display: 'swap',
 })
 
+const ppFormula = localFont({
+  src: './fonts/PPFormulaLight.woff2',
+  variable: '--font-pp-formula',
+  display: 'swap',
+  weight: '300',
+})
+
 export const metadata: Metadata = {
   title: 'ZSB | Bucharest Sculpture Days',
   description:
@@ -29,11 +38,16 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${delaGothic.variable} ${raleway.variable}`}>
+    <html
+      lang="en"
+      className={`${delaGothic.variable} ${raleway.variable} ${ppFormula.variable}`}
+    >
       <body>
         <Navigation />
         {children}
-        <Footer />
+        <Suspense>
+          <Footer />
+        </Suspense>
       </body>
     </html>
   )

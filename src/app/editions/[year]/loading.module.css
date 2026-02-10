@@ -1,0 +1,157 @@
+/* =====================================================
+   EDITION LOADING SKELETON
+   ===================================================== */
+
+.page {
+  min-height: 100vh;
+  background: var(--black);
+}
+
+/* ---- Shared pulse ---- */
+.bone {
+  background: var(--gray-900);
+  border-radius: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.bone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ---- Hero skeleton ---- */
+.hero {
+  height: 100svh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding: 0 var(--content-padding);
+}
+
+.heroEyebrow {
+  width: 200px;
+  height: 28px;
+}
+
+.heroYear {
+  width: 320px;
+  height: 100px;
+}
+
+.heroTheme {
+  width: 240px;
+  height: 48px;
+}
+
+@media (min-width: 768px) {
+  .heroYear {
+    width: 440px;
+    height: 140px;
+  }
+
+  .heroTheme {
+    width: 340px;
+    height: 60px;
+  }
+}
+
+/* ---- Section skeleton ---- */
+.section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding-y) var(--content-padding);
+}
+
+.sectionTitle {
+  width: 180px;
+  height: 28px;
+  margin-bottom: var(--space-xl);
+}
+
+/* ---- Manifesto ---- */
+.manifesto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.manifestoLine {
+  height: 16px;
+}
+
+.manifestoLine:nth-child(1) {
+  width: 90%;
+}
+.manifestoLine:nth-child(2) {
+  width: 100%;
+}
+.manifestoLine:nth-child(3) {
+  width: 75%;
+}
+.manifestoLine:nth-child(4) {
+  width: 85%;
+}
+.manifestoLine:nth-child(5) {
+  width: 60%;
+}
+
+/* ---- Artist grid ---- */
+.artistGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .artistGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .artistGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.artistCard {
+  aspect-ratio: 3 / 4;
+}
+
+/* ---- Venue row ---- */
+.venueRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.venueItem {
+  height: 80px;
+  border-bottom: 1px solid var(--gray-900);
+}
+
+/* ---- Carousel placeholder ---- */
+.carousel {
+  height: var(--carousel-height);
+}
