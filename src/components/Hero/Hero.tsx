@@ -1,14 +1,16 @@
-import Image from "next/image";
-import { imageSrc } from "@/lib/image-utils";
-import styles from "./Hero.module.css";
+import Image from 'next/image'
+import { imageSrc } from '@/lib/image-utils'
+import styles from './Hero.module.css'
 
 interface HeroProps {
-  year: number;
-  theme: string;
-  themeHighlight?: string;
-  heroImage?: { basePath: string; alt: string; ext?: "jpg" | "png" };
-  dateTape?: string;
-  variant?: string; // "2022" | "2023" | "with-sculpture"
+  year: number
+  theme: string
+  themeHighlight?: string | undefined
+  heroImage?:
+    | { basePath: string; alt: string; ext?: 'jpg' | 'png' | undefined }
+    | undefined
+  dateTape?: string | undefined
+  variant?: string | undefined // "2022" | "2023" | "with-sculpture"
 }
 
 export function Hero({
@@ -20,7 +22,7 @@ export function Hero({
   variant,
 }: HeroProps) {
   const heroClassName =
-    `${styles.hero} ${variant ? styles[`variant${variant}`] : ""}`.trim();
+    `${styles.hero} ${variant ? styles[`variant${variant}`] : ''}`.trim()
 
   return (
     <header className={heroClassName}>
@@ -51,7 +53,7 @@ export function Hero({
       </div>
 
       {/* Sculpture image (with-sculpture variant only) */}
-      {heroImage && variant === "with-sculpture" && (
+      {heroImage && variant === 'with-sculpture' && (
         <div className={styles.sculpture}>
           <Image
             src={imageSrc(heroImage)}
@@ -69,5 +71,5 @@ export function Hero({
         <div className={styles.scrollLine} />
       </div>
     </header>
-  );
+  )
 }

@@ -320,7 +320,7 @@
 .galleryItem {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4/3;
+  aspect-ratio: 4 / 3;
   background: var(--gray-200);
 }
 
@@ -415,7 +415,7 @@
 .archiveCardImage {
   position: relative;
   width: 100%;
-  aspect-ratio: 4/3;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
@@ -529,7 +529,9 @@
 }
 
 .archiveCardCta svg {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.3s ease;
 }
 
 .archiveCard:hover .archiveCardCta svg {

@@ -1,36 +1,39 @@
-import Link from "next/link";
-import Image from "next/image";
-import { RiArrowRightLine } from "@remixicon/react";
-import { imageSrc } from "@/lib/image-utils";
-import styles from "./EditionCard.module.css";
+import { RiArrowRightLine } from '@remixicon/react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { imageSrc } from '@/lib/image-utils'
+import styles from './EditionCard.module.css'
 
 export interface EditionCardData {
-  year: number;
-  theme: string;
-  description: string;
-  href: string;
-  variant?: "sculpture" | "tiled" | "online";
-  cardImage?: {
-    basePath: string;
-    alt: string;
-    ext?: "jpg" | "png";
-  };
-  tiledBg?: string;
+  year: number
+  theme: string
+  description: string
+  href: string
+  variant?: 'sculpture' | 'tiled' | 'online' | undefined
+  cardImage?:
+    | {
+        basePath: string
+        alt: string
+        ext?: 'jpg' | 'png' | undefined
+      }
+    | undefined
+  tiledBg?: string | undefined
 }
 
 interface EditionCardProps {
-  edition: EditionCardData;
+  edition: EditionCardData
 }
 
 export function EditionCard({ edition }: EditionCardProps) {
   const variantClass = edition.variant
-    ? styles[`variant${edition.variant.charAt(0).toUpperCase() + edition.variant.slice(1)}`]
-    : "";
+    ? styles[
+        `variant${edition.variant.charAt(0).toUpperCase() + edition.variant.slice(1)}`
+      ]
+    : ''
 
-  const cardClassName =
-    `${styles.card} ${variantClass}`.trim();
+  const cardClassName = `${styles.card} ${variantClass}`.trim()
 
-  if (edition.variant === "online") {
+  if (edition.variant === 'online') {
     return (
       <div className={cardClassName}>
         <div className={styles.overlay} />
@@ -41,13 +44,13 @@ export function EditionCard({ edition }: EditionCardProps) {
           <p className={styles.desc}>{edition.description}</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
     <Link href={edition.href} className={cardClassName}>
       <div className={styles.imageWrap}>
-        {edition.variant === "tiled" && edition.tiledBg ? (
+        {edition.variant === 'tiled' && edition.tiledBg ? (
           <div
             className={styles.tiledImage}
             style={{ backgroundImage: `url(${edition.tiledBg})` }}
@@ -72,5 +75,5 @@ export function EditionCard({ edition }: EditionCardProps) {
         </span>
       </div>
     </Link>
-  );
+  )
 }

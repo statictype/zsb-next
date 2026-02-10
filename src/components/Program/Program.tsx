@@ -1,23 +1,21 @@
-import type { ProgramData } from "@/types/edition";
-import styles from "./Program.module.css";
-import shared from "@/components/Shared.module.css";
+import shared from '@/components/Shared.module.css'
+import type { ProgramData } from '@/types/edition'
+import styles from './Program.module.css'
 
 interface ProgramProps {
-  year: number;
-  program: ProgramData;
+  year: number
+  program: ProgramData
 }
 
 export function Program({ year, program }: ProgramProps) {
-  const featuredBlocks = program.blocks.filter((b) => b.featured);
-  const regularBlocks = program.blocks.filter((b) => !b.featured);
+  const featuredBlocks = program.blocks.filter((b) => b.featured)
+  const regularBlocks = program.blocks.filter((b) => !b.featured)
 
   // Group regular blocks by type
-  const talkBlocks = regularBlocks.filter(
-    (b) => b.type === "Talks & Workshops"
-  );
+  const talkBlocks = regularBlocks.filter((b) => b.type === 'Talks & Workshops')
   const otherBlocks = regularBlocks.filter(
-    (b) => b.type !== "Talks & Workshops"
-  );
+    (b) => b.type !== 'Talks & Workshops',
+  )
 
   return (
     <section className={styles.section}>
@@ -40,7 +38,7 @@ export function Program({ year, program }: ProgramProps) {
               {featuredBlocks.map((block, i) => (
                 <div
                   key={i}
-                  className={`${styles.item} ${block.featured ? styles.itemFeatured : ""} ${shared.vacuumSealed}`}
+                  className={`${styles.item} ${block.featured ? styles.itemFeatured : ''} ${shared.vacuumSealed}`}
                 >
                   <div className={shared.plasticSheen} />
                   <div className={styles.itemHeader}>
@@ -112,16 +110,18 @@ export function Program({ year, program }: ProgramProps) {
                 <div className={`${styles.item} ${shared.vacuumSealed}`}>
                   <div className={shared.plasticSheen} />
                   <div className={styles.itemHeader}>
-                    <span className={styles.itemType}>Talks &amp; Workshops</span>
+                    <span className={styles.itemType}>
+                      Talks &amp; Workshops
+                    </span>
                   </div>
                   {talkBlocks.map((block, i) => (
                     <div key={i} className={styles.compactItem}>
                       <span className={styles.compactType}>
-                        {block.title.split(": ")[0]}
+                        {block.title.split(': ')[0]}
                       </span>
                       <span className={styles.compactTitle}>
-                        {block.title.includes(": ")
-                          ? block.title.split(": ")[1]
+                        {block.title.includes(': ')
+                          ? block.title.split(': ')[1]
                           : block.title}
                       </span>
                       {block.description && (
@@ -156,5 +156,5 @@ export function Program({ year, program }: ProgramProps) {
         </div>
       </div>
     </section>
-  );
+  )
 }

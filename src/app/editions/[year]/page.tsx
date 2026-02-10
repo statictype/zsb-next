@@ -1,53 +1,53 @@
-import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import { getEdition, getAllEditionYears } from "@/data/editions";
-import { Hero } from "@/components/Hero/Hero";
-import { Manifesto } from "@/components/Manifesto/Manifesto";
-import { ThemeArtists } from "@/components/ThemeArtists/ThemeArtists";
-import { Venues } from "@/components/Venues/Venues";
-import { Program } from "@/components/Program/Program";
-import { Carousel } from "@/components/Carousel/Carousel";
-import { Credits } from "@/components/Credits/Credits";
-import { MediaKit } from "@/components/MediaKit/MediaKit";
-import styles from "./page.module.css";
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import { Carousel } from '@/components/Carousel/Carousel'
+import { Credits } from '@/components/Credits/Credits'
+import { Hero } from '@/components/Hero/Hero'
+import { Manifesto } from '@/components/Manifesto/Manifesto'
+import { MediaKit } from '@/components/MediaKit/MediaKit'
+import { Program } from '@/components/Program/Program'
+import { ThemeArtists } from '@/components/ThemeArtists/ThemeArtists'
+import { Venues } from '@/components/Venues/Venues'
+import { getAllEditionYears, getEdition } from '@/data/editions'
+import styles from './page.module.css'
 
 interface EditionPageProps {
-  params: Promise<{ year: string }>;
+  params: Promise<{ year: string }>
 }
 
 export async function generateStaticParams() {
   return getAllEditionYears().map((year) => ({
     year: String(year),
-  }));
+  }))
 }
 
 export async function generateMetadata({
   params,
 }: EditionPageProps): Promise<Metadata> {
-  const { year } = await params;
-  const edition = getEdition(Number(year));
-  if (!edition) return {};
+  const { year } = await params
+  const edition = getEdition(Number(year))
+  if (!edition) return {}
 
   return {
     title: edition.title,
     description: `${edition.theme} — Bucharest Sculpture Days ${edition.year}`,
-  };
+  }
 }
 
 export default async function EditionPage({ params }: EditionPageProps) {
-  const { year } = await params;
-  const edition = getEdition(Number(year));
+  const { year } = await params
+  const edition = getEdition(Number(year))
 
   if (!edition) {
-    notFound();
+    notFound()
   }
 
   // Hero variant: 2022 (tiled bg), 2023 (bg image), 2025 (with-sculpture)
   const heroVariant: Record<number, string> = {
-    2022: "2022",
-    2023: "2023",
-    2025: "with-sculpture",
-  };
+    2022: '2022',
+    2023: '2023',
+    2025: 'with-sculpture',
+  }
 
   return (
     <main className={styles.page}>
@@ -81,5 +81,5 @@ export default async function EditionPage({ params }: EditionPageProps) {
         <MediaKit items={edition.mediaKit} />
       )}
     </main>
-  );
+  )
 }

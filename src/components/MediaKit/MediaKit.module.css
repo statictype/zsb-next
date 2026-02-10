@@ -113,7 +113,9 @@
 
 .cardImage {
   object-fit: cover;
-  transition: transform 1s var(--ease-out-expo), filter 0.5s ease;
+  transition:
+    transform 1s var(--ease-out-expo),
+    filter 0.5s ease;
   filter: brightness(0.9);
 }
 

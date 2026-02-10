@@ -1,32 +1,32 @@
-import type { Metadata } from "next";
-import { Dela_Gothic_One, Raleway } from "next/font/google";
-import { Navigation } from "@/components/Navigation/Navigation";
-import { Footer } from "@/components/Footer/Footer";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Dela_Gothic_One, Raleway } from 'next/font/google'
+import { Footer } from '@/components/Footer/Footer'
+import { Navigation } from '@/components/Navigation/Navigation'
+import './globals.css'
 
 const delaGothic = Dela_Gothic_One({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-dela-gothic",
-  display: "swap",
-});
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-dela-gothic',
+  display: 'swap',
+})
 
 const raleway = Raleway({
-  subsets: ["latin"],
-  variable: "--font-raleway",
-  display: "swap",
-});
+  subsets: ['latin'],
+  variable: '--font-raleway',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: "ZSB | Bucharest Sculpture Days",
+  title: 'ZSB | Bucharest Sculpture Days',
   description:
-    "Zilele Sculpturii București — contemporary sculpture festival in Bucharest, Romania.",
-};
+    'Zilele Sculpturii București — contemporary sculpture festival in Bucharest, Romania.',
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" className={`${delaGothic.variable} ${raleway.variable}`}>
@@ -36,5 +36,5 @@ export default function RootLayout({
         <Footer />
       </body>
     </html>
-  );
+  )
 }

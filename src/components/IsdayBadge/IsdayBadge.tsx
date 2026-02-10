@@ -1,4 +1,4 @@
-import styles from "./IsdayBadge.module.css";
+import styles from './IsdayBadge.module.css'
 
 export function IsdayBadge() {
   return (
@@ -12,5 +12,5 @@ export function IsdayBadge() {
         </div>
       </div>
     </div>
-  );
+  )
 }

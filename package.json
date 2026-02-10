@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "biome check ./src",
+    "lint:fix": "biome check --fix ./src",
+    "format": "biome format --fix ./src",
+    "format:check": "biome format ./src"
   },
   "dependencies": {
     "@remixicon/react": "^4.9.0",
@@ -14,6 +18,7 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.14",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

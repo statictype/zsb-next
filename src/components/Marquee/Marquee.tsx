@@ -1,7 +1,7 @@
-import styles from "./Marquee.module.css";
+import styles from './Marquee.module.css'
 
 interface MarqueeProps {
-  text: string;
+  text: string
 }
 
 export function Marquee({ text }: MarqueeProps) {
@@ -11,5 +11,5 @@ export function Marquee({ text }: MarqueeProps) {
         {text} {text}
       </div>
     </div>
-  );
+  )
 }

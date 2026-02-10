@@ -4,7 +4,7 @@
 
 .card {
   position: relative;
-  aspect-ratio: 3/4;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   background: var(--black);
   display: block;
@@ -14,7 +14,7 @@
 
 @media (min-width: 500px) {
   .card {
-    aspect-ratio: 16/10;
+    aspect-ratio: 16 / 10;
   }
 }
 
@@ -191,7 +191,9 @@
 }
 
 .cta svg {
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 
 .card:hover .cta svg {
@@ -210,10 +212,10 @@
 }
 
 .variantSculpture .image {
-  width: auto !important;
-  height: auto !important;
+  width: auto;
+  height: auto;
   max-width: 300px;
-  position: relative !important;
+  position: relative;
   object-fit: contain;
   filter: grayscale(0%) brightness(1);
 }
@@ -252,7 +254,7 @@
 
 @media (min-width: 768px) {
   .variantOnline {
-    aspect-ratio: 16/10;
+    aspect-ratio: 16 / 10;
     min-height: unset;
   }
 }

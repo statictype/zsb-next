@@ -221,7 +221,7 @@
 .whySculptureImage {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 16/10;
+  aspect-ratio: 16 / 10;
 }
 
 .whySculptureImg {

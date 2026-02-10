@@ -1,16 +1,16 @@
-import type { ManifestoData } from "@/types/edition";
-import { ReadMore } from "@/components/ReadMore/ReadMore";
-import { IsdayBadge } from "@/components/IsdayBadge/IsdayBadge";
-import styles from "./Manifesto.module.css";
+import { IsdayBadge } from '@/components/IsdayBadge/IsdayBadge'
+import { ReadMore } from '@/components/ReadMore/ReadMore'
+import type { ManifestoData } from '@/types/edition'
+import styles from './Manifesto.module.css'
 
 interface ManifestoProps {
-  manifesto: ManifestoData;
+  manifesto: ManifestoData
 }
 
 export function Manifesto({ manifesto }: ManifestoProps) {
   const titleParts = manifesto.highlight
     ? manifesto.title.split(manifesto.highlight)
-    : null;
+    : null
 
   return (
     <section className={styles.section}>
@@ -34,6 +34,7 @@ export function Manifesto({ manifesto }: ManifestoProps) {
           <ReadMore>
             <div className={styles.text}>
               {manifesto.paragraphs.map((p, i) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: static list
                 <p key={i}>{p}</p>
               ))}
             </div>
@@ -42,5 +43,5 @@ export function Manifesto({ manifesto }: ManifestoProps) {
         </div>
       </div>
     </section>
-  );
+  )
 }

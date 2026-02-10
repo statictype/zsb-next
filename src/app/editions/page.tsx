@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
-import { EditionCard } from "@/components/EditionCard/EditionCard";
-import { editionCards } from "@/data/editions/cards";
-import styles from "./page.module.css";
+import type { Metadata } from 'next'
+import { EditionCard } from '@/components/EditionCard/EditionCard'
+import { editionCards } from '@/data/editions/cards'
+import styles from './page.module.css'
 
 export const metadata: Metadata = {
-  title: "Editions — Bucharest Sculpture Days",
-  description: "Browse all editions of Bucharest Sculpture Days, from 2021 to 2025.",
-};
+  title: 'Editions — Bucharest Sculpture Days',
+  description:
+    'Browse all editions of Bucharest Sculpture Days, from 2021 to 2025.',
+}
 
 export default function EditionsPage() {
   return (
@@ -29,5 +30,5 @@ export default function EditionsPage() {
         </div>
       </section>
     </main>
-  );
+  )
 }
