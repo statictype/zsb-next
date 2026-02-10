@@ -1,0 +1,310 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import { RiArrowRightLine } from "@remixicon/react";
+import { MasonryGallery } from "@/components/MasonryGallery/MasonryGallery";
+import type { MasonryImage } from "@/components/MasonryGallery/MasonryGallery";
+import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  title: "Partners — Bucharest Sculpture Days",
+  description:
+    "Partner with Bucharest Sculpture Days — one of Eastern Europe's most significant contemporary sculpture events.",
+};
+
+const stats = [
+  { number: "25K+", label: "Visitors per edition" },
+  { number: "150+", label: "Artists to date" },
+  { number: "8", label: "Venues" },
+  { number: "5", label: "Editions" },
+];
+
+const audienceProfiles = [
+  {
+    title: "Art Professionals & Collectors",
+    desc: "Curators, gallery directors, museum professionals, and private collectors who follow ZSB as a key indicator of sculptural trends in the region.",
+  },
+  {
+    title: "Cultural Institutions",
+    desc: "Embassies, cultural centres, foundations, and municipal organizations that collaborate with ZSB on programming, venues, and outreach.",
+  },
+  {
+    title: "Media & Press",
+    desc: "National and international arts media, cultural journalists, photographers, and documentary filmmakers who cover the festival annually.",
+  },
+  {
+    title: "General Public",
+    desc: "Design-minded urbanites, students, families, and tourists who encounter sculpture in public space — often for the first time — through ZSB events.",
+  },
+];
+
+const galleryImages: MasonryImage[] = [
+  { basePath: "/img/2023/optimized/OD6-0349", alt: "Visitors viewing sculptures in gallery at ZSB 2025", caption: "ZSB 2025 Exhibition", cols: 2, rows: 5 },
+  { basePath: "/img/2023/optimized/OD6-0202", alt: "Visitors gathered around sculpture at ZSB 2025", caption: "ZSB 2025 Exhibition", cols: 2, rows: 5 },
+  { basePath: "/img/2025/optimized/BWS00764", alt: "ZSB 2025 audience interaction", caption: "ZSB 2025 Exhibition", cols: 1, rows: 3 },
+  { basePath: "/img/2025/optimized/bws00842", alt: "ZSB 2025 sculpture detail", caption: "ZSB 2025 Exhibition", cols: 1, rows: 3 },
+  { basePath: "/img/2025/optimized/bws01820", alt: "ZSB 2025 exhibition space", caption: "ZSB 2025 Exhibition", cols: 1, rows: 3 },
+  { basePath: "/img/2025/optimized/BWS00744", alt: "ZSB 2025 wide gallery view", caption: "ZSB 2025 Exhibition", cols: 2, rows: 5 },
+  { basePath: "/img/2023/optimized/OD6-0359", alt: "ZSB 2025 sculpture work", caption: "ZSB 2025 Exhibition", cols: 1, rows: 6 },
+  { basePath: "/img/2023/optimized/OD6-0361", alt: "ZSB 2023 tall sculpture view", caption: "ZSB 2025 Exhibition", cols: 1, rows: 3 },
+  { basePath: "/img/2025/optimized/BWS00864", alt: "ZSB 2025 tall sculpture view", caption: "ZSB 2025 Exhibition", cols: 1, rows: 3 },
+  { basePath: "/img/2023/optimized/OD6-0221", alt: "ZSB 2023 visitor experience", caption: "ZSB 2025 Exhibition", cols: 1, rows: 7 },
+  { basePath: "/img/2023/optimized/_DSF4145", alt: "ZSB 2023 exhibition moment", caption: "ZSB 2025 Exhibition", cols: 1, rows: 5 },
+  { basePath: "/img/2024/optimized/night2", alt: "ZSB 2024 exhibition moment", caption: "ZSB 2025 Exhibition", cols: 1, rows: 5 },
+  { basePath: "/img/2024/optimized/DSCF4014", alt: "ZSB 2025 artwork", caption: "ZSB 2024 Exhibition", cols: 1, rows: 4 },
+];
+
+const benefits = [
+  {
+    type: "Brand",
+    title: "Visibility & Brand Alignment",
+    text: "Your brand appears alongside some of Eastern Europe's most compelling contemporary art. ZSB's visual identity, editorial quality, and cultural seriousness reflect directly on every partner.",
+  },
+  {
+    type: "Legacy",
+    title: "Cultural Impact",
+    text: "Supporting ZSB means supporting the preservation and evolution of sculptural practice — one of humanity's oldest art forms. Your contribution has tangible, lasting cultural value.",
+  },
+  {
+    type: "Network",
+    title: "Exclusive Access & Networking",
+    text: "Partners receive invitations to private viewings, studio visits, opening events, and direct access to a network of artists, curators, and cultural leaders across Romania and beyond.",
+  },
+  {
+    type: "Identity",
+    title: "Association with Innovation",
+    text: "ZSB pushes boundaries — thematically, spatially, materially. Partners align themselves with an organization that values experimentation and refuses to treat art as decoration.",
+  },
+];
+
+const allocations = [
+  {
+    title: "Artist Fees & Production",
+    text: "Fair pay for artists whose transport costs alone can exceed their fees. Bolder proposals start with sustainable funding.",
+  },
+  {
+    title: "Graphic Design",
+    text: "Catalogues, posters, wayfinding, digital assets — all designed pro bono for five years.",
+  },
+  {
+    title: "PR & Communications",
+    text: "Press, photography, social content — the work that makes ZSB visible beyond Bucharest.",
+  },
+  {
+    title: "Web & Archive",
+    text: "A permanent, searchable record of contemporary Romanian sculpture. Built without budget since 2021.",
+  },
+  {
+    title: "Venue & Logistics",
+    text: "Exhibition spaces, insurance, lighting, installation — the invisible infrastructure behind every edition.",
+  },
+  {
+    title: "Curatorial Program",
+    text: "Research, artist selection, thematic development — the intellectual framework that gives each edition its identity.",
+  },
+];
+
+export default function PartnersPage() {
+  return (
+    <main>
+      {/* ---- 1. Hero ---- */}
+      <section className={styles.hero}>
+        <div className={styles.heroInner}>
+          <header className={styles.heroHeader}>
+            <h1 className={styles.pageTitle}>
+              Partner<span className={styles.pageTitleHighlight}>s</span>
+            </h1>
+          </header>
+
+          <div className={styles.heroContent}>
+            <div className={styles.heroText}>
+              <p className={styles.heroLead}>
+                Bucharest Sculpture Days is one of Eastern Europe&apos;s most significant
+                contemporary sculpture events. Each edition transforms the city
+                into an open-air museum, bringing together artists, curators,
+                and audiences around the enduring power of three-dimensional art.
+              </p>
+              <div className={styles.heroBody}>
+                <p>
+                  Since 2021, ZSB has grown from an online inaugural edition into a festival
+                  that draws thousands of visitors, media attention, and institutional interest.
+                  We work at the intersection of public space, cultural heritage, and contemporary
+                  practice — making sculpture accessible, relevant, and unmissable.
+                </p>
+                <p>
+                  Our partners are integral to this mission. They don&apos;t sponsor a product —
+                  they support a movement. One that values material intelligence, physical
+                  presence, and the irreplaceable experience of encountering art in shared space.
+                </p>
+              </div>
+            </div>
+            <div className={styles.heroImage}>
+              <Image
+                src="/img/2025/optimized/_DSC5665"
+                alt="ZSB 2025 — performance and audience in the exhibition space"
+                fill
+                sizes="(max-width: 1023px) 100vw, 50vw"
+                className={styles.heroImageImg}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---- 2. Why Sculpture ---- */}
+      <section className={`${styles.pageSection} ${styles.pageSectionLight}`}>
+        <div className={styles.sectionInner}>
+          <div className={styles.whySculptureTop}>
+            <div>
+              <div className={styles.sectionEyebrow}>Why Sculpture</div>
+              <h2 className={`${styles.sectionTitle} ${styles.whySculptureTitle}`}>
+                The most resilient<br />art form
+              </h2>
+            </div>
+            <div className={styles.whySculptureImage}>
+              <Image
+                src="/img/2023/optimized/_DSF4076"
+                alt="Visitors gathered around sculpture at ZSB 2023"
+                fill
+                sizes="(max-width: 1023px) 100vw, 50vw"
+                className={styles.whySculptureImg}
+              />
+            </div>
+          </div>
+
+          <div className={styles.whySculpturePoints}>
+            {[
+              {
+                title: "Permanence of Material",
+                text: "Bronze, stone, steel, ceramic — sculpture is made from the materials of civilization itself. It doesn't fade, doesn't buffer, doesn't need a screen. It outlasts the artist, the gallery, the century.",
+              },
+              {
+                title: "Resistance to Reproduction",
+                text: "A sculpture cannot be fully experienced through a photograph or a screen. Its mass, its shadow, the way it occupies and transforms space — these resist digital replication in ways that flat images cannot.",
+              },
+              {
+                title: "Physical Presence",
+                text: "In an era of AI-generated imagery and virtual experiences, sculpture demands your body to be present. You walk around it, look up at it, touch it. This physicality is increasingly rare and increasingly valuable.",
+              },
+              {
+                title: "The Social Dimension",
+                text: "Public sculpture creates gathering points, conversation, civic identity. It turns a space into a place. ZSB amplifies this — bringing art out of galleries and into the city where it belongs.",
+              },
+            ].map((point) => (
+              <div key={point.title} className={styles.whySculpturePoint}>
+                <div className={styles.whySculpturePointTitle}>{point.title}</div>
+                <p className={styles.whySculpturePointText}>{point.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---- 3. The Audience ---- */}
+      <section className={`${styles.pageSection} ${styles.pageSectionDark}`}>
+        <div className={styles.sectionInner}>
+          <div className={styles.audienceHeader}>
+            <div>
+              <div className={styles.sectionEyebrow}>The Audience</div>
+              <h2 className={styles.sectionTitle}>
+                Who engages<br />with ZSB
+              </h2>
+            </div>
+
+            <div className={styles.audienceStats}>
+              {stats.map((stat) => (
+                <div key={stat.label} className={styles.audienceStat}>
+                  <div className={styles.audienceStatNumber}>{stat.number}</div>
+                  <div className={styles.audienceStatLabel}>{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.audienceProfiles}>
+            {audienceProfiles.map((profile) => (
+              <div key={profile.title} className={styles.audienceProfile}>
+                <div className={styles.audienceProfileTitle}>{profile.title}</div>
+                <p className={styles.audienceProfileDesc}>{profile.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.audienceGallery}>
+            <MasonryGallery images={galleryImages} />
+          </div>
+        </div>
+      </section>
+
+      {/* ---- 4. Partnership ---- */}
+      <section className={`${styles.pageSection} ${styles.pageSectionLight}`}>
+        <div className={styles.sectionInner}>
+          <div className={styles.sectionEyebrow}>Partnership</div>
+          <h2 className={`${styles.sectionTitle} ${styles.partnershipTitle}`}>
+            What partners gain
+          </h2>
+
+          <div className={styles.partnershipColumns}>
+            <div>
+              {benefits.map((b, i) => (
+                <div
+                  key={b.type}
+                  className={`${styles.partnershipBenefit} ${i === 0 ? styles.partnershipBenefitFirst : ""}`}
+                >
+                  <div className={styles.partnershipBenefitType}>{b.type}</div>
+                  <div className={styles.partnershipBenefitTitle}>{b.title}</div>
+                  <p className={styles.partnershipBenefitText}>{b.text}</p>
+                </div>
+              ))}
+            </div>
+
+            <div>
+              <div className={styles.partnershipColHeader}>
+                <span className={styles.partnershipColEyebrow}>Transparency</span>
+                <h3 className={styles.partnershipColTitle}>Where the money goes</h3>
+              </div>
+              <p className={styles.partnershipColLead}>
+                For five editions, ZSB has been built on volunteer work — curators, designers,
+                developers, PR. Artist fees don&apos;t cover the transport costs of their
+                own works. Your support changes that.
+              </p>
+              <div className={styles.partnershipAllocations}>
+                {allocations.map((a) => (
+                  <div key={a.title} className={styles.partnershipAlloc}>
+                    <div className={styles.partnershipAllocTitle}>{a.title}</div>
+                    <p className={styles.partnershipAllocText}>{a.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---- 5. Contact CTA ---- */}
+      <section className={`${styles.pageSection} ${styles.pageSectionDark} ${styles.contactCta}`}>
+        <div className={styles.contactCtaGhost}>PARTNER</div>
+        <div className={styles.contactCtaImage}>
+          <Image
+            src="/img/2025/optimized/bws00842"
+            alt="Visitors entering ZSB venue"
+            fill
+            sizes="100vw"
+            className={styles.contactCtaImg}
+          />
+        </div>
+        <div className={styles.contactCtaInner}>
+          <div className={`${styles.sectionEyebrow} ${styles.contactCtaEyebrow}`}>
+            Get in Touch
+          </div>
+          <h2 className={styles.contactCtaTitle}>Let&apos;s Talk</h2>
+          <p className={styles.contactCtaEmail}>
+            <a href="mailto:partners@sculpturedays.com">partners@sculpturedays.com</a>
+          </p>
+          <a href="mailto:partners@sculpturedays.com" className={styles.ctaBtn}>
+            Become a Partner <RiArrowRightLine size={18} />
+          </a>
+        </div>
+      </section>
+    </main>
+  );
+}
