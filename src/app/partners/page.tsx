@@ -2,14 +2,15 @@ import { RiArrowRightLine } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { MasonryGallery } from '@/components/MasonryGallery/MasonryGallery'
-import { FESTIVAL_STATS } from '@/data/stats'
+import { ZSB_STATS } from '@/data/stats'
 import type { MasonryImage } from '@/types/edition'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
-  title: 'Partners — Bucharest Sculpture Days',
+  title: 'Partners',
   description:
     "Partner with Bucharest Sculpture Days — one of Eastern Europe's most significant contemporary sculpture events.",
+  alternates: { canonical: '/partners' },
 }
 
 const audienceProfiles = [
@@ -23,7 +24,7 @@ const audienceProfiles = [
   },
   {
     title: 'Media & Press',
-    desc: 'National and international arts media, cultural journalists, photographers, and documentary filmmakers who cover the festival annually.',
+    desc: 'National and international arts media, cultural journalists, photographers, and documentary filmmakers who cover the event annually.',
   },
   {
     title: 'General Public',
@@ -200,7 +201,7 @@ export default function PartnersPage() {
               <div className={styles.heroBody}>
                 <p>
                   Since 2021, ZSB has grown from an online inaugural edition
-                  into a festival that draws thousands of visitors, media
+                  into an event that draws thousands of visitors, media
                   attention, and institutional interest. We work at the
                   intersection of public space, cultural heritage, and
                   contemporary practice — making sculpture accessible, relevant,
@@ -297,7 +298,7 @@ export default function PartnersPage() {
             </div>
 
             <div className={styles.audienceStats}>
-              {FESTIVAL_STATS.map((stat) => (
+              {ZSB_STATS.map((stat) => (
                 <div key={stat.label} className={styles.audienceStat}>
                   <div className={styles.audienceStatNumber}>{stat.value}</div>
                   <div className={styles.audienceStatLabel}>{stat.label}</div>

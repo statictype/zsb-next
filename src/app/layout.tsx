@@ -3,7 +3,9 @@ import { Dela_Gothic_One, Raleway } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Suspense } from 'react'
 import { Footer } from '@/components/Footer/Footer'
+import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Navigation } from '@/components/Navigation/Navigation'
+import { SITE_NAME, SITE_URL } from '@/lib/constants'
 import './globals.css'
 
 const delaGothic = Dela_Gothic_One({
@@ -27,9 +29,39 @@ const ppFormula = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'ZSB | Bucharest Sculpture Days',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    template: `%s | ${SITE_NAME}`,
+    default: `ZSB — ${SITE_NAME}`,
+  },
   description:
-    'Zilele Sculpturii București — contemporary sculpture festival in Bucharest, Romania.',
+    'Zilele Sculpturii București — contemporary sculpture event in Bucharest, Romania.',
+  keywords: [
+    'contemporary sculpture',
+    'Bucharest',
+    'sculpture event',
+    'Romanian art',
+    'ZSB',
+    'Zilele Sculpturii București',
+  ],
+  openGraph: {
+    siteName: SITE_NAME,
+    locale: 'en_US',
+    type: 'website',
+    url: '/',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+    },
+  },
 }
 
 export default function RootLayout({
@@ -43,6 +75,36 @@ export default function RootLayout({
       className={`${delaGothic.variable} ${raleway.variable} ${ppFormula.variable}`}
     >
       <body>
+        <JsonLd
+          data={{
+            '@context': 'https://schema.org',
+            '@graph': [
+              {
+                '@type': 'Organization',
+                name: SITE_NAME,
+                alternateName: 'ZSB',
+                url: SITE_URL,
+                description:
+                  'Contemporary sculpture event in Bucharest, Romania.',
+                foundingDate: '2021',
+                location: {
+                  '@type': 'Place',
+                  name: 'Bucharest',
+                  address: {
+                    '@type': 'PostalAddress',
+                    addressLocality: 'Bucharest',
+                    addressCountry: 'RO',
+                  },
+                },
+              },
+              {
+                '@type': 'WebSite',
+                name: SITE_NAME,
+                url: SITE_URL,
+              },
+            ],
+          }}
+        />
         <Navigation />
         {children}
         <Suspense>

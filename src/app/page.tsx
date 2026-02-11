@@ -1,10 +1,17 @@
 import { RiArrowRightLine } from '@remixicon/react'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FESTIVAL_STATS } from '@/data/stats'
+import { ZSB_STATS } from '@/data/stats'
 import { imageSrc } from '@/lib/image-utils'
 import type { ImageData } from '@/types/edition'
 import styles from './page.module.css'
+
+export const metadata: Metadata = {
+  description:
+    'An annual contemporary sculpture event transforming Bucharest into an open-air museum. Discover editions, artists, and public art since 2021.',
+  alternates: { canonical: '/' },
+}
 
 const spotlightImages: {
   hero: ImageData
@@ -15,10 +22,22 @@ const spotlightImages: {
     alt: 'ZSB 2025 #celălaltcorp',
   },
   grid: [
-    { basePath: '/img/2025/optimized/_dsc5707', alt: 'ZSB 2025' },
-    { basePath: '/img/2025/optimized/_dsc5571', alt: 'ZSB 2025' },
-    { basePath: '/img/2025/optimized/_dsc5686', alt: 'ZSB 2025' },
-    { basePath: '/img/2025/optimized/bws02071', alt: 'ZSB 2025' },
+    {
+      basePath: '/img/2025/optimized/_dsc5707',
+      alt: 'Sculpture installation at ZSB 2025 #celălaltcorp exhibition',
+    },
+    {
+      basePath: '/img/2025/optimized/_dsc5571',
+      alt: 'Visitors exploring contemporary sculpture at ZSB 2025',
+    },
+    {
+      basePath: '/img/2025/optimized/_dsc5686',
+      alt: 'Detail of sculptural work at Bucharest Sculpture Days 2025',
+    },
+    {
+      basePath: '/img/2025/optimized/bws02071',
+      alt: 'Gallery view of ZSB 2025 exhibition space',
+    },
   ],
 }
 
@@ -62,7 +81,7 @@ const archiveEditions: {
       'A fresh perspective on sculpture 31 years after the Romanian revolution — transformation and memory.',
     href: '/editions/2022',
     image: {
-      basePath: '/img/2022/optimized/tile-2.webp',
+      basePath: '/img/2022/optimized/tile-2',
       alt: 'ZSB 2022 #perspectiva31',
     },
   },
@@ -86,7 +105,7 @@ export default function HomePage() {
             <div className={styles.missionLeft}>
               <div className={styles.missionStatement}>
                 <p>
-                  Bucharest Sculpture Days is an annual festival dedicated to
+                  Bucharest Sculpture Days is an annual event dedicated to
                   contemporary sculpture, transforming the city into an open-air
                   museum where art confronts urban space. Each edition brings
                   together Romanian and international artists to explore the
@@ -106,7 +125,7 @@ export default function HomePage() {
 
             <div className={styles.missionMeta}>
               <div className={styles.missionStats}>
-                {FESTIVAL_STATS.map((stat, i) => (
+                {ZSB_STATS.map((stat, i) => (
                   <div
                     key={stat.label}
                     className={`${styles.statItem} ${i % 2 === 0 ? styles.statAccent : ''}`}

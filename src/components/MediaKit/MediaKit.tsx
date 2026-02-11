@@ -57,7 +57,7 @@ export function MediaKit({ items }: MediaKitProps) {
                     src={imageSrc(item.image)}
                     alt={item.image.alt}
                     fill
-                    sizes="50vw"
+                    sizes="(max-width: 767px) 100vw, 50vw"
                     className={styles.cardImage}
                   />
                   <div className={styles.cardOverlay}>
