@@ -94,28 +94,19 @@ export default function HomePage() {
       <section className={styles.heroMission}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
-            Bucharest
-            <br />
-            Sculpture
-            <br />
-            <span className={styles.highlight}>Days</span>
+            <span className={styles.highlight}>Bucharest</span>
+            Sculpture<br />
+            Days
           </h1>
 
           <div className={styles.missionText}>
             <div className={styles.missionLeft}>
               <div className={styles.missionStatement}>
                 <p>
-                  Bucharest Sculpture Days is an annual event dedicated to
-                  contemporary sculpture, transforming the city into an open-air
-                  museum where art confronts urban space. Each edition brings
-                  together Romanian and international artists to explore the
-                  evolving language of three-dimensional art.
-                </p>
-                <p>
-                  Founded in 2021, ZSB has grown into one of Eastern
-                  Europe&apos;s most significant sculpture events, fostering
-                  dialogue between tradition and experimentation, between the
-                  permanence of material and the transience of our times.
+                Sculpture is not fixed. Neither is meaning.
+                And neither is the space that allows them to exist.
+                Bucharest Sculpture Days is a platform for contemporary sculpture as a living, relational practice where bodies, materials, spaces, and ideas are constantly renegotiated.
+                Each edition opens a new way of seeing sculpture not as a monument but as a presence, a process, and a becoming.
                 </p>
               </div>
               <Link href="/about" className={styles.ctaBtn}>

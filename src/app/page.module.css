@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 200px var(--content-padding) 60px;
+  padding: var(--space-5xl) var(--content-padding) var(--space-2xl);
   overflow: hidden;
 }
 
@@ -40,7 +40,7 @@
 .missionText {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-xl);
+  gap: var(--space-lg);
   align-items: start;
 }
 
@@ -55,7 +55,6 @@
   font-size: var(--text-md);
   line-height: 1.85;
   color: var(--gray-400);
-  max-width: 680px;
 }
 
 .missionStatement p {
@@ -66,11 +65,6 @@
   margin-bottom: 0;
 }
 
-.missionStatement p:first-child::first-line {
-  font-variant: small-caps;
-  letter-spacing: 0.05em;
-  color: var(--gray-300);
-}
 
 /* ---- CTA Button ---- */
 .ctaBtn {
@@ -597,15 +591,10 @@
 @media (min-width: 1024px) {
   .missionText {
     grid-template-columns: 3fr 2fr;
-    gap: 40px;
   }
 }
 
 @media (min-width: 1280px) {
-  .heroMission {
-    padding: 140px var(--content-padding) 100px;
-  }
-
   .heroTitle {
     margin-bottom: 48px;
   }
@@ -637,13 +626,12 @@
 }
 
 @media (min-width: 1400px) {
-  .heroMission {
-    padding: 160px var(--content-padding) 120px;
-  }
+  /* .heroMission {
+    padding: 360px var(--content-padding) 120px;
+  } */
 
   .missionText {
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
   }
 
   .spotlightYear {
@@ -658,7 +646,7 @@
 
 @media (min-width: 1600px) {
   .missionText {
-    grid-template-columns: 2fr 3fr;
+    grid-template-columns: 2fr 2fr;
   }
 
   .missionMeta {
