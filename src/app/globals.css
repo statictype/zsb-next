@@ -4,31 +4,35 @@
 
 /* ---- Design Tokens ---- */
 :root {
-  /* Typography Scale (Mobile-first, ~1.2x major third) */
+  /* Typography — Static */
   --text-3xs: 8px;
   --text-2xs: 10px;
   --text-xs: 12px;
   --text-sm: 14px;
   --text-base: 16px;
-  --text-md: 19px;
-  --text-lg: 22px;
-  --text-xl: 26px;
-  --text-2xl: 32px;
-  --text-3xl: 40px;
-  --text-4xl: 48px;
-  --text-5xl: 58px;
   --text-hero: 40px;
 
-  /* Spacing Scale (8px grid) */
+  /* Typography — Fluid (320px → 1792px, ~1.2x major third) */
+  --text-md: clamp(19px, 17.04px + 0.6114vw, 28px);
+  --text-lg: clamp(22px, 19.83px + 0.6793vw, 32px);
+  --text-xl: clamp(26px, 22.09px + 1.2228vw, 44px);
+  --text-2xl: clamp(32px, 25.91px + 1.9022vw, 60px);
+  --text-3xl: clamp(40px, 33.04px + 2.1739vw, 72px);
+  --text-4xl: clamp(48px, 37.57px + 3.2609vw, 96px);
+  --text-5xl: clamp(58px, 44.52px + 4.212vw, 120px);
+
+  /* Spacing — Static (8px grid) */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
   --space-2xl: 48px;
   --space-3xl: 64px;
   --space-4xl: 96px;
   --space-5xl: 128px;
+
+  /* Spacing — Fluid (320px → 1792px) */
+  --space-lg: clamp(24px, 18.78px + 1.6304vw, 48px);
+  --space-xl: clamp(32px, 23.3px + 2.7174vw, 72px);
 
   /* Layout */
   --content-padding: 16px;
@@ -81,20 +85,9 @@
   :root {
     --text-3xs: 9px;
     --text-2xs: 11px;
-    --text-xs: 12px;
-    --text-sm: 14px;
-    --text-md: 20px;
-    --text-lg: 24px;
-    --text-xl: 30px;
-    --text-2xl: 38px;
-    --text-3xl: 48px;
-    --text-4xl: 60px;
-    --text-5xl: 72px;
     --text-hero: 80px;
 
     --space-md: 20px;
-    --space-lg: 32px;
-    --space-xl: 40px;
     --space-2xl: 56px;
     --space-3xl: 80px;
     --space-4xl: 112px;
@@ -113,17 +106,8 @@
 @media (min-width: 1024px) {
   :root {
     --text-base: 17px;
-    --text-md: 22px;
-    --text-lg: 26px;
-    --text-xl: 32px;
-    --text-2xl: 42px;
-    --text-3xl: 54px;
-    --text-4xl: 68px;
-    --text-5xl: 84px;
     --text-hero: 110px;
 
-    --space-lg: 36px;
-    --space-xl: 48px;
     --space-2xl: 64px;
     --space-3xl: 96px;
     --space-4xl: 128px;
@@ -142,17 +126,8 @@
 @media (min-width: 1280px) {
   :root {
     --text-base: 19px;
-    --text-md: 24px;
-    --text-lg: 28px;
-    --text-xl: 36px;
-    --text-2xl: 48px;
-    --text-3xl: 60px;
-    --text-4xl: 78px;
-    --text-5xl: 96px;
     --text-hero: 124px;
 
-    --space-lg: 40px;
-    --space-xl: 56px;
     --space-2xl: 80px;
     --space-3xl: 112px;
     --space-4xl: 160px;
@@ -163,11 +138,41 @@
   }
 }
 
-/* ---- Larger Desktop (1600px+) ---- */
-@media (min-width: 1600px) {
+/* ---- XL Desktop (1536px+) ---- */
+@media (min-width: 1536px) {
   :root {
-    --text-hero: 140px;
     --text-base: 21px;
+    --text-hero: 136px;
+
+    --space-2xl: 96px;
+    --space-3xl: 128px;
+    --space-4xl: 192px;
+    --space-5xl: 256px;
+
+    --content-padding: 96px;
+    --section-padding-y: 200px;
+    --grid-gap: 72px;
+    --carousel-height: 75vh;
+    --card-padding: 36px;
+  }
+}
+
+/* ---- 2XL Desktop (1792px+) ---- */
+@media (min-width: 1792px) {
+  :root {
+    --text-base: 23px;
+    --text-hero: 148px;
+
+    --space-2xl: 112px;
+    --space-3xl: 144px;
+    --space-4xl: 224px;
+    --space-5xl: 288px;
+
+    --content-padding: 112px;
+    --section-padding-y: 240px;
+    --grid-gap: 84px;
+    --carousel-height: 80vh;
+    --card-padding: 40px;
   }
 }
 
