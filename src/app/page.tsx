@@ -95,7 +95,8 @@ export default function HomePage() {
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             <span className={styles.highlight}>Bucharest</span>
-            Sculpture<br />
+            Sculpture
+            <br />
             Days
           </h1>
 
@@ -103,10 +104,13 @@ export default function HomePage() {
             <div className={styles.missionLeft}>
               <div className={styles.missionStatement}>
                 <p>
-                Sculpture is not fixed. Neither is meaning.
-                And neither is the space that allows them to exist.
-                Bucharest Sculpture Days is a platform for contemporary sculpture as a living, relational practice where bodies, materials, spaces, and ideas are constantly renegotiated.
-                Each edition opens a new way of seeing sculpture not as a monument but as a presence, a process, and a becoming.
+                  Sculpture is not fixed. Neither is meaning. And neither is the
+                  space that allows them to exist. Bucharest Sculpture Days is a
+                  platform for contemporary sculpture as a living, relational
+                  practice where bodies, materials, spaces, and ideas are
+                  constantly renegotiated. Each edition opens a new way of
+                  seeing sculpture not as a monument but as a presence, a
+                  process, and a becoming.
                 </p>
               </div>
               <Link href="/about" className={styles.ctaBtn}>

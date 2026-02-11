@@ -129,7 +129,7 @@
 
 /* ---- Description ---- */
 .desc {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: 1.6;
   color: var(--gray-300);

@@ -65,7 +65,7 @@
 }
 
 .body p {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-weight: 400;
   color: var(--gray-350);
   line-height: 1.7;
@@ -86,7 +86,7 @@
 }
 
 .coda p {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-weight: 400;
   font-size: var(--text-lg);
   color: var(--white);
@@ -126,7 +126,7 @@
 }
 
 .artistsStatement p {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-weight: 400;
   color: var(--gray-350);
   line-height: 1.7;
@@ -169,7 +169,7 @@
 }
 
 .colHeader .headerLabel {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-2xs);
 }
 
@@ -203,7 +203,7 @@
   color: var(--gray-400);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   line-height: 2;
 }
 

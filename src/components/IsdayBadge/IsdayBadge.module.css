@@ -27,7 +27,7 @@
 }
 
 .title {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-weight: 300;
   font-size: var(--text-2xl);
   color: var(--pink);

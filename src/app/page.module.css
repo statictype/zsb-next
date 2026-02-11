@@ -51,7 +51,7 @@
 }
 
 .missionStatement {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-md);
   line-height: 1.85;
   color: var(--gray-400);
@@ -64,7 +64,6 @@
 .missionStatement p:last-child {
   margin-bottom: 0;
 }
-
 
 /* ---- CTA Button ---- */
 .ctaBtn {
@@ -181,7 +180,7 @@
 }
 
 .partnerCardDesc {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-sm);
   line-height: 1.7;
   color: var(--gray-500);

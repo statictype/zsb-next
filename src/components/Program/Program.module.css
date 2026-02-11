@@ -102,7 +102,7 @@
 }
 
 .itemDesc {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-weight: 400;
   font-size: var(--text-base);
   color: var(--gray-600);
@@ -178,7 +178,7 @@
 }
 
 .compactNote {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-base);
   color: var(--gray-600);
 }
@@ -262,7 +262,7 @@
 }
 
 .sftfDesc {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--gray-400);
   line-height: 1.5;

@@ -154,7 +154,7 @@
 
 /* ---- Eyebrow ---- */
 .eyebrow {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 3px;

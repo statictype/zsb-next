@@ -147,14 +147,14 @@
 }
 
 .heroLead {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-lg);
   line-height: 1.65;
   color: var(--gray-200);
 }
 
 .heroBody {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: 1.85;
   color: var(--gray-500);
@@ -261,7 +261,7 @@
 }
 
 .whySculpturePointText {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: 1.85;
   color: var(--gray-600);
@@ -407,7 +407,7 @@
 }
 
 .audienceProfileDesc {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: 1.75;
   color: var(--gray-500);
@@ -464,7 +464,7 @@
 }
 
 .partnershipBenefitTitle {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-md);
   font-weight: 500;
   color: var(--black);
@@ -473,7 +473,7 @@
 }
 
 .partnershipBenefitText {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-sm);
   line-height: 1.7;
   color: var(--gray-600);
@@ -495,7 +495,7 @@
 }
 
 .partnershipColTitle {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-xl);
   font-weight: 300;
   color: var(--black);
@@ -504,7 +504,7 @@
 }
 
 .partnershipColLead {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-sm);
   line-height: 1.7;
   color: var(--gray-600);
@@ -551,7 +551,7 @@
 }
 
 .partnershipAllocText {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-xs);
   line-height: 1.65;
   color: var(--gray-600);

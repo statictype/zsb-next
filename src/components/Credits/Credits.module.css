@@ -54,7 +54,7 @@
 }
 
 .detail {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-weight: 400;
   font-size: var(--text-sm);
   color: var(--gray-600);
@@ -95,7 +95,7 @@
 }
 
 .partnersList {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-weight: 400;
   font-size: var(--text-sm);
   color: var(--gray-600);
@@ -150,7 +150,7 @@
 }
 
 .inlineNames {
-  font-family: var(--font-paragraph);
+  font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--gray-600);
   line-height: 1.8;
