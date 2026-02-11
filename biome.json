@@ -58,6 +58,16 @@
 					}
 				}
 			}
+		},
+		{
+			"includes": ["src/components/Carousel/Carousel.tsx"],
+			"linter": {
+				"rules": {
+					"a11y": {
+						"noNoninteractiveTabindex": "off"
+					}
+				}
+			}
 		}
 	],
 	"assist": {

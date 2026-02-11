@@ -1,9 +1,15 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { FESTIVAL_STATS } from '@/data/stats'
+import { imageSrc } from '@/lib/image-utils'
+import type { ImageData } from '@/types/edition'
 import styles from './page.module.css'
 
-const spotlightImages = {
+const spotlightImages: {
+  hero: ImageData
+  grid: ImageData[]
+} = {
   hero: {
     basePath: '/img/2025/optimized/1-cover-event',
     alt: 'ZSB 2025 #celălaltcorp',
@@ -16,14 +22,14 @@ const spotlightImages = {
   ],
 }
 
-const stats = [
-  { label: 'Editions', value: '5' },
-  { label: 'Artists', value: '150+' },
-  { label: 'Venues', value: '8' },
-  { label: 'Visitors', value: '25K+' },
-]
-
-const archiveEditions = [
+const archiveEditions: {
+  year: number
+  shortYear: string
+  theme: string
+  description: string
+  href: string
+  image: ImageData
+}[] = [
   {
     year: 2024,
     shortYear: '24',
@@ -100,7 +106,7 @@ export default function HomePage() {
 
             <div className={styles.missionMeta}>
               <div className={styles.missionStats}>
-                {stats.map((stat, i) => (
+                {FESTIVAL_STATS.map((stat, i) => (
                   <div
                     key={stat.label}
                     className={`${styles.statItem} ${i % 2 === 0 ? styles.statAccent : ''}`}
@@ -150,7 +156,7 @@ export default function HomePage() {
         <div className={styles.spotlightGallery}>
           <div className={styles.galleryHero}>
             <Image
-              src={spotlightImages.hero.basePath}
+              src={imageSrc(spotlightImages.hero)}
               alt={spotlightImages.hero.alt}
               fill
               preload
@@ -166,7 +172,7 @@ export default function HomePage() {
             {spotlightImages.grid.map((img) => (
               <div key={img.basePath} className={styles.galleryItem}>
                 <Image
-                  src={img.basePath}
+                  src={imageSrc(img)}
                   alt={img.alt}
                   fill
                   sizes="(max-width: 767px) 50vw, 25vw"
@@ -212,7 +218,7 @@ export default function HomePage() {
             >
               <div className={styles.archiveCardImage}>
                 <Image
-                  src={edition.image.basePath}
+                  src={imageSrc(edition.image)}
                   alt={edition.image.alt}
                   fill
                   sizes="(max-width: 1279px) 100vw, (max-width: 1599px) 50vw, 33vw"

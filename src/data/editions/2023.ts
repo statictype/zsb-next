@@ -5,6 +5,7 @@ export const edition2023: Edition = {
   theme: 're#situ\u0103riafective',
   themeHighlight: 'afective',
   title: 'ZSB 2023 - re#situ\u0103riafective | Bucharest Sculpture Days',
+  heroVariant: '2023',
   dateTape: '18\u201329 April 2023 /// Combinatul Fondului Plastic',
 
   manifesto: {

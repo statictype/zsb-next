@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { imageSrc } from '@/lib/image-utils'
+import type { HeroVariant } from '@/types/edition'
 import styles from './Hero.module.css'
 
 interface HeroProps {
@@ -10,7 +11,7 @@ interface HeroProps {
     | { basePath: string; alt: string; ext?: 'jpg' | 'png' | undefined }
     | undefined
   dateTape?: string | undefined
-  variant?: string | undefined // "2022" | "2023" | "with-sculpture"
+  variant?: HeroVariant | undefined
 }
 
 export function Hero({

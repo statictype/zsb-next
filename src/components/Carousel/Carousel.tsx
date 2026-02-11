@@ -2,10 +2,10 @@
 
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import sharedStyles from '@/components/Shared.module.css'
 import { imageSrc } from '@/lib/image-utils'
-import type { CarouselSlide } from '@/types/edition'
+import type { CarouselLayout, CarouselSlide } from '@/types/edition'
 import styles from './Carousel.module.css'
 
 interface CarouselProps {
@@ -13,7 +13,7 @@ interface CarouselProps {
   theme: string
 }
 
-const LAYOUT_MAP: Record<string, string | undefined> = {
+const LAYOUT_MAP: Record<CarouselLayout, string | undefined> = {
   trio: styles.layoutTrio,
   duo: styles.layoutDuo,
   'featured-portrait': styles.layoutFeaturedPortrait,
@@ -43,15 +43,13 @@ export function Carousel({ slides, theme }: CarouselProps) {
     goTo(currentIndex + 1)
   }, [currentIndex, goTo])
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeydown = (e: KeyboardEvent) => {
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
       if (e.key === 'ArrowLeft') goTo(currentIndex - 1)
       if (e.key === 'ArrowRight') goTo(currentIndex + 1)
-    }
-    document.addEventListener('keydown', handleKeydown)
-    return () => document.removeEventListener('keydown', handleKeydown)
-  }, [currentIndex, goTo])
+    },
+    [currentIndex, goTo],
+  )
 
   const handleTouchStart = (e: React.TouchEvent) => {
     const touch = e.changedTouches[0]
@@ -84,7 +82,14 @@ export function Carousel({ slides, theme }: CarouselProps) {
       </div>
 
       {/* Carousel */}
-      <div className={styles.carousel}>
+      {/* biome-ignore lint/a11y/useSemanticElements: nested section would be invalid, region role is intentional */}
+      <div
+        className={styles.carousel}
+        role="region"
+        aria-label="Image carousel"
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+      >
         <div className={styles.viewport}>
           <div
             className={styles.track}
@@ -104,9 +109,9 @@ export function Carousel({ slides, theme }: CarouselProps) {
                     <Image
                       src={imageSrc(img.image)}
                       alt={img.image.alt}
-                      fill={true}
+                      fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      style={{ objectFit: 'cover' }}
+                      className={styles.itemImage}
                     />
                     <div className={styles.itemOverlay}>
                       <div className={styles.itemInfo}>

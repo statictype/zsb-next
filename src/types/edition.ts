@@ -67,13 +67,20 @@ export interface ProgramData {
 
 // ---- Carousel ----
 
+export type CarouselLayout =
+  | 'trio'
+  | 'duo'
+  | 'featured-portrait'
+  | 'featured-stack'
+  | 'full'
+
 export interface CarouselImage {
   image: ImageData
   caption: string
 }
 
 export interface CarouselSlide {
-  layout: string
+  layout: CarouselLayout
   images: CarouselImage[]
 }
 
@@ -96,6 +103,38 @@ export interface MediaKitItem {
   image: ImageData
 }
 
+// ---- Hero ----
+
+export type HeroVariant = '2022' | '2023' | 'with-sculpture'
+
+// ---- Edition Card ----
+
+export interface EditionCardData {
+  year: number
+  theme: string
+  description: string
+  href: string
+  variant?: 'sculpture' | 'tiled' | 'online' | undefined
+  cardImage?:
+    | {
+        basePath: string
+        alt: string
+        ext?: 'jpg' | 'png' | undefined
+      }
+    | undefined
+  tiledBg?: string | undefined
+}
+
+// ---- Masonry Gallery ----
+
+export interface MasonryImage {
+  basePath: string
+  alt: string
+  caption: string
+  cols: number
+  rows: number
+}
+
 // ---- Full Edition ----
 
 export interface Edition {
@@ -104,6 +143,7 @@ export interface Edition {
   themeHighlight?: string | undefined
   title: string
   heroImage?: ImageData | undefined
+  heroVariant?: HeroVariant | undefined
   dateTape?: string | undefined
   manifesto: ManifestoData
   themeSection: ThemeData

@@ -155,6 +155,10 @@
   background: var(--gray-900);
 }
 
+.itemImage {
+  object-fit: cover;
+}
+
 .item img {
   transition:
     transform 1.2s var(--ease-out-expo),

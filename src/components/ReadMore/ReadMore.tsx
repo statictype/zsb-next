@@ -24,9 +24,7 @@ export function ReadMore({ children, dark = false }: ReadMoreProps) {
         aria-expanded={expanded}
         onClick={() => setExpanded((prev) => !prev)}
       >
-        <span className={styles.text}>
-          {expanded ? 'Show less' : 'Read more'}
-        </span>
+        <span>{expanded ? 'Show less' : 'Read more'}</span>
         <span className={styles.icon}>+</span>
       </button>
     </>

@@ -6,6 +6,7 @@ import {
   RiCloseLine,
 } from '@remixicon/react'
 import { useCallback, useEffect, useState } from 'react'
+import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import styles from './Lightbox.module.css'
 
 interface LightboxImage {
@@ -58,17 +59,7 @@ export function Lightbox({
     return () => document.removeEventListener('keydown', handleKeydown)
   }, [isOpen, onClose, navigate])
 
-  // Body scroll lock
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [isOpen])
+  useBodyScrollLock(isOpen)
 
   if (!images.length) return null
 

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import shared from '@/components/Shared.module.css'
 import type { ProgramData } from '@/types/edition'
 import styles from './Program.module.css'
@@ -79,7 +80,10 @@ export function Program({ year, program }: ProgramProps) {
               ))}
 
               {program.sftfBanner && (
-                <a href={program.sftfBanner.href} className={styles.sftfBanner}>
+                <Link
+                  href={program.sftfBanner.href}
+                  className={styles.sftfBanner}
+                >
                   <div className={styles.sftfContent}>
                     <div className={styles.sftfLeft}>
                       <span className={styles.sftfTag}>
@@ -98,7 +102,7 @@ export function Program({ year, program }: ProgramProps) {
                     </div>
                   </div>
                   <div className={styles.sftfAccent} />
-                </a>
+                </Link>
               )}
             </div>
           </div>

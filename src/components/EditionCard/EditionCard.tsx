@@ -2,23 +2,8 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { imageSrc } from '@/lib/image-utils'
+import type { EditionCardData } from '@/types/edition'
 import styles from './EditionCard.module.css'
-
-export interface EditionCardData {
-  year: number
-  theme: string
-  description: string
-  href: string
-  variant?: 'sculpture' | 'tiled' | 'online' | undefined
-  cardImage?:
-    | {
-        basePath: string
-        alt: string
-        ext?: 'jpg' | 'png' | undefined
-      }
-    | undefined
-  tiledBg?: string | undefined
-}
 
 interface EditionCardProps {
   edition: EditionCardData

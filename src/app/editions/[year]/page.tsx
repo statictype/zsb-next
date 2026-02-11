@@ -42,13 +42,6 @@ export default async function EditionPage({ params }: EditionPageProps) {
     notFound()
   }
 
-  // Hero variant: 2022 (tiled bg), 2023 (bg image), 2025 (with-sculpture)
-  const heroVariant: Record<number, string> = {
-    2022: '2022',
-    2023: '2023',
-    2025: 'with-sculpture',
-  }
-
   return (
     <main className={styles.page}>
       <Hero
@@ -57,7 +50,7 @@ export default async function EditionPage({ params }: EditionPageProps) {
         themeHighlight={edition.themeHighlight}
         heroImage={edition.heroImage}
         dateTape={edition.dateTape}
-        variant={heroVariant[edition.year]}
+        variant={edition.heroVariant}
       />
 
       <Manifesto manifesto={edition.manifesto} />

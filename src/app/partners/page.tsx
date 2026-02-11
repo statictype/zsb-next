@@ -1,8 +1,9 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import type { MasonryImage } from '@/components/MasonryGallery/MasonryGallery'
 import { MasonryGallery } from '@/components/MasonryGallery/MasonryGallery'
+import { FESTIVAL_STATS } from '@/data/stats'
+import type { MasonryImage } from '@/types/edition'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
@@ -10,13 +11,6 @@ export const metadata: Metadata = {
   description:
     "Partner with Bucharest Sculpture Days — one of Eastern Europe's most significant contemporary sculpture events.",
 }
-
-const stats = [
-  { number: '25K+', label: 'Visitors per edition' },
-  { number: '150+', label: 'Artists to date' },
-  { number: '8', label: 'Venues' },
-  { number: '5', label: 'Editions' },
-]
 
 const audienceProfiles = [
   {
@@ -303,9 +297,9 @@ export default function PartnersPage() {
             </div>
 
             <div className={styles.audienceStats}>
-              {stats.map((stat) => (
+              {FESTIVAL_STATS.map((stat) => (
                 <div key={stat.label} className={styles.audienceStat}>
-                  <div className={styles.audienceStatNumber}>{stat.number}</div>
+                  <div className={styles.audienceStatNumber}>{stat.value}</div>
                   <div className={styles.audienceStatLabel}>{stat.label}</div>
                 </div>
               ))}

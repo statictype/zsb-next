@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
+import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import styles from './Navigation.module.css'
 
 function getActiveFromPath(pathname: string): string {
@@ -38,17 +39,13 @@ export function Navigation() {
     return () => document.removeEventListener('keydown', handleKeydown)
   }, [isOpen, closeMenu])
 
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [isOpen])
+  useBodyScrollLock(isOpen)
 
   // Close menu on navigation
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname triggers menu close on route change
   useEffect(() => {
     closeMenu()
-  }, [closeMenu])
+  }, [pathname, closeMenu])
 
   const logoImg = (
     <Image

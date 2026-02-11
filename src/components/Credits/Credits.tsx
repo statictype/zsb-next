@@ -74,13 +74,16 @@ export function Credits({ credits }: CreditsProps) {
               <div key={i} className={styles.inline}>
                 <span className={styles.inlineLabel}>{credit.label}</span>
                 <span className={styles.inlineNames}>
-                  {credit.value.split('\n').map((name, j) => (
-                    // biome-ignore lint/suspicious/noArrayIndexKey: static list
-                    <span key={j}>
-                      {name}
-                      {j < credit.value.split('\n').length - 1 && <br />}
-                    </span>
-                  ))}
+                  {(() => {
+                    const names = credit.value.split('\n')
+                    return names.map((name, j) => (
+                      // biome-ignore lint/suspicious/noArrayIndexKey: static list
+                      <span key={j}>
+                        {name}
+                        {j < names.length - 1 && <br />}
+                      </span>
+                    ))
+                  })()}
                 </span>
               </div>
             ))}

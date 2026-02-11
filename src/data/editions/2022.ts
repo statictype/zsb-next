@@ -5,6 +5,7 @@ export const edition2022: Edition = {
   theme: '#perspectiva31',
   themeHighlight: '31',
   title: 'ZSB 2022 - #perspectiva31 | Bucharest Sculpture Days',
+  heroVariant: '2022',
   dateTape: '16\u201318 April 2022 \u00B7 Combinatul Fondului Plastic',
 
   manifesto: {

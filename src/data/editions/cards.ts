@@ -1,4 +1,4 @@
-import type { EditionCardData } from '@/components/EditionCard/EditionCard'
+import type { EditionCardData } from '@/types/edition'
 
 export const editionCards: EditionCardData[] = [
   {

@@ -1,25 +1,17 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
 import { Lightbox } from '@/components/Lightbox/Lightbox'
+import { useLightbox } from '@/lib/use-lightbox'
+import type { MasonryImage } from '@/types/edition'
 import styles from './MasonryGallery.module.css'
-
-export interface MasonryImage {
-  basePath: string
-  alt: string
-  caption: string
-  cols: number
-  rows: number
-}
 
 interface MasonryGalleryProps {
   images: MasonryImage[]
 }
 
 export function MasonryGallery({ images }: MasonryGalleryProps) {
-  const [lightboxOpen, setLightboxOpen] = useState(false)
-  const [lightboxIndex, setLightboxIndex] = useState(0)
+  const lightbox = useLightbox()
 
   const lightboxImages = images.map((img) => ({
     src: `${img.basePath}-1920.webp`,
@@ -40,15 +32,11 @@ export function MasonryGallery({ images }: MasonryGalleryProps) {
               gridColumn: `span ${img.cols}`,
               gridRow: `span ${img.rows}`,
             }}
-            onClick={() => {
-              setLightboxIndex(i)
-              setLightboxOpen(true)
-            }}
+            onClick={() => lightbox.open(i)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault()
-                setLightboxIndex(i)
-                setLightboxOpen(true)
+                lightbox.open(i)
               }
             }}
           >
@@ -70,9 +58,9 @@ export function MasonryGallery({ images }: MasonryGalleryProps) {
 
       <Lightbox
         images={lightboxImages}
-        initialIndex={lightboxIndex}
-        isOpen={lightboxOpen}
-        onClose={() => setLightboxOpen(false)}
+        initialIndex={lightbox.index}
+        isOpen={lightbox.isOpen}
+        onClose={lightbox.close}
       />
     </>
   )

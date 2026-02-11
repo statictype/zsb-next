@@ -5,6 +5,7 @@ export const edition2025: Edition = {
   theme: '#cel\u0103laltcorp',
   themeHighlight: 'cel\u0103laltcorp',
   title: 'ZSB 2025 - #cel\u0103laltcorp | Bucharest Sculpture Days',
+  heroVariant: 'with-sculpture',
   heroImage: {
     basePath: '/img/2025/optimized/instagram_cap3',
     alt: 'The Other Body \u2014 Classical bust split to reveal skull beneath',

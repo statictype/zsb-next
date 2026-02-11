@@ -1,10 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
 import { Lightbox } from '@/components/Lightbox/Lightbox'
 import shared from '@/components/Shared.module.css'
 import { imageSrc } from '@/lib/image-utils'
+import { useLightbox } from '@/lib/use-lightbox'
 import type { MediaKitItem } from '@/types/edition'
 import styles from './MediaKit.module.css'
 
@@ -13,8 +13,7 @@ interface MediaKitProps {
 }
 
 export function MediaKit({ items }: MediaKitProps) {
-  const [lightboxOpen, setLightboxOpen] = useState(false)
-  const [lightboxIndex, setLightboxIndex] = useState(0)
+  const lightbox = useLightbox()
 
   const lightboxImages = items.map((item) => ({
     src: `${item.image.basePath}-1920.webp`,
@@ -42,15 +41,11 @@ export function MediaKit({ items }: MediaKitProps) {
                 role="button"
                 tabIndex={0}
                 className={styles.card}
-                onClick={() => {
-                  setLightboxIndex(i)
-                  setLightboxOpen(true)
-                }}
+                onClick={() => lightbox.open(i)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault()
-                    setLightboxIndex(i)
-                    setLightboxOpen(true)
+                    lightbox.open(i)
                   }
                 }}
               >
@@ -82,9 +77,9 @@ export function MediaKit({ items }: MediaKitProps) {
 
       <Lightbox
         images={lightboxImages}
-        initialIndex={lightboxIndex}
-        isOpen={lightboxOpen}
-        onClose={() => setLightboxOpen(false)}
+        initialIndex={lightbox.index}
+        isOpen={lightbox.isOpen}
+        onClose={lightbox.close}
       />
     </>
   )
