@@ -1,9 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { MasonryGallery } from '@/components/MasonryGallery/MasonryGallery'
 import { ZSB_STATS } from '@/data/stats'
-import type { MasonryImage } from '@/types/edition'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
@@ -29,100 +27,6 @@ const audienceProfiles = [
   {
     title: 'General Public',
     desc: 'Design-minded urbanites, students, families, and tourists who encounter sculpture in public space — often for the first time — through ZSB events.',
-  },
-]
-
-const galleryImages: MasonryImage[] = [
-  {
-    basePath: '/img/2023/optimized/OD6-0349',
-    alt: 'Visitors viewing sculptures in gallery at ZSB 2025',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 2,
-    rows: 5,
-  },
-  {
-    basePath: '/img/2023/optimized/OD6-0202',
-    alt: 'Visitors gathered around sculpture at ZSB 2025',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 2,
-    rows: 5,
-  },
-  {
-    basePath: '/img/2025/optimized/BWS00764',
-    alt: 'ZSB 2025 audience interaction',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 3,
-  },
-  {
-    basePath: '/img/2025/optimized/bws00842',
-    alt: 'ZSB 2025 sculpture detail',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 3,
-  },
-  {
-    basePath: '/img/2025/optimized/bws01820',
-    alt: 'ZSB 2025 exhibition space',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 3,
-  },
-  {
-    basePath: '/img/2025/optimized/BWS00744',
-    alt: 'ZSB 2025 wide gallery view',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 2,
-    rows: 5,
-  },
-  {
-    basePath: '/img/2023/optimized/OD6-0359',
-    alt: 'ZSB 2025 sculpture work',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 6,
-  },
-  {
-    basePath: '/img/2023/optimized/OD6-0361',
-    alt: 'ZSB 2023 tall sculpture view',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 3,
-  },
-  {
-    basePath: '/img/2025/optimized/BWS00864',
-    alt: 'ZSB 2025 tall sculpture view',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 3,
-  },
-  {
-    basePath: '/img/2023/optimized/OD6-0221',
-    alt: 'ZSB 2023 visitor experience',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 7,
-  },
-  {
-    basePath: '/img/2023/optimized/_DSF4145',
-    alt: 'ZSB 2023 exhibition moment',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 5,
-  },
-  {
-    basePath: '/img/2024/optimized/night2',
-    alt: 'ZSB 2024 exhibition moment',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 5,
-  },
-  {
-    basePath: '/img/2024/optimized/DSCF4014',
-    alt: 'ZSB 2025 artwork',
-    caption: 'ZSB 2024 Exhibition',
-    cols: 1,
-    rows: 4,
   },
 ]
 
@@ -316,10 +220,6 @@ export default function PartnersPage() {
                 <p className={styles.audienceProfileDesc}>{profile.desc}</p>
               </div>
             ))}
-          </div>
-
-          <div className={styles.audienceGallery}>
-            <MasonryGallery images={galleryImages} />
           </div>
         </div>
       </section>

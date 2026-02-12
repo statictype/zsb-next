@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Dela_Gothic_One, Raleway, Josefin_Sans, Nunito_Sans, Montserrat, Quicksand} from 'next/font/google'
+import { Dela_Gothic_One, Montserrat } from 'next/font/google'
 import { Suspense } from 'react'
 import { Footer } from '@/components/Footer/Footer'
 import { JsonLd } from '@/components/JsonLd/JsonLd'

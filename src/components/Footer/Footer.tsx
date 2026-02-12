@@ -5,7 +5,7 @@ const CURRENT_YEAR = new Date().getFullYear()
 const BARCODE_LABEL = `ZSB\u20142021\u2014${CURRENT_YEAR}`
 
 const EXPLORE_LINKS = [
-  { label: 'About', href: '#' },
+  { label: 'About', href: '/about' },
   { label: 'Editions', href: '/editions' },
   { label: 'Artists', href: '#' },
   { label: 'Press', href: '#' },
