@@ -66,22 +66,18 @@
   overflow: hidden;
 }
 
-.itemFeatured {
-  /* Featured items get special styling via vacuum-sealed from Shared */
-}
-
 .itemHeader {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-xs);
 }
 
 .itemType {
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--gray-400);
+  color: var(--gray-700);
 }
 
 .itemDates {
@@ -97,7 +93,8 @@
   font-size: var(--text-md);
   color: var(--black);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.2px;
+  font-weight: 900;
   margin-bottom: var(--space-sm);
 }
 
@@ -146,8 +143,8 @@
 }
 
 .filmTitle {
-  font-size: var(--text-sm);
-  color: var(--black);
+  font-size: var(--text-base);
+  color: var(--gray-600);
 }
 
 /* Compact Items */
@@ -171,10 +168,12 @@
 }
 
 .compactTitle {
-  font-family: var(--font-display);
+  /* font-family: var(--font-display); */
   font-size: var(--text-md);
   color: var(--black);
   text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.2px;
 }
 
 .compactNote {
@@ -330,10 +329,6 @@
 
   .item {
     padding: var(--card-padding);
-  }
-
-  .itemHeader {
-    margin-bottom: 12px;
   }
 
   .itemType {

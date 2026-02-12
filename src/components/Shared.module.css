@@ -6,7 +6,7 @@
 .vacuumSealed {
   position: relative;
   background: var(--gray-900);
-  border: 1px solid var(--gray-850);
+  border: 1px solid var(--gray-200);
   padding: var(--card-padding);
   overflow: hidden;
 }

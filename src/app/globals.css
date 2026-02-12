@@ -76,7 +76,7 @@
 
   /* Fonts — mapped from next/font CSS variables */
   --font-display: var(--font-dela-gothic), sans-serif;
-  --font-body: var(--font-raleway), sans-serif;
+  --font-body: var(--font-montserrat), sans-serif;
 }
 
 /* ---- Tablet (768px+) ---- */

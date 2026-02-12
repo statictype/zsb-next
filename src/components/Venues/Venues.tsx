@@ -123,7 +123,7 @@ export function Venues({ venues }: VenuesProps) {
                     <div className={styles.accordionBody}>
                       {group.subgroups.map((subgroup, si) => (
                         // biome-ignore lint/suspicious/noArrayIndexKey: static list
-                        <div key={si}>
+                        <div key={si} className={styles.accordionSubgroup}>
                           {subgroup.subgroup && (
                             <div className={styles.subgroupLabel}>
                               {subgroup.subgroup}

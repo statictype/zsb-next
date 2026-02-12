@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Dela_Gothic_One, Raleway } from 'next/font/google'
+import { Dela_Gothic_One, Raleway, Josefin_Sans, Nunito_Sans, Montserrat, Quicksand} from 'next/font/google'
 import { Suspense } from 'react'
 import { Footer } from '@/components/Footer/Footer'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
@@ -14,10 +14,12 @@ const delaGothic = Dela_Gothic_One({
   display: 'swap',
 })
 
-const raleway = Raleway({
+const montserrat = Montserrat({
   subsets: ['latin'],
-  variable: '--font-raleway',
+  variable: '--font-montserrat',
   display: 'swap',
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
 })
 
 export const metadata: Metadata = {
@@ -62,7 +64,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${delaGothic.variable} ${raleway.variable}`}>
+    <html lang="en" className={`${delaGothic.variable} ${montserrat.variable}`}>
       <body>
         <JsonLd
           data={{
