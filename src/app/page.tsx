@@ -101,7 +101,7 @@ export default function HomePage() {
       {/* ---- Hero / Mission ---- */}
       <section className={styles.heroMission}>
         <Image
-          src="/img/2024/night2.jpg"
+          src="/img/zsb-homepage.png"
           alt=""
           fill
           sizes="100vw"
