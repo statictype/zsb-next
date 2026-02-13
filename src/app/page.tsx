@@ -100,6 +100,15 @@ export default function HomePage() {
     <main>
       {/* ---- Hero / Mission ---- */}
       <section className={styles.heroMission}>
+        <Image
+          src="/img/2024/night2.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          className={styles.heroBg}
+          priority
+        />
+        <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             <span className={styles.highlight}>Bucharest</span>
@@ -112,13 +121,7 @@ export default function HomePage() {
             <div className={styles.missionLeft}>
               <div className={styles.missionStatement}>
                 <p>
-                  Sculpture is not fixed. Neither is meaning. And neither is the
-                  space that allows them to exist. Bucharest Sculpture Days is a
-                  platform for contemporary sculpture as a living, relational
-                  practice where bodies, materials, spaces, and ideas are
-                  constantly renegotiated. Each edition opens a new way of
-                  seeing sculpture not as a monument but as a presence, a
-                  process, and a becoming.
+                Bucharest Sculpture Days (ZSB) is your annual checkpoint for the state of sculpture. For 2 weeks each year, we are occupying creative hubs across the city with a series of exhibitions, screenings, and arguments worth having. We strip away the permanence of the monument to focus on the immediate tension of the process. It is a recurring experiment in how materials occupy our world."
                 </p>
               </div>
               <Link href="/about" className={styles.ctaBtn}>
@@ -143,10 +146,10 @@ export default function HomePage() {
                 <div className={styles.partnerCardLabel}>
                   Support the Project
                 </div>
-                <div className={styles.partnerCardTitle}>
+                {/* <div className={styles.partnerCardTitle}>
                   Become a<br />
                   <span>Partner</span>
-                </div>
+                </div> */}
                 <p className={styles.partnerCardDesc}>
                   Join a growing network of cultural institutions and
                   individuals shaping the future of contemporary sculpture.

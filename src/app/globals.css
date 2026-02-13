@@ -125,7 +125,7 @@
 @media (min-width: 1280px) {
   :root {
     --text-base: 19px;
-    --text-hero: 124px;
+    --text-sm: 15px;
 
     --space-2xl: 80px;
     --space-3xl: 112px;
@@ -141,7 +141,7 @@
 @media (min-width: 1536px) {
   :root {
     --text-base: 21px;
-    --text-hero: 136px;
+    --text-hero: 124px;
 
     --space-2xl: 96px;
     --space-3xl: 128px;
@@ -160,7 +160,7 @@
 @media (min-width: 1792px) {
   :root {
     --text-base: 23px;
-    --text-hero: 148px;
+    --text-sm: 16px;
 
     --space-2xl: 112px;
     --space-3xl: 144px;

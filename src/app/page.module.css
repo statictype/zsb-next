@@ -28,7 +28,7 @@
   font-size: var(--text-hero);
   line-height: 0.9;
   text-transform: uppercase;
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-3xl);
   max-width: 1400px;
 }
 
@@ -48,11 +48,12 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
+  margin-bottom: var(--space-2xl);
 }
 
 .missionStatement {
   font-family: var(--font-body);
-  font-size: var(--text-md);
+  font-size: var(--text-sm);
   line-height: 1.85;
   color: var(--gray-400);
 }
@@ -117,15 +118,17 @@
 .missionStats {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 32px 40px;
+  gap: var(--space-lg) var(--space-xl);
 }
 
 .statItem {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-top: 16px;
+  gap: var(--space-xs);
+  padding-top: var(--space-sm);
   border-top: 1px solid var(--gray-850);
+  padding-left: var(--space-sm);
+
 }
 
 .statLabel {
@@ -138,7 +141,7 @@
 
 .statNumber {
   font-family: var(--font-display);
-  font-size: 48px;
+  font-size: var(--text-xl);
   color: var(--white);
   line-height: 1;
   letter-spacing: -1px;
@@ -151,12 +154,11 @@
 /* ---- Partner CTA Card ---- */
 .partnerCard {
   padding: 32px;
-  border-left: 3px solid var(--pink);
-  background: var(--gray-900);
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 20px;
+  border: 1px solid var(--gray-900);
 }
 
 .partnerCardLabel {
@@ -351,7 +353,7 @@
 
 .editionInfoLabel {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--gray-600);
@@ -363,6 +365,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--black);
+  font-weight: 500;
 }
 
 /* =====================================================
@@ -565,6 +568,14 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
   }
+  .missionStats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md) var(--space-lg);
+  }
+}
+
+@media (min-width: 768px) {
+
 }
 
 @media (min-width: 1024px) {
@@ -574,8 +585,9 @@
 }
 
 @media (min-width: 1280px) {
-  .heroTitle {
-    margin-bottom: 48px;
+
+  .missionText {
+    grid-template-columns: 1fr 1fr;
   }
 
   .spotlightHeader {
@@ -607,23 +619,25 @@
   } */
 
   .missionText {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-lg);
   }
-
+  .missionMeta {
+    grid-template-columns: 1fr 3fr;
+    align-items: start;
+  }
+  .missionStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .galleryHero {
     height: 700px;
   }
 }
 
 @media (min-width: 1600px) {
-  .missionText {
-    grid-template-columns: 2fr 2fr;
-  }
 
-  .missionMeta {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-  }
+
+
 
   .archiveCard {
     flex-basis: calc(33.333% - var(--space-lg));
