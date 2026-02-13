@@ -11,6 +11,7 @@ function getActiveFromPath(pathname: string): string {
   if (pathname === '/') return 'home'
   if (pathname.startsWith('/editions')) return 'editions'
   if (pathname.startsWith('/partners')) return 'partners'
+  if (pathname.startsWith('/visit')) return 'visit'
   return 'home'
 }
 
@@ -18,7 +19,7 @@ const NAV_ITEMS = [
   { id: 'home', label: 'Home', href: '/' },
   { id: 'editions', label: 'Editions', href: '/editions' },
   { id: 'artists', label: 'Artists', href: '#' },
-  { id: 'visit', label: 'Visit', href: '#' },
+  { id: 'visit', label: 'Visit', href: '/visit' },
 ] as const
 
 export function Navigation() {
