@@ -147,30 +147,33 @@
 .artistsTable {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--gray-850);
+  border: 1px solid var(--gray-900);
 }
 
 .artistsColumn {
-  border-bottom: 1px solid var(--gray-900);
+  border-bottom: 1px solid var(--gray-850);
 }
 
 .colHeader {
   padding: var(--space-sm) var(--space-md);
-  background: var(--gray-900);
-  border: 1px solid var(--gray-850);
+  background: var(--black);
+  border: 1px solid var(--gray-900);
   border-bottom: none;
   font-size: var(--text-3xs);
   text-transform: uppercase;
+  font-weight: 600;
   letter-spacing: 2px;
   color: var(--gray-700);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-weight: 800;
+
 }
 
 .colHeader .headerLabel {
   font-family: var(--font-body);
-  font-size: var(--text-2xs);
+  font-size: var(--text-3xs);
 }
 
 .colHeader span:last-child {
@@ -191,7 +194,7 @@
 
 .artistNum {
   font-size: var(--text-2xs);
-  color: var(--gray-750);
+  color: var(--gray-700);
   font-variant-numeric: tabular-nums;
   min-width: 28px;
   position: relative;
@@ -205,6 +208,7 @@
   letter-spacing: 0.5px;
   font-family: var(--font-body);
   line-height: 2;
+  font-weight: 500;
 }
 
 /* Artists Table Footer */
@@ -215,8 +219,8 @@
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm);
-  background: var(--gray-900);
-  border: 1px solid var(--gray-850);
+  background: var(--black);
+  border: 1px solid var(--gray-900);
   border-top: none;
 }
 
@@ -224,6 +228,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-md);
+  justify-content: flex-start;
 }
 
 .tableMetaItem {
@@ -231,6 +236,7 @@
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--gray-700);
+  font-weight: 600;
 }
 
 .tableMetaItem span {
@@ -239,6 +245,7 @@
 }
 
 .tableBarcode {
+  justify-self: flex-end;
   height: 24px;
   width: 80px;
   background: repeating-linear-gradient(
@@ -318,7 +325,7 @@
 
   .artistsColumn {
     border-bottom: none;
-    border-right: 1px solid var(--gray-850);
+    border-right: 1px solid var(--gray-900);
     padding: var(--space-sm) 0;
   }
 
@@ -333,10 +340,6 @@
   .tableFooter {
     padding: var(--space-sm) var(--space-md);
   }
-
-  .tableMeta {
-    gap: var(--space-xl);
-  }
 }
 
 /* ---- Desktop (1024px+) ---- */
@@ -347,10 +350,6 @@
 
   .artistNum {
     font-size: var(--text-xs);
-  }
-
-  .tableMeta {
-    gap: var(--space-2xl);
   }
 }
 

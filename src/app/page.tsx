@@ -18,7 +18,7 @@ const spotlightImages: {
   grid: ImageData[]
 } = {
   hero: {
-    basePath: '/img/2025/optimized/1-cover-event',
+    basePath: '/img/2025/optimized/instagram_cap3',
     alt: 'ZSB 2025 #celălaltcorp',
   },
   grid: [
@@ -43,46 +43,54 @@ const spotlightImages: {
 
 const archiveEditions: {
   year: number
-  shortYear: string
   theme: string
   description: string
   href: string
   image: ImageData
 }[] = [
   {
+    year: 2025,
+    theme: '#celălaltcorp',
+    description:
+      'The other body — exploring corporeality, presence, and the boundaries between self and sculpture.',
+    href: '/editions/2025',
+    image: {
+      basePath: '/img/2025/optimized/1-cover-event',
+      alt: 'ZSB 2025 #celălaltcorp',
+    },
+  },
+  {
     year: 2024,
-    shortYear: '24',
     theme: '#syzygy',
     description:
       'Celestial alignments and the gravitational pull between bodies, materials, and meaning.',
     href: '/editions/2024',
     image: {
-      basePath: '/img/2024/optimized/background',
+      basePath: '/img/2024/optimized/cover',
       alt: 'ZSB 2024 #syzygy',
     },
   },
   {
     year: 2023,
-    shortYear: '23',
     theme: 're#situari afective',
     description:
       'Reimagining affective territories through sculptural interventions in urban and emotional landscapes.',
     href: '/editions/2023',
     image: {
-      basePath: '/img/2023/optimized/background',
+      basePath: '/img/2023/optimized/cover',
       alt: 'ZSB 2023 re#situăriafective',
     },
   },
   {
     year: 2022,
-    shortYear: '22',
     theme: '#perspectiva31',
     description:
       'A fresh perspective on sculpture 31 years after the Romanian revolution — transformation and memory.',
     href: '/editions/2022',
     image: {
-      basePath: '/img/2022/optimized/tile-2',
+      basePath: '/img/2022/optimized/cover-image',
       alt: 'ZSB 2022 #perspectiva31',
+      widths: [600, 1200, 1700],
     },
   },
 ]
@@ -238,9 +246,6 @@ export default function HomePage() {
                   sizes="(max-width: 1279px) 100vw, (max-width: 1599px) 50vw, 33vw"
                   className={styles.archiveCardImg}
                 />
-                <span className={styles.archiveCardYearBg}>
-                  {edition.shortYear}
-                </span>
               </div>
               <div className={styles.archiveCardContent}>
                 <div className={styles.archiveCardYear}>{edition.year}</div>
@@ -256,7 +261,6 @@ export default function HomePage() {
           {/* 2021 - Online only, no link */}
           <div className={`${styles.archiveCard} ${styles.archiveCardOnline}`}>
             <div className={styles.archiveCardContent}>
-              <span className={styles.archiveCardYearBg}>21</span>
               <span className={styles.onlineBadge}>Online Edition</span>
               <div className={styles.archiveCardYear}>2021</div>
               <div className={styles.archiveCardTheme}>Inaugural Edition</div>

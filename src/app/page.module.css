@@ -203,7 +203,7 @@
   max-width: var(--max-width);
   margin-left: auto;
   margin-right: auto;
-  padding-bottom: 20px;
+  padding-bottom: var(--space-lg);
   border-bottom: 4px solid var(--black);
 }
 
@@ -233,8 +233,8 @@
 
 .spotlightYear {
   font-family: var(--font-display);
-  font-size: 80px;
-  line-height: 0.8;
+  font-size: var(--text-5xl);
+  line-height: 1;
   color: var(--black);
   letter-spacing: -4px;
 }
@@ -268,10 +268,11 @@
   overflow: hidden;
   margin-bottom: 20px;
   position: relative;
+  background: var(--gray-900);
 }
 
 .galleryHeroImage {
-  object-fit: cover;
+  object-fit: contain;
   filter: grayscale(100%);
   transition: filter 0.4s ease;
 }
@@ -389,8 +390,8 @@
 .archiveGrid {
   max-width: var(--max-width);
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-lg);
 }
 
@@ -399,6 +400,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  flex: 1 1 100%;
+  min-width: 0;
   background: #0d0d0d;
   overflow: hidden;
   text-decoration: none;
@@ -425,24 +428,6 @@
   transform: scale(1.05);
 }
 
-.archiveCardYearBg {
-  position: absolute;
-  bottom: -24px;
-  right: 8px;
-  font-family: var(--font-display);
-  font-size: 120px;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.1);
-  letter-spacing: -5px;
-  pointer-events: none;
-  transition: color 0.5s ease;
-  z-index: 3;
-}
-
-.archiveCard:hover .archiveCardYearBg {
-  color: rgba(255, 0, 153, 0.2);
-}
-
 .archiveCardContent {
   position: relative;
   padding: 28px 24px 32px;
@@ -463,26 +448,27 @@
 
 .archiveCardTheme {
   font-family: var(--font-display);
-  font-size: var(--text-lg);
+  font-size: var(--text-md);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--white);
   margin-bottom: 12px;
   line-height: 1.15;
+  min-height: 2.3em;
 }
 
 .archiveCardDesc {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--text-sm);
   line-height: 1.6;
-  color: var(--gray-600);
+  color: var(--gray-400);
   margin-bottom: 20px;
   flex-grow: 1;
   transition: color 0.3s ease;
 }
 
 .archiveCard:hover .archiveCardDesc {
-  color: var(--gray-400);
+  color: var(--gray-200);
 }
 
 .archiveCardCta {
@@ -537,6 +523,7 @@
   background: linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 100%);
   border: 1px solid #1a1a1a;
   cursor: default;
+  padding-bottom: var(--space-md);
 }
 
 .archiveCardOnline .archiveCardContent {
@@ -547,21 +534,14 @@
   min-height: 100%;
 }
 
-.archiveCardOnline .archiveCardYearBg {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  right: auto;
-  bottom: auto;
-  transform: translate(-50%, -50%);
-  font-size: 160px;
-  letter-spacing: -8px;
-  color: rgba(255, 255, 255, 0.025);
+.archiveCardOnline .archiveCardTheme {
+  min-height: auto;
 }
 
 .archiveCardOnline .archiveCardDesc {
   margin-bottom: 0;
   flex-grow: 0;
+  max-width: 450px;
 }
 
 .onlineBadge {
@@ -605,17 +585,14 @@
     margin-bottom: 60px;
   }
 
-  .spotlightYear {
-    font-size: 140px;
-    letter-spacing: -6px;
-  }
+
 
   .galleryHero {
     height: 500px;
   }
 
-  .archiveGrid {
-    grid-template-columns: repeat(2, 1fr);
+  .archiveCard {
+    flex-basis: calc(50% - var(--space-lg));
   }
 
   .editionInfoBar {
@@ -633,11 +610,6 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .spotlightYear {
-    font-size: 180px;
-    letter-spacing: -8px;
-  }
-
   .galleryHero {
     height: 700px;
   }
@@ -653,13 +625,13 @@
     align-items: start;
   }
 
-  .archiveGrid {
-    grid-template-columns: repeat(3, 1fr);
+  .archiveCard {
+    flex-basis: calc(33.333% - var(--space-lg));
   }
 }
 
 @media (min-width: 1900px) {
-  .archiveGrid {
-    grid-template-columns: repeat(4, 1fr);
+  .archiveCard {
+    flex-basis: calc(25% - var(--space-lg));
   }
 }

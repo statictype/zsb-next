@@ -99,33 +99,6 @@
   transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-@media (min-width: 768px) {
-  .theme {
-    font-size: var(--text-2xl);
-  }
-}
-
-@media (min-width: 1024px) {
-  .theme {
-    font-size: var(--text-lg);
-  }
-}
-
-@media (min-width: 1280px) {
-  .theme {
-    font-size: var(--text-xl);
-  }
-}
-
-@media (min-width: 1600px) {
-  .theme {
-    font-size: var(--text-2xl);
-  }
-}
-
-.card:hover .theme {
-  transform: translateX(8px);
-}
 
 /* ---- Description ---- */
 .desc {

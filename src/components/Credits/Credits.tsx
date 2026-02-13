@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { IsdayBadge } from '@/components/IsdayBadge/IsdayBadge'
 import type { CreditEntry } from '@/types/edition'
 import styles from './Credits.module.css'
 
@@ -89,6 +90,8 @@ export function Credits({ credits }: CreditsProps) {
             ))}
           </div>
         )}
+
+        <IsdayBadge />
       </div>
     </section>
   )

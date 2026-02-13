@@ -1,4 +1,3 @@
-import { IsdayBadge } from '@/components/IsdayBadge/IsdayBadge'
 import { ReadMore } from '@/components/ReadMore/ReadMore'
 import type { ManifestoData } from '@/types/edition'
 import styles from './Manifesto.module.css'
@@ -39,7 +38,6 @@ export function Manifesto({ manifesto }: ManifestoProps) {
               ))}
             </div>
           </ReadMore>
-          <IsdayBadge />
         </div>
       </div>
     </section>

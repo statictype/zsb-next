@@ -349,6 +349,25 @@ export const edition2025: Edition = {
     },
   ],
 
+  mediaKit: [
+    {
+      label: 'Photography',
+      name: 'Exhibition Cover',
+      image: {
+        basePath: '/img/2025/optimized/1-cover-event',
+        alt: 'ZSB 2025 Cover',
+      },
+    },
+    {
+      label: 'Key Visual',
+      name: 'Official Poster',
+      image: {
+        basePath: '/img/2025/optimized/poster-zsb-2025',
+        alt: 'ZSB 2025 Poster',
+      },
+    },
+  ],
+
   credits: [
     {
       type: 'primary',

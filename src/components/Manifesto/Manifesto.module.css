@@ -51,10 +51,10 @@
 }
 
 .text p {
-  line-height: 1.4;
+  line-height: 1.5;
   color: var(--gray-700);
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: 300;
   font-size: var(--text-lg);
 }
 
