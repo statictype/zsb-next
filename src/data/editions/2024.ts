@@ -10,7 +10,7 @@ export const edition2024: Edition = {
     title: 'Where forms align, art unveils',
     highlight: 'art unveils',
     paragraphs: [
-      'Zilele Sculpturii București 2024 marked its fourth edition as an extended field of relations, unfolding between April 11\u201328 at Combinatul Fondului Plastic. Rather than presenting sculpture as isolated object, the edition framed it as a system of interactions: between bodies and materials, artists and processes, disciplines and generations. Contemporary sculpture, installations, film, photography, debates, workshops, and educational formats were brought into the same orbit, allowing frictions, overlaps, and alignments to surface. #SYZYGY functioned as both concept and working method\u2014a way of reading sculpture as an active, relational practice, shaped by forces that rarely agree, yet temporarily align. In sculpture, syzygy represents a holistic approach to artistic expression, where special attention is given to the relationships between different elements, in order to create a unified and impactful whole. The works you can admire in our exhibition represent the artists\u2019 effort to achieve syzygy and to express a sense of completeness and aesthetic satisfaction in the viewer\u2019s experience in front of the sculpture.',
+      'For its fourth edition, ZSB functioned as a gravitational field. Operating under the theme #SYZYGY, it transformed Combinatul Fondului Plastic into a space where sculpture, film, and debate collided. We moved beyond the static pedestal to explore art as a system of tension—an active friction between materials, generations, and disciplines. It was two weeks of celestial alignment, grounded in the messy reality of contemporary practice.',
     ],
   },
 
