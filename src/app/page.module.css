@@ -35,7 +35,7 @@
 
 /* Grain texture */
 .heroOverlay::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
@@ -95,48 +95,6 @@
   margin-bottom: 0;
 }
 
-/* ---- CTA Button ---- */
-.ctaBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: transparent;
-  color: var(--white);
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  padding: 14px 28px;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  border: 1px solid var(--gray-700);
-  transition: all 0.3s ease;
-  width: fit-content;
-}
-
-.ctaBtn:hover {
-  background: var(--white);
-  color: var(--black);
-  border-color: var(--white);
-}
-
-.ctaBtn svg {
-  transition: transform 0.2s ease;
-}
-
-.ctaBtn:hover svg {
-  transform: translateX(4px);
-}
-
-.ctaBtnPink {
-  border-color: var(--pink);
-}
-
-.ctaBtnPink:hover {
-  background: var(--pink);
-  color: var(--white);
-  border-color: var(--pink);
-}
-
 /* ---- Stats ---- */
 .missionMeta {
   display: grid;
@@ -157,12 +115,11 @@
   padding-top: var(--space-sm);
   border-top: 1px solid var(--gray-850);
   padding-left: var(--space-sm);
-
 }
 
 .statLabel {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--gray-600);
@@ -192,7 +149,7 @@
 
 .partnerCardLabel {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--pink);
@@ -200,7 +157,7 @@
 
 .partnerCardTitle {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: var(--text-2xl);
   text-transform: uppercase;
   line-height: 1.05;
   color: var(--white);
@@ -331,7 +288,7 @@
 
 .galleryHeroOverlay span {
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: var(--text-sm);
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -434,7 +391,7 @@
   flex-direction: column;
   flex: 1 1 100%;
   min-width: 0;
-  background: #0d0d0d;
+  background: var(--gray-950);
   overflow: hidden;
   text-decoration: none;
   color: var(--white);
@@ -471,7 +428,7 @@
 
 .archiveCardYear {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-2xs);
   line-height: 1;
   color: var(--pink);
   letter-spacing: 3px;
@@ -508,7 +465,7 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--gray-700);
@@ -552,8 +509,8 @@
 
 /* ---- Online-only variant ---- */
 .archiveCardOnline {
-  background: linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 100%);
-  border: 1px solid #1a1a1a;
+  background: linear-gradient(180deg, var(--black) 0%, var(--gray-950) 100%);
+  border: 1px solid var(--gray-900);
   cursor: default;
   padding-bottom: var(--space-md);
 }
@@ -582,7 +539,7 @@
   border: 1px solid var(--gray-800);
   color: var(--gray-700);
   font-family: var(--font-body);
-  font-size: 9px;
+  font-size: var(--text-3xs);
   text-transform: uppercase;
   letter-spacing: 2px;
   padding: 6px 12px;
@@ -603,10 +560,6 @@
   }
 }
 
-@media (min-width: 768px) {
-
-}
-
 @media (min-width: 1024px) {
   .missionText {
     grid-template-columns: 3fr 2fr;
@@ -614,7 +567,6 @@
 }
 
 @media (min-width: 1280px) {
-
   .missionText {
     grid-template-columns: 1fr 1fr;
   }
@@ -625,8 +577,6 @@
     align-items: flex-end;
     margin-bottom: 60px;
   }
-
-
 
   .galleryHero {
     height: 500px;
@@ -664,10 +614,6 @@
 }
 
 @media (min-width: 1600px) {
-
-
-
-
   .archiveCard {
     flex-basis: calc(33.333% - var(--space-lg));
   }

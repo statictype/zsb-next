@@ -61,16 +61,13 @@
 }
 
 .pageTitle {
-  font-family: var(--font-display);
-  font-size: var(--text-hero);
-  line-height: 0.85;
-  text-transform: uppercase;
+  composes: pageTitle from "@/components/Shared.module.css";
   animation: heroReveal 1s var(--ease-out-expo) forwards;
   opacity: 0;
 }
 
 .pageTitleHighlight {
-  color: var(--pink);
+  composes: pageTitleHighlight from "@/components/Shared.module.css";
   display: block;
 }
 
@@ -166,50 +163,13 @@
    SHARED SECTION PRIMITIVES
    ===================================================== */
 .section {
-  padding: var(--section-padding-y) var(--content-padding);
+  composes: section from "@/components/Shared.module.css";
   position: relative;
 }
 
-.sectionDark {
-  background: var(--black);
-  color: var(--white);
-}
-
-.sectionLight {
-  background: var(--white);
-  color: var(--black);
-}
-
-.sectionInner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
-.sectionHeader {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin-bottom: var(--space-xl);
-}
-
-@media (min-width: 768px) {
-  .sectionHeader {
-    margin-bottom: var(--space-2xl);
-  }
-}
-
 .sectionTitle {
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  text-transform: uppercase;
-  line-height: 1;
+  composes: sectionTitle from "@/components/Shared.module.css";
   margin-bottom: 40px;
-}
-
-@media (min-width: 768px) {
-  .sectionTitle {
-    font-size: var(--text-4xl);
-  }
 }
 
 /* =====================================================
@@ -385,25 +345,10 @@
 }
 
 .mapsButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 28px;
-  border: 1px solid var(--pink);
-  color: var(--pink);
-  font-family: var(--font-body);
+  composes: ctaBtn ctaBtnPink from "@/components/Shared.module.css";
   font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition:
-    background var(--duration-normal) ease,
-    color var(--duration-normal) ease;
+  color: var(--pink);
   flex-shrink: 0;
-}
-
-.mapsButton:hover {
-  background: var(--pink);
-  color: var(--white);
 }
 
 /* Transport routes */

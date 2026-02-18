@@ -39,9 +39,8 @@ export function Program({ year, program }: ProgramProps) {
               {featuredBlocks.map((block, i) => (
                 <div
                   key={i}
-                  className={`${styles.item} ${block.featured ? styles.itemFeatured : ''} ${shared.vacuumSealed}`}
+                  className={`${styles.item} ${block.featured ? styles.itemFeatured : ''}`}
                 >
-                  <div className={shared.plasticSheen} />
                   <div className={styles.itemHeader}>
                     <span className={styles.itemType}>{block.type}</span>
                     {block.dates && (
@@ -63,9 +62,8 @@ export function Program({ year, program }: ProgramProps) {
               {otherBlocks.map((block, i) => (
                 <div
                   key={`other-${i}`}
-                  className={`${styles.item} ${shared.vacuumSealed}`}
+                  className={`${styles.item}`}
                 >
-                  <div className={shared.plasticSheen} />
                   <div className={styles.itemHeader}>
                     <span className={styles.itemType}>{block.type}</span>
                     {block.dates && (
@@ -111,8 +109,7 @@ export function Program({ year, program }: ProgramProps) {
           <div className={styles.column}>
             {talkBlocks.length > 0 && (
               <div className={styles.group}>
-                <div className={`${styles.item} ${shared.vacuumSealed}`}>
-                  <div className={shared.plasticSheen} />
+                <div className={`${styles.item}`}>
                   <div className={styles.itemHeader}>
                     <span className={styles.itemType}>
                       Talks &amp; Workshops
@@ -138,9 +135,8 @@ export function Program({ year, program }: ProgramProps) {
                 </div>
 
                 {program.films && program.films.length > 0 && (
-                  <div className={`${styles.item} ${shared.vacuumSealed}`}>
-                    <div className={shared.plasticSheen} />
-                    <div className={styles.itemHeader}>
+                  <div className={`${styles.item}`}>
+                      <div className={styles.itemHeader}>
                       <span className={styles.itemType}>Screenings</span>
                     </div>
                     <h4 className={styles.itemTitle}>Short Film Breaks</h4>

@@ -96,7 +96,7 @@
 
 .accordionCount {
   font-family: var(--font-display);
-  font-size: 11px;
+  font-size: var(--text-2xs);
   background: var(--black);
   color: var(--white);
   padding: 3px 8px;

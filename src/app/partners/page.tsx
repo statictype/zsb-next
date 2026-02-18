@@ -1,6 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import shared from '@/components/Shared.module.css'
 import { ZSB_STATS } from '@/data/stats'
 import styles from './page.module.css'
 
@@ -89,20 +90,20 @@ export default function PartnersPage() {
           <header className={styles.heroHeader}>
             <h1 className={styles.pageTitle}>
               Partner
-              <span className={styles.pageTitleHighlight}>s</span>
+              <span className={shared.pageTitleHighlight}>s</span>
             </h1>
           </header>
 
           <div className={styles.heroContent}>
             <div className={styles.heroText}>
-              <p className={styles.heroLead}>
+              <p className={shared.heroLead}>
                 Bucharest Sculpture Days is one of Eastern Europe&apos;s most
                 significant contemporary sculpture events. Each edition
                 transforms the city into an open-air museum, bringing together
                 artists, curators, and audiences around the enduring power of
                 three-dimensional art.
               </p>
-              <div className={styles.heroBody}>
+              <div className={shared.heroBody}>
                 <p>
                   Since 2021, ZSB has grown from an online inaugural edition
                   into an event that draws thousands of visitors, media
@@ -134,11 +135,11 @@ export default function PartnersPage() {
       </section>
 
       {/* ---- 2. Why Sculpture ---- */}
-      <section className={`${styles.pageSection} ${styles.pageSectionLight}`}>
-        <div className={styles.sectionInner}>
+      <section className={`${shared.section} ${shared.sectionLight}`}>
+        <div className={shared.sectionInner}>
           <div className={styles.whySculptureTop}>
             <div>
-              <div className={styles.sectionEyebrow}>Why Sculpture</div>
+              <div className={shared.eyebrowMuted}>Why Sculpture</div>
               <h2
                 className={`${styles.sectionTitle} ${styles.whySculptureTitle}`}
               >
@@ -189,11 +190,11 @@ export default function PartnersPage() {
       </section>
 
       {/* ---- 3. The Audience ---- */}
-      <section className={`${styles.pageSection} ${styles.pageSectionDark}`}>
-        <div className={styles.sectionInner}>
+      <section className={`${shared.section} ${shared.sectionDark}`}>
+        <div className={shared.sectionInner}>
           <div className={styles.audienceHeader}>
             <div>
-              <div className={styles.sectionEyebrow}>The Audience</div>
+              <div className={shared.eyebrowMuted}>The Audience</div>
               <h2 className={styles.sectionTitle}>
                 Who engages
                 <br />
@@ -225,9 +226,9 @@ export default function PartnersPage() {
       </section>
 
       {/* ---- 4. Partnership ---- */}
-      <section className={`${styles.pageSection} ${styles.pageSectionLight}`}>
-        <div className={styles.sectionInner}>
-          <div className={styles.sectionEyebrow}>Partnership</div>
+      <section className={`${shared.section} ${shared.sectionLight}`}>
+        <div className={shared.sectionInner}>
+          <div className={shared.eyebrowMuted}>Partnership</div>
           <h2 className={`${styles.sectionTitle} ${styles.partnershipTitle}`}>
             What partners gain
           </h2>
@@ -280,7 +281,7 @@ export default function PartnersPage() {
 
       {/* ---- 5. Contact CTA ---- */}
       <section
-        className={`${styles.pageSection} ${styles.pageSectionDark} ${styles.contactCta}`}
+        className={`${shared.section} ${shared.sectionDark} ${styles.contactCta}`}
       >
         <div className={styles.contactCtaGhost}>PARTNER</div>
         <div className={styles.contactCtaImage}>
@@ -293,9 +294,7 @@ export default function PartnersPage() {
           />
         </div>
         <div className={styles.contactCtaInner}>
-          <div
-            className={`${styles.sectionEyebrow} ${styles.contactCtaEyebrow}`}
-          >
+          <div className={`${shared.eyebrowMuted} ${styles.contactCtaEyebrow}`}>
             Get in Touch
           </div>
           <h2 className={styles.contactCtaTitle}>Let&apos;s Talk</h2>
@@ -304,7 +303,10 @@ export default function PartnersPage() {
               partners@sculpturedays.com
             </a>
           </p>
-          <a href="mailto:partners@sculpturedays.com" className={styles.ctaBtn}>
+          <a
+            href="mailto:partners@sculpturedays.com"
+            className={`${shared.ctaBtn} ${shared.ctaBtnPink}`}
+          >
             Become a Partner <RiArrowRightLine size={18} />
           </a>
         </div>

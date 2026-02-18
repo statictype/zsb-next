@@ -71,7 +71,7 @@
 /* ---- Year ---- */
 .year {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 4px;
   color: var(--pink);
@@ -98,7 +98,6 @@
   margin-bottom: 16px;
   transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
-
 
 /* ---- Description ---- */
 .desc {
@@ -139,7 +138,7 @@
   align-items: center;
   gap: 12px;
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--white);
@@ -219,7 +218,7 @@
    VARIANT: Online (2021) — no image, centered
    ===================================================== */
 .variantOnline {
-  background: linear-gradient(145deg, #0d0d0d 0%, #080808 100%);
+  background: linear-gradient(145deg, var(--gray-950) 0%, #080808 100%);
   aspect-ratio: auto;
   min-height: 280px;
   cursor: default;
@@ -274,7 +273,7 @@
 .onlineBadge {
   display: inline-block;
   font-family: var(--font-body);
-  font-size: 9px;
+  font-size: var(--text-3xs);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--gray-600);

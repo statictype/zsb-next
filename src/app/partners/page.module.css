@@ -2,77 +2,16 @@
    PARTNERS PAGE — Styles
    ===================================================== */
 
-/* ---- Page-common primitives (not in globals) ---- */
-.pageSection {
-  padding: 100px var(--content-padding);
-}
-
-@media (min-width: 768px) {
-  .pageSection {
-    padding: 120px var(--content-padding);
-  }
-}
-
-.pageSectionDark {
-  background: var(--black);
-  color: var(--white);
-}
-
-.pageSectionLight {
-  background: var(--white);
-  color: var(--black);
-}
-
-.sectionInner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
-.sectionEyebrow {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: var(--gray-600);
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 32px;
-}
-
-.sectionEyebrow::before {
-  content: "";
-  width: 40px;
-  height: 2px;
-  background: var(--gray-600);
-}
-
 .sectionTitle {
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  text-transform: uppercase;
-  line-height: 1;
+  composes: sectionTitle from "@/components/Shared.module.css";
   margin-bottom: 40px;
 }
 
-@media (min-width: 768px) {
-  .sectionTitle {
-    font-size: var(--text-4xl);
-  }
-}
-
 .pageTitle {
-  font-family: var(--font-display);
-  font-size: var(--text-hero);
-  line-height: 0.85;
-  text-transform: uppercase;
+  composes: pageTitle from "@/components/Shared.module.css";
   animation: fadeInUp 0.8s ease forwards;
   animation-delay: 0.2s;
   opacity: 0;
-}
-
-.pageTitleHighlight {
-  color: var(--pink);
 }
 
 @keyframes fadeInUp {
@@ -123,20 +62,20 @@
 .heroContent {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px;
+  gap: var(--space-2xl);
 }
 
 @media (min-width: 1024px) {
   .heroContent {
     grid-template-columns: 3fr 2fr;
-    gap: 80px;
+    gap: var(--space-3xl);
   }
 }
 
 @media (min-width: 1600px) {
   .heroContent {
     grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    gap: var(--space-3xl);
   }
 }
 
@@ -144,28 +83,6 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-}
-
-.heroLead {
-  font-family: var(--font-body);
-  font-size: var(--text-lg);
-  line-height: 1.65;
-  color: var(--gray-200);
-}
-
-.heroBody {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: 1.85;
-  color: var(--gray-500);
-}
-
-.heroBody p {
-  margin-bottom: 1.5em;
-}
-
-.heroBody p:last-child {
-  margin-bottom: 0;
 }
 
 .heroImage {
@@ -206,14 +123,14 @@
 .whySculptureTop {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px;
-  margin-bottom: 80px;
+  gap: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
 }
 
 @media (min-width: 1024px) {
   .whySculptureTop {
     grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    gap: var(--space-3xl);
     align-items: end;
   }
 }
@@ -237,13 +154,13 @@
 .whySculpturePoints {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px;
+  gap: var(--space-2xl);
 }
 
 @media (min-width: 768px) {
   .whySculpturePoints {
     grid-template-columns: 1fr 1fr;
-    gap: 60px 80px;
+    gap: var(--space-2xl) var(--space-3xl);
   }
 }
 
@@ -273,8 +190,8 @@
 .audienceHeader {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px;
-  margin-bottom: 80px;
+  gap: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
   padding-bottom: 60px;
   border-bottom: 1px solid var(--gray-850);
 }
@@ -282,7 +199,7 @@
 @media (min-width: 1024px) {
   .audienceHeader {
     grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    gap: var(--space-3xl);
     align-items: end;
   }
 }
@@ -308,7 +225,7 @@
 
 .audienceStatLabel {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--gray-500);
@@ -417,19 +334,19 @@
    4. PARTNERSHIP — BENEFITS + WHERE MONEY GOES
    ===================================================== */
 .partnershipTitle {
-  margin-bottom: 48px;
+  margin-bottom: var(--space-2xl);
 }
 
 .partnershipColumns {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px;
+  gap: var(--space-2xl);
 }
 
 @media (min-width: 1024px) {
   .partnershipColumns {
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    gap: var(--space-2xl);
   }
 }
 
@@ -451,7 +368,7 @@
 
 .partnershipBenefitType {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--pink);
@@ -482,7 +399,7 @@
 .partnershipColEyebrow {
   display: block;
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 4px;
   color: var(--pink);
@@ -637,36 +554,4 @@
 
 .contactCtaEmail a:hover {
   color: var(--white);
-}
-
-/* ---- CTA Button ---- */
-.ctaBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: transparent;
-  color: var(--white);
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  padding: 14px 28px;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  border: 1px solid var(--pink);
-  transition: all 0.3s ease;
-  width: fit-content;
-}
-
-.ctaBtn:hover {
-  background: var(--pink);
-  color: var(--white);
-  border-color: var(--pink);
-}
-
-.ctaBtn svg {
-  transition: transform 0.2s ease;
-}
-
-.ctaBtn:hover svg {
-  transform: translateX(4px);
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { MasonryGallery } from '@/components/MasonryGallery/MasonryGallery'
+import shared from '@/components/Shared.module.css'
 import type { MasonryImage } from '@/types/edition'
 import styles from './page.module.css'
 
@@ -138,19 +139,19 @@ export default function AboutPage() {
         <div className={styles.heroInner}>
           <header className={styles.heroHeader}>
             <h1 className={styles.pageTitle}>
-              About <span className={styles.pageTitleHighlight}>ZSB</span>
+              About <span className={shared.pageTitleHighlight}>ZSB</span>
             </h1>
           </header>
 
           <div className={styles.heroContent}>
-            <p className={styles.heroLead}>
+            <p className={shared.heroLead}>
               Bucharest Sculpture Days is an annual platform dedicated to
               contemporary sculpture. Born online in 2021, at a moment when
               physical space was temporarily suspended but artistic urgency was
               not, the event quickly transformed into a living format that
               occupies the city.
             </p>
-            <div className={styles.heroBody}>
+            <div className={shared.heroBody}>
               <p>
                 ZSB is not just an exhibition. It is an ecosystem that brings
                 together contemporary sculpture, film, critical debate, and
@@ -171,9 +172,9 @@ export default function AboutPage() {
       </section>
 
       {/* ---- 2. Mission ---- */}
-      <section className={`${styles.pageSection} ${styles.pageSectionLight}`}>
-        <div className={styles.sectionInner}>
-          <div className={styles.sectionEyebrow}>Our Purpose</div>
+      <section className={`${shared.section} ${shared.sectionLight}`}>
+        <div className={shared.sectionInner}>
+          <div className={shared.eyebrowMuted}>Our Purpose</div>
           <h2 className={styles.sectionTitle}>Mission &amp; Vision</h2>
 
           <div className={styles.purposeList}>
@@ -202,8 +203,8 @@ export default function AboutPage() {
       </section>
 
       {/* ---- Gallery ---- */}
-      <section className={styles.gallerySection}>
-        <div className={styles.sectionInner}>
+      <section className={`${shared.section} ${shared.sectionDark}`}>
+        <div className={shared.sectionInner}>
           <div className={styles.audienceStrip}>
             <div className={styles.stripHeader}>
               <div className={styles.stripLabel}>Our Audience</div>

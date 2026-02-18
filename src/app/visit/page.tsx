@@ -12,6 +12,7 @@ import {
 } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import shared from '@/components/Shared.module.css'
 import { imageSrc } from '@/lib/image-utils'
 import type { ImageData } from '@/types/edition'
 import styles from './page.module.css'
@@ -188,9 +189,9 @@ export default function VisitPage() {
       </section>
 
       {/* ---- 2. Venue Map — blueprint layout ---- */}
-      <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className={styles.sectionInner}>
-          <div className={styles.sectionHeader}>
+      <section className={`${styles.section} ${shared.sectionLight}`}>
+        <div className={shared.sectionInner}>
+          <div className={shared.sectionHeader}>
             <h2 className={styles.sectionTitle}>Venue Map</h2>
           </div>
 
@@ -222,9 +223,9 @@ export default function VisitPage() {
       </section>
 
       {/* ---- 3. Plan Your Visit — directions + practical info ---- */}
-      <section className={`${styles.section} ${styles.sectionDark}`}>
-        <div className={styles.sectionInner}>
-          <div className={styles.sectionHeader}>
+      <section className={`${styles.section} ${shared.sectionDark}`}>
+        <div className={shared.sectionInner}>
+          <div className={shared.sectionHeader}>
             <h2 className={styles.sectionTitle}>Plan Your Visit</h2>
           </div>
 
@@ -291,9 +292,9 @@ export default function VisitPage() {
       </section>
 
       {/* ---- 4. Partner Venues — dramatic list ---- */}
-      <section className={`${styles.section} ${styles.sectionDark}`}>
-        <div className={styles.sectionInner}>
-          <div className={styles.sectionHeader}>
+      <section className={`${styles.section} ${shared.sectionDark}`}>
+        <div className={shared.sectionInner}>
+          <div className={shared.sectionHeader}>
             <h2 className={styles.sectionTitle}>Partner Venues</h2>
           </div>
 

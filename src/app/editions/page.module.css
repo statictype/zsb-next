@@ -46,7 +46,7 @@
 
 .metaLabel {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--gray-600);

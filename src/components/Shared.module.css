@@ -1,59 +1,173 @@
 /* =====================================================
-   SHARED — CTA buttons, section containers, effects
+   SHARED — Sections, typography, eyebrows, buttons, effects
    ===================================================== */
 
-/* ---- Vacuum Sealed / Plastic Sheen ---- */
-.vacuumSealed {
-  position: relative;
-  background: var(--gray-900);
-  border: 1px solid var(--gray-200);
-  padding: var(--card-padding);
-  overflow: hidden;
+/* ---- Section Layout ---- */
+.section {
+  padding: var(--section-padding-y) var(--content-padding);
 }
 
-.plasticSheen {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(
-    105deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.03) 45%,
-    rgba(255, 255, 255, 0.05) 50%,
-    transparent 55%
-  );
-  pointer-events: none;
-  z-index: 1;
+.sectionDark {
+  background: var(--black);
+  color: var(--white);
 }
 
-.vacuumSealed:hover .plasticSheen {
-  animation: sheenSlide 0.8s ease-out forwards;
+.sectionLight {
+  background: var(--white);
+  color: var(--black);
 }
 
-@keyframes sheenSlide {
-  to {
-    left: 130%;
+.sectionInner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* ---- Typography — Titles ---- */
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+@media (min-width: 768px) {
+  .sectionTitle {
+    font-size: var(--text-4xl);
   }
 }
 
-/* ---- Section Title ---- */
-.sectionTitle {
+.pageTitle {
   font-family: var(--font-display);
-  font-size: var(--text-xl);
-  line-height: 1;
+  font-size: var(--text-hero);
+  line-height: 0.85;
   text-transform: uppercase;
 }
 
-@media (min-width: 1600px) {
-  .sectionTitle {
-    font-size: var(--text-2xl);
-  }
+.pageTitleHighlight {
+  color: var(--pink);
 }
 
-@media (min-width: 1800px) {
-  .sectionTitle {
-    font-size: var(--text-3xl);
+/* ---- Typography — Body ---- */
+.heroLead {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  line-height: 1.65;
+  color: var(--gray-200);
+}
+
+.heroBody {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.85;
+  color: var(--gray-500);
+}
+
+.heroBody p {
+  margin-bottom: 1.5em;
+}
+
+.heroBody p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Eyebrows ---- */
+.eyebrowMuted {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--gray-600);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.eyebrowMuted::before {
+  content: "";
+  width: 40px;
+  height: 2px;
+  background: var(--gray-600);
+}
+
+.eyebrowPink {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--pink);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrowPink::before {
+  content: "";
+  width: 40px;
+  height: 2px;
+  background: var(--pink);
+}
+
+.overline {
+  display: block;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--pink);
+}
+
+/* ---- Buttons ---- */
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  padding: 14px 28px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: 1px solid var(--gray-700);
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.ctaBtn:hover {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--white);
+}
+
+.ctaBtn svg {
+  transition: transform 0.2s ease;
+}
+
+.ctaBtn:hover svg {
+  transform: translateX(4px);
+}
+
+.ctaBtnPink {
+  border-color: var(--pink);
+}
+
+.ctaBtnPink:hover {
+  background: var(--pink);
+  color: var(--white);
+  border-color: var(--pink);
+}
+
+/* ---- Section Header ---- */
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: var(--space-xl);
+}
+
+@media (min-width: 768px) {
+  .sectionHeader {
+    margin-bottom: var(--space-2xl);
   }
 }

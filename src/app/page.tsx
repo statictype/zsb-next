@@ -2,6 +2,7 @@ import { RiArrowRightLine } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import shared from '@/components/Shared.module.css'
 import { ZSB_STATS } from '@/data/stats'
 import { imageSrc } from '@/lib/image-utils'
 import type { ImageData } from '@/types/edition'
@@ -121,10 +122,16 @@ export default function HomePage() {
             <div className={styles.missionLeft}>
               <div className={styles.missionStatement}>
                 <p>
-                Bucharest Sculpture Days (ZSB) is your annual checkpoint for the state of sculpture. For 2 weeks each year, we are occupying creative hubs across the city with a series of exhibitions, screenings, and arguments worth having. We strip away the permanence of the monument to focus on the immediate tension of the process. It is a recurring experiment in how materials occupy our world."
+                  Bucharest Sculpture Days (ZSB) is your annual checkpoint for
+                  the state of sculpture. For 2 weeks each year, we are
+                  occupying creative hubs across the city with a series of
+                  exhibitions, screenings, and arguments worth having. We strip
+                  away the permanence of the monument to focus on the immediate
+                  tension of the process. It is a recurring experiment in how
+                  materials occupy our world."
                 </p>
               </div>
-              <Link href="/about" className={styles.ctaBtn}>
+              <Link href="/about" className={shared.ctaBtn}>
                 Read Our Story <RiArrowRightLine size={18} />
               </Link>
             </div>
@@ -156,7 +163,7 @@ export default function HomePage() {
                 </p>
                 <Link
                   href="/partners"
-                  className={`${styles.ctaBtn} ${styles.ctaBtnPink}`}
+                  className={`${shared.ctaBtn} ${shared.ctaBtnPink}`}
                 >
                   Become a Partner <RiArrowRightLine size={18} />
                 </Link>
