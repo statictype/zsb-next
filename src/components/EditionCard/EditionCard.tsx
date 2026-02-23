@@ -10,17 +10,9 @@ interface EditionCardProps {
 }
 
 export function EditionCard({ edition }: EditionCardProps) {
-  const variantClass = edition.variant
-    ? styles[
-        `variant${edition.variant.charAt(0).toUpperCase() + edition.variant.slice(1)}`
-      ]
-    : ''
-
-  const cardClassName = `${styles.card} ${variantClass}`.trim()
-
-  if (edition.variant === 'online') {
+  if (!('image' in edition)) {
     return (
-      <div className={cardClassName}>
+      <div className={`${styles.card} ${styles.inactive}`}>
         <div className={styles.overlay} />
         <div className={styles.content}>
           <span className={styles.onlineBadge}>Online Edition</span>
@@ -32,23 +24,29 @@ export function EditionCard({ edition }: EditionCardProps) {
     )
   }
 
+  const variantClass = edition.variant
+    ? styles[`variant${edition.variant.charAt(0).toUpperCase() + edition.variant.slice(1)}`]
+    : ''
+
   return (
-    <Link href={edition.href} className={cardClassName}>
+    <Link href={edition.href} className={`${styles.card} ${variantClass}`.trim()}>
       <div className={styles.imageWrap}>
-        {edition.variant === 'tiled' && edition.tiledBg ? (
+        {edition.variant === 'tiled' ? (
           <div
             className={styles.tiledImage}
-            style={{ backgroundImage: `url(${edition.tiledBg})` }}
+            style={{
+              backgroundImage: `url(${edition.image.basePath}.${edition.image.ext})`,
+            }}
           />
-        ) : edition.cardImage ? (
+        ) : (
           <Image
-            src={imageSrc(edition.cardImage)}
-            alt={edition.cardImage.alt}
+            src={imageSrc(edition.image)}
+            alt={edition.image.alt}
             fill
             sizes="(max-width: 1023px) 100vw, 50vw"
             className={styles.image}
           />
-        ) : null}
+        )}
       </div>
       <div className={styles.overlay} />
       <div className={styles.content}>

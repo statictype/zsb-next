@@ -7,7 +7,6 @@ interface ThemeArtistsProps {
   theme: string
   themeSection: ThemeData
   artists: string[]
-  variant?: string | undefined
 }
 
 function padNum(n: number, len = 3): string {
@@ -28,23 +27,13 @@ function renderStatementWithTheme(text: string, theme: string) {
   )
 }
 
-export function ThemeArtists({
-  year,
-  theme,
-  themeSection,
-  artists,
-  variant,
-}: ThemeArtistsProps) {
+export function ThemeArtists({ year, theme, themeSection, artists }: ThemeArtistsProps) {
   const mid = Math.ceil(artists.length / 2)
   const firstHalf = artists.slice(0, mid)
   const secondHalf = artists.slice(mid)
 
-  const sectionClassName = variant
-    ? `${styles.section} ${styles[`variant${variant}`] ?? ''}`
-    : styles.section
-
   return (
-    <section className={sectionClassName}>
+    <section className={styles.section}>
       <div className={styles.themeHeader}>
         <span className={styles.overline}>Theme {year}</span>
         <h2 className={styles.headline}>{theme}</h2>
@@ -98,9 +87,7 @@ export function ThemeArtists({
               {secondHalf.map((name, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: static list
                 <div key={i} className={styles.artistEntry}>
-                  <span className={styles.artistNum}>
-                    {padNum(mid + i + 1)}
-                  </span>
+                  <span className={styles.artistNum}>{padNum(mid + i + 1)}</span>
                   <span className={styles.artistName}>{name}</span>
                 </div>
               ))}

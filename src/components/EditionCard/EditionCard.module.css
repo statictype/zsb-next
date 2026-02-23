@@ -217,7 +217,7 @@
 /* =====================================================
    VARIANT: Online (2021) — no image, centered
    ===================================================== */
-.variantOnline {
+.inactive {
   background: linear-gradient(145deg, var(--gray-950) 0%, #080808 100%);
   aspect-ratio: auto;
   min-height: 280px;
@@ -225,32 +225,32 @@
 }
 
 @media (min-width: 768px) {
-  .variantOnline {
+  .inactive {
     aspect-ratio: 16 / 10;
     min-height: unset;
   }
 }
 
-.variantOnline .content {
+.inactive .content {
   position: relative;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
 
-.variantOnline .year::before {
+.inactive .year::before {
   display: none;
 }
 
-.variantOnline .theme {
+.inactive .theme {
   font-size: var(--text-2xl);
 }
 
-.variantOnline:hover .theme {
+.inactive:hover .theme {
   transform: none;
 }
 
-.variantOnline .desc {
+.inactive .desc {
   opacity: 0.5;
   transform: none;
   max-width: 400px;
@@ -259,13 +259,13 @@
 }
 
 @media (min-width: 500px) {
-  .variantOnline .desc {
+  .inactive .desc {
     max-height: none;
     opacity: 0.5;
     transform: none;
   }
 
-  .variantOnline:hover .desc {
+  .inactive:hover .desc {
     opacity: 0.6;
   }
 }

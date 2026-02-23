@@ -13,10 +13,6 @@ import { getAllEditionYears, getEdition } from '@/data/editions'
 import { SITE_NAME, SITE_URL } from '@/lib/constants'
 import styles from './page.module.css'
 
-interface EditionPageProps {
-  params: Promise<{ year: string }>
-}
-
 export async function generateStaticParams() {
   return getAllEditionYears().map((year) => ({
     year: String(year),
@@ -28,10 +24,8 @@ function truncate(text: string, max: number): string {
   return `${text.slice(0, text.lastIndexOf(' ', max))}…`
 }
 
-export async function generateMetadata({
-  params,
-}: EditionPageProps): Promise<Metadata> {
-  const { year } = await params
+export async function generateMetadata(props: PageProps<'/editions/[year]'>): Promise<Metadata> {
+  const { year } = await props.params
   const edition = getEdition(Number(year))
   if (!edition) return {}
 
@@ -68,8 +62,8 @@ export async function generateMetadata({
   }
 }
 
-export default async function EditionPage({ params }: EditionPageProps) {
-  const { year } = await params
+export default async function EditionPage(props: PageProps<'/editions/[year]'>) {
+  const { year } = await props.params
   const edition = getEdition(Number(year))
 
   if (!edition) {
@@ -158,9 +152,7 @@ export default async function EditionPage({ params }: EditionPageProps) {
 
       <Credits credits={edition.credits} />
 
-      {edition.mediaKit && edition.mediaKit.length > 0 && (
-        <MediaKit items={edition.mediaKit} />
-      )}
+      {edition.mediaKit && edition.mediaKit.length > 0 && <MediaKit items={edition.mediaKit} />}
     </main>
   )
 }

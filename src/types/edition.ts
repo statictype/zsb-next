@@ -3,7 +3,7 @@
 export interface ImageData {
   basePath: string
   alt: string
-  ext?: 'jpg' | 'png' | undefined
+  ext?: 'jpg' | 'png' | 'webp' | undefined
   widths?: number[] | undefined
 }
 
@@ -36,8 +36,17 @@ export interface VenueEntry {
 
 // ---- Program ----
 
+export type ProgramBlockType =
+  | 'Exhibition'
+  | 'Film Program'
+  | 'Main Exhibition'
+  | 'Opening Event'
+  | 'Special Event'
+  | 'Student Exhibition'
+  | 'Talks & Workshops'
+
 export interface ProgramBlock {
-  type: string
+  type: ProgramBlockType
   title: string
   dates?: string | undefined
   description?: string | undefined
@@ -51,28 +60,23 @@ export interface ProgramFilm {
   note?: string | undefined
 }
 
+export interface SFTFBanner {
+  tag: string
+  title: string
+  description: string
+  href: string
+}
+
 export interface ProgramData {
   dates: string
   blocks: ProgramBlock[]
   films?: ProgramFilm[] | undefined
-  sftfBanner?:
-    | {
-        tag: string
-        title: string
-        description: string
-        href: string
-      }
-    | undefined
+  sftfBanner?: SFTFBanner | undefined
 }
 
 // ---- Carousel ----
 
-export type CarouselLayout =
-  | 'trio'
-  | 'duo'
-  | 'featured-portrait'
-  | 'featured-stack'
-  | 'full'
+export type CarouselLayout = 'trio' | 'duo' | 'featured-portrait' | 'featured-stack' | 'full'
 
 export interface CarouselImage {
   image: ImageData
@@ -109,21 +113,23 @@ export type HeroVariant = '2022' | '2023' | 'with-sculpture'
 
 // ---- Edition Card ----
 
-export interface EditionCardData {
+interface EditionCardBase {
   year: number
   theme: string
   description: string
-  href: string
-  variant?: 'sculpture' | 'tiled' | 'online' | undefined
-  cardImage?:
-    | {
-        basePath: string
-        alt: string
-        ext?: 'jpg' | 'png' | undefined
-      }
-    | undefined
-  tiledBg?: string | undefined
 }
+
+interface ActiveEditionCard extends EditionCardBase {
+  href: string
+  image: ImageData
+  variant?: 'sculpture' | 'tiled' | undefined
+}
+
+interface InactiveEditionCard extends EditionCardBase {
+  href?: never
+}
+
+export type EditionCardData = ActiveEditionCard | InactiveEditionCard
 
 // ---- Masonry Gallery ----
 

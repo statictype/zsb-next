@@ -8,7 +8,7 @@ export const editionCards: EditionCardData[] = [
       'The other body — exploring corporeality, presence, and the boundaries between self and sculpture.',
     href: '/editions/2025',
     variant: 'sculpture',
-    cardImage: {
+    image: {
       basePath: '/img/2025/optimized/instagram_cap3',
       alt: 'ZSB 2025 #celălaltcorp',
       ext: 'png',
@@ -20,7 +20,7 @@ export const editionCards: EditionCardData[] = [
     description:
       'Celestial alignments and the gravitational pull between bodies, materials, and meaning.',
     href: '/editions/2024',
-    cardImage: {
+    image: {
       basePath: '/img/2024/optimized/background',
       alt: 'ZSB 2024 #syzygy',
     },
@@ -31,7 +31,7 @@ export const editionCards: EditionCardData[] = [
     description:
       'Reimagining affective territories through sculptural interventions in urban and emotional landscapes.',
     href: '/editions/2023',
-    cardImage: {
+    image: {
       basePath: '/img/2023/optimized/background',
       alt: 'ZSB 2023 re#situăriafective',
     },
@@ -43,14 +43,16 @@ export const editionCards: EditionCardData[] = [
       'A fresh perspective on sculpture 31 years after the Romanian revolution — transformation and memory.',
     href: '/editions/2022',
     variant: 'tiled',
-    tiledBg: '/img/2022/optimized/tile-2.webp',
+    image: {
+      basePath: '/img/2022/optimized/tile-2',
+      alt: 'ZSB 2022 pattern',
+      ext: 'webp',
+    },
   },
   {
     year: 2021,
     theme: 'Inaugural Edition',
     description:
       'The first Bucharest Sculpture Days, held entirely online during the pandemic. A digital beginning for a physical art form.',
-    href: '#',
-    variant: 'online',
   },
 ]

@@ -1,13 +1,11 @@
-import Image from 'next/image'
-import { imageSrc } from '@/lib/image-utils'
-import type { HeroVariant } from '@/types/edition'
+import type { HeroVariant, ImageData } from '@/types/edition'
 import styles from './Hero.module.css'
 
 interface HeroProps {
   year: number
   theme: string
   themeHighlight?: string | undefined
-  heroImage?: { basePath: string; alt: string; ext?: 'jpg' | 'png' | undefined } | undefined
+  heroImage?: ImageData | undefined
   dateTape?: string | undefined
   variant?: HeroVariant | undefined
 }
@@ -30,7 +28,9 @@ function HeroThemeDisplay({
     <h1 className={styles.theme}>
       {themeHighlight ? (
         <>
-          <span>{firstPart}</span><span className={styles.themeHighlight}>{themeHighlight}</span><span>{secondPart}</span>
+          <span>{firstPart}</span>
+          <span className={styles.themeHighlight}>{themeHighlight}</span>
+          <span>{secondPart}</span>
         </>
       ) : (
         theme
@@ -39,7 +39,7 @@ function HeroThemeDisplay({
   )
 }
 
-export function Hero({ year, theme, themeHighlight, heroImage, dateTape, variant }: HeroProps) {
+export function Hero({ year, theme, themeHighlight, dateTape, variant }: HeroProps) {
   const heroClassName = `${styles.hero} ${variant ? styles[`variant${variant}`] : ''}`.trim()
 
   return (
