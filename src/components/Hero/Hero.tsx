@@ -7,28 +7,45 @@ interface HeroProps {
   year: number
   theme: string
   themeHighlight?: string | undefined
-  heroImage?:
-    | { basePath: string; alt: string; ext?: 'jpg' | 'png' | undefined }
-    | undefined
+  heroImage?: { basePath: string; alt: string; ext?: 'jpg' | 'png' | undefined } | undefined
   dateTape?: string | undefined
   variant?: HeroVariant | undefined
 }
 
-export function Hero({
-  year,
+function splitOnFirst(a: string, b: string) {
+  const [before, ...rest] = a.split(b)
+  if (!rest.length || !before) return null
+  return [before, rest.join(b)] as [string, string]
+}
+
+function HeroThemeDisplay({
   theme,
-  themeHighlight,
-  heroImage,
-  dateTape,
-  variant,
-}: HeroProps) {
-  const heroClassName =
-    `${styles.hero} ${variant ? styles[`variant${variant}`] : ''}`.trim()
+  themeHighlight = '',
+}: {
+  theme: string
+  themeHighlight: string | undefined
+}) {
+  const [firstPart, secondPart] = splitOnFirst(theme, themeHighlight) ?? [theme, '']
+  return (
+    <h1 className={styles.theme}>
+      {themeHighlight ? (
+        <>
+          <span>{firstPart}</span><span className={styles.themeHighlight}>{themeHighlight}</span><span>{secondPart}</span>
+        </>
+      ) : (
+        theme
+      )}
+    </h1>
+  )
+}
+
+export function Hero({ year, theme, themeHighlight, heroImage, dateTape, variant }: HeroProps) {
+  const heroClassName = `${styles.hero} ${variant ? styles[`variant${variant}`] : ''}`.trim()
 
   return (
     <header className={heroClassName}>
       {/* Background layers */}
-      <div className={styles.bgImage} />
+      {/* <div className={styles.bgImage} /> */}
       <div className={styles.colorLayer} />
       <div className={styles.overlay} />
       <div className={styles.noise} />
@@ -40,31 +57,17 @@ export function Hero({
         <div className={styles.year} data-year={year}>
           {year}
         </div>
-        <h1 className={styles.theme}>
-          {themeHighlight ? (
-            <>
-              #<span className={styles.themeHighlight}>{themeHighlight}</span>
-            </>
-          ) : (
-            theme
-          )}
-        </h1>
+        <HeroThemeDisplay theme={theme} themeHighlight={themeHighlight} />
 
         {dateTape && <div className={styles.dateTape}>{dateTape}</div>}
       </div>
 
       {/* Sculpture image (with-sculpture variant only) */}
-      {heroImage && variant === 'with-sculpture' && (
-        <div className={styles.sculpture}>
-          <Image
-            src={imageSrc(heroImage)}
-            alt={heroImage.alt}
-            width={600}
-            height={800}
-            preload
-          />
-        </div>
-      )}
+      {/* {heroImage && variant === 'with-sculpture' && (
+        // <div className={styles.sculpture}>
+        //   <Image src={imageSrc(heroImage)} alt={heroImage.alt} width={600} height={800} preload />
+        // </div>
+      )} */}
 
       {/* Scroll indicator — hidden mobile, visible desktop */}
       <div className={styles.scroll}>

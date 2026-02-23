@@ -184,11 +184,6 @@
   color: var(--white);
   letter-spacing: -4px;
   margin-bottom: var(--space-md);
-  opacity: 0;
-  animation: fadeSlideUp 1s var(--ease-out-expo) 0.3s forwards;
-  text-shadow:
-    0 0 60px rgba(212, 229, 10, 0.3),
-    0 0 120px rgba(255, 0, 153, 0.2);
   position: relative;
 }
 
@@ -201,34 +196,6 @@
 @media (min-width: 1024px) {
   .year {
     letter-spacing: -8px;
-  }
-}
-
-.year::after {
-  content: attr(data-year);
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(212, 229, 10, 0.15) 0%,
-    transparent 50%,
-    rgba(255, 0, 153, 0.1) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 4s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
   }
 }
 
