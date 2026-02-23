@@ -13,7 +13,7 @@ export const edition2024: Edition = {
       'For its fourth edition, ZSB functioned as a gravitational field. Operating under the theme #SYZYGY, it transformed Combinatul Fondului Plastic into a space where sculpture, film, and debate collided. We moved beyond the static pedestal to explore art as a system of tension—an active friction between materials, generations, and disciplines. It was two weeks of celestial alignment, grounded in the messy reality of contemporary practice.',
     ],
   },
-
+  dateTape: '16.04-11.05 \u00B7 Combinatul Fondului Plastic',
   themeSection: {
     lead: 'Borrowed from astronomy, syzygy describes the alignment of celestial bodies.',
     body: [

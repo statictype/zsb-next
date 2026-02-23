@@ -12,8 +12,7 @@ export const edition2023: Edition = {
     title: 'Forms that hold, not dominate',
     highlight: 'not dominate',
     paragraphs: [
-      'Zilele Sculpturii Bucure\u0219ti 2023 marked the third edition of the event and took place between 18\u201329 April 2023, at Combinatul Fondului Plastic, Bucharest.',
-      'The core of the program was the exhibition re#situ\u0103riafective, complemented by a pop-up cinema, a professional roundtable on heritage restoration, and educational initiatives dedicated to artists in formation. Positioned within a broader international context shaped by World Art Day, the International Day for Monuments and Sites, and International Sculpture Day, the edition functioned as a platform for contemporary sculptural practices, critical discourse, and intergenerational exchange. Sculpture was approached as an act of holding: space, memory, and difference. Not as assertion, not as monument, but as relational presence. The works gathered here explored form as care \u2014 grounded in personal experience, open to the other. In a fractured world, re-situating became a shared responsibility. Matter did not impose meaning; it carried it.',
+      'In April 2023, the third edition of Bucharest Sculpture Days turned Combinatul Fondului Plastic into a space of recovery. Centered on the exhibition re#situăriafective, the festival explored sculpture as an act of holding—holding space, holding memory, and holding onto difference in a fractured world. Complemented by pop-up cinema and debates on heritage restoration, the event prioritized form as a gesture of care. Matter carried the weight of the personal, anchoring the viewer in a shared responsibility for the space we inhabit.',
     ],
   },
 
@@ -117,13 +116,18 @@ export const edition2023: Edition = {
         featured: false,
       },
       {
-        type: 'Talks & Debates',
+        type: 'Talks & Workshops',
         title: 'Restoration Roundtable',
         dates: 'April 25, 2023',
         description:
           'Access to Specialized Restoration Professions: mentorship, accreditation, theoretical and practical education.',
         featured: false,
       },
+    ],
+    films: [
+      { date: 'Apr 18', title: 'Various Screenings' },
+      { date: 'Apr 22', title: 'Sculptural Stories' },
+      { date: 'Apr 29', title: 'Film night' },
     ],
     sftfBanner: {
       tag: 'Educational Program',

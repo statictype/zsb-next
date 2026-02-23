@@ -12,8 +12,7 @@ export const edition2022: Edition = {
     title: 'More art, more perspectives',
     highlight: 'more perspectives',
     paragraphs: [
-      'The 2022 edition of Bucharest Sculpture Days marked the first physical gathering of the event, bringing contemporary sculpture into direct dialogue with the city.',
-      'Under the theme #perspectiva31, sculpture was approached as a plural practice, shaped by different generations, positions, and relationships to monumentality and public space. The exhibition unfolded as a shared field of perspectives rather than a unified statement. Alongside the exhibition, the program opened a space for reflection on the status of monuments in Bucharest. The round table Monuments in Bucharest: From Becoming to Protection addressed the life of monuments in public space, from their symbolic formation to their preservation. The edition also engaged emerging voices through Sculptors for the Future, a modeling competition dedicated to art high school students. Working on the theme The Arc de Triomphe \u2014 My Perspective, participants were invited to reinterpret a canonical monument through their own sculptural language.',
+      'The 2022 edition marked our arrival in physical space. For the first time, ZSB brought contemporary practice into direct contact with the city, establishing a tangible dialogue between object and viewer. Under the theme #perspectiva31, we built a shared space for conflicting ideas and cross-generational conversations. From professional roundtables on monument protection to our annual youth competition, where students reimagined the Arc de Triomphe, the festival prioritized a wide spectrum of viewpoints over a single narrative.',
     ],
   },
 
@@ -95,7 +94,7 @@ export const edition2022: Edition = {
         featured: true,
       },
       {
-        type: 'Talks & Debates',
+        type: 'Talks & Workshops',
         title: 'Monuments in Bucharest: From Becoming to Protection',
         dates: 'April 18, 2022',
         description:
@@ -103,7 +102,7 @@ export const edition2022: Edition = {
         featured: false,
       },
       {
-        type: 'Open Studios',
+        type: 'Talks & Workshops',
         title: 'Artist Studios & Galleries',
         dates: 'April 16\u201418, 2022',
         description:

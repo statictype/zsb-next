@@ -3,7 +3,7 @@ import type { Edition } from '@/types/edition'
 export const edition2025: Edition = {
   year: 2025,
   theme: '#cel\u0103laltcorp',
-  themeHighlight: 'cel\u0103laltcorp',
+  themeHighlight: 'corp',
   title: 'ZSB 2025 - #cel\u0103laltcorp | Bucharest Sculpture Days',
   heroVariant: 'with-sculpture',
   heroImage: {
@@ -11,13 +11,12 @@ export const edition2025: Edition = {
     alt: 'The Other Body \u2014 Classical bust split to reveal skull beneath',
     ext: 'png',
   },
-
+  dateTape: '16.04-11.05 \u00B7 Combinatul Fondului Plastic',
   manifesto: {
     title: 'What you see is not all there is',
     highlight: 'not all there is',
     paragraphs: [
-      'The 5th edition of Bucharest Sculpture Days (April 26 \u2013 May 11, 2025) explored the body as a contested space\u2014between identity and representation, memory and transformation.',
-      'Beneath the skin, beyond symmetry and ideals, there are bodies that don\u2019t seek approval: mutant, queer, scarred, vulnerable. Sculpture no longer idealizes them. It listens. It exposes. It frees. #theotherbody is about identity, memory, struggle, and becoming. The exhibition questioned how contemporary sculpture engages with corporeal presence\u2014not as an object of beauty, but as a site of resistance, vulnerability, and transformation.',
+      'For its fifth edition, Bucharest Sculpture Days turned its gaze inward—to the body as a contested landscape. From April 26 to May 11, we explored form beneath the skin, prioritizing the mutant, the scarred, and the vulnerable over the idealized. Sculpture became a tool for exposure rather than perfection. The exhibition functioned as a site of resistance, amplifying narratives of identity and struggle often left out of the canon. This was the body, loud and unpolished.',
     ],
   },
 
