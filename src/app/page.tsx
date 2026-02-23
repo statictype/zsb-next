@@ -117,58 +117,48 @@ export default function HomePage() {
             <br />
             Days
           </h1>
+        </div>
 
-          <div className={styles.missionText}>
-            <div className={styles.missionLeft}>
-              <div className={styles.missionStatement}>
-                <p>
-                  Bucharest Sculpture Days (ZSB) is your annual checkpoint for
-                  the state of sculpture. For 2 weeks each year, we are
-                  occupying creative hubs across the city with a series of
-                  exhibitions, screenings, and arguments worth having. We strip
-                  away the permanence of the monument to focus on the immediate
-                  tension of the process. It is a recurring experiment in how
-                  materials occupy our world."
-                </p>
-              </div>
-              <Link href="/about" className={shared.ctaBtn}>
-                Read Our Story <RiArrowRightLine size={18} />
-              </Link>
+        <div className={styles.missionText}>
+          <div className={styles.missionLeft}>
+            <div className={styles.missionStatement}>
+              <p>
+                Bucharest Sculpture Days (ZSB) is your annual checkpoint for the state of sculpture.
+                For 2 weeks each year, we occupy creative hubs across the city with a series of
+                exhibitions, screenings, and arguments worth having. We strip away the permanence of
+                the monument to focus on the immediate tension of the process. It is a recurring
+                experiment in how materials occupy our world.
+              </p>
             </div>
+            <Link href="/about" className={shared.ctaBtn}>
+              Read Our Story <RiArrowRightLine size={18} />
+            </Link>
+          </div>
 
-            <div className={styles.missionMeta}>
-              <div className={styles.missionStats}>
-                {ZSB_STATS.map((stat, i) => (
-                  <div
-                    key={stat.label}
-                    className={`${styles.statItem} ${i % 2 === 0 ? styles.statAccent : ''}`}
-                  >
-                    <span className={styles.statLabel}>{stat.label}</span>
-                    <span className={styles.statNumber}>{stat.value}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className={styles.partnerCard}>
-                <div className={styles.partnerCardLabel}>
-                  Support the Project
-                </div>
-                {/* <div className={styles.partnerCardTitle}>
+          <div className={styles.partnerCard}>
+            <div className={styles.partnerCardLabel}>Support the Project</div>
+            {/* <div className={styles.partnerCardTitle}>
                   Become a<br />
                   <span>Partner</span>
                 </div> */}
-                <p className={styles.partnerCardDesc}>
-                  Join a growing network of cultural institutions and
-                  individuals shaping the future of contemporary sculpture.
-                </p>
-                <Link
-                  href="/partners"
-                  className={`${shared.ctaBtn} ${shared.ctaBtnPink}`}
-                >
-                  Become a Partner <RiArrowRightLine size={18} />
-                </Link>
+            <p className={styles.partnerCardDesc}>
+              Join a growing network of cultural institutions and individuals shaping the future of
+              contemporary sculpture.
+            </p>
+            <Link href="/partners" className={`${shared.ctaBtn} ${shared.ctaBtnPink}`}>
+              Become a Partner <RiArrowRightLine size={18} />
+            </Link>
+          </div>
+          <div className={styles.missionStats}>
+            {ZSB_STATS.map((stat, i) => (
+              <div
+                key={stat.label}
+                className={`${styles.statItem} ${i % 2 === 0 ? styles.statAccent : ''}`}
+              >
+                <span className={styles.statLabel}>{stat.label}</span>
+                <span className={styles.statNumber}>{stat.value}</span>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -243,11 +233,7 @@ export default function HomePage() {
 
         <div className={styles.archiveGrid}>
           {archiveEditions.map((edition) => (
-            <Link
-              key={edition.year}
-              href={edition.href}
-              className={styles.archiveCard}
-            >
+            <Link key={edition.year} href={edition.href} className={styles.archiveCard}>
               <div className={styles.archiveCardImage}>
                 <Image
                   src={imageSrc(edition.image)}
@@ -275,8 +261,8 @@ export default function HomePage() {
               <div className={styles.archiveCardYear}>2021</div>
               <div className={styles.archiveCardTheme}>Inaugural Edition</div>
               <p className={styles.archiveCardDesc}>
-                The first Bucharest Sculpture Days, held entirely online during
-                the pandemic. A digital beginning for a physical art form.
+                The first Bucharest Sculpture Days, held entirely online during the pandemic. A
+                digital beginning for a physical art form.
               </p>
             </div>
           </div>

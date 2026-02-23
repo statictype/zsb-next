@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
+import shared from '@/components/Shared.module.css'
 import { editionCards } from '@/data/editions/cards'
 import { SITE_URL } from '@/lib/constants'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
   title: 'Editions',
-  description:
-    'Browse all editions of Bucharest Sculpture Days, from 2021 to 2025.',
+  description: 'Browse all editions of Bucharest Sculpture Days, from 2021 to 2025.',
   alternates: { canonical: '/editions' },
 }
 
@@ -35,15 +35,15 @@ export default function EditionsPage() {
           ],
         }}
       />
-      <header className={styles.header}>
-        <h1 className={styles.title}>
-          Edit<span className={styles.titleHighlight}>ions</span>
-        </h1>
-        <div className={styles.meta}>
-          <div className={styles.metaLabel}>Archive</div>
-          <div className={styles.metaValue}>2021—2025</div>
+      <section className={styles.hero}>
+        <div className={styles.heroInner}>
+          <header className={styles.heroHeader}>
+            <h1 className={shared.pageTitle}>
+              Edit<span className={shared.pageTitleHighlight}>ions</span>
+            </h1>
+          </header>
         </div>
-      </header>
+      </section>
 
       <section className={styles.section}>
         <div className={styles.grid}>

@@ -25,20 +25,20 @@
 /* ---- Typography — Titles ---- */
 .sectionTitle {
   font-family: var(--font-display);
-  font-size: var(--text-3xl);
+  font-size: var(--text-2xl);
   text-transform: uppercase;
   line-height: 1;
 }
 
 @media (min-width: 768px) {
   .sectionTitle {
-    font-size: var(--text-4xl);
+    font-size: var(--text-3xl);
   }
 }
 
 .pageTitle {
   font-family: var(--font-display);
-  font-size: var(--text-hero);
+  font-size: var(--text-4xl);
   line-height: 0.85;
   text-transform: uppercase;
 }
@@ -129,7 +129,7 @@
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 2px;
-  border: 1px solid var(--gray-700);
+  border: 1px solid var(--gray-300);
   transition: all 0.3s ease;
   width: fit-content;
 }

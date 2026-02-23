@@ -2,91 +2,54 @@
    EDITIONS ARCHIVE PAGE
    ===================================================== */
 
-.header {
-  padding: 140px var(--content-padding) 40px;
+.hero {
+  background: var(--black);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-5xl) var(--content-padding) 0;
+}
+
+.heroInner {
   max-width: var(--max-width);
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.heroHeader {
   border-bottom: 1px solid var(--gray-850);
+  padding-bottom: var(--space-lg);
 }
 
-@media (min-width: 1280px) {
-  .header {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 180px var(--content-padding) 80px;
+.pageTitle {
+  composes: pageTitle from '@/components/Shared.module.css';
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
   }
-}
-
-.title {
-  font-family: var(--font-display);
-  font-size: var(--text-hero);
-  line-height: 0.85;
-  text-transform: uppercase;
-  color: var(--white);
-}
-
-.titleHighlight {
-  color: var(--pink);
-}
-
-.meta {
-  padding-bottom: 8px;
-}
-
-@media (min-width: 1280px) {
-  .meta {
-    text-align: right;
-    padding-bottom: 20px;
-  }
-}
-
-.metaLabel {
-  font-family: var(--font-body);
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: var(--gray-600);
-  margin-bottom: 8px;
-}
-
-.metaValue {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  color: var(--white);
-}
-
-@media (min-width: 1280px) {
-  .metaValue {
-    font-size: var(--text-xl);
-  }
-}
-
-@media (min-width: 1600px) {
-  .metaValue {
-    font-size: var(--text-2xl);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .section {
-  padding: 40px var(--content-padding) 80px;
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
-@media (min-width: 768px) {
-  .section {
-    padding: 80px var(--content-padding) 120px;
-  }
+  padding: var(--space-xl) var(--content-padding);
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 @media (min-width: 768px) {

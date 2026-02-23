@@ -14,6 +14,7 @@
   justify-content: flex-end;
   overflow: hidden;
   color: var(--white);
+  padding: 0 var(--content-padding);
 }
 
 .heroBg {
@@ -48,7 +49,6 @@
 .heroInner {
   position: relative;
   z-index: 2;
-  padding: 0 var(--content-padding) 0;
   max-width: var(--max-width);
   margin: 0 auto;
   width: 100%;

@@ -102,11 +102,11 @@
 /* ---- Description ---- */
 .desc {
   font-family: var(--font-body);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   line-height: 1.6;
   color: var(--gray-300);
   max-width: 500px;
-  margin-bottom: 24px;
+  margin-bottom: var(--space-sm);
   font-weight: 300;
 }
 
@@ -240,10 +240,6 @@
 
 .inactive .year::before {
   display: none;
-}
-
-.inactive .theme {
-  font-size: var(--text-2xl);
 }
 
 .inactive:hover .theme {
