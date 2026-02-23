@@ -28,10 +28,9 @@ export interface ThemeData {
 
 export interface VenueEntry {
   group: string
-  subgroup?: string | undefined
+  subgroup: string
   name: string
-  program?: string | undefined
-  tag?: string | undefined
+  program: string
 }
 
 // ---- Program ----
@@ -107,10 +106,6 @@ export interface MediaKitItem {
   image: ImageData
 }
 
-// ---- Hero ----
-
-export type HeroVariant = '2022' | '2023' | 'with-sculpture'
-
 // ---- Edition Card ----
 
 interface EditionCardBase {
@@ -146,11 +141,10 @@ export interface MasonryImage {
 export interface Edition {
   year: number
   theme: string
-  themeHighlight?: string | undefined
+  themeHighlight: string
   title: string
-  heroImage?: ImageData | undefined
-  heroVariant?: HeroVariant | undefined
-  dateTape?: string | undefined
+  heroImage: ImageData
+  dateTape: string
   manifesto: ManifestoData
   themeSection: ThemeData
   artists: string[]
@@ -158,5 +152,5 @@ export interface Edition {
   program: ProgramData
   carousel: CarouselSlide[]
   credits: CreditEntry[]
-  mediaKit?: MediaKitItem[] | undefined
+  mediaKit: MediaKitItem[]
 }

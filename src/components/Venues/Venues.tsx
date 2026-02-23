@@ -81,9 +81,7 @@ export function Venues({ venues }: VenuesProps) {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <h2 className={`${styles.title} ${sharedStyles.sectionTitle}`}>
-              Locations
-            </h2>
+            <h2 className={`${styles.title} ${sharedStyles.sectionTitle}`}>Locations</h2>
           </div>
           <div className={styles.headerRight}>
             <span className={styles.totalLabel}>Total</span>
@@ -111,9 +109,7 @@ export function Venues({ venues }: VenuesProps) {
                     <span className={styles.accordionCount}>{group.count}</span>
                   </div>
                   <div className={styles.triggerRight}>
-                    <span className={styles.accordionDesc}>
-                      {group.description}
-                    </span>
+                    <span className={styles.accordionDesc}>{group.description}</span>
                     <span className={styles.accordionIcon}>+</span>
                   </div>
                 </button>
@@ -125,32 +121,14 @@ export function Venues({ venues }: VenuesProps) {
                         // biome-ignore lint/suspicious/noArrayIndexKey: static list
                         <div key={si} className={styles.accordionSubgroup}>
                           {subgroup.subgroup && (
-                            <div className={styles.subgroupLabel}>
-                              {subgroup.subgroup}
-                            </div>
+                            <div className={styles.subgroupLabel}>{subgroup.subgroup}</div>
                           )}
                           <div className={styles.entries}>
                             {subgroup.venues.map((venue) => (
-                              <div
-                                key={venue.globalIndex}
-                                className={styles.entry}
-                              >
-                                <span className={styles.num}>
-                                  {padNum(venue.globalIndex)}
-                                </span>
-                                <span className={styles.name}>
-                                  {venue.name}
-                                </span>
-                                {venue.tag && (
-                                  <span className={styles.tag}>
-                                    {venue.tag}
-                                  </span>
-                                )}
-                                {venue.program && (
-                                  <span className={styles.program}>
-                                    {venue.program}
-                                  </span>
-                                )}
+                              <div key={venue.globalIndex} className={styles.entry}>
+                                <span className={styles.num}>{padNum(venue.globalIndex)}</span>
+                                <span className={styles.name}>{venue.name}</span>
+                                <span className={styles.program}>{venue.program}</span>
                               </div>
                             ))}
                           </div>

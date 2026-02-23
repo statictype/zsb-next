@@ -5,7 +5,10 @@ export const edition2024: Edition = {
   theme: '#SYZYGY',
   themeHighlight: 'SYZYGY',
   title: 'ZSB 2024 - #SYZYGY | Bucharest Sculpture Days',
-
+  heroImage: {
+    basePath: '/img/2024/optimized/background',
+    alt: 'ZSB 2024 #SYZYGY',
+  },
   manifesto: {
     title: 'Where forms align, art unveils',
     highlight: 'art unveils',
@@ -106,18 +109,20 @@ export const edition2024: Edition = {
     {
       group: 'Galeria Simeza',
       name: 'Galeria Simeza',
-      tag: 'Exhibition',
+      subgroup: 'Exhibition',
       program: 'Scrinium Curiositatum',
     },
     {
       group: 'Open Doors 7 Partners',
       name: 'Nicodim Gallery',
       program: 'Open Studios',
+      subgroup: 'Open Doors',
     },
     {
       group: 'Open Doors 7 Partners',
       name: 'ArtSafe',
       program: 'Open Studios',
+      subgroup: 'Open Doors',
     },
   ],
 

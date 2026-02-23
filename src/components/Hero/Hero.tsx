@@ -1,13 +1,13 @@
-import type { HeroVariant, ImageData } from '@/types/edition'
+import type { CSSProperties } from 'react'
+import type { ImageData } from '@/types/edition'
 import styles from './Hero.module.css'
 
 interface HeroProps {
   year: number
   theme: string
-  themeHighlight?: string | undefined
-  heroImage?: ImageData | undefined
-  dateTape?: string | undefined
-  variant?: HeroVariant | undefined
+  themeHighlight: string
+  heroImage: ImageData
+  dateTape: string
 }
 
 function splitOnFirst(a: string, b: string) {
@@ -21,7 +21,7 @@ function HeroThemeDisplay({
   themeHighlight = '',
 }: {
   theme: string
-  themeHighlight: string | undefined
+  themeHighlight: string
 }) {
   const [firstPart, secondPart] = splitOnFirst(theme, themeHighlight) ?? [theme, '']
   return (
@@ -39,13 +39,17 @@ function HeroThemeDisplay({
   )
 }
 
-export function Hero({ year, theme, themeHighlight, dateTape, variant }: HeroProps) {
-  const heroClassName = `${styles.hero} ${variant ? styles[`variant${variant}`] : ''}`.trim()
+export function Hero({ year, theme, themeHighlight, heroImage, dateTape }: HeroProps) {
+  const ext = heroImage.ext ?? 'webp'
+  const bgStyle = {
+    '--bg-url-sm': `url(${heroImage.basePath}-1200.${ext})`,
+    '--bg-url-lg': `url(${heroImage.basePath}-1920.${ext})`,
+  } as CSSProperties
 
   return (
-    <header className={heroClassName}>
+    <header className={styles.hero}>
       {/* Background layers */}
-      {/* <div className={styles.bgImage} /> */}
+      <div className={styles.bgImage} style={bgStyle} />
       <div className={styles.colorLayer} />
       <div className={styles.overlay} />
       <div className={styles.noise} />
@@ -55,19 +59,12 @@ export function Hero({ year, theme, themeHighlight, dateTape, variant }: HeroPro
       <div className={styles.content}>
         <div className={styles.eyebrow}>Bucharest Sculpture Days</div>
         <div className={styles.year} data-year={year}>
-          {year}
+          ZSB{year}
         </div>
         <HeroThemeDisplay theme={theme} themeHighlight={themeHighlight} />
 
-        {dateTape && <div className={styles.dateTape}>{dateTape}</div>}
+        {<div className={styles.dateTape}>{dateTape}</div>}
       </div>
-
-      {/* Sculpture image (with-sculpture variant only) */}
-      {/* {heroImage && variant === 'with-sculpture' && (
-        // <div className={styles.sculpture}>
-        //   <Image src={imageSrc(heroImage)} alt={heroImage.alt} width={600} height={800} preload />
-        // </div>
-      )} */}
 
       {/* Scroll indicator — hidden mobile, visible desktop */}
       <div className={styles.scroll}>

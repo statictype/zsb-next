@@ -132,7 +132,6 @@ export default async function EditionPage(props: PageProps<'/editions/[year]'>) 
         themeHighlight={edition.themeHighlight}
         heroImage={edition.heroImage}
         dateTape={edition.dateTape}
-        variant={edition.heroVariant}
       />
 
       <Manifesto manifesto={edition.manifesto} />
@@ -152,7 +151,7 @@ export default async function EditionPage(props: PageProps<'/editions/[year]'>) 
 
       <Credits credits={edition.credits} />
 
-      {edition.mediaKit && edition.mediaKit.length > 0 && <MediaKit items={edition.mediaKit} />}
+      {<MediaKit items={edition.mediaKit} />}
     </main>
   )
 }

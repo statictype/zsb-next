@@ -5,7 +5,6 @@ export const edition2025: Edition = {
   theme: '#cel\u0103laltcorp',
   themeHighlight: 'corp',
   title: 'ZSB 2025 - #cel\u0103laltcorp | Bucharest Sculpture Days',
-  heroVariant: 'with-sculpture',
   heroImage: {
     basePath: '/img/2025/optimized/instagram_cap3',
     alt: 'The Other Body \u2014 Classical bust split to reveal skull beneath',
@@ -104,17 +103,19 @@ export const edition2025: Edition = {
     {
       group: 'UNAgaleria',
       name: 'UNAgaleria',
-      tag: 'Exhibition',
+      subgroup: 'Exhibition',
       program: '#theotherbody @ UNA',
     },
     {
       group: 'Partner Venues',
       name: 'Gallery Studio 76',
+      subgroup: 'Exhibition',
       program: 'About Portraits #3',
     },
     {
       group: 'Partner Venues',
       name: 'H.D.U. Cultural Center',
+      subgroup: 'Exhibition',
       program: 'Documentary Screenings',
     },
   ],

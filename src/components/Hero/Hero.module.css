@@ -21,7 +21,8 @@
   .hero {
     height: 100svh;
     min-height: 600px;
-    padding: 0 var(--content-padding);
+    padding: var(--content-padding);
+    justify-content: flex-start;
   }
 }
 
@@ -37,7 +38,7 @@
   inset: -10%;
   width: 120%;
   height: 120%;
-  background-image: url("/img/2024/optimized/background-1200.webp");
+  background-image: var(--bg-url-sm);
   background-size: 150%;
   background-position: center;
   opacity: 0.8;
@@ -49,7 +50,7 @@
 
 @media (min-width: 1024px) {
   .bgImage {
-    background-image: url("/img/2024/optimized/background-1920.webp");
+    background-image: var(--bg-url-lg);
   }
 }
 
@@ -152,16 +153,22 @@
   padding: 0;
 }
 
+@media (min-width: 768px) {
+  .content {
+    text-align: left;
+  }
+}
+
 /* ---- Eyebrow ---- */
 .eyebrow {
   font-family: var(--font-body);
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 0.5px;
   color: var(--black);
   background: rgba(255, 255, 255, 0.9);
-  padding: 4px 13px;
-  margin-bottom: var(--space-xl);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-lg);
   display: inline-block;
   opacity: 0;
   font-weight: 600;
@@ -170,33 +177,20 @@
 
 @media (min-width: 768px) {
   .eyebrow {
-    font-size: var(--text-md);
-    letter-spacing: 4px;
-    padding: 4px 10px;
+    font-size: var(--text-base);
+    letter-spacing: 2px;
   }
 }
 
 /* ---- Year ---- */
 .year {
   font-family: var(--font-display);
-  font-size: var(--text-hero);
+  font-size: var(--text-3xl);
   line-height: 0.85;
   color: var(--white);
-  letter-spacing: -4px;
+  letter-spacing: -1px;
   margin-bottom: var(--space-md);
   position: relative;
-}
-
-@media (min-width: 768px) {
-  .year {
-    letter-spacing: -6px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .year {
-    letter-spacing: -8px;
-  }
 }
 
 /* ---- Theme ---- */
@@ -209,6 +203,9 @@
   letter-spacing: 2px;
   opacity: 0;
   animation: fadeSlideUp 1s var(--ease-out-expo) 0.4s forwards;
+  display: flex;
+  flex-wrap: wrap;
+  line-height: 1;
 }
 
 @media (min-width: 1024px) {
@@ -238,82 +235,6 @@
   }
   50% {
     background-position: 100% 50%;
-  }
-}
-
-/* ---- Hero Meta ---- */
-.meta {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--space-2xl);
-  opacity: 0;
-  animation: fadeSlideUp 1s var(--ease-out-expo) 0.6s forwards;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  padding: var(--space-lg);
-  border: 1px solid var(--gray-850);
-}
-
-.metaItem {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: var(--space-sm) 0;
-  border-bottom: 1px solid var(--gray-850);
-  gap: var(--space-sm);
-}
-
-.metaItem:last-child {
-  border-bottom: none;
-}
-
-.metaLabel {
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: var(--gray-500);
-  font-family: var(--font-body);
-  text-shadow: none;
-}
-
-.metaValue {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  color: var(--white);
-  line-height: 1;
-  text-shadow:
-    0 2px 20px rgba(0, 0, 0, 0.9),
-    0 0 40px rgba(0, 0, 0, 0.5);
-  transition: color var(--duration-normal) ease;
-}
-
-.metaItem:hover .metaValue {
-  color: var(--chartreuse);
-}
-
-@media (min-width: 768px) {
-  .meta {
-    flex-direction: row;
-    background: transparent;
-    backdrop-filter: none;
-    padding: 0;
-    border: none;
-  }
-
-  .metaItem {
-    flex-direction: column;
-    align-items: center;
-    width: auto;
-    padding: 0;
-    border-bottom: none;
-  }
-
-  .metaLabel {
-    color: var(--black-pure);
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
   }
 }
 
@@ -384,7 +305,7 @@
   display: inline-block;
   background: var(--pink);
   color: var(--white);
-  padding: 6px 12px;
+  padding: var(--space-sm) var(--space-md);
   font-family: var(--font-body);
   font-size: var(--text-2xs);
   text-transform: uppercase;
@@ -392,11 +313,11 @@
   line-height: 1.6;
   transform: rotate(-2deg);
   box-shadow: 0 4px 20px rgba(255, 0, 153, 0.4);
+  font-weight: 500;
 }
 
 @media (min-width: 501px) {
   .dateTape {
-    padding: 8px 16px;
     font-size: var(--text-xs);
     letter-spacing: 1px;
   }
@@ -404,249 +325,7 @@
 
 @media (min-width: 768px) {
   .dateTape {
-    padding: 14px 32px;
-    font-size: var(--text-md);
+    font-size: var(--text-base);
     letter-spacing: 2px;
-  }
-}
-
-/* =====================================================
-   HERO SCULPTURE IMAGE (with-sculpture variant)
-   ===================================================== */
-
-.sculpture {
-  position: absolute;
-  z-index: 5;
-  bottom: 0;
-  right: 50%;
-  transform: translateX(50%);
-  width: 70%;
-  max-width: 320px;
-  height: auto;
-  pointer-events: none;
-  opacity: 0;
-  animation:
-    sculptureRevealMobile 1.8s var(--ease-out-expo) 0.5s forwards,
-    sculptureBreathe 6s ease-in-out 2.3s infinite;
-  filter: drop-shadow(0 0 60px rgba(0, 0, 0, 0.5))
-    drop-shadow(0 0 120px rgba(255, 0, 153, 0.15))
-    drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
-  transform-origin: bottom right;
-}
-
-.sculpture img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Subtle color overlay on sculpture */
-.sculpture::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    transparent 0%,
-    rgba(212, 229, 10, 0.05) 30%,
-    rgba(255, 0, 153, 0.08) 70%,
-    transparent 100%
-  );
-  mix-blend-mode: overlay;
-  opacity: 0;
-  animation: sculptureGlow 4s ease-in-out 2s infinite;
-}
-
-@keyframes sculptureRevealMobile {
-  0% {
-    opacity: 0;
-    transform: translateX(50%) translateY(60px) scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(50%) translateY(0) scale(1);
-  }
-}
-
-@keyframes sculptureReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(60px) scale(0.95);
-    filter: drop-shadow(0 0 60px rgba(0, 0, 0, 0.5))
-      drop-shadow(0 0 0 rgba(255, 0, 153, 0))
-      drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) blur(4px);
-  }
-  60% {
-    opacity: 1;
-    filter: drop-shadow(0 0 60px rgba(0, 0, 0, 0.5))
-      drop-shadow(0 0 80px rgba(255, 0, 153, 0.25))
-      drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) blur(0);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: drop-shadow(0 0 60px rgba(0, 0, 0, 0.5))
-      drop-shadow(0 0 120px rgba(255, 0, 153, 0.15))
-      drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) blur(0);
-  }
-}
-
-@keyframes sculptureGlow {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.6;
-  }
-}
-
-@keyframes sculptureBreathe {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-/* Adjust hero content for sculpture overlap - mobile */
-.variantwith-sculpture .content {
-  text-align: center;
-  padding-right: 0;
-  padding-bottom: 25vh;
-}
-
-/* Tablet adjustments */
-@media (min-width: 768px) {
-  .sculpture {
-    width: 45%;
-    max-width: 480px;
-    right: 5%;
-    transform: none;
-    animation:
-      sculptureReveal 1.8s var(--ease-out-expo) 0.5s forwards,
-      sculptureBreathe 6s ease-in-out 2.3s infinite;
-  }
-
-  .variantwith-sculpture .content {
-    text-align: left;
-    padding-left: var(--content-padding);
-    padding-right: 40%;
-    padding-bottom: 0;
-    max-width: none;
-  }
-}
-
-/* Desktop - larger and more prominent */
-@media (min-width: 1024px) {
-  .sculpture {
-    width: 40%;
-    max-width: 550px;
-    right: 8%;
-  }
-
-  .variantwith-sculpture .content {
-    padding-left: calc(var(--content-padding) * 2);
-    padding-right: 35%;
-  }
-}
-
-/* Large screens */
-@media (min-width: 1280px) {
-  .sculpture {
-    width: 38%;
-    max-width: 620px;
-    right: 10%;
-  }
-}
-
-/* =====================================================
-   EDITION VARIANT: 2022
-   ===================================================== */
-
-.variant2022 .bgImage {
-  animation: none;
-  background-repeat: repeat;
-  background-position: center;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* =====================================================
-   EDITION VARIANT: 2023
-   ===================================================== */
-
-.variant2023 .year {
-  font-size: 42px;
-  letter-spacing: -2px;
-}
-
-.variant2023 .theme {
-  font-size: var(--text-lg);
-  letter-spacing: 0;
-}
-
-@media (min-width: 768px) {
-  .variant2023 .year {
-    font-size: var(--text-hero);
-    letter-spacing: -6px;
-  }
-
-  .variant2023 .theme {
-    font-size: var(--text-2xl);
-    letter-spacing: 2px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .variant2023 .theme {
-    font-size: var(--text-3xl);
-    letter-spacing: 2px;
-  }
-}
-
-@media (min-width: 1280px) {
-  .variant2023 .theme {
-    font-size: var(--text-4xl);
-    letter-spacing: 3px;
-  }
-}
-
-@media (min-width: 1920px) {
-  .variant2023 .theme {
-    font-size: var(--text-5xl);
-    letter-spacing: 4px;
-  }
-}
-
-.variant2023 .bgImage {
-  animation: none;
-  background-size: cover;
-  background-position: center;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* =====================================================
-   FLOATING ANIMATION (orbitals)
-   ===================================================== */
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(50px, -30px) scale(1.05);
-  }
-  50% {
-    transform: translate(-30px, 50px) scale(0.95);
-  }
-  75% {
-    transform: translate(-50px, -20px) scale(1.02);
   }
 }
