@@ -608,7 +608,7 @@
   }
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1440px) {
   /* .heroMission {
     padding: 360px var(--content-padding) 120px;
   } */
@@ -626,13 +626,13 @@
   }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1536px) {
   .archiveCard {
     flex-basis: calc(33.333% - var(--space-lg));
   }
 }
 
-@media (min-width: 1900px) {
+@media (min-width: 1792px) {
   .archiveCard {
     flex-basis: calc(25% - var(--space-lg));
   }

@@ -101,7 +101,7 @@
   }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1536px) {
   .title {
     font-size: var(--text-3xl);
   }

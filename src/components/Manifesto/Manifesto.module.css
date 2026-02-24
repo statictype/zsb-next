@@ -115,17 +115,16 @@
 
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1536px) {
   .title {
     font-size: var(--text-4xl);
   }
   .text p {
     font-size: var(--text-md);
   }
-
 }
 
-@media (min-width: 1800px) {
+@media (min-width: 1792px) {
   .title {
     font-size: var(--text-5xl);
   }

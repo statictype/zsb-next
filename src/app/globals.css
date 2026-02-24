@@ -138,6 +138,25 @@
   }
 }
 
+/* ---- XL2 Desktop (1440px+) ---- */
+@media (min-width: 1440px) {
+  :root {
+    --text-base: 20px;
+    --text-hero: 120px;
+
+    --space-2xl: 88px;
+    --space-3xl: 120px;
+    --space-4xl: 176px;
+    --space-5xl: 240px;
+
+    --content-padding: 88px;
+    --section-padding-y: 180px;
+    --grid-gap: 66px;
+    --carousel-height: 72vh;
+    --card-padding: 34px;
+  }
+}
+
 /* ---- XL Desktop (1536px+) ---- */
 @media (min-width: 1536px) {
   :root {

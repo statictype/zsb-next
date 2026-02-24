@@ -37,19 +37,19 @@
   }
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1440px) {
   .gallery {
     grid-auto-rows: 60px;
   }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1536px) {
   .gallery {
     grid-auto-rows: 80px;
   }
 }
 
-@media (min-width: 1800px) {
+@media (min-width: 1792px) {
   .gallery {
     grid-auto-rows: 100px;
   }

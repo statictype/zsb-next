@@ -72,7 +72,7 @@
   }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1536px) {
   .heroContent {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-3xl);
@@ -245,7 +245,7 @@
   }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1536px) {
   .audienceProfiles {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -280,7 +280,7 @@
   }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1536px) {
   .audienceProfile {
     padding: 0 32px;
     border-bottom: none;

@@ -426,13 +426,13 @@
   }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1536px) {
   .headline {
     font-size: var(--text-3xl);
   }
 }
 
-@media (min-width: 1800px) {
+@media (min-width: 1792px) {
   .headline {
     font-size: var(--text-4xl);
   }

@@ -359,8 +359,8 @@
   }
 }
 
-/* ---- XL Desktop (1600px+) ---- */
-@media (min-width: 1600px) {
+/* ---- XL Desktop (1536px+) ---- */
+@media (min-width: 1536px) {
   .headline {
     font-size: var(--text-4xl);
   }
@@ -371,8 +371,8 @@
   }
 }
 
-/* ---- XXL Desktop (1800px+) ---- */
-@media (min-width: 1800px) {
+/* ---- XXL Desktop (1792px+) ---- */
+@media (min-width: 1792px) {
   .headline {
     font-size: var(--text-5xl);
   }

@@ -140,7 +140,7 @@
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
   .layoutFeaturedPortrait,
   .layoutFeaturedStack {
     grid-template-columns: 2fr 1fr;
