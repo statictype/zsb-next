@@ -50,9 +50,8 @@ export function Hero({ year, theme, themeHighlight, heroImage, dateTape }: HeroP
     <header className={styles.hero}>
       {/* Background layers */}
       <div className={styles.bgImage} style={bgStyle} />
-      <div className={styles.colorLayer} />
+      {/* <div className={styles.colorLayer} /> */}
       <div className={styles.overlay} />
-      <div className={styles.noise} />
       <div className={styles.vignette} />
 
       {/* Content */}
