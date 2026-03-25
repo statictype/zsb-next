@@ -10,7 +10,7 @@ interface VenuesProps {
 }
 
 interface GroupedSubgroup {
-  subgroup: string | undefined
+  subgroup: string
   venues: (VenueEntry & { globalIndex: number })[]
 }
 

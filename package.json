@@ -13,7 +13,9 @@
     "lint": "biome check ./src",
     "lint:fix": "biome check --fix ./src",
     "format": "biome format --fix ./src",
-    "format:check": "biome format ./src"
+    "format:check": "biome format ./src",
+    "images:unused": "tsx scripts/find-unused-images.ts",
+    "images:unused:json": "tsx scripts/find-unused-images.ts --json"
   },
   "dependencies": {
     "@remixicon/react": "^4.9.0",

@@ -18,7 +18,7 @@
 .heroBg {
   object-fit: cover;
   z-index: 0;
-  filter: grayscale(40%) contrast(1.1) hue-rotate();
+  filter: grayscale(40%) contrast(1.1);
 }
 
 .heroOverlay {

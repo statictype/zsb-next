@@ -35,7 +35,7 @@ export function EditionCard({ edition }: EditionCardProps) {
           <div
             className={styles.tiledImage}
             style={{
-              backgroundImage: `url(${edition.image.basePath}.${edition.image.ext})`,
+              backgroundImage: `url(${edition.image.basePath}.${edition.image.ext ?? 'webp'})`,
             }}
           />
         ) : (
