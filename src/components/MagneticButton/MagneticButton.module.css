@@ -26,7 +26,7 @@
   text-transform: uppercase;
   letter-spacing: 2px;
   text-decoration: none;
-  cursor: pointer;
+  cursor: none;
   overflow: hidden;
   transition:
     border-color 0.4s ease,
@@ -92,4 +92,33 @@
     transform: scale(4);
     opacity: 0;
   }
+}
+
+/* Cursor follower — only visible inside the button */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background: var(--btn-hover-text, var(--white));
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.2s ease;
+  mix-blend-mode: difference;
+}
+
+.cursorVisible {
+  opacity: 1;
+}
+
+.cursorHover {
+  width: 48px;
+  height: 48px;
 }

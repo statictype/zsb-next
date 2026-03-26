@@ -3,7 +3,7 @@
 import gsap from 'gsap'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import styles from './MagneticButton.module.css'
 
 interface MagneticButtonProps {
@@ -29,10 +29,33 @@ export function MagneticButton({
   hoverTextColor,
 }: MagneticButtonProps) {
   const btnRef = useRef<HTMLAnchorElement>(null)
+  const cursorRef = useRef<HTMLDivElement>(null)
+  const mousePos = useRef({ x: 0, y: 0 })
+  const cursorPos = useRef({ x: 0, y: 0 })
+  const rafId = useRef<number>(0)
+  const [hovering, setHovering] = useState(false)
+
+  // Smooth cursor follow loop — runs only while hovering
+  useEffect(() => {
+    if (!hovering) return
+    const tick = () => {
+      const cur = cursorRef.current
+      if (!cur) return
+      cursorPos.current.x += (mousePos.current.x - cursorPos.current.x) * 0.15
+      cursorPos.current.y += (mousePos.current.y - cursorPos.current.y) * 0.15
+      gsap.set(cur, { x: cursorPos.current.x, y: cursorPos.current.y })
+      rafId.current = requestAnimationFrame(tick)
+    }
+    rafId.current = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafId.current)
+  }, [hovering])
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     const btn = btnRef.current
     if (!btn) return
+
+    mousePos.current = { x: e.clientX, y: e.clientY }
+
     const rect = btn.getBoundingClientRect()
     const cx = rect.left + rect.width / 2
     const cy = rect.top + rect.height / 2
@@ -49,7 +72,14 @@ export function MagneticButton({
     })
   }, [])
 
+  const handleMouseEnter = useCallback((e: React.MouseEvent) => {
+    mousePos.current = { x: e.clientX, y: e.clientY }
+    cursorPos.current = { x: e.clientX, y: e.clientY }
+    setHovering(true)
+  }, [])
+
   const handleMouseLeave = useCallback(() => {
+    setHovering(false)
     const btn = btnRef.current
     if (!btn) return
     gsap.to(btn, {
@@ -91,10 +121,19 @@ export function MagneticButton({
 
   const btnClass = [styles.btn, className].filter(Boolean).join(' ')
 
+  const cursorClass = [
+    styles.cursor,
+    hovering && styles.cursorVisible,
+    hovering && styles.cursorHover,
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   const sharedProps = {
     ref: btnRef,
     className: btnClass,
     style,
+    onMouseEnter: handleMouseEnter,
     onMouseMove: handleMouseMove,
     onMouseLeave: handleMouseLeave,
     onClick: handleClick,
@@ -103,9 +142,12 @@ export function MagneticButton({
   const isExternal =
     external || href.startsWith('http') || href.startsWith('mailto:')
 
+  const cursorEl = <div ref={cursorRef} className={cursorClass} />
+
   if (isExternal) {
     return (
       <div className={styles.wrap}>
+        {cursorEl}
         <a
           {...sharedProps}
           href={href}
@@ -122,6 +164,7 @@ export function MagneticButton({
 
   return (
     <div className={styles.wrap}>
+      {cursorEl}
       <Link {...sharedProps} href={href}>
         <span className={styles.content}>{children}</span>
       </Link>
