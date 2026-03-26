@@ -5,20 +5,21 @@
 /* ---- Hero / Mission ---- */
 .heroMission {
   min-height: 100vh;
-  background: var(--black);
-  color: var(--white);
+  background: var(--light-pink);
+  color: var(--pink);
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: var(--space-5xl) var(--content-padding) var(--space-2xl);
+  justify-content: flex-start;
+  padding: var(--space-5xl) var(--content-padding);
   overflow: hidden;
 }
 
 .heroBg {
   object-fit: cover;
   z-index: 0;
-  filter: grayscale(40%) contrast(1.1);
+  position: absolute;
+  right: -409px;
 }
 
 .heroOverlay {
@@ -34,7 +35,7 @@
 }
 
 .heroTitle {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--text-4xl);
   line-height: 0.9;
   text-transform: uppercase;
@@ -44,12 +45,12 @@
 }
 
 .heroContent {
-  display:grid;
+  display: grid;
   grid-template-columns: 4fr 1fr;
 }
 
 .highlight {
-  color: var(--pink);
+  color: var(--black);
   display: block;
 }
 
@@ -69,17 +70,18 @@
   flex-direction: column;
   gap: 40px;
   /* margin-bottom: var(--space-2xl); */
-  border: 1px solid var(--gray-800);
-  padding: var(--space-lg);
   height: 100%;
   justify-content: space-between;
+  width: 600px;
+  position: absolute;
+  left: -280px;
+  top: 30px;
 }
 
 .missionStatement {
   font-family: var(--font-body);
-  font-size: var(--text-sm);
   line-height: 1.85;
-  color: var(--gray-300);
+  color: var(--pink);
 }
 
 .missionStatement p {
@@ -111,7 +113,7 @@
   flex-direction: column;
   gap: var(--space-xs);
   padding-top: var(--space-sm);
-  border-top: 1px solid var(--gray-800);
+  border-top: 1px solid var(--white);
   padding-left: var(--space-sm);
 }
 
@@ -120,7 +122,7 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: var(--gray-600);
+  color: var(--white);
 }
 
 .statNumber {
@@ -132,17 +134,15 @@
 }
 
 .statAccent .statNumber {
-  color: var(--pink);
+  color: var(--black);
 }
 
 /* ---- Partner CTA Card ---- */
 .partnerCard {
-  padding: var(--space-lg);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: var(--space-md);
-  border: 1px solid var(--gray-800);
   height: 100%;
 }
 
@@ -151,7 +151,7 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: var(--pink);
+  color: var(--black);
 }
 
 .partnerCardTitle {
@@ -163,14 +163,14 @@
 }
 
 .partnerCardTitle span {
-  color: var(--pink);
+  color: var(--black);
 }
 
 .partnerCardDesc {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   line-height: 1.7;
-  color: var(--gray-300);
+  color: var(--white);
 }
 
 /* =====================================================
@@ -205,7 +205,7 @@
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: var(--pink);
+  color: var(--black);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -215,7 +215,7 @@
   content: "";
   width: 40px;
   height: 2px;
-  background: var(--pink);
+  background: var(--black);
 }
 
 .spotlightYear {
@@ -563,12 +563,7 @@
   .missionText {
     grid-template-columns: 3fr 2fr;
   }
-  .missionLeft {
-    padding: var(--space-md);
-  }
-  .partnerCard {
-    padding: var(--space-md);
-  }
+
   .missionStats {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-sm) var(--space-md);

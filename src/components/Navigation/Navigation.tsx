@@ -50,7 +50,7 @@ export function Navigation() {
 
   const logoImg = (
     <Image
-      src="/img/logo.png"
+      src="/img/logo_ZSB.svg"
       alt="ZSB Logo"
       width={100}
       height={100}
@@ -61,9 +61,7 @@ export function Navigation() {
 
   return (
     <>
-      <div className={styles.logo}>
-        {showLogoLink ? <Link href="/">{logoImg}</Link> : logoImg}
-      </div>
+      <div className={styles.logo}>{showLogoLink ? <Link href="/">{logoImg}</Link> : logoImg}</div>
 
       <button
         type="button"
@@ -80,9 +78,7 @@ export function Navigation() {
       <nav className={`${styles.nav} ${isOpen ? styles.isOpen : ''}`}>
         {NAV_ITEMS.map((item) => {
           const isActive = item.id === active
-          const className = isActive
-            ? `${styles.navLink} ${styles.active}`
-            : styles.navLink
+          const className = isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
 
           if (item.href === '#') {
             return (

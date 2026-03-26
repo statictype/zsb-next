@@ -131,13 +131,13 @@ export default function HomePage() {
                 experiment in how materials occupy our world.
               </p>
             </div>
-            <MagneticButton
+            {/* <MagneticButton
               href="/about"
               color="var(--white)"
               hoverTextColor="var(--black)"
             >
               Read Our Story <RiArrowRightLine size={18} />
-            </MagneticButton>
+            </MagneticButton> */}
           </div>
 
           {/* <div className={styles.partnerCard}>

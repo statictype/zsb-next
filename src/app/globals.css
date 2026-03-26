@@ -51,9 +51,10 @@
   --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.2);
 
   /* Colors */
-  --pink: #ff0099;
+  --pink: #d5308e;
+  --light-pink: #fbd6eb;
   --chartreuse: #d4e50a;
-  --black: #0a0a0a;
+  --black: #190711;
   --black-pure: #000;
   --white: #fff;
   --gray-100: #f6f6f6;
