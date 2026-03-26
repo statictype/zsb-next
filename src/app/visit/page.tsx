@@ -12,6 +12,7 @@ import {
 } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import shared from '@/components/Shared.module.css'
 import { imageSrc } from '@/lib/image-utils'
 import type { ImageData } from '@/types/edition'
@@ -237,15 +238,15 @@ export default function VisitPage() {
               </span>
               <span className={styles.addressCity}>{VENUE_ADDRESS.city}</span>
             </address>
-            <a
+            <MagneticButton
               href={VENUE_ADDRESS.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.mapsButton}
+              external
+              color="var(--pink)"
+              textColor="var(--pink)"
             >
               <RiMapPinLine size={16} />
-              <span>Open in Google Maps</span>
-            </a>
+              Open in Google Maps
+            </MagneticButton>
           </div>
 
           <div className={styles.transportGrid}>

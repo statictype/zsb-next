@@ -2,8 +2,8 @@ import { RiArrowRightLine } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import shared from '@/components/Shared.module.css'
-import { ZSB_STATS } from '@/data/stats'
+import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
+// import { ZSB_STATS } from '@/data/stats'
 import { imageSrc } from '@/lib/image-utils'
 import type { ImageData } from '@/types/edition'
 import styles from './page.module.css'
@@ -102,14 +102,15 @@ export default function HomePage() {
       {/* ---- Hero / Mission ---- */}
       <section className={styles.heroMission}>
         <Image
-          src="/img/zsb-homepage.png"
+          src="/img/diamond.svg"
           alt=""
-          fill
+          width={815}
+          height={875}
           sizes="100vw"
           className={styles.heroBg}
           priority
         />
-        <div className={styles.heroOverlay} />
+        {/* <div className={styles.heroOverlay} /> */}
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             <span className={styles.highlight}>Bucharest</span>
@@ -130,26 +131,31 @@ export default function HomePage() {
                 experiment in how materials occupy our world.
               </p>
             </div>
-            <Link href="/about" className={shared.ctaBtn}>
+            <MagneticButton
+              href="/about"
+              color="var(--white)"
+              hoverTextColor="var(--black)"
+            >
               Read Our Story <RiArrowRightLine size={18} />
-            </Link>
+            </MagneticButton>
           </div>
 
-          <div className={styles.partnerCard}>
+          {/* <div className={styles.partnerCard}>
             <div className={styles.partnerCardLabel}>Support the Project</div>
-            {/* <div className={styles.partnerCardTitle}>
+            <div className={styles.partnerCardTitle}>
                   Become a<br />
                   <span>Partner</span>
-                </div> */}
+                </div>
             <p className={styles.partnerCardDesc}>
               Join a growing network of cultural institutions and individuals shaping the future of
               contemporary sculpture.
             </p>
-            <Link href="/partners" className={`${shared.ctaBtn} ${shared.ctaBtnPink}`}>
+            <MagneticButton href="/partners" color="var(--pink)">
               Become a Partner <RiArrowRightLine size={18} />
-            </Link>
-          </div>
-          <div className={styles.missionStats}>
+            </MagneticButton>
+          </div> */}
+
+          {/* <div className={styles.missionStats}>
             {ZSB_STATS.map((stat, i) => (
               <div
                 key={stat.label}
@@ -159,7 +165,7 @@ export default function HomePage() {
                 <span className={styles.statNumber}>{stat.value}</span>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </section>
 

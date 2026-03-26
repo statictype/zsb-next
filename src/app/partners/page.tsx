@@ -1,6 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import shared from '@/components/Shared.module.css'
 import { ZSB_STATS } from '@/data/stats'
 import styles from './page.module.css'
@@ -303,12 +304,9 @@ export default function PartnersPage() {
               partners@sculpturedays.com
             </a>
           </p>
-          <a
-            href="mailto:partners@sculpturedays.com"
-            className={`${shared.ctaBtn} ${shared.ctaBtnPink}`}
-          >
+          <MagneticButton href="mailto:partners@sculpturedays.com">
             Become a Partner <RiArrowRightLine size={18} />
-          </a>
+          </MagneticButton>
         </div>
       </section>
     </main>

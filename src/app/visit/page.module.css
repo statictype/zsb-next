@@ -344,12 +344,6 @@
   color: var(--gray-600);
 }
 
-.mapsButton {
-  composes: ctaBtn ctaBtnPink from "@/components/Shared.module.css";
-  font-size: var(--text-2xs);
-  color: var(--pink);
-  flex-shrink: 0;
-}
 
 /* Transport routes */
 .transportGrid {

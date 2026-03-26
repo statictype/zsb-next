@@ -116,47 +116,6 @@
   color: var(--pink);
 }
 
-/* ---- Buttons ---- */
-.ctaBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: transparent;
-  color: var(--white);
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  padding: 14px 28px;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  border: 1px solid var(--gray-300);
-  transition: all 0.3s ease;
-  width: fit-content;
-}
-
-.ctaBtn:hover {
-  background: var(--white);
-  color: var(--black);
-  border-color: var(--white);
-}
-
-.ctaBtn svg {
-  transition: transform 0.2s ease;
-}
-
-.ctaBtn:hover svg {
-  transform: translateX(4px);
-}
-
-.ctaBtnPink {
-  border-color: var(--pink);
-}
-
-.ctaBtnPink:hover {
-  background: var(--pink);
-  color: var(--white);
-  border-color: var(--pink);
-}
 
 /* ---- Section Header ---- */
 .sectionHeader {
