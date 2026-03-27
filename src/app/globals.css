@@ -29,6 +29,11 @@
   --space-3xl: 64px;
   --space-4xl: 96px;
   --space-5xl: 128px;
+  --space-6xl: 160px;
+  --space-7xl: 192px;
+  --space-8xl: 256px;
+  --space-9xl: 320px;
+  --space-10xl: 384px;
 
   /* Spacing — Fluid (320px → 1792px) */
   --space-lg: clamp(24px, 18.78px + 1.6304vw, 48px);
@@ -93,6 +98,11 @@
     --space-3xl: 80px;
     --space-4xl: 112px;
     --space-5xl: 160px;
+    --space-6xl: 200px;
+    --space-7xl: 240px;
+    --space-8xl: 320px;
+    --space-9xl: 400px;
+    --space-10xl: 480px;
 
     --content-padding: 40px;
     --section-padding-y: 100px;
@@ -113,6 +123,11 @@
     --space-3xl: 96px;
     --space-4xl: 128px;
     --space-5xl: 192px;
+    --space-6xl: 240px;
+    --space-7xl: 288px;
+    --space-8xl: 384px;
+    --space-9xl: 480px;
+    --space-10xl: 576px;
 
     --content-padding: 80px;
     --section-padding-y: 120px;
@@ -133,6 +148,11 @@
     --space-3xl: 112px;
     --space-4xl: 160px;
     --space-5xl: 224px;
+    --space-6xl: 288px;
+    --space-7xl: 352px;
+    --space-8xl: 448px;
+    --space-9xl: 560px;
+    --space-10xl: 672px;
 
     --section-padding-y: 160px;
     --grid-gap: 60px;
@@ -149,6 +169,11 @@
     --space-3xl: 120px;
     --space-4xl: 176px;
     --space-5xl: 240px;
+    --space-6xl: 304px;
+    --space-7xl: 368px;
+    --space-8xl: 480px;
+    --space-9xl: 600px;
+    --space-10xl: 720px;
 
     --content-padding: 88px;
     --section-padding-y: 180px;
@@ -168,6 +193,11 @@
     --space-3xl: 128px;
     --space-4xl: 192px;
     --space-5xl: 256px;
+    --space-6xl: 320px;
+    --space-7xl: 384px;
+    --space-8xl: 512px;
+    --space-9xl: 640px;
+    --space-10xl: 768px;
 
     --content-padding: 96px;
     --section-padding-y: 200px;
@@ -187,6 +217,11 @@
     --space-3xl: 144px;
     --space-4xl: 224px;
     --space-5xl: 288px;
+    --space-6xl: 352px;
+    --space-7xl: 416px;
+    --space-8xl: 544px;
+    --space-9xl: 672px;
+    --space-10xl: 800px;
 
     --content-padding: 112px;
     --section-padding-y: 240px;
