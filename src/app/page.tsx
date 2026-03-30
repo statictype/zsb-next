@@ -1,9 +1,13 @@
 import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { ArtistsSection } from '@/components/ArtistsSection/ArtistsSection'
+import { FullPageScroll } from '@/components/FullPageScroll/FullPageScroll'
 import { HeroSlideshow, type HeroImage } from '@/components/HeroSlideshow/HeroSlideshow'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
+import { Footer } from '@/components/Footer/Footer'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
+import { VisitSection } from '@/components/VisitSection/VisitSection'
 import { ZSB_STATS } from '@/data/stats'
 import styles from './page.module.css'
 
@@ -12,6 +16,8 @@ export const metadata: Metadata = {
     'An annual contemporary sculpture event transforming Bucharest into an open-air museum. Discover editions, artists, and public art since 2021.',
   alternates: { canonical: '/' },
 }
+
+const SECTION_COUNT = 7
 
 const heroImages: HeroImage[] = [
   { basePath: '/img/2025/optimized/_dsc5496', alt: 'ZSB 2025', position: 'top' },
@@ -33,106 +39,163 @@ const editions = [
 
 export default function HomePage() {
   return (
-    <main>
-      {/* ---- Hero ---- */}
-      <section className={styles.hero}>
-        <div className={styles.heroImageArea}>
-          <HeroSlideshow images={heroImages} />
-          <div className={styles.heroBadge}>
-            <PartnerBadge />
-          </div>
-        </div>
-        <div className={styles.heroMeta}>
-          <div className={styles.metaBlock}>
-            <span className={styles.metaLabel}>Edition</span>
-            <span className={styles.metaValue}>2025 · 5th Year</span>
-          </div>
-          <div className={styles.metaRule} />
-          <div className={styles.metaBlock}>
-            <span className={styles.metaLabel}>Duration</span>
-            <span className={styles.metaValue}>April 25 - May 11</span>
-          </div>
-          <div className={styles.metaRule} />
-          <div className={styles.metaBlock}>
-            <span className={styles.metaLabel}>Theme</span>
-            <span className={styles.metaValue}>#celălaltcorp</span>
-          </div>
-          <div className={styles.metaRule} />
-          <MagneticButton variant="secondary" href="/editions/2025">
-            Explore <RiArrowRightLine size={14} />
-          </MagneticButton>
-        </div>
-      </section>
+    <main className={styles.main}>
+      <FullPageScroll sectionCount={SECTION_COUNT} />
 
-      {/* ---- About ---- */}
-      <section className={styles.about}>
-        <div className={styles.aboutGrid}>
-          <div>
-            <div className={styles.eyebrow}>About ZSB</div>
-            <div className={styles.rule} />
-            <h2 className={styles.aboutHeading}>
-              BUCHAREST
-              <br />
-              SCULPTURE
-              <br />
-              DAYS
-            </h2>
-            <p className={styles.aboutBody}>
-              Bucharest Sculpture Days is your annual checkpoint for the state of sculpture. For 2
-              weeks each year, we occupy creative hubs across the city with exhibitions, screenings,
-              and arguments worth having. We strip away the permanence of the monument to focus on
-              the immediate tension of the process.
-            </p>
-          </div>
-          <div className={styles.stats}>
-            {ZSB_STATS.map((stat) => (
-              <div key={stat.label} className={styles.stat}>
-                <div className={styles.statNumber}>{stat.value}</div>
-                <div className={styles.statLabel}>{stat.label}</div>
+      {/* ---- 0: Hero ---- */}
+      <section data-section className={styles.panel}>
+        <div className={`${styles.fpOuter} fpOuter`}>
+          <div className={`${styles.fpInner} fpInner`}>
+            <div className={`${styles.hero} ${styles.fpContent}`}>
+              <div className={styles.heroImageArea}>
+                <HeroSlideshow images={heroImages} />
+                <div className={styles.heroBadge}>
+                  <PartnerBadge />
+                </div>
               </div>
-            ))}
+              <div className={styles.heroMeta}>
+                <div className={styles.metaBlock}>
+                  <span className={styles.metaLabel}>Edition</span>
+                  <span className={styles.metaValue}>2025 · 5th Year</span>
+                </div>
+                <div className={styles.metaRule} />
+                <div className={styles.metaBlock}>
+                  <span className={styles.metaLabel}>Duration</span>
+                  <span className={styles.metaValue}>April 25 - May 11</span>
+                </div>
+                <div className={styles.metaRule} />
+                <div className={styles.metaBlock}>
+                  <span className={styles.metaLabel}>Theme</span>
+                  <span className={styles.metaValue}>#celălaltcorp</span>
+                </div>
+                <div className={styles.metaRule} />
+                <MagneticButton variant="secondary" href="/editions/2025">
+                  Explore <RiArrowRightLine size={14} />
+                </MagneticButton>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ---- Past Editions ---- */}
-      <section className={styles.editions}>
-        <div className={styles.editionsHead}>
-          <h2 className={styles.editionsTitle}>PAST EDITIONS</h2>
-          <Link href="/editions" className={styles.editionsLink}>
-            View Full Archive <RiArrowRightLine size={14} />
-          </Link>
-        </div>
-        <div className={styles.editionList}>
-          {editions.map((edition) => (
-            <Link key={edition.year} href={edition.href} className={styles.editionRow}>
-              <span className={styles.editionYear}>{edition.year}</span>
-              <span className={styles.editionTheme}>{edition.theme}</span>
-              <span className={styles.editionArrow}>
-                <RiArrowRightUpLine size={24} />
-              </span>
-            </Link>
-          ))}
+      {/* ---- 1: About ---- */}
+      <section data-section className={styles.panel}>
+        <div className={`${styles.fpOuter} fpOuter`}>
+          <div className={`${styles.fpInner} fpInner`}>
+            <div className={`${styles.about} ${styles.fpContent}`}>
+              <div className={styles.aboutGrid}>
+                <div>
+                  <div className={styles.eyebrow}>About ZSB</div>
+                  <div className={styles.rule} />
+                  <h2 className={styles.aboutHeading}>
+                    BUCHAREST
+                    <br />
+                    SCULPTURE
+                    <br />
+                    DAYS
+                  </h2>
+                  <p className={styles.aboutBody}>
+                    Bucharest Sculpture Days is your annual checkpoint for the state of sculpture. For 2
+                    weeks each year, we occupy creative hubs across the city with exhibitions, screenings,
+                    and arguments worth having. We strip away the permanence of the monument to focus on
+                    the immediate tension of the process.
+                  </p>
+                </div>
+                <div className={styles.stats}>
+                  {ZSB_STATS.map((stat) => (
+                    <div key={stat.label} className={styles.stat}>
+                      <div className={styles.statNumber}>{stat.value}</div>
+                      <div className={styles.statLabel}>{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ---- Partner CTA ---- */}
-      <section className={styles.partner}>
-        <div className={styles.partnerBadge}>
-          <PartnerBadge />
+      {/* ---- 2: Editions ---- */}
+      <section data-section className={styles.panel}>
+        <div className={`${styles.fpOuter} fpOuter`}>
+          <div className={`${styles.fpInner} fpInner`}>
+            <div className={`${styles.editions} ${styles.fpContent}`}>
+              <div className={styles.editionsHead}>
+                <h2 className={styles.editionsTitle}>PAST EDITIONS</h2>
+                <Link href="/editions" className={styles.editionsLink}>
+                  View Full Archive <RiArrowRightLine size={14} />
+                </Link>
+              </div>
+              <div className={styles.editionList}>
+                {editions.map((edition) => (
+                  <Link key={edition.year} href={edition.href} className={styles.editionRow}>
+                    <span className={styles.editionYear}>{edition.year}</span>
+                    <span className={styles.editionTheme}>{edition.theme}</span>
+                    <span className={styles.editionArrow}>
+                      <RiArrowRightUpLine size={24} />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-        <h2 className={styles.partnerHeading}>
-          BECOME A
-          <br />
-          <span className={styles.partnerAccent}>PARTNER</span>
-        </h2>
-        <p className={styles.partnerBody}>
-          Join the institutions and individuals who make two weeks of sculpture possible. Support
-          the project, shape the future of contemporary art in Romania.
-        </p>
-        <MagneticButton href="/partners">
-          Get In Touch <RiArrowRightLine size={14} />
-        </MagneticButton>
+      </section>
+
+      {/* ---- 3: Artists ---- */}
+      <section data-section className={styles.panel}>
+        <div className={`${styles.fpOuter} fpOuter`}>
+          <div className={`${styles.fpInner} fpInner`}>
+            <ArtistsSection />
+          </div>
+        </div>
+      </section>
+
+      {/* ---- 4: Visit ---- */}
+      <section data-section className={styles.panel}>
+        <div className={`${styles.fpOuter} fpOuter`}>
+          <div className={`${styles.fpInner} fpInner`}>
+            <div className={`${styles.visit} ${styles.fpContent}`}>
+              <VisitSection />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---- 5: Partner CTA ---- */}
+      <section data-section className={styles.panel}>
+        <div className={`${styles.fpOuter} fpOuter`}>
+          <div className={`${styles.fpInner} fpInner`}>
+            <div className={`${styles.partner} ${styles.fpContent}`}>
+              <div className={styles.partnerBadge}>
+                <PartnerBadge />
+              </div>
+              <h2 className={styles.partnerHeading}>
+                BECOME A
+                <br />
+                <span className={styles.partnerAccent}>PARTNER</span>
+              </h2>
+              <p className={styles.partnerBody}>
+                Join the institutions and individuals who make two weeks of sculpture possible. Support
+                the project, shape the future of contemporary art in Romania.
+              </p>
+              <MagneticButton href="/partners">
+                Get In Touch <RiArrowRightLine size={14} />
+              </MagneticButton>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---- 6: Footer ---- */}
+      <section data-section className={styles.panel}>
+        <div className={`${styles.fpOuter} fpOuter`}>
+          <div className={`${styles.fpInner} fpInner`}>
+            <div className={styles.footerSection}>
+              <Footer />
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   )

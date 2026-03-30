@@ -48,7 +48,6 @@
 
 @media (min-width: 1024px) {
   .wordmark {
-    font-size: 120px;
     writing-mode: vertical-rl;
     text-orientation: mixed;
     transform: rotate(180deg);
@@ -93,8 +92,9 @@
 
 .link {
   font-family: var(--font-body);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   color: var(--gray-400);
+  font-weight: 500;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -151,7 +151,7 @@
 
 .socialLink {
   font-family: var(--font-display);
-  font-size: var(--text-lg);
+  font-size: var(--text-md);
   color: var(--white);
   text-decoration: none;
   text-transform: uppercase;
@@ -186,7 +186,6 @@
 
 @media (min-width: 768px) {
   .barcode {
-    height: 60px;
     width: 200px;
   }
 }

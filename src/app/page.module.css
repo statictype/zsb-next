@@ -2,10 +2,43 @@
    HOME PAGE — Dark Cinematic Redesign
    ===================================================== */
 
+/* ---- Homepage container — prevents layout footer from showing ---- */
+.main {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---- Full-page fixed sections ---- */
+.panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+}
+
+/* Outer/inner wrappers for counter-motion reveal animation */
+.fpOuter,
+.fpInner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Content inside wrappers fills the viewport */
+.fpContent {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 /* ---- Hero ---- */
 .hero {
-  position: relative;
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: var(--black);
@@ -65,7 +98,7 @@
 
 /* ---- About ---- */
 .about {
-  padding: var(--section-padding-y) var(--content-padding);
+  padding: 0 var(--content-padding);
   background: var(--black);
 }
 
@@ -76,6 +109,7 @@
   max-width: var(--max-width);
   margin: 0 auto;
   align-items: start;
+  width: 100%;
 }
 
 .eyebrow {
@@ -157,7 +191,7 @@
 
 /* ---- Past Editions List ---- */
 .editions {
-  padding: var(--section-padding-y) var(--content-padding);
+  padding: 0 var(--content-padding);
   background: var(--black-pure);
 }
 
@@ -167,6 +201,7 @@
   justify-content: space-between;
   max-width: var(--max-width);
   margin: 0 auto var(--space-xl);
+  width: 100%;
 }
 
 .editionsTitle {
@@ -196,6 +231,7 @@
   max-width: var(--max-width);
   margin: 0 auto;
   border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  width: 100%;
 }
 
 .editionRow {
@@ -251,16 +287,30 @@
   transform: translate(4px, -4px);
 }
 
+/* ---- Visit ---- */
+.visit {
+  background: var(--black);
+}
+
 /* ---- Partner CTA ---- */
+/* ---- Footer as full-page section ---- */
+.footerSection {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: var(--black-pure);
+}
+
 .partner {
-  padding: var(--section-padding-y) var(--content-padding);
-  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 0 var(--content-padding);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   background: var(--black);
-  position: relative;
 }
 
 .partnerHeading {
