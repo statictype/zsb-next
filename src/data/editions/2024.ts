@@ -149,12 +149,14 @@ export const edition2024: Edition = {
       {
         type: 'Talks & Workshops',
         title: 'Roundtable: 3D Digitization of Monuments',
+        dates: 'April 11\u201428, 2024',
         description: 'Heritage protection & EU recommendations',
         featured: false,
       },
       {
         type: 'Talks & Workshops',
         title: 'Workshop: Pinholeday#ZSB',
+        dates: 'April 11\u201428, 2024',
         description: 'Pinhole photography with on-site darkroom',
         featured: false,
       },

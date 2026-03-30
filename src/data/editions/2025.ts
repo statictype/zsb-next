@@ -151,18 +151,21 @@ export const edition2025: Edition = {
       {
         type: 'Talks & Workshops',
         title: 'Open Studios: Studio Visit',
+        dates: 'April 26\u2014May 11, 2025',
         description: 'Marian & Victoria Zidaru',
         featured: false,
       },
       {
         type: 'Talks & Workshops',
         title: 'Open Studios: Studio Visit',
+        dates: 'April 26\u2014May 11, 2025',
         description: 'Ana Zoe Pop',
         featured: false,
       },
       {
         type: 'Talks & Workshops',
         title: 'Open Studios: Studio Visit',
+        dates: 'April 26\u2014May 11, 2025',
         description: 'Cristian Pentelescu',
         featured: false,
       },

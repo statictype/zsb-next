@@ -3,15 +3,15 @@
 export interface ImageData {
   basePath: string
   alt: string
-  ext?: 'jpg' | 'png' | 'webp' | undefined
-  widths?: number[] | undefined
+  ext?: 'jpg' | 'png' | 'webp'
+  widths?: number[]
 }
 
 // ---- Manifesto ----
 
 export interface ManifestoData {
   title: string
-  highlight?: string | undefined
+  highlight: string
   paragraphs: string[]
 }
 
@@ -20,7 +20,7 @@ export interface ManifestoData {
 export interface ThemeData {
   lead: string
   body: string[]
-  coda?: string[] | undefined
+  coda: string[]
   artistsStatement: string
 }
 
@@ -47,16 +47,16 @@ export type ProgramBlockType =
 export interface ProgramBlock {
   type: ProgramBlockType
   title: string
-  dates?: string | undefined
-  description?: string | undefined
-  location?: string | undefined
+  dates: string
+  description: string
+  location?: string
   featured: boolean
 }
 
 export interface ProgramFilm {
   date: string
   title: string
-  note?: string | undefined
+  note?: string
 }
 
 export interface SFTFBanner {
@@ -69,8 +69,8 @@ export interface SFTFBanner {
 export interface ProgramData {
   dates: string
   blocks: ProgramBlock[]
-  films?: ProgramFilm[] | undefined
-  sftfBanner?: SFTFBanner | undefined
+  films?: ProgramFilm[]
+  sftfBanner: SFTFBanner
 }
 
 // ---- Carousel ----
@@ -93,9 +93,9 @@ export interface CreditEntry {
   type: 'primary' | 'partner' | 'secondary'
   label: string
   value: string
-  detail?: string | undefined
-  logo?: string | undefined
-  logoAlt?: string | undefined
+  detail?: string
+  logo?: string
+  logoAlt?: string
 }
 
 // ---- Media Kit ----
@@ -117,7 +117,7 @@ interface EditionCardBase {
 interface ActiveEditionCard extends EditionCardBase {
   href: string
   image: ImageData
-  variant?: 'sculpture' | 'tiled' | undefined
+  variant?: 'sculpture' | 'tiled'
 }
 
 interface InactiveEditionCard extends EditionCardBase {
