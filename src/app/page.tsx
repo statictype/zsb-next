@@ -14,13 +14,13 @@ export const metadata: Metadata = {
 }
 
 const heroImages: HeroImage[] = [
-  { basePath: '/img/2025/optimized/bws02058', alt: 'ZSB 2025', position: 'top' },
-  { basePath: '/img/2025/optimized/_dsc5562', alt: 'ZSB 2025', position: 'center' },
-  { basePath: '/img/2025/optimized/_DSC5547', alt: 'ZSB 2025', position: 'top' },
   { basePath: '/img/2025/optimized/_dsc5496', alt: 'ZSB 2025', position: 'top' },
-  { basePath: '/img/2025/optimized/_dsc5464', alt: 'ZSB 2025', position: 'top' },
+  { basePath: '/img/2025/optimized/_dsc5562', alt: 'ZSB 2025', position: 'center' },
+  { basePath: '/img/2025/optimized/bws02058', alt: 'ZSB 2025', position: 'center' },
+  { basePath: '/img/2025/optimized/_dsc5501', alt: 'ZSB 2025', position: 'bottom' },
+  { basePath: '/img/2025/optimized/_DSC5547', alt: 'ZSB 2025', position: 'top' },
+  { basePath: '/img/2025/optimized/_dsc5464', alt: 'ZSB 2025', position: 'center' },
   { basePath: '/img/2025/optimized/_dsc5665', alt: 'ZSB 2025', position: 'top' },
-  { basePath: '/img/2025/optimized/_dsc5501', alt: 'ZSB 2025', position: 'center' },
 ]
 
 const editions = [
@@ -45,21 +45,21 @@ export default function HomePage() {
         <div className={styles.heroMeta}>
           <div className={styles.metaBlock}>
             <span className={styles.metaLabel}>Edition</span>
-            <span className={styles.metaValue}>2025 · Fifth Year</span>
+            <span className={styles.metaValue}>2025 · 5th Year</span>
           </div>
           <div className={styles.metaRule} />
           <div className={styles.metaBlock}>
             <span className={styles.metaLabel}>Duration</span>
-            <span className={styles.metaValue}>2 Weeks · May</span>
+            <span className={styles.metaValue}>April 25 - May 11</span>
           </div>
           <div className={styles.metaRule} />
           <div className={styles.metaBlock}>
-            <span className={styles.metaLabel}>Venues</span>
-            <span className={styles.metaValue}>Across the City</span>
+            <span className={styles.metaLabel}>Theme</span>
+            <span className={styles.metaValue}>#celălaltcorp</span>
           </div>
           <div className={styles.metaRule} />
-          <MagneticButton href="/editions/2025">
-            Explore Programme <RiArrowRightLine size={14} />
+          <MagneticButton variant="secondary" href="/editions/2025">
+            Explore <RiArrowRightLine size={14} />
           </MagneticButton>
         </div>
       </section>
@@ -71,11 +71,11 @@ export default function HomePage() {
             <div className={styles.eyebrow}>About ZSB</div>
             <div className={styles.rule} />
             <h2 className={styles.aboutHeading}>
-              THE STATE
+              BUCHAREST
               <br />
-              OF SCULPTURE
+              SCULPTURE
               <br />
-              TODAY
+              DAYS
             </h2>
             <p className={styles.aboutBody}>
               Bucharest Sculpture Days is your annual checkpoint for the state of sculpture. For 2

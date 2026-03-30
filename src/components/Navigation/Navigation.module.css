@@ -22,8 +22,8 @@
 }
 
 .logoImg {
-  width: 36px;
-  height: 36px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
   display: block;
 }
@@ -182,7 +182,7 @@
 
   .navLink {
     font-family: var(--font-body);
-    font-size: 9.5px;
+    font-size: var(--text-xs);
     font-weight: 600;
     letter-spacing: 0.22em;
     text-transform: uppercase;
