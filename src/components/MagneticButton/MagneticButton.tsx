@@ -3,14 +3,19 @@
 import gsap from 'gsap'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef } from 'react'
 import styles from './MagneticButton.module.css'
+
+type ButtonVariant = 'primary' | 'secondary'
+type ButtonSize = 'lg' | 'md' | 'sm'
 
 interface MagneticButtonProps {
   href: string
   children: React.ReactNode
   className?: string
   external?: boolean
+  variant?: ButtonVariant
+  size?: ButtonSize
   /** Fill / border accent color (any CSS value). Defaults to var(--pink). */
   color?: string
   /** Resting text color. Defaults to var(--white). */
@@ -19,43 +24,46 @@ interface MagneticButtonProps {
   hoverTextColor?: string
 }
 
+const sizeTokens: Record<ButtonSize, Record<string, string>> = {
+  sm: {
+    '--btn-padding-y': '8px',
+    '--btn-padding-x': '20px',
+    '--btn-font-size': '10px',
+    '--btn-gap': '6px',
+    '--btn-letter-spacing': '1.5px',
+  },
+  md: {
+    '--btn-padding-y': '14px',
+    '--btn-padding-x': '32px',
+    '--btn-font-size': '12px',
+    '--btn-gap': '10px',
+    '--btn-letter-spacing': '2px',
+  },
+  lg: {
+    '--btn-padding-y': '20px',
+    '--btn-padding-x': '44px',
+    '--btn-font-size': '14px',
+    '--btn-gap': '14px',
+    '--btn-letter-spacing': '2.5px',
+  },
+}
+
 export function MagneticButton({
   href,
   children,
   className,
   external,
+  variant = 'primary',
+  size = 'md',
   color,
   textColor,
   hoverTextColor,
 }: MagneticButtonProps) {
   const btnRef = useRef<HTMLAnchorElement>(null)
-  const cursorRef = useRef<HTMLDivElement>(null)
-  const mousePos = useRef({ x: 0, y: 0 })
-  const cursorPos = useRef({ x: 0, y: 0 })
-  const rafId = useRef<number>(0)
-  const [hovering, setHovering] = useState(false)
-
-  // Smooth cursor follow loop — runs only while hovering
-  useEffect(() => {
-    if (!hovering) return
-    const tick = () => {
-      const cur = cursorRef.current
-      if (!cur) return
-      cursorPos.current.x += (mousePos.current.x - cursorPos.current.x) * 0.15
-      cursorPos.current.y += (mousePos.current.y - cursorPos.current.y) * 0.15
-      gsap.set(cur, { x: cursorPos.current.x, y: cursorPos.current.y })
-      rafId.current = requestAnimationFrame(tick)
-    }
-    rafId.current = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(rafId.current)
-  }, [hovering])
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     const btn = btnRef.current
     if (!btn) return
-
-    mousePos.current = { x: e.clientX, y: e.clientY }
-
     const rect = btn.getBoundingClientRect()
     const cx = rect.left + rect.width / 2
     const cy = rect.top + rect.height / 2
@@ -72,14 +80,7 @@ export function MagneticButton({
     })
   }, [])
 
-  const handleMouseEnter = useCallback((e: React.MouseEvent) => {
-    mousePos.current = { x: e.clientX, y: e.clientY }
-    cursorPos.current = { x: e.clientX, y: e.clientY }
-    setHovering(true)
-  }, [])
-
   const handleMouseLeave = useCallback(() => {
-    setHovering(false)
     const btn = btnRef.current
     if (!btn) return
     gsap.to(btn, {
@@ -90,41 +91,54 @@ export function MagneticButton({
     })
   }, [])
 
-  const handleClick = useCallback((e: React.MouseEvent) => {
-    const btn = btnRef.current
-    if (!btn) return
-    const rect = btn.getBoundingClientRect()
-    const ripple = document.createElement('span')
-    ripple.className = styles.ripple ?? ''
-    const size = Math.max(rect.width, rect.height)
-    ripple.style.width = `${size}px`
-    ripple.style.height = `${size}px`
-    ripple.style.left = `${e.clientX - rect.left - size / 2}px`
-    ripple.style.top = `${e.clientY - rect.top - size / 2}px`
-    btn.appendChild(ripple)
-    setTimeout(() => ripple.remove(), 700)
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      const btn = btnRef.current
+      if (!btn) return
 
-    gsap.to(btn, {
-      scale: 0.96,
-      duration: 0.1,
-      yoyo: true,
-      repeat: 1,
-      ease: 'power2.inOut',
-    })
-  }, [])
+      if (variant === 'primary') {
+        const rect = btn.getBoundingClientRect()
+        const ripple = document.createElement('span')
+        ripple.className = styles.ripple ?? ''
+        const sz = Math.max(rect.width, rect.height)
+        ripple.style.width = `${sz}px`
+        ripple.style.height = `${sz}px`
+        ripple.style.left = `${e.clientX - rect.left - sz / 2}px`
+        ripple.style.top = `${e.clientY - rect.top - sz / 2}px`
+        btn.appendChild(ripple)
+        setTimeout(() => ripple.remove(), 700)
+        gsap.to(btn, {
+          scale: 0.96,
+          duration: 0.1,
+          yoyo: true,
+          repeat: 1,
+          ease: 'power2.inOut',
+        })
+      }
 
-  const style: CSSProperties = {}
+      if (variant === 'secondary') {
+        gsap.to(btn, {
+          scale: 0.96,
+          duration: 0.1,
+          yoyo: true,
+          repeat: 1,
+          ease: 'power2.inOut',
+        })
+      }
+    },
+    [variant]
+  )
+
+  const style: CSSProperties = { ...sizeTokens[size] } as CSSProperties
   if (color) (style as Record<string, string>)['--btn-color'] = color
   if (textColor) (style as Record<string, string>)['--btn-text'] = textColor
   if (hoverTextColor)
     (style as Record<string, string>)['--btn-hover-text'] = hoverTextColor
 
-  const btnClass = [styles.btn, className].filter(Boolean).join(' ')
-
-  const cursorClass = [
-    styles.cursor,
-    hovering && styles.cursorVisible,
-    hovering && styles.cursorHover,
+  const btnClass = [
+    styles.btn,
+    variant === 'primary' ? styles.primary : styles.secondary,
+    className,
   ]
     .filter(Boolean)
     .join(' ')
@@ -133,7 +147,6 @@ export function MagneticButton({
     ref: btnRef,
     className: btnClass,
     style,
-    onMouseEnter: handleMouseEnter,
     onMouseMove: handleMouseMove,
     onMouseLeave: handleMouseLeave,
     onClick: handleClick,
@@ -142,32 +155,26 @@ export function MagneticButton({
   const isExternal =
     external || href.startsWith('http') || href.startsWith('mailto:')
 
-  const cursorEl = <div ref={cursorRef} className={cursorClass} />
+  const inner = <span className={styles.content}>{children}</span>
 
   if (isExternal) {
     return (
-      <div className={styles.wrap}>
-        {cursorEl}
-        <a
-          {...sharedProps}
-          href={href}
-          {...(href.startsWith('http') && {
-            target: '_blank',
-            rel: 'noopener noreferrer',
-          })}
-        >
-          <span className={styles.content}>{children}</span>
-        </a>
-      </div>
+      <a
+        {...sharedProps}
+        href={href}
+        {...(href.startsWith('http') && {
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        })}
+      >
+        {inner}
+      </a>
     )
   }
 
   return (
-    <div className={styles.wrap}>
-      {cursorEl}
-      <Link {...sharedProps} href={href}>
-        <span className={styles.content}>{children}</span>
-      </Link>
-    </div>
+    <Link {...sharedProps} href={href}>
+      {inner}
+    </Link>
   )
 }
