@@ -1,0 +1,35 @@
+/* =====================================================
+   HERO SLIDESHOW — Fullscreen crossfade
+   ===================================================== */
+
+.slideshow {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 200px);
+  min-height: 400px;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+
+.slideActive {
+  opacity: 1;
+}
+
+.slide img {
+  object-fit: cover;
+  filter: grayscale(100%);
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.7) 100%);
+}
