@@ -5,32 +5,33 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
+import { dispatchGoTo, onSectionChange } from '@/components/FullPageScroll/FullPageScroll'
 import styles from './Navigation.module.css'
+
+const SECTION_IDS = ['home', 'about', 'editions', 'artists', 'visit', 'partner', 'footer'] as const
 
 function getActiveFromPath(pathname: string): string {
   if (pathname === '/') return 'home'
   if (pathname.startsWith('/editions')) return 'editions'
   if (pathname.startsWith('/partners')) return 'partners'
-  if (pathname.startsWith('/visit')) return 'visit'
   return 'home'
 }
 
 const NAV_ITEMS = [
   { id: 'home', label: 'Home', href: '/' },
-  { id: 'editions', label: 'Editions', href: '/editions' },
-  { id: 'artists', label: 'Artists', href: '#' },
-  { id: 'visit', label: 'Visit', href: '/visit' },
+  { id: 'about', label: 'About', href: '/#about' },
+  { id: 'editions', label: 'Editions', href: '/#editions' },
+  { id: 'artists', label: 'Artists', href: '/#artists' },
+  { id: 'visit', label: 'Visit', href: '/#visit' },
 ] as const
 
 export function Navigation() {
   const pathname = usePathname()
-  const active = getActiveFromPath(pathname)
-  const showLogoLink = pathname !== '/'
+  const isHome = pathname === '/'
+  const [activeId, setActiveId] = useState(isHome ? 'home' : getActiveFromPath(pathname))
   const [isOpen, setIsOpen] = useState(false)
 
-  const closeMenu = useCallback(() => {
-    setIsOpen(false)
-  }, [])
+  const closeMenu = useCallback(() => setIsOpen(false), [])
 
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
@@ -42,10 +43,34 @@ export function Navigation() {
 
   useBodyScrollLock(isOpen)
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname triggers menu close on route change
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname triggers menu close
+  useEffect(() => { closeMenu() }, [pathname, closeMenu])
+
+  // Listen for section changes from FullPageScroll
   useEffect(() => {
-    closeMenu()
-  }, [pathname, closeMenu])
+    if (!isHome) {
+      setActiveId(getActiveFromPath(pathname))
+      return
+    }
+    return onSectionChange((index) => {
+      setActiveId(SECTION_IDS[index] ?? 'home')
+    })
+  }, [isHome, pathname])
+
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      closeMenu()
+      if (!isHome) return
+
+      e.preventDefault()
+      const id = href === '/' ? 'home' : href.replace('/#', '')
+      const index = SECTION_IDS.indexOf(id as typeof SECTION_IDS[number])
+      if (index !== -1) dispatchGoTo(index)
+    },
+    [isHome, closeMenu],
+  )
+
+  const showLogoLink = !isHome
 
   const logoImg = (
     <Image
@@ -78,13 +103,17 @@ export function Navigation() {
 
       <nav className={`${styles.nav} ${isOpen ? styles.isOpen : ''}`}>
         {NAV_ITEMS.map((item) => {
-          const isActive = item.id === active
+          const isActive = item.id === activeId
           const className = isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
 
-          if (item.href === '#') {
+          if (isHome) {
             return (
-              // biome-ignore lint/a11y/useValidAnchor: placeholder link
-              <a key={item.id} href="#" className={className}>
+              <a
+                key={item.id}
+                href={item.href}
+                className={className}
+                onClick={(e) => handleClick(e, item.href)}
+              >
                 <span>{item.label}</span>
               </a>
             )
