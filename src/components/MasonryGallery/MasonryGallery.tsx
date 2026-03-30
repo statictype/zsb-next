@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { Lightbox } from '@/components/Lightbox/Lightbox'
+import { toLightboxImages } from '@/lib/format-utils'
 import { useLightbox } from '@/lib/use-lightbox'
 import type { MasonryImage } from '@/types/edition'
 import styles from './MasonryGallery.module.css'
@@ -13,10 +14,7 @@ interface MasonryGalleryProps {
 export function MasonryGallery({ images }: MasonryGalleryProps) {
   const lightbox = useLightbox()
 
-  const lightboxImages = images.map((img) => ({
-    src: `${img.basePath}-1920.webp`,
-    caption: img.caption,
-  }))
+  const lightboxImages = toLightboxImages(images)
 
   return (
     <>

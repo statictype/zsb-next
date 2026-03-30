@@ -1,16 +1,10 @@
 import { ReadMore } from '@/components/ReadMore/ReadMore'
-import type { ThemeData } from '@/types/edition'
+import { padNum, splitInHalf } from '@/lib/format-utils'
+import type { Edition } from '@/types/edition'
 import styles from './ThemeArtists.module.css'
 
 interface ThemeArtistsProps {
-  year: number
-  theme: string
-  themeSection: ThemeData
-  artists: string[]
-}
-
-function padNum(n: number, len = 3): string {
-  return String(n).padStart(len, '0')
+  edition: Pick<Edition, 'year' | 'theme' | 'themeSection' | 'artists'>
 }
 
 function renderStatementWithTheme(text: string, theme: string) {
@@ -27,10 +21,10 @@ function renderStatementWithTheme(text: string, theme: string) {
   )
 }
 
-export function ThemeArtists({ year, theme, themeSection, artists }: ThemeArtistsProps) {
-  const mid = Math.ceil(artists.length / 2)
-  const firstHalf = artists.slice(0, mid)
-  const secondHalf = artists.slice(mid)
+export function ThemeArtists({ edition }: ThemeArtistsProps) {
+  const { year, theme, themeSection, artists } = edition
+  const [firstHalf, secondHalf] = splitInHalf(artists)
+  const mid = firstHalf.length
 
   return (
     <section className={styles.section}>
@@ -70,7 +64,7 @@ export function ThemeArtists({ year, theme, themeSection, artists }: ThemeArtist
 
           <div className={styles.colHeader}>
             <span className={styles.headerLabel}>Artists</span>
-            <span>001&mdash;{padNum(artists.length)}</span>
+            <span>001&mdash;{padNum(artists.length, 3)}</span>
           </div>
 
           <div className={styles.artistsTable}>
@@ -78,7 +72,7 @@ export function ThemeArtists({ year, theme, themeSection, artists }: ThemeArtist
               {firstHalf.map((name, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: static list
                 <div key={i} className={styles.artistEntry}>
-                  <span className={styles.artistNum}>{padNum(i + 1)}</span>
+                  <span className={styles.artistNum}>{padNum(i + 1, 3)}</span>
                   <span className={styles.artistName}>{name}</span>
                 </div>
               ))}
@@ -87,7 +81,7 @@ export function ThemeArtists({ year, theme, themeSection, artists }: ThemeArtist
               {secondHalf.map((name, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: static list
                 <div key={i} className={styles.artistEntry}>
-                  <span className={styles.artistNum}>{padNum(mid + i + 1)}</span>
+                  <span className={styles.artistNum}>{padNum(mid + i + 1, 3)}</span>
                   <span className={styles.artistName}>{name}</span>
                 </div>
               ))}

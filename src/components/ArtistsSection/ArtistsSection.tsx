@@ -1,9 +1,8 @@
 import { ALL_ARTISTS } from '@/data/artists'
+import { splitInHalf } from '@/lib/format-utils'
 import styles from './ArtistsSection.module.css'
 
-const mid = Math.ceil(ALL_ARTISTS.length / 2)
-const leftNames = ALL_ARTISTS.slice(0, mid)
-const rightNames = ALL_ARTISTS.slice(mid)
+const [leftNames, rightNames] = splitInHalf(ALL_ARTISTS)
 
 export function ArtistsSection() {
   return (

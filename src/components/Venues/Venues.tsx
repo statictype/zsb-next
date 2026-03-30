@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import sharedStyles from '@/components/Shared.module.css'
+import { padNum } from '@/lib/format-utils'
 import type { VenueEntry } from '@/types/edition'
 import styles from './Venues.module.css'
 
@@ -19,10 +20,6 @@ interface GroupedVenue {
   description: string
   subgroups: GroupedSubgroup[]
   count: number
-}
-
-function padNum(n: number, len = 2): string {
-  return String(n).padStart(len, '0')
 }
 
 function groupVenues(venues: VenueEntry[]): GroupedVenue[] {

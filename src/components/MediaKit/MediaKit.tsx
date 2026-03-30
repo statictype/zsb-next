@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { Lightbox } from '@/components/Lightbox/Lightbox'
 import shared from '@/components/Shared.module.css'
+import { toLightboxImages } from '@/lib/format-utils'
 import { imageSrc } from '@/lib/image-utils'
 import { useLightbox } from '@/lib/use-lightbox'
 import type { MediaKitItem } from '@/types/edition'
@@ -15,10 +16,9 @@ interface MediaKitProps {
 export function MediaKit({ items }: MediaKitProps) {
   const lightbox = useLightbox()
 
-  const lightboxImages = items.map((item) => ({
-    src: `${item.image.basePath}-1920.webp`,
-    caption: item.name,
-  }))
+  const lightboxImages = toLightboxImages(
+    items.map((item) => ({ basePath: item.image.basePath, caption: item.name })),
+  )
 
   return (
     <>
