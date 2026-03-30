@@ -42,7 +42,6 @@ export function Navigation() {
 
   useBodyScrollLock(isOpen)
 
-  // Close menu on navigation
   // biome-ignore lint/correctness/useExhaustiveDependencies: pathname triggers menu close on route change
   useEffect(() => {
     closeMenu()
@@ -52,16 +51,18 @@ export function Navigation() {
     <Image
       src="/img/logo_ZSB.svg"
       alt="ZSB Logo"
-      width={100}
-      height={100}
+      width={40}
+      height={40}
       className={styles.logoImg}
       preload
     />
   )
 
   return (
-    <>
-      <div className={styles.logo}>{showLogoLink ? <Link href="/">{logoImg}</Link> : logoImg}</div>
+    <header className={styles.bar}>
+      <div className={styles.logo}>
+        {showLogoLink ? <Link href="/">{logoImg}</Link> : logoImg}
+      </div>
 
       <button
         type="button"
@@ -96,6 +97,6 @@ export function Navigation() {
           )
         })}
       </nav>
-    </>
+    </header>
   )
 }
