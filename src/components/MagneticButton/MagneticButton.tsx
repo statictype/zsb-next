@@ -3,7 +3,7 @@
 import gsap from 'gsap'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import { useCallback, useRef } from 'react'
+import { useRef } from 'react'
 import styles from './MagneticButton.module.css'
 
 type ButtonVariant = 'primary' | 'secondary'
@@ -61,7 +61,7 @@ export function MagneticButton({
 }: MagneticButtonProps) {
   const btnRef = useRef<HTMLAnchorElement>(null)
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+  function handleMouseMove(e: React.MouseEvent) {
     const btn = btnRef.current
     if (!btn) return
     const rect = btn.getBoundingClientRect()
@@ -78,9 +78,9 @@ export function MagneticButton({
       duration: 0.3,
       ease: 'power2.out',
     })
-  }, [])
+  }
 
-  const handleMouseLeave = useCallback(() => {
+  function handleMouseLeave() {
     const btn = btnRef.current
     if (!btn) return
     gsap.to(btn, {
@@ -89,45 +89,33 @@ export function MagneticButton({
       duration: 0.6,
       ease: 'elastic.out(1, 0.4)',
     })
-  }, [])
+  }
 
-  const handleClick = useCallback(
-    (e: React.MouseEvent) => {
-      const btn = btnRef.current
-      if (!btn) return
+  function handleClick(e: React.MouseEvent) {
+    const btn = btnRef.current
+    if (!btn) return
 
-      if (variant === 'primary') {
-        const rect = btn.getBoundingClientRect()
-        const ripple = document.createElement('span')
-        ripple.className = styles.ripple ?? ''
-        const sz = Math.max(rect.width, rect.height)
-        ripple.style.width = `${sz}px`
-        ripple.style.height = `${sz}px`
-        ripple.style.left = `${e.clientX - rect.left - sz / 2}px`
-        ripple.style.top = `${e.clientY - rect.top - sz / 2}px`
-        btn.appendChild(ripple)
-        setTimeout(() => ripple.remove(), 700)
-        gsap.to(btn, {
-          scale: 0.96,
-          duration: 0.1,
-          yoyo: true,
-          repeat: 1,
-          ease: 'power2.inOut',
-        })
-      }
+    const rect = btn.getBoundingClientRect()
+    if (variant === 'primary') {
+      const ripple = document.createElement('span')
+      ripple.className = styles.ripple ?? ''
+      const sz = Math.max(rect.width, rect.height)
+      ripple.style.width = `${sz}px`
+      ripple.style.height = `${sz}px`
+      ripple.style.left = `${e.clientX - rect.left - sz / 2}px`
+      ripple.style.top = `${e.clientY - rect.top - sz / 2}px`
+      btn.appendChild(ripple)
+      setTimeout(() => ripple.remove(), 700)
+    }
 
-      if (variant === 'secondary') {
-        gsap.to(btn, {
-          scale: 0.96,
-          duration: 0.1,
-          yoyo: true,
-          repeat: 1,
-          ease: 'power2.inOut',
-        })
-      }
-    },
-    [variant]
-  )
+    gsap.to(btn, {
+      scale: 0.96,
+      duration: 0.1,
+      yoyo: true,
+      repeat: 1,
+      ease: 'power2.inOut',
+    })
+  }
 
   const style: CSSProperties = { ...sizeTokens[size] } as CSSProperties
   if (color) (style as Record<string, string>)['--btn-color'] = color

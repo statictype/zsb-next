@@ -2,15 +2,15 @@
 
 import gsap from 'gsap'
 import Link from 'next/link'
-import { useCallback, useRef } from 'react'
-import { RiArrowRightUpLine } from '@remixicon/react'
+import { useRef } from 'react'
+import { RiEmpathizeFill } from '@remixicon/react'
 import styles from './PartnerBadge.module.css'
 
 export function PartnerBadge() {
   const wrapRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+  function handleMouseMove(e: React.MouseEvent) {
     const el = wrapRef.current
     if (!el) return
     const rect = el.getBoundingClientRect()
@@ -25,18 +25,18 @@ export function PartnerBadge() {
       duration: 0.4,
       ease: 'power2.out',
     })
-  }, [])
+  }
 
-  const handleEnter = useCallback(() => {
+  function handleEnter() {
     if (!bodyRef.current) return
     gsap.to(bodyRef.current, {
       scale: 1.12,
       duration: 0.5,
       ease: 'elastic.out(1, 0.5)',
     })
-  }, [])
+  }
 
-  const handleLeave = useCallback(() => {
+  function handleLeave() {
     if (!wrapRef.current || !bodyRef.current) return
     gsap.to(wrapRef.current, {
       x: 0,
@@ -49,7 +49,7 @@ export function PartnerBadge() {
       duration: 0.6,
       ease: 'elastic.out(1, 0.4)',
     })
-  }, [])
+  }
 
   return (
     <div
@@ -77,7 +77,7 @@ export function PartnerBadge() {
             </svg>
           </div>
           <span className={styles.arrow}>
-            <RiArrowRightUpLine size={60} />
+            <RiEmpathizeFill size={36} color="var(--pink)" />
           </span>
         </div>
       </Link>

@@ -5,7 +5,7 @@ import {
   RiArrowRightSLine,
   RiCloseLine,
 } from '@remixicon/react'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import styles from './Lightbox.module.css'
 
@@ -16,7 +16,7 @@ interface LightboxImage {
 
 interface LightboxProps {
   images: LightboxImage[]
-  initialIndex?: number | undefined
+  initialIndex?: number
   isOpen: boolean
   onClose: () => void
 }
@@ -28,24 +28,20 @@ export function Lightbox({
   onClose,
 }: LightboxProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
+  const wasOpen = useRef(false)
 
-  // Reset to initialIndex when lightbox opens
-  useEffect(() => {
-    if (isOpen) {
-      setCurrentIndex(initialIndex)
-    }
-  }, [isOpen, initialIndex])
+  // Reset index only on open transition
+  if (isOpen && !wasOpen.current) {
+    setCurrentIndex(initialIndex)
+  }
+  wasOpen.current = isOpen
 
-  const navigate = useCallback(
-    (direction: number) => {
-      setCurrentIndex(
-        (prev) => (prev + direction + images.length) % images.length,
-      )
-    },
-    [images.length],
-  )
+  function navigate(direction: number) {
+    setCurrentIndex(
+      (prev) => (prev + direction + images.length) % images.length,
+    )
+  }
 
-  // Keyboard navigation
   useEffect(() => {
     if (!isOpen) return
 
@@ -57,7 +53,7 @@ export function Lightbox({
 
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  }, [isOpen, onClose, navigate])
+  })
 
   useBodyScrollLock(isOpen)
 

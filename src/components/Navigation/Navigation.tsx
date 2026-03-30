@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import { dispatchGoTo, onSectionChange } from '@/components/FullPageScroll/FullPageScroll'
 import styles from './Navigation.module.css'
@@ -32,30 +32,38 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
 
   const closeMenu = useCallback(() => setIsOpen(false), [])
-
-  useEffect(() => {
-    const handleKeydown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) closeMenu()
-    }
-    document.addEventListener('keydown', handleKeydown)
-    return () => document.removeEventListener('keydown', handleKeydown)
-  }, [isOpen, closeMenu])
+  const prevPathname = useRef(pathname)
 
   useBodyScrollLock(isOpen)
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname triggers menu close
-  useEffect(() => { closeMenu() }, [pathname, closeMenu])
-
-  // Listen for section changes from FullPageScroll
   useEffect(() => {
+    // Close menu on pathname change
+    if (prevPathname.current !== pathname) {
+      prevPathname.current = pathname
+      closeMenu()
+    }
+
+    // Close menu on Escape
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeMenu()
+    }
+    document.addEventListener('keydown', handleKeydown)
+
+    // Track active section
     if (!isHome) {
       setActiveId(getActiveFromPath(pathname))
-      return
+      return () => document.removeEventListener('keydown', handleKeydown)
     }
-    return onSectionChange((index) => {
+
+    const unsubscribe = onSectionChange((index) => {
       setActiveId(SECTION_IDS[index] ?? 'home')
     })
-  }, [isHome, pathname])
+
+    return () => {
+      document.removeEventListener('keydown', handleKeydown)
+      unsubscribe()
+    }
+  }, [isHome, pathname, closeMenu])
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

@@ -2,7 +2,7 @@
 
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
-import { useCallback, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import sharedStyles from '@/components/Shared.module.css'
 import { imageSrc } from '@/lib/image-utils'
 import type { CarouselLayout, CarouselSlide } from '@/types/edition'
@@ -26,46 +26,29 @@ export function Carousel({ slides, theme }: CarouselProps) {
   const touchStartX = useRef(0)
   const totalSlides = slides.length
 
-  const goTo = useCallback(
-    (index: number) => {
-      if (index >= 0 && index < totalSlides) {
-        setCurrentIndex(index)
-      }
-    },
-    [totalSlides],
-  )
+  function goTo(index: number) {
+    if (index >= 0 && index < totalSlides) {
+      setCurrentIndex(index)
+    }
+  }
 
-  const goPrev = useCallback(() => {
-    goTo(currentIndex - 1)
-  }, [currentIndex, goTo])
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'ArrowLeft') goTo(currentIndex - 1)
+    if (e.key === 'ArrowRight') goTo(currentIndex + 1)
+  }
 
-  const goNext = useCallback(() => {
-    goTo(currentIndex + 1)
-  }, [currentIndex, goTo])
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') goTo(currentIndex - 1)
-      if (e.key === 'ArrowRight') goTo(currentIndex + 1)
-    },
-    [currentIndex, goTo],
-  )
-
-  const handleTouchStart = (e: React.TouchEvent) => {
+  function handleTouchStart(e: React.TouchEvent) {
     const touch = e.changedTouches[0]
     if (touch) touchStartX.current = touch.screenX
   }
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
+  function handleTouchEnd(e: React.TouchEvent) {
     const touch = e.changedTouches[0]
     if (!touch) return
     const diff = touchStartX.current - touch.screenX
     if (Math.abs(diff) > 50) {
-      if (diff > 0 && currentIndex < totalSlides - 1) {
-        goNext()
-      } else if (diff < 0 && currentIndex > 0) {
-        goPrev()
-      }
+      if (diff > 0) goTo(currentIndex + 1)
+      else goTo(currentIndex - 1)
     }
   }
 
@@ -131,7 +114,7 @@ export function Carousel({ slides, theme }: CarouselProps) {
             <button
               type="button"
               className={styles.btn}
-              onClick={goPrev}
+              onClick={() => goTo(currentIndex - 1)}
               disabled={currentIndex === 0}
               aria-label="Previous slide"
             >
@@ -140,7 +123,7 @@ export function Carousel({ slides, theme }: CarouselProps) {
             <button
               type="button"
               className={styles.btn}
-              onClick={goNext}
+              onClick={() => goTo(currentIndex + 1)}
               disabled={currentIndex === totalSlides - 1}
               aria-label="Next slide"
             >
