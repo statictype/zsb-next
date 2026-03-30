@@ -87,8 +87,8 @@
 
 .heroBadge {
   position: absolute;
-  bottom: 20px;
-  right: var(--content-padding);
+  bottom: -60px;
+  right: 24px;
   z-index: 10;
 }
 
