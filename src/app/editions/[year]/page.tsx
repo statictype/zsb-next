@@ -126,22 +126,11 @@ export default async function EditionPage(props: PageProps<'/editions/[year]'>) 
       <JsonLd data={eventJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
 
-      <Hero
-        year={edition.year}
-        theme={edition.theme}
-        themeHighlight={edition.themeHighlight}
-        heroImage={edition.heroImage}
-        dateTape={edition.dateTape}
-      />
+      <Hero edition={edition} />
 
       <Manifesto manifesto={edition.manifesto} />
 
-      <ThemeArtists
-        year={edition.year}
-        theme={edition.theme}
-        themeSection={edition.themeSection}
-        artists={edition.artists}
-      />
+      <ThemeArtists edition={edition} />
 
       <Venues venues={edition.venues} />
 

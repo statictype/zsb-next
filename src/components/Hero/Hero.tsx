@@ -1,13 +1,9 @@
 import type { CSSProperties } from 'react'
-import type { ImageData } from '@/types/edition'
+import type { Edition } from '@/types/edition'
 import styles from './Hero.module.css'
 
 interface HeroProps {
-  year: number
-  theme: string
-  themeHighlight: string
-  heroImage: ImageData
-  dateTape: string
+  edition: Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'heroImage' | 'dateTape'>
 }
 
 function splitOnFirst(a: string, b: string) {
@@ -39,7 +35,8 @@ function HeroThemeDisplay({
   )
 }
 
-export function Hero({ year, theme, themeHighlight, heroImage, dateTape }: HeroProps) {
+export function Hero({ edition }: HeroProps) {
+  const { year, theme, themeHighlight, heroImage, dateTape } = edition
   const ext = heroImage.ext ?? 'webp'
   const bgStyle = {
     '--bg-url-sm': `url(${heroImage.basePath}-1200.${ext})`,

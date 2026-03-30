@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import shared from '@/components/Shared.module.css'
-import type { ProgramData } from '@/types/edition'
+import type { ProgramBlock as ProgramBlockType, ProgramData } from '@/types/edition'
 import styles from './Program.module.css'
 
 interface ProgramProps {
@@ -8,15 +8,29 @@ interface ProgramProps {
   program: ProgramData
 }
 
+function ProgramBlock({ block }: { block: ProgramBlockType }) {
+  return (
+    <div className={`${styles.item} ${block.featured ? styles.itemFeatured : ''}`}>
+      <div className={styles.itemHeader}>
+        <span className={styles.itemType}>{block.type}</span>
+        {block.dates && <span className={styles.itemDates}>{block.dates}</span>}
+      </div>
+      <h4 className={styles.itemTitle}>{block.title}</h4>
+      {block.description && <p className={styles.itemDesc}>{block.description}</p>}
+      {block.location && (
+        <div className={styles.itemMeta}>
+          <span>{block.location}</span>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function Program({ year, program }: ProgramProps) {
   const featuredBlocks = program.blocks.filter((b) => b.featured)
   const regularBlocks = program.blocks.filter((b) => !b.featured)
-
-  // Group regular blocks by type
   const talkBlocks = regularBlocks.filter((b) => b.type === 'Talks & Workshops')
-  const otherBlocks = regularBlocks.filter(
-    (b) => b.type !== 'Talks & Workshops',
-  )
+  const otherBlocks = regularBlocks.filter((b) => b.type !== 'Talks & Workshops')
 
   return (
     <section className={styles.section}>
@@ -36,45 +50,12 @@ export function Program({ year, program }: ProgramProps) {
           {/* Left Column */}
           <div className={styles.column}>
             <div className={styles.group}>
-              {featuredBlocks.map((block, i) => (
-                <div
-                  key={i}
-                  className={`${styles.item} ${block.featured ? styles.itemFeatured : ''}`}
-                >
-                  <div className={styles.itemHeader}>
-                    <span className={styles.itemType}>{block.type}</span>
-                    {block.dates && (
-                      <span className={styles.itemDates}>{block.dates}</span>
-                    )}
-                  </div>
-                  <h4 className={styles.itemTitle}>{block.title}</h4>
-                  {block.description && (
-                    <p className={styles.itemDesc}>{block.description}</p>
-                  )}
-                  {block.location && (
-                    <div className={styles.itemMeta}>
-                      <span>{block.location}</span>
-                    </div>
-                  )}
-                </div>
+              {featuredBlocks.map((block) => (
+                <ProgramBlock key={block.title} block={block} />
               ))}
 
-              {otherBlocks.map((block, i) => (
-                <div
-                  key={`other-${i}`}
-                  className={`${styles.item}`}
-                >
-                  <div className={styles.itemHeader}>
-                    <span className={styles.itemType}>{block.type}</span>
-                    {block.dates && (
-                      <span className={styles.itemDates}>{block.dates}</span>
-                    )}
-                  </div>
-                  <h4 className={styles.itemTitle}>{block.title}</h4>
-                  {block.description && (
-                    <p className={styles.itemDesc}>{block.description}</p>
-                  )}
-                </div>
+              {otherBlocks.map((block) => (
+                <ProgramBlock key={block.title} block={block} />
               ))}
 
               {program.sftfBanner && (
@@ -115,23 +96,22 @@ export function Program({ year, program }: ProgramProps) {
                       Talks &amp; Workshops
                     </span>
                   </div>
-                  {talkBlocks.map((block, i) => (
-                    <div key={i} className={styles.compactItem}>
-                      <span className={styles.compactType}>
-                        {block.title.split(': ')[0]}
-                      </span>
-                      <span className={styles.compactTitle}>
-                        {block.title.includes(': ')
-                          ? block.title.split(': ')[1]
-                          : block.title}
-                      </span>
+                  {talkBlocks.map((block) => {
+                    const colonIdx = block.title.indexOf(': ')
+                    const prefix = colonIdx >= 0 ? block.title.slice(0, colonIdx) : block.title
+                    const suffix = colonIdx >= 0 ? block.title.slice(colonIdx + 2) : block.title
+                    return (
+                    <div key={block.title} className={styles.compactItem}>
+                      <span className={styles.compactType}>{prefix}</span>
+                      <span className={styles.compactTitle}>{suffix}</span>
                       {block.description && (
                         <span className={styles.compactNote}>
                           {block.description}
                         </span>
                       )}
                     </div>
-                  ))}
+                    )
+                  })}
                 </div>
 
                 {program.films && program.films.length > 0 && (
