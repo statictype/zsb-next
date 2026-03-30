@@ -77,7 +77,7 @@ export function PartnerBadge() {
             </svg>
           </div>
           <span className={styles.arrow}>
-            <RiArrowRightUpLine size={240} />
+            <RiArrowRightUpLine size={60} />
           </span>
         </div>
       </Link>
