@@ -22,6 +22,8 @@ export function onSectionChange(cb: (index: number) => void) {
 interface FullPageScrollProps {
   /** Number of sections (must match the fixed-position section elements in the DOM) */
   sectionCount: number
+  /** Section IDs for hash-based deep linking (e.g. ['home', 'about', ...]) */
+  sectionIds: readonly string[]
 }
 
 const DURATION = 1
@@ -35,7 +37,7 @@ const DURATION = 1
  *
  * Renders nothing — pure side-effect component.
  */
-export function FullPageScroll({ sectionCount }: FullPageScrollProps) {
+export function FullPageScroll({ sectionCount, sectionIds }: FullPageScrollProps) {
   const currentIndexRef = useRef(-1)
   const animatingRef = useRef(false)
 
@@ -46,8 +48,20 @@ export function FullPageScroll({ sectionCount }: FullPageScrollProps) {
 
     if (sections.length === 0) return
 
+    // Kill any stale GSAP tweens and reset all sections to hidden
+    const allEls = [...sections, ...outers, ...inners]
+    allEls.forEach((el) => gsap.killTweensOf(el))
+    sections.forEach((s) => gsap.set(s, { autoAlpha: 0, zIndex: 0 }))
+    outers.forEach((o) => gsap.set(o, { yPercent: 0 }))
+    inners.forEach((i) => gsap.set(i, { yPercent: 0 }))
+    currentIndexRef.current = -1
+    animatingRef.current = false
+
     const emit = (index: number) => {
       document.dispatchEvent(new CustomEvent(SECTION_CHANGE_EVENT, { detail: index }))
+      const id = sectionIds[index]
+      const hash = id && id !== sectionIds[0] ? `#${id}` : '/'
+      history.replaceState(null, '', hash)
     }
 
     const gotoSection = (index: number, direction: number) => {
@@ -90,8 +104,16 @@ export function FullPageScroll({ sectionCount }: FullPageScrollProps) {
       }
     }
 
-    // Show first section
-    gotoSection(0, 1)
+    // Show initial section immediately (no animation on mount)
+    const hash = window.location.hash.replace('#', '')
+    const hashIndex = sectionIds.indexOf(hash)
+    const startIndex = hashIndex > 0 ? hashIndex : 0
+    const startSection = sections[startIndex]
+    if (startSection) {
+      gsap.set(startSection, { autoAlpha: 1, zIndex: 1 })
+      currentIndexRef.current = startIndex
+      emit(startIndex)
+    }
 
     // GSAP Observer — wheel, touch, pointer
     const observer = Observer.create({
@@ -137,7 +159,7 @@ export function FullPageScroll({ sectionCount }: FullPageScrollProps) {
       window.removeEventListener('keydown', onKeyDown)
       document.removeEventListener('zsb:goto', onGoTo)
     }
-  }, [sectionCount])
+  }, [sectionCount, sectionIds])
 
   return null
 }

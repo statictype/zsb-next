@@ -8,7 +8,7 @@ import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import { dispatchGoTo, onSectionChange } from '@/components/FullPageScroll/FullPageScroll'
 import styles from './Navigation.module.css'
 
-const SECTION_IDS = ['home', 'about', 'editions', 'artists', 'visit', 'partner', 'footer'] as const
+export const SECTION_IDS = ['home', 'about', 'editions', 'artists', 'visit', 'footer'] as const
 
 function getActiveFromPath(pathname: string): string {
   if (pathname === '/') return 'home'
