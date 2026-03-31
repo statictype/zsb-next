@@ -29,7 +29,6 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
   return (
     <section className={styles.section}>
       <div className={styles.themeHeader}>
-        <span className={styles.overline}>Theme {year}</span>
         <h2 className={styles.headline}>{theme}</h2>
       </div>
 
@@ -50,12 +49,6 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
             )}
           </div>
         </ReadMore>
-
-        <div className={styles.divider}>
-          <span className={styles.dividerLine} />
-          <span className={styles.dividerText}>Artists</span>
-          <span className={styles.dividerLine} />
-        </div>
 
         <div className={styles.artistsBlock}>
           <div className={styles.artistsStatement}>
