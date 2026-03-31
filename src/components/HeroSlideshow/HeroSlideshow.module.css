@@ -5,7 +5,7 @@
 .slideshow {
   position: relative;
   width: 100%;
-  height: calc(100vh - 200px);
+  height: calc(100vh - var(--nav-height) - 100px);
   min-height: 400px;
   overflow: hidden;
 }
@@ -23,7 +23,7 @@
 
 .slide img {
   object-fit: cover;
-  filter: grayscale(100%);
+  filter: grayscale(0%);
 }
 
 .vignette {

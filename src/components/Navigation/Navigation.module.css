@@ -13,7 +13,7 @@
   justify-content: space-between;
   padding: 0 var(--content-padding);
   background: var(--black-pure);
-  height: 100px;
+  height: var(--nav-height);
 }
 
 /* Logo */

@@ -46,7 +46,7 @@
   --grid-gap: 16px;
 
   /* Component Specific */
-  --nav-height: 60px;
+  --nav-height: 100px;
   --carousel-height: 50vh;
   --card-padding: 16px;
   --btn-size: 48px;
@@ -142,9 +142,6 @@
 /* ---- Large Desktop (1280px+) ---- */
 @media (min-width: 1280px) {
   :root {
-    --text-base: 19px;
-    --text-sm: 15px;
-
     --space-2xl: 80px;
     --space-3xl: 112px;
     --space-4xl: 160px;
@@ -163,7 +160,8 @@
 /* ---- XL2 Desktop (1440px+) ---- */
 @media (min-width: 1440px) {
   :root {
-    --text-base: 20px;
+    --text-base: 18px;
+    --text-sm: 15px;
     --text-hero: 120px;
 
     --space-2xl: 88px;
@@ -187,7 +185,6 @@
 /* ---- XL Desktop (1536px+) ---- */
 @media (min-width: 1536px) {
   :root {
-    --text-base: 21px;
     --text-hero: 124px;
 
     --space-2xl: 96px;
@@ -211,7 +208,7 @@
 /* ---- 2XL Desktop (1792px+) ---- */
 @media (min-width: 1792px) {
   :root {
-    --text-base: 23px;
+    --text-base: 19px;
     --text-sm: 16px;
 
     --space-2xl: 112px;
@@ -254,6 +251,10 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  /* font-variant-ligatures: common-ligatures contextual; */
 }
 
 a {

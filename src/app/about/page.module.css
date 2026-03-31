@@ -15,12 +15,12 @@
   color: var(--white);
   position: relative;
   overflow: hidden;
-  padding: 180px var(--content-padding) 100px;
+  padding: calc(var(--nav-height) + 80px) var(--content-padding) 100px;
 }
 
 @media (min-width: 768px) {
   .hero {
-    padding: 200px var(--content-padding) 120px;
+    padding: calc(var(--nav-height) + 100px) var(--content-padding) 120px;
   }
 }
 
