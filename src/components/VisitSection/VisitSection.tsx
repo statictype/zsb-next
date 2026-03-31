@@ -65,9 +65,9 @@ export function VisitSection() {
                 className={styles.image}
               />
             </div>
-            {PIXELS.map((px, i) => (
+            {PIXELS.map((px) => (
               <div
-                key={i}
+                key={`${px.size}-${px.color}-${'top' in px ? px.top : ''}${'bottom' in px ? px.bottom : ''}`}
                 className={styles.pixel}
                 style={{
                   top: 'top' in px ? px.top : undefined,

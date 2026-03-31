@@ -52,17 +52,17 @@ export function PartnerBadge() {
   }
 
   return (
-    <div
-      ref={wrapRef}
-      className={styles.wrap}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleLeave}
-      onMouseEnter={handleEnter}
-    >
-      <Link href="/partners" className={styles.link}>
+    <div ref={wrapRef} className={styles.wrap}>
+      <Link
+        href="/partners"
+        className={styles.link}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleLeave}
+        onMouseEnter={handleEnter}
+      >
         <div ref={bodyRef} className={styles.body}>
           <div className={styles.textRing}>
-            <svg viewBox="0 0 500 500">
+            <svg viewBox="0 0 500 500" aria-hidden="true">
               <defs>
                 <path
                   id="partnerCircle"

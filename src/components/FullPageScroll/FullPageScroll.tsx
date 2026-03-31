@@ -49,11 +49,10 @@ export function FullPageScroll({ sectionCount, sectionIds }: FullPageScrollProps
     if (sections.length === 0) return
 
     // Kill any stale GSAP tweens and reset all sections to hidden
-    const allEls = [...sections, ...outers, ...inners]
-    allEls.forEach((el) => gsap.killTweensOf(el))
-    sections.forEach((s) => gsap.set(s, { autoAlpha: 0, zIndex: 0 }))
-    outers.forEach((o) => gsap.set(o, { yPercent: 0 }))
-    inners.forEach((i) => gsap.set(i, { yPercent: 0 }))
+    for (const el of [...sections, ...outers, ...inners]) gsap.killTweensOf(el)
+    for (const s of sections) gsap.set(s, { autoAlpha: 0, zIndex: 0 })
+    for (const o of outers) gsap.set(o, { yPercent: 0 })
+    for (const i of inners) gsap.set(i, { yPercent: 0 })
     currentIndexRef.current = -1
     animatingRef.current = false
 
