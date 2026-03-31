@@ -7,8 +7,7 @@
   position: relative;
   width: 100%;
   min-height: auto;
-  padding: calc(var(--nav-height) + var(--space-3xl)) var(--content-padding)
-    var(--space-3xl);
+  padding: calc(var(--nav-height) + var(--space-3xl)) var(--content-padding) var(--space-3xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,21 +88,9 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(
-      ellipse 90% 70% at 50% 50%,
-      transparent 0%,
-      rgba(10, 10, 10, 0.7) 80%
-    ),
-    radial-gradient(
-      ellipse 50% 80% at 20% 30%,
-      rgba(255, 0, 153, 0.1) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse 40% 60% at 80% 70%,
-      rgba(212, 229, 10, 0.08) 0%,
-      transparent 50%
-    );
+    radial-gradient(ellipse 90% 70% at 50% 50%, transparent 0%, rgba(10, 10, 10, 0.7) 80%),
+    radial-gradient(ellipse 50% 80% at 20% 30%, rgba(255, 0, 153, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 60% at 80% 70%, rgba(212, 229, 10, 0.08) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -127,11 +114,7 @@
 .vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 65%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
+  background: radial-gradient(ellipse at center, transparent 65%, rgba(0, 0, 0, 0.5) 100%);
   pointer-events: none;
 }
 
@@ -205,12 +188,7 @@
 }
 
 .themeHighlight {
-  background: linear-gradient(
-    135deg,
-    var(--pink) 0%,
-    #ff66c4 50%,
-    var(--chartreuse) 100%
-  );
+  background: linear-gradient(135deg, var(--pink) 0%, #ff66c4 50%, var(--chartreuse) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -269,12 +247,7 @@
 .scrollLine {
   width: 1px;
   height: 60px;
-  background: linear-gradient(
-    to bottom,
-    var(--chartreuse),
-    var(--pink),
-    transparent
-  );
+  background: linear-gradient(to bottom, var(--chartreuse), var(--pink), transparent);
   animation: scrollPulse 2s ease-in-out infinite;
 }
 

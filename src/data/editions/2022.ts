@@ -116,8 +116,7 @@ export const edition2022: Edition = {
     sftfBanner: {
       tag: 'Educational Program',
       title: 'Sculptors for the Future',
-      description:
-        'Modeling competition. Theme: The Arc de Triomphe \u2014 My Perspective.',
+      description: 'Modeling competition. Theme: The Arc de Triomphe \u2014 My Perspective.',
       href: '#',
     },
   },

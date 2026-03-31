@@ -4,8 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import { dispatchGoTo, onSectionChange } from '@/components/FullPageScroll/FullPageScroll'
+import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import styles from './Navigation.module.css'
 
 export const SECTION_IDS = ['home', 'about', 'editions', 'artists', 'visit', 'footer'] as const
@@ -72,7 +72,7 @@ export function Navigation() {
 
       e.preventDefault()
       const id = href === '/' ? 'home' : href.replace('/#', '')
-      const index = SECTION_IDS.indexOf(id as typeof SECTION_IDS[number])
+      const index = SECTION_IDS.indexOf(id as (typeof SECTION_IDS)[number])
       if (index !== -1) dispatchGoTo(index)
     },
     [isHome, closeMenu],
@@ -93,9 +93,7 @@ export function Navigation() {
 
   return (
     <header className={styles.bar}>
-      <div className={styles.logo}>
-        {showLogoLink ? <Link href="/">{logoImg}</Link> : logoImg}
-      </div>
+      <div className={styles.logo}>{showLogoLink ? <Link href="/">{logoImg}</Link> : logoImg}</div>
 
       <button
         type="button"

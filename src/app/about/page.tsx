@@ -145,26 +145,23 @@ export default function AboutPage() {
 
           <div className={styles.heroContent}>
             <p className={shared.heroLead}>
-              Bucharest Sculpture Days is an annual platform dedicated to
-              contemporary sculpture. Born online in 2021, at a moment when
-              physical space was temporarily suspended but artistic urgency was
-              not, the event quickly transformed into a living format that
+              Bucharest Sculpture Days is an annual platform dedicated to contemporary sculpture.
+              Born online in 2021, at a moment when physical space was temporarily suspended but
+              artistic urgency was not, the event quickly transformed into a living format that
               occupies the city.
             </p>
             <div className={shared.heroBody}>
               <p>
-                ZSB is not just an exhibition. It is an ecosystem that brings
-                together contemporary sculpture, film, critical debate, and
-                education. From the first digital format to occupying physical
-                spaces in Bucharest, each edition adapts, shifts, and grows
-                without losing its focus: sculpture as a critical and relevant
-                practice in the present.
+                ZSB is not just an exhibition. It is an ecosystem that brings together contemporary
+                sculpture, film, critical debate, and education. From the first digital format to
+                occupying physical spaces in Bucharest, each edition adapts, shifts, and grows
+                without losing its focus: sculpture as a critical and relevant practice in the
+                present.
               </p>
               <p>
-                Sculpture is a form of artistic expression that connects us with
-                our history and identity. Through this event, we celebrate this
-                art form and offer Romanian sculptors the recognition and
-                valorization of their work.
+                Sculpture is a form of artistic expression that connects us with our history and
+                identity. Through this event, we celebrate this art form and offer Romanian
+                sculptors the recognition and valorization of their work.
               </p>
             </div>
           </div>
@@ -209,9 +206,8 @@ export default function AboutPage() {
             <div className={styles.stripHeader}>
               <div className={styles.stripLabel}>Our Audience</div>
               <p className={styles.stripDesc}>
-                ZSB attracts a diverse audience from across the country — a
-                platform where creativity, innovation, and cultural influence
-                meet.
+                ZSB attracts a diverse audience from across the country — a platform where
+                creativity, innovation, and cultural influence meet.
               </p>
             </div>
             <div className={styles.stripCells}>
@@ -237,39 +233,34 @@ export default function AboutPage() {
           <div className={styles.statementContent}>
             <div className={styles.statementBody}>
               <p>
-                Bucharest Sculpture Days began to take shape gradually from
-                2016, when, together with several fellow sculptors from
-                Combinatul Fondului Plastic, we founded the Combinart 1+1=10
-                association to realize cultural projects that would highlight
-                the power and versatility of the sculpture profession.
+                Bucharest Sculpture Days began to take shape gradually from 2016, when, together
+                with several fellow sculptors from Combinatul Fondului Plastic, we founded the
+                Combinart 1+1=10 association to realize cultural projects that would highlight the
+                power and versatility of the sculpture profession.
               </p>
               <p>
-                Our first major event was organized in 2016, with the support of
-                the Administration of Monuments and Tourist Heritage, where we
-                screened films with and about sculpture and organized the first
-                edition of the &ldquo;Sculptors for the Future&rdquo;
-                competition. The members of the association, which dissolved in
-                2018, continue to be active largely in the leadership of the
-                Bucharest Sculpture Branch of the Union of Visual Artists.
+                Our first major event was organized in 2016, with the support of the Administration
+                of Monuments and Tourist Heritage, where we screened films with and about sculpture
+                and organized the first edition of the &ldquo;Sculptors for the Future&rdquo;
+                competition. The members of the association, which dissolved in 2018, continue to be
+                active largely in the leadership of the Bucharest Sculpture Branch of the Union of
+                Visual Artists.
               </p>
               <p>
-                After 10 years, in 2026, at the sixth edition of ZSB, it is even
-                more important to continue with large-scale events through which
-                to highlight Romanian sculpture. Over time, the profession has
-                begun to age, and young sculptors find it harder to reach their
-                peak due to a lack of studios and financial reasons.
+                After 10 years, in 2026, at the sixth edition of ZSB, it is even more important to
+                continue with large-scale events through which to highlight Romanian sculpture. Over
+                time, the profession has begun to age, and young sculptors find it harder to reach
+                their peak due to a lack of studios and financial reasons.
               </p>
               <p>
-                Our goal is to lay the foundations of a Romanian Sculpture
-                Center where we can offer both working studios and transposition
-                workshops, material resources through project-writing teams, and
-                a platform where the profession can consolidate and grow.
+                Our goal is to lay the foundations of a Romanian Sculpture Center where we can offer
+                both working studios and transposition workshops, material resources through
+                project-writing teams, and a platform where the profession can consolidate and grow.
               </p>
               <p>
-                In the Brâncuși Year, 150 years after the birth of Constantin
-                Brâncuși, let us draw inspiration from the support the great
-                sculptor received from Romanian society at the beginning of his
-                journey, and let us begin to build the future of Romanian
+                In the Brâncuși Year, 150 years after the birth of Constantin Brâncuși, let us draw
+                inspiration from the support the great sculptor received from Romanian society at
+                the beginning of his journey, and let us begin to build the future of Romanian
                 sculpture.
               </p>
             </div>
@@ -305,18 +296,12 @@ export default function AboutPage() {
           </div>
 
           <div className={styles.statementContent}>
-            <div
-              className={`${styles.statementBody} ${styles.statementBodyLight}`}
-            >
-              <p className={styles.placeholderText}>
-                Statement in preparation.
-              </p>
+            <div className={`${styles.statementBody} ${styles.statementBodyLight}`}>
+              <p className={styles.placeholderText}>Statement in preparation.</p>
             </div>
 
             <div className={styles.authorCard}>
-              <div
-                className={`${styles.authorPhoto} ${styles.authorPhotoLight}`}
-              >
+              <div className={`${styles.authorPhoto} ${styles.authorPhotoLight}`}>
                 <Image
                   src="/img/aurora_carstea.jpeg"
                   alt="Aurora Cârstea"
@@ -326,9 +311,7 @@ export default function AboutPage() {
                 />
               </div>
               <div className={styles.authorInfo}>
-                <span
-                  className={`${styles.authorName} ${styles.authorNameLight}`}
-                >
+                <span className={`${styles.authorName} ${styles.authorNameLight}`}>
                   Aurora Cârstea
                 </span>
                 <span className={styles.authorRole}>Organizer, ZSB</span>

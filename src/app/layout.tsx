@@ -28,8 +28,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
     default: `ZSB — ${SITE_NAME}`,
   },
-  description:
-    'Zilele Sculpturii București — contemporary sculpture event in Bucharest, Romania.',
+  description: 'Zilele Sculpturii București — contemporary sculpture event in Bucharest, Romania.',
   keywords: [
     'contemporary sculpture',
     'Bucharest',
@@ -75,8 +74,7 @@ export default function RootLayout({
                 name: SITE_NAME,
                 alternateName: 'ZSB',
                 url: SITE_URL,
-                description:
-                  'Contemporary sculpture event in Bucharest, Romania.',
+                description: 'Contemporary sculpture event in Bucharest, Romania.',
                 foundingDate: '2021',
                 location: {
                   '@type': 'Place',

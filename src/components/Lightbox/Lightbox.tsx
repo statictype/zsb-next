@@ -1,10 +1,6 @@
 'use client'
 
-import {
-  RiArrowLeftSLine,
-  RiArrowRightSLine,
-  RiCloseLine,
-} from '@remixicon/react'
+import { RiArrowLeftSLine, RiArrowRightSLine, RiCloseLine } from '@remixicon/react'
 import { useEffect, useRef, useState } from 'react'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import styles from './Lightbox.module.css'
@@ -21,12 +17,7 @@ interface LightboxProps {
   onClose: () => void
 }
 
-export function Lightbox({
-  images,
-  initialIndex = 0,
-  isOpen,
-  onClose,
-}: LightboxProps) {
+export function Lightbox({ images, initialIndex = 0, isOpen, onClose }: LightboxProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
   const wasOpen = useRef(false)
 
@@ -37,9 +28,7 @@ export function Lightbox({
   wasOpen.current = isOpen
 
   function navigate(direction: number) {
-    setCurrentIndex(
-      (prev) => (prev + direction + images.length) % images.length,
-    )
+    setCurrentIndex((prev) => (prev + direction + images.length) % images.length)
   }
 
   useEffect(() => {
@@ -78,12 +67,7 @@ export function Lightbox({
       }}
     >
       {/* Close button */}
-      <button
-        type="button"
-        className={styles.close}
-        onClick={onClose}
-        aria-label="Close lightbox"
-      >
+      <button type="button" className={styles.close} onClick={onClose} aria-label="Close lightbox">
         <RiCloseLine size={24} />
       </button>
 

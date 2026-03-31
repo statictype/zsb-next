@@ -1,9 +1,9 @@
 'use client'
 
+import { RiEmpathizeFill } from '@remixicon/react'
 import gsap from 'gsap'
 import Link from 'next/link'
 import { useRef } from 'react'
-import { RiEmpathizeFill } from '@remixicon/react'
 import styles from './PartnerBadge.module.css'
 
 export function PartnerBadge() {

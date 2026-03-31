@@ -69,11 +69,7 @@ export function Footer() {
             <div className={styles.linksCol}>
               <div className={styles.linksColTitle}>Explore</div>
               {EXPLORE_LINKS.map((link) => (
-                <FooterLink
-                  key={link.label}
-                  href={link.href}
-                  className={styles.link}
-                >
+                <FooterLink key={link.label} href={link.href} className={styles.link}>
                   {link.label}
                 </FooterLink>
               ))}
@@ -81,11 +77,7 @@ export function Footer() {
             <div className={styles.linksCol}>
               <div className={styles.linksColTitle}>Connect</div>
               {CONNECT_LINKS.map((link) => (
-                <FooterLink
-                  key={link.label}
-                  href={link.href}
-                  className={styles.link}
-                >
+                <FooterLink key={link.label} href={link.href} className={styles.link}>
                   {link.label}
                 </FooterLink>
               ))}
@@ -93,11 +85,7 @@ export function Footer() {
             <div className={styles.linksCol}>
               <div className={styles.linksColTitle}>Locations</div>
               {LOCATION_LINKS.map((link) => (
-                <FooterLink
-                  key={link.label}
-                  href={link.href}
-                  className={styles.link}
-                >
+                <FooterLink key={link.label} href={link.href} className={styles.link}>
                   {link.label}
                 </FooterLink>
               ))}
@@ -108,11 +96,7 @@ export function Footer() {
           <div className={styles.connect}>
             <div className={styles.social}>
               {SOCIAL_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className={styles.socialLink}
-                >
+                <a key={link.label} href={link.href} className={styles.socialLink}>
                   {link.label}
                 </a>
               ))}

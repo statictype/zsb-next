@@ -2,11 +2,11 @@ import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArtistsSection } from '@/components/ArtistsSection/ArtistsSection'
-import { FullPageScroll } from '@/components/FullPageScroll/FullPageScroll'
-import { SECTION_IDS } from '@/components/Navigation/Navigation'
-import { HeroSlideshow, type HeroImage } from '@/components/HeroSlideshow/HeroSlideshow'
-import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Footer } from '@/components/Footer/Footer'
+import { FullPageScroll } from '@/components/FullPageScroll/FullPageScroll'
+import { type HeroImage, HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
+import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
+import { SECTION_IDS } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { VisitSection } from '@/components/VisitSection/VisitSection'
 import { ZSB_STATS } from '@/data/stats'
@@ -96,10 +96,10 @@ export default function HomePage() {
                     DAYS
                   </h2>
                   <p className={styles.aboutBody}>
-                    Bucharest Sculpture Days is your annual checkpoint for the state of sculpture. For 2
-                    weeks each year, we occupy creative hubs across the city with exhibitions, screenings,
-                    and arguments worth having. We strip away the permanence of the monument to focus on
-                    the immediate tension of the process.
+                    Bucharest Sculpture Days is your annual checkpoint for the state of sculpture.
+                    For 2 weeks each year, we occupy creative hubs across the city with exhibitions,
+                    screenings, and arguments worth having. We strip away the permanence of the
+                    monument to focus on the immediate tension of the process.
                   </p>
                   <MagneticButton variant="secondary" href="/about">
                     Learn More <RiArrowRightLine size={14} />

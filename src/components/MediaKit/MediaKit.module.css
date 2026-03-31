@@ -70,12 +70,7 @@
   position: absolute;
   inset: 0;
   padding: 2px;
-  background: linear-gradient(
-    90deg,
-    var(--pink) 0%,
-    var(--chartreuse) 50%,
-    var(--pink) 100%
-  );
+  background: linear-gradient(90deg, var(--pink) 0%, var(--chartreuse) 50%, var(--pink) 100%);
   background-size: 200% 100%;
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,

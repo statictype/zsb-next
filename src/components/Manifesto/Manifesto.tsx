@@ -7,9 +7,7 @@ interface ManifestoProps {
 }
 
 export function Manifesto({ manifesto }: ManifestoProps) {
-  const titleParts = manifesto.highlight
-    ? manifesto.title.split(manifesto.highlight)
-    : null
+  const titleParts = manifesto.highlight ? manifesto.title.split(manifesto.highlight) : null
 
   return (
     <section className={styles.section}>
@@ -19,9 +17,7 @@ export function Manifesto({ manifesto }: ManifestoProps) {
             {titleParts ? (
               <>
                 {titleParts[0]}
-                <span className={styles.titleHighlight}>
-                  {manifesto.highlight}
-                </span>
+                <span className={styles.titleHighlight}>{manifesto.highlight}</span>
                 {titleParts[1]}
               </>
             ) : (

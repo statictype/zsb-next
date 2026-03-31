@@ -120,8 +120,7 @@ export function MagneticButton({
   const style: CSSProperties = { ...sizeTokens[size] } as CSSProperties
   if (color) (style as Record<string, string>)['--btn-color'] = color
   if (textColor) (style as Record<string, string>)['--btn-text'] = textColor
-  if (hoverTextColor)
-    (style as Record<string, string>)['--btn-hover-text'] = hoverTextColor
+  if (hoverTextColor) (style as Record<string, string>)['--btn-hover-text'] = hoverTextColor
 
   const btnClass = [
     styles.btn,
@@ -140,8 +139,7 @@ export function MagneticButton({
     onClick: handleClick,
   }
 
-  const isExternal =
-    external || href.startsWith('http') || href.startsWith('mailto:')
+  const isExternal = external || href.startsWith('http') || href.startsWith('mailto:')
 
   const inner = <span className={styles.content}>{children}</span>
 

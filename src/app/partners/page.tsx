@@ -31,26 +31,22 @@ export default function PartnersPage() {
           <div className={styles.heroContent}>
             <div className={styles.heroText}>
               <p className={shared.heroLead}>
-                Bucharest Sculpture Days is one of Eastern Europe&apos;s most
-                significant contemporary sculpture events. Each edition
-                transforms the city into an open-air museum, bringing together
-                artists, curators, and audiences around the enduring power of
-                three-dimensional art.
+                Bucharest Sculpture Days is one of Eastern Europe&apos;s most significant
+                contemporary sculpture events. Each edition transforms the city into an open-air
+                museum, bringing together artists, curators, and audiences around the enduring power
+                of three-dimensional art.
               </p>
               <div className={shared.heroBody}>
                 <p>
-                  Since 2021, ZSB has grown from an online inaugural edition
-                  into an event that draws thousands of visitors, media
-                  attention, and institutional interest. We work at the
-                  intersection of public space, cultural heritage, and
-                  contemporary practice — making sculpture accessible, relevant,
-                  and unmissable.
+                  Since 2021, ZSB has grown from an online inaugural edition into an event that
+                  draws thousands of visitors, media attention, and institutional interest. We work
+                  at the intersection of public space, cultural heritage, and contemporary practice
+                  — making sculpture accessible, relevant, and unmissable.
                 </p>
                 <p>
-                  Our partners are integral to this mission. They don&apos;t
-                  sponsor a product — they support a movement. One that values
-                  material intelligence, physical presence, and the
-                  irreplaceable experience of encountering art in shared space.
+                  Our partners are integral to this mission. They don&apos;t sponsor a product —
+                  they support a movement. One that values material intelligence, physical presence,
+                  and the irreplaceable experience of encountering art in shared space.
                 </p>
               </div>
             </div>
@@ -74,9 +70,7 @@ export default function PartnersPage() {
           <div className={styles.whySculptureTop}>
             <div>
               <div className={shared.eyebrowMuted}>Why Sculpture</div>
-              <h2
-                className={`${styles.sectionTitle} ${styles.whySculptureTitle}`}
-              >
+              <h2 className={`${styles.sectionTitle} ${styles.whySculptureTitle}`}>
                 The most resilient
                 <br />
                 art form
@@ -96,9 +90,7 @@ export default function PartnersPage() {
           <div className={styles.whySculpturePoints}>
             {whySculpturePoints.map((point) => (
               <div key={point.title} className={styles.whySculpturePoint}>
-                <div className={styles.whySculpturePointTitle}>
-                  {point.title}
-                </div>
+                <div className={styles.whySculpturePointTitle}>{point.title}</div>
                 <p className={styles.whySculpturePointText}>{point.text}</p>
               </div>
             ))}
@@ -132,9 +124,7 @@ export default function PartnersPage() {
           <div className={styles.audienceProfiles}>
             {audienceProfiles.map((profile) => (
               <div key={profile.title} className={styles.audienceProfile}>
-                <div className={styles.audienceProfileTitle}>
-                  {profile.title}
-                </div>
+                <div className={styles.audienceProfileTitle}>{profile.title}</div>
                 <p className={styles.audienceProfileDesc}>{profile.desc}</p>
               </div>
             ))}
@@ -158,9 +148,7 @@ export default function PartnersPage() {
                   className={`${styles.partnershipBenefit} ${i === 0 ? styles.partnershipBenefitFirst : ''}`}
                 >
                   <div className={styles.partnershipBenefitType}>{b.type}</div>
-                  <div className={styles.partnershipBenefitTitle}>
-                    {b.title}
-                  </div>
+                  <div className={styles.partnershipBenefitTitle}>{b.title}</div>
                   <p className={styles.partnershipBenefitText}>{b.text}</p>
                 </div>
               ))}
@@ -168,25 +156,18 @@ export default function PartnersPage() {
 
             <div>
               <div className={styles.partnershipColHeader}>
-                <span className={styles.partnershipColEyebrow}>
-                  Transparency
-                </span>
-                <h3 className={styles.partnershipColTitle}>
-                  Where the money goes
-                </h3>
+                <span className={styles.partnershipColEyebrow}>Transparency</span>
+                <h3 className={styles.partnershipColTitle}>Where the money goes</h3>
               </div>
               <p className={styles.partnershipColLead}>
-                For five editions, ZSB has been built on volunteer work —
-                curators, designers, developers, PR. Artist fees don&apos;t
-                cover the transport costs of their own works. Your support
-                changes that.
+                For five editions, ZSB has been built on volunteer work — curators, designers,
+                developers, PR. Artist fees don&apos;t cover the transport costs of their own works.
+                Your support changes that.
               </p>
               <div className={styles.partnershipAllocations}>
                 {allocations.map((a) => (
                   <div key={a.title} className={styles.partnershipAlloc}>
-                    <div className={styles.partnershipAllocTitle}>
-                      {a.title}
-                    </div>
+                    <div className={styles.partnershipAllocTitle}>{a.title}</div>
                     <p className={styles.partnershipAllocText}>{a.text}</p>
                   </div>
                 ))}
@@ -208,9 +189,8 @@ export default function PartnersPage() {
             <span className={styles.partnerCtaAccent}>PARTNER</span>
           </h2>
           <p className={styles.partnerCtaBody}>
-            Join the institutions and individuals who make two weeks of sculpture
-            possible. Support the project, shape the future of contemporary art
-            in Romania.
+            Join the institutions and individuals who make two weeks of sculpture possible. Support
+            the project, shape the future of contemporary art in Romania.
           </p>
           <MagneticButton href="mailto:partners@sculpturedays.com">
             Get In Touch <RiArrowRightLine size={14} />

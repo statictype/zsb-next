@@ -37,9 +37,7 @@ export function Program({ year, program }: ProgramProps) {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <h2 className={`${shared.sectionTitle} ${styles.title}`}>
-              Program {year}
-            </h2>
+            <h2 className={`${shared.sectionTitle} ${styles.title}`}>Program {year}</h2>
           </div>
           <div className={styles.headerRight}>
             <span className={styles.dates}>{program.dates}</span>
@@ -59,21 +57,12 @@ export function Program({ year, program }: ProgramProps) {
               ))}
 
               {program.sftfBanner && (
-                <Link
-                  href={program.sftfBanner.href}
-                  className={styles.sftfBanner}
-                >
+                <Link href={program.sftfBanner.href} className={styles.sftfBanner}>
                   <div className={styles.sftfContent}>
                     <div className={styles.sftfLeft}>
-                      <span className={styles.sftfTag}>
-                        {program.sftfBanner.tag}
-                      </span>
-                      <h3 className={styles.sftfTitle}>
-                        {program.sftfBanner.title}
-                      </h3>
-                      <p className={styles.sftfDesc}>
-                        {program.sftfBanner.description}
-                      </p>
+                      <span className={styles.sftfTag}>{program.sftfBanner.tag}</span>
+                      <h3 className={styles.sftfTitle}>{program.sftfBanner.title}</h3>
+                      <p className={styles.sftfDesc}>{program.sftfBanner.description}</p>
                     </div>
                     <div className={styles.sftfCta}>
                       <span className={styles.sftfCtaText}>Explore</span>
@@ -92,31 +81,27 @@ export function Program({ year, program }: ProgramProps) {
               <div className={styles.group}>
                 <div className={`${styles.item}`}>
                   <div className={styles.itemHeader}>
-                    <span className={styles.itemType}>
-                      Talks &amp; Workshops
-                    </span>
+                    <span className={styles.itemType}>Talks &amp; Workshops</span>
                   </div>
                   {talkBlocks.map((block) => {
                     const colonIdx = block.title.indexOf(': ')
                     const prefix = colonIdx >= 0 ? block.title.slice(0, colonIdx) : block.title
                     const suffix = colonIdx >= 0 ? block.title.slice(colonIdx + 2) : block.title
                     return (
-                    <div key={block.title} className={styles.compactItem}>
-                      <span className={styles.compactType}>{prefix}</span>
-                      <span className={styles.compactTitle}>{suffix}</span>
-                      {block.description && (
-                        <span className={styles.compactNote}>
-                          {block.description}
-                        </span>
-                      )}
-                    </div>
+                      <div key={block.title} className={styles.compactItem}>
+                        <span className={styles.compactType}>{prefix}</span>
+                        <span className={styles.compactTitle}>{suffix}</span>
+                        {block.description && (
+                          <span className={styles.compactNote}>{block.description}</span>
+                        )}
+                      </div>
                     )
                   })}
                 </div>
 
                 {program.films && program.films.length > 0 && (
                   <div className={`${styles.item}`}>
-                      <div className={styles.itemHeader}>
+                    <div className={styles.itemHeader}>
                       <span className={styles.itemType}>Screenings</span>
                     </div>
                     <h4 className={styles.itemTitle}>Short Film Breaks</h4>

@@ -108,7 +108,6 @@
   .container {
     grid-template-columns: 1fr 1fr;
   }
-
 }
 
 @media (min-width: 1536px) {

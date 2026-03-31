@@ -26,9 +26,7 @@ export function MediaKit({ items }: MediaKitProps) {
         <div className={styles.container}>
           <div className={styles.header}>
             <div className={styles.headerLeft}>
-              <h2 className={`${shared.sectionTitle} ${styles.title}`}>
-                Media Kit
-              </h2>
+              <h2 className={`${shared.sectionTitle} ${styles.title}`}>Media Kit</h2>
             </div>
             <span className={styles.count}>{items.length} Items</span>
           </div>
@@ -49,9 +47,7 @@ export function MediaKit({ items }: MediaKitProps) {
                   }
                 }}
               >
-                <span className={styles.cardIndex}>
-                  {String(i + 1).padStart(2, '0')}
-                </span>
+                <span className={styles.cardIndex}>{String(i + 1).padStart(2, '0')}</span>
                 <div className={styles.cardInner}>
                   <Image
                     src={imageSrc(item.image)}

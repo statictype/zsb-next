@@ -13,20 +13,22 @@ export function ArtistsSection() {
         <div className={styles.columns}>
           <div className={styles.columnLeft}>
             {leftNames.map((name) => (
-              <span key={name} className={styles.name}>{name}</span>
+              <span key={name} className={styles.name}>
+                {name}
+              </span>
             ))}
           </div>
           <div className={styles.columnRight}>
             {rightNames.map((name) => (
-              <span key={name} className={styles.name}>{name}</span>
+              <span key={name} className={styles.name}>
+                {name}
+              </span>
             ))}
           </div>
         </div>
       </div>
 
-      <p className={styles.footer}>
-        {ALL_ARTISTS.length} artists across 5 editions
-      </p>
+      <p className={styles.footer}>{ALL_ARTISTS.length} artists across 5 editions</p>
     </section>
   )
 }

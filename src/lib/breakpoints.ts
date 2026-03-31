@@ -9,11 +9,11 @@
  */
 
 export const BP = {
-  sm:    768,  // 256 * 3
-  md:   1024,  // 256 * 4
-  lg:   1280,  // 256 * 5
-  xl2:  1440,  // intermediate — MacBook Pro 14"
-  xl:   1536,  // 256 * 6
+  sm: 768, // 256 * 3
+  md: 1024, // 256 * 4
+  lg: 1280, // 256 * 5
+  xl2: 1440, // intermediate — MacBook Pro 14"
+  xl: 1536, // 256 * 6
   '2xl': 1792, // 256 * 7
 } as const
 

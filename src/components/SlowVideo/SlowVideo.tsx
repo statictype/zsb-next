@@ -6,11 +6,7 @@ interface SlowVideoProps {
   rate?: number
 }
 
-export default function SlowVideo({
-  src,
-  className,
-  rate = 0.25,
-}: SlowVideoProps) {
+export default function SlowVideo({ src, className, rate = 0.25 }: SlowVideoProps) {
   return (
     <video
       className={className}

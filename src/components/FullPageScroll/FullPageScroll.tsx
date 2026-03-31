@@ -76,7 +76,9 @@ export function FullPageScroll({ sectionCount, sectionIds }: FullPageScrollProps
 
       const tl = gsap.timeline({
         defaults: { duration: DURATION, ease: 'power2.inOut' },
-        onComplete: () => { animatingRef.current = false },
+        onComplete: () => {
+          animatingRef.current = false
+        },
       })
 
       // Animate previous section out
@@ -84,8 +86,7 @@ export function FullPageScroll({ sectionCount, sectionIds }: FullPageScrollProps
       const prevOuter = outers[prev]
       if (prev >= 0 && prevSection && prevOuter) {
         gsap.set(prevSection, { zIndex: 0 })
-        tl.to(prevOuter, { yPercent: -15 * direction }, 0)
-          .set(prevSection, { autoAlpha: 0 })
+        tl.to(prevOuter, { yPercent: -15 * direction }, 0).set(prevSection, { autoAlpha: 0 })
       }
 
       // Animate new section in

@@ -113,8 +113,7 @@ export const edition2023: Edition = {
         type: 'Film Program',
         title: 'Pop-up Cinema',
         dates: 'April 18, 22, 29',
-        description:
-          'Film screenings with and about sculptors and sculptural practices.',
+        description: 'Film screenings with and about sculptors and sculptural practices.',
         featured: false,
       },
       {

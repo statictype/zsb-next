@@ -26,11 +26,7 @@ export default function ErrorPage({
           Try again or return to the homepage.
         </p>
         <div className={styles.actions}>
-          <button
-            type="button"
-            onClick={reset}
-            className={`${styles.btn} ${styles.btnPrimary}`}
-          >
+          <button type="button" onClick={reset} className={`${styles.btn} ${styles.btnPrimary}`}>
             <RiRefreshLine size={14} />
             Try Again
           </button>

@@ -58,9 +58,7 @@ export function Carousel({ slides, theme }: CarouselProps) {
     <section className={styles.section}>
       {/* Header */}
       <div className={styles.header}>
-        <h2 className={`${sharedStyles.sectionTitle} ${styles.title}`}>
-          Experience
-        </h2>
+        <h2 className={`${sharedStyles.sectionTitle} ${styles.title}`}>Experience</h2>
         <div className={styles.count}>{theme}</div>
       </div>
 
@@ -83,10 +81,7 @@ export function Carousel({ slides, theme }: CarouselProps) {
             onTouchEnd={handleTouchEnd}
           >
             {slides.map((slide, slideIndex) => (
-              <div
-                key={slideIndex}
-                className={`${styles.slide} ${LAYOUT_MAP[slide.layout] || ''}`}
-              >
+              <div key={slideIndex} className={`${styles.slide} ${LAYOUT_MAP[slide.layout] || ''}`}>
                 {slide.images.map((img, imgIndex) => (
                   <div key={imgIndex} className={styles.item}>
                     <Image
@@ -133,10 +128,7 @@ export function Carousel({ slides, theme }: CarouselProps) {
 
           <div className={styles.progressWrap}>
             <div className={styles.progress}>
-              <div
-                className={styles.progressBar}
-                style={{ width: `${progressPercent}%` }}
-              />
+              <div className={styles.progressBar} style={{ width: `${progressPercent}%` }} />
             </div>
           </div>
 

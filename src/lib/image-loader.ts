@@ -21,14 +21,11 @@ export default function imageLoader({ src, width }: ImageLoaderParams): string {
   const widthsParam = params.get('widths')
   const ext = params.get('ext') || 'webp'
 
-  const availableWidths = widthsParam
-    ? widthsParam.split(',').map(Number)
-    : DEFAULT_WIDTHS
+  const availableWidths = widthsParam ? widthsParam.split(',').map(Number) : DEFAULT_WIDTHS
 
   // Snap to nearest available width (round up)
   const snapped =
-    availableWidths.find((w) => w >= width) ||
-    availableWidths[availableWidths.length - 1]
+    availableWidths.find((w) => w >= width) || availableWidths[availableWidths.length - 1]
 
   return `${basePath}-${snapped}.${ext}`
 }
