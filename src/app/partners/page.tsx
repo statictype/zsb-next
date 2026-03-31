@@ -24,7 +24,7 @@ export default function PartnersPage() {
           <header className={styles.heroHeader}>
             <h1 className={styles.pageTitle}>
               Partner
-              <span className={shared.pageTitleHighlight}>s</span>
+              <span className={shared.accent}>s</span>
             </h1>
           </header>
 

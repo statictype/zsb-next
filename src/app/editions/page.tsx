@@ -39,7 +39,7 @@ export default function EditionsPage() {
         <div className={styles.heroInner}>
           <header className={styles.heroHeader}>
             <h1 className={shared.pageTitle}>
-              Edit<span className={shared.pageTitleHighlight}>ions</span>
+              Edit<span className={shared.accent}>ions</span>
             </h1>
           </header>
         </div>

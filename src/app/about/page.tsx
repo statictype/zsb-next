@@ -139,7 +139,7 @@ export default function AboutPage() {
         <div className={styles.heroInner}>
           <header className={styles.heroHeader}>
             <h1 className={styles.pageTitle}>
-              About <span className={shared.pageTitleHighlight}>ZSB</span>
+              About <span className={shared.accent}>ZSB</span>
             </h1>
           </header>
 
