@@ -265,3 +265,8 @@ img {
   display: block;
   max-width: 100%;
 }
+
+/* Hide layout footer on fullpage-scroll pages (they include their own footer as a section) */
+[data-fullpage] ~ footer {
+  display: none;
+}

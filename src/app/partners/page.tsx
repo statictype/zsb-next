@@ -2,6 +2,7 @@ import { RiArrowRightLine } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
+import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import shared from '@/components/Shared.module.css'
 import { allocations, audienceProfiles, benefits, whySculpturePoints } from '@/data/partners'
 import { ZSB_STATS } from '@/data/stats'
@@ -195,32 +196,24 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      {/* ---- 5. Contact CTA ---- */}
-      <section
-        className={`${shared.section} ${shared.sectionDark} ${styles.contactCta}`}
-      >
-        <div className={styles.contactCtaGhost}>PARTNER</div>
-        <div className={styles.contactCtaImage}>
-          <Image
-            src="/img/2025/optimized/bws00842"
-            alt="Visitors entering ZSB venue"
-            fill
-            sizes="100vw"
-            className={styles.contactCtaImg}
-          />
-        </div>
-        <div className={styles.contactCtaInner}>
-          <div className={`${shared.eyebrowMuted} ${styles.contactCtaEyebrow}`}>
-            Get in Touch
+      {/* ---- 5. Partner CTA ---- */}
+      <section className={`${shared.section} ${shared.sectionDark} ${styles.partnerCta}`}>
+        <div className={styles.partnerCtaInner}>
+          <div className={styles.partnerCtaBadge}>
+            <PartnerBadge />
           </div>
-          <h2 className={styles.contactCtaTitle}>Let&apos;s Talk</h2>
-          <p className={styles.contactCtaEmail}>
-            <a href="mailto:partners@sculpturedays.com">
-              partners@sculpturedays.com
-            </a>
+          <h2 className={styles.partnerCtaHeading}>
+            BECOME A
+            <br />
+            <span className={styles.partnerCtaAccent}>PARTNER</span>
+          </h2>
+          <p className={styles.partnerCtaBody}>
+            Join the institutions and individuals who make two weeks of sculpture
+            possible. Support the project, shape the future of contemporary art
+            in Romania.
           </p>
           <MagneticButton href="mailto:partners@sculpturedays.com">
-            Become a Partner <RiArrowRightLine size={18} />
+            Get In Touch <RiArrowRightLine size={14} />
           </MagneticButton>
         </div>
       </section>

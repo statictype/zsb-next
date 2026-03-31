@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArtistsSection } from '@/components/ArtistsSection/ArtistsSection'
 import { FullPageScroll } from '@/components/FullPageScroll/FullPageScroll'
+import { SECTION_IDS } from '@/components/Navigation/Navigation'
 import { HeroSlideshow, type HeroImage } from '@/components/HeroSlideshow/HeroSlideshow'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Footer } from '@/components/Footer/Footer'
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 }
 
-const SECTION_COUNT = 7
+const SECTION_COUNT = 6
 
 const heroImages: HeroImage[] = [
   { basePath: '/img/2025/optimized/_dsc5496', alt: 'ZSB 2025', position: 'top' },
@@ -39,8 +40,8 @@ const editions = [
 
 export default function HomePage() {
   return (
-    <main className={styles.main}>
-      <FullPageScroll sectionCount={SECTION_COUNT} />
+    <main className={styles.main} data-fullpage>
+      <FullPageScroll sectionCount={SECTION_COUNT} sectionIds={SECTION_IDS} />
 
       {/* ---- 0: Hero ---- */}
       <section data-section className={styles.panel}>
@@ -100,6 +101,9 @@ export default function HomePage() {
                     and arguments worth having. We strip away the permanence of the monument to focus on
                     the immediate tension of the process.
                   </p>
+                  <MagneticButton variant="secondary" href="/about">
+                    Learn More <RiArrowRightLine size={14} />
+                  </MagneticButton>
                 </div>
                 <div className={styles.stats}>
                   {ZSB_STATS.map((stat) => (
@@ -162,32 +166,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ---- 5: Partner CTA ---- */}
-      <section data-section className={styles.panel}>
-        <div className={`${styles.fpOuter} fpOuter`}>
-          <div className={`${styles.fpInner} fpInner`}>
-            <div className={`${styles.partner} ${styles.fpContent}`}>
-              <div className={styles.partnerBadge}>
-                <PartnerBadge />
-              </div>
-              <h2 className={styles.partnerHeading}>
-                BECOME A
-                <br />
-                <span className={styles.partnerAccent}>PARTNER</span>
-              </h2>
-              <p className={styles.partnerBody}>
-                Join the institutions and individuals who make two weeks of sculpture possible. Support
-                the project, shape the future of contemporary art in Romania.
-              </p>
-              <MagneticButton href="/partners">
-                Get In Touch <RiArrowRightLine size={14} />
-              </MagneticButton>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---- 6: Footer ---- */}
+      {/* ---- 5: Footer ---- */}
       <section data-section className={styles.panel}>
         <div className={`${styles.fpOuter} fpOuter`}>
           <div className={`${styles.fpInner} fpInner`}>
