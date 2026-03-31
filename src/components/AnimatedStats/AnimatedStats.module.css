@@ -1,0 +1,29 @@
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.stat {
+  padding: var(--space-md) var(--space-sm) 0;
+  border-top: 1px solid var(--gray-200);
+  position: relative;
+  overflow: hidden;
+}
+
+.statNumber {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--black);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gray-600);
+  margin-top: 9px;
+}

@@ -1,6 +1,7 @@
 import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { AnimatedStats } from '@/components/AnimatedStats/AnimatedStats'
 import { ArtistsSection } from '@/components/ArtistsSection/ArtistsSection'
 import { Footer } from '@/components/Footer/Footer'
 import { FullPageScroll } from '@/components/FullPageScroll/FullPageScroll'
@@ -35,7 +36,7 @@ const editions = [
   { year: 2024, theme: '#syzygy', href: '/editions/2024' },
   { year: 2023, theme: 're#situari afective', href: '/editions/2023' },
   { year: 2022, theme: '#perspectiva31', href: '/editions/2022' },
-  { year: 2021, theme: 'Inaugural Edition', href: '/editions' },
+  { year: 2021, theme: 'online edition', href: '/editions' },
 ]
 
 export default function HomePage() {
@@ -86,33 +87,26 @@ export default function HomePage() {
             <div className={`${styles.about} ${styles.fpContent}`}>
               <div className={styles.aboutGrid}>
                 <div>
-                  <div className={styles.eyebrow}>About ZSB</div>
-                  <div className={styles.rule} />
                   <h2 className={styles.aboutHeading}>
-                    BUCHAREST
+                    Bucharest
                     <br />
-                    SCULPTURE
-                    <br />
-                    DAYS
+                    <span className={styles.aboutAccent}>
+                      Sculpture
+                      <br />
+                      Days
+                    </span>
                   </h2>
                   <p className={styles.aboutBody}>
                     Bucharest Sculpture Days is your annual checkpoint for the state of sculpture.
                     For 2 weeks each year, we occupy creative hubs across the city with exhibitions,
-                    screenings, and arguments worth having. We strip away the permanence of the
-                    monument to focus on the immediate tension of the process.
+                    screenings, and arguments worth having.
                   </p>
-                  <MagneticButton variant="secondary" href="/about">
+                  <MagneticButton href="/about" size="lg">
                     Learn More <RiArrowRightLine size={14} />
                   </MagneticButton>
                 </div>
-                <div className={styles.stats}>
-                  {ZSB_STATS.map((stat) => (
-                    <div key={stat.label} className={styles.stat}>
-                      <div className={styles.statNumber}>{stat.value}</div>
-                      <div className={styles.statLabel}>{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
+
+                <AnimatedStats stats={ZSB_STATS} />
               </div>
             </div>
           </div>

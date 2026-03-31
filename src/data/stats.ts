@@ -3,4 +3,6 @@ export const ZSB_STATS = [
   { label: 'Artists', value: '150+' },
   { label: 'Venues', value: '8' },
   { label: 'Visitors', value: '25K+' },
+  { label: 'Works', value: '230' },
+  { label: 'Materials', value: '23' },
 ] as const
