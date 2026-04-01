@@ -8,10 +8,12 @@ export function splitInHalf<T>(arr: T[]): [T[], T[]] {
 }
 
 export function toLightboxImages(
-  items: { basePath: string; caption: string }[],
+  items: { basePath: string; caption: string; ext?: string; widths?: number[] }[],
 ): { src: string; caption: string }[] {
-  return items.map((item) => ({
-    src: `${item.basePath}-1920.webp`,
-    caption: item.caption,
-  }))
+  return items.map((item) => {
+    const ext = item.ext ?? 'webp'
+    const widths = item.widths ?? [600, 1200, 1920]
+    const largest = widths[widths.length - 1] ?? 1920
+    return { src: `${item.basePath}-${largest}.${ext}`, caption: item.caption }
+  })
 }

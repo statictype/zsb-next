@@ -7,9 +7,8 @@ export const edition2022: Edition = {
   title: 'ZSB 2022 - #perspectiva31 | Bucharest Sculpture Days',
   dateTape: '16\u201318 April 2022 \u00B7 Combinatul Fondului Plastic',
   heroImage: {
-    basePath: '/img/2025/optimized/instagram_cap3',
-    alt: 'The Other Body \u2014 Classical bust split to reveal skull beneath',
-    ext: 'png',
+    basePath: '/img/2022/optimized/sal2',
+    alt: 'ZSB 2022 #perspectiva31 \u2014 Exhibition hall at Combinatul Fondului Plastic',
   },
   manifesto: {
     title: 'More art, more perspectives',

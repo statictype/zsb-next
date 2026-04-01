@@ -17,7 +17,7 @@ export function MediaKit({ items }: MediaKitProps) {
   const lightbox = useLightbox()
 
   const lightboxImages = toLightboxImages(
-    items.map((item) => ({ basePath: item.image.basePath, caption: item.name })),
+    items.map((item) => ({ ...item.image, caption: item.name })),
   )
 
   return (
