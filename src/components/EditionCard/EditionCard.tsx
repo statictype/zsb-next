@@ -24,9 +24,10 @@ export function EditionCard({ edition }: EditionCardProps) {
     )
   }
 
-  const variantClass = edition.variant
-    ? styles[`variant${edition.variant.charAt(0).toUpperCase() + edition.variant.slice(1)}`]
-    : ''
+  const variantKey = edition.variant
+    ? `variant${edition.variant.charAt(0).toUpperCase() + edition.variant.slice(1)}`
+    : undefined
+  const variantClass = variantKey ? (styles[variantKey] ?? '') : ''
 
   return (
     <Link href={edition.href} className={`${styles.card} ${variantClass}`.trim()}>

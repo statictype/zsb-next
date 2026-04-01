@@ -24,7 +24,9 @@ interface MagneticButtonProps {
   hoverTextColor?: string
 }
 
-const sizeTokens: Record<ButtonSize, Record<string, string>> = {
+type CSSWithVars = CSSProperties & Record<`--${string}`, string>
+
+const sizeTokens: Record<ButtonSize, Record<`--${string}`, string>> = {
   sm: {
     '--btn-padding-y': '8px',
     '--btn-padding-x': '20px',
@@ -117,10 +119,10 @@ export function MagneticButton({
     })
   }
 
-  const style: CSSProperties = { ...sizeTokens[size] } as CSSProperties
-  if (color) (style as Record<string, string>)['--btn-color'] = color
-  if (textColor) (style as Record<string, string>)['--btn-text'] = textColor
-  if (hoverTextColor) (style as Record<string, string>)['--btn-hover-text'] = hoverTextColor
+  const style: CSSWithVars = { ...sizeTokens[size] } as CSSWithVars
+  if (color) style['--btn-color'] = color
+  if (textColor) style['--btn-text'] = textColor
+  if (hoverTextColor) style['--btn-hover-text'] = hoverTextColor
 
   const btnClass = [
     styles.btn,

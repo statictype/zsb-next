@@ -42,7 +42,7 @@ export function Lightbox({ images, initialIndex = 0, isOpen, onClose }: Lightbox
 
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  })
+  }, [isOpen, onClose, images.length])
 
   useBodyScrollLock(isOpen)
 
