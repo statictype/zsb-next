@@ -1,4 +1,9 @@
-export const ZSB_STATS = [
+export interface Stat {
+  label: string
+  value: string
+}
+
+export const ZSB_STATS: readonly Stat[] = [
   { label: 'Editions', value: '5' },
   { label: 'Artists', value: '150+' },
   { label: 'Venues', value: '8' },

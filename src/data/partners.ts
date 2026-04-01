@@ -1,4 +1,25 @@
-export const audienceProfiles = [
+export interface AudienceProfile {
+  title: string
+  desc: string
+}
+
+export interface Benefit {
+  type: string
+  title: string
+  text: string
+}
+
+export interface Allocation {
+  title: string
+  text: string
+}
+
+export interface WhySculpturePoint {
+  title: string
+  text: string
+}
+
+export const audienceProfiles: AudienceProfile[] = [
   {
     title: 'Art Professionals & Collectors',
     desc: 'Curators, gallery directors, museum professionals, and private collectors who follow ZSB as a key indicator of sculptural trends in the region.',
@@ -17,7 +38,7 @@ export const audienceProfiles = [
   },
 ]
 
-export const benefits = [
+export const benefits: Benefit[] = [
   {
     type: 'Brand',
     title: 'Visibility & Brand Alignment',
@@ -40,7 +61,7 @@ export const benefits = [
   },
 ]
 
-export const allocations = [
+export const allocations: Allocation[] = [
   {
     title: 'Artist Fees & Production',
     text: 'Fair pay for artists whose transport costs alone can exceed their fees. Bolder proposals start with sustainable funding.',
@@ -67,7 +88,7 @@ export const allocations = [
   },
 ]
 
-export const whySculpturePoints = [
+export const whySculpturePoints: WhySculpturePoint[] = [
   {
     title: 'Permanence of Material',
     text: "Bronze, stone, steel, ceramic — sculpture is made from the materials of civilization itself. It doesn't fade, doesn't buffer, doesn't need a screen. It outlasts the artist, the gallery, the century.",

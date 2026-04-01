@@ -1,9 +1,5 @@
+import type { Stat } from '@/data/stats'
 import styles from './AnimatedStats.module.css'
-
-interface Stat {
-  label: string
-  value: string
-}
 
 interface AnimatedStatsProps {
   stats: readonly Stat[]

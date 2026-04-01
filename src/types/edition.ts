@@ -82,21 +82,43 @@ export interface CarouselImage {
   caption: string
 }
 
-export interface CarouselSlide {
-  layout: CarouselLayout
-  images: CarouselImage[]
+interface FullSlide {
+  layout: 'full'
+  images: [CarouselImage]
 }
+
+interface DuoSlide {
+  layout: 'duo' | 'featured-portrait'
+  images: [CarouselImage, CarouselImage]
+}
+
+interface TrioSlide {
+  layout: 'trio' | 'featured-stack'
+  images: [CarouselImage, CarouselImage, CarouselImage]
+}
+
+export type CarouselSlide = FullSlide | DuoSlide | TrioSlide
 
 // ---- Credits ----
 
-export interface CreditEntry {
+interface CreditEntryBase {
   type: 'primary' | 'partner' | 'secondary'
   label: string
   value: string
   detail?: string
-  logo?: string
-  logoAlt?: string
 }
+
+interface CreditEntryWithLogo extends CreditEntryBase {
+  logo: string
+  logoAlt: string
+}
+
+interface CreditEntryWithoutLogo extends CreditEntryBase {
+  logo?: never
+  logoAlt?: never
+}
+
+export type CreditEntry = CreditEntryWithLogo | CreditEntryWithoutLogo
 
 // ---- Media Kit ----
 
@@ -128,9 +150,7 @@ export type EditionCardData = ActiveEditionCard | InactiveEditionCard
 
 // ---- Masonry Gallery ----
 
-export interface MasonryImage {
-  basePath: string
-  alt: string
+export interface MasonryImage extends Pick<ImageData, 'basePath' | 'alt' | 'ext' | 'widths'> {
   caption: string
   cols: number
   rows: number

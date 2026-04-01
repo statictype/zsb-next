@@ -37,7 +37,7 @@ export function Credits({ credits }: CreditsProps) {
                 <div>
                   <Image
                     src={credit.logo}
-                    alt={credit.logoAlt || ''}
+                    alt={credit.logoAlt}
                     className={styles.logo}
                     width={120}
                     height={40}
