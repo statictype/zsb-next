@@ -85,7 +85,6 @@ export function VisitSection() {
 
           {/* ---- Content ---- */}
           <div className={styles.content}>
-            <span className={styles.eyebrow}>Visit ZSB</span>
             <h2 className={`${shared.sectionTitle} ${shared.sectionTitleDark}`}>
               COMBINATUL
               <br />

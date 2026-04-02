@@ -1,8 +1,8 @@
 import type { CSSProperties } from 'react'
 import type { Edition } from '@/types/edition'
+import styles from './Hero.module.css'
 
 type CSSWithVars = CSSProperties & Record<`--${string}`, string>
-import styles from './Hero.module.css'
 
 interface HeroProps {
   edition: Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'heroImage' | 'dateTape'>
@@ -49,8 +49,7 @@ export function Hero({ edition }: HeroProps) {
     <header className={styles.hero}>
       {/* Background layers */}
       <div className={styles.bgImage} style={bgStyle} />
-      {/* <div className={styles.colorLayer} /> */}
-      <div className={styles.overlay} />
+      <div className={styles.colorLayer} />
       <div className={styles.vignette} />
 
       {/* Content */}
@@ -61,7 +60,7 @@ export function Hero({ edition }: HeroProps) {
         </div>
         <HeroThemeDisplay theme={theme} themeHighlight={themeHighlight} />
 
-        {<div className={styles.dateTape}>{dateTape}</div>}
+        <div className={styles.dateTape}>{dateTape}</div>
       </div>
 
       {/* Scroll indicator — hidden mobile, visible desktop */}
