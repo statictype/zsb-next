@@ -3,9 +3,23 @@
    ===================================================== */
 
 .wrap {
-  width: 125px;
-  height: 125px;
+  width: 72px;
+  height: 72px;
   z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .wrap {
+    width: 96px;
+    height: 96px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .wrap {
+    width: 125px;
+    height: 125px;
+  }
 }
 
 .link {
@@ -55,4 +69,23 @@
   z-index: 1;
   color: rgba(255, 255, 255, 1);
   display: flex;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+@media (min-width: 768px) {
+  .icon {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .icon {
+    width: 36px;
+    height: 36px;
+  }
 }

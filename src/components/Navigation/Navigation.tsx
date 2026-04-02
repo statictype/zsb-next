@@ -70,6 +70,9 @@ export function Navigation() {
       closeMenu()
       if (!isHome) return
 
+      // On mobile, let anchor links scroll naturally
+      if (!window.matchMedia('(min-width: 768px)').matches) return
+
       e.preventDefault()
       const id = href === '/' ? 'home' : href.replace('/#', '')
       const index = SECTION_IDS.indexOf(id as (typeof SECTION_IDS)[number])

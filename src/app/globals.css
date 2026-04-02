@@ -46,7 +46,7 @@
   --grid-gap: 16px;
 
   /* Component Specific */
-  --nav-height: 100px;
+  --nav-height: 60px;
   --carousel-height: 50vh;
   --card-padding: 16px;
   --btn-size: 48px;
@@ -108,6 +108,7 @@
     --content-padding: 40px;
     --section-padding-y: 100px;
     --grid-gap: 32px;
+    --nav-height: 72px;
     --carousel-height: 60vh;
     --card-padding: 24px;
     --btn-size: 56px;
@@ -133,6 +134,7 @@
     --content-padding: 80px;
     --section-padding-y: 120px;
     --grid-gap: 48px;
+    --nav-height: 84px;
     --carousel-height: 70vh;
     --card-padding: 32px;
     --btn-size: 64px;
@@ -154,6 +156,7 @@
 
     --section-padding-y: 160px;
     --grid-gap: 60px;
+    --nav-height: 100px;
   }
 }
 

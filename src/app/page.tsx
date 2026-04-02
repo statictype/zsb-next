@@ -45,7 +45,7 @@ export default function HomePage() {
       <FullPageScroll sectionCount={SECTION_COUNT} sectionIds={SECTION_IDS} />
 
       {/* ---- 0: Hero ---- */}
-      <section data-section className={styles.panel}>
+      <section id="home" data-section className={styles.panel}>
         <div className={`${styles.fpOuter} fpOuter`}>
           <div className={`${styles.fpInner} fpInner`}>
             <div className={`${styles.hero} ${styles.fpContent}`}>
@@ -76,7 +76,7 @@ export default function HomePage() {
       </section>
 
       {/* ---- 1: About ---- */}
-      <section data-section className={styles.panel}>
+      <section id="about" data-section className={styles.panel}>
         <div className={`${styles.fpOuter} fpOuter`}>
           <div className={`${styles.fpInner} fpInner`}>
             <div className={`${styles.about} ${styles.fpContent}`}>
@@ -109,7 +109,7 @@ export default function HomePage() {
       </section>
 
       {/* ---- 2: Editions ---- */}
-      <section data-section className={styles.panel}>
+      <section id="editions" data-section className={styles.panel}>
         <div className={`${styles.fpOuter} fpOuter`}>
           <div className={`${styles.fpInner} fpInner`}>
             <div className={`${styles.editions} ${styles.fpContent}`}>
@@ -136,7 +136,7 @@ export default function HomePage() {
       </section>
 
       {/* ---- 3: Artists ---- */}
-      <section data-section className={styles.panel}>
+      <section id="artists" data-section className={styles.panel}>
         <div className={`${styles.fpOuter} fpOuter`}>
           <div className={`${styles.fpInner} fpInner`}>
             <ArtistsSection />
@@ -145,7 +145,7 @@ export default function HomePage() {
       </section>
 
       {/* ---- 4: Visit ---- */}
-      <section data-section className={styles.panel}>
+      <section id="visit" data-section className={styles.panel}>
         <div className={`${styles.fpOuter} fpOuter`}>
           <div className={`${styles.fpInner} fpInner`}>
             <div className={`${styles.visit} ${styles.fpContent}`}>
@@ -156,7 +156,7 @@ export default function HomePage() {
       </section>
 
       {/* ---- 5: Footer ---- */}
-      <section data-section className={styles.panel}>
+      <section id="footer" data-section className={styles.panel}>
         <div className={`${styles.fpOuter} fpOuter`}>
           <div className={`${styles.fpInner} fpInner`}>
             <div className={styles.footerSection}>

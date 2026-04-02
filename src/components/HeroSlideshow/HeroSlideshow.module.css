@@ -5,9 +5,33 @@
 .slideshow {
   position: relative;
   width: 100%;
-  height: calc(100vh - var(--nav-height) - 100px);
-  min-height: 400px;
+  height: 45vh;
+  min-height: 220px;
   overflow: hidden;
+}
+
+/* Portrait tablet */
+@media (min-width: 768px) and (orientation: portrait) {
+  .slideshow {
+    height: 50vh;
+    min-height: 300px;
+  }
+}
+
+/* Landscape mobile & tablet — images fill naturally */
+@media (orientation: landscape) and (max-width: 1023px) {
+  .slideshow {
+    height: calc(100vh - var(--nav-height) * 2);
+    min-height: 280px;
+  }
+}
+
+/* Desktop+ (hero already has padding-top: --nav-height) */
+@media (min-width: 1024px) {
+  .slideshow {
+    height: calc(100vh - var(--nav-height) - 200px);
+    min-height: 400px;
+  }
 }
 
 .slide {

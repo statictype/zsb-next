@@ -27,6 +27,7 @@ interface FullPageScrollProps {
 }
 
 const DURATION = 1
+const DESKTOP_MQ = '(min-width: 768px)'
 
 /**
  * Sets up GSAP Observer for full-page section-by-section navigation.
@@ -35,6 +36,8 @@ const DURATION = 1
  * and start as `visibility: hidden`. This component shows the first
  * section on mount and handles all transitions.
  *
+ * On mobile (<768px), does nothing — sections flow naturally via CSS.
+ *
  * Renders nothing — pure side-effect component.
  */
 export function FullPageScroll({ sectionCount, sectionIds }: FullPageScrollProps) {
@@ -42,6 +45,8 @@ export function FullPageScroll({ sectionCount, sectionIds }: FullPageScrollProps
   const animatingRef = useRef(false)
 
   useEffect(() => {
+    if (!window.matchMedia(DESKTOP_MQ).matches) return
+
     const sections = document.querySelectorAll<HTMLElement>('[data-section]')
     const outers = document.querySelectorAll<HTMLElement>('[data-section] .fpOuter')
     const inners = document.querySelectorAll<HTMLElement>('[data-section] .fpInner')
