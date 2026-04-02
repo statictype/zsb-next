@@ -14,7 +14,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
-  padding-bottom: var(--space-lg);
 }
 
 .headerLeft {
@@ -38,7 +37,7 @@
 .grid {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xl);
+  gap: var(--space-md);
 }
 
 .column {
@@ -55,7 +54,7 @@
 
 .item {
   background: var(--white);
-  padding: var(--space-lg);
+  padding: var(--space-md);
   position: relative;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   overflow: hidden;
@@ -63,9 +62,11 @@
 
 .itemHeader {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   gap: var(--space-xs);
-  margin-bottom: var(--space-xs);
+  margin-bottom: var(--space-md);
 }
 
 .itemType {
@@ -91,6 +92,7 @@
   letter-spacing: 0.2px;
   font-weight: var(--weight-black);
   margin-bottom: var(--space-sm);
+  line-height: var(--leading-tight);
 }
 
 .itemDesc {
@@ -116,7 +118,6 @@
 .filmSchedule {
   display: flex;
   flex-direction: column;
-  margin-top: var(--space-md);
 }
 
 .filmEntry {
@@ -124,6 +125,7 @@
   align-items: baseline;
   padding: 10px 0;
   border-bottom: var(--border-light);
+  gap: var(--space-xs);
 }
 
 .filmEntry:last-child {
@@ -149,6 +151,7 @@
   gap: 4px;
   padding: var(--space-sm) 0;
   border-bottom: var(--border-light);
+  margin-top: var(--space-sm);
 }
 
 .compactItem:last-child {
@@ -169,6 +172,7 @@
   text-transform: uppercase;
   font-weight: var(--weight-black);
   letter-spacing: 0.2px;
+  line-height: var(--leading-tight);
 }
 
 .compactNote {
@@ -253,6 +257,7 @@
   text-transform: uppercase;
   margin-bottom: var(--space-sm);
   transition: color 0.4s var(--ease-out-expo);
+  line-height: var(--leading-tight);
 }
 
 .sftfDesc {
@@ -296,14 +301,6 @@
 }
 
 /* Tablet */
-@media (min-width: 480px) {
-  .itemHeader {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
 @media (min-width: 768px) {
   .header {
     flex-direction: row;
@@ -318,18 +315,9 @@
     gap: var(--space-md);
   }
 
-  .item {
-    padding: var(--card-padding);
-  }
-
   .itemType {
     letter-spacing: var(--tracking-label);
   }
-
-  .itemTitle {
-    margin-bottom: 12px;
-  }
-
   .itemDesc {
     line-height: var(--leading-body);
     margin-bottom: var(--space-md);

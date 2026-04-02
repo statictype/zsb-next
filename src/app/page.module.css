@@ -24,46 +24,12 @@
   justify-content: center;
 }
 
-/* ---- Desktop: full-page fixed sections with GSAP ---- */
-@media (min-width: 768px) {
-  .main {
-    height: 100vh;
-    overflow: hidden;
-    padding-top: 0;
-  }
-
-  .panel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    visibility: hidden;
-  }
-
-  .fpOuter,
-  .fpInner {
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .fpContent {
-    min-height: 100vh;
-  }
-}
-
 /* ---- Hero ---- */
 .hero {
   width: 100%;
   display: flex;
   flex-direction: column;
   background: var(--black);
-}
-
-@media (min-width: 768px) {
-  .hero {
-    height: 100%;
-    padding-top: var(--nav-height);
-  }
 }
 
 .heroImageArea {
@@ -73,7 +39,7 @@
 .heroMeta {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 20px;
   flex-wrap: wrap;
   background: var(--black-pure);
   padding: 20px var(--content-padding);
@@ -86,7 +52,7 @@
 }
 
 .metaLabel {
-  font-size: var(--text-3xs);
+  font-size: var(--text-2xs);
   font-weight: var(--weight-semibold);
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -104,6 +70,7 @@
   height: 34px;
   background: rgba(255, 255, 255, 0.09);
   flex-shrink: 0;
+  display: none;
 }
 
 .heroBadge {
@@ -113,26 +80,31 @@
   z-index: 10;
 }
 
-@media (min-width: 768px) {
-  .heroBadge {
-    bottom: -48px;
-    right: 24px;
-  }
+/* ---- Gallery (mobile defaults) ---- */
+.galleryGrid {
+  grid-template-columns: 1fr;
+  gap: 2px;
+  padding: 0 2px;
 }
 
-@media (min-width: 1280px) {
-  .heroBadge {
-    bottom: -60px;
-  }
+.gi,
+.gi:nth-child(1),
+.gi:nth-child(2),
+.gi:nth-child(3),
+.gi:nth-child(4),
+.gi:nth-child(5) {
+  grid-column: auto;
+  grid-row: auto;
 }
 
-@media (min-width: 1536px) {
-  .aboutHeading {
-    font-size: var(--text-4xl);
-  }
-  .aboutBody {
-    font-size: var(--text-md);
-  }
+.giInner,
+.gi:nth-child(3) .giInner {
+  min-height: 220px;
+}
+
+.galleryHead {
+  flex-direction: column;
+  gap: 16px;
 }
 
 /* ---- About ---- */
@@ -142,12 +114,6 @@
   --btn-text: var(--black);
   display: flex;
   align-items: center;
-}
-
-@media (min-width: 768px) {
-  .about {
-    padding: var(--nav-height) var(--content-padding) 0;
-  }
 }
 
 .aboutGrid {
@@ -182,12 +148,6 @@
 .editions {
   padding: var(--section-padding-y) var(--content-padding);
   background: var(--black-pure);
-}
-
-@media (min-width: 768px) {
-  .editions {
-    padding: 0 var(--content-padding);
-  }
 }
 
 .editionsHead {
@@ -287,22 +247,93 @@
   background: var(--black-pure);
 }
 
-@media (min-width: 768px) {
-  .footerSection {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-}
-
 /* =====================================================
    RESPONSIVE
    ===================================================== */
 
 @media (min-width: 768px) {
+  .main {
+    height: 100vh;
+    overflow: hidden;
+    padding-top: 0;
+  }
+
+  .panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    visibility: hidden;
+  }
+
+  .fpOuter,
+  .fpInner {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .fpContent {
+    min-height: 100vh;
+  }
+
+  .hero {
+    height: 100%;
+    padding-top: var(--nav-height);
+  }
+
   .heroMeta {
+    gap: 40px;
     flex-wrap: nowrap;
+  }
+
+  .metaRule {
+    display: block;
+  }
+
+  .heroBadge {
+    bottom: -48px;
+    right: 24px;
+  }
+
+  .galleryGrid {
+    grid-template-columns: unset;
+    gap: unset;
+    padding: unset;
+  }
+
+  .gi,
+  .gi:nth-child(1),
+  .gi:nth-child(2),
+  .gi:nth-child(3),
+  .gi:nth-child(4),
+  .gi:nth-child(5) {
+    grid-column: unset;
+    grid-row: unset;
+  }
+
+  .giInner,
+  .gi:nth-child(3) .giInner {
+    min-height: unset;
+  }
+
+  .galleryHead {
+    flex-direction: row;
+    gap: unset;
+  }
+
+  .about {
+    padding: var(--nav-height) var(--content-padding) 0;
+  }
+
+  .editions {
+    padding: 0 var(--content-padding);
+  }
+
+  .footerSection {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
   }
 }
 
@@ -312,39 +343,17 @@
   }
 }
 
-/* Mobile: stack gallery */
-@media (max-width: 767px) {
-  .galleryGrid {
-    grid-template-columns: 1fr;
-    gap: 2px;
-    padding: 0 2px;
+@media (min-width: 1280px) {
+  .heroBadge {
+    bottom: -60px;
   }
+}
 
-  .gi,
-  .gi:nth-child(1),
-  .gi:nth-child(2),
-  .gi:nth-child(3),
-  .gi:nth-child(4),
-  .gi:nth-child(5) {
-    grid-column: auto;
-    grid-row: auto;
+@media (min-width: 1536px) {
+  .aboutHeading {
+    font-size: var(--text-4xl);
   }
-
-  .giInner,
-  .gi:nth-child(3) .giInner {
-    min-height: 220px;
-  }
-
-  .heroMeta {
-    gap: 20px;
-  }
-
-  .metaRule {
-    display: none;
-  }
-
-  .galleryHead {
-    flex-direction: column;
-    gap: 16px;
+  .aboutBody {
+    font-size: var(--text-md);
   }
 }
