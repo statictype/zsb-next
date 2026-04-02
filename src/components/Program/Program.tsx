@@ -33,7 +33,7 @@ export function Program({ year, program }: ProgramProps) {
   const otherBlocks = regularBlocks.filter((b) => b.type !== 'Talks & Workshops')
 
   return (
-    <section className={styles.section}>
+    <section className={`${shared.section} ${styles.section}`}>
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.headerLeft}>

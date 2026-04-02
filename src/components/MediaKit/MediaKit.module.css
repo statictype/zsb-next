@@ -3,7 +3,6 @@
    ===================================================== */
 .section {
   background: var(--gray-900);
-  padding: var(--section-padding-y) var(--content-padding);
   position: relative;
   overflow: hidden;
 }

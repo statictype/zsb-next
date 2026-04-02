@@ -55,7 +55,7 @@ export function Carousel({ slides, theme }: CarouselProps) {
   const progressPercent = ((currentIndex + 1) / totalSlides) * 100
 
   return (
-    <section className={styles.section}>
+    <section className={`${sharedStyles.section} ${sharedStyles.sectionDark} ${styles.section}`}>
       {/* Header */}
       <div className={styles.header}>
         <h2 className={`${sharedStyles.sectionTitle} ${sharedStyles.sectionTitleDark}`}>Experience</h2>

@@ -74,7 +74,7 @@ export function Venues({ venues }: VenuesProps) {
   }
 
   return (
-    <section className={styles.section}>
+    <section className={`${sharedStyles.section} ${styles.section}`}>
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.headerLeft}>

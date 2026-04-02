@@ -1,4 +1,5 @@
 import { ReadMore } from '@/components/ReadMore/ReadMore'
+import shared from '@/components/Shared.module.css'
 import type { ManifestoData } from '@/types/edition'
 import styles from './Manifesto.module.css'
 
@@ -10,7 +11,7 @@ export function Manifesto({ manifesto }: ManifestoProps) {
   const titleParts = manifesto.highlight ? manifesto.title.split(manifesto.highlight) : null
 
   return (
-    <section className={styles.section}>
+    <section className={`${shared.section} ${shared.sectionLight} ${styles.section}`}>
       <div className={styles.container}>
         <div className={styles.title}>
           <p>

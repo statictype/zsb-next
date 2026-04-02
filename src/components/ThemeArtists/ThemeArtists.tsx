@@ -1,4 +1,5 @@
 import { ReadMore } from '@/components/ReadMore/ReadMore'
+import shared from '@/components/Shared.module.css'
 import { padNum, splitInHalf } from '@/lib/format-utils'
 import type { Edition } from '@/types/edition'
 import styles from './ThemeArtists.module.css'
@@ -27,7 +28,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
   const mid = firstHalf.length
 
   return (
-    <section className={styles.section}>
+    <section className={`${shared.section} ${shared.sectionDark} ${styles.section}`}>
       <div className={styles.themeHeader}>
         <h2 className={styles.headline}>{theme}</h2>
       </div>

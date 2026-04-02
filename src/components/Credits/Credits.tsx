@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { IsdayBadge } from '@/components/IsdayBadge/IsdayBadge'
+import shared from '@/components/Shared.module.css'
 import type { CreditEntry } from '@/types/edition'
 import styles from './Credits.module.css'
 
@@ -13,7 +14,7 @@ export function Credits({ credits }: CreditsProps) {
   const secondary = credits.filter((c) => c.type === 'secondary')
 
   return (
-    <section className={styles.section}>
+    <section className={`${shared.section} ${styles.section}`}>
       <div className={styles.container}>
         {/* Primary Credits */}
         <div className={styles.primary}>

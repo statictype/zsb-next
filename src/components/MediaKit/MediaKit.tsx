@@ -22,7 +22,7 @@ export function MediaKit({ items }: MediaKitProps) {
 
   return (
     <>
-      <section className={styles.section}>
+      <section className={`${shared.section} ${styles.section}`}>
         <div className={styles.container}>
           <div className={styles.header}>
             <div className={styles.headerLeft}>

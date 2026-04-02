@@ -2,7 +2,6 @@
    VENUES
    ===================================================== */
 .section {
-  padding: var(--space-2xl) var(--content-padding);
   background: var(--white);
 }
 
@@ -227,10 +226,6 @@
 
 /* ---- Tablet (768px+) ---- */
 @media (min-width: 768px) {
-  .section {
-    padding: var(--section-padding-y) var(--content-padding);
-  }
-
   .trigger {
     flex-direction: row;
     align-items: center;

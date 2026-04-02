@@ -2,7 +2,6 @@
    PROGRAM
    ===================================================== */
 .section {
-  padding: var(--space-2xl) var(--content-padding);
   background: var(--gray-100);
 }
 
@@ -306,10 +305,6 @@
 }
 
 @media (min-width: 768px) {
-  .section {
-    padding: var(--section-padding-y) var(--content-padding);
-  }
-
   .header {
     flex-direction: row;
     justify-content: space-between;
