@@ -7,7 +7,7 @@
   align-items: center;
   gap: var(--space-sm);
   background: transparent;
-  border: 1px solid var(--gray-300);
+  border: var(--border-light);
   padding: 10px 16px;
   font-family: var(--font-body);
   font-size: var(--text-2xs);

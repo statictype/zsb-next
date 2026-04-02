@@ -5,8 +5,8 @@
   overflow: hidden;
   white-space: nowrap;
   background: var(--black);
-  border-top: 1px solid var(--gray-850);
-  border-bottom: 1px solid var(--gray-850);
+  border-top: var(--border-dark);
+  border-bottom: var(--border-dark);
   padding: var(--space-md) 0;
 }
 

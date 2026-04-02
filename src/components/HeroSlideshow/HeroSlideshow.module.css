@@ -29,7 +29,7 @@
 /* Desktop+ (hero already has padding-top: --nav-height) */
 @media (min-width: 1024px) {
   .slideshow {
-    height: calc(100vh - var(--nav-height) - 200px);
+    height: calc(100vh - var(--nav-height) * 2);
     min-height: 400px;
   }
 }

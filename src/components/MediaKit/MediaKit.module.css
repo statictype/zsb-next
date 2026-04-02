@@ -29,7 +29,7 @@
   gap: var(--space-md);
   margin-bottom: var(--space-2xl);
   padding-bottom: var(--space-lg);
-  border-bottom: 1px solid var(--gray-850);
+  border-bottom: var(--border-dark);
 }
 
 .headerLeft {
@@ -158,7 +158,7 @@
 .cardActionIcon {
   width: 32px;
   height: 32px;
-  border: 1px solid var(--pink);
+  border: var(--border-accent);
   border-radius: var(--radius-circle);
   display: flex;
   align-items: center;

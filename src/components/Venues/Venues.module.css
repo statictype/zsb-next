@@ -167,7 +167,7 @@
   align-items: center;
   gap: var(--space-xs);
   padding: 10px 0;
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: var(--border-light);
 }
 
 .entry:last-child {
@@ -215,7 +215,7 @@
   color: var(--pink);
   margin: var(--space-md) 0 var(--space-xs);
   padding-top: var(--space-md);
-  border-top: 1px solid var(--gray-200);
+  border-top: var(--border-light);
 }
 
 .subgroupLabel:first-child {

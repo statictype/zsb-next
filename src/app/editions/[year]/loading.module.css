@@ -148,7 +148,7 @@
 
 .venueItem {
   height: 80px;
-  border-bottom: 1px solid var(--gray-900);
+  border-bottom: var(--border-dark);
 }
 
 /* ---- Carousel placeholder ---- */

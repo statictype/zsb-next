@@ -4,7 +4,7 @@
 .card {
   margin-top: var(--space-2xl);
   padding-top: var(--space-lg);
-  border-top: 1px solid var(--gray-200);
+  border-top: var(--border-light);
 }
 
 .inner {
@@ -22,7 +22,7 @@
     rgba(248, 248, 250, 1) 100%
   );
   border-radius: var(--radius-badge);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: var(--border-light);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
 }
 

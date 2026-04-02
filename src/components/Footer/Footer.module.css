@@ -22,7 +22,7 @@
   flex-direction: column;
   gap: var(--space-2xl);
   padding-bottom: var(--space-2xl);
-  border-bottom: 1px solid var(--gray-850);
+  border-bottom: var(--border-dark);
 }
 
 @media (min-width: 1024px) {
@@ -86,7 +86,7 @@
   letter-spacing: var(--tracking-wide);
   color: var(--gray-700);
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--gray-850);
+  border-bottom: var(--border-dark);
   margin-bottom: 4px;
 }
 

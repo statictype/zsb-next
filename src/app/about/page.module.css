@@ -28,7 +28,7 @@
 
 .heroHeader {
   margin-bottom: 80px;
-  border-bottom: 1px solid var(--gray-850);
+  border-bottom: var(--border-dark);
   padding-bottom: 60px;
 }
 
@@ -46,7 +46,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 0;
-  border: 1px solid var(--gray-200);
+  border: var(--border-light);
 }
 
 @media (min-width: 768px) {
@@ -56,7 +56,7 @@
 }
 
 .purposeGroup {
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: var(--border-light);
 }
 
 .purposeGroup:last-child {
@@ -66,7 +66,7 @@
 @media (min-width: 768px) {
   .purposeGroup {
     border-bottom: none;
-    border-right: 1px solid var(--gray-200);
+    border-right: var(--border-light);
   }
 
   .purposeGroup:last-child {
@@ -83,7 +83,7 @@
   display: flex;
   align-items: baseline;
   padding: var(--space-sm) var(--space-md);
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: var(--border-light);
   gap: var(--space-sm);
 }
 
@@ -166,7 +166,7 @@
   color: var(--white);
   line-height: var(--leading-heading);
   padding: 12px 20px;
-  border: 1px solid var(--gray-850);
+  border: var(--border-dark);
   transition:
     color var(--duration-normal) ease,
     border-color var(--duration-normal) ease;
@@ -242,7 +242,7 @@
   gap: 20px;
   margin-bottom: var(--space-xl);
   padding-top: var(--space-xl);
-  border-top: 1px solid var(--gray-850);
+  border-top: var(--border-dark);
 }
 
 .statementLight .authorCard {
@@ -262,7 +262,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: var(--border-dark);
 }
 
 .authorPhotoImg {
@@ -339,7 +339,7 @@
   gap: 8px;
   margin-top: var(--space-xl);
   padding-top: var(--space-xl);
-  border-top: 1px solid var(--gray-850);
+  border-top: var(--border-dark);
 }
 
 .statementLight .signOff {

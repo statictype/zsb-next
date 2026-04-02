@@ -29,7 +29,7 @@
 
 .heroHeader {
   margin-bottom: 80px;
-  border-bottom: 1px solid var(--gray-850);
+  border-bottom: var(--border-dark);
   padding-bottom: 60px;
 }
 
@@ -143,7 +143,7 @@
 }
 
 .whySculpturePoint {
-  border-top: 1px solid var(--gray-200);
+  border-top: var(--border-light);
   padding-top: 24px;
 }
 
@@ -171,7 +171,7 @@
   gap: var(--space-2xl);
   margin-bottom: var(--space-3xl);
   padding-bottom: 60px;
-  border-bottom: 1px solid var(--gray-850);
+  border-bottom: var(--border-dark);
 }
 
 @media (min-width: 1024px) {
@@ -231,13 +231,13 @@
 
 .audienceProfile {
   padding: 32px 16px 32px 0;
-  border-bottom: 1px solid var(--gray-850);
+  border-bottom: var(--border-dark);
 }
 
 @media (min-width: 768px) {
   .audienceProfile {
     border-bottom: none;
-    border-right: 1px solid var(--gray-850);
+    border-right: var(--border-dark);
   }
 
   .audienceProfile:nth-child(2) {
@@ -248,12 +248,12 @@
 
   .audienceProfile:nth-child(3) {
     padding-top: 32px;
-    border-top: 1px solid var(--gray-850);
+    border-top: var(--border-dark);
   }
 
   .audienceProfile:nth-child(4) {
     padding: 32px 0 0 32px;
-    border-top: 1px solid var(--gray-850);
+    border-top: var(--border-dark);
     border-right: none;
   }
 }
@@ -262,7 +262,7 @@
   .audienceProfile {
     padding: 0 32px;
     border-bottom: none;
-    border-right: 1px solid var(--gray-850);
+    border-right: var(--border-dark);
     border-top: none;
   }
 
@@ -272,13 +272,13 @@
 
   .audienceProfile:nth-child(2) {
     padding: 0 32px;
-    border-right: 1px solid var(--gray-850);
+    border-right: var(--border-dark);
   }
 
   .audienceProfile:nth-child(3) {
     padding: 0 32px;
     border-top: none;
-    border-right: 1px solid var(--gray-850);
+    border-right: var(--border-dark);
   }
 
   .audienceProfile:nth-child(4) {
@@ -331,7 +331,7 @@
 /* ---- Left column: Benefits ---- */
 .partnershipBenefit {
   padding: 24px 0;
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: var(--border-light);
 }
 
 .partnershipBenefitFirst {
@@ -400,7 +400,7 @@
   color: var(--gray-600);
   margin-bottom: 24px;
   padding-bottom: 24px;
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: var(--border-light);
 }
 
 .partnershipAllocations {
@@ -410,7 +410,7 @@
 
 .partnershipAlloc {
   padding: 14px 0 14px 18px;
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: var(--border-light);
   position: relative;
 }
 
@@ -451,7 +451,7 @@
    5. CONTACT CTA
    ===================================================== */
 .partnerCta {
-  border-top: 1px solid var(--gray-900);
+  border-top: var(--border-dark);
 }
 
 .partnerCtaInner {

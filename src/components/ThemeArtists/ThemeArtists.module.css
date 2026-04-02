@@ -45,7 +45,7 @@
 .lead {
   margin-bottom: var(--space-xl);
   padding-bottom: var(--space-xl);
-  border-bottom: 1px solid var(--gray-850);
+  border-bottom: var(--border-dark);
 }
 
 .lead p {
@@ -134,17 +134,17 @@
 .artistsTable {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--gray-900);
+  border: var(--border-dark);
 }
 
 .artistsColumn {
-  border-bottom: 1px solid var(--gray-850);
+  border-bottom: var(--border-dark);
 }
 
 .colHeader {
   padding: var(--space-sm) var(--space-md);
   background: var(--black);
-  border: 1px solid var(--gray-900);
+  border: var(--border-dark);
   border-bottom: none;
   font-size: var(--text-3xs);
   text-transform: uppercase;
@@ -169,7 +169,7 @@
   display: flex;
   align-items: center;
   padding: var(--space-sm) var(--space-md);
-  border-bottom: 1px solid var(--gray-900);
+  border-bottom: var(--border-dark);
   gap: var(--space-sm);
 }
 
@@ -205,7 +205,7 @@
   gap: var(--space-sm);
   padding: var(--space-sm);
   background: var(--black);
-  border: 1px solid var(--gray-900);
+  border: var(--border-dark);
   border-top: none;
 }
 
@@ -302,7 +302,7 @@
 
   .artistsColumn {
     border-bottom: none;
-    border-right: 1px solid var(--gray-900);
+    border-right: var(--border-dark);
     padding: var(--space-sm) 0;
   }
 

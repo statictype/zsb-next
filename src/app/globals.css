@@ -143,6 +143,11 @@
   --btn-border-width: 2px;
   --btn-radius: 100px;
 
+  /* Borders */
+  --border-light: 1px solid var(--gray-200);
+  --border-dark: 1px solid var(--gray-850);
+  --border-accent: 1px solid var(--pink);
+
   /* Fonts — mapped from next/font CSS variables */
   --font-display: var(--font-dela-gothic), sans-serif;
   --font-body: var(--font-montserrat), sans-serif;

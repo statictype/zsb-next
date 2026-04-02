@@ -9,7 +9,7 @@
   gap: var(--space-md);
   grid-auto-flow: dense;
   padding: var(--content-padding);
-  border: 1px solid var(--gray-850);
+  border: var(--border-dark);
 }
 
 @media (min-width: 400px) {

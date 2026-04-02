@@ -18,7 +18,7 @@
 }
 
 .heroHeader {
-  border-bottom: 1px solid var(--gray-850);
+  border-bottom: var(--border-dark);
   padding-bottom: var(--space-lg);
 }
 
