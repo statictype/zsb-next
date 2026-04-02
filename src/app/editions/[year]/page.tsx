@@ -109,12 +109,6 @@ export default async function EditionPage(props: PageProps<'/editions/[year]'>) 
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Editions',
-        item: `${SITE_URL}/editions`,
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
         name: `${edition.year} — ${edition.theme}`,
         item: `${SITE_URL}/editions/${edition.year}`,
       },

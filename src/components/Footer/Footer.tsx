@@ -6,7 +6,7 @@ const BARCODE_LABEL = `ZSB\u20142021\u2014${CURRENT_YEAR}`
 
 const EXPLORE_LINKS = [
   { label: 'About', href: '/about' },
-  { label: 'Editions', href: '/editions' },
+  { label: 'Editions', href: '/editions/2025' },
   { label: 'Artists', href: '#' },
   { label: 'Press', href: '#' },
 ] as const

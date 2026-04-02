@@ -128,26 +128,6 @@ export interface MediaKitItem {
   image: ImageData
 }
 
-// ---- Edition Card ----
-
-interface EditionCardBase {
-  year: number
-  theme: string
-  description: string
-}
-
-interface ActiveEditionCard extends EditionCardBase {
-  href: string
-  image: ImageData
-  variant?: 'sculpture' | 'tiled'
-}
-
-interface InactiveEditionCard extends EditionCardBase {
-  href?: never
-}
-
-export type EditionCardData = ActiveEditionCard | InactiveEditionCard
-
 // ---- Masonry Gallery ----
 
 export interface MasonryImage extends Pick<ImageData, 'basePath' | 'alt' | 'ext' | 'widths'> {
