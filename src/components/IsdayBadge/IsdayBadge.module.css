@@ -37,7 +37,7 @@
 
 .subtitle {
   font-family: var(--font-body);
-  font-size: var(--text-3xs);
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   color: var(--gray-700);
@@ -54,7 +54,7 @@
   color: var(--white);
   border-radius: var(--radius-badge);
   font-family: var(--font-body);
-  font-size: var(--text-3xs);
+  font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
 }

@@ -1,4 +1,3 @@
-import { ReadMore } from '@/components/ReadMore/ReadMore'
 import shared from '@/components/Shared.module.css'
 import { padNum, splitInHalf } from '@/lib/format-utils'
 import type { Edition } from '@/types/edition'
@@ -34,22 +33,15 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
       </div>
 
       <div className={styles.inner}>
-        <div className={styles.lead}>
+        <div className={styles.coda}>
           <p>{themeSection.lead}</p>
         </div>
 
-        <ReadMore dark={true}>
-          <div className={styles.bodyWrapper}>
-            <div className={styles.body}>
-              <p>{themeSection.body.join(' ')}</p>
-            </div>
-            {themeSection.coda && (
-              <div className={styles.coda}>
-                <p>{themeSection.coda.join(' ')}</p>
-              </div>
-            )}
+        <div className={styles.bodyWrapper}>
+          <div className={styles.body}>
+            <p>{themeSection.body.join(' ')}</p>
           </div>
-        </ReadMore>
+        </div>
 
         <div className={styles.artistsBlock}>
           <div className={styles.artistsStatement}>

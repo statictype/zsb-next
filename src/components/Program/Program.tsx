@@ -39,9 +39,6 @@ export function Program({ year, program }: ProgramProps) {
           <div className={styles.headerLeft}>
             <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight}`}>Program {year}</h2>
           </div>
-          <div className={styles.headerRight}>
-            <span className={styles.dates}>{program.dates}</span>
-          </div>
         </div>
 
         <div className={styles.grid}>

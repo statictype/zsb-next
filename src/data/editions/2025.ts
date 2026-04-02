@@ -182,7 +182,7 @@ export const edition2025: Edition = {
         note: 'Dan P\u0103duraru & Cristi Calist 1995',
       },
       {
-        date: 'Apr 27, May 10-11',
+        date: 'Ongoing',
         title: '56/Z Documentary',
       },
       {
@@ -394,7 +394,7 @@ export const edition2025: Edition = {
       value: 'Reka Csapo Dup',
     },
     {
-      type: 'primary',
+      type: 'secondary',
       label: 'Art Critics',
       value: 'Adriana Oprea\nHoratiu Lipot',
     },

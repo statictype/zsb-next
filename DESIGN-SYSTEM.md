@@ -26,7 +26,6 @@ Defined in `src/app/globals.css`. Tokens marked **Fluid** use `clamp(min, prefer
 
 | Token | Mobile | Tablet | Desktop | Large | XL2 | XL | 2XL | Type |
 |-------|--------|--------|---------|-------|-----|-----|-----|------|
-| `--text-3xs` | 8px | 9px | — | — | — | — | — | Stepped |
 | `--text-2xs` | 10px | 11px | — | — | — | — | — | Stepped |
 | `--text-xs` | 12px | — | — | — | — | — | — | Static |
 | `--text-sm` | 14px | — | — | — | 15px | — | 16px | Stepped |
@@ -207,7 +206,6 @@ Defined in `src/components/Shared.module.css`. Use via `composes:` from componen
 | `.heroLead` | `--text-lg` | body | `--leading-body` | Hero lead text (gray-200) |
 | `.heroBody` | `--text-base` | body | `--leading-body` | Hero body text (gray-500) |
 | `.labelText` | `--text-2xs` | body | — | Small uppercase labels |
-| `.labelSmall` | `--text-3xs` | body | — | Even smaller labels/meta |
 | `.eyebrowMuted` | `--text-xs` | body | — | Muted eyebrow with line |
 | `.eyebrowPink` | `--text-xs` | body | — | Pink eyebrow with line |
 | `.overline` | `--text-xs` | — | — | Pink overline text |

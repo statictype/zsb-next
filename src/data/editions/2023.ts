@@ -314,7 +314,7 @@ export const edition2023: Edition = {
       value: 'Reka Csapo Dup',
     },
     {
-      type: 'primary',
+      type: 'secondary',
       label: 'Art Critics',
       value: 'Doina Mandru\nAdriana Oprea\nHora\u021Biu Lipot',
     },

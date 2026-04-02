@@ -37,7 +37,6 @@ const editions = [
   { year: 2024, theme: '#syzygy', href: '/editions/2024' },
   { year: 2023, theme: 're#situari afective', href: '/editions/2023' },
   { year: 2022, theme: '#perspectiva31', href: '/editions/2022' },
-  { year: 2021, theme: 'online edition', href: '/editions' },
 ]
 
 export default function HomePage() {
@@ -67,7 +66,7 @@ export default function HomePage() {
                   <span className={styles.metaValue}>#celălaltcorp</span>
                 </div>
                 <div className={styles.metaRule} />
-                <MagneticButton variant="secondary" href="/editions/2025">
+                <MagneticButton variant="secondary" size="sm" href="/editions/2025">
                   Explore <RiArrowRightLine size={14} />
                 </MagneticButton>
               </div>
@@ -83,7 +82,9 @@ export default function HomePage() {
             <div className={`${styles.about} ${styles.fpContent}`}>
               <div className={styles.aboutGrid}>
                 <div>
-                  <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.aboutHeading}`}>
+                  <h2
+                    className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.aboutHeading}`}
+                  >
                     Bucharest
                     <br />
                     <span className={styles.aboutAccent}>
@@ -115,10 +116,9 @@ export default function HomePage() {
           <div className={`${styles.fpInner} fpInner`}>
             <div className={`${styles.editions} ${styles.fpContent}`}>
               <div className={styles.editionsHead}>
-                <h2 className={`${shared.sectionTitle} ${shared.sectionTitleDark}`}>PAST EDITIONS</h2>
-                <Link href="/editions" className={styles.editionsLink}>
-                  View Full Archive <RiArrowRightLine size={14} />
-                </Link>
+                <h2 className={`${shared.sectionTitle} ${shared.sectionTitleDark}`}>
+                  PAST EDITIONS
+                </h2>
               </div>
               <div className={styles.editionList}>
                 {editions.map((edition) => (

@@ -1,4 +1,3 @@
-import { ReadMore } from '@/components/ReadMore/ReadMore'
 import shared from '@/components/Shared.module.css'
 import type { ManifestoData } from '@/types/edition'
 import styles from './Manifesto.module.css'
@@ -27,14 +26,12 @@ export function Manifesto({ manifesto }: ManifestoProps) {
           </p>
         </div>
         <div className={styles.content}>
-          <ReadMore>
-            <div className={styles.text}>
-              {manifesto.paragraphs.map((p, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: static list
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-          </ReadMore>
+          <div className={styles.text}>
+            {manifesto.paragraphs.map((p, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: static list
+              <p key={i}>{p}</p>
+            ))}
+          </div>
         </div>
       </div>
     </section>

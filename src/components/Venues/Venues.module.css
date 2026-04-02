@@ -16,7 +16,6 @@
   justify-content: space-between;
   align-items: flex-end;
   gap: var(--space-md);
-  padding-bottom: var(--space-xl);
 }
 
 .headerLeft {
@@ -29,21 +28,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-}
-
-.totalLabel {
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--gray-400);
-  text-align: right;
-}
-
-.totalNum {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  color: var(--black);
-  line-height: var(--leading-heading);
 }
 
 /* Venue Accordions */
@@ -83,9 +67,10 @@
 
 .accordionName {
   font-family: var(--font-display);
-  font-size: var(--text-md);
+  font-size: var(--text-base);
   text-transform: uppercase;
   letter-spacing: var(--tracking-subtle);
+  line-height: var(--leading-tight);
 }
 
 .accordionCount {
@@ -96,6 +81,7 @@
   padding: 3px 8px;
   border-radius: 2px;
   letter-spacing: var(--tracking-subtle);
+  line-height: var(--leading-heading);
 }
 
 .triggerRight {

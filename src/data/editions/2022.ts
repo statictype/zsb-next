@@ -216,7 +216,7 @@ export const edition2022: Edition = {
       value: 'Reka Csapo Dup',
     },
     {
-      type: 'primary',
+      type: 'secondary',
       label: 'Art Critics',
       value: 'Ioana Vlasiu\nDoina Mandru',
     },

@@ -38,10 +38,10 @@
 }
 
 .label {
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-400);
+  color: var(--gray-600);
 }
 
 .name {
@@ -65,9 +65,9 @@
 .partners {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xl);
-  padding-bottom: var(--space-2xl);
-  margin-bottom: var(--space-2xl);
+  gap: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  margin-bottom: var(--space-xl);
   border-bottom: var(--border-light);
 }
 
@@ -85,11 +85,11 @@
 }
 
 .partnersLabel {
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
   color: var(--pink);
-  padding-bottom: 12px;
+  padding-bottom: var(--space-sm);
   border-bottom: var(--border-light);
 }
 
@@ -97,11 +97,11 @@
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
   font-size: var(--text-sm);
-  color: var(--gray-600);
-  line-height: var(--leading-loose);
+  color: var(--gray-700);
+  line-height: var(--leading-tight);
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: 0 var(--space-xs);
 }
 
 .partnersList span {
@@ -110,7 +110,8 @@
 
 .partnersList span::after {
   content: " \00b7 ";
-  color: var(--gray-300);
+  color: var(--pink);
+  font-size: var(--text-md);
 }
 
 .partnersList span:last-child::after {
@@ -121,8 +122,8 @@
 .secondary {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xl);
-  padding-bottom: var(--space-2xl);
+  gap: var(--space-xl);
+  padding-bottom: var(--space-xl);
 }
 
 @media (min-width: 768px) {
@@ -145,10 +146,10 @@
 }
 
 .inlineLabel {
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-400);
+  color: var(--gray-600);
 }
 
 .inlineNames {
