@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
     loader: 'custom',
     loaderFile: './src/lib/image-loader.ts',
   },
+  devIndicators: false,
 }
 
 export default nextConfig
