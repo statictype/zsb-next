@@ -18,7 +18,7 @@ function getActiveFromPath(pathname: string): string {
 }
 
 const NAV_ITEMS = [
-  { id: 'home', label: 'Home', href: '/' },
+  { id: 'home', label: 'Latest', href: '/' },
   { id: 'about', label: 'About', href: '/#about' },
   { id: 'editions', label: 'Editions', href: '/#editions' },
   { id: 'artists', label: 'Artists', href: '/#artists' },

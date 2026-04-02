@@ -62,11 +62,6 @@ export default function HomePage() {
                 </div>
                 <div className={styles.metaRule} />
                 <div className={styles.metaBlock}>
-                  <span className={styles.metaLabel}>Duration</span>
-                  <span className={styles.metaValue}>April 25 - May 11</span>
-                </div>
-                <div className={styles.metaRule} />
-                <div className={styles.metaBlock}>
                   <span className={styles.metaLabel}>Theme</span>
                   <span className={styles.metaValue}>#celălaltcorp</span>
                 </div>
