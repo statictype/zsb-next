@@ -38,9 +38,9 @@
 
 .headline {
   font-family: var(--font-display);
-  font-size: var(--text-xl);
-  color: var(--gray-300);
+  font-size: var(--text-3xl);
   line-height: var(--leading-heading);
+  color: var(--gray-300);
 }
 
 /* Lead paragraph */
@@ -328,13 +328,6 @@
   }
 }
 
-/* ---- Large Desktop (1280px+) ---- */
-@media (min-width: 1280px) {
-  .headline {
-    font-size: var(--text-2xl);
-  }
-}
-
 /* ---- XL Desktop (1536px+) ---- */
 @media (min-width: 1536px) {
   .lead p {
@@ -343,9 +336,3 @@
   }
 }
 
-/* ---- XXL Desktop (1792px+) ---- */
-@media (min-width: 1792px) {
-  .headline {
-    font-size: var(--text-3xl);
-  }
-}

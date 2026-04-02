@@ -58,7 +58,7 @@ export function Carousel({ slides, theme }: CarouselProps) {
     <section className={styles.section}>
       {/* Header */}
       <div className={styles.header}>
-        <h2 className={`${sharedStyles.sectionTitle} ${styles.title}`}>Experience</h2>
+        <h2 className={`${sharedStyles.sectionTitle} ${sharedStyles.sectionTitleDark}`}>Experience</h2>
         <div className={styles.count}>{theme}</div>
       </div>
 

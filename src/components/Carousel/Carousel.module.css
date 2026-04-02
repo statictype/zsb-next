@@ -41,12 +41,6 @@
   }
 }
 
-/* ---- Title ---- */
-.title {
-  composes: sectionTitle from "@/components/Shared.module.css";
-  color: var(--white);
-}
-
 /* ---- Count / Theme label ---- */
 .count {
   font-family: var(--font-body);

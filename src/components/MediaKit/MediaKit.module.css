@@ -39,10 +39,6 @@
   gap: var(--space-sm);
 }
 
-.title {
-  color: var(--white);
-}
-
 .count {
   font-size: var(--text-xs);
   text-transform: uppercase;

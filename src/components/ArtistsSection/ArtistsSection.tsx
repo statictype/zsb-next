@@ -1,3 +1,4 @@
+import shared from '@/components/Shared.module.css'
 import { ALL_ARTISTS } from '@/data/artists'
 import { splitInHalf } from '@/lib/format-utils'
 import styles from './ArtistsSection.module.css'
@@ -7,7 +8,7 @@ const [leftNames, rightNames] = splitInHalf(ALL_ARTISTS)
 export function ArtistsSection() {
   return (
     <section id="artists" className={styles.section}>
-      <h2 className={styles.title}>Artists</h2>
+      <h2 className={`${shared.sectionTitle} ${shared.sectionTitleDark} ${styles.title}`}>Artists</h2>
 
       <div className={styles.waterfallViewport}>
         <div className={styles.columns}>

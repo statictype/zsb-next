@@ -28,6 +28,7 @@
   font-size: var(--text-2xl);
   text-transform: uppercase;
   line-height: var(--leading-heading);
+  margin-bottom: var(--space-xl);
 }
 
 @media (min-width: 768px) {
@@ -36,11 +37,40 @@
   }
 }
 
+.sectionTitleDark {
+  color: var(--white);
+}
+
+.sectionTitleLight {
+  color: var(--black);
+}
+
 .pageTitle {
   font-family: var(--font-display);
   font-size: var(--text-4xl);
   line-height: var(--leading-display);
   text-transform: uppercase;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease 0.2s forwards;
+}
+
+.pageTitleDark {
+  color: var(--white);
+}
+
+.pageTitleLight {
+  color: var(--black);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .subsectionTitle {

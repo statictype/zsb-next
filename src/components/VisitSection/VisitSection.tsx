@@ -9,6 +9,7 @@ import {
 } from '@remixicon/react'
 import Image from 'next/image'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
+import shared from '@/components/Shared.module.css'
 import { imageSrc } from '@/lib/image-utils'
 import type { ImageData } from '@/types/edition'
 import styles from './VisitSection.module.css'
@@ -85,7 +86,7 @@ export function VisitSection() {
           {/* ---- Content ---- */}
           <div className={styles.content}>
             <span className={styles.eyebrow}>Visit ZSB</span>
-            <h2 className={styles.headline}>
+            <h2 className={`${shared.sectionTitle} ${shared.sectionTitleDark}`}>
               COMBINATUL
               <br />
               FONDULUI

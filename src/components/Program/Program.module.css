@@ -24,10 +24,6 @@
   gap: var(--space-sm);
 }
 
-.title {
-  color: var(--black);
-}
-
 .headerRight {
   display: flex;
   align-items: center;

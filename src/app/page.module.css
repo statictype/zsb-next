@@ -159,14 +159,7 @@
   width: 100%;
 }
 
-.aboutHeading {
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  line-height: var(--leading-display);
-  color: var(--black);
-  margin-bottom: var(--space-xl);
-  text-transform: uppercase;
-}
+.aboutHeading {}
 
 .aboutAccent {
   color: var(--pink);
@@ -202,12 +195,6 @@
   max-width: var(--max-width);
   margin: 0 auto var(--space-xl);
   width: 100%;
-}
-
-.editionsTitle {
-  font-family: var(--font-display);
-  font-size: clamp(32px, 4vw, 54px);
-  color: var(--white);
 }
 
 .editionsLink {

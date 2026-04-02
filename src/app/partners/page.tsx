@@ -22,7 +22,7 @@ export default function PartnersPage() {
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <header className={styles.heroHeader}>
-            <h1 className={styles.pageTitle}>
+            <h1 className={shared.pageTitle}>
               Partner
               <span className={shared.accent}>s</span>
             </h1>
@@ -70,7 +70,7 @@ export default function PartnersPage() {
           <div className={styles.whySculptureTop}>
             <div>
               <div className={shared.eyebrowMuted}>Why Sculpture</div>
-              <h2 className={`${styles.sectionTitle} ${styles.whySculptureTitle}`}>
+              <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.whySculptureTitle}`}>
                 The most resilient
                 <br />
                 art form
@@ -104,7 +104,7 @@ export default function PartnersPage() {
           <div className={styles.audienceHeader}>
             <div>
               <div className={shared.eyebrowMuted}>The Audience</div>
-              <h2 className={styles.sectionTitle}>
+              <h2 className={`${shared.sectionTitle} ${shared.sectionTitleDark}`}>
                 Who engages
                 <br />
                 with ZSB
@@ -136,7 +136,7 @@ export default function PartnersPage() {
       <section className={`${shared.section} ${shared.sectionLight}`}>
         <div className={shared.sectionInner}>
           <div className={shared.eyebrowMuted}>Partnership</div>
-          <h2 className={`${styles.sectionTitle} ${styles.partnershipTitle}`}>
+          <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.partnershipTitle}`}>
             What partners gain
           </h2>
 

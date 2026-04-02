@@ -10,6 +10,7 @@ import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { SECTION_IDS } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { VisitSection } from '@/components/VisitSection/VisitSection'
+import shared from '@/components/Shared.module.css'
 import { ZSB_STATS } from '@/data/stats'
 import styles from './page.module.css'
 
@@ -82,7 +83,7 @@ export default function HomePage() {
             <div className={`${styles.about} ${styles.fpContent}`}>
               <div className={styles.aboutGrid}>
                 <div>
-                  <h2 className={styles.aboutHeading}>
+                  <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.aboutHeading}`}>
                     Bucharest
                     <br />
                     <span className={styles.aboutAccent}>
@@ -114,7 +115,7 @@ export default function HomePage() {
           <div className={`${styles.fpInner} fpInner`}>
             <div className={`${styles.editions} ${styles.fpContent}`}>
               <div className={styles.editionsHead}>
-                <h2 className={styles.editionsTitle}>PAST EDITIONS</h2>
+                <h2 className={`${shared.sectionTitle} ${shared.sectionTitleDark}`}>PAST EDITIONS</h2>
                 <Link href="/editions" className={styles.editionsLink}>
                   View Full Archive <RiArrowRightLine size={14} />
                 </Link>

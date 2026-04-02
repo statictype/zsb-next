@@ -78,7 +78,7 @@ export function Venues({ venues }: VenuesProps) {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <h2 className={`${styles.title} ${sharedStyles.sectionTitle}`}>Locations</h2>
+            <h2 className={`${sharedStyles.sectionTitle} ${sharedStyles.sectionTitleLight}`}>Locations</h2>
           </div>
           <div className={styles.headerRight}>
             <span className={styles.totalLabel}>Total</span>

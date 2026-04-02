@@ -26,11 +26,6 @@
   gap: var(--space-sm);
 }
 
-.title {
-  composes: sectionTitle from "@/components/Shared.module.css";
-  color: var(--black);
-}
-
 .headerRight {
   display: flex;
   flex-direction: column;

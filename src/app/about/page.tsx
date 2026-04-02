@@ -138,7 +138,7 @@ export default function AboutPage() {
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <header className={styles.heroHeader}>
-            <h1 className={styles.pageTitle}>
+            <h1 className={shared.pageTitle}>
               About <span className={shared.accent}>ZSB</span>
             </h1>
           </header>
@@ -172,7 +172,7 @@ export default function AboutPage() {
       <section className={`${shared.section} ${shared.sectionLight}`}>
         <div className={shared.sectionInner}>
           <div className={shared.eyebrowMuted}>Our Purpose</div>
-          <h2 className={styles.sectionTitle}>Mission &amp; Vision</h2>
+          <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight}`}>Mission &amp; Vision</h2>
 
           <div className={styles.purposeList}>
             <div className={styles.purposeGroup}>
