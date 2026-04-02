@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ZSB — Zilele Sculpturii București
 
-## Getting Started
+Website for **Bucharest Sculpture Days**, a contemporary sculpture festival. Built with Next.js 16 (App Router), React 19, and TypeScript.
 
-First, run the development server:
+## Setup
+
+Requires Node.js >= 20.9.0 and pnpm.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm dev          # Development server on localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | Production build (includes type-checking) |
+| `pnpm start` | Serve production build |
+| `pnpm typecheck` | Run TypeScript type-checking (`tsc --noEmit`) |
+| `pnpm lint` | Run Biome linter |
+| `pnpm lint:fix` | Auto-fix lint issues |
+| `pnpm format` | Auto-format with Biome |
+| `pnpm images:unused` | Find unused images in `public/` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+```
+src/
+  app/                  # App Router pages
+    editions/[year]/    # Dynamic edition pages
+    partners/           # Partners page
+    about/              # About page
+  components/           # One folder per component (TSX + CSS Module)
+  data/editions/        # Static data files per festival year (2022–2025)
+  lib/                  # Utilities (image loader, constants, hooks)
+  types/                # Shared TypeScript types (Edition, ImageData)
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Key Concepts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Editions**: Each festival year is a data file in `src/data/editions/` exporting an `Edition` object. Add a new year by creating a data file and registering it in `index.ts`.
+- **Image system**: Custom Next.js image loader appends `-{width}.{ext}` to base paths at runtime. Use `imageSrc()` from `src/lib/image-utils.ts`.
+- **Styling**: CSS Modules only, design tokens in `src/app/globals.css`. See `DESIGN-SYSTEM.md` for the full token reference.
+- **Fonts**: Dela Gothic One (display) and Montserrat (body), loaded via `next/font/google`.
