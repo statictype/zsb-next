@@ -1,5 +1,6 @@
 'use client'
 
+import { RiAddLine } from '@remixicon/react'
 import { useMemo, useState } from 'react'
 import sharedStyles from '@/components/Shared.module.css'
 import { padNum } from '@/lib/format-utils'
@@ -105,7 +106,9 @@ export function Venues({ venues }: VenuesProps) {
                   </div>
                   <div className={styles.triggerRight}>
                     <span className={styles.accordionDesc}>{group.description}</span>
-                    <span className={styles.accordionIcon}>+</span>
+                    <span className={styles.accordionIcon}>
+                      <RiAddLine size={18} />
+                    </span>
                   </div>
                 </button>
 

@@ -136,7 +136,7 @@ export const edition2024: Edition = {
         description:
           'Contemporary sculpture exhibition at Combinatul Fondului Plastic \u2014 an extended field of relations where form emerges through resistance and proximity.',
         location: 'Combinatul Fondului Plastic',
-        featured: true,
+        column: 1,
       },
       {
         type: 'Special Event',
@@ -144,21 +144,21 @@ export const edition2024: Edition = {
         dates: 'April 27, 2024',
         description:
           'Launch of the #SYZYGY exhibition catalogue and public gathering celebrating sculpture worldwide.',
-        featured: false,
+        column: 2,
       },
       {
         type: 'Talks & Workshops',
         title: 'Roundtable: 3D Digitization of Monuments',
         dates: 'April 11\u201428, 2024',
         description: 'Heritage protection & EU recommendations',
-        featured: false,
+        column: 1,
       },
       {
         type: 'Talks & Workshops',
         title: 'Workshop: Pinholeday#ZSB',
         dates: 'April 11\u201428, 2024',
         description: 'Pinhole photography with on-site darkroom',
-        featured: false,
+        column: 1,
       },
     ],
     films: [

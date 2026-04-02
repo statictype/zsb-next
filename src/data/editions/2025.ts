@@ -130,7 +130,7 @@ export const edition2025: Edition = {
         description:
           'Main exhibition exploring the body as a contested space\u2014between identity and representation, memory and transformation.',
         location: 'Combinatul Fondului Plastic',
-        featured: true,
+        column: 1,
       },
       {
         type: 'Opening Event',
@@ -138,7 +138,7 @@ export const edition2025: Edition = {
         dates: 'April 26, 2025',
         description:
           'Opening of the #cel\u0103laltcorp exhibition and celebration of International Sculpture Day.',
-        featured: false,
+        column: 1,
       },
       {
         type: 'Student Exhibition',
@@ -146,28 +146,28 @@ export const edition2025: Edition = {
         dates: 'UNAgaleria',
         description:
           'Collective exhibition by UNARTE students exploring the theme of the other body.',
-        featured: false,
+        column: 1,
       },
       {
         type: 'Talks & Workshops',
         title: 'Open Studios: Studio Visit',
         dates: 'April 26\u2014May 11, 2025',
         description: 'Marian & Victoria Zidaru',
-        featured: false,
+        column: 2,
       },
       {
         type: 'Talks & Workshops',
         title: 'Open Studios: Studio Visit',
         dates: 'April 26\u2014May 11, 2025',
         description: 'Ana Zoe Pop',
-        featured: false,
+        column: 2,
       },
       {
         type: 'Talks & Workshops',
         title: 'Open Studios: Studio Visit',
         dates: 'April 26\u2014May 11, 2025',
         description: 'Cristian Pentelescu',
-        featured: false,
+        column: 2,
       },
     ],
     films: [

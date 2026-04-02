@@ -107,14 +107,14 @@ export const edition2023: Edition = {
         dates: 'April 18\u201429, 2023',
         description:
           'Contemporary sculpture exhibition exploring situating as a condition shaped by lived experience \u2014 historical, cultural, familial, and personal.',
-        featured: true,
+        column: 1,
       },
       {
         type: 'Film Program',
         title: 'Pop-up Cinema',
         dates: 'April 18, 22, 29',
         description: 'Film screenings with and about sculptors and sculptural practices.',
-        featured: false,
+        column: 2,
       },
       {
         type: 'Talks & Workshops',
@@ -122,7 +122,7 @@ export const edition2023: Edition = {
         dates: 'April 25, 2023',
         description:
           'Access to Specialized Restoration Professions: mentorship, accreditation, theoretical and practical education.',
-        featured: false,
+        column: 1,
       },
     ],
     films: [

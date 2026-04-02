@@ -93,7 +93,7 @@ export const edition2022: Edition = {
         dates: 'April 16\u201418, 2022',
         description:
           'A curatorial exploration of plurality, monumentality, and sculpture\u2019s role in the city. The Institute Gallery and inner courtyard.',
-        featured: true,
+        column: 1,
       },
       {
         type: 'Talks & Workshops',
@@ -101,7 +101,15 @@ export const edition2022: Edition = {
         dates: 'April 18, 2022',
         description:
           'Round table on the life of monuments in public space, from symbolic formation to preservation. UNA Gallery.',
-        featured: false,
+        column: 1,
+      },
+      {
+        type: 'Special Event',
+        title: 'International Sculpture Day',
+        dates: 'April 16, 2022',
+        description:
+          'Launch of the #SYZYGY exhibition catalogue and public gathering celebrating sculpture worldwide.',
+        column: 2,
       },
       {
         type: 'Talks & Workshops',
@@ -109,7 +117,7 @@ export const edition2022: Edition = {
         dates: 'April 16\u201418, 2022',
         description:
           'A number of artist studios and galleries located within Combinatul Fondului Plastic open to the public.',
-        featured: false,
+        column: 2,
       },
     ],
     sftfBanner: {

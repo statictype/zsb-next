@@ -50,7 +50,7 @@ export interface ProgramBlock {
   dates: string
   description: string
   location?: string
-  featured: boolean
+  column: 1 | 2
 }
 
 export interface ProgramFilm {

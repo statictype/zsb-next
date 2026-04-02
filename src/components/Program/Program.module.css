@@ -43,18 +43,12 @@
 .column {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xl);
-}
-
-.group {
-  display: flex;
-  flex-direction: column;
   gap: var(--space-md);
 }
 
 .item {
   background: var(--white);
-  padding: var(--space-md);
+  padding: var(--space-lg) var(--space-md);
   position: relative;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   overflow: hidden;
@@ -151,7 +145,6 @@
   gap: 4px;
   padding: var(--space-sm) 0;
   border-bottom: var(--border-light);
-  margin-top: var(--space-sm);
 }
 
 .compactItem:last-child {
@@ -187,6 +180,7 @@
   position: relative;
   background: var(--black);
   padding: var(--space-md);
+  margin-top: var(--space-md);
   text-decoration: none;
   overflow: hidden;
   transition: all 0.5s var(--ease-out-expo);
@@ -247,7 +241,7 @@
   color: var(--black);
   background: var(--chartreuse);
   padding: 4px 10px;
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-md);
 }
 
 .sftfTitle {
@@ -306,13 +300,16 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
-    padding-bottom: var(--space-xl);
   }
 
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-md);
+  }
+
+  .column .item {
+    flex: 1 0 auto;
   }
 
   .itemType {
@@ -329,10 +326,6 @@
 
   .compactType {
     letter-spacing: var(--tracking-label);
-  }
-
-  .compactItem {
-    padding: var(--space-md) 0;
   }
 
   .filmDate {
