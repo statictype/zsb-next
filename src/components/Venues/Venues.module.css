@@ -40,7 +40,7 @@
 .totalLabel {
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: var(--tracking-wide);
   color: var(--gray-400);
   text-align: right;
 }
@@ -49,7 +49,7 @@
   font-family: var(--font-display);
   font-size: var(--text-xl);
   color: var(--black);
-  line-height: 1;
+  line-height: var(--leading-heading);
 }
 
 /* Venue Accordions */
@@ -91,7 +91,7 @@
   font-family: var(--font-display);
   font-size: var(--text-md);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--tracking-subtle);
 }
 
 .accordionCount {
@@ -101,7 +101,7 @@
   color: var(--white);
   padding: 3px 8px;
   border-radius: 2px;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--tracking-subtle);
 }
 
 .triggerRight {
@@ -114,7 +114,7 @@
 .accordionDesc {
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--tracking-label);
   color: var(--gray-400);
 }
 
@@ -192,14 +192,14 @@
   font-size: var(--text-sm);
   color: var(--black);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--tracking-label);
   flex: 1;
 }
 
 .tag {
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--tracking-label);
   color: var(--white);
   background: var(--pink);
   padding: 2px 6px;
@@ -217,7 +217,7 @@
 .subgroupLabel {
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--tracking-label);
   color: var(--pink);
   margin: var(--space-md) 0 var(--space-xs);
   padding-top: var(--space-md);

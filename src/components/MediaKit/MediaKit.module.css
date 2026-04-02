@@ -46,7 +46,7 @@
 .count {
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--tracking-label);
   color: var(--gray-600);
 }
 
@@ -137,7 +137,7 @@
   display: none;
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: var(--tracking-wide);
   color: var(--chartreuse);
   margin-bottom: var(--space-sm);
 }
@@ -156,7 +156,7 @@
   gap: 10px;
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--tracking-label);
   color: var(--pink);
 }
 
@@ -164,7 +164,7 @@
   width: 32px;
   height: 32px;
   border: 1px solid var(--pink);
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   display: flex;
   align-items: center;
   justify-content: center;

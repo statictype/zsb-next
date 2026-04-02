@@ -21,25 +21,25 @@
     rgba(255, 255, 255, 0.9) 40%,
     rgba(248, 248, 250, 1) 100%
   );
-  border-radius: 3px;
+  border-radius: var(--radius-badge);
   border: 1px solid rgba(0, 0, 0, 0.05);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
 }
 
 .title {
   font-family: var(--font-body);
-  font-weight: 300;
+  font-weight: var(--weight-light);
   font-size: var(--text-2xl);
   color: var(--pink);
   letter-spacing: -0.5px;
-  line-height: 1;
+  line-height: var(--leading-heading);
 }
 
 .subtitle {
   font-family: var(--font-body);
   font-size: var(--text-3xs);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: var(--tracking-label);
   color: var(--gray-700);
   margin-top: var(--space-xs);
 }
@@ -52,18 +52,18 @@
   padding: 8px var(--space-md);
   background: var(--gray-800);
   color: var(--white);
-  border-radius: 3px;
+  border-radius: var(--radius-badge);
   font-family: var(--font-body);
   font-size: var(--text-3xs);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: var(--tracking-label);
 }
 
 .pillIcon {
   width: 6px;
   height: 6px;
   background: var(--chartreuse);
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
 }
 
 @media (min-width: 768px) {
@@ -78,7 +78,7 @@
 
   .subtitle {
     font-size: var(--text-2xs);
-    letter-spacing: 2px;
+    letter-spacing: var(--tracking-label);
     margin-top: var(--space-sm);
   }
 
@@ -86,7 +86,7 @@
     margin-top: var(--space-lg);
     padding: 10px var(--space-lg);
     font-size: var(--text-2xs);
-    letter-spacing: 2px;
+    letter-spacing: var(--tracking-label);
   }
 
   .pillIcon {

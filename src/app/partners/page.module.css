@@ -98,7 +98,7 @@
 .heroImageImg {
   object-fit: cover;
   filter: grayscale(100%) contrast(1.1);
-  transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: filter 0.6s var(--ease-out-expo);
 }
 
 .heroImage:hover .heroImageImg {
@@ -144,7 +144,7 @@
 .whySculptureImg {
   object-fit: cover;
   filter: grayscale(100%);
-  transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: filter 0.6s var(--ease-out-expo);
 }
 
 .whySculptureImage:hover .whySculptureImg {
@@ -180,7 +180,7 @@
 .whySculpturePointText {
   font-family: var(--font-body);
   font-size: var(--text-base);
-  line-height: 1.85;
+  line-height: var(--leading-loose);
   color: var(--gray-600);
 }
 
@@ -219,7 +219,7 @@
   font-family: var(--font-display);
   font-size: var(--text-3xl);
   color: var(--white);
-  line-height: 1;
+  line-height: var(--leading-heading);
   margin-bottom: 8px;
 }
 
@@ -227,7 +227,7 @@
   font-family: var(--font-body);
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--tracking-label);
   color: var(--gray-500);
 }
 
@@ -320,13 +320,13 @@
   text-transform: uppercase;
   color: var(--white);
   margin-bottom: 12px;
-  line-height: 1.15;
+  line-height: var(--leading-tight);
 }
 
 .audienceProfileDesc {
   font-family: var(--font-body);
   font-size: var(--text-base);
-  line-height: 1.75;
+  line-height: var(--leading-body);
   color: var(--gray-500);
 }
 
@@ -370,7 +370,7 @@
   font-family: var(--font-body);
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: var(--tracking-wide);
   color: var(--pink);
   margin-bottom: 10px;
 }
@@ -378,16 +378,16 @@
 .partnershipBenefitTitle {
   font-family: var(--font-body);
   font-size: var(--text-md);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   color: var(--black);
   margin-bottom: 8px;
-  line-height: 1.25;
+  line-height: var(--leading-tight);
 }
 
 .partnershipBenefitText {
   font-family: var(--font-body);
   font-size: var(--text-sm);
-  line-height: 1.7;
+  line-height: var(--leading-body);
   color: var(--gray-600);
 }
 
@@ -401,7 +401,7 @@
   font-family: var(--font-body);
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 4px;
+  letter-spacing: var(--tracking-wide);
   color: var(--pink);
   margin-bottom: 10px;
 }
@@ -409,16 +409,16 @@
 .partnershipColTitle {
   font-family: var(--font-body);
   font-size: var(--text-xl);
-  font-weight: 300;
+  font-weight: var(--weight-light);
   color: var(--black);
-  line-height: 1.2;
+  line-height: var(--leading-tight);
   letter-spacing: -0.01em;
 }
 
 .partnershipColLead {
   font-family: var(--font-body);
   font-size: var(--text-sm);
-  line-height: 1.7;
+  line-height: var(--leading-body);
   color: var(--gray-600);
   margin-bottom: 24px;
   padding-bottom: 24px;
@@ -444,7 +444,7 @@
   width: 5px;
   height: 5px;
   background: var(--pink);
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
 }
 
 .partnershipAlloc:last-child {
@@ -456,16 +456,16 @@
   font-family: var(--font-body);
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--tracking-label);
   color: var(--black);
   margin-bottom: 4px;
-  line-height: 1.15;
+  line-height: var(--leading-tight);
 }
 
 .partnershipAllocText {
   font-family: var(--font-body);
   font-size: var(--text-xs);
-  line-height: 1.65;
+  line-height: var(--leading-body);
   color: var(--gray-600);
 }
 
@@ -494,7 +494,7 @@
   font-family: var(--font-display);
   font-size: clamp(48px, 8vw, 106px);
   color: var(--white);
-  line-height: 0.92;
+  line-height: var(--leading-display);
   margin-bottom: 24px;
 }
 
@@ -504,8 +504,8 @@
 
 .partnerCtaBody {
   font-size: 15px;
-  line-height: 1.78;
-  font-weight: 300;
+  line-height: var(--leading-body);
+  font-weight: var(--weight-light);
   color: var(--gray-400);
   max-width: 430px;
   margin-bottom: 46px;

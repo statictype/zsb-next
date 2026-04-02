@@ -65,15 +65,15 @@
 
 .image {
   object-fit: cover;
-  filter: grayscale(100%) contrast(1.1);
+  filter: var(--gallery-image-filter);
   transition:
     filter var(--duration-slow) var(--ease-out-expo),
     transform var(--duration-slow) var(--ease-out-expo);
 }
 
 .item:hover .image {
-  filter: grayscale(100%) contrast(1);
-  transform: scale(1.05);
+  filter: var(--gallery-image-filter-hover);
+  transform: scale(var(--card-hover-scale));
 }
 
 /* ---- Vignette overlay on hover ---- */

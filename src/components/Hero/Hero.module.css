@@ -137,21 +137,21 @@
   font-family: var(--font-body);
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--tracking-subtle);
   color: var(--black);
   background: rgba(255, 255, 255, 0.9);
   padding: var(--space-sm) var(--space-md);
   margin-bottom: var(--space-lg);
   display: inline-block;
   opacity: 0;
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
   animation: fadeSlideUp 1s var(--ease-out-expo) 0.2s forwards;
 }
 
 @media (min-width: 768px) {
   .eyebrow {
     font-size: var(--text-base);
-    letter-spacing: 2px;
+    letter-spacing: var(--tracking-label);
   }
 }
 
@@ -159,7 +159,7 @@
 .year {
   font-family: var(--font-display);
   font-size: var(--text-3xl);
-  line-height: 0.85;
+  line-height: var(--leading-display);
   color: var(--white);
   letter-spacing: -1px;
   margin-bottom: var(--space-md);
@@ -173,17 +173,17 @@
   color: var(--white);
   text-transform: uppercase;
   margin-bottom: var(--space-lg);
-  letter-spacing: 2px;
+  letter-spacing: var(--tracking-label);
   opacity: 0;
   animation: fadeSlideUp 1s var(--ease-out-expo) 0.4s forwards;
   display: flex;
   flex-wrap: wrap;
-  line-height: 1;
+  line-height: var(--leading-heading);
 }
 
 @media (min-width: 1024px) {
   .theme {
-    letter-spacing: 4px;
+    letter-spacing: var(--tracking-wide);
   }
 }
 
@@ -240,7 +240,7 @@
 .scrollText {
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: var(--tracking-wide);
   color: var(--gray-300);
 }
 
@@ -272,23 +272,23 @@
   font-family: var(--font-body);
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 1.6;
+  letter-spacing: var(--tracking-subtle);
+  line-height: var(--leading-body);
   transform: rotate(-2deg);
   box-shadow: 0 4px 20px rgba(255, 0, 153, 0.4);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
 }
 
 @media (min-width: 501px) {
   .dateTape {
     font-size: var(--text-xs);
-    letter-spacing: 1px;
+    letter-spacing: var(--tracking-label);
   }
 }
 
 @media (min-width: 768px) {
   .dateTape {
     font-size: var(--text-base);
-    letter-spacing: 2px;
+    letter-spacing: var(--tracking-label);
   }
 }

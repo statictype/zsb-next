@@ -29,7 +29,7 @@
   position: absolute;
   width: 500px;
   height: 500px;
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   background: var(--pink);
   filter: blur(180px);
   opacity: 0.08;
@@ -64,10 +64,10 @@
   font-family: var(--font-display);
   font-size: var(--text-2xl);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--tracking-label);
   color: var(--white);
   margin-bottom: var(--space-md);
-  line-height: 1;
+  line-height: var(--leading-heading);
 }
 
 /* ---- Message ---- */
@@ -76,8 +76,8 @@
   font-size: var(--text-sm);
   color: var(--gray-400);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  line-height: 1.8;
+  letter-spacing: var(--tracking-label);
+  line-height: var(--leading-loose);
   margin-bottom: var(--space-2xl);
 }
 
@@ -96,7 +96,7 @@
   font-family: var(--font-body);
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--tracking-label);
   color: var(--white);
   background: transparent;
   border: 1px solid var(--gray-750);

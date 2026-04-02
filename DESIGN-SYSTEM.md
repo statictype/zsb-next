@@ -72,7 +72,7 @@ Defined in `src/app/globals.css`. Tokens marked **Fluid** use `clamp(min, prefer
 
 | Token | Mobile | Tablet | Desktop | Large | XL2 | XL | 2XL |
 |-------|--------|--------|---------|-------|-----|-----|-----|
-| `--nav-height` | 100px | — | — | — | — | — | — |
+| `--nav-height` | 60px | 72px | 84px | 100px | — | — | — |
 | `--carousel-height` | 50vh | 60vh | 70vh | — | 72vh | 75vh | 80vh |
 | `--card-padding` | 16px | 24px | 32px | — | 34px | 36px | 40px |
 | `--btn-size` | 48px | 56px | 64px | — | — | — | — |
@@ -101,13 +101,76 @@ Defined in `src/app/globals.css`. Tokens marked **Fluid** use `clamp(min, prefer
 | `--gray-900` | #1a1a1a | Dark UI elements, subtle backgrounds |
 | `--gray-950` | #0d0d0d | Deepest dark UI elements |
 
+### Typography — Line-Height
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--leading-display` | 0.85 | Page titles, hero headings |
+| `--leading-heading` | 1 | Section titles, stats, card themes |
+| `--leading-tight` | 1.3 | Compact body, card descriptions |
+| `--leading-body` | 1.65 | Default body prose (also set on `body`) |
+| `--leading-loose` | 2 | Lists, spaced items, credits |
+
+### Typography — Letter-Spacing
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--tracking-tight` | -0.02em | Display headings (negative) |
+| `--tracking-subtle` | 0.5px | Body text refinements |
+| `--tracking-label` | 2px | Buttons, CTAs, small labels |
+| `--tracking-wide` | 4px | Eyebrows, overlines, badges |
+
+### Typography — Font-Weight
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--weight-light` | 300 | Light body text |
+| `--weight-regular` | 400 | Regular body text |
+| `--weight-medium` | 500 | Buttons, medium emphasis |
+| `--weight-semibold` | 600 | Labels, navigation |
+| `--weight-black` | 900 | Heavy emphasis (Program) |
+
 ### Animation
 
 | Token | Value |
 |-------|-------|
 | `--ease-out-expo` | cubic-bezier(0.16, 1, 0.3, 1) |
+| `--ease-out-quint` | cubic-bezier(0.23, 1, 0.32, 1) |
+| `--duration-fast` | 200ms |
 | `--duration-normal` | 300ms |
+| `--duration-medium` | 400ms |
 | `--duration-slow` | 500ms |
+| `--duration-reveal` | 600ms |
+
+### Card / Tile Interaction
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--card-hover-scale` | 1.03 | Hover transform scale for cards |
+| `--card-image-filter` | grayscale(100%) brightness(0.7) | Card image resting state |
+| `--card-image-filter-hover` | grayscale(0%) brightness(1) | Card image hover state |
+| `--gallery-image-filter` | grayscale(100%) contrast(1.1) | Gallery image resting state |
+| `--gallery-image-filter-hover` | grayscale(0%) contrast(1) | Gallery image hover state |
+
+### Button Sizes (responsive)
+
+Buttons scale with the viewport. A `lg` on mobile starts close to desktop `md` size.
+
+| Token | Mobile | Tablet | Desktop | XL2 |
+|-------|--------|--------|---------|-----|
+| `--btn-sm-py / px` | 6/16 | 8/20 | — | — |
+| `--btn-md-py / px` | 10/24 | 12/28 | 14/32 | 16/36 |
+| `--btn-lg-py / px` | 12/28 | 16/36 | 20/44 | 24/52 |
+
+Shared: `--btn-border-width: 2px`, `--btn-radius: 100px`
+
+### Border-Radius
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--radius-badge` | 3px | Small badges, tags |
+| `--radius-pill` | 100px | Pill-shaped buttons |
+| `--radius-circle` | 50% | Circular elements |
 
 ### Effects
 
@@ -126,6 +189,28 @@ Defined in `src/app/globals.css`. Tokens marked **Fluid** use `clamp(min, prefer
 | `--font-body` | Montserrat | Body text, labels, descriptions |
 
 Both fonts are loaded via `next/font/google` in `src/app/layout.tsx`, which sets CSS variables on `<html>`. Token aliases (`--font-display`, `--font-body`) map these to the `--font-*` CSS variables set by `next/font`.
+
+---
+
+## Typography Utility Classes
+
+Defined in `src/components/Shared.module.css`. Use via `composes:` from component CSS modules.
+
+| Class | Font Size | Font | Line-Height | Usage |
+|-------|-----------|------|-------------|-------|
+| `.pageTitle` | `--text-4xl` | display | `--leading-display` | Main page headings |
+| `.sectionTitle` | `--text-2xl` → `--text-3xl` @768px | display | `--leading-heading` | Section headings |
+| `.subsectionTitle` | `--text-xl` → `--text-2xl` @768px → `--text-3xl` @1536px | display | `--leading-heading` | Medium headings |
+| `.cardTitle` | `--text-xl` | display | `--leading-heading` | Card/item headings |
+| `.leadText` | `--text-md` → `--text-lg` @768px | body | `--leading-body` | Intro/lead paragraphs |
+| `.bodyText` | `--text-base` | body | `--leading-body` | Standard body text |
+| `.heroLead` | `--text-lg` | body | `--leading-body` | Hero lead text (gray-200) |
+| `.heroBody` | `--text-base` | body | `--leading-body` | Hero body text (gray-500) |
+| `.labelText` | `--text-2xs` | body | — | Small uppercase labels |
+| `.labelSmall` | `--text-3xs` | body | — | Even smaller labels/meta |
+| `.eyebrowMuted` | `--text-xs` | body | — | Muted eyebrow with line |
+| `.eyebrowPink` | `--text-xs` | body | — | Pink eyebrow with line |
+| `.overline` | `--text-xs` | — | — | Pink overline text |
 
 ---
 
@@ -168,4 +253,6 @@ The `<Navigation>` client component (`src/components/Navigation/`) provides a ha
 3. **Design tokens** — use CSS variables, avoid hardcoded values
 4. **Server components by default** — `"use client"` only where interactivity is needed
 5. **No `!important`** — specificity managed through cascade
-6. **Transitions** — use `--duration-normal` or `--duration-slow` with `--ease-out-expo`
+6. **Transitions** — use `--duration-*` tokens with `--ease-out-expo` or `--ease-out-quint`
+7. **Typography** — use `--leading-*`, `--tracking-*`, `--weight-*` tokens instead of hardcoded values
+8. **Typography classes** — compose from `Shared.module.css` utility classes for headings, body text, and labels

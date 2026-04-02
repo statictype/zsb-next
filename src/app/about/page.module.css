@@ -128,8 +128,8 @@
   font-size: var(--text-sm);
   color: var(--gray-700);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 2;
+  letter-spacing: var(--tracking-subtle);
+  line-height: var(--leading-loose);
 }
 
 @media (min-width: 768px) {
@@ -161,7 +161,7 @@
   font-family: var(--font-body);
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 4px;
+  letter-spacing: var(--tracking-wide);
   color: var(--pink);
   margin-bottom: var(--space-md);
 }
@@ -169,7 +169,7 @@
 .stripDesc {
   font-family: var(--font-body);
   font-size: var(--text-base);
-  line-height: 1.85;
+  line-height: var(--leading-loose);
   color: var(--gray-500);
   max-width: 700px;
   margin: 0 auto;
@@ -187,7 +187,7 @@
   font-size: var(--text-md);
   text-transform: uppercase;
   color: var(--white);
-  line-height: 1;
+  line-height: var(--leading-heading);
   padding: 12px 20px;
   border: 1px solid var(--gray-850);
   transition:
@@ -232,7 +232,7 @@
   display: block;
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 4px;
+  letter-spacing: var(--tracking-wide);
   color: var(--pink);
   margin-bottom: var(--space-md);
 }
@@ -245,7 +245,7 @@
   font-family: var(--font-display);
   font-size: var(--text-2xl);
   color: var(--white);
-  line-height: 1;
+  line-height: var(--leading-heading);
 }
 
 .headlineLight {
@@ -312,7 +312,7 @@
   font-size: var(--text-md);
   text-transform: uppercase;
   color: var(--white);
-  line-height: 1.2;
+  line-height: var(--leading-tight);
 }
 
 .authorNameLight {
@@ -323,7 +323,7 @@
   font-family: var(--font-body);
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: var(--tracking-wide);
   color: var(--gray-500);
 }
 
@@ -335,9 +335,9 @@
 
 .statementBody p {
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: var(--weight-regular);
   color: var(--gray-350);
-  line-height: 1.7;
+  line-height: var(--leading-body);
   margin-bottom: var(--space-md);
   text-align: left;
 }
@@ -381,7 +381,7 @@
   font-size: var(--text-sm);
   text-transform: uppercase;
   color: var(--white);
-  letter-spacing: 1px;
+  letter-spacing: var(--tracking-label);
 }
 
 .signNameLight {
@@ -392,7 +392,7 @@
   font-family: var(--font-body);
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: var(--tracking-wide);
   color: var(--gray-600);
 }
 
@@ -421,7 +421,7 @@
   }
 
   .statementBody p {
-    line-height: 2;
+    line-height: var(--leading-loose);
     margin-bottom: var(--space-lg);
   }
 }

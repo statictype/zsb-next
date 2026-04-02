@@ -31,7 +31,7 @@
   display: block;
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 4px;
+  letter-spacing: var(--tracking-wide);
   color: var(--pink);
   margin-bottom: var(--space-md);
 }
@@ -40,7 +40,7 @@
   font-family: var(--font-display);
   font-size: var(--text-xl);
   color: var(--gray-300);
-  line-height: 1;
+  line-height: var(--leading-heading);
 }
 
 /* Lead paragraph */
@@ -54,7 +54,7 @@
   font-family: var(--font-body);
   font-size: var(--text-md);
   color: var(--gray-300);
-  line-height: 1.6;
+  line-height: var(--leading-body);
   max-width: 800px;
   margin: 0 auto;
   text-wrap: pretty;
@@ -67,9 +67,9 @@
 
 .body p {
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: var(--weight-regular);
   color: var(--gray-300);
-  line-height: 1.7;
+  line-height: var(--leading-body);
   margin-bottom: var(--space-md);
   text-align: left;
 }
@@ -88,7 +88,7 @@
 
 .coda p {
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: var(--weight-regular);
   color: var(--gray-400);
   font-style: italic;
 }
@@ -110,15 +110,15 @@
 .dividerText {
   font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 4px;
+  letter-spacing: var(--tracking-wide);
   color: var(--pink);
 }
 
 .artistsStatement p {
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: var(--weight-regular);
   color: var(--gray-350);
-  line-height: 1.7;
+  line-height: var(--leading-body);
   margin-bottom: var(--space-lg);
   text-align: left;
 }
@@ -150,8 +150,8 @@
   border-bottom: none;
   font-size: var(--text-3xs);
   text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 2px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
   color: var(--gray-700);
   display: flex;
   justify-content: space-between;
@@ -164,7 +164,7 @@
 }
 
 .colHeader span:last-child {
-  line-height: 1;
+  line-height: var(--leading-heading);
 }
 
 .artistEntry {
@@ -192,10 +192,10 @@
   font-size: var(--text-xs);
   color: var(--gray-400);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--tracking-subtle);
   font-family: var(--font-body);
-  line-height: 2;
-  font-weight: 500;
+  line-height: var(--leading-loose);
+  font-weight: var(--weight-medium);
 }
 
 /* Artists Table Footer */
@@ -221,9 +221,9 @@
 .tableMetaItem {
   font-size: var(--text-3xs);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--tracking-label);
   color: var(--gray-700);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
 }
 
 .tableMetaItem span {
@@ -277,7 +277,7 @@
   }
 
   .body p {
-    line-height: 2;
+    line-height: var(--leading-loose);
     margin-bottom: var(--space-lg);
   }
 
@@ -299,7 +299,7 @@
   }
 
   .artistsStatement p {
-    line-height: 2;
+    line-height: var(--leading-loose);
   }
 
   .artistsColumn {
@@ -339,7 +339,7 @@
 @media (min-width: 1536px) {
   .lead p {
     font-size: var(--text-lg);
-    line-height: 1.4;
+    line-height: var(--leading-tight);
   }
 }
 

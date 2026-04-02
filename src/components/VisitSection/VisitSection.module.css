@@ -77,11 +77,11 @@
 .headline {
   font-family: var(--font-display);
   font-size: var(--text-3xl);
-  font-weight: 400;
+  font-weight: var(--weight-regular);
   text-transform: uppercase;
   color: var(--white);
-  line-height: 0.9;
-  letter-spacing: -0.02em;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tight);
 }
 
 /* ---- Info Row ---- */
@@ -109,14 +109,14 @@
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--gray-500);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
 }
 
 .infoValue {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--gray-200);
-  line-height: 1.5;
+  line-height: var(--leading-body);
 }
 
 /* ---- Practical Info Strip ---- */
@@ -169,7 +169,7 @@
 
 .transportFrom {
   color: var(--gray-300);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
 }
 
 .transportDot {

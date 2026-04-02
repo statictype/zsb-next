@@ -53,7 +53,7 @@
   font-size: var(--text-sm);
   color: var(--gray-600);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--tracking-label);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -242,7 +242,7 @@
   font-size: var(--text-sm);
   color: var(--white);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--tracking-label);
 }
 
 /* ---- Controls ---- */
@@ -366,7 +366,7 @@
   width: 8px;
   height: 8px;
   background: var(--chartreuse);
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
 }
 
 /* ---- Dots ---- */

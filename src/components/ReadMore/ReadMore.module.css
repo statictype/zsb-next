@@ -12,7 +12,7 @@
   font-family: var(--font-body);
   font-size: var(--text-2xs);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--tracking-label);
   color: var(--gray-600);
   cursor: pointer;
   margin-top: var(--space-lg);

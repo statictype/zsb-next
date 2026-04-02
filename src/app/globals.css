@@ -79,8 +79,69 @@
 
   /* Animation */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+  --duration-fast: 200ms;
   --duration-normal: 300ms;
+  --duration-medium: 400ms;
   --duration-slow: 500ms;
+  --duration-reveal: 600ms;
+
+  /* Typography — Line-Height */
+  --leading-display: 0.85;
+  --leading-heading: 1;
+  --leading-tight: 1.3;
+  --leading-body: 1.65;
+  --leading-loose: 2;
+
+  /* Typography — Letter-Spacing */
+  --tracking-tight: -0.02em;
+  --tracking-subtle: 0.5px;
+  --tracking-label: 2px;
+  --tracking-wide: 4px;
+
+  /* Typography — Font-Weight */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-black: 900;
+
+  /* Card / Tile Interaction */
+  --card-hover-scale: 1.03;
+  --card-image-filter: grayscale(100%) brightness(0.7);
+  --card-image-filter-hover: grayscale(0%) brightness(1);
+  --gallery-image-filter: grayscale(100%) contrast(1.1);
+  --gallery-image-filter-hover: grayscale(0%) contrast(1);
+
+  /* Border-Radius */
+  --radius-badge: 3px;
+  --radius-pill: 100px;
+  --radius-circle: 50%;
+
+  /* Button Sizes — sm */
+  --btn-sm-py: 6px;
+  --btn-sm-px: 16px;
+  --btn-sm-fs: 9px;
+  --btn-sm-gap: 5px;
+  --btn-sm-ls: 1.5px;
+
+  /* Button Sizes — md */
+  --btn-md-py: 10px;
+  --btn-md-px: 24px;
+  --btn-md-fs: 10px;
+  --btn-md-gap: 8px;
+  --btn-md-ls: 2px;
+
+  /* Button Sizes — lg */
+  --btn-lg-py: 12px;
+  --btn-lg-px: 28px;
+  --btn-lg-fs: 11px;
+  --btn-lg-gap: 10px;
+  --btn-lg-ls: 2px;
+
+  /* Button — shared */
+  --btn-border-width: 2px;
+  --btn-radius: 100px;
 
   /* Fonts — mapped from next/font CSS variables */
   --font-display: var(--font-dela-gothic), sans-serif;
@@ -112,6 +173,18 @@
     --carousel-height: 60vh;
     --card-padding: 24px;
     --btn-size: 56px;
+
+    --btn-sm-py: 8px;
+    --btn-sm-px: 20px;
+    --btn-sm-fs: 10px;
+    --btn-md-py: 12px;
+    --btn-md-px: 28px;
+    --btn-md-fs: 11px;
+    --btn-md-gap: 10px;
+    --btn-lg-py: 16px;
+    --btn-lg-px: 36px;
+    --btn-lg-fs: 12px;
+    --btn-lg-gap: 12px;
   }
 }
 
@@ -138,6 +211,15 @@
     --carousel-height: 70vh;
     --card-padding: 32px;
     --btn-size: 64px;
+
+    --btn-md-py: 14px;
+    --btn-md-px: 32px;
+    --btn-md-fs: 12px;
+    --btn-lg-py: 20px;
+    --btn-lg-px: 44px;
+    --btn-lg-fs: 14px;
+    --btn-lg-gap: 14px;
+    --btn-lg-ls: 2.5px;
   }
 }
 
@@ -182,6 +264,13 @@
     --grid-gap: 66px;
     --carousel-height: 72vh;
     --card-padding: 34px;
+
+    --btn-md-py: 16px;
+    --btn-md-px: 36px;
+    --btn-md-fs: 13px;
+    --btn-lg-py: 24px;
+    --btn-lg-px: 52px;
+    --btn-lg-fs: 15px;
   }
 }
 
@@ -251,7 +340,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--text-base);
   overflow-x: hidden;
-  line-height: 1.6;
+  line-height: var(--leading-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-optical-sizing: auto;
