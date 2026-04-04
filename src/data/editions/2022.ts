@@ -21,8 +21,8 @@ export const edition2022: Edition = {
   themeSection: {
     lead: 'There is no single voice, only coexistence and friction. Meaning is produced through presence, not consensus.',
     body: [
-      'Perspective is not observed, but assumed. Each sculptural gesture takes a position in the city and stays with it. Enter #perspectiva31. Practice your perspective. #perspectiva31 proposed sculpture not as a unified style, but as a shared space of positions. Thirty-one works coexisted without hierarchy, forming a constellation of voices shaped by different generations, trajectories, and moments of practice.',
-      'Not an autonomous object, but a cultural gesture that enters the city\u2019s memory, negotiates with its monuments, and reshapes its imaginative landscape. Materials, forms, and concepts diverged, yet they converged in a common commitment to the public realm\u2014where meaning is unstable, memory contested, and presence never neutral. #perspectiva31 framed sculpture as a living practice: critical and poetic, grounded in materiality yet open to reinterpretation. Within Bucharest Sculpture Days, this edition affirmed sculpture\u2019s capacity to question how cities remember, whom they monumentalize, and how artistic practice can remain active, plural, and relevant in the space we share.',
+      'Perspective is not observed, but assumed. Enter #perspectiva31. Practice your perspective. #perspectiva31 proposed sculpture not as a unified style, but as a shared space of positions. Thirty-one works coexisted without hierarchy, forming a constellation of voices shaped by different generations, trajectories, and moments of practice.',
+      'Materials, forms, and concepts diverged, yet they converged in a common commitment to the public realm\u2014where meaning is unstable, memory contested, and presence never neutral. #perspectiva31 framed sculpture as a living practice: critical and poetic, grounded in materiality yet open to reinterpretation.',
     ],
     coda: ['Here, sculpture was understood as a form of responsibility.'],
     artistsStatement:

@@ -7,7 +7,7 @@ export const edition2023: Edition = {
   title: 'ZSB 2023 - re#situ\u0103riafective | Bucharest Sculpture Days',
   dateTape: '18\u201329 April 2023 /// Combinatul Fondului Plastic',
   heroImage: {
-    basePath: '/img/2023/optimized/background',
+    basePath: '/img/2023/optimized/zsb_2023_bg',
     alt: 'ZSB 2023 re#situăriafective',
   },
   manifesto: {
@@ -19,9 +19,9 @@ export const edition2023: Edition = {
   },
 
   themeSection: {
-    lead: 'Forms that hold, not dominate \u2014 sculpture as an act of holding space, memory, and difference.',
+    lead: '',
     body: [
-      'The 2023 edition explored situating as a condition shaped by lived experience \u2014 historical, cultural, familial, and personal. Within this framework, sculpture was understood as a relational practice, capable of mediating between individual grounding and collective space.',
+      'The 2023 edition explored situating as a condition shaped by lived experience \u2014 historical, cultural, familial, and personal. Forms that hold, not dominate \u2014 sculpture as an act of holding space, memory, and difference. Within this framework, sculpture was understood as a relational practice, capable of mediating between individual grounding and collective space.',
       'Rather than emphasizing individual mythology or authorial dominance, re#situ\u0103riafective foregrounded coexistence, care, and vulnerability as structuring principles of form and meaning.',
     ],
     coda: [

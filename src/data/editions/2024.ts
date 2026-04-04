@@ -18,18 +18,15 @@ export const edition2024: Edition = {
   },
   dateTape: '16.04-11.05 \u00B7 Combinatul Fondului Plastic',
   themeSection: {
-    lead: 'Borrowed from astronomy, syzygy describes the alignment of celestial bodies.',
+    lead: '',
     body: [
-      'Transposed into sculpture, it becomes a model for understanding how form emerges through resistance and proximity.',
+      'Borrowed from astronomy, syzygy describes the alignment of celestial bodies. Transposed into sculpture, it becomes a model for understanding how form emerges through resistance and proximity.',
       'Syzygy is treated first as a material condition. Opposing substances meet. Friction appears. From this friction, clarity is produced. Form becomes legible precisely because materials do not easily agree.',
       'It is also a method of working. The artist steps back from full control. Authorship loosens. Materials and processes are allowed to intervene. The work is shaped through negotiation rather than domination.',
       'At the same time, syzygy functions as a relational state. It exists between artist and object. Between creator and creation. Between individual practice and the wider system in which it operates.',
     ],
-    coda: [
-      'Rather than seeking equilibrium, the exhibition embraced imbalance as productive force. Alignment was understood as temporary, charged, and necessary\u2014never neutral, never final.',
-    ],
-    artistsStatement:
-      'The main exhibition #SYZYGY brought together 34 contemporary artists, whose practices span a wide range of sculptural approaches, materials, and collaborative configurations. Particular attention was given to relational practices, artist duos, and works that operate across disciplines.',
+    coda: [],
+    artistsStatement: '',
   },
 
   artists: [
