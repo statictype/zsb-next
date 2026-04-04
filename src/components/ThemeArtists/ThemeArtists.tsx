@@ -31,29 +31,18 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
       <div className={styles.themeHeader}>
         <h2 className={styles.headline}>{theme}</h2>
       </div>
-
       <div className={styles.inner}>
-        <div className={styles.coda}>
-          <p>{themeSection.lead}</p>
+        <div className={styles.body}>
+          <p>{themeSection.body.join(' ')}</p>
         </div>
 
-        <div className={styles.bodyWrapper}>
-          <div className={styles.body}>
-            <p>{themeSection.body.join(' ')}</p>
-          </div>
-        </div>
-
-        <div className={styles.artistsBlock}>
-          <div className={styles.artistsStatement}>
-            {renderStatementWithTheme(themeSection.artistsStatement, theme)}
-          </div>
-
+        <div className={styles.artistsTable}>
           <div className={styles.colHeader}>
             <span className={styles.headerLabel}>Artists</span>
             <span>001&mdash;{padNum(artists.length, 3)}</span>
           </div>
 
-          <div className={styles.artistsTable}>
+          <div className={styles.artistsTableBody}>
             <div className={styles.artistsColumn}>
               {firstHalf.map((name, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: static list
@@ -90,6 +79,16 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
           </div>
         </div>
       </div>
+
+      {/* <div className={styles.coda}>
+        <p>{themeSection.lead}</p>
+      </div> */}
+
+      {/* <div className={styles.inner}>
+        <div className={styles.artistsStatement}>
+          {renderStatementWithTheme(themeSection.artistsStatement, theme)}
+        </div>
+      </div> */}
     </section>
   )
 }

@@ -8,10 +8,11 @@
 }
 
 .inner {
-  max-width: 1024px;
-  margin: 0 auto;
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 525px;
 }
 
 /* Theme Header */
@@ -19,9 +20,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 1024px;
   margin: 0 auto;
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-lg);
 }
 
 .overline {
@@ -37,22 +37,21 @@
   font-family: var(--font-display);
   font-size: var(--text-xl);
   line-height: var(--leading-heading);
-  color: var(--gray-300);
+  color: var(--pink);
 }
-
 /* Body paragraphs */
 .body {
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-2xl);
 }
 
 .body p {
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
-  color: var(--gray-300);
+  color: var(--gray-400);
   line-height: var(--leading-body);
-  margin-bottom: var(--space-md);
   text-align: left;
   text-wrap: pretty;
+  font-size: var(--text-base);
 }
 
 .body p:last-child {
@@ -61,10 +60,22 @@
 
 /* Coda */
 .coda {
+  position: relative;
   padding: var(--space-md);
   background: var(--black);
-  border-left: 2px solid var(--pink);
-  margin-bottom: var(--space-xl);
+  border-left: none;
+  margin-bottom: var(--space-2xl);
+  grid-column: 1;
+}
+
+.coda::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--pink), transparent);
 }
 
 .coda p {
@@ -73,6 +84,8 @@
   color: var(--gray-400);
   font-style: italic;
   text-wrap: pretty;
+  font-size: var(--text-md);
+  line-height: var(--leading-body);
 }
 
 /* Divider */
@@ -95,17 +108,20 @@
   letter-spacing: var(--tracking-wide);
   color: var(--pink);
 }
+.artistsBlock {
+  display: flex;
+  flex-direction: column;
+}
 
 .artistsStatement {
-  margin: 0 auto var(--space-xl);
+  /* margin: 0 0 var(--space-md); */
 }
 
 .artistsStatement p {
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
-  color: var(--gray-300);
+  color: var(--gray-400);
   line-height: var(--leading-body);
-  margin-bottom: var(--space-lg);
   text-align: left;
 }
 
@@ -115,10 +131,14 @@
 }
 
 /* Artists Table - Mobile: single column */
-.artistsTable {
+.artistsTableBody {
   display: flex;
   flex-direction: column;
   border: var(--border-dark);
+  width: 100%;
+}
+.artistsTable {
+  grid-column: 2;
 }
 
 .artistsColumn {
@@ -143,6 +163,7 @@
 .colHeader .headerLabel {
   font-family: var(--font-body);
   font-size: var(--text-2xs);
+  color: var(--pink);
 }
 
 .colHeader span:last-child {
@@ -204,7 +225,7 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
-  color: var(--gray-700);
+  color: var(--pink);
   font-weight: var(--weight-semibold);
 }
 
@@ -236,26 +257,13 @@
     letter-spacing: 6px;
     margin-bottom: var(--space-lg);
   }
-
-  .lead {
-    margin-bottom: var(--space-2xl);
-    padding-bottom: var(--space-2xl);
+  .headline {
+    font-size: var(--text-3xl);
   }
-
-  .body {
-    margin-bottom: var(--space-2xl);
-  }
-
-  .body p {
-    line-height: var(--leading-loose);
-    margin-bottom: var(--space-lg);
-  }
-
   .coda {
-    padding: var(--space-2xl);
+    padding: var(--space-xl);
     margin-bottom: var(--space-2xl);
   }
-
   .divider {
     margin-bottom: var(--space-xl);
   }
@@ -264,7 +272,7 @@
     letter-spacing: 6px;
   }
 
-  .artistsTable {
+  .artistsTableBody {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
@@ -290,15 +298,56 @@
 
 /* ---- Desktop (1024px+) ---- */
 @media (min-width: 1024px) {
+  .inner {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: var(--space-lg) var(--grid-gap);
+    max-width: var(--max-width);
+  }
+
+  .body {
+    grid-column: 1;
+    align-self: center;
+  }
+
   .artistNum {
     font-size: var(--text-xs);
   }
 }
 
+@media (min-width: 1280px) {
+  .headline {
+    font-size: var(--text-4xl);
+  }
+  .inner {
+    grid-template-columns: 1fr 1fr;
+  }
+  .coda {
+    margin-bottom: var(--space-4xl);
+  }
+}
+
 /* ---- XL Desktop (1536px+) ---- */
 @media (min-width: 1536px) {
-  .lead p {
-    font-size: var(--text-lg);
-    line-height: var(--leading-tight);
+  .headline {
+    font-size: var(--text-4xl);
+  }
+  .coda p {
+    /* font-size: var(--text-lg); */
+    font-weight: var(--weight-light);
+  }
+}
+
+@media (min-width: 1792px) {
+  .headline {
+    font-size: var(--text-5xl);
+  }
+
+  .coda {
+    /* padding: var(--space-3xl); */
+    margin-bottom: var(--space-2xl);
+  }
+  .inner {
+    padding-left: var(--space-2xl);
   }
 }
