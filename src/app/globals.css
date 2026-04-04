@@ -62,19 +62,19 @@
   --black: #0e0b10;
   --black-pure: #000;
   --white: #fff;
-  --gray-100: #f6f6f6;
-  --gray-200: #e8e8e8;
-  --gray-300: #cfcfcf;
-  --gray-350: #a0a0a0;
-  --gray-400: #9e9e9e;
-  --gray-500: #888888;
-  --gray-600: #6d6d6d;
-  --gray-700: #4c4c4c;
-  --gray-750: #3c3c3c;
-  --gray-800: #2b2b2b;
-  --gray-850: #252525;
-  --gray-900: #1a1a1a;
-  --gray-950: #0d0d0d;
+  --gray-100: #f1ecef;
+  --gray-200: #ece5e9;
+  --gray-300: #c3bdc0;
+  --gray-350: #a09d9e;
+  --gray-400: #9e9a9c;
+  --gray-500: #8a8589;
+  --gray-600: #6d6b6c;
+  --gray-700: #4e4c4d;
+  --gray-750: #3f3d3e;
+  --gray-800: #2e2c2d;
+  --gray-850: #232223;
+  --gray-900: #1e1c1d;
+  --gray-950: #0c0b0c;
 
   /* Animation */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -86,16 +86,16 @@
   --duration-reveal: 600ms;
 
   /* Typography — Line-Height */
-  --leading-display: 0.85;
-  --leading-heading: 1;
-  --leading-tight: 1.3;
-  --leading-body: 1.8;
-  --leading-loose: 2;
+  --leading-display: 1;
+  --leading-heading: 1.38;
+  --leading-tight: 1.16;
+  --leading-body: 1.7;
+  --leading-loose: 1.9;
 
   /* Typography — Letter-Spacing */
   --tracking-tight: -0.02em;
   --tracking-subtle: 0.6px;
-  --tracking-label: 2px;
+  --tracking-label: 1.2px;
   --tracking-wide: 4px;
 
   /* Typography — Font-Weight */
@@ -280,6 +280,7 @@
 @media (min-width: 1536px) {
   :root {
     --text-hero: 124px;
+    --text-base: 19px;
 
     --space-2xl: 96px;
     --space-3xl: 128px;
@@ -301,10 +302,11 @@
 /* ---- 2XL Desktop (1792px+) ---- */
 @media (min-width: 1792px) {
   :root {
-    --text-base: 19px;
+    --text-base: 20px;
     --text-sm: 15px;
     --text-xs: 13px;
     --text-2xs: 11px;
+
     --space-2xl: 112px;
     --space-3xl: 144px;
     --space-4xl: 224px;
