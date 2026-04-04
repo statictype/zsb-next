@@ -27,7 +27,7 @@
   font-family: var(--font-display);
   font-size: var(--text-xl);
   text-transform: uppercase;
-  line-height: var(--leading-heading);
+  line-height: var(--leading-display);
   margin-bottom: var(--space-xl);
 }
 
@@ -89,6 +89,9 @@
 @media (min-width: 1536px) {
   .subsectionTitle {
     font-size: var(--text-3xl);
+  }
+  .sectionTitle {
+    font-size: var(--text-4xl);
   }
 }
 

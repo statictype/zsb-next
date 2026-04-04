@@ -26,8 +26,8 @@
   mix-blend-mode: luminosity;
   opacity: 0.5;
   filter: contrast(1.6) grayscale(0.3);
-  background-size: 120%;
-  animation: bgDrift 40s ease-in-out infinite;
+  background-size: contain;
+  /* animation: bgDrift 40s ease-in-out infinite; */
 }
 
 @keyframes bgDrift {
@@ -210,7 +210,7 @@
   .hero {
     height: 100svh;
     min-height: 600px;
-    padding: var(--content-padding);
+    padding: var(--section-padding-y) var(--content-padding);
   }
 
   .scroll {
@@ -235,5 +235,15 @@
   .dateTape {
     font-size: var(--text-sm);
     letter-spacing: var(--tracking-label);
+  }
+}
+@media (min-width: 1280px) {
+  .theme {
+    font-size: var(--text-3xl);
+  }
+}
+@media (min-width: 1792px) {
+  .theme {
+    font-size: var(--text-4xl);
   }
 }

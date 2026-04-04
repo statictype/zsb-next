@@ -129,6 +129,7 @@
 }
 
 .aboutHeading {
+  line-height: var(--leading-display);
 }
 
 .aboutAccent {

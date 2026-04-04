@@ -209,20 +209,8 @@
 
 /* ---- Tablet (768px+) ---- */
 @media (min-width: 768px) {
-  .trigger {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-sm);
-    padding: var(--space-lg);
-  }
-
   .accordionCount {
     padding: 4px 10px;
-  }
-
-  .accordionBody {
-    padding: var(--space-md) var(--space-lg);
   }
 
   .entry {
@@ -245,5 +233,21 @@
     margin-left: auto;
     padding-left: var(--space-md);
     margin-top: 0;
+  }
+}
+@media (min-width: 1440px) {
+  .accordionName {
+    font-size: var(--text-md);
+  }
+  .accordionBody {
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .trigger {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
   }
 }
