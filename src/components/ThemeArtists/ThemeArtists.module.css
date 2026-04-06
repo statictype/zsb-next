@@ -21,7 +21,7 @@
   flex-direction: column;
   align-items: flex-start;
   margin: 0 auto;
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-3xl);
 }
 
 .overline {
@@ -301,13 +301,13 @@
   .inner {
     display: grid;
     grid-template-columns: 0.8fr 1.2fr;
-    gap: var(--space-lg) var(--grid-gap);
+    gap: var(--space-lg) var(--space-5xl);
     max-width: var(--max-width);
   }
 
   .body {
     grid-column: 1;
-    align-self: center;
+    align-self: start;
   }
 
   .artistNum {

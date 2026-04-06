@@ -89,7 +89,7 @@
   --leading-display: 1;
   --leading-heading: 1.38;
   --leading-tight: 1.16;
-  --leading-body: 1.7;
+  --leading-body: 1.56;
   --leading-loose: 1.9;
 
   /* Typography — Letter-Spacing */
@@ -273,6 +273,7 @@
     --btn-lg-py: 24px;
     --btn-lg-px: 52px;
     --btn-lg-fs: 15px;
+    /* --leading-body: 1.64; */
   }
 }
 
@@ -321,6 +322,7 @@
     --section-padding-y: 240px;
     --grid-gap: 84px;
     --carousel-height: 80vh;
+    /* --leading-body: 1.7; */
   }
 }
 
