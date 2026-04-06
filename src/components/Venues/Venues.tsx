@@ -102,10 +102,10 @@ export function Venues({ venues }: VenuesProps) {
                 >
                   <div className={styles.triggerLeft}>
                     <span className={styles.accordionName}>{group.group}</span>
-                    <span className={styles.accordionCount}>{group.count}</span>
+                    {/* <span className={styles.accordionCount}>{group.count}</span> */}
                   </div>
                   <div className={styles.triggerRight}>
-                    <span className={styles.accordionDesc}>{group.description}</span>
+                    {/* <span className={styles.accordionDesc}>{group.description}</span> */}
                     <span className={styles.accordionIcon}>
                       <RiAddLine size={18} />
                     </span>

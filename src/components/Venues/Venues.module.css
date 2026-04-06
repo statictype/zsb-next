@@ -45,9 +45,11 @@
 .trigger {
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--space-xs);
-  padding: var(--space-md);
+  padding: var(--space-lg) var(--space-md);
   background: none;
   border: none;
   cursor: pointer;
@@ -61,7 +63,8 @@
 
 .triggerLeft {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
   gap: var(--space-md);
 }
 
@@ -234,6 +237,16 @@
     padding-left: var(--space-md);
     margin-top: 0;
   }
+  .triggerLeft {
+    align-items: center;
+    flex-direction: row;
+  }
+  .trigger {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
 }
 @media (min-width: 1440px) {
   .accordionName {
@@ -244,10 +257,6 @@
   }
 
   .trigger {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-sm);
     padding: var(--space-lg);
   }
 }
