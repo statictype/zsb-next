@@ -12,21 +12,20 @@
   align-items: flex-end;
   justify-content: flex-start;
   overflow: hidden;
-  background: var(--pink);
+  background: var(--black);
 }
 
 /* ---- Background Image Layer ---- */
 .bgImage {
   position: absolute;
   inset: -5%;
-  width: 110%;
-  height: 110%;
   background-image: var(--bg-url-sm);
-  background-position: center;
   mix-blend-mode: luminosity;
   opacity: 0.5;
   filter: contrast(1.6) grayscale(0.3);
-  background-size: contain;
+  background-size: cover;
+  background-position: right;
+  background-repeat: no-repeat;
   /* animation: bgDrift 40s ease-in-out infinite; */
 }
 
@@ -122,7 +121,12 @@
 }
 
 .themeHighlight {
-  background: linear-gradient(135deg, var(--white) 0%, var(--chartreuse) 50%, var(--white) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--chartreuse) 0%,
+    var(--pink) 50%,
+    var(--chartreuse) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -194,7 +198,7 @@
 /* ---- Date Tape ---- */
 .dateTape {
   display: inline-block;
-  background: var(--black);
+  background: var(--pink);
   color: var(--white);
   padding: var(--space-sm) var(--space-md);
   font-family: var(--font-body);
@@ -210,7 +214,7 @@
   .hero {
     height: 100svh;
     min-height: 600px;
-    padding: var(--section-padding-y) var(--content-padding);
+    padding: var(--space-3xl) var(--content-padding);
   }
 
   .scroll {
@@ -244,6 +248,6 @@
 }
 @media (min-width: 1792px) {
   .theme {
-    font-size: var(--text-4xl);
+    font-size: var(--text-5xl);
   }
 }

@@ -49,8 +49,6 @@ export function Hero({ edition }: HeroProps) {
     <header className={styles.hero}>
       {/* Background layers */}
       <div className={styles.bgImage} style={bgStyle} />
-      <div className={styles.colorLayer} />
-      <div className={styles.vignette} />
 
       {/* Content */}
       <div className={styles.content}>
