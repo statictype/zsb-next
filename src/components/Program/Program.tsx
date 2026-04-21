@@ -41,12 +41,12 @@ function ProgramColumn({ blocks, films }: { blocks: ProgramBlockType[]; films?: 
           <div className={styles.itemHeader}>
             <span className={styles.itemType}>Talks &amp; Workshops</span>
           </div>
-          {talkBlocks.map((block) => {
+          {talkBlocks.map((block, i) => {
             const colonIdx = block.title.indexOf(': ')
             const prefix = colonIdx >= 0 ? block.title.slice(0, colonIdx) : block.title
             const suffix = colonIdx >= 0 ? block.title.slice(colonIdx + 2) : block.title
             return (
-              <div key={block.title} className={styles.compactItem}>
+              <div key={i} className={styles.compactItem}>
                 <span className={styles.compactType}>{prefix}</span>
                 <span className={styles.compactTitle}>{suffix}</span>
                 {block.description && (
