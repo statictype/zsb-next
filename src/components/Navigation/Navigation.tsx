@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { dispatchGoTo, onSectionChange } from '@/components/FullPageScroll/FullPageScroll'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import styles from './Navigation.module.css'
 
@@ -28,7 +27,7 @@ const NAV_ITEMS = [
 export function Navigation() {
   const pathname = usePathname()
   const isHome = pathname === '/'
-  const [activeId, setActiveId] = useState(isHome ? 'home' : getActiveFromPath(pathname))
+  const [activeId, setActiveId] = useState(getActiveFromPath(pathname))
   const [isOpen, setIsOpen] = useState(false)
 
   const closeMenu = useCallback(() => setIsOpen(false), [])
@@ -49,37 +48,12 @@ export function Navigation() {
     }
     document.addEventListener('keydown', handleKeydown)
 
-    // Track active section
-    if (!isHome) {
-      setActiveId(getActiveFromPath(pathname))
-      return () => document.removeEventListener('keydown', handleKeydown)
-    }
-
-    const unsubscribe = onSectionChange((index) => {
-      setActiveId(SECTION_IDS[index] ?? 'home')
-    })
+    setActiveId(getActiveFromPath(pathname))
 
     return () => {
       document.removeEventListener('keydown', handleKeydown)
-      unsubscribe()
     }
-  }, [isHome, pathname, closeMenu])
-
-  const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-      closeMenu()
-      if (!isHome) return
-
-      // On mobile, let anchor links scroll naturally
-      if (!window.matchMedia('(min-width: 768px)').matches) return
-
-      e.preventDefault()
-      const id = href === '/' ? 'home' : href.replace('/#', '')
-      const index = SECTION_IDS.indexOf(id as (typeof SECTION_IDS)[number])
-      if (index !== -1) dispatchGoTo(index)
-    },
-    [isHome, closeMenu],
-  )
+  }, [pathname, closeMenu])
 
   const showLogoLink = !isHome
 
@@ -90,6 +64,7 @@ export function Navigation() {
       width={40}
       height={40}
       className={styles.logoImg}
+      unoptimized
       preload
     />
   )
@@ -115,21 +90,8 @@ export function Navigation() {
           const isActive = item.id === activeId
           const className = isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
 
-          if (isHome) {
-            return (
-              <a
-                key={item.id}
-                href={item.href}
-                className={className}
-                onClick={(e) => handleClick(e, item.href)}
-              >
-                <span>{item.label}</span>
-              </a>
-            )
-          }
-
           return (
-            <Link key={item.id} href={item.href} className={className}>
+            <Link key={item.id} href={item.href} className={className} onClick={closeMenu}>
               <span>{item.label}</span>
             </Link>
           )

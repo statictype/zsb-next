@@ -90,9 +90,6 @@
   .subsectionTitle {
     font-size: var(--text-3xl);
   }
-  .sectionTitle {
-    font-size: var(--text-4xl);
-  }
 }
 
 .cardTitle {

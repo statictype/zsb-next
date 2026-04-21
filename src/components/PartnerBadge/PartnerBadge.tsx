@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useRef } from 'react'
 import styles from './PartnerBadge.module.css'
 
-export function PartnerBadge() {
+export function PartnerBadge({ variant = 'light' }: { variant?: 'light' | 'dark' } = {}) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
 
@@ -52,7 +52,7 @@ export function PartnerBadge() {
   }
 
   return (
-    <div ref={wrapRef} className={styles.wrap}>
+    <div ref={wrapRef} className={`${styles.wrap} ${variant === 'dark' ? styles.dark : ''}`}>
       <Link
         href="/partners"
         className={styles.link}

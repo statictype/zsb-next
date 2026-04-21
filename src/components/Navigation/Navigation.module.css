@@ -14,7 +14,7 @@
   padding: 0 var(--content-padding);
   background: var(--black-pure);
   height: var(--nav-height);
-  border-bottom: var(--border-dark);
+  border-bottom: 0.5px solid var(--gray-900);
 }
 
 /* Logo */

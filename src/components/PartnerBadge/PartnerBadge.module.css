@@ -63,6 +63,14 @@
   font-family: var(--font-body);
 }
 
+.dark .textRing text {
+  fill: var(--black);
+}
+
+.dark .arrow {
+  color: var(--black);
+}
+
 /* Center arrow */
 .arrow {
   position: relative;

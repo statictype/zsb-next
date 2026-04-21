@@ -7,21 +7,9 @@
   padding-top: var(--nav-height);
 }
 
-/* ---- Sections flow naturally on mobile ---- */
 .panel {
   width: 100%;
-}
-
-.fpOuter,
-.fpInner {
-  width: 100%;
-}
-
-.fpContent {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  scroll-margin-top: var(--nav-height);
 }
 
 /* ---- Hero ---- */
@@ -43,14 +31,15 @@
   gap: 20px;
   flex-wrap: wrap;
   background: var(--black-pure);
-  padding: 20px var(--content-padding);
-  border-top: var(--border-dark);
+  padding: var(--space-md) var(--content-padding);
+  border-top: 0.5px solid var(--gray-900);
+  min-height: var(--nav-height);
 }
 
 .metaBlock {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 2px;
 }
 
 .metaLabel {
@@ -73,13 +62,6 @@
   background: rgba(255, 255, 255, 0.09);
   flex-shrink: 0;
   display: none;
-}
-
-.heroBadge {
-  position: absolute;
-  bottom: -36px;
-  right: 16px;
-  z-index: 10;
 }
 
 /* ---- Gallery (mobile defaults) ---- */
@@ -118,6 +100,23 @@
   align-items: center;
 }
 
+.aboutHeadingRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.aboutHeadingRow .aboutHeading {
+  margin-bottom: 0;
+  line-height: var(--leading-display);
+}
+
+.aboutBadge {
+  flex-shrink: 0;
+  margin-top: 0.35em;
+}
+
 .aboutGrid {
   display: grid;
   grid-template-columns: 1fr;
@@ -126,10 +125,6 @@
   margin: 0 auto;
   align-items: end;
   width: 100%;
-}
-
-.aboutHeading {
-  line-height: var(--leading-display);
 }
 
 .aboutAccent {
@@ -256,37 +251,8 @@
    ===================================================== */
 
 @media (min-width: 768px) {
-  .main {
-    height: 100vh;
-    overflow: hidden;
-    padding-top: 0;
-  }
-
   .editionTheme {
     font-size: var(--text-2xl);
-  }
-
-  .panel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    visibility: hidden;
-  }
-
-  .fpOuter,
-  .fpInner {
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .fpContent {
-    min-height: 100vh;
-  }
-
-  .hero {
-    height: 100%;
-    padding-top: var(--nav-height);
   }
 
   .heroMeta {
@@ -296,11 +262,6 @@
 
   .metaRule {
     display: block;
-  }
-
-  .heroBadge {
-    bottom: -48px;
-    right: 24px;
   }
 
   .galleryGrid {
@@ -329,16 +290,7 @@
     gap: unset;
   }
 
-  .about {
-    padding: var(--nav-height) var(--content-padding) 0;
-  }
-
-  .editions {
-    padding: 0 var(--content-padding);
-  }
-
   .footerSection {
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -351,12 +303,6 @@
 @media (min-width: 1024px) {
   .aboutGrid {
     grid-template-columns: 2fr 1fr;
-  }
-}
-
-@media (min-width: 1280px) {
-  .heroBadge {
-    bottom: -60px;
   }
 }
 
