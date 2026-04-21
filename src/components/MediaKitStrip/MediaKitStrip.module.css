@@ -1,0 +1,126 @@
+/* =====================================================
+   MEDIA KIT STRIP
+   ===================================================== */
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 0 var(--content-padding);
+  max-width: var(--max-width);
+  margin: 0 auto var(--space-lg);
+}
+
+.counter {
+  font-family: var(--font-display);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  line-height: 1;
+}
+
+.counterCurrent {
+  font-size: var(--text-xl);
+  color: var(--white);
+}
+
+.counterTotal {
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+}
+
+.arrows {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.arrow {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  transition:
+    color var(--duration-normal) ease,
+    transform var(--duration-normal) var(--ease-out-expo);
+}
+
+.arrow:hover:not(:disabled) {
+  color: var(--pink);
+}
+
+.arrow:disabled {
+  color: var(--gray-800);
+  cursor: not-allowed;
+}
+
+/* ---- Viewport ---- */
+.viewport {
+  position: relative;
+  width: 100%;
+}
+
+.track {
+  display: flex;
+  gap: var(--space-md);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 0 var(--content-padding) var(--space-lg);
+  scrollbar-width: none;
+  cursor: grab;
+  touch-action: pan-x;
+  user-select: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Card ---- */
+.card {
+  flex: 0 0 auto;
+  position: relative;
+  width: clamp(240px, 70vw, 320px);
+  aspect-ratio: 3 / 4;
+  scroll-snap-align: start;
+  background: var(--gray-900);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .card {
+    width: clamp(320px, 38vw, 460px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .card {
+    width: clamp(360px, 28vw, 480px);
+  }
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.8s var(--ease-out-expo);
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.track:focus-visible {
+  outline: 1px solid var(--pink);
+  outline-offset: 4px;
+}
+
+.card:hover .image {
+  transform: scale(1.04);
+}

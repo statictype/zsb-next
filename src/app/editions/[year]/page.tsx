@@ -5,7 +5,6 @@ import { Credits } from '@/components/Credits/Credits'
 import { Hero } from '@/components/Hero/Hero'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Manifesto } from '@/components/Manifesto/Manifesto'
-import { MediaKit } from '@/components/MediaKit/MediaKit'
 import { Program } from '@/components/Program/Program'
 import { ThemeArtists } from '@/components/ThemeArtists/ThemeArtists'
 import { Venues } from '@/components/Venues/Venues'
@@ -133,8 +132,6 @@ export default async function EditionPage(props: PageProps<'/editions/[year]'>) 
       <Carousel slides={edition.carousel} theme={edition.theme} />
 
       <Credits credits={edition.credits} />
-
-      {<MediaKit items={edition.mediaKit} />}
     </main>
   )
 }
