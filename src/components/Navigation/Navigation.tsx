@@ -3,11 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import styles from './Navigation.module.css'
-
-export const SECTION_IDS = ['home', 'about', 'editions', 'artists', 'visit', 'footer'] as const
 
 function getActiveFromPath(pathname: string): string {
   if (pathname === '/') return 'home'
@@ -17,8 +15,7 @@ function getActiveFromPath(pathname: string): string {
 }
 
 const NAV_ITEMS = [
-  { id: 'home', label: 'Latest', href: '/' },
-  { id: 'about', label: 'About', href: '/#about' },
+  { id: 'home', label: 'Home', href: '/' },
   { id: 'editions', label: 'Editions', href: '/#editions' },
   { id: 'artists', label: 'Artists', href: '/#artists' },
   { id: 'visit', label: 'Visit', href: '/#visit' },
@@ -27,33 +24,19 @@ const NAV_ITEMS = [
 export function Navigation() {
   const pathname = usePathname()
   const isHome = pathname === '/'
-  const [activeId, setActiveId] = useState(getActiveFromPath(pathname))
+  const activeId = getActiveFromPath(pathname)
   const [isOpen, setIsOpen] = useState(false)
-
-  const closeMenu = useCallback(() => setIsOpen(false), [])
-  const prevPathname = useRef(pathname)
+  const closeMenu = () => setIsOpen(false)
 
   useBodyScrollLock(isOpen)
 
   useEffect(() => {
-    // Close menu on pathname change
-    if (prevPathname.current !== pathname) {
-      prevPathname.current = pathname
-      closeMenu()
-    }
-
-    // Close menu on Escape
     const handleKeydown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeMenu()
+      if (e.key === 'Escape') setIsOpen(false)
     }
     document.addEventListener('keydown', handleKeydown)
-
-    setActiveId(getActiveFromPath(pathname))
-
-    return () => {
-      document.removeEventListener('keydown', handleKeydown)
-    }
-  }, [pathname, closeMenu])
+    return () => document.removeEventListener('keydown', handleKeydown)
+  }, [])
 
   const showLogoLink = !isHome
 
@@ -61,8 +44,8 @@ export function Navigation() {
     <Image
       src="/img/logo_ZSB.svg"
       alt="ZSB Logo"
-      width={40}
-      height={40}
+      width={60}
+      height={60}
       className={styles.logoImg}
       unoptimized
       preload
@@ -70,7 +53,7 @@ export function Navigation() {
   )
 
   return (
-    <header className={styles.bar}>
+    <>
       <div className={styles.logo}>{showLogoLink ? <Link href="/">{logoImg}</Link> : logoImg}</div>
 
       <button
@@ -97,6 +80,6 @@ export function Navigation() {
           )
         })}
       </nav>
-    </header>
+    </>
   )
 }
