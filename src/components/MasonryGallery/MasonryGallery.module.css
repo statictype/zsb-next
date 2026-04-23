@@ -16,7 +16,7 @@
 .item {
   position: relative;
   overflow: hidden;
-  background: var(--gray-900);
+  background: var(--gray-900); /* exception: image placeholder, raised-dark surface */
   cursor: pointer;
 }
 

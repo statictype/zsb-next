@@ -14,7 +14,7 @@
   padding: 0 var(--content-padding);
   background: var(--black-pure);
   height: var(--nav-height);
-  border-bottom: 0.5px solid var(--gray-900);
+  border-bottom: 0.5px solid var(--divider);
 }
 
 /* Logo */
@@ -83,7 +83,7 @@
   text-transform: uppercase;
   text-decoration: none;
   color: var(--black);
-  background: var(--gray-100);
+  background: var(--surface-light);
   padding: 12px 32px;
   border: 2px solid var(--black);
   position: relative;
@@ -111,8 +111,8 @@
   right: 5px;
   width: 0;
   height: 0;
-  border-top: 2px solid var(--pink);
-  border-right: 2px solid var(--pink);
+  border-top: 2px solid var(--action);
+  border-right: 2px solid var(--action);
   background: transparent;
   transition: all 0.3s var(--ease-out-quint) 0.08s;
 }
@@ -152,7 +152,7 @@
 }
 
 .active:hover {
-  color: var(--pink);
+  color: var(--action);
 }
 
 /* Hamburger Toggle Button */
@@ -226,13 +226,13 @@
   }
 
   .active {
-    color: var(--pink);
+    color: var(--action);
     background: transparent;
     border: none;
   }
 
   .active:hover {
-    color: var(--pink);
+    color: var(--action);
   }
 
   .toggle {

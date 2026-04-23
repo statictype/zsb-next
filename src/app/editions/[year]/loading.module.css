@@ -9,7 +9,7 @@
 
 /* ---- Shared pulse ---- */
 .bone {
-  background: var(--gray-900);
+  background: var(--gray-900); /* exception: skeleton placeholder surface */
   border-radius: 0;
   position: relative;
   overflow: hidden;

@@ -24,20 +24,11 @@
   margin-bottom: var(--space-3xl);
 }
 
-.overline {
-  display: block;
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--pink);
-  margin-bottom: var(--space-md);
-}
-
 .headline {
   font-family: var(--font-display);
   font-size: var(--text-xl);
   line-height: var(--leading-heading);
-  color: var(--pink);
+  color: var(--action);
 }
 /* Body paragraphs */
 .body {
@@ -47,7 +38,7 @@
 .body p {
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
-  color: var(--gray-400);
+  color: var(--body);
   line-height: var(--leading-body);
   text-align: left;
   text-wrap: pretty;
@@ -75,13 +66,13 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(to bottom, var(--pink), transparent);
+  background: linear-gradient(to bottom, var(--action), transparent);
 }
 
 .coda p {
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
-  color: var(--gray-400);
+  color: var(--body);
   font-style: italic;
   text-wrap: pretty;
   font-size: var(--text-md);
@@ -99,14 +90,14 @@
 .dividerLine {
   flex: 1;
   height: 1px;
-  background: var(--gray-750);
+  background: var(--divider);
 }
 
 .dividerText {
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--pink);
+  color: var(--action);
 }
 .artistsBlock {
   display: flex;
@@ -120,7 +111,7 @@
 .artistsStatement p {
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
-  color: var(--gray-400);
+  color: var(--body);
   line-height: var(--leading-body);
   text-align: left;
 }
@@ -154,7 +145,7 @@
   text-transform: uppercase;
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
-  color: var(--gray-700);
+  color: var(--muted);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -163,7 +154,7 @@
 .colHeader .headerLabel {
   font-family: var(--font-body);
   font-size: var(--text-2xs);
-  color: var(--pink);
+  color: var(--action);
 }
 
 .colHeader span:last-child {
@@ -184,7 +175,7 @@
 
 .artistNum {
   font-size: var(--text-2xs);
-  color: var(--gray-700);
+  color: var(--muted);
   font-variant-numeric: tabular-nums;
   min-width: 28px;
   position: relative;
@@ -193,7 +184,7 @@
 
 .artistName {
   font-size: var(--text-xs);
-  color: var(--gray-400);
+  color: var(--body);
   text-transform: uppercase;
   letter-spacing: var(--tracking-subtle);
   font-family: var(--font-body);
@@ -225,12 +216,12 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
-  color: var(--pink);
+  color: var(--action);
   font-weight: var(--weight-semibold);
 }
 
 .tableMetaItem span {
-  color: var(--gray-400);
+  color: var(--body);
   margin-left: 8px;
 }
 
@@ -253,10 +244,6 @@
 
 /* ---- Tablet (768px+) ---- */
 @media (min-width: 768px) {
-  .overline {
-    letter-spacing: 6px;
-    margin-bottom: var(--space-lg);
-  }
   .headline {
     font-size: var(--text-3xl);
   }

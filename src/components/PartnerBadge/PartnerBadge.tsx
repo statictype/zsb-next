@@ -77,7 +77,7 @@ export function PartnerBadge({ variant = 'light' }: { variant?: 'light' | 'dark'
             </svg>
           </div>
           <span className={styles.arrow}>
-            <RiEmpathizeFill className={styles.icon} color="var(--pink)" />
+            <RiEmpathizeFill className={styles.icon} color="var(--action)" />
           </span>
         </div>
       </Link>

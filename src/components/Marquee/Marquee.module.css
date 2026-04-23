@@ -16,7 +16,7 @@
   font-size: var(--text-lg);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-700);
+  color: var(--muted);
   animation: marqueeScroll 20s linear infinite;
 }
 

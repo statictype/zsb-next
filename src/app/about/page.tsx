@@ -226,7 +226,6 @@ export default function AboutPage() {
       <section className={styles.statement}>
         <div className={styles.statementInner}>
           <div className={styles.themeHeader}>
-            {/* <span className={styles.overline}>a word from</span> */}
             <h2 className={styles.headline}>A word from the curator</h2>
           </div>
 
@@ -287,9 +286,6 @@ export default function AboutPage() {
       <section className={`${styles.statement} ${styles.statementLight}`}>
         <div className={styles.statementInner}>
           <div className={styles.themeHeader}>
-            {/* <span className={`${styles.overline} ${styles.overlineLight}`}>
-              a word from
-            </span> */}
             <h2 className={`${styles.headline} ${styles.headlineLight}`}>
               A word from the organizer
             </h2>

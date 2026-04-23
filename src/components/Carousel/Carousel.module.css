@@ -42,7 +42,7 @@
 .count {
   font-family: var(--font-body);
   font-size: var(--text-sm);
-  color: var(--gray-600);
+  color: var(--muted);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   display: flex;
@@ -54,7 +54,7 @@
   content: "";
   width: 40px;
   height: 1px;
-  background: var(--gray-750);
+  background: var(--divider);
 }
 
 /* ---- Carousel Container ---- */
@@ -142,7 +142,7 @@
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  background: var(--gray-900);
+  background: var(--gray-900); /* exception: image placeholder fallback, raised-dark surface */
 }
 
 .itemImage {
@@ -167,7 +167,7 @@
   position: absolute;
   inset: 0;
   padding: 2px;
-  background: linear-gradient(90deg, var(--pink) 0%, var(--chartreuse) 50%, var(--pink) 100%);
+  background: linear-gradient(90deg, var(--action) 0%, var(--highlight) 50%, var(--action) 100%);
   background-size: 200% 100%;
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
@@ -269,7 +269,7 @@
   width: var(--btn-size);
   height: var(--btn-size);
   background: transparent;
-  border: 2px solid var(--gray-750);
+  border: 2px solid var(--divider);
   color: var(--white);
   font-size: 24px;
   cursor: pointer;
@@ -285,7 +285,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--pink);
+  background: var(--action);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.4s var(--ease-out-expo);
@@ -293,7 +293,7 @@
 }
 
 .btn:hover {
-  border-color: var(--pink);
+  border-color: var(--action);
   color: var(--white);
 }
 
@@ -311,7 +311,7 @@
 }
 
 .btn:disabled:hover {
-  border-color: var(--gray-750);
+  border-color: var(--divider);
 }
 
 /* ---- Progress ---- */
@@ -336,14 +336,14 @@
 .progress {
   width: 100%;
   height: 2px;
-  background: var(--gray-850);
+  background: var(--divider);
   position: relative;
   overflow: hidden;
 }
 
 .progressBar {
   height: 100%;
-  background: linear-gradient(90deg, var(--pink) 0%, var(--chartreuse) 100%);
+  background: linear-gradient(90deg, var(--action) 0%, var(--highlight) 100%);
   transition: width 0.6s var(--ease-out-expo);
   position: relative;
 }
@@ -355,7 +355,7 @@
   top: -3px;
   width: 8px;
   height: 8px;
-  background: var(--chartreuse);
+  background: var(--highlight);
   border-radius: var(--radius-circle);
 }
 
@@ -369,7 +369,7 @@
 .dot {
   width: 24px;
   height: 3px;
-  background: var(--gray-750);
+  background: var(--divider);
   border: none;
   cursor: pointer;
   transition: all 0.4s ease;
@@ -383,7 +383,7 @@
 }
 
 .dotActive {
-  background: var(--chartreuse);
+  background: var(--highlight);
   width: 36px;
 }
 
@@ -394,5 +394,5 @@
 }
 
 .dot:not(.dotActive):hover {
-  background: var(--gray-600);
+  background: var(--muted);
 }

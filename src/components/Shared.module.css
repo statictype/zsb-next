@@ -37,12 +37,8 @@
   }
 }
 
-.sectionTitleDark {
-  color: var(--white);
-}
-
 .sectionTitleLight {
-  color: var(--black);
+  color: var(--heading-light);
 }
 
 .pageTitle {
@@ -51,18 +47,14 @@
   line-height: var(--leading-display);
   text-transform: uppercase;
   opacity: 0;
-  animation: fadeInUp 0.8s ease 0.2s forwards;
-}
-
-.pageTitleDark {
-  color: var(--white);
+  animation: fadeSlideUp 1s var(--ease-out-expo) 0.2s forwards;
 }
 
 .pageTitleLight {
-  color: var(--black);
+  color: var(--heading-light);
 }
 
-@keyframes fadeInUp {
+@keyframes fadeSlideUp {
   from {
     opacity: 0;
     transform: translateY(40px);
@@ -101,42 +93,22 @@
 }
 
 .accent {
-  color: var(--pink);
+  color: var(--action);
 }
 
 /* ---- Typography — Body ---- */
-.leadText {
-  font-family: var(--font-body);
-  font-size: var(--text-md);
-  line-height: var(--leading-body);
-  font-weight: var(--weight-light);
-}
-
-@media (min-width: 768px) {
-  .leadText {
-    font-size: var(--text-lg);
-  }
-}
-
 .heroLead {
   font-family: var(--font-body);
   font-size: var(--text-lg);
   line-height: var(--leading-body);
-  color: var(--gray-200);
-}
-
-.bodyText {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  font-weight: var(--weight-regular);
+  color: var(--gray-200); /* exception: lead emphasis, brighter than --body */
 }
 
 .heroBody {
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: var(--leading-body);
-  color: var(--gray-500);
+  color: var(--body);
 }
 
 .heroBody p {
@@ -164,13 +136,13 @@
   font-weight: var(--weight-semibold);
 }
 
-/* ---- Eyebrows ---- */
+/* ---- Eyebrow — section intro label with rule ---- */
 .eyebrowMuted {
   font-family: var(--font-body);
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-600);
+  color: var(--muted);
   display: flex;
   align-items: center;
   gap: 16px;
@@ -181,33 +153,7 @@
   content: "";
   width: 40px;
   height: 2px;
-  background: var(--gray-600);
-}
-
-.eyebrowPink {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--pink);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.eyebrowPink::before {
-  content: "";
-  width: 40px;
-  height: 2px;
-  background: var(--pink);
-}
-
-.overline {
-  display: block;
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--pink);
+  background: var(--muted);
 }
 
 /* ---- Section Header ---- */

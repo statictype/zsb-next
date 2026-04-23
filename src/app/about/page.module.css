@@ -94,7 +94,7 @@
 .purposeNum {
   font-family: var(--font-display);
   font-size: var(--text-2xs);
-  color: var(--gray-400);
+  color: var(--muted);
   min-width: 28px;
   position: relative;
   top: 1px;
@@ -103,7 +103,7 @@
 .purposeEntryText {
   font-family: var(--font-body);
   font-size: var(--text-sm);
-  color: var(--gray-700);
+  color: var(--body-light);
   text-transform: uppercase;
   letter-spacing: var(--tracking-subtle);
   line-height: var(--leading-loose);
@@ -139,7 +139,7 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--pink);
+  color: var(--action);
   margin-bottom: var(--space-md);
 }
 
@@ -147,7 +147,7 @@
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: var(--leading-loose);
-  color: var(--gray-500);
+  color: var(--muted);
   max-width: 700px;
   margin: 0 auto;
 }
@@ -173,8 +173,8 @@
 }
 
 .stripWord:hover {
-  color: var(--pink);
-  border-color: var(--pink);
+  color: var(--action);
+  border-color: var(--action);
 }
 
 /* =====================================================
@@ -205,19 +205,6 @@
   margin-bottom: var(--space-xl);
 }
 
-.overline {
-  display: block;
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--pink);
-  margin-bottom: var(--space-md);
-}
-
-.overlineLight {
-  color: var(--gray-600);
-}
-
 .headline {
   font-family: var(--font-display);
   font-size: var(--text-2xl);
@@ -246,13 +233,13 @@
 }
 
 .statementLight .authorCard {
-  border-bottom-color: var(--gray-200);
+  border-bottom-color: var(--divider-light);
 }
 
 .authorPhoto {
   width: 72px;
   height: 88px;
-  background: var(--gray-800);
+  background: var(--gray-800); /* exception: dark placeholder surface for photo */
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
@@ -271,7 +258,7 @@
 }
 
 .authorPhotoLight {
-  background: var(--gray-200);
+  background: var(--divider-light);
 }
 
 .authorPhotoLight::after {
@@ -301,7 +288,7 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-500);
+  color: var(--muted);
 }
 
 /* Statement Body */
@@ -313,7 +300,7 @@
 .statementBody p {
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
-  color: var(--gray-350);
+  color: var(--gray-350); /* exception: brighter body for long-form statement on dark */
   line-height: var(--leading-body);
   margin-bottom: var(--space-md);
   text-align: left;
@@ -324,12 +311,12 @@
 }
 
 .statementBodyLight p {
-  color: var(--gray-600);
+  color: var(--muted);
 }
 
 .placeholderText {
   font-style: italic;
-  color: var(--gray-400);
+  color: var(--body);
 }
 
 /* Sign-off */
@@ -343,14 +330,14 @@
 }
 
 .statementLight .signOff {
-  border-top-color: var(--gray-200);
+  border-top-color: var(--divider-light);
 }
 
 .signLine {
   display: block;
   width: 40px;
   height: 2px;
-  background: var(--pink);
+  background: var(--action);
 }
 
 .signName {
@@ -370,7 +357,7 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-600);
+  color: var(--muted);
 }
 
 /* Statement Responsive */
@@ -381,11 +368,6 @@
 
   .themeHeader {
     margin-bottom: var(--space-3xl);
-  }
-
-  .overline {
-    letter-spacing: 6px;
-    margin-bottom: var(--space-lg);
   }
 
   .authorPhoto {

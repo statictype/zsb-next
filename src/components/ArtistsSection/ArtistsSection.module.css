@@ -50,7 +50,7 @@
   padding: var(--space-lg) 0 var(--space-xl);
   font-family: var(--font-body);
   font-size: var(--text-xs);
-  color: var(--gray-500);
+  color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   flex-shrink: 0;

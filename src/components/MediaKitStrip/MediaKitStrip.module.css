@@ -27,7 +27,7 @@
 
 .counterTotal {
   font-size: var(--text-sm);
-  color: var(--gray-600);
+  color: var(--muted);
 }
 
 .arrows {
@@ -51,11 +51,11 @@
 }
 
 .arrow:hover:not(:disabled) {
-  color: var(--pink);
+  color: var(--action);
 }
 
 .arrow:disabled {
-  color: var(--gray-800);
+  color: var(--gray-800); /* exception: disabled state needs specific dim tone */
   cursor: not-allowed;
 }
 
@@ -90,7 +90,7 @@
   width: clamp(240px, 70vw, 320px);
   aspect-ratio: 3 / 4;
   scroll-snap-align: start;
-  background: var(--gray-900);
+  background: var(--gray-900); /* exception: image placeholder, raised-dark surface */
   border: none;
   padding: 0;
   cursor: pointer;
@@ -117,7 +117,7 @@
 }
 
 .track:focus-visible {
-  outline: 1px solid var(--pink);
+  outline: var(--focus-ring);
   outline-offset: 4px;
 }
 

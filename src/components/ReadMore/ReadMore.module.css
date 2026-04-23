@@ -13,26 +13,26 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
-  color: var(--gray-600);
+  color: var(--muted);
   cursor: pointer;
   margin-top: var(--space-lg);
   transition: all var(--duration-normal) ease;
 }
 
 .btn:hover {
-  border-color: var(--pink);
-  color: var(--pink);
+  border-color: var(--action);
+  color: var(--action);
 }
 
 .btnDark {
-  border-color: var(--gray-750);
-  color: var(--gray-500);
+  border-color: var(--divider);
+  color: var(--muted);
   margin-bottom: var(--space-3xl);
 }
 
 .btnDark:hover {
-  border-color: var(--pink);
-  color: var(--pink);
+  border-color: var(--action);
+  color: var(--action);
 }
 
 .icon {

@@ -4,7 +4,7 @@
 
 /* ---- Base ---- */
 .btn {
-  --_color: var(--btn-color, var(--pink));
+  --_color: var(--btn-color, var(--action));
 
   position: relative;
   display: inline-flex;

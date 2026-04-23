@@ -104,7 +104,7 @@ export default function PartnersPage() {
           <div className={styles.audienceHeader}>
             <div>
               <div className={shared.eyebrowMuted}>The Audience</div>
-              <h2 className={`${shared.sectionTitle} ${shared.sectionTitleDark}`}>
+              <h2 className={shared.sectionTitle}>
                 Who engages
                 <br />
                 with ZSB

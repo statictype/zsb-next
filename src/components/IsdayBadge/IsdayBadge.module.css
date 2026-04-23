@@ -21,7 +21,7 @@
     rgba(255, 255, 255, 0.9) 40%,
     rgba(248, 248, 250, 1) 100%
   );
-  border-radius: var(--radius-badge);
+  border-radius: 0;
   border: var(--border-light);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
 }
@@ -30,7 +30,7 @@
   font-family: var(--font-body);
   font-weight: var(--weight-light);
   font-size: var(--text-2xl);
-  color: var(--pink);
+  color: var(--action);
   letter-spacing: -0.5px;
   line-height: var(--leading-heading);
 }
@@ -40,7 +40,7 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
-  color: var(--gray-700);
+  color: var(--body-light);
   margin-top: var(--space-xs);
 }
 
@@ -50,9 +50,9 @@
   gap: 6px;
   margin-top: var(--space-md);
   padding: 8px var(--space-md);
-  background: var(--gray-800);
+  background: var(--gray-800); /* exception: specific dark pill on light card */
   color: var(--white);
-  border-radius: var(--radius-badge);
+  border-radius: 0;
   font-family: var(--font-body);
   font-size: var(--text-2xs);
   text-transform: uppercase;
@@ -62,7 +62,7 @@
 .pillIcon {
   width: 6px;
   height: 6px;
-  background: var(--chartreuse);
+  background: var(--highlight);
   border-radius: var(--radius-circle);
 }
 

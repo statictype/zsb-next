@@ -159,7 +159,7 @@
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: var(--leading-loose);
-  color: var(--gray-600);
+  color: var(--muted);
 }
 
 /* =====================================================
@@ -190,7 +190,7 @@
 
 .audienceStat {
   padding-top: 20px;
-  border-top: 3px solid var(--pink);
+  border-top: 3px solid var(--action);
 }
 
 .audienceStatNumber {
@@ -206,7 +206,7 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
-  color: var(--gray-500);
+  color: var(--muted);
 }
 
 /* ---- Audience Profiles ---- */
@@ -305,7 +305,7 @@
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: var(--leading-body);
-  color: var(--gray-500);
+  color: var(--muted);
 }
 
 /* =====================================================
@@ -349,7 +349,7 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--pink);
+  color: var(--action);
   margin-bottom: 10px;
 }
 
@@ -366,7 +366,7 @@
   font-family: var(--font-body);
   font-size: var(--text-sm);
   line-height: var(--leading-body);
-  color: var(--gray-600);
+  color: var(--muted);
 }
 
 /* ---- Right column: Where money goes ---- */
@@ -380,7 +380,7 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--pink);
+  color: var(--action);
   margin-bottom: 10px;
 }
 
@@ -397,7 +397,7 @@
   font-family: var(--font-body);
   font-size: var(--text-sm);
   line-height: var(--leading-body);
-  color: var(--gray-600);
+  color: var(--muted);
   margin-bottom: 24px;
   padding-bottom: 24px;
   border-bottom: var(--border-light);
@@ -421,7 +421,7 @@
   top: 21px;
   width: 5px;
   height: 5px;
-  background: var(--pink);
+  background: var(--action);
   border-radius: var(--radius-circle);
 }
 
@@ -444,7 +444,7 @@
   font-family: var(--font-body);
   font-size: var(--text-xs);
   line-height: var(--leading-body);
-  color: var(--gray-600);
+  color: var(--muted);
 }
 
 /* =====================================================
@@ -477,14 +477,14 @@
 }
 
 .partnerCtaAccent {
-  color: var(--pink);
+  color: var(--action);
 }
 
 .partnerCtaBody {
   font-size: 15px;
   line-height: var(--leading-body);
   font-weight: var(--weight-light);
-  color: var(--gray-400);
+  color: var(--body);
   max-width: 430px;
   margin-bottom: 46px;
 }

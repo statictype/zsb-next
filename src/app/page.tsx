@@ -96,7 +96,7 @@ export default function HomePage() {
       {/* ---- Editions ---- */}
       <section id="editions" className={`${styles.panel} ${styles.editions}`}>
         <div className={styles.editionsHead}>
-          <h2 className={`${shared.sectionTitle} ${shared.sectionTitleDark}`}>PAST EDITIONS</h2>
+          <h2 className={shared.sectionTitle}>PAST EDITIONS</h2>
         </div>
         <div className={styles.editionList}>
           {editions.map((edition) => (

@@ -16,7 +16,7 @@ interface MagneticButtonProps {
   external?: boolean
   variant?: ButtonVariant
   size?: ButtonSize
-  /** Fill / border accent color (any CSS value). Defaults to var(--pink). */
+  /** Fill / border accent color (any CSS value). Defaults to var(--action). */
   color?: string
   /** Resting text color. Defaults to var(--white). */
   textColor?: string

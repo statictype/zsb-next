@@ -35,13 +35,13 @@
 }
 
 .glowPink {
-  background: var(--pink);
+  background: var(--action);
   top: 20%;
   left: 15%;
 }
 
 .glowChartreuse {
-  background: var(--chartreuse);
+  background: var(--highlight);
   bottom: 10%;
   right: 10%;
   animation-delay: -6s;
@@ -97,7 +97,7 @@
 .divider {
   width: 48px;
   height: 2px;
-  background: linear-gradient(90deg, var(--pink), var(--chartreuse));
+  background: linear-gradient(90deg, var(--action), var(--highlight));
   margin: var(--space-lg) auto var(--space-xl);
   opacity: 0;
   animation: fadeSlideUp 1s var(--ease-out-expo) 0.25s forwards;
@@ -118,7 +118,7 @@
 .subtitle {
   font-family: var(--font-body);
   font-size: var(--text-sm);
-  color: var(--gray-400);
+  color: var(--body);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   margin-bottom: var(--space-2xl);
@@ -136,7 +136,7 @@
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   color: var(--white);
-  border: 1px solid var(--gray-750);
+  border: 1px solid var(--divider);
   padding: 14px 28px;
   transition: all var(--duration-normal) ease;
   opacity: 0;
@@ -144,8 +144,8 @@
 }
 
 .cta:hover {
-  border-color: var(--pink);
-  color: var(--pink);
+  border-color: var(--action);
+  color: var(--action);
 }
 
 .ctaArrow {

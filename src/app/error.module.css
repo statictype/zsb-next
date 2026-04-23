@@ -30,7 +30,7 @@
   width: 500px;
   height: 500px;
   border-radius: var(--radius-circle);
-  background: var(--pink);
+  background: var(--action);
   filter: blur(180px);
   opacity: 0.08;
   top: 30%;
@@ -54,9 +54,9 @@
   justify-content: center;
   width: 56px;
   height: 56px;
-  border: 1px solid var(--gray-800);
+  border: 1px solid var(--divider);
   margin-bottom: var(--space-xl);
-  color: var(--pink);
+  color: var(--action);
 }
 
 /* ---- Title ---- */
@@ -74,7 +74,7 @@
 .message {
   font-family: var(--font-body);
   font-size: var(--text-sm);
-  color: var(--gray-400);
+  color: var(--body);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   line-height: var(--leading-loose);
@@ -99,19 +99,19 @@
   letter-spacing: var(--tracking-label);
   color: var(--white);
   background: transparent;
-  border: 1px solid var(--gray-750);
+  border: 1px solid var(--divider);
   padding: 14px 28px;
   cursor: pointer;
   transition: all var(--duration-normal) ease;
 }
 
 .btn:hover {
-  border-color: var(--pink);
-  color: var(--pink);
+  border-color: var(--action);
+  color: var(--action);
 }
 
 .btnPrimary {
-  border-color: var(--pink);
+  border-color: var(--action);
   background: rgba(255, 0, 153, 0.08);
 }
 

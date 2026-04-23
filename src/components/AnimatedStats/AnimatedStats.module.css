@@ -24,6 +24,6 @@
   font-weight: var(--weight-semibold);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gray-600);
+  color: var(--muted);
   margin-top: 9px;
 }

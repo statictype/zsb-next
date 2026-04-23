@@ -48,7 +48,7 @@
   width: var(--btn-size);
   height: var(--btn-size);
   background: transparent;
-  border: 1px solid var(--gray-700);
+  border: 1px solid var(--divider);
   color: var(--white);
   font-size: 24px;
   cursor: pointer;
@@ -82,7 +82,7 @@
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-500);
+  color: var(--muted);
 }
 
 @media (min-width: 768px) {
@@ -99,7 +99,7 @@
   width: var(--btn-size);
   height: var(--btn-size);
   background: transparent;
-  border: 1px solid var(--gray-750);
+  border: 1px solid var(--divider);
   color: var(--white);
   font-size: 20px;
   cursor: pointer;
@@ -111,8 +111,8 @@
 }
 
 .nav:hover {
-  background: var(--pink);
-  border-color: var(--pink);
+  background: var(--action);
+  border-color: var(--action);
 }
 
 .navPrev {

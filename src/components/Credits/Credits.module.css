@@ -2,7 +2,7 @@
    CREDITS
    ===================================================== */
 .section {
-  background: var(--gray-100);
+  background: var(--surface-light);
 }
 
 .container {
@@ -41,7 +41,7 @@
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-600);
+  color: var(--muted);
 }
 
 .name {
@@ -56,7 +56,7 @@
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
   font-size: var(--text-sm);
-  color: var(--gray-600);
+  color: var(--muted);
   line-height: var(--leading-body);
   margin-bottom: var(--space-sm);
 }
@@ -88,7 +88,7 @@
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--pink);
+  color: var(--action);
   padding-bottom: var(--space-sm);
   border-bottom: var(--border-light);
 }
@@ -97,7 +97,7 @@
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
   font-size: var(--text-sm);
-  color: var(--gray-700);
+  color: var(--body-light);
   line-height: var(--leading-tight);
   display: flex;
   flex-wrap: wrap;
@@ -110,7 +110,7 @@
 
 .partnersList span::after {
   content: " \00b7 ";
-  color: var(--pink);
+  color: var(--action);
   font-size: var(--text-md);
 }
 
@@ -149,13 +149,13 @@
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-600);
+  color: var(--muted);
 }
 
 .inlineNames {
   font-family: var(--font-body);
   font-size: var(--text-sm);
-  color: var(--gray-600);
+  color: var(--muted);
   line-height: var(--leading-loose);
 }
 

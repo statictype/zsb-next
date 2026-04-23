@@ -22,7 +22,7 @@
 
 .titleHighlight {
   display: inline;
-  background: linear-gradient(135deg, var(--pink) 0%, #cc0077 100%);
+  background: linear-gradient(135deg, var(--action) 0%, #cc0077 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -44,12 +44,12 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(to bottom, var(--pink), transparent);
+  background: linear-gradient(to bottom, var(--action), transparent);
 }
 
 .text p {
   line-height: var(--leading-body);
-  color: var(--gray-700);
+  color: var(--body-light);
   font-family: var(--font-body);
   font-size: var(--text-base);
   text-wrap: pretty;

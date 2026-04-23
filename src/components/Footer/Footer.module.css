@@ -56,7 +56,7 @@
 }
 
 .wordmarkAccent {
-  color: var(--pink);
+  color: var(--action);
 }
 
 /* Footer Links Grid */
@@ -84,7 +84,7 @@
   font-size: var(--text-2xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-700);
+  color: var(--muted);
   padding-bottom: 12px;
   border-bottom: var(--border-dark);
   margin-bottom: 4px;
@@ -93,7 +93,7 @@
 .link {
   font-family: var(--font-body);
   font-size: var(--text-xs);
-  color: var(--gray-400);
+  color: var(--body);
   font-weight: var(--weight-medium);
   text-decoration: none;
   text-transform: uppercase;
@@ -110,7 +110,7 @@
   left: 0;
   width: 0;
   height: 1px;
-  background: var(--pink);
+  background: var(--action);
   transition: width var(--duration-normal) ease;
 }
 
@@ -160,7 +160,7 @@
 }
 
 .socialLink:hover {
-  color: var(--pink);
+  color: var(--action);
 }
 
 .barcode {
@@ -194,7 +194,7 @@
   font-family: var(--font-body);
   font-size: 8px;
   letter-spacing: var(--tracking-label);
-  color: var(--gray-700);
+  color: var(--muted);
   margin-top: 6px;
 }
 
@@ -214,7 +214,7 @@
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
-  color: var(--gray-700);
+  color: var(--muted);
 }
 
 @media (min-width: 768px) {
@@ -232,20 +232,20 @@
 }
 
 .legal a {
-  color: var(--gray-700);
+  color: var(--muted);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .legal a:hover {
-  color: var(--pink);
+  color: var(--action);
 }
 
 .tagline {
   font-family: var(--font-body);
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wide);
-  color: var(--gray-700);
+  color: var(--muted);
   text-transform: uppercase;
   order: -1;
 }
@@ -257,5 +257,5 @@
 }
 
 .tagline span {
-  color: var(--pink);
+  color: var(--action);
 }

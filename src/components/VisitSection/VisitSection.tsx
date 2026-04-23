@@ -27,14 +27,14 @@ const VENUE = {
 }
 
 const PIXELS = [
-  { top: '-12px', left: '60px', size: 24, color: 'var(--pink)' },
-  { top: '40px', right: '-16px', size: 20, color: 'var(--pink)' },
-  { bottom: '80px', right: '-20px', size: 16, color: 'var(--chartreuse)' },
-  { bottom: '-14px', left: '120px', size: 22, color: 'var(--pink)' },
-  { top: '50%', left: '-18px', size: 14, color: 'var(--chartreuse)' },
-  { bottom: '30px', left: '-10px', size: 18, color: 'var(--pink)' },
-  { top: '20px', left: '30%', size: 10, color: 'var(--chartreuse)' },
-  { bottom: '-8px', right: '25%', size: 12, color: 'var(--chartreuse)' },
+  { top: '-12px', left: '60px', size: 24, color: 'var(--action)' },
+  { top: '40px', right: '-16px', size: 20, color: 'var(--action)' },
+  { bottom: '80px', right: '-20px', size: 16, color: 'var(--highlight)' },
+  { bottom: '-14px', left: '120px', size: 22, color: 'var(--action)' },
+  { top: '50%', left: '-18px', size: 14, color: 'var(--highlight)' },
+  { bottom: '30px', left: '-10px', size: 18, color: 'var(--action)' },
+  { top: '20px', left: '30%', size: 10, color: 'var(--highlight)' },
+  { bottom: '-8px', right: '25%', size: 12, color: 'var(--highlight)' },
 ] as const
 
 const TRANSPORT = [
@@ -85,7 +85,7 @@ export function VisitSection() {
 
           {/* ---- Content ---- */}
           <div className={styles.content}>
-            <h2 className={`${shared.sectionTitle} ${shared.sectionTitleDark}`}>
+            <h2 className={shared.sectionTitle}>
               COMBINATUL
               <br />
               FONDULUI
@@ -141,8 +141,8 @@ export function VisitSection() {
                 href={VENUE.mapsUrl}
                 external
                 variant="secondary"
-                color="var(--pink)"
-                textColor="var(--pink)"
+                color="var(--action)"
+                textColor="var(--action)"
               >
                 <RiMapPinLine size={16} />
                 Get Directions

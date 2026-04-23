@@ -5,7 +5,7 @@ import styles from './ArtistsSection.module.css'
 export function ArtistsSection() {
   return (
     <section id="artists" className={styles.section}>
-      <h2 className={`${shared.sectionTitle} ${shared.sectionTitleDark} ${styles.title}`}>
+      <h2 className={`${shared.sectionTitle} ${styles.title}`}>
         Artists
       </h2>
 

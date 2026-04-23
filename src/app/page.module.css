@@ -32,7 +32,7 @@
   flex-wrap: wrap;
   background: var(--black-pure);
   padding: var(--space-md) var(--content-padding);
-  border-top: 0.5px solid var(--gray-900);
+  border-top: 0.5px solid var(--divider);
   min-height: var(--nav-height);
 }
 
@@ -47,7 +47,7 @@
   font-weight: var(--weight-semibold);
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--gray-500);
+  color: var(--muted);
 }
 
 .metaValue {
@@ -128,14 +128,14 @@
 }
 
 .aboutAccent {
-  color: var(--pink);
+  color: var(--action);
 }
 
 .aboutBody {
   font-size: var(--text-base);
   line-height: var(--leading-body);
   font-weight: var(--weight-light);
-  color: var(--gray-700);
+  color: var(--body-light);
   margin-bottom: var(--space-lg);
   overflow-wrap: break-word;
   text-wrap: pretty;
@@ -162,7 +162,7 @@
   font-weight: var(--weight-semibold);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--pink);
+  color: var(--action);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -202,7 +202,7 @@
   font-weight: var(--weight-semibold);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gray-500);
+  color: var(--muted);
   flex-shrink: 0;
   width: 40px;
   transform: translateY(4px);
@@ -218,12 +218,12 @@
 }
 
 .editionRow:hover .editionTheme {
-  color: var(--pink);
+  color: var(--action);
 }
 
 .editionArrow {
   flex-shrink: 0;
-  color: var(--gray-600);
+  color: var(--muted);
   display: flex;
   transition:
     color 0.3s ease,
@@ -231,7 +231,7 @@
 }
 
 .editionRow:hover .editionArrow {
-  color: var(--pink);
+  color: var(--action);
   transform: translate(4px, -4px);
 }
 
