@@ -1,10 +1,10 @@
 /* =====================================================
-   HOME PAGE — Dark Cinematic Redesign
+   HOME PAGE — Dark hero, 16/9 slideshow pinned right,
+   title crashes over the image's left edge
    ===================================================== */
 
-/* ---- Homepage container ---- */
 .main {
-  padding-top: var(--nav-height);
+  /* floating nav overlays the hero; no top padding */
 }
 
 .panel {
@@ -12,137 +12,99 @@
   scroll-margin-top: var(--nav-height);
 }
 
-/* ---- Hero ---- */
+/* =====================================================
+   HERO
+     · slideshow (R) — 16/9, right-aligned with the nav,
+       capped at 1024px on 1792+ viewports
+     · title (L) — absolute overlay that overlaps the image's
+       top-left (accented letters land on the image)
+     · lead + CTA — absolute overlay, lower-left
+     · partner badge — absolute, bottom-right
+   ===================================================== */
+
 .hero {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  background: var(--black);
-}
-
-.heroImageArea {
   position: relative;
-}
-
-.heroMeta {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  background: var(--black-pure);
-  padding: var(--space-md) var(--content-padding);
-  border-top: 0.5px solid var(--divider);
-  min-height: var(--nav-height);
-}
-
-.metaBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.metaLabel {
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.metaValue {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-regular);
-  color: var(--white);
-}
-
-.metaRule {
-  width: 1px;
-  height: 34px;
-  background: rgba(255, 255, 255, 0.09);
-  flex-shrink: 0;
-  display: none;
-}
-
-/* ---- Gallery (mobile defaults) ---- */
-.galleryGrid {
-  grid-template-columns: 1fr;
-  gap: 2px;
-  padding: 0 2px;
-}
-
-.gi,
-.gi:nth-child(1),
-.gi:nth-child(2),
-.gi:nth-child(3),
-.gi:nth-child(4),
-.gi:nth-child(5) {
-  grid-column: auto;
-  grid-row: auto;
-}
-
-.giInner,
-.gi:nth-child(3) .giInner {
-  min-height: 220px;
-}
-
-.galleryHead {
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* ---- About ---- */
-.about {
-  padding: var(--section-padding-y) var(--content-padding);
-  background: var(--white);
-  --btn-text: var(--black);
+  width: 100%;
+  background: var(--black);
+  padding: calc(var(--nav-height) + var(--space-lg)) var(--content-padding)
+    var(--space-2xl);
+  overflow: hidden;
+  min-height: 100svh;
   display: flex;
   align-items: center;
 }
 
-.aboutHeadingRow {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-lg);
-  margin-bottom: var(--space-lg);
-}
-
-.aboutHeadingRow .aboutHeading {
-  margin-bottom: 0;
-  line-height: var(--leading-display);
-}
-
-.aboutBadge {
-  flex-shrink: 0;
-  margin-top: 0.35em;
-}
-
-.aboutGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-2xl);
+.heroInner {
+  position: relative;
   max-width: var(--max-width);
   margin: 0 auto;
-  align-items: end;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* ---- Slideshow frame — controls + 16/9 stage stack internally ---- */
+.heroVisual {
+  position: relative;
   width: 100%;
 }
 
-.aboutAccent {
+/* ---- Title + lead + CTA ---- */
+.heroPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  color: var(--heading);
+  min-width: 0;
+}
+
+.heroBrand {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  line-height: 0.88;
+  letter-spacing: -0.025em;
+  color: var(--heading);
+  margin: 0;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.brandAccent {
   color: var(--action);
 }
 
-.aboutBody {
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  font-weight: var(--weight-light);
-  color: var(--body-light);
-  margin-bottom: var(--space-lg);
-  overflow-wrap: break-word;
-  text-wrap: pretty;
-  max-width: 60ch;
+.heroText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
 }
 
-/* ---- Past Editions List ---- */
+.heroLead {
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: var(--leading-body);
+  font-weight: var(--weight-regular);
+  color: var(--body);
+  margin: 0;
+  max-width: 40ch;
+  text-wrap: pretty;
+}
+
+/* ---- Partner badge — bottom-right of section ---- */
+.heroBadge {
+  position: absolute;
+  z-index: 5;
+  bottom: var(--space-lg);
+  right: var(--content-padding);
+  transform: scale(1.1);
+  transform-origin: bottom right;
+}
+
+/* =====================================================
+   PAST EDITIONS
+   ===================================================== */
 .editions {
   padding: var(--section-padding-y) var(--content-padding);
   background: var(--black-pure);
@@ -240,12 +202,6 @@
   background: var(--black);
 }
 
-/* ---- Footer as full-page section ---- */
-.footerSection {
-  width: 100%;
-  background: var(--black-pure);
-}
-
 /* =====================================================
    RESPONSIVE
    ===================================================== */
@@ -255,62 +211,73 @@
     font-size: var(--text-2xl);
   }
 
-  .heroMeta {
-    gap: 40px;
-    flex-wrap: nowrap;
-  }
-
-  .metaRule {
-    display: block;
-  }
-
-  .galleryGrid {
-    grid-template-columns: unset;
-    gap: unset;
-    padding: unset;
-  }
-
-  .gi,
-  .gi:nth-child(1),
-  .gi:nth-child(2),
-  .gi:nth-child(3),
-  .gi:nth-child(4),
-  .gi:nth-child(5) {
-    grid-column: unset;
-    grid-row: unset;
-  }
-
-  .giInner,
-  .gi:nth-child(3) .giInner {
-    min-height: unset;
-  }
-
-  .galleryHead {
-    flex-direction: row;
-    gap: unset;
-  }
-
-  .footerSection {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
   .editionYear {
     width: 60px;
+  }
+
+  .heroBadge {
+    right: var(--space-lg);
+    bottom: var(--space-xl);
+    transform: scale(1.25);
   }
 }
 
 @media (min-width: 1024px) {
-  .aboutGrid {
-    grid-template-columns: 2fr 1fr;
+  .hero {
+    padding: calc(var(--nav-height) + var(--space-xl)) var(--content-padding)
+      var(--space-3xl);
+  }
+
+  /* heroInner becomes the positioning context for the overlap composition */
+  .heroInner {
+    display: block;
+  }
+
+  /* Image — right-aligned (flush with the nav), 16/9, capped at 1024px */
+  .heroVisual {
+    margin-left: auto;
+    width: 60%;
+    max-width: 1024px;
+  }
+
+  /* Title + text — absolute, layered over the image's top-left */
+  .heroPanel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--space-2xl);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Only interactive children opt back in — keeps the title's box from
+     silently shadowing the carousel controls that sit beneath it. */
+  .heroPanel a,
+  .heroPanel button {
+    pointer-events: auto;
+  }
+
+  .heroBadge {
+    transform: scale(1.35);
+  }
+}
+
+@media (min-width: 1280px) {
+  .heroBadge {
+    transform: scale(1.5);
   }
 }
 
 @media (min-width: 1536px) {
-  .aboutHeading {
-    font-size: var(--text-4xl);
+  .heroBadge {
+    transform: scale(1.6);
   }
-  .aboutBody {
-    font-size: var(--text-md);
+}
+
+@media (min-width: 1792px) {
+  .heroVisual {
+    width: 1024px;
   }
 }

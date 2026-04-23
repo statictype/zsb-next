@@ -1,37 +1,109 @@
 /* =====================================================
-   HERO SLIDESHOW — Fullscreen crossfade
+   HERO SLIDESHOW — Controls row above a 16/9 stage, crossfade
    ===================================================== */
 
 .slideshow {
   position: relative;
   width: 100%;
-  height: 45vh;
-  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* ---- Controls — in-flow row, right-aligned, sit above the stage ---- */
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.control {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--action);
+  background: transparent;
+  color: var(--white);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s var(--ease-out-expo);
+}
+
+.control:hover {
+  border-color: transparent;
+}
+
+.control:active {
+  transform: scale(0.94);
+}
+
+.control:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Animated gradient border on hover — same pattern as Carousel */
+.control::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 50%;
+  padding: 1.5px;
+  background: linear-gradient(90deg, var(--action) 0%, var(--highlight) 50%, var(--action) 100%);
+  background-size: 200% 100%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.control:hover::before {
+  opacity: 1;
+  animation: gradientBorderShift 2s linear infinite;
+}
+
+.control svg {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes gradientBorderShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@media (min-width: 768px) {
+  .control {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* ---- Stage — the 16/9 image area ---- */
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-}
-
-/* Portrait tablet */
-@media (min-width: 768px) and (orientation: portrait) {
-  .slideshow {
-    height: 50vh;
-    min-height: 300px;
-  }
-}
-
-/* Landscape mobile & tablet — images fill naturally */
-@media (orientation: landscape) and (max-width: 1023px) {
-  .slideshow {
-    height: calc(100vh - var(--nav-height) * 2);
-    min-height: 280px;
-  }
-}
-
-/* Desktop+ (hero already has padding-top: --nav-height) */
-@media (min-width: 1024px) {
-  .slideshow {
-    height: calc(100vh - var(--nav-height) * 2);
-    min-height: 400px;
-  }
+  background: var(--black-pure);
 }
 
 .slide {
@@ -55,5 +127,5 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
 }
