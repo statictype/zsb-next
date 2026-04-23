@@ -1,7 +1,7 @@
 'use client'
 
 import { RiArrowLeftSLine, RiArrowRightSLine, RiCloseLine } from '@remixicon/react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import styles from './Lightbox.module.css'
 
@@ -12,23 +12,21 @@ interface LightboxImage {
 
 interface LightboxProps {
   images: LightboxImage[]
-  initialIndex?: number
+  currentIndex: number
+  onIndexChange: (index: number) => void
   isOpen: boolean
   onClose: () => void
 }
 
-export function Lightbox({ images, initialIndex = 0, isOpen, onClose }: LightboxProps) {
-  const [currentIndex, setCurrentIndex] = useState(initialIndex)
-  const wasOpen = useRef(false)
-
-  // Reset index only on open transition
-  if (isOpen && !wasOpen.current) {
-    setCurrentIndex(initialIndex)
-  }
-  wasOpen.current = isOpen
-
+export function Lightbox({
+  images,
+  currentIndex,
+  onIndexChange,
+  isOpen,
+  onClose,
+}: LightboxProps) {
   function navigate(direction: number) {
-    setCurrentIndex((prev) => (prev + direction + images.length) % images.length)
+    onIndexChange((currentIndex + direction + images.length) % images.length)
   }
 
   useEffect(() => {
@@ -36,13 +34,17 @@ export function Lightbox({ images, initialIndex = 0, isOpen, onClose }: Lightbox
 
     const handleKeydown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
-      if (e.key === 'ArrowLeft') navigate(-1)
-      if (e.key === 'ArrowRight') navigate(1)
+      if (e.key === 'ArrowLeft') {
+        onIndexChange((currentIndex - 1 + images.length) % images.length)
+      }
+      if (e.key === 'ArrowRight') {
+        onIndexChange((currentIndex + 1) % images.length)
+      }
     }
 
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  }, [isOpen, onClose, images.length])
+  }, [isOpen, onClose, onIndexChange, currentIndex, images.length])
 
   useBodyScrollLock(isOpen)
 
@@ -72,7 +74,7 @@ export function Lightbox({ images, initialIndex = 0, isOpen, onClose }: Lightbox
       </button>
 
       {/* Pre-optimized lightbox images — next/image adds no value here */}
-      {/* biome-ignore lint/performance/noImgElement: lightbox uses pre-sized images in a modal overlay */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className={styles.image} src={current.src} alt={current.caption} />
 
       {/* Caption */}

@@ -73,7 +73,8 @@ export function MediaKit({ items }: MediaKitProps) {
 
       <Lightbox
         images={lightboxImages}
-        initialIndex={lightbox.index}
+        currentIndex={lightbox.index}
+        onIndexChange={lightbox.setIndex}
         isOpen={lightbox.isOpen}
         onClose={lightbox.close}
       />

@@ -2,7 +2,7 @@
 
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Lightbox } from '@/components/Lightbox/Lightbox'
 import { toLightboxImages } from '@/lib/format-utils'
 import { imageSrc } from '@/lib/image-utils'
@@ -58,7 +58,7 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
     return () => track.removeEventListener('scroll', onScroll)
   }, [])
 
-  const scrollToCard = useCallback((index: number) => {
+  const scrollToCard = (index: number) => {
     const card = cardRefs.current[index]
     const track = trackRef.current
     if (!card || !track) return
@@ -66,7 +66,7 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
       left: card.offsetLeft - track.offsetLeft,
       behavior: 'smooth',
     })
-  }, [])
+  }
 
   const goPrev = () => scrollToCard(Math.max(0, activeIndex - 1))
   const goNext = () => scrollToCard(Math.min(items.length - 1, activeIndex + 1))
@@ -204,7 +204,8 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
 
       <Lightbox
         images={lightboxImages}
-        initialIndex={lightbox.index}
+        currentIndex={lightbox.index}
+        onIndexChange={lightbox.setIndex}
         isOpen={lightbox.isOpen}
         onClose={lightbox.close}
       />

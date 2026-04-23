@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { imageSrc } from '@/lib/image-utils'
 import type { ImageData } from '@/types/edition'
 import styles from './HeroSlideshow.module.css'
@@ -18,21 +18,13 @@ interface HeroSlideshowProps {
 
 export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
   const [active, setActive] = useState(0)
-  const timerRef = useRef<ReturnType<typeof setInterval>>(null)
-
-  const startTimer = useCallback(() => {
-    if (timerRef.current) clearInterval(timerRef.current)
-    timerRef.current = setInterval(() => {
-      setActive((prev) => (prev + 1) % images.length)
-    }, interval)
-  }, [images.length, interval])
 
   useEffect(() => {
-    startTimer()
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current)
-    }
-  }, [startTimer])
+    const id = setInterval(() => {
+      setActive((prev) => (prev + 1) % images.length)
+    }, interval)
+    return () => clearInterval(id)
+  }, [images.length, interval])
 
   return (
     <div className={styles.slideshow}>

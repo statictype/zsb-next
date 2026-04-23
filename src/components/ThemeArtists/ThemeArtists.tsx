@@ -7,20 +7,6 @@ interface ThemeArtistsProps {
   edition: Pick<Edition, 'year' | 'theme' | 'themeSection' | 'artists'>
 }
 
-function renderStatementWithTheme(text: string, theme: string) {
-  const idx = text.indexOf(theme)
-  if (idx === -1) {
-    return <p>{text}</p>
-  }
-  return (
-    <p>
-      {text.slice(0, idx)}
-      <em>{theme}</em>
-      {text.slice(idx + theme.length)}
-    </p>
-  )
-}
-
 export function ThemeArtists({ edition }: ThemeArtistsProps) {
   const { year, theme, themeSection, artists } = edition
   const [firstHalf, secondHalf] = splitInHalf(artists)
@@ -80,15 +66,6 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
         </div>
       </div>
 
-      {/* <div className={styles.coda}>
-        <p>{themeSection.lead}</p>
-      </div> */}
-
-      {/* <div className={styles.inner}>
-        <div className={styles.artistsStatement}>
-          {renderStatementWithTheme(themeSection.artistsStatement, theme)}
-        </div>
-      </div> */}
     </section>
   )
 }

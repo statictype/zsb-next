@@ -56,7 +56,8 @@ export function MasonryGallery({ images }: MasonryGalleryProps) {
 
       <Lightbox
         images={lightboxImages}
-        initialIndex={lightbox.index}
+        currentIndex={lightbox.index}
+        onIndexChange={lightbox.setIndex}
         isOpen={lightbox.isOpen}
         onClose={lightbox.close}
       />

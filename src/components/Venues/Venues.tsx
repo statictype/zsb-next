@@ -1,7 +1,7 @@
 'use client'
 
 import { RiAddLine } from '@remixicon/react'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import sharedStyles from '@/components/Shared.module.css'
 import { padNum } from '@/lib/format-utils'
 import type { VenueEntry } from '@/types/edition'
@@ -60,7 +60,7 @@ function groupVenues(venues: VenueEntry[]): GroupedVenue[] {
 
 export function Venues({ venues }: VenuesProps) {
   const [openGroups, setOpenGroups] = useState<Set<string>>(new Set())
-  const groups = useMemo(() => groupVenues(venues), [venues])
+  const groups = groupVenues(venues)
 
   function toggleGroup(groupName: string) {
     setOpenGroups((prev) => {

@@ -13,5 +13,5 @@ export function useLightbox() {
     setIsOpen(false)
   }
 
-  return { isOpen, index, open, close }
+  return { isOpen, index, setIndex, open, close }
 }
