@@ -54,8 +54,8 @@
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
   --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.2);
 
-  /* Colors */
-  --pink: #d5308e;
+  /* Colors — Raw palette */
+  --pink: #ec008c;
   --light-pink: #fbd6eb;
   --chartreuse: #d4e50a;
   /* --black: #18131a; */
@@ -74,7 +74,24 @@
   --gray-800: #2e2c2d;
   --gray-850: #232223;
   --gray-900: #1e1c1d;
-  --gray-950: #0c0b0c;
+
+  /* Semantic roles — components should use these, not raw gray-*.
+     Dark is the default; *-light variants for the rare inverted sections.
+     Raw grays (above) are the utility scale — reach for them only when no role fits. */
+  --canvas: var(--black);
+  --surface-light: var(--gray-100);
+
+  --heading: var(--white);
+  --heading-light: var(--black);
+  --body: var(--gray-400);
+  --body-light: var(--gray-700);
+  --muted: var(--gray-600);
+
+  --divider: var(--gray-850);
+  --divider-light: var(--gray-200);
+
+  --action: var(--pink);                 /* brand primary: CTA, active, key moments */
+  --highlight: var(--chartreuse);        /* sparing accent: tags, stat numbers */
 
   /* Animation */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -112,8 +129,7 @@
   --gallery-image-filter: grayscale(100%) contrast(1.1);
   --gallery-image-filter-hover: grayscale(0%) contrast(1);
 
-  /* Border-Radius */
-  --radius-badge: 3px;
+  /* Border-Radius — only pill (buttons) and circle. Hard rectangles otherwise. */
   --radius-pill: 100px;
   --radius-circle: 50%;
 
@@ -142,10 +158,14 @@
   --btn-border-width: 2px;
   --btn-radius: 100px;
 
-  /* Borders */
-  --border-light: 1px solid var(--gray-200);
-  --border-dark: 1px solid var(--gray-850);
-  --border-accent: 1px solid var(--pink);
+  /* Borders — wired through role tokens */
+  --border-light: 1px solid var(--divider-light);
+  --border-dark: 1px solid var(--divider);
+  --border-accent: 1px solid var(--action);
+
+  /* Focus ring — a11y */
+  --focus-ring: 2px solid var(--action);
+  --focus-ring-offset: 2px;
 
   /* Fonts — mapped from next/font CSS variables */
   --font-display: var(--font-dela-gothic), sans-serif;
