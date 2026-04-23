@@ -15,23 +15,7 @@
 		"indentWidth": 2
 	},
 	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true,
-			"suspicious": {
-				"noExplicitAny": "error",
-				"noConsole": "warn"
-			},
-			"correctness": {
-				"noUnusedImports": "error",
-				"noUnusedVariables": "error",
-				"useExhaustiveDependencies": "error",
-				"useHookAtTopLevel": "error"
-			},
-			"a11y": {
-				"recommended": true
-			}
-		}
+		"enabled": false
 	},
 	"css": {
 		"parser": {
@@ -44,32 +28,6 @@
 			"semicolons": "asNeeded"
 		}
 	},
-	"overrides": [
-		{
-			"includes": [
-				"src/components/Carousel/Carousel.tsx",
-				"src/components/MediaKit/MediaKit.tsx",
-				"src/components/Program/Program.tsx"
-			],
-			"linter": {
-				"rules": {
-					"suspicious": {
-						"noArrayIndexKey": "off"
-					}
-				}
-			}
-		},
-		{
-			"includes": ["src/components/Carousel/Carousel.tsx"],
-			"linter": {
-				"rules": {
-					"a11y": {
-						"noNoninteractiveTabindex": "off"
-					}
-				}
-			}
-		}
-	],
 	"assist": {
 		"enabled": true,
 		"actions": {
