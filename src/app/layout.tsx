@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Dela_Gothic_One, Montserrat } from 'next/font/google'
 import { Suspense } from 'react'
+import { CookieBanner } from '@/components/CookieBanner/CookieBanner'
 import { Footer } from '@/components/Footer/Footer'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Navigation } from '@/components/Navigation/Navigation'
@@ -99,6 +100,7 @@ export default function RootLayout({
         <Suspense>
           <Footer />
         </Suspense>
+        <CookieBanner />
       </body>
     </html>
   )
