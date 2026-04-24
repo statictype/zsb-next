@@ -71,7 +71,7 @@
 
 .appLink {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto;
   align-items: start;
   gap: var(--space-md);
   padding: var(--space-lg) 0;
@@ -79,32 +79,44 @@
   color: inherit;
 }
 
-.appIndex {
-  font-family: var(--font-display);
-  font-size: var(--text-xs);
-  color: var(--muted);
-  width: 30px;
-  flex-shrink: 0;
-  padding-top: 6px;
-}
-
 .appType {
   display: none;
   align-items: center;
-  gap: 8px;
-  width: 110px;
+  gap: 10px;
+  width: 130px;
   flex-shrink: 0;
   font-family: var(--font-body);
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
+  font-size: var(--text-sm);
   letter-spacing: var(--tracking-label);
-  color: var(--muted);
+  color: var(--body);
   padding-top: 6px;
 }
 
 .appType svg {
-  color: var(--action);
+  color: var(--highlight);
   flex-shrink: 0;
+}
+
+.appTitleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.appTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--highlight);
+  color: var(--black-pure);
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 @media (min-width: 768px) {
@@ -113,12 +125,11 @@
   }
 
   .appLink {
-    grid-template-columns: auto auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto auto;
     gap: var(--space-lg);
     align-items: center;
   }
 
-  .appIndex,
   .appType {
     padding-top: 0;
   }
@@ -131,26 +142,17 @@
   min-width: 0;
 }
 
-.appOutlet {
-  font-family: var(--font-body);
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--action);
-}
-
 .appTitle {
   font-family: var(--font-display);
-  font-size: var(--text-md);
+  font-size: var(--text-lg);
   line-height: var(--leading-heading);
   color: var(--white);
-  text-transform: uppercase;
   transition: color var(--duration-normal) ease;
 }
 
 @media (min-width: 768px) {
   .appTitle {
-    font-size: var(--text-lg);
+    font-size: var(--text-xl);
   }
 }
 

@@ -1,68 +1,56 @@
 /**
- * Placeholder press coverage. Replace items with the real list when available.
+ * Press coverage of Bucharest Sculpture Days.
  *
  * `type` drives the icon shown next to each row.
- *   - 'youtube'    → video / interview
+ *   - 'youtube'    → video / interview on YouTube
+ *   - 'vimeo'      → video on Vimeo
  *   - 'soundcloud' → audio / podcast / radio
  *   - 'article'    → online article or print
  *   - 'tv'         → broadcast segment
  */
-export type PressAppearanceType = 'youtube' | 'soundcloud' | 'article' | 'tv'
+export type PressAppearanceType =
+  | "youtube"
+  | "vimeo"
+  | "soundcloud"
+  | "article"
+  | "tv";
 
 export interface PressAppearance {
-  type: PressAppearanceType
-  outlet: string
-  title: string
-  date: string
-  url: string
-  excerpt?: string
+  type: PressAppearanceType;
+  title: string;
+  year: number;
+  url: string;
+  excerpt?: string;
+  tag: string;
 }
 
 export const PRESS_APPEARANCES: PressAppearance[] = [
   {
-    type: 'youtube',
-    outlet: 'TVR Cultural',
-    title: 'Conversation with the curator on #celălaltcorp',
-    date: '2025-05-04',
-    url: 'https://www.youtube.com/',
-    excerpt: 'A long-form interview with Reka Csapo Dup on the body as a contested landscape.',
+    type: "soundcloud",
+    title: "Reka Csapo Dup, Radio Romania International",
+    year: 2025,
+    tag: "interview",
+    url: "https://soundcloud.com/radioromaniainternational/interviu-reka-csapo-dup-curatoare-despre-zilele-sculpturii-bucuresti-2025",
   },
   {
-    type: 'article',
-    outlet: 'Scena9',
-    title: 'Sculpture refuses to behave: inside ZSB 2025',
-    date: '2025-04-29',
-    url: 'https://www.scena9.ro/',
-    excerpt: 'A walk-through of the main exhibition at Combinatul Fondului Plastic.',
+    type: "youtube",
+    title: "Intrare Libera, TVR Cultural",
+    year: 2024,
+    tag: "TV",
+    url: "https://youtu.be/CI8Dq3I9CTI?si=PinacaxLyfpKi59J",
   },
   {
-    type: 'soundcloud',
-    outlet: 'Radio România Cultural',
-    title: 'Sculpture in public space — a panel',
-    date: '2024-09-12',
-    url: 'https://soundcloud.com/',
-    excerpt: 'Recorded at UNAgaleria during the #syzygy edition.',
+    type: "youtube",
+    title: "Jurnal Cultural, TVR Cultural",
+    year: 2023,
+    tag: "TV",
+    url: "https://www.youtube.com/watch?v=d2DExa1AhpY&list=PLga_ov2ae3I0lXakqsZFOkonAoDz9jxSU&index=33",
   },
   {
-    type: 'tv',
-    outlet: 'Digi24',
-    title: 'Bucharest Sculpture Days — opening night coverage',
-    date: '2024-04-20',
-    url: 'https://www.digi24.ro/',
+    type: "vimeo",
+    title: "Video summary, SensoArte",
+    year: 2023,
+    tag: "interview",
+    url: "https://vimeo.com/820863868",
   },
-  {
-    type: 'article',
-    outlet: 'Revista ARTA',
-    title: 'Notes on re#situări afective',
-    date: '2023-05-18',
-    url: 'https://revistaarta.ro/',
-    excerpt: 'A critical reading of the 2023 edition and the curatorial gesture.',
-  },
-  {
-    type: 'youtube',
-    outlet: 'Modernism.ro',
-    title: 'Studio visits with the ZSB sculptors',
-    date: '2022-04-30',
-    url: 'https://www.youtube.com/',
-  },
-]
+];

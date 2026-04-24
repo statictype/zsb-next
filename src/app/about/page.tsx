@@ -150,7 +150,7 @@ export default function AboutPage() {
       {/* ---- 2. The project ---- */}
       <section className={`${shared.section} ${shared.sectionDark} ${styles.projectSection}`}>
         <div className={shared.sectionInner}>
-          <h2 className={shared.sectionHeadline}>The project</h2>
+          <h2 className={shared.sectionTitle}>The project</h2>
           <div className={styles.projectBody}>
             <p>
               ZSB is an ecosystem — contemporary sculpture, film, critical debate, and education —
@@ -166,7 +166,7 @@ export default function AboutPage() {
       <section className={`${shared.section} ${shared.sectionLight}`}>
         <div className={shared.sectionInner}>
           <div className={shared.eyebrowMuted}>Our Purpose</div>
-          <h2 className={`${shared.sectionHeadline} ${shared.sectionHeadlineLight}`}>
+          <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight}`}>
             Mission &amp; Vision
           </h2>
 

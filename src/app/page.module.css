@@ -63,18 +63,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-md);
-}
-
-.heroLead {
-  font-family: var(--font-body);
-  font-size: var(--text-md);
-  line-height: var(--leading-body);
-  font-weight: var(--weight-regular);
-  color: var(--body);
-  margin: 0;
-  max-width: 40ch;
-  text-wrap: pretty;
+  gap: var(--space-lg);
 }
 
 /* ---- Partner badge — bottom-right of section ---- */
@@ -230,7 +219,6 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: var(--space-2xl);
     z-index: 2;
     pointer-events: none;
   }
