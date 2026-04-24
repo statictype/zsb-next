@@ -19,8 +19,8 @@ pnpm dev          # Development server on localhost:3000
 | `pnpm build` | Production build (also serves as the type-check) |
 | `pnpm start` | Serve production build |
 | `pnpm typecheck` | `tsc --noEmit` |
-| `pnpm lint` / `pnpm lint:fix` | Biome check (`./src`) |
-| `pnpm format` / `pnpm format:check` | Biome format |
+| `pnpm lint` / `pnpm lint:fix` | ESLint (`./src`) |
+| `pnpm format` / `pnpm format:check` | Biome format (formatting only; linter disabled) |
 | `pnpm images:unused` | Find unused images in `public/img/` (add `:json` for JSON output) |
 
 ## Project Structure
@@ -28,7 +28,9 @@ pnpm dev          # Development server on localhost:3000
 ```
 src/
   app/                  # App Router
-    editions/[year]/    # Dynamic edition pages
+    editions/           # Editions index + [year]/ dynamic pages
+    artists/            # All-artists page
+    visit/              # Visit page
     about/              # About page
     partners/           # Partners page
     press/              # Press page (media kit across editions)
