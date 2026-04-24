@@ -16,6 +16,11 @@
   margin-bottom: var(--space-2xl);
 }
 
+.table {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
 .lead {
   font-family: var(--font-body);
   font-size: var(--text-md);

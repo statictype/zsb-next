@@ -1,0 +1,66 @@
+import { padNum, splitInHalf } from '@/lib/format-utils'
+import styles from './ArtistsTable.module.css'
+
+interface MetaItem {
+  label: string
+  value: string | number
+}
+
+interface ArtistsTableProps {
+  artists: string[]
+  meta?: MetaItem[]
+  className?: string | undefined
+  headerLabel?: string
+}
+
+export function ArtistsTable({
+  artists,
+  meta = [],
+  className,
+  headerLabel = 'Artists',
+}: ArtistsTableProps) {
+  const [firstHalf, secondHalf] = splitInHalf(artists)
+  const mid = firstHalf.length
+
+  return (
+    <div className={className ? `${styles.root} ${className}` : styles.root}>
+      <div className={styles.colHeader}>
+        <span className={styles.headerLabel}>{headerLabel}</span>
+        <span>001&mdash;{padNum(artists.length, 3)}</span>
+      </div>
+
+      <div className={styles.body}>
+        <div className={styles.column}>
+          {firstHalf.map((name, i) => (
+            <div key={name} className={styles.entry}>
+              <span className={styles.num}>{padNum(i + 1, 3)}</span>
+              <span className={styles.name}>{name}</span>
+            </div>
+          ))}
+        </div>
+        <div className={styles.column}>
+          {secondHalf.map((name, i) => (
+            <div key={name} className={styles.entry}>
+              <span className={styles.num}>{padNum(mid + i + 1, 3)}</span>
+              <span className={styles.name}>{name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {meta.length > 0 && (
+        <div className={styles.footer}>
+          <div className={styles.meta}>
+            {meta.map(({ label, value }) => (
+              <div key={label} className={styles.metaItem}>
+                {label}
+                <span>{value}</span>
+              </div>
+            ))}
+          </div>
+          <div className={styles.barcode} />
+        </div>
+      )}
+    </div>
+  )
+}

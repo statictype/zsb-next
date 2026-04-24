@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
-import { ArtistsSection } from '@/components/ArtistsSection/ArtistsSection'
+import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import shared from '@/components/Shared.module.css'
+import { ALL_ARTISTS } from '@/data/artists'
+import { getAllEditionYears } from '@/data/editions'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
@@ -11,6 +13,8 @@ export const metadata: Metadata = {
 }
 
 export default function ArtistsPage() {
+  const editionCount = getAllEditionYears().length
+
   return (
     <main>
       <section className={`${shared.section} ${shared.sectionDark} ${styles.main}`}>
@@ -25,7 +29,14 @@ export default function ArtistsPage() {
             </p>
           </header>
 
-          <ArtistsSection />
+          <ArtistsTable
+            artists={ALL_ARTISTS}
+            className={styles.table}
+            meta={[
+              { label: 'Total', value: ALL_ARTISTS.length },
+              { label: 'Editions', value: editionCount },
+            ]}
+          />
         </div>
       </section>
     </main>
