@@ -54,7 +54,7 @@ export default function PressPage() {
       {/* ===== Hero ===== */}
       <section className={styles.hero}>
         <div className={styles.heroInner}>
-          <h1 className={styles.heroTitle}>
+          <h1 className={shared.pageTitle}>
             Press <span className={shared.accent}>room</span>
           </h1>
           <p className={styles.heroLead}>

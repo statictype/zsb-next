@@ -43,9 +43,10 @@
 
 .pageTitle {
   font-family: var(--font-display);
-  font-size: var(--text-4xl);
-  line-height: var(--leading-display);
+  font-size: clamp(64px, 14vw, 200px);
+  line-height: 0.9;
   text-transform: uppercase;
+  margin: 0;
   opacity: 0;
   animation: fadeSlideUp 1s var(--ease-out-expo) 0.2s forwards;
 }
