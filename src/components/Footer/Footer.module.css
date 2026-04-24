@@ -6,12 +6,13 @@
   color: var(--white);
   position: relative;
   overflow: hidden;
+  padding: 0 var(--content-padding);
 }
 
 .inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--space-3xl) var(--content-padding) var(--space-xl);
+  padding: var(--space-3xl) 0 var(--space-xl);
   position: relative;
   z-index: 1;
 }
@@ -28,7 +29,7 @@
 @media (min-width: 1024px) {
   .top {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 4fr 1fr;
     gap: var(--grid-gap);
   }
 }
@@ -69,7 +70,7 @@
 @media (min-width: 768px) {
   .linksGrid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr 3fr;
   }
 }
 
@@ -77,6 +78,24 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+}
+
+.badgeCol {
+  --partner-badge-scale: 1.5;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+  .badgeCol {
+    align-items: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .badgeCol {
+    align-items: flex-end;
+  }
 }
 
 .linksColTitle {

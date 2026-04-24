@@ -3,22 +3,22 @@
    ===================================================== */
 
 .wrap {
-  width: 72px;
-  height: 72px;
+  width: calc(72px * var(--partner-badge-scale, 1));
+  height: calc(72px * var(--partner-badge-scale, 1));
   z-index: 10;
 }
 
 @media (min-width: 768px) {
   .wrap {
-    width: 96px;
-    height: 96px;
+    width: calc(96px * var(--partner-badge-scale, 1));
+    height: calc(96px * var(--partner-badge-scale, 1));
   }
 }
 
 @media (min-width: 1280px) {
   .wrap {
-    width: 125px;
-    height: 125px;
+    width: calc(125px * var(--partner-badge-scale, 1));
+    height: calc(125px * var(--partner-badge-scale, 1));
   }
 }
 
@@ -80,20 +80,20 @@
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  width: calc(20px * var(--partner-badge-scale, 1));
+  height: calc(20px * var(--partner-badge-scale, 1));
 }
 
 @media (min-width: 768px) {
   .icon {
-    width: 26px;
-    height: 26px;
+    width: calc(26px * var(--partner-badge-scale, 1));
+    height: calc(26px * var(--partner-badge-scale, 1));
   }
 }
 
 @media (min-width: 1280px) {
   .icon {
-    width: 36px;
-    height: 36px;
+    width: calc(36px * var(--partner-badge-scale, 1));
+    height: calc(36px * var(--partner-badge-scale, 1));
   }
 }
