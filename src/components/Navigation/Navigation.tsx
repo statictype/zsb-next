@@ -10,15 +10,17 @@ import styles from './Navigation.module.css'
 function getActiveFromPath(pathname: string): string {
   if (pathname === '/') return 'home'
   if (pathname.startsWith('/editions')) return 'editions'
+  if (pathname.startsWith('/artists')) return 'artists'
+  if (pathname.startsWith('/visit')) return 'visit'
   if (pathname.startsWith('/partners')) return 'partners'
   return 'home'
 }
 
 const NAV_ITEMS = [
   { id: 'home', label: 'Home', href: '/' },
-  { id: 'editions', label: 'Editions', href: '/#editions' },
-  { id: 'artists', label: 'Artists', href: '/#artists' },
-  { id: 'visit', label: 'Visit', href: '/#visit' },
+  { id: 'editions', label: 'Editions', href: '/editions' },
+  { id: 'artists', label: 'Artists', href: '/artists' },
+  { id: 'visit', label: 'Visit', href: '/visit' },
 ] as const
 
 export function Navigation() {

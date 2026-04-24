@@ -17,7 +17,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 1,
     },
+    {
+      url: `${SITE_URL}/editions`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.8,
+    },
     ...editionEntries,
+    {
+      url: `${SITE_URL}/artists`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/visit`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.7,
+    },
     {
       url: `${SITE_URL}/partners`,
       lastModified: new Date(),

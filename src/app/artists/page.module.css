@@ -1,0 +1,26 @@
+/* =====================================================
+   ARTISTS — Header + list (single section)
+   ===================================================== */
+
+.main {
+  padding-top: calc(var(--nav-height) + 80px);
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding-top: calc(var(--nav-height) + 120px);
+  }
+}
+
+.header {
+  margin-bottom: var(--space-2xl);
+}
+
+.lead {
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: var(--leading-body);
+  color: var(--body);
+  max-width: 60ch;
+  margin: var(--space-xl) 0 0;
+}
