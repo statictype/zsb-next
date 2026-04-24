@@ -7,7 +7,6 @@ import {
   HeroSlideshow,
 } from "@/components/HeroSlideshow/HeroSlideshow";
 import { MagneticButton } from "@/components/MagneticButton/MagneticButton";
-import { PartnerBadge } from "@/components/PartnerBadge/PartnerBadge";
 import shared from "@/components/Shared.module.css";
 import styles from "./page.module.css";
 

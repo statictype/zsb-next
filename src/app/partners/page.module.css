@@ -9,12 +9,12 @@
 .hero {
   background: var(--black-pure);
   color: var(--white);
-  padding: calc(var(--nav-height) + 56px) var(--content-padding) var(--space-xl);
+  padding: calc(var(--nav-height) + 80px) var(--content-padding) var(--space-xl);
 }
 
 @media (min-width: 768px) {
   .hero {
-    padding: calc(var(--nav-height) + 80px) var(--content-padding) var(--space-2xl);
+    padding: calc(var(--nav-height) + 120px) var(--content-padding) var(--space-2xl);
   }
 }
 

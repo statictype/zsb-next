@@ -26,12 +26,19 @@
   position: relative;
   width: 100%;
   background: var(--black);
-  padding: calc(var(--nav-height) + var(--space-lg)) var(--content-padding)
+  padding: calc(var(--nav-height) + 80px) var(--content-padding)
     var(--space-2xl);
   overflow: hidden;
   min-height: 100svh;
   display: flex;
   align-items: center;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding: calc(var(--nav-height) + 120px) var(--content-padding)
+      var(--space-3xl);
+  }
 }
 
 .heroInner {
@@ -191,10 +198,9 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .hero {
-    padding: calc(var(--nav-height) + var(--space-xl)) var(--content-padding)
-      var(--space-3xl);
+    padding-bottom: var(--space-3xl);
   }
 
   /* heroInner becomes the positioning context for the overlap composition */
@@ -221,6 +227,27 @@
     justify-content: flex-start;
     z-index: 2;
     pointer-events: none;
+  }
+
+  .pageTitle {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 7vw, 150px);
+    line-height: 1;
+    text-transform: uppercase;
+    margin: 0;
+    opacity: 0;
+    animation: fadeSlideUp 1s var(--ease-out-expo) 0.2s forwards;
+  }
+
+  @keyframes fadeSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* Only interactive children opt back in — keeps the title's box from

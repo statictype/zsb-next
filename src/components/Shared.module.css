@@ -57,7 +57,7 @@
 
 .pageTitle {
   font-family: var(--font-display);
-  font-size: clamp(40px, 8vw, 160px);
+  font-size: clamp(40px, 6vw, 160px);
   line-height: 1;
   text-transform: uppercase;
   margin: 0;
@@ -191,11 +191,5 @@
 @media (min-width: 768px) {
   .sectionHeader {
     margin-bottom: var(--space-2xl);
-  }
-}
-@media (min-width: 1792px) {
-  .pageTitle {
-    font-size: clamp(64px, 14vw, 160px);
-    line-height: 0.9;
   }
 }

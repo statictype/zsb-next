@@ -90,8 +90,8 @@
   --divider: var(--gray-850);
   --divider-light: var(--gray-200);
 
-  --action: var(--pink);                 /* brand primary: CTA, active, key moments */
-  --highlight: var(--chartreuse);        /* sparing accent: tags, stat numbers */
+  --action: var(--pink); /* brand primary: CTA, active, key moments */
+  --highlight: var(--chartreuse); /* sparing accent: tags, stat numbers */
 
   /* Animation */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -238,7 +238,7 @@
     --btn-md-fs: 12px;
     --btn-lg-py: 20px;
     --btn-lg-px: 44px;
-    --btn-lg-fs: 14px;
+    /* --btn-lg-fs: 14px; */
     --btn-lg-gap: 14px;
     --btn-lg-ls: 2.5px;
   }
@@ -292,7 +292,7 @@
     --btn-md-fs: 13px;
     --btn-lg-py: 24px;
     --btn-lg-px: 52px;
-    --btn-lg-fs: 15px;
+    --btn-lg-fs: 13px;
     /* --leading-body: 1.64; */
   }
 }

@@ -81,7 +81,7 @@
 }
 
 .badgeCol {
-  --partner-badge-scale: 1.5;
+  --partner-badge-scale: 1.35;
   justify-content: flex-start;
   align-items: flex-start;
 }
