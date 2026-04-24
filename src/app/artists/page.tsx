@@ -23,7 +23,7 @@ export default function ArtistsPage() {
             <h1 className={shared.pageTitle}>
               Artist<span className={shared.accent}>s</span>
             </h1>
-            <p className={styles.lead}>
+            <p className={shared.lead}>
               Sculptors and visual artists who have shown work at Bucharest Sculpture Days across
               all editions.
             </p>

@@ -120,6 +120,15 @@
   margin-bottom: 0;
 }
 
+.lead {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--body);
+  max-width: 60ch;
+  margin: var(--space-xl) 0 0;
+}
+
 /* ---- Labels ---- */
 .labelText {
   font-family: var(--font-body);

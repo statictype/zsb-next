@@ -25,7 +25,7 @@ export default function EditionsPage() {
             <h1 className={shared.pageTitle}>
               Edition<span className={shared.accent}>s</span>
             </h1>
-            <p className={styles.lead}>
+            <p className={shared.lead}>
               Every edition of Bucharest Sculpture Days, from 2022 to today.
             </p>
           </header>

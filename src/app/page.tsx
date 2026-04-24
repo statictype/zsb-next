@@ -84,7 +84,7 @@ export default function HomePage() {
               </span>
             </h1>
             <div className={styles.heroText}>
-              <p className={styles.heroLead}>
+              <p className={shared.heroLead}>
                 Your annual checkpoint for the state of sculpture.
               </p>
               <MagneticButton href="/editions/2025" size="lg">

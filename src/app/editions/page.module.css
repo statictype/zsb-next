@@ -16,15 +16,6 @@
   margin-bottom: var(--space-2xl);
 }
 
-.lead {
-  font-family: var(--font-body);
-  font-size: var(--text-md);
-  line-height: var(--leading-body);
-  color: var(--body);
-  max-width: 60ch;
-  margin: var(--space-xl) 0 0;
-}
-
 /* ---- Grid ---- */
 .grid {
   display: grid;
