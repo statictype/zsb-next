@@ -59,21 +59,6 @@
   min-width: 0;
 }
 
-.heroBrand {
-  font-family: var(--font-display);
-  font-size: var(--text-5xl);
-  line-height: 0.88;
-  letter-spacing: -0.025em;
-  color: var(--heading);
-  margin: 0;
-  text-transform: uppercase;
-  text-wrap: balance;
-}
-
-.brandAccent {
-  color: var(--action);
-}
-
 .heroText {
   display: flex;
   flex-direction: column;
@@ -197,11 +182,6 @@
   transform: translate(4px, -4px);
 }
 
-/* ---- Visit ---- */
-.visit {
-  background: var(--black);
-}
-
 /* =====================================================
    RESPONSIVE
    ===================================================== */
@@ -233,9 +213,12 @@
     display: block;
   }
 
-  /* Image — right-aligned (flush with the nav), 16/9, capped at 1024px */
+  /* Image — right-aligned (flush with the nav), 16/9, capped at 1024px.
+     Pushed down so the carousel starts right below "SCULPTURE" (line 2 of 3)
+     of the overlayed pageTitle. 1.8 = 2 lines × 0.9 line-height. */
   .heroVisual {
     margin-left: auto;
+    margin-top: calc(clamp(64px, 14vw, 200px) * 1.8);
     width: 60%;
     max-width: 1024px;
   }

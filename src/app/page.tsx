@@ -1,7 +1,7 @@
 import { RiArrowRightLine, RiArrowRightUpLine } from "@remixicon/react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArtistsSection } from "@/components/ArtistsSection/ArtistsSection";
+import { ArtistsBanner } from "@/components/ArtistsBanner/ArtistsBanner";
 import {
   type HeroImage,
   HeroSlideshow,
@@ -9,7 +9,6 @@ import {
 import { MagneticButton } from "@/components/MagneticButton/MagneticButton";
 import { PartnerBadge } from "@/components/PartnerBadge/PartnerBadge";
 import shared from "@/components/Shared.module.css";
-import { VisitSection } from "@/components/VisitSection/VisitSection";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -74,10 +73,10 @@ export default function HomePage() {
           </div>
 
           <div className={styles.heroPanel}>
-            <h1 className={styles.heroBrand}>
+            <h1 className={shared.pageTitle}>
               Bucharest
               <br />
-              <span className={styles.brandAccent}>
+              <span className={shared.accent}>
                 {" "}
                 Sculpture
                 <br />
@@ -123,12 +122,7 @@ export default function HomePage() {
       </section>
 
       {/* ---- Artists ---- */}
-      <ArtistsSection />
-
-      {/* ---- Visit ---- */}
-      <section id="visit" className={`${styles.panel} ${styles.visit}`}>
-        <VisitSection />
-      </section>
+      <ArtistsBanner />
     </main>
   );
 }
