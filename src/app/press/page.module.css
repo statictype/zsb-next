@@ -9,27 +9,20 @@
 
 /* ---- Hero ---- */
 .hero {
-  padding: calc(var(--nav-height) + 80px) var(--content-padding) var(--space-3xl);
+  padding: calc(var(--nav-height) + 80px) var(--content-padding)
+    var(--space-3xl);
 }
 
 @media (min-width: 768px) {
   .hero {
-    padding: calc(var(--nav-height) + 120px) var(--content-padding) var(--space-4xl);
+    padding: calc(var(--nav-height) + 120px) var(--content-padding)
+      var(--space-4xl);
   }
 }
 
 .heroInner {
   max-width: var(--max-width);
   margin: 0 auto;
-}
-
-.heroLead {
-  font-family: var(--font-body);
-  font-size: var(--text-md);
-  line-height: var(--leading-body);
-  color: var(--body);
-  max-width: 60ch;
-  margin: var(--space-xl) 0 0;
 }
 
 /* ---- Media Kit ---- */
@@ -44,12 +37,7 @@
 }
 
 .kitTitle {
-  font-family: var(--font-display);
-  font-size: clamp(40px, 7vw, 96px);
-  line-height: 0.9;
-  text-transform: uppercase;
-  margin: 0 0 var(--space-md);
-  color: var(--white);
+  margin-bottom: var(--space-md);
 }
 
 .kitDeck {
@@ -59,16 +47,6 @@
   color: var(--muted);
   max-width: 60ch;
   margin: 0;
-}
-
-/* ---- Section headlines (shared by appearances + releases) ---- */
-.sectionHeadline {
-  font-family: var(--font-display);
-  font-size: clamp(40px, 7vw, 96px);
-  line-height: 0.9;
-  text-transform: uppercase;
-  color: var(--white);
-  margin: 0 0 var(--space-2xl);
 }
 
 /* ---- Appearances ---- */
@@ -319,12 +297,7 @@
 }
 
 .contactTitle {
-  font-family: var(--font-display);
-  font-size: clamp(40px, 7vw, 96px);
-  line-height: 0.9;
-  text-transform: uppercase;
-  color: var(--white);
-  margin: 0 0 var(--space-lg);
+  margin-bottom: var(--space-lg);
 }
 
 .contactBody {

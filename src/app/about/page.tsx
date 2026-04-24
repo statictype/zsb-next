@@ -137,42 +137,38 @@ export default function AboutPage() {
       {/* ---- 1. Hero ---- */}
       <section className={styles.hero}>
         <div className={styles.heroInner}>
-          <header className={styles.heroHeader}>
-            <h1 className={shared.pageTitle}>
-              About <span className={shared.accent}>ZSB</span>
-            </h1>
-          </header>
+          <h1 className={shared.pageTitle}>
+            About <span className={shared.accent}>ZSB</span>
+          </h1>
+          <p className={shared.lead}>
+            An annual platform dedicated to contemporary sculpture — born online in 2021, now
+            occupying the city each year with exhibitions, film, critical debate, and education.
+          </p>
+        </div>
+      </section>
 
-          <div className={styles.heroContent}>
-            <p className={shared.heroLead}>
-              Bucharest Sculpture Days is an annual platform dedicated to contemporary sculpture.
-              Born online in 2021, at a moment when physical space was temporarily suspended but
-              artistic urgency was not, the event quickly transformed into a living format that
-              occupies the city.
+      {/* ---- 2. The project ---- */}
+      <section className={`${shared.section} ${shared.sectionDark} ${styles.projectSection}`}>
+        <div className={shared.sectionInner}>
+          <h2 className={shared.sectionHeadline}>The project</h2>
+          <div className={styles.projectBody}>
+            <p>
+              ZSB is an ecosystem — contemporary sculpture, film, critical debate, and education —
+              not just an exhibition. Each edition adapts and grows without losing its focus:
+              sculpture as a critical, present-day practice that connects us with our history and
+              gives Romanian sculptors the recognition their work deserves.
             </p>
-            <div className={shared.heroBody}>
-              <p>
-                ZSB is not just an exhibition. It is an ecosystem that brings together contemporary
-                sculpture, film, critical debate, and education. From the first digital format to
-                occupying physical spaces in Bucharest, each edition adapts, shifts, and grows
-                without losing its focus: sculpture as a critical and relevant practice in the
-                present.
-              </p>
-              <p>
-                Sculpture is a form of artistic expression that connects us with our history and
-                identity. Through this event, we celebrate this art form and offer Romanian
-                sculptors the recognition and valorization of their work.
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ---- 2. Mission ---- */}
+      {/* ---- 3. Mission ---- */}
       <section className={`${shared.section} ${shared.sectionLight}`}>
         <div className={shared.sectionInner}>
           <div className={shared.eyebrowMuted}>Our Purpose</div>
-          <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight}`}>Mission &amp; Vision</h2>
+          <h2 className={`${shared.sectionHeadline} ${shared.sectionHeadlineLight}`}>
+            Mission &amp; Vision
+          </h2>
 
           <div className={styles.purposeList}>
             <div className={styles.purposeGroup}>
@@ -222,7 +218,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ---- 3. Curator ---- */}
+      {/* ---- 4. Curator ---- */}
       <section className={styles.statement}>
         <div className={styles.statementInner}>
           <div className={styles.themeHeader}>
@@ -232,35 +228,22 @@ export default function AboutPage() {
           <div className={styles.statementContent}>
             <div className={styles.statementBody}>
               <p>
-                Bucharest Sculpture Days began to take shape gradually from 2016, when, together
-                with several fellow sculptors from Combinatul Fondului Plastic, we founded the
-                Combinart 1+1=10 association to realize cultural projects that would highlight the
-                power and versatility of the sculpture profession.
+                ZSB began taking shape in 2016, when a group of us from Combinatul Fondului Plastic
+                founded the Combinart 1+1=10 association to champion the power and versatility of
+                the sculpture profession — starting with film screenings and the first
+                &ldquo;Sculptors for the Future&rdquo; competition.
               </p>
               <p>
-                Our first major event was organized in 2016, with the support of the Administration
-                of Monuments and Tourist Heritage, where we screened films with and about sculpture
-                and organized the first edition of the &ldquo;Sculptors for the Future&rdquo;
-                competition. The members of the association, which dissolved in 2018, continue to be
-                active largely in the leadership of the Bucharest Sculpture Branch of the Union of
-                Visual Artists.
+                Ten years on, at the sixth edition, large-scale events that highlight Romanian
+                sculpture matter more than ever. The profession is aging, and young sculptors
+                struggle to reach their peak for lack of studios and resources.
               </p>
               <p>
-                After 10 years, in 2026, at the sixth edition of ZSB, it is even more important to
-                continue with large-scale events through which to highlight Romanian sculpture. Over
-                time, the profession has begun to age, and young sculptors find it harder to reach
-                their peak due to a lack of studios and financial reasons.
-              </p>
-              <p>
-                Our goal is to lay the foundations of a Romanian Sculpture Center where we can offer
-                both working studios and transposition workshops, material resources through
-                project-writing teams, and a platform where the profession can consolidate and grow.
-              </p>
-              <p>
-                In the Brâncuși Year, 150 years after the birth of Constantin Brâncuși, let us draw
-                inspiration from the support the great sculptor received from Romanian society at
-                the beginning of his journey, and let us begin to build the future of Romanian
-                sculpture.
+                Our goal is to lay the foundations of a Romanian Sculpture Center — working
+                studios, transposition workshops, project-writing support, and a platform where
+                the profession can consolidate and grow. In the Brâncuși Year, 150 years after his
+                birth, let us draw from the support he received at the start of his journey and
+                build the future of Romanian sculpture.
               </p>
             </div>
             <div className={styles.authorCard}>
@@ -276,41 +259,6 @@ export default function AboutPage() {
               <div className={styles.authorInfo}>
                 <span className={styles.authorName}>Reka Csapo Dup</span>
                 <span className={styles.authorRole}>Curator, ZSB</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---- 4. Organizer ---- */}
-      <section className={`${styles.statement} ${styles.statementLight}`}>
-        <div className={styles.statementInner}>
-          <div className={styles.themeHeader}>
-            <h2 className={`${styles.headline} ${styles.headlineLight}`}>
-              A word from the organizer
-            </h2>
-          </div>
-
-          <div className={styles.statementContent}>
-            <div className={`${styles.statementBody} ${styles.statementBodyLight}`}>
-              <p className={styles.placeholderText}>Statement in preparation.</p>
-            </div>
-
-            <div className={styles.authorCard}>
-              <div className={`${styles.authorPhoto} ${styles.authorPhotoLight}`}>
-                <Image
-                  src="/img/aurora_carstea.jpeg"
-                  alt="Aurora Cârstea"
-                  fill
-                  sizes="88px"
-                  className={styles.authorPhotoImg}
-                />
-              </div>
-              <div className={styles.authorInfo}>
-                <span className={`${styles.authorName} ${styles.authorNameLight}`}>
-                  Aurora Cârstea
-                </span>
-                <span className={styles.authorRole}>Organizer, ZSB</span>
               </div>
             </div>
           </div>

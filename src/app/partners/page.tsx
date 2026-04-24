@@ -21,43 +21,38 @@ export default function PartnersPage() {
       {/* ---- 1. Hero ---- */}
       <section className={styles.hero}>
         <div className={styles.heroInner}>
-          <header className={styles.heroHeader}>
-            <h1 className={shared.pageTitle}>
-              Partner
-              <span className={shared.accent}>s</span>
-            </h1>
-          </header>
+          <h1 className={shared.pageTitle}>
+            Partner
+            <span className={shared.accent}>s</span>
+          </h1>
+          <p className={shared.lead}>
+            One of Eastern Europe&apos;s most significant contemporary sculpture events — turning
+            Bucharest into an open-air museum each year.
+          </p>
+        </div>
+      </section>
 
-          <div className={styles.heroContent}>
-            <div className={styles.heroText}>
-              <p className={shared.heroLead}>
-                Bucharest Sculpture Days is one of Eastern Europe&apos;s most significant
-                contemporary sculpture events. Each edition transforms the city into an open-air
-                museum, bringing together artists, curators, and audiences around the enduring power
-                of three-dimensional art.
+      {/* ---- 2. The event ---- */}
+      <section className={`${shared.section} ${shared.sectionDark} ${styles.eventSection}`}>
+        <div className={shared.sectionInner}>
+          <h2 className={shared.sectionHeadline}>The event</h2>
+          <div className={styles.eventContent}>
+            <div className={styles.eventBody}>
+              <p>
+                Since 2021, ZSB has grown from an online inaugural edition into a citywide event
+                drawing thousands of visitors, media attention, and institutional interest. Our
+                partners don&apos;t sponsor a product — they support a movement that values
+                material intelligence, physical presence, and the irreplaceable experience of
+                encountering art in shared space.
               </p>
-              <div className={shared.heroBody}>
-                <p>
-                  Since 2021, ZSB has grown from an online inaugural edition into an event that
-                  draws thousands of visitors, media attention, and institutional interest. We work
-                  at the intersection of public space, cultural heritage, and contemporary practice
-                  — making sculpture accessible, relevant, and unmissable.
-                </p>
-                <p>
-                  Our partners are integral to this mission. They don&apos;t sponsor a product —
-                  they support a movement. One that values material intelligence, physical presence,
-                  and the irreplaceable experience of encountering art in shared space.
-                </p>
-              </div>
             </div>
-            <div className={styles.heroImage}>
+            <div className={styles.eventImage}>
               <Image
                 src="/img/2025/optimized/_DSC5665"
                 alt="ZSB 2025 — performance and audience in the exhibition space"
                 fill
-                preload
                 sizes="(max-width: 1023px) 100vw, 50vw"
-                className={styles.heroImageImg}
+                className={styles.eventImageImg}
               />
             </div>
           </div>
@@ -70,7 +65,7 @@ export default function PartnersPage() {
           <div className={styles.whySculptureTop}>
             <div>
               <div className={shared.eyebrowMuted}>Why Sculpture</div>
-              <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.whySculptureTitle}`}>
+              <h2 className={`${shared.sectionHeadline} ${shared.sectionHeadlineLight} ${styles.whySculptureTitle}`}>
                 The most resilient
                 <br />
                 art form
@@ -104,7 +99,7 @@ export default function PartnersPage() {
           <div className={styles.audienceHeader}>
             <div>
               <div className={shared.eyebrowMuted}>The Audience</div>
-              <h2 className={shared.sectionTitle}>
+              <h2 className={shared.sectionHeadline}>
                 Who engages
                 <br />
                 with ZSB
@@ -136,7 +131,7 @@ export default function PartnersPage() {
       <section className={`${shared.section} ${shared.sectionLight}`}>
         <div className={shared.sectionInner}>
           <div className={shared.eyebrowMuted}>Partnership</div>
-          <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.partnershipTitle}`}>
+          <h2 className={`${shared.sectionHeadline} ${shared.sectionHeadlineLight} ${styles.partnershipTitle}`}>
             What partners gain
           </h2>
 

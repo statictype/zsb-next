@@ -7,79 +7,82 @@
    1. HERO
    ===================================================== */
 .hero {
-  background: var(--black);
+  background: var(--black-pure);
   color: var(--white);
-  position: relative;
-  overflow: hidden;
-  padding: calc(var(--nav-height) + 80px) var(--content-padding) 100px;
+  padding: calc(var(--nav-height) + 56px) var(--content-padding) var(--space-xl);
 }
 
 @media (min-width: 768px) {
   .hero {
-    padding: calc(var(--nav-height) + 100px) var(--content-padding) 120px;
+    padding: calc(var(--nav-height) + 80px) var(--content-padding) var(--space-2xl);
   }
 }
 
 .heroInner {
   max-width: var(--max-width);
   margin: 0 auto;
-  position: relative;
-  z-index: 1;
 }
 
-.heroHeader {
-  margin-bottom: 80px;
-  border-bottom: var(--border-dark);
-  padding-bottom: 60px;
+/* =====================================================
+   2. THE EVENT — Intro prose + image
+   ===================================================== */
+.eventSection {
+  padding-top: 0;
 }
 
-.heroHeader .pageTitle {
-  margin-top: 16px;
-}
-
-.heroContent {
+.eventContent {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-2xl);
 }
 
 @media (min-width: 1024px) {
-  .heroContent {
+  .eventContent {
     grid-template-columns: 3fr 2fr;
     gap: var(--space-3xl);
+    align-items: start;
   }
 }
 
 @media (min-width: 1536px) {
-  .heroContent {
+  .eventContent {
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-3xl);
   }
 }
 
-.heroText {
+.eventBody {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: var(--space-md);
+  max-width: 60ch;
 }
 
-.heroImage {
+.eventBody p {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--body);
+}
+
+@media (min-width: 768px) {
+  .eventBody p {
+    line-height: var(--leading-loose);
+  }
+}
+
+.eventImage {
   position: relative;
   overflow: hidden;
+  aspect-ratio: 4 / 3;
 }
 
-.heroImagePicture {
-  display: block;
-  height: 100%;
-}
-
-.heroImageImg {
+.eventImageImg {
   object-fit: cover;
   filter: grayscale(100%) contrast(1.1);
   transition: filter 0.6s var(--ease-out-expo);
 }
 
-.heroImage:hover .heroImageImg {
+.eventImage:hover .eventImageImg {
   filter: grayscale(0%) contrast(1);
 }
 
@@ -87,15 +90,8 @@
    2. WHY SCULPTURE
    ===================================================== */
 .whySculptureTitle {
-  font-size: var(--text-4xl);
   max-width: 700px;
   margin-bottom: 0;
-}
-
-@media (min-width: 1280px) {
-  .whySculptureTitle {
-    font-size: var(--text-5xl);
-  }
 }
 
 .whySculptureTop {

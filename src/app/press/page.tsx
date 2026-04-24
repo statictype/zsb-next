@@ -57,7 +57,7 @@ export default function PressPage() {
           <h1 className={shared.pageTitle}>
             Press <span className={shared.accent}>room</span>
           </h1>
-          <p className={styles.heroLead}>
+          <p className={shared.lead}>
             A reference desk for editors, reporters, and curators. Posters, releases, and media
             coverage from every edition since 2021.
           </p>
@@ -67,7 +67,7 @@ export default function PressPage() {
       {/* ===== Media Kit Strip ===== */}
       <section id="media-kit" className={styles.kitSection}>
         <div className={styles.kitHeader}>
-          <h2 className={styles.kitTitle}>Media kit</h2>
+          <h2 className={`${shared.sectionHeadline} ${styles.kitTitle}`}>Media kit</h2>
           <p className={styles.kitDeck}>
             Official posters and exhibition covers from every ZSB edition. Click any plate to open
             the full-resolution image.
@@ -80,7 +80,7 @@ export default function PressPage() {
       {/* ===== Appearances ===== */}
       <section className={styles.appearances}>
         <div className={styles.appearancesInner}>
-          <h2 className={styles.sectionHeadline}>Press appearances</h2>
+          <h2 className={shared.sectionHeadline}>Press appearances</h2>
 
           <ul className={styles.appList}>
             {PRESS_APPEARANCES.map((item, i) => {
@@ -119,7 +119,7 @@ export default function PressPage() {
       {/* ===== Releases / Downloads ===== */}
       <section className={styles.releases}>
         <div className={styles.releasesInner}>
-          <h2 className={styles.sectionHeadline}>Press releases</h2>
+          <h2 className={shared.sectionHeadline}>Press releases</h2>
 
           <ul className={styles.releaseList}>
             {PRESS_RELEASES.map((release) => (
@@ -150,7 +150,7 @@ export default function PressPage() {
       {/* ===== Press Contact ===== */}
       <section className={styles.contact}>
         <div className={styles.contactInner}>
-          <h2 className={styles.contactTitle}>
+          <h2 className={`${shared.sectionHeadline} ${styles.contactTitle}`}>
             Talking to <span className={shared.accent}>the press</span>
           </h2>
           <p className={styles.contactBody}>
