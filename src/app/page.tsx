@@ -93,10 +93,6 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-
-        <div className={styles.heroBadge}>
-          <PartnerBadge />
-        </div>
       </section>
 
       {/* ---- Editions ---- */}

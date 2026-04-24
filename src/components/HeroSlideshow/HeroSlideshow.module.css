@@ -13,8 +13,9 @@
 /* ---- Controls — in-flow row, right-aligned, sit above the stage ---- */
 .controls {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 10px;
+  order: 1;
 }
 
 .control {
@@ -56,7 +57,12 @@
   inset: -1.5px;
   border-radius: 50%;
   padding: 1.5px;
-  background: linear-gradient(90deg, var(--action) 0%, var(--highlight) 50%, var(--action) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--action) 0%,
+    var(--highlight) 50%,
+    var(--action) 100%
+  );
   background-size: 200% 100%;
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
@@ -96,6 +102,14 @@
     height: 44px;
   }
 }
+@media (min-width: 1280px) {
+  .controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    order: initial;
+  }
+}
 
 /* ---- Stage — the 16/9 image area ---- */
 .stage {
@@ -127,5 +141,9 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
 }
