@@ -140,10 +140,12 @@
 .active::after {
   width: 10px;
   height: 10px;
+  border-top-color: var(--highlight);
+  border-right-color: var(--highlight);
 }
 
 .active:hover {
-  color: var(--action);
+  color: var(--highlight);
 }
 
 /* Hamburger Toggle — fixed top-right, white bg, black lines */
