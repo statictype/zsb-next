@@ -1,38 +1,36 @@
-import { RiArrowRightLine, RiArrowRightUpLine } from "@remixicon/react";
-import type { Metadata } from "next";
-import Link from "next/link";
-import { ArtistsBanner } from "@/components/ArtistsBanner/ArtistsBanner";
-import {
-  type HeroImage,
-  HeroSlideshow,
-} from "@/components/HeroSlideshow/HeroSlideshow";
-import { MagneticButton } from "@/components/MagneticButton/MagneticButton";
-import shared from "@/components/Shared.module.css";
-import { blobUrl } from "@/lib/blob";
-import styles from "./page.module.css";
+import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
+import { type HeroImage, HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
+import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
+import shared from '@/components/Shared.module.css'
+import { blobUrl } from '@/lib/blob'
+import styles from './page.module.css'
 
 export const metadata: Metadata = {
   description:
-    "An annual contemporary sculpture event transforming Bucharest into an open-air museum. Discover editions, artists, and public art since 2021.",
-  alternates: { canonical: "/" },
-};
+    'An annual contemporary sculpture event transforming Bucharest into an open-air museum. Discover editions, artists, and public art since 2021.',
+  alternates: { canonical: '/' },
+}
 
 const heroImages: HeroImage[] = [
-  { src: blobUrl("2025/_dsc5496.jpg"), alt: "ZSB 2025", position: "top" },
-  { src: blobUrl("2025/_dsc5562.jpg"), alt: "ZSB 2025", position: "center" },
-  { src: blobUrl("2025/bws02058.jpg"), alt: "ZSB 2025", position: "center" },
-  { src: blobUrl("2025/_dsc5501.jpg"), alt: "ZSB 2025", position: "bottom" },
-  { src: blobUrl("2025/_dsc5547.jpg"), alt: "ZSB 2025", position: "top" },
-  { src: blobUrl("2025/_dsc5464.jpg"), alt: "ZSB 2025", position: "center" },
-  { src: blobUrl("2025/_dsc5665.jpg"), alt: "ZSB 2025", position: "top" },
-];
+  { src: blobUrl('2025/_dsc5496.jpg'), alt: 'ZSB 2025', position: 'top' },
+  { src: blobUrl('2025/_dsc5562.jpg'), alt: 'ZSB 2025', position: 'center' },
+  { src: blobUrl('2025/bws02058.jpg'), alt: 'ZSB 2025', position: 'center' },
+  { src: blobUrl('2025/_dsc5501.jpg'), alt: 'ZSB 2025', position: 'bottom' },
+  { src: blobUrl('2025/_dsc5547.jpg'), alt: 'ZSB 2025', position: 'top' },
+  { src: blobUrl('2025/_dsc5464.jpg'), alt: 'ZSB 2025', position: 'center' },
+  { src: blobUrl('2025/_dsc5665.jpg'), alt: 'ZSB 2025', position: 'top' },
+]
 
 const editions = [
-  { year: 2025, theme: "#celălaltcorp", href: "/editions/2025" },
-  { year: 2024, theme: "#syzygy", href: "/editions/2024" },
-  { year: 2023, theme: "re#situari afective", href: "/editions/2023" },
-  { year: 2022, theme: "#perspectiva31", href: "/editions/2022" },
-];
+  { year: 2025, theme: '#celălaltcorp', href: '/editions/2025' },
+  { year: 2024, theme: '#syzygy', href: '/editions/2024' },
+  { year: 2023, theme: 're#situari afective', href: '/editions/2023' },
+  { year: 2022, theme: '#perspectiva31', href: '/editions/2022' },
+  { year: 2021, theme: '#digitalfield', href: '/editions/2021' },
+]
 
 export default function HomePage() {
   return (
@@ -49,16 +47,14 @@ export default function HomePage() {
               Bucharest
               <br />
               <span className={shared.accent}>
-                {" "}
+                {' '}
                 Sculpture
                 <br />
                 Days
               </span>
             </h1>
             <div className={styles.heroText}>
-              <p className={shared.heroLead}>
-                Your annual checkpoint for the state of sculpture.
-              </p>
+              <p className={shared.heroLead}>Your annual checkpoint for the state of sculpture.</p>
               <MagneticButton href="/editions/2025" size="lg">
                 Explore the 2025 edition <RiArrowRightLine size={14} />
               </MagneticButton>
@@ -74,11 +70,7 @@ export default function HomePage() {
         </div>
         <div className={styles.editionList}>
           {editions.map((edition) => (
-            <Link
-              key={edition.year}
-              href={edition.href}
-              className={styles.editionRow}
-            >
+            <Link key={edition.year} href={edition.href} className={styles.editionRow}>
               <span className={styles.editionYear}>{edition.year}</span>
               <span className={styles.editionTheme}>{edition.theme}</span>
               <span className={styles.editionArrow}>
@@ -92,5 +84,5 @@ export default function HomePage() {
       {/* ---- Artists ---- */}
       <ArtistsBanner />
     </main>
-  );
+  )
 }

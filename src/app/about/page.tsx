@@ -240,9 +240,9 @@ export default function AboutPage() {
                 struggle to reach their peak for lack of studios and resources.
               </p>
               <p>
-                Our goal is to lay the foundations of a Romanian Sculpture Center — working
-                studios, transposition workshops, project-writing support, and a platform where
-                the profession can consolidate and grow. In the Brâncuși Year, 150 years after his
+                Our goal is to lay the foundations of a Romanian Sculpture Center — working studios,
+                transposition workshops, project-writing support, and a platform where the
+                profession can consolidate and grow. In the Brâncuși Year, 150 years after his
                 birth, let us draw from the support he received at the start of his journey and
                 build the future of Romanian sculpture.
               </p>

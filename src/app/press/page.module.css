@@ -9,14 +9,12 @@
 
 /* ---- Hero ---- */
 .hero {
-  padding: calc(var(--nav-height) + 80px) var(--content-padding)
-    var(--space-3xl);
+  padding: calc(var(--nav-height) + 80px) var(--content-padding) var(--space-3xl);
 }
 
 @media (min-width: 768px) {
   .hero {
-    padding: calc(var(--nav-height) + 120px) var(--content-padding)
-      var(--space-4xl);
+    padding: calc(var(--nav-height) + 120px) var(--content-padding) var(--space-4xl);
   }
 }
 

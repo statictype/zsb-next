@@ -57,12 +57,7 @@
   inset: -1.5px;
   border-radius: 50%;
   padding: 1.5px;
-  background: linear-gradient(
-    90deg,
-    var(--action) 0%,
-    var(--highlight) 50%,
-    var(--action) 100%
-  );
+  background: linear-gradient(90deg, var(--action) 0%, var(--highlight) 50%, var(--action) 100%);
   background-size: 200% 100%;
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
@@ -142,9 +137,5 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 55%,
-    rgba(0, 0, 0, 0.45) 100%
-  );
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
 }

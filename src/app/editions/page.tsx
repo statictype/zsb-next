@@ -5,11 +5,12 @@ import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import shared from '@/components/Shared.module.css'
 import { getAllEditionYears, getEdition } from '@/data/editions'
+import { isOnlineEdition } from '@/types/edition'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
   title: 'Editions',
-  description: 'Every edition of Bucharest Sculpture Days, from 2022 to today.',
+  description: 'Every edition of Bucharest Sculpture Days, from 2021 to today.',
   alternates: { canonical: '/editions' },
 }
 
@@ -25,7 +26,7 @@ export default function EditionsPage() {
               Edition<span className={shared.accent}>s</span>
             </h1>
             <p className={shared.lead}>
-              Every edition of Bucharest Sculpture Days, from 2022 to today.
+              Every edition of Bucharest Sculpture Days, from 2021 to today.
             </p>
           </header>
 
@@ -33,8 +34,11 @@ export default function EditionsPage() {
             {years.map((year, index) => {
               const edition = getEdition(year)
               if (!edition) return null
-              const thumb = edition.carousel[0]?.images[0]?.image ?? edition.heroImage
               const isFeature = index === 0
+              const online = isOnlineEdition(edition)
+              const thumb = online
+                ? null
+                : (edition.carousel[0]?.images[0]?.image ?? edition.heroImage)
 
               return (
                 <Link
@@ -44,17 +48,27 @@ export default function EditionsPage() {
                   style={{ '--card-index': index } as CSSProperties}
                 >
                   <div className={styles.frame}>
-                    <Image
-                      src={thumb.src}
-                      alt={thumb.alt}
-                      fill
-                      sizes={
-                        isFeature
-                          ? '(min-width: 1440px) 1400px, 100vw'
-                          : '(min-width: 1024px) 50vw, 100vw'
-                      }
-                      className={styles.thumbImg}
-                    />
+                    {thumb ? (
+                      <Image
+                        src={thumb.src}
+                        alt={thumb.alt}
+                        fill
+                        sizes={
+                          isFeature
+                            ? '(min-width: 1440px) 1400px, 100vw'
+                            : '(min-width: 1024px) 50vw, 100vw'
+                        }
+                        className={styles.thumbImg}
+                      />
+                    ) : (
+                      <div className={styles.thumbPlaceholder} aria-hidden>
+                        <div className={styles.thumbPlaceholderGrid} />
+                        <div className={styles.thumbPlaceholderMark}>
+                          <span>{edition.theme}</span>
+                          <span>Online · {year}</span>
+                        </div>
+                      </div>
+                    )}
                     <span className={styles.yearTag}>
                       <span className={styles.yearDot} aria-hidden />
                       <span className={styles.yearText}>{year}</span>

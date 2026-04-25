@@ -107,6 +107,61 @@
   transform: scale(1.05);
 }
 
+/* ---- Online edition placeholder thumb (no photo) ---- */
+.thumbPlaceholder {
+  position: absolute;
+  inset: 0;
+  background: var(--black-pure);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.thumbPlaceholderGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 60%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 60%, black 30%, transparent 80%);
+}
+
+.thumbPlaceholderMark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: var(--space-md);
+  font-family: var(--font-display);
+  text-transform: lowercase;
+  color: var(--white);
+  text-align: center;
+}
+
+.thumbPlaceholderMark span:first-child {
+  display: inline-block;
+  font-size: clamp(28px, 4.5vw, 64px);
+  letter-spacing: -0.5px;
+  line-height: 1.4;
+  background: linear-gradient(135deg, var(--white) 0%, var(--gray-300) 50%, var(--white) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.thumbPlaceholderMark span:last-child {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--muted);
+  font-weight: var(--weight-semibold);
+}
+
 /* Cinematic gradient: anchors the year tag and deepens the base */
 .frame::after {
   content: "";

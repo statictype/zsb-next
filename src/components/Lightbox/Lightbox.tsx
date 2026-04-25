@@ -18,13 +18,7 @@ interface LightboxProps {
   onClose: () => void
 }
 
-export function Lightbox({
-  images,
-  currentIndex,
-  onIndexChange,
-  isOpen,
-  onClose,
-}: LightboxProps) {
+export function Lightbox({ images, currentIndex, onIndexChange, isOpen, onClose }: LightboxProps) {
   function navigate(direction: number) {
     onIndexChange((currentIndex + direction + images.length) % images.length)
   }

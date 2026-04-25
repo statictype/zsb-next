@@ -333,17 +333,4 @@ export const edition2024: Edition = {
       value: 'Sorin Nainer\nDarie Dup\nRoald Aron',
     },
   ],
-
-  mediaKit: [
-    {
-      label: 'Photography',
-      name: 'Exhibition Cover',
-      image: { src: blobUrl('2024/cover.jpg'), alt: 'ZSB 2024 Cover' },
-    },
-    {
-      label: 'Key Visual',
-      name: 'Official Poster',
-      image: { src: blobUrl('2024/kv_zsb_2024_fara_logouri-01.jpg'), alt: 'ZSB 2024 Poster' },
-    },
-  ],
 }

@@ -5,45 +5,28 @@ import {
   RiSoundcloudLine,
   RiVimeoLine,
   RiYoutubeLine,
-} from "@remixicon/react";
-import type { Metadata } from "next";
-import {
-  MediaKitStrip,
-  type MediaKitStripItem,
-} from "@/components/MediaKitStrip/MediaKitStrip";
-import shared from "@/components/Shared.module.css";
-import { getAllEditionYears, getEdition } from "@/data/editions";
-import {
-  PRESS_APPEARANCES,
-  type PressAppearanceType,
-} from "@/data/press-appearances";
-import styles from "./page.module.css";
+} from '@remixicon/react'
+import type { Metadata } from 'next'
+import { MediaKitStrip } from '@/components/MediaKitStrip/MediaKitStrip'
+import shared from '@/components/Shared.module.css'
+import { MEDIA_KIT } from '@/data/media-kit'
+import { PRESS_APPEARANCES, type PressAppearanceType } from '@/data/press-appearances'
+import styles from './page.module.css'
 
 export const metadata: Metadata = {
-  title: "Press",
+  title: 'Press',
   description:
-    "Press kit, official posters, releases, and media coverage for Bucharest Sculpture Days — across every edition.",
-  alternates: { canonical: "/press" },
-};
+    'Press kit, official posters, releases, and media coverage for Bucharest Sculpture Days — across every edition.',
+  alternates: { canonical: '/press' },
+}
 
-const allMediaKit: MediaKitStripItem[] = getAllEditionYears().flatMap(
-  (year) => {
-    const ed = getEdition(year);
-    if (!ed) return [];
-    return ed.mediaKit.map((item) => ({ ...item, year }));
-  },
-);
-
-const TYPE_META: Record<
-  PressAppearanceType,
-  { label: string; Icon: typeof RiYoutubeLine }
-> = {
-  youtube: { label: "Video", Icon: RiYoutubeLine },
-  vimeo: { label: "Video", Icon: RiVimeoLine },
-  soundcloud: { label: "Audio", Icon: RiSoundcloudLine },
-  article: { label: "Article", Icon: RiNewspaperLine },
-  tv: { label: "Broadcast", Icon: RiPlayCircleLine },
-};
+const TYPE_META: Record<PressAppearanceType, { label: string; Icon: typeof RiYoutubeLine }> = {
+  youtube: { label: 'Video', Icon: RiYoutubeLine },
+  vimeo: { label: 'Video', Icon: RiVimeoLine },
+  soundcloud: { label: 'Audio', Icon: RiSoundcloudLine },
+  article: { label: 'Article', Icon: RiNewspaperLine },
+  tv: { label: 'Broadcast', Icon: RiPlayCircleLine },
+}
 
 export default function PressPage() {
   return (
@@ -55,8 +38,8 @@ export default function PressPage() {
             Press <span className={shared.accent}>room</span>
           </h1>
           <p className={shared.lead}>
-            A reference desk for editors, reporters, and curators. Posters,
-            releases, and media coverage from every edition since 2021.
+            A reference desk for editors, reporters, and curators. Posters, releases, and media
+            coverage from every edition since 2021.
           </p>
         </div>
       </section>
@@ -64,12 +47,10 @@ export default function PressPage() {
       {/* ===== Media Kit Strip ===== */}
       <section id="media-kit" className={styles.kitSection}>
         <div className={styles.kitHeader}>
-          <h2 className={`${shared.sectionTitle} ${styles.kitTitle}`}>
-            Media kit
-          </h2>
+          <h2 className={`${shared.sectionTitle} ${styles.kitTitle}`}>Media kit</h2>
         </div>
 
-        <MediaKitStrip items={allMediaKit} />
+        <MediaKitStrip items={MEDIA_KIT} />
       </section>
 
       {/* ===== Appearances ===== */}
@@ -79,8 +60,8 @@ export default function PressPage() {
 
           <ul className={styles.appList}>
             {PRESS_APPEARANCES.map((item, i) => {
-              const meta = TYPE_META[item.type];
-              const Icon = meta.Icon;
+              const meta = TYPE_META[item.type]
+              const Icon = meta.Icon
               return (
                 <li key={`${item.url}-${i}`} className={styles.appRow}>
                   <a
@@ -98,11 +79,7 @@ export default function PressPage() {
                         <span className={styles.appTitle}>{item.title}</span>
                         <span className={styles.appTag}>{item.tag}</span>
                       </span>
-                      {item.excerpt && (
-                        <span className={styles.appExcerpt}>
-                          {item.excerpt}
-                        </span>
-                      )}
+                      {item.excerpt && <span className={styles.appExcerpt}>{item.excerpt}</span>}
                     </span>
                     <span className={styles.appDate}>{item.year}</span>
                     <span className={styles.appArrow}>
@@ -110,11 +87,11 @@ export default function PressPage() {
                     </span>
                   </a>
                 </li>
-              );
+              )
             })}
           </ul>
         </div>
       </section>
     </main>
-  );
+  )
 }

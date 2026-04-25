@@ -188,8 +188,7 @@ export const edition2022: Edition = {
       type: 'primary',
       label: 'In Partnership With',
       value: 'Municipality of Bucharest',
-      detail:
-        'General Directorate for Landscape Architecture and Public Monuments — MONUMENT for',
+      detail: 'General Directorate for Landscape Architecture and Public Monuments — MONUMENT for',
     },
     {
       type: 'primary',
@@ -211,19 +210,6 @@ export const edition2022: Edition = {
       type: 'secondary',
       label: 'Communication & PR',
       value: 'Aurora Carstea',
-    },
-  ],
-
-  mediaKit: [
-    {
-      label: 'Photography',
-      name: 'Exhibition Cover',
-      image: { src: blobUrl('2022/cover-image.jpg'), alt: 'ZSB 2022 Cover' },
-    },
-    {
-      label: 'Key Visual',
-      name: 'Official Poster',
-      image: { src: blobUrl('2022/poster-zsb-2022.jpg'), alt: 'ZSB 2022 Poster' },
     },
   ],
 }

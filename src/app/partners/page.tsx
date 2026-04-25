@@ -42,9 +42,9 @@ export default function PartnersPage() {
               <p>
                 Since 2021, ZSB has grown from an online inaugural edition into a citywide event
                 drawing thousands of visitors, media attention, and institutional interest. Our
-                partners don&apos;t sponsor a product — they support a movement that values
-                material intelligence, physical presence, and the irreplaceable experience of
-                encountering art in shared space.
+                partners don&apos;t sponsor a product — they support a movement that values material
+                intelligence, physical presence, and the irreplaceable experience of encountering
+                art in shared space.
               </p>
             </div>
             <div className={styles.eventImage}>
@@ -66,7 +66,9 @@ export default function PartnersPage() {
           <div className={styles.whySculptureTop}>
             <div>
               <div className={shared.eyebrowMuted}>Why Sculpture</div>
-              <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.whySculptureTitle}`}>
+              <h2
+                className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.whySculptureTitle}`}
+              >
                 The most resilient
                 <br />
                 art form
@@ -132,7 +134,9 @@ export default function PartnersPage() {
       <section className={`${shared.section} ${shared.sectionLight}`}>
         <div className={shared.sectionInner}>
           <div className={shared.eyebrowMuted}>Partnership</div>
-          <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.partnershipTitle}`}>
+          <h2
+            className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.partnershipTitle}`}
+          >
             What partners gain
           </h2>
 

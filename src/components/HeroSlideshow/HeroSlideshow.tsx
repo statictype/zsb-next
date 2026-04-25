@@ -52,12 +52,7 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
         >
           <RiArrowLeftLine size={18} />
         </button>
-        <button
-          type="button"
-          className={styles.control}
-          onClick={goNext}
-          aria-label="Next slide"
-        >
+        <button type="button" className={styles.control} onClick={goNext} aria-label="Next slide">
           <RiArrowRightLine size={18} />
         </button>
       </div>

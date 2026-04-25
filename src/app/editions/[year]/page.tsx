@@ -10,6 +10,8 @@ import { ThemeArtists } from '@/components/ThemeArtists/ThemeArtists'
 import { Venues } from '@/components/Venues/Venues'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { SITE_NAME, SITE_URL } from '@/lib/constants'
+import { isOnlineEdition } from '@/types/edition'
+import { OnlineEditionLayout } from './online-edition-layout'
 import styles from './page.module.css'
 
 export async function generateStaticParams() {
@@ -47,7 +49,7 @@ export async function generateMetadata(props: PageProps<'/editions/[year]'>): Pr
       description,
       type: 'article',
       url: `/editions/${edition.year}`,
-      ...(edition.heroImage && {
+      ...(!isOnlineEdition(edition) && {
         images: [
           {
             url: edition.heroImage.src,
@@ -66,6 +68,10 @@ export default async function EditionPage(props: PageProps<'/editions/[year]'>) 
 
   if (!edition) {
     notFound()
+  }
+
+  if (isOnlineEdition(edition)) {
+    return <OnlineEditionLayout edition={edition} />
   }
 
   const eventJsonLd = {

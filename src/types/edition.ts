@@ -126,6 +126,17 @@ export interface MediaKitItem {
   image: ImageData
 }
 
+// ---- External Gallery (for editions whose archive lives off-site) ----
+
+export interface ExternalGalleryData {
+  tag: string
+  title: string
+  highlight?: string
+  description: string
+  linkLabel: string
+  href: string
+}
+
 // ---- Masonry Gallery ----
 
 export interface MasonryImage {
@@ -152,5 +163,26 @@ export interface Edition {
   program: ProgramData
   carousel: CarouselSlide[]
   credits: CreditEntry[]
-  mediaKit: MediaKitItem[]
+}
+
+// ---- Online Edition (digital-only year, no physical venues / no carousel) ----
+
+export interface OnlineEdition {
+  kind: 'online'
+  year: number
+  theme: string
+  themeHighlight: string
+  title: string
+  dateTape: string
+  manifesto: ManifestoData
+  themeSection: ThemeData
+  artists: string[]
+  externalGallery: ExternalGalleryData
+  credits: CreditEntry[]
+}
+
+export type AnyEdition = Edition | OnlineEdition
+
+export function isOnlineEdition(e: AnyEdition): e is OnlineEdition {
+  return 'kind' in e && e.kind === 'online'
 }

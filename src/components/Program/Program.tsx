@@ -26,7 +26,13 @@ function ProgramCard({ block }: { block: ProgramBlockType }) {
   )
 }
 
-function ProgramColumn({ blocks, films }: { blocks: ProgramBlockType[]; films?: ProgramFilm[] | undefined }) {
+function ProgramColumn({
+  blocks,
+  films,
+}: {
+  blocks: ProgramBlockType[]
+  films?: ProgramFilm[] | undefined
+}) {
   const talkBlocks = blocks.filter((b) => b.type === 'Talks & Workshops')
   const otherBlocks = blocks.filter((b) => b.type !== 'Talks & Workshops')
 
