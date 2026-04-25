@@ -5,9 +5,7 @@ export interface Stat {
 
 export const ZSB_STATS: readonly Stat[] = [
   { label: 'Editions', value: '5' },
-  { label: 'Artists', value: '150+' },
-  { label: 'Venues', value: '8' },
-  { label: 'Visitors', value: '25K+' },
+  { label: 'Artists', value: '137' },
   { label: 'Works', value: '230' },
-  { label: 'Materials', value: '23' },
+  { label: 'Visitors', value: '8,000+' },
 ] as const

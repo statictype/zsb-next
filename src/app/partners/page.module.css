@@ -1,5 +1,5 @@
 /* =====================================================
-   PARTNERS PAGE — Styles
+   PARTNERS PAGE
    ===================================================== */
 
 /* =====================================================
@@ -8,12 +8,12 @@
 .hero {
   background: var(--black-pure);
   color: var(--white);
-  padding: calc(var(--nav-height) + 80px) var(--content-padding) var(--space-xl);
+  padding: calc(var(--nav-height) + 80px) var(--content-padding) var(--space-2xl);
 }
 
 @media (min-width: 768px) {
   .hero {
-    padding: calc(var(--nav-height) + 120px) var(--content-padding) var(--space-2xl);
+    padding: calc(var(--nav-height) + 120px) var(--content-padding) var(--space-3xl);
   }
 }
 
@@ -23,30 +23,10 @@
 }
 
 /* =====================================================
-   2. THE EVENT — Intro prose + image
+   2. THE EVENT — Intro prose, then full-width image
    ===================================================== */
 .eventSection {
   padding-top: 0;
-}
-
-.eventContent {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-2xl);
-}
-
-@media (min-width: 1024px) {
-  .eventContent {
-    grid-template-columns: 3fr 2fr;
-    gap: var(--space-3xl);
-    align-items: start;
-  }
-}
-
-@media (min-width: 1536px) {
-  .eventContent {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 .eventBody {
@@ -54,6 +34,7 @@
   flex-direction: column;
   gap: var(--space-md);
   max-width: 60ch;
+  margin-bottom: var(--space-2xl);
 }
 
 .eventBody p {
@@ -72,21 +53,18 @@
 .eventImage {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
+  border: var(--border-dark);
+  margin: 0;
 }
 
 .eventImageImg {
   object-fit: cover;
-  filter: grayscale(100%) contrast(1.1);
-  transition: filter 0.6s var(--ease-out-expo);
-}
-
-.eventImage:hover .eventImageImg {
-  filter: grayscale(0%) contrast(1);
+  filter: grayscale(100%) contrast(1.05);
 }
 
 /* =====================================================
-   2. WHY SCULPTURE
+   3. WHY SCULPTURE — Eyebrow + title + image, then 4-pillar grid
    ===================================================== */
 .whySculptureTitle {
   max-width: 700px;
@@ -112,338 +90,95 @@
   position: relative;
   overflow: hidden;
   aspect-ratio: 16 / 10;
+  border: var(--border-light);
 }
 
 .whySculptureImg {
   object-fit: cover;
   filter: grayscale(100%);
-  transition: filter 0.6s var(--ease-out-expo);
 }
 
-.whySculptureImage:hover .whySculptureImg {
-  filter: grayscale(0%);
-}
-
-.whySculpturePoints {
+/* ---- 4-pillar grid (mirrors about-page pillars on light) ---- */
+.whyGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-2xl);
-}
-
-@media (min-width: 768px) {
-  .whySculpturePoints {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-2xl) var(--space-3xl);
-  }
-}
-
-.whySculpturePoint {
   border-top: var(--border-light);
-  padding-top: 24px;
-}
-
-.whySculpturePointTitle {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  text-transform: uppercase;
-  color: var(--black);
-  margin-bottom: 16px;
-}
-
-.whySculpturePointText {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--leading-loose);
-  color: var(--muted);
-}
-
-/* =====================================================
-   3. AUDIENCE
-   ===================================================== */
-.audienceHeader {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-2xl);
-  margin-bottom: var(--space-3xl);
-  padding-bottom: 60px;
-  border-bottom: var(--border-dark);
-}
-
-@media (min-width: 1024px) {
-  .audienceHeader {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3xl);
-    align-items: end;
-  }
-}
-
-.audienceStats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-
-.audienceStat {
-  padding-top: 20px;
-  border-top: 3px solid var(--action);
-}
-
-.audienceStatNumber {
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  color: var(--white);
-  line-height: var(--leading-heading);
-  margin-bottom: 8px;
-}
-
-.audienceStatLabel {
-  font-family: var(--font-body);
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--muted);
-}
-
-/* ---- Audience Profiles ---- */
-.audienceProfiles {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
-  margin-bottom: var(--space-2xl);
 }
 
 @media (min-width: 768px) {
-  .audienceProfiles {
+  .whyGrid {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-@media (min-width: 1536px) {
-  .audienceProfiles {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.audienceProfile {
-  padding: 32px 16px 32px 0;
-  border-bottom: var(--border-dark);
-}
-
-@media (min-width: 768px) {
-  .audienceProfile {
-    border-bottom: none;
-    border-right: var(--border-dark);
-  }
-
-  .audienceProfile:nth-child(2) {
-    padding-left: 32px;
-    padding-right: 0;
-    border-right: none;
-  }
-
-  .audienceProfile:nth-child(3) {
-    padding-top: 32px;
-    border-top: var(--border-dark);
-  }
-
-  .audienceProfile:nth-child(4) {
-    padding: 32px 0 0 32px;
-    border-top: var(--border-dark);
-    border-right: none;
-  }
-}
-
-@media (min-width: 1536px) {
-  .audienceProfile {
-    padding: 0 32px;
-    border-bottom: none;
-    border-right: var(--border-dark);
-    border-top: none;
-  }
-
-  .audienceProfile:first-child {
-    padding-left: 0;
-  }
-
-  .audienceProfile:nth-child(2) {
-    padding: 0 32px;
-    border-right: var(--border-dark);
-  }
-
-  .audienceProfile:nth-child(3) {
-    padding: 0 32px;
-    border-top: none;
-    border-right: var(--border-dark);
-  }
-
-  .audienceProfile:nth-child(4) {
-    padding: 0 0 0 32px;
-    border-right: none;
-    border-top: none;
-  }
-}
-
-.audienceProfile:last-child {
-  border-bottom: none;
-}
-
-.audienceProfileTitle {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  text-transform: uppercase;
-  color: var(--white);
-  margin-bottom: 12px;
-  line-height: var(--leading-tight);
-}
-
-.audienceProfileDesc {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  color: var(--muted);
-}
-
-/* =====================================================
-   4. PARTNERSHIP — BENEFITS + WHERE MONEY GOES
-   ===================================================== */
-.partnershipTitle {
-  margin-bottom: var(--space-2xl);
-}
-
-.partnershipColumns {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-2xl);
-}
-
-@media (min-width: 1024px) {
-  .partnershipColumns {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-2xl);
-  }
-}
-
-/* ---- Left column: Benefits ---- */
-.partnershipBenefit {
-  padding: 24px 0;
+.whyPillar {
+  padding: var(--space-xl) 0;
   border-bottom: var(--border-light);
-}
-
-.partnershipBenefitFirst {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-.partnershipBenefit:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.partnershipBenefitType {
-  font-family: var(--font-body);
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--action);
-  margin-bottom: 10px;
-}
-
-.partnershipBenefitTitle {
-  font-family: var(--font-body);
-  font-size: var(--text-md);
-  font-weight: var(--weight-medium);
-  color: var(--black);
-  margin-bottom: 8px;
-  line-height: var(--leading-tight);
-}
-
-.partnershipBenefitText {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  line-height: var(--leading-body);
-  color: var(--muted);
-}
-
-/* ---- Right column: Where money goes ---- */
-.partnershipColHeader {
-  margin-bottom: 20px;
-}
-
-.partnershipColEyebrow {
-  display: block;
-  font-family: var(--font-body);
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--action);
-  margin-bottom: 10px;
-}
-
-.partnershipColTitle {
-  font-family: var(--font-body);
-  font-size: var(--text-xl);
-  font-weight: var(--weight-light);
-  color: var(--black);
-  line-height: var(--leading-tight);
-  letter-spacing: -0.01em;
-}
-
-.partnershipColLead {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  line-height: var(--leading-body);
-  color: var(--muted);
-  margin-bottom: 24px;
-  padding-bottom: 24px;
-  border-bottom: var(--border-light);
-}
-
-.partnershipAllocations {
   display: flex;
   flex-direction: column;
+  gap: var(--space-md);
 }
 
-.partnershipAlloc {
-  padding: 14px 0 14px 18px;
-  border-bottom: var(--border-light);
-  position: relative;
+@media (min-width: 768px) {
+  .whyPillar {
+    padding: var(--space-xl);
+  }
+
+  .whyPillar:nth-child(odd) {
+    padding-left: 0;
+    border-right: var(--border-light);
+  }
+
+  .whyPillar:nth-child(even) {
+    padding-right: 0;
+  }
 }
 
-.partnershipAlloc::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 21px;
-  width: 5px;
-  height: 5px;
-  background: var(--action);
-  border-radius: var(--radius-circle);
+.whyPillarHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-md);
 }
 
-.partnershipAlloc:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
+.whyPillarNum {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--highlight);
+  letter-spacing: var(--tracking-tight);
 }
 
-.partnershipAllocTitle {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
+.whyPillarTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--black);
-  margin-bottom: 4px;
   line-height: var(--leading-tight);
+  color: var(--heading-light);
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
 }
 
-.partnershipAllocText {
+@media (min-width: 1280px) {
+  .whyPillarTitle {
+    font-size: var(--text-xl);
+  }
+}
+
+.whyPillarBody {
   font-family: var(--font-body);
-  font-size: var(--text-xs);
+  font-size: var(--text-base);
   line-height: var(--leading-body);
-  color: var(--muted);
+  color: var(--body-light);
+  max-width: 50ch;
+}
+
+@media (min-width: 768px) {
+  .whyPillarBody {
+    line-height: var(--leading-loose);
+  }
 }
 
 /* =====================================================
-   5. CONTACT CTA
+   4. PARTNER CTA
    ===================================================== */
 .partnerCta {
   border-top: var(--border-dark);
@@ -480,6 +215,6 @@
   line-height: var(--leading-body);
   font-weight: var(--weight-light);
   color: var(--body);
-  max-width: 430px;
+  max-width: 460px;
   margin-bottom: 46px;
 }

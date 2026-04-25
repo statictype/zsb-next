@@ -179,7 +179,7 @@
 /* ---- Place image — full-bleed within container ---- */
 .placeImage {
   position: relative;
-  aspect-ratio: 21 / 9;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border: var(--border-dark);
   margin: 0;

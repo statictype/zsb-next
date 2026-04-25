@@ -88,8 +88,8 @@ export default function AboutPage() {
 
           <figure className={styles.placeImage}>
             <Image
-              src={blobUrl('2025/_dsc5665.jpg')}
-              alt="Combinatul Fondului Plastic, Bucharest — sculpture at full scale"
+              src={blobUrl('2023/od6-0441.jpg')}
+              alt="Combinatul Fondului Plastic, Bucharest — facade at night"
               fill
               sizes="100vw"
               className={styles.placeImageImg}
