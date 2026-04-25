@@ -24,7 +24,12 @@ const heroImages: HeroImage[] = [
   { src: blobUrl('2025/_dsc5665.jpg'), alt: 'ZSB 2025', position: 'top' },
 ]
 
-const editions = [
+type EditionItem =
+  | { year: number; theme: string; href: string }
+  | { year: number; theme: string; upcoming: true }
+
+const editions: EditionItem[] = [
+  { year: 2026, theme: '#zeulcaremoare', upcoming: true },
   { year: 2025, theme: '#celălaltcorp', href: '/editions/2025' },
   { year: 2024, theme: '#syzygy', href: '/editions/2024' },
   { year: 2023, theme: 're#situari afective', href: '/editions/2023' },
@@ -68,22 +73,37 @@ export default function HomePage() {
       {/* ---- Editions ---- */}
       <section id="editions" className={`${styles.panel} ${styles.editions}`}>
         <div className={styles.editionsHead}>
-          <h2 className={shared.sectionTitle}>PAST EDITIONS</h2>
+          <h2 className={shared.sectionTitle}>EDITIONS</h2>
           <p className={styles.editionsSubtext}>
             Edition after edition, ZSB holds open the question of what sculpture can do with body,
             matter, space, and memory.
           </p>
         </div>
         <div className={styles.editionList}>
-          {editions.map((edition) => (
-            <Link key={edition.year} href={edition.href} className={styles.editionRow}>
-              <span className={styles.editionYear}>{edition.year}</span>
-              <span className={styles.editionTheme}>{edition.theme}</span>
-              <span className={styles.editionArrow}>
-                <RiArrowRightUpLine size={24} />
-              </span>
-            </Link>
-          ))}
+          {editions.map((edition) => {
+            if ('upcoming' in edition) {
+              return (
+                <div
+                  key={edition.year}
+                  className={`${styles.editionRow} ${styles.editionRowDisabled}`}
+                  aria-disabled="true"
+                >
+                  <span className={styles.editionYear}>{edition.year}</span>
+                  <span className={styles.editionTheme}>{edition.theme}</span>
+                  <span className={styles.editionBadge}>Coming soon</span>
+                </div>
+              )
+            }
+            return (
+              <Link key={edition.year} href={edition.href} className={styles.editionRow}>
+                <span className={styles.editionYear}>{edition.year}</span>
+                <span className={styles.editionTheme}>{edition.theme}</span>
+                <span className={styles.editionArrow}>
+                  <RiArrowRightUpLine size={24} />
+                </span>
+              </Link>
+            )
+          })}
         </div>
       </section>
 

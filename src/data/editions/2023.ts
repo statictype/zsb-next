@@ -135,7 +135,6 @@ export const edition2023: Edition = {
       title: 'Sculptors for the Future',
       description:
         "Each edition ends with an awards ceremony for emerging talent from Bucharest's art schools.",
-      href: '#',
     },
   },
 

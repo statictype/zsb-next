@@ -61,7 +61,6 @@ export interface SFTFBanner {
   tag: string
   title: string
   description: string
-  href: string
 }
 
 export interface ProgramData {

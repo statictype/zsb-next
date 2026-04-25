@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import shared from '@/components/Shared.module.css'
 import type { ProgramBlock as ProgramBlockType, ProgramData, ProgramFilm } from '@/types/edition'
 import styles from './Program.module.css'
@@ -103,20 +102,15 @@ export function Program({ year, program }: ProgramProps) {
         </div>
 
         {program.sftfBanner && (
-          <Link href={program.sftfBanner.href} className={styles.sftfBanner}>
+          <div className={styles.sftfBanner}>
             <div className={styles.sftfContent}>
               <div className={styles.sftfLeft}>
                 <span className={styles.sftfTag}>{program.sftfBanner.tag}</span>
                 <h3 className={styles.sftfTitle}>{program.sftfBanner.title}</h3>
                 <p className={styles.sftfDesc}>{program.sftfBanner.description}</p>
               </div>
-              <div className={styles.sftfCta}>
-                <span className={styles.sftfCtaText}>Explore</span>
-                <span className={styles.sftfCtaArrow}>&rarr;</span>
-              </div>
             </div>
-            <div className={styles.sftfAccent} />
-          </Link>
+          </div>
         )}
       </div>
     </section>

@@ -7,6 +7,7 @@ import shared from '@/components/Shared.module.css'
 import { whySculpturePoints } from '@/data/partners'
 import { blobUrl } from '@/lib/blob'
 import styles from './page.module.css'
+import { ALL_ARTISTS } from '@/data/artists'
 
 export const metadata: Metadata = {
   title: 'Partners',
@@ -20,6 +21,7 @@ function pad(n: number): string {
 }
 
 export default function PartnersPage() {
+  const artistCount = ALL_ARTISTS.length
   return (
     <main>
       {/* ---- 1. Hero ---- */}
@@ -42,9 +44,9 @@ export default function PartnersPage() {
           <h2 className={shared.sectionTitle}>The event</h2>
           <div className={styles.eventBody}>
             <p>
-              Since 2021, ZSB has brought together Romanian contemporary sculpture and its public
-              at Combinatul Fondului Plastic. Five editions, 137 artists, 230 works, and over 8,000
-              visitors who encountered sculpture, often for the first time, without a ticket.
+              Since 2021, ZSB has brought together Romanian contemporary sculpture and its public at
+              Combinatul Fondului Plastic. Five editions, {artistCount} artists, 230 works, and over
+              8,000 visitors who encountered sculpture, often for the first time, without a ticket.
             </p>
           </div>
           <figure className={styles.eventImage}>
@@ -114,7 +116,7 @@ export default function PartnersPage() {
             genuine connection to contemporary art practice in Romania. If you&apos;re interested,
             write to us.
           </p>
-          <MagneticButton href="mailto:partners@sculpturedays.com">
+          <MagneticButton href="mailto:office@filialadesculptura.com">
             Get in Touch <RiArrowRightLine size={14} />
           </MagneticButton>
         </div>

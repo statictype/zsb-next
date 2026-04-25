@@ -189,6 +189,26 @@
   transform: translate(4px, -4px);
 }
 
+/* ---- Disabled (upcoming) row ---- */
+.editionRowDisabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.editionRowDisabled:hover {
+  padding-left: 0;
+}
+
+.editionRowDisabled:hover .editionTheme {
+  color: var(--white);
+}
+
+.editionBadge {
+  composes: pill from "../components/Shared.module.css";
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 /* =====================================================
    RESPONSIVE
    ===================================================== */
