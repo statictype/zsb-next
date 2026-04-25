@@ -28,7 +28,7 @@
   font-family: var(--font-display);
   font-size: var(--text-xl);
   line-height: var(--leading-heading);
-  color: var(--action);
+  color: var(--white);
 }
 /* Body paragraphs */
 .body {

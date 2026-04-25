@@ -77,27 +77,11 @@
   animation: fadeSlideUp 1s var(--ease-out-expo) 0.1s forwards;
 }
 
-.code::after {
-  content: "404";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 0, 153, 0.25) 0%,
-    transparent 40%,
-    rgba(212, 229, 10, 0.2) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 4s ease-in-out infinite;
-}
-
 /* ---- Divider ---- */
 .divider {
   width: 48px;
   height: 2px;
-  background: linear-gradient(90deg, var(--action), var(--highlight));
+  background: var(--highlight);
   margin: var(--space-lg) auto var(--space-xl);
   opacity: 0;
   animation: fadeSlideUp 1s var(--ease-out-expo) 0.25s forwards;
@@ -168,12 +152,3 @@
   }
 }
 
-@keyframes shimmer {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-}

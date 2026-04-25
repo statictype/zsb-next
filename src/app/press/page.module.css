@@ -70,24 +70,26 @@
 .appLink {
   display: grid;
   grid-template-columns: 1fr auto;
-  align-items: start;
-  gap: var(--space-md);
+  grid-template-areas:
+    "type aside"
+    "body body";
+  align-items: center;
+  column-gap: var(--space-md);
+  row-gap: var(--space-sm);
   padding: var(--space-lg) 0;
   text-decoration: none;
   color: inherit;
 }
 
 .appType {
-  display: none;
+  grid-area: type;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  width: 130px;
-  flex-shrink: 0;
+  gap: 8px;
   font-family: var(--font-body);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   letter-spacing: var(--tracking-label);
   color: var(--body);
-  padding-top: 6px;
 }
 
 .appType svg {
@@ -95,63 +97,36 @@
   flex-shrink: 0;
 }
 
-.appTitleRow {
+.appBody {
+  grid-area: body;
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  flex-wrap: wrap;
-}
-
-.appTag {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: var(--highlight);
-  color: var(--black-pure);
-  font-family: var(--font-body);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-@media (min-width: 768px) {
-  .appType {
-    display: flex;
-  }
-
-  .appLink {
-    grid-template-columns: auto 1fr auto auto;
-    gap: var(--space-lg);
-    align-items: center;
-  }
-
-  .appType {
-    padding-top: 0;
-  }
-}
-
-.appBody {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
   min-width: 0;
 }
 
+.appText {
+  flex: 1;
+  min-width: 0;
+  display: block;
+}
+
+.appAside {
+  grid-area: aside;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  align-self: center;
+  justify-self: end;
+}
+
 .appTitle {
+  display: block;
   font-family: var(--font-display);
-  font-size: var(--text-lg);
+  font-size: var(--text-md);
   line-height: var(--leading-heading);
   color: var(--white);
   transition: color var(--duration-normal) ease;
-}
-
-@media (min-width: 768px) {
-  .appTitle {
-    font-size: var(--text-xl);
-  }
 }
 
 .appLink:hover .appTitle {
@@ -159,12 +134,19 @@
 }
 
 .appExcerpt {
+  display: block;
   font-family: var(--font-body);
   font-size: var(--text-xs);
   line-height: var(--leading-body);
   color: var(--muted);
   margin-top: 4px;
   max-width: 60ch;
+}
+
+.appTag {
+  composes: pill from '../../components/Shared.module.css';
+  align-self: center;
+  white-space: nowrap;
 }
 
 .appDate {
@@ -175,16 +157,10 @@
   color: var(--muted);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .appDate {
-    display: inline;
-  }
 }
 
 .appArrow {
+  flex-shrink: 0;
   color: var(--muted);
   display: inline-flex;
   transition:
@@ -195,6 +171,20 @@
 .appLink:hover .appArrow {
   color: var(--action);
   transform: translate(4px, -4px);
+}
+
+@media (min-width: 768px) {
+  .appLink {
+    column-gap: var(--space-lg);
+  }
+
+  .appType {
+    font-size: var(--text-sm);
+  }
+
+  .appTitle {
+    font-size: var(--text-xl);
+  }
 }
 
 /* ---- Releases ---- */

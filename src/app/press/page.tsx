@@ -74,16 +74,20 @@ export default function PressPage() {
                       <Icon size={24} />
                       <span>{meta.label}</span>
                     </span>
-                    <span className={styles.appBody}>
-                      <span className={styles.appTitleRow}>
-                        <span className={styles.appTitle}>{item.title}</span>
-                        <span className={styles.appTag}>{item.tag}</span>
-                      </span>
-                      {item.excerpt && <span className={styles.appExcerpt}>{item.excerpt}</span>}
+                    <span className={styles.appAside}>
+                      <span className={styles.appDate}>{item.year}</span>
+                      <span className={styles.appTag}>{item.tag}</span>
                     </span>
-                    <span className={styles.appDate}>{item.year}</span>
-                    <span className={styles.appArrow}>
-                      <RiArrowRightUpLine size={20} />
+                    <span className={styles.appBody}>
+                      <span className={styles.appText}>
+                        <span className={styles.appTitle}>{item.title}</span>
+                        {item.excerpt && (
+                          <span className={styles.appExcerpt}>{item.excerpt}</span>
+                        )}
+                      </span>
+                      <span className={styles.appArrow}>
+                        <RiArrowRightUpLine size={20} />
+                      </span>
                     </span>
                   </a>
                 </li>

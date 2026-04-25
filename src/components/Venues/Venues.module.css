@@ -177,12 +177,7 @@
 }
 
 .tag {
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--white);
-  background: var(--action);
-  padding: 2px 6px;
+  composes: pill from '../Shared.module.css';
 }
 
 .program {
@@ -195,19 +190,12 @@
 
 /* Subgroup labels */
 .subgroupLabel {
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--action);
+  composes: pill from '../Shared.module.css';
   margin: var(--space-md) 0 var(--space-xs);
-  padding-top: var(--space-md);
-  border-top: var(--border-light);
 }
 
 .subgroupLabel:first-child {
   margin-top: 0;
-  padding-top: 0;
-  border-top: none;
 }
 
 /* ---- Tablet (768px+) ---- */
@@ -224,10 +212,6 @@
 
   .num {
     min-width: 32px;
-  }
-
-  .tag {
-    padding: 3px 8px;
   }
 
   .program {

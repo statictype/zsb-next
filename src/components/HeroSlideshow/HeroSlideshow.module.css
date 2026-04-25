@@ -31,14 +31,26 @@
   align-items: center;
   justify-content: center;
   padding: 0;
+  overflow: hidden;
   transition:
-    border-color 0.3s ease,
+    background 0.3s ease,
     color 0.3s ease,
     transform 0.3s var(--ease-out-expo);
 }
 
-.control:hover {
-  border-color: transparent;
+.control::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--action);
+  transform: scale(0);
+  transition: transform 0.4s var(--ease-out-expo);
+  z-index: 0;
+}
+
+.control:hover::before {
+  transform: scale(1);
 }
 
 .control:active {
@@ -50,45 +62,9 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-/* Animated gradient border on hover — same pattern as Carousel */
-.control::before {
-  content: "";
-  position: absolute;
-  inset: -1.5px;
-  border-radius: 50%;
-  padding: 1.5px;
-  background: linear-gradient(90deg, var(--action) 0%, var(--highlight) 50%, var(--action) 100%);
-  background-size: 200% 100%;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-}
-
-.control:hover::before {
-  opacity: 1;
-  animation: gradientBorderShift 2s linear infinite;
-}
-
 .control svg {
   position: relative;
   z-index: 1;
-}
-
-@keyframes gradientBorderShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
 }
 
 @media (min-width: 768px) {

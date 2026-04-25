@@ -42,10 +42,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
       >
         <div className={styles.cardInner}>
           <div className={styles.cardLeft}>
-            <span className={styles.tag}>
-              <span className={styles.tagDot} aria-hidden />
-              {tag}
-            </span>
+            <span className={styles.tag}>{tag}</span>
 
             <h3 className={styles.title}>
               {highlight ? (

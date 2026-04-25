@@ -160,6 +160,37 @@
   font-weight: var(--weight-semibold);
 }
 
+/* ---- Pill — small chartreuse tag for non-clickable labels ---- */
+.pill {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--black);
+  background: var(--highlight);
+  padding: 4px 10px;
+  line-height: var(--leading-heading);
+}
+
+.pillLg {
+  composes: pill;
+  font-size: var(--text-xs);
+  padding: 8px 14px;
+}
+
+@media (min-width: 768px) {
+  .pill {
+    padding: 6px 12px;
+  }
+
+  .pillLg {
+    padding: 10px 18px;
+  }
+}
+
 /* ---- Eyebrow — section intro label with rule ---- */
 .eyebrowMuted {
   font-family: var(--font-body);

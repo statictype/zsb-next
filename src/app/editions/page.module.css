@@ -180,46 +180,11 @@
 
 /* ---- Year tag — floating pill over thumbnail ---- */
 .yearTag {
+  composes: pill from '../../components/Shared.module.css';
   position: absolute;
   top: var(--space-md);
   left: var(--space-md);
   z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 16px 8px 12px;
-  background: rgba(14, 11, 16, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-pill);
-  transition:
-    border-color var(--duration-medium) var(--ease-out-expo),
-    background var(--duration-medium) var(--ease-out-expo);
-}
-
-.card:hover .yearTag {
-  border-color: var(--highlight);
-  background: rgba(14, 11, 16, 0.88);
-}
-
-.yearDot {
-  width: 6px;
-  height: 6px;
-  border-radius: var(--radius-circle);
-  background: var(--highlight);
-  transition: transform var(--duration-medium) var(--ease-out-expo);
-}
-
-.card:hover .yearDot {
-  transform: scale(1.35);
-}
-
-.yearText {
-  font-family: var(--font-body);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--white);
 }
 
 /* ---- Meta block (below thumbnail) ---- */

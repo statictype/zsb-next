@@ -11,16 +11,21 @@ export function ArtistsBanner() {
   return (
     <Link href="/artists" className={styles.banner}>
       <div className={styles.inner}>
-        <div className={styles.top}>
+        <div className={styles.left}>
+          <span className={styles.tag}>Index</span>
           <h2 className={styles.title}>Artists</h2>
+          <p className={styles.subtext}>
+            {artistCount} sculptors across {editionCount} editions
+          </p>
+        </div>
+        <div className={styles.cta}>
+          <span className={styles.ctaText}>Explore</span>
           <span className={styles.arrow}>
             <RiArrowRightUpLine size={28} />
           </span>
         </div>
-        <p className={styles.subtext}>
-          {artistCount} across {editionCount} editions
-        </p>
       </div>
+      <div className={styles.accent} />
     </Link>
   )
 }

@@ -81,17 +81,9 @@
 
 /* ---- Eyebrow ---- */
 .eyebrow {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-subtle);
-  color: var(--black);
-  background: rgba(255, 255, 255, 0.9);
-  padding: var(--space-xs) var(--space-sm);
+  composes: pillLg from '../Shared.module.css';
   margin-bottom: var(--space-md);
-  display: inline-block;
   opacity: 0;
-  font-weight: var(--weight-semibold);
   animation: fadeSlideUp 1s var(--ease-out-expo) 0.2s forwards;
 }
 
@@ -120,27 +112,7 @@
 }
 
 .themeHighlight {
-  background: linear-gradient(
-    135deg,
-    var(--highlight) 0%,
-    var(--action) 50%,
-    var(--highlight) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 200% 200%;
-  animation: gradientShift 6s ease-in-out infinite;
-}
-
-@keyframes gradientShift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+  color: var(--action);
 }
 
 @keyframes fadeSlideUp {
@@ -196,16 +168,7 @@
 
 /* ---- Date Tape ---- */
 .dateTape {
-  display: inline-block;
-  background: var(--action);
-  color: var(--white);
-  padding: var(--space-sm) var(--space-md);
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-subtle);
-  line-height: var(--leading-body);
-  font-weight: var(--weight-medium);
+  composes: pillLg from '../Shared.module.css';
 }
 
 /* ---- 768px ---- */
@@ -225,15 +188,6 @@
 @media (min-width: 1024px) {
   .hero {
     min-height: 900px;
-  }
-
-  .eyebrow {
-    font-size: var(--text-sm);
-    letter-spacing: var(--tracking-label);
-  }
-  .dateTape {
-    font-size: var(--text-sm);
-    letter-spacing: var(--tracking-label);
   }
 }
 @media (min-width: 1280px) {

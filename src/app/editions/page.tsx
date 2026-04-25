@@ -69,10 +69,7 @@ export default function EditionsPage() {
                         </div>
                       </div>
                     )}
-                    <span className={styles.yearTag}>
-                      <span className={styles.yearDot} aria-hidden />
-                      <span className={styles.yearText}>{year}</span>
-                    </span>
+                    <span className={styles.yearTag}>{year}</span>
                   </div>
 
                   <div className={styles.meta}>

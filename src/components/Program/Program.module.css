@@ -71,11 +71,7 @@
 }
 
 .itemDates {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  color: var(--action);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
+  composes: pill from '../Shared.module.css';
 }
 
 .itemTitle {
@@ -152,10 +148,8 @@
 }
 
 .compactType {
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  color: var(--action);
+  composes: pill from '../Shared.module.css';
+  align-self: flex-start;
 }
 
 .compactTitle {
@@ -234,13 +228,7 @@
 }
 
 .sftfTag {
-  display: inline-block;
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--black);
-  background: var(--highlight);
-  padding: 4px 10px;
+  composes: pill from '../Shared.module.css';
   margin-bottom: var(--space-md);
 }
 
@@ -337,7 +325,6 @@
   }
 
   .sftfTag {
-    padding: 6px 12px;
     margin-bottom: var(--space-md);
   }
 
