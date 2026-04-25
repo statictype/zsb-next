@@ -1,136 +1,28 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { MasonryGallery } from '@/components/MasonryGallery/MasonryGallery'
 import shared from '@/components/Shared.module.css'
 import { blobUrl } from '@/lib/blob'
-import type { MasonryImage } from '@/types/edition'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Bucharest Sculpture Days — an annual platform dedicated to contemporary sculpture, born online in 2021.',
+    'Bucharest Sculpture Days — an annual platform for Romanian contemporary sculpture, born online in 2021.',
   alternates: { canonical: '/about' },
 }
 
-const MISSION = [
-  'Promote sculpture globally',
-  'Use art as a tool for education and social change',
-  'Cultivate a strong community of sculptors',
+const PILLARS = [
+  {
+    num: '01',
+    label: 'Why now?',
+    body: 'The profession is ageing. Young sculptors have no studios, no visibility, no entry point. If we do not build the structures to support them now, we lose a generation. ZSB is part of that building.',
+  },
+  {
+    num: '02',
+    label: 'Why Bucharest?',
+    body: 'ZSB found its home at Combinatul Fondului Plastic, a rare complex of working studios and foundries in the heart of Bucharest. A space that proves there is still room for sculpture to be made, shown, and argued over at full scale.',
+  },
 ] as const
-
-const VISION = [
-  'Inspire the public',
-  'Support artists',
-  'Bring sculpture to the forefront of cultural life',
-] as const
-
-const AUDIENCE = [
-  'Artists',
-  'Designers',
-  'Teachers',
-  'Students',
-  'Entrepreneurs',
-  'Curators',
-] as const
-
-const galleryImages: MasonryImage[] = [
-  {
-    src: blobUrl('2023/od6-0349.jpg'),
-    alt: 'Visitors viewing sculptures in gallery at ZSB 2025',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 2,
-    rows: 5,
-  },
-  {
-    src: blobUrl('2023/od6-0202.jpg'),
-    alt: 'Visitors gathered around sculpture at ZSB 2025',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 2,
-    rows: 5,
-  },
-  {
-    src: blobUrl('2025/bws00764.jpg'),
-    alt: 'ZSB 2025 audience interaction',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 3,
-  },
-  {
-    src: blobUrl('2025/bws00842.jpg'),
-    alt: 'ZSB 2025 sculpture detail',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 3,
-  },
-  {
-    src: blobUrl('2025/bws01820.jpg'),
-    alt: 'ZSB 2025 exhibition space',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 3,
-  },
-  {
-    src: blobUrl('2025/bws00744.jpg'),
-    alt: 'ZSB 2025 wide gallery view',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 2,
-    rows: 5,
-  },
-  {
-    src: blobUrl('2023/od6-0359.jpg'),
-    alt: 'ZSB 2025 sculpture work',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 6,
-  },
-  {
-    src: blobUrl('2023/od6-0361.jpg'),
-    alt: 'ZSB 2023 tall sculpture view',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 3,
-  },
-  {
-    src: blobUrl('2025/bws00864.jpg'),
-    alt: 'ZSB 2025 tall sculpture view',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 3,
-  },
-  {
-    src: blobUrl('2023/od6-0221.jpg'),
-    alt: 'ZSB 2023 visitor experience',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 7,
-  },
-  {
-    src: blobUrl('2023/_dsf4145.jpg'),
-    alt: 'ZSB 2023 exhibition moment',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 5,
-  },
-  {
-    src: blobUrl('2024/night2.jpg'),
-    alt: 'ZSB 2024 exhibition moment',
-    caption: 'ZSB 2025 Exhibition',
-    cols: 1,
-    rows: 5,
-  },
-  {
-    src: blobUrl('2024/dscf4014.jpg'),
-    alt: 'ZSB 2025 artwork',
-    caption: 'ZSB 2024 Exhibition',
-    cols: 1,
-    rows: 4,
-  },
-]
-
-function pad(n: number): string {
-  return String(n).padStart(2, '0')
-}
 
 export default function AboutPage() {
   return (
@@ -142,126 +34,132 @@ export default function AboutPage() {
             About <span className={shared.accent}>ZSB</span>
           </h1>
           <p className={shared.lead}>
-            An annual platform dedicated to contemporary sculpture — born online in 2021, now
-            occupying the city each year with exhibitions, film, critical debate, and education.
+            An annual platform for Romanian contemporary sculpture. Born online in 2021, built each
+            year through exhibitions, film, critical debate, and education.
           </p>
         </div>
       </section>
 
-      {/* ---- 2. The project ---- */}
+      {/* ---- 2. The Project ---- */}
       <section className={`${shared.section} ${shared.sectionDark} ${styles.projectSection}`}>
         <div className={shared.sectionInner}>
-          <h2 className={shared.sectionTitle}>The project</h2>
-          <div className={styles.projectBody}>
-            <p>
-              ZSB is an ecosystem — contemporary sculpture, film, critical debate, and education —
-              not just an exhibition. Each edition adapts and grows without losing its focus:
-              sculpture as a critical, present-day practice that connects us with our history and
-              gives Romanian sculptors the recognition their work deserves.
-            </p>
-          </div>
-        </div>
-      </section>
+          <div className={styles.projectGrid}>
+            <aside className={styles.projectAside}>
+              <h2 className={`${shared.sectionTitle} ${styles.projectTitle}`}>
+                Not a
+                <br />
+                festival
+              </h2>
+            </aside>
 
-      {/* ---- 3. Mission ---- */}
-      <section className={`${shared.section} ${shared.sectionLight}`}>
-        <div className={shared.sectionInner}>
-          <div className={shared.eyebrowMuted}>Our Purpose</div>
-          <h2 className={`${shared.sectionTitle} ${shared.sectionTitleLight}`}>
-            Mission &amp; Vision
-          </h2>
-
-          <div className={styles.purposeList}>
-            <div className={styles.purposeGroup}>
-              <div className={styles.purposeItems}>
-                {MISSION.map((item, i) => (
-                  <div key={item} className={styles.purposeEntry}>
-                    <span className={styles.purposeNum}>{pad(i + 1)}</span>
-                    <span className={styles.purposeEntryText}>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className={styles.purposeGroup}>
-              <div className={styles.purposeItems}>
-                {VISION.map((item, i) => (
-                  <div key={item} className={styles.purposeEntry}>
-                    <span className={styles.purposeNum}>{pad(i + 1)}</span>
-                    <span className={styles.purposeEntryText}>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---- Gallery ---- */}
-      <section className={`${shared.section} ${shared.sectionDark}`}>
-        <div className={shared.sectionInner}>
-          <div className={styles.audienceStrip}>
-            <div className={styles.stripHeader}>
-              <div className={styles.stripLabel}>Our Audience</div>
-              <p className={styles.stripDesc}>
-                ZSB attracts a diverse audience from across the country — a platform where
-                creativity, innovation, and cultural influence meet.
+            <div className={styles.projectMain}>
+              <p>
+                We are not running a festival. We are, year by year, building the infrastructure
+                through which Romanian sculpture can survive, be seen, and matter.
+              </p>
+              <p>
+                ZSB exists to position contemporary sculpture as a critical practice of the
+                present, to support the visibility and professional recognition of Romanian
+                sculptors, and to build a living archive of Romanian contemporary sculpture in
+                Bucharest.
+              </p>
+              <p>
+                Each edition creates a public context where sculpture meets film, debate, and
+                education.
               </p>
             </div>
-            <div className={styles.stripCells}>
-              {AUDIENCE.map((tag) => (
-                <span key={tag} className={styles.stripWord}>
-                  {tag}
-                </span>
-              ))}
-            </div>
           </div>
-          <MasonryGallery images={galleryImages} />
         </div>
       </section>
 
-      {/* ---- 4. Curator ---- */}
+      {/* ---- 3. Pillars — Why now / Why Bucharest + place image ---- */}
+      <section className={`${shared.section} ${shared.sectionDark} ${styles.pillarsSection}`}>
+        <div className={shared.sectionInner}>
+          <div className={styles.pillarsGrid}>
+            {PILLARS.map((p) => (
+              <article key={p.num} className={styles.pillar}>
+                <div className={styles.pillarHead}>
+                  <span className={styles.pillarNum}>{p.num}</span>
+                  <h2 className={styles.pillarTitle}>{p.label}</h2>
+                </div>
+                <p className={styles.pillarBody}>{p.body}</p>
+              </article>
+            ))}
+          </div>
+
+          <figure className={styles.placeImage}>
+            <Image
+              src={blobUrl('2025/_dsc5665.jpg')}
+              alt="Combinatul Fondului Plastic, Bucharest — sculpture at full scale"
+              fill
+              sizes="100vw"
+              className={styles.placeImageImg}
+            />
+          </figure>
+        </div>
+      </section>
+
+      {/* ---- 4. Curator letter — editorial spread on light ---- */}
       <section className={styles.statement}>
         <div className={styles.statementInner}>
-          <div className={styles.themeHeader}>
-            <h2 className={styles.headline}>A word from the curator</h2>
-          </div>
+          <header className={styles.statementHead}>
+            <div className={shared.eyebrowMuted}>A word from the curator</div>
 
-          <div className={styles.statementContent}>
-            <div className={styles.statementBody}>
-              <p>
-                ZSB began taking shape in 2016, when a group of us from Combinatul Fondului Plastic
-                founded the Combinart 1+1=10 association to champion the power and versatility of
-                the sculpture profession — starting with film screenings and the first
-                &ldquo;Sculptors for the Future&rdquo; competition.
-              </p>
-              <p>
-                Ten years on, at the sixth edition, large-scale events that highlight Romanian
-                sculpture matter more than ever. The profession is aging, and young sculptors
-                struggle to reach their peak for lack of studios and resources.
-              </p>
-              <p>
-                Our goal is to lay the foundations of a Romanian Sculpture Center — working studios,
-                transposition workshops, project-writing support, and a platform where the
-                profession can consolidate and grow. In the Brâncuși Year, 150 years after his
-                birth, let us draw from the support he received at the start of his journey and
-                build the future of Romanian sculpture.
-              </p>
+            <div className={styles.statementMasthead}>
+              <h2
+                className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.statementHeadline}`}
+              >
+                Why we keep going
+              </h2>
+
+              <figure className={styles.statementByline}>
+                <div className={styles.authorPhoto}>
+                  <Image
+                    src="/img/s200_csapo_reka.dup.jpg"
+                    alt="Reka Csapo Dup"
+                    fill
+                    sizes="(max-width: 767px) 160px, 180px"
+                    className={styles.authorPhotoImg}
+                  />
+                </div>
+                <figcaption className={styles.authorCaption}>
+                  <span className={styles.authorName}>Reka Csapo Dup</span>
+                  <span className={styles.authorRole}>Curator, ZSB</span>
+                </figcaption>
+              </figure>
             </div>
-            <div className={styles.authorCard}>
-              <div className={styles.authorPhoto}>
-                <Image
-                  src="/img/s200_csapo_reka.dup.jpg"
-                  alt="Reka Csapo Dup"
-                  fill
-                  sizes="88px"
-                  className={styles.authorPhotoImg}
-                />
-              </div>
-              <div className={styles.authorInfo}>
-                <span className={styles.authorName}>Reka Csapo Dup</span>
-                <span className={styles.authorRole}>Curator, ZSB</span>
-              </div>
-            </div>
+          </header>
+
+          <div className={styles.statementBody}>
+            <p>
+              Bucharest Sculpture Days began to take shape gradually from 2016, when, together with
+              several fellow sculptors from Combinatul Fondului Plastic, we founded the Combinart
+              1+1=10 association to realise cultural projects that would highlight the power and
+              versatility of the sculpture profession.
+            </p>
+            <p>
+              Our first major event was organised in 2016, in which we screened films about and
+              with sculpture and organised the first edition of the &ldquo;Sculptors for the
+              Future&rdquo; competition. The members of the association, which dissolved in 2018,
+              continue to be active largely in the leadership of the Bucharest Sculpture Branch of
+              the Union of Visual Artists.
+            </p>
+            <p>
+              In 2026, at the sixth edition, it is even more important to continue with large-scale
+              events to highlight Romanian sculpture. Over time, the profession has begun to age,
+              and young sculptors find it harder to reach their peak due to a lack of studio space
+              and financial constraints.
+            </p>
+            <p>
+              Our goal is to lay the foundations for a Romanian Sculpture Centre where we can
+              offer both working studios and transposition workshops, material resources through
+              project-writing teams, and a platform for the profession to consolidate and grow.
+            </p>
+            <p>
+              In the Brâncuși Year, 150 years after the birth of Constantin Brâncuși, let us draw
+              inspiration from the support the great sculptor received from Romanian society at the
+              beginning of his journey, and let us begin to build the future of Romanian sculpture.
+            </p>
           </div>
         </div>
       </section>
