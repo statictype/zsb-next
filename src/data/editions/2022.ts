@@ -12,8 +12,8 @@ export const edition2022: Edition = {
     alt: 'ZSB 2022 #perspectiva31 — Exhibition hall at Combinatul Fondului Plastic',
   },
   manifesto: {
-    title: 'More art, more perspectives',
-    highlight: 'more perspectives',
+    title: 'Perspective is not observed. It is assumed. Thirty-one positions, no hierarchy.',
+    highlight: 'Thirty-one positions, no hierarchy.',
     paragraphs: [
       'The 2022 edition marked our arrival in physical space. For the first time, ZSB brought contemporary practice into direct contact with the city, establishing a tangible dialogue between object and viewer. Under the theme #perspectiva31, we built a shared space for conflicting ideas and cross-generational conversations. From professional roundtables on monument protection to our annual youth competition, where students reimagined the Arc de Triomphe, the festival prioritized a wide spectrum of viewpoints over a single narrative.',
     ],
@@ -22,8 +22,7 @@ export const edition2022: Edition = {
   themeSection: {
     lead: 'There is no single voice, only coexistence and friction. Meaning is produced through presence, not consensus.',
     body: [
-      'Perspective is not observed, but assumed. Enter #perspectiva31. Practice your perspective. #perspectiva31 proposed sculpture not as a unified style, but as a shared space of positions. Thirty-one works coexisted without hierarchy, forming a constellation of voices shaped by different generations, trajectories, and moments of practice.',
-      'Materials, forms, and concepts diverged, yet they converged in a common commitment to the public realm—where meaning is unstable, memory contested, and presence never neutral. #perspectiva31 framed sculpture as a living practice: critical and poetic, grounded in materiality yet open to reinterpretation.',
+      'Perspective is not observed, but assumed. The # in #perspectiva31 opens exactly that question: whose perspective? From where? The number 31, the count of artists in the exhibition, is embedded in the title itself, making the plurality visible from the start.Thirty-one works coexisted without hierarchy, forming a constellation of voices shaped by different generations, trajectories, and moments of practice. Materials, forms, and concepts pulled in different directions, held together only by a shared commitment to the public realm, where meaning is unstable, memory contested, and presence never neutral.',
     ],
     coda: ['Here, sculpture was understood as a form of responsibility.'],
     artistsStatement:
@@ -124,7 +123,7 @@ export const edition2022: Edition = {
     sftfBanner: {
       tag: 'Educational Program',
       title: 'Sculptors for the Future',
-      description: 'Modeling competition. Theme: The Arc de Triomphe — My Perspective.',
+      description: "Awards ceremony for emerging talent from Bucharest's art schools.",
       href: '#',
     },
   },

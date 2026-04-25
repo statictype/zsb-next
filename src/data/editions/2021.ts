@@ -110,15 +110,14 @@ export const edition2021: OnlineEdition = {
     title: "Sculpture didn't stop. It shifted.",
     highlight: "shifted",
     paragraphs: [
-      "In 2021, the inaugural edition of Bucharest Sculpture Days opened entirely online — not as a workaround for a closed city, but as a deliberate proposition. Launched on International Sculpture Day, ZSB gathered ninety contemporary sculptors into a shared digital territory, treating the platform itself as the first venue. The exhibition framed sculpture not as a fixed object, but as a way of thinking about form, body, material, and presence — fluid, experimental, and collective from the start.",
+      "In 2021, the inaugural edition of Bucharest Sculpture Days opened entirely online, not as a workaround for a closed city, but as a deliberate proposition. Launched on International Sculpture Day, ZSB gathered ninety contemporary sculptors into a shared digital territory. The exhibition framed sculpture not as a fixed object, but as a way of thinking about form, body, material, and presence: fluid, experimental, and collective from the start.",
     ],
   },
 
   themeSection: {
     lead: "What does sculpture become when space, scale, and proximity are redefined?",
     body: [
-      "The first edition did not impose a single curatorial theme. Instead, it proposed a shared question — and let ninety sculptors answer in their own languages.",
-      "The works traversed materiality, gesture, digital mediation, memory, and the body, often at the intersection between object, image, and concept. In the absence of a physical space, sculpture expanded into screens, interfaces, fragments, and documentation.",
+      "The first edition did not impose a single curatorial theme. Instead, it proposed a shared question and let ninety sculptors answer in their own languages. The works traversed materiality, gesture, digital mediation, memory, and the body, often at the intersection between object, image, and concept. Without a physical space, sculpture expanded into screens, fragments, and new forms of presence.",
     ],
     coda: [
       "A conceptual ground zero — a space of testing, listening, and recalibration that set the tone for every edition that followed.",
@@ -134,7 +133,7 @@ export const edition2021: OnlineEdition = {
     title: "Walk the Digital Field",
     highlight: "Digital Field",
     description:
-      "The 2021 exhibition lives where it was born — entirely online. Browse the full archive: ninety sculptors, presented without hierarchy, in the format that defined ZSB’s first iteration.",
+      "The 2021 exhibition lives where it was born, entirely online. Browse the full archive: ninety sculptors, presented without hierarchy.",
     linkLabel: "Open the Archive",
     href: "https://filialadesculptura.work/artists",
   },

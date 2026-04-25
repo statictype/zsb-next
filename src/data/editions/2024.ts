@@ -11,8 +11,8 @@ export const edition2024: Edition = {
     alt: 'ZSB 2024 #SYZYGY',
   },
   manifesto: {
-    title: 'Where forms align, art unveils',
-    highlight: 'art unveils',
+    title: 'Where bodies align, human, material, celestial: something new becomes visible.',
+    highlight: 'something new becomes visible.',
     paragraphs: [
       'For its fourth edition, ZSB functioned as a gravitational field. Operating under the theme #SYZYGY, it transformed Combinatul Fondului Plastic into a space where sculpture, film, and debate collided. We moved beyond the static pedestal to explore art as a system of tension—an active friction between materials, generations, and disciplines. It was two weeks of celestial alignment, grounded in the messy reality of contemporary practice.',
     ],
@@ -168,7 +168,7 @@ export const edition2024: Edition = {
     sftfBanner: {
       tag: 'Educational Program',
       title: 'Sculptors for the Future',
-      description: "Annual competition showcasing emerging talent from Bucharest's art schools.",
+      description: "Awards ceremony for emerging talent from Bucharest's art schools.",
       href: '#',
     },
   },
@@ -178,11 +178,17 @@ export const edition2024: Edition = {
       layout: 'featured-stack',
       images: [
         {
-          image: { src: blobUrl('2024/photocredit_roald_aron.jpg'), alt: 'ZSB 2024 Exhibition' },
+          image: {
+            src: blobUrl('2024/photocredit_roald_aron.jpg'),
+            alt: 'ZSB 2024 Exhibition',
+          },
           caption: 'Exhibition',
         },
         {
-          image: { src: blobUrl('2024/_dsc0800.jpg'), alt: 'ZSB 2024 Exhibition' },
+          image: {
+            src: blobUrl('2024/_dsc0800.jpg'),
+            alt: 'ZSB 2024 Exhibition',
+          },
           caption: 'Exhibition',
         },
         {
@@ -195,11 +201,17 @@ export const edition2024: Edition = {
       layout: 'featured-portrait',
       images: [
         {
-          image: { src: blobUrl('2024/dscf3937.jpg'), alt: 'ZSB 2024 Gallery Space' },
+          image: {
+            src: blobUrl('2024/dscf3937.jpg'),
+            alt: 'ZSB 2024 Gallery Space',
+          },
           caption: 'Gallery Space',
         },
         {
-          image: { src: blobUrl('2024/dscf3916.jpg'), alt: 'ZSB 2024 Sculpture Detail' },
+          image: {
+            src: blobUrl('2024/dscf3916.jpg'),
+            alt: 'ZSB 2024 Sculpture Detail',
+          },
           caption: 'Sculpture Detail',
         },
       ],
@@ -208,15 +220,24 @@ export const edition2024: Edition = {
       layout: 'trio',
       images: [
         {
-          image: { src: blobUrl('2024/dscf4473.jpg'), alt: 'ZSB 2024 Sculpture' },
+          image: {
+            src: blobUrl('2024/dscf4473.jpg'),
+            alt: 'ZSB 2024 Sculpture',
+          },
           caption: 'Sculpture',
         },
         {
-          image: { src: blobUrl('2024/victoria_(2).jpg'), alt: 'ZSB 2024 Artwork' },
+          image: {
+            src: blobUrl('2024/victoria_(2).jpg'),
+            alt: 'ZSB 2024 Artwork',
+          },
           caption: 'Artwork',
         },
         {
-          image: { src: blobUrl('2024/dscf4583.jpg'), alt: 'ZSB 2024 Exhibition' },
+          image: {
+            src: blobUrl('2024/dscf4583.jpg'),
+            alt: 'ZSB 2024 Exhibition',
+          },
           caption: 'Exhibition',
         },
       ],
@@ -225,11 +246,17 @@ export const edition2024: Edition = {
       layout: 'featured-portrait',
       images: [
         {
-          image: { src: blobUrl('2024/dscf4244.jpg'), alt: 'ZSB 2024 Artwork Detail' },
+          image: {
+            src: blobUrl('2024/dscf4244.jpg'),
+            alt: 'ZSB 2024 Artwork Detail',
+          },
           caption: 'Artwork Detail',
         },
         {
-          image: { src: blobUrl('2024/dscf3907.jpg'), alt: 'ZSB 2024 Artwork Detail' },
+          image: {
+            src: blobUrl('2024/dscf3907.jpg'),
+            alt: 'ZSB 2024 Artwork Detail',
+          },
           caption: 'Artwork Detail',
         },
       ],
@@ -238,11 +265,17 @@ export const edition2024: Edition = {
       layout: 'featured-stack',
       images: [
         {
-          image: { src: blobUrl('2024/dscf3934_roald_aron.jpg'), alt: 'ZSB 2024 Sculpture' },
+          image: {
+            src: blobUrl('2024/dscf3934_roald_aron.jpg'),
+            alt: 'ZSB 2024 Sculpture',
+          },
           caption: 'Sculpture',
         },
         {
-          image: { src: blobUrl('2024/_dsc0692.jpg'), alt: 'ZSB 2024 Gallery View' },
+          image: {
+            src: blobUrl('2024/_dsc0692.jpg'),
+            alt: 'ZSB 2024 Gallery View',
+          },
           caption: 'Gallery View',
         },
         {
@@ -259,11 +292,17 @@ export const edition2024: Edition = {
           caption: 'Main Hall',
         },
         {
-          image: { src: blobUrl('2024/dscf4206.jpg'), alt: 'ZSB 2024 Exhibition Detail' },
+          image: {
+            src: blobUrl('2024/dscf4206.jpg'),
+            alt: 'ZSB 2024 Exhibition Detail',
+          },
           caption: 'Exhibition Detail',
         },
         {
-          image: { src: blobUrl('2024/night1.jpg'), alt: 'ZSB 2024 Exhibition Detail' },
+          image: {
+            src: blobUrl('2024/night1.jpg'),
+            alt: 'ZSB 2024 Exhibition Detail',
+          },
           caption: 'Exhibition Detail',
         },
       ],
@@ -272,11 +311,17 @@ export const edition2024: Edition = {
       layout: 'featured-portrait',
       images: [
         {
-          image: { src: blobUrl('2024/immersive.jpg'), alt: 'ZSB 2024 Exhibition' },
+          image: {
+            src: blobUrl('2024/immersive.jpg'),
+            alt: 'ZSB 2024 Exhibition',
+          },
           caption: 'Exhibition',
         },
         {
-          image: { src: blobUrl('2024/zgondy.jpg'), alt: 'ZSB 2024 Exhibition' },
+          image: {
+            src: blobUrl('2024/zgondy.jpg'),
+            alt: 'ZSB 2024 Exhibition',
+          },
           caption: 'Exhibition',
         },
       ],

@@ -54,7 +54,9 @@ export default function HomePage() {
               </span>
             </h1>
             <div className={styles.heroText}>
-              <p className={shared.heroLead}>Your annual checkpoint for the state of sculpture.</p>
+              <p className={shared.heroLead}>
+                Artists shift the boundaries of form. ZSB gives those shifts a place to land.
+              </p>
               <MagneticButton href="/editions/2025" size="lg">
                 Explore the 2025 edition <RiArrowRightLine size={14} />
               </MagneticButton>

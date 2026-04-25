@@ -15,7 +15,8 @@ export function ArtistsBanner() {
           <span className={styles.tag}>Index</span>
           <h2 className={styles.title}>Artists</h2>
           <p className={styles.subtext}>
-            {artistCount} sculptors across {editionCount} editions
+            {artistCount} artists. {editionCount} editions. One sustained question: what sculpture
+            makes visible that nothing else can.
           </p>
         </div>
         <div className={styles.cta}>

@@ -26,7 +26,10 @@ export default function EditionsPage() {
               Edition<span className={shared.accent}>s</span>
             </h1>
             <p className={shared.lead}>
-              Every edition of Bucharest Sculpture Days, from 2021 to today.
+              Five past editions. Five #, each one a curatorial position, not just a title. Together
+              they trace a movement: from the space sculpture inhabits, to the emotional conditions
+              it holds, to the forces it models, to the body it refuses to idealise. Not a plan. A
+              conversation that keeps going.
             </p>
           </header>
 
