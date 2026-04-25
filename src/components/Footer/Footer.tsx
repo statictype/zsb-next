@@ -23,7 +23,6 @@ const CONNECT_LINKS = [
 const SOCIAL_LINKS = [
   { label: 'Instagram', href: '#' },
   { label: 'Facebook', href: '#' },
-  { label: 'TikTok', href: '#' },
 ] as const
 
 function FooterLink({
