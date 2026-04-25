@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { MasonryGallery } from '@/components/MasonryGallery/MasonryGallery'
 import shared from '@/components/Shared.module.css'
+import { blobUrl } from '@/lib/blob'
 import type { MasonryImage } from '@/types/edition'
 import styles from './page.module.css'
 
@@ -35,91 +36,91 @@ const AUDIENCE = [
 
 const galleryImages: MasonryImage[] = [
   {
-    basePath: '/img/2023/optimized/OD6-0349',
+    src: blobUrl('2023/od6-0349.jpg'),
     alt: 'Visitors viewing sculptures in gallery at ZSB 2025',
     caption: 'ZSB 2025 Exhibition',
     cols: 2,
     rows: 5,
   },
   {
-    basePath: '/img/2023/optimized/OD6-0202',
+    src: blobUrl('2023/od6-0202.jpg'),
     alt: 'Visitors gathered around sculpture at ZSB 2025',
     caption: 'ZSB 2025 Exhibition',
     cols: 2,
     rows: 5,
   },
   {
-    basePath: '/img/2025/optimized/BWS00764',
+    src: blobUrl('2025/bws00764.jpg'),
     alt: 'ZSB 2025 audience interaction',
     caption: 'ZSB 2025 Exhibition',
     cols: 1,
     rows: 3,
   },
   {
-    basePath: '/img/2025/optimized/bws00842',
+    src: blobUrl('2025/bws00842.jpg'),
     alt: 'ZSB 2025 sculpture detail',
     caption: 'ZSB 2025 Exhibition',
     cols: 1,
     rows: 3,
   },
   {
-    basePath: '/img/2025/optimized/bws01820',
+    src: blobUrl('2025/bws01820.jpg'),
     alt: 'ZSB 2025 exhibition space',
     caption: 'ZSB 2025 Exhibition',
     cols: 1,
     rows: 3,
   },
   {
-    basePath: '/img/2025/optimized/BWS00744',
+    src: blobUrl('2025/bws00744.jpg'),
     alt: 'ZSB 2025 wide gallery view',
     caption: 'ZSB 2025 Exhibition',
     cols: 2,
     rows: 5,
   },
   {
-    basePath: '/img/2023/optimized/OD6-0359',
+    src: blobUrl('2023/od6-0359.jpg'),
     alt: 'ZSB 2025 sculpture work',
     caption: 'ZSB 2025 Exhibition',
     cols: 1,
     rows: 6,
   },
   {
-    basePath: '/img/2023/optimized/OD6-0361',
+    src: blobUrl('2023/od6-0361.jpg'),
     alt: 'ZSB 2023 tall sculpture view',
     caption: 'ZSB 2025 Exhibition',
     cols: 1,
     rows: 3,
   },
   {
-    basePath: '/img/2025/optimized/BWS00864',
+    src: blobUrl('2025/bws00864.jpg'),
     alt: 'ZSB 2025 tall sculpture view',
     caption: 'ZSB 2025 Exhibition',
     cols: 1,
     rows: 3,
   },
   {
-    basePath: '/img/2023/optimized/OD6-0221',
+    src: blobUrl('2023/od6-0221.jpg'),
     alt: 'ZSB 2023 visitor experience',
     caption: 'ZSB 2025 Exhibition',
     cols: 1,
     rows: 7,
   },
   {
-    basePath: '/img/2023/optimized/_DSF4145',
+    src: blobUrl('2023/_dsf4145.jpg'),
     alt: 'ZSB 2023 exhibition moment',
     caption: 'ZSB 2025 Exhibition',
     cols: 1,
     rows: 5,
   },
   {
-    basePath: '/img/2024/optimized/night2',
+    src: blobUrl('2024/night2.jpg'),
     alt: 'ZSB 2024 exhibition moment',
     caption: 'ZSB 2025 Exhibition',
     cols: 1,
     rows: 5,
   },
   {
-    basePath: '/img/2024/optimized/DSCF4014',
+    src: blobUrl('2024/dscf4014.jpg'),
     alt: 'ZSB 2025 artwork',
     caption: 'ZSB 2024 Exhibition',
     cols: 1,

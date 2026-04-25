@@ -4,9 +4,15 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   reactCompiler: true,
   images: {
-    deviceSizes: [600, 960, 1200, 1600, 1700, 1920],
-    loader: 'custom',
-    loaderFile: './src/lib/image-loader.ts',
+    formats: ['image/avif', 'image/webp'],
+    qualities: [75],
+    minimumCacheTTL: 2678400,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.public.blob.vercel-storage.com',
+      },
+    ],
   },
   devIndicators: false,
 }

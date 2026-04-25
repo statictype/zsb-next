@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { Lightbox } from '@/components/Lightbox/Lightbox'
 import shared from '@/components/Shared.module.css'
 import { toLightboxImages } from '@/lib/format-utils'
-import { imageSrc } from '@/lib/image-utils'
 import { useLightbox } from '@/lib/use-lightbox'
 import type { MediaKitItem } from '@/types/edition'
 import styles from './MediaKit.module.css'
@@ -50,7 +49,7 @@ export function MediaKit({ items }: MediaKitProps) {
                 <span className={styles.cardIndex}>{String(i + 1).padStart(2, '0')}</span>
                 <div className={styles.cardInner}>
                   <Image
-                    src={imageSrc(item.image)}
+                    src={item.image.src}
                     alt={item.image.alt}
                     fill
                     sizes="(max-width: 767px) 100vw, 50vw"

@@ -6,6 +6,7 @@ import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import shared from '@/components/Shared.module.css'
 import { allocations, audienceProfiles, benefits, whySculpturePoints } from '@/data/partners'
 import { ZSB_STATS } from '@/data/stats'
+import { blobUrl } from '@/lib/blob'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
@@ -48,7 +49,7 @@ export default function PartnersPage() {
             </div>
             <div className={styles.eventImage}>
               <Image
-                src="/img/2025/optimized/_DSC5665"
+                src={blobUrl('2025/_dsc5665.jpg')}
                 alt="ZSB 2025 — performance and audience in the exhibition space"
                 fill
                 sizes="(max-width: 1023px) 100vw, 50vw"
@@ -73,7 +74,7 @@ export default function PartnersPage() {
             </div>
             <div className={styles.whySculptureImage}>
               <Image
-                src="/img/2023/optimized/_DSF4076"
+                src={blobUrl('2023/_dsf4076.jpg')}
                 alt="Visitors gathered around sculpture at ZSB 2023"
                 fill
                 sizes="(max-width: 1023px) 100vw, 50vw"

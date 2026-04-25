@@ -1,8 +1,6 @@
-import type { CSSProperties } from 'react'
+import Image from 'next/image'
 import type { Edition } from '@/types/edition'
 import styles from './Hero.module.css'
-
-type CSSWithVars = CSSProperties & Record<`--${string}`, string>
 
 interface HeroProps {
   edition: Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'heroImage' | 'dateTape'>
@@ -39,16 +37,18 @@ function HeroThemeDisplay({
 
 export function Hero({ edition }: HeroProps) {
   const { year, theme, themeHighlight, heroImage, dateTape } = edition
-  const ext = heroImage.ext ?? 'webp'
-  const bgStyle: CSSWithVars = {
-    '--bg-url-sm': `url(${heroImage.basePath}-1200.${ext})`,
-    '--bg-url-lg': `url(${heroImage.basePath}-1920.${ext})`,
-  }
 
   return (
     <header className={styles.hero}>
-      {/* Background layers */}
-      <div className={styles.bgImage} style={bgStyle} />
+      {/* Background image */}
+      <Image
+        src={heroImage.src}
+        alt={heroImage.alt}
+        fill
+        sizes="100vw"
+        priority
+        className={styles.bgImage}
+      />
 
       {/* Content */}
       <div className={styles.content}>

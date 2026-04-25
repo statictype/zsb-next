@@ -7,13 +7,8 @@ export function splitInHalf<T>(arr: T[]): [T[], T[]] {
   return [arr.slice(0, mid), arr.slice(mid)]
 }
 
-export function toLightboxImages(
-  items: { basePath: string; caption: string; ext?: string; widths?: number[] }[],
+export function toLightboxImages<T extends { src: string; caption: string }>(
+  items: T[],
 ): { src: string; caption: string }[] {
-  return items.map((item) => {
-    const ext = item.ext ?? 'webp'
-    const widths = item.widths ?? [600, 1200, 1920]
-    const largest = widths[widths.length - 1] ?? 1920
-    return { src: `${item.basePath}-${largest}.${ext}`, caption: item.caption }
-  })
+  return items.map(({ src, caption }) => ({ src, caption }))
 }

@@ -10,12 +10,12 @@ import {
 import Image from 'next/image'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import shared from '@/components/Shared.module.css'
-import { imageSrc } from '@/lib/image-utils'
+import { blobUrl } from '@/lib/blob'
 import type { ImageData } from '@/types/edition'
 import styles from './VisitSection.module.css'
 
 const venueImage: ImageData = {
-  basePath: '/img/2023/optimized/OD6-0441',
+  src: blobUrl('2023/od6-0441.jpg'),
   alt: 'Combinatul Fondului Plastic venue interior during ZSB',
 }
 
@@ -59,7 +59,7 @@ export function VisitSection() {
           <div className={styles.imageBlock}>
             <div className={styles.imageFrame}>
               <Image
-                src={imageSrc(venueImage)}
+                src={venueImage.src}
                 alt={venueImage.alt}
                 fill
                 sizes="(max-width: 1023px) 100vw, 45vw"

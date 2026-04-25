@@ -118,6 +118,7 @@
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: var(--black-pure);
+  cursor: pointer;
 }
 
 .slide {

@@ -22,7 +22,7 @@ export function MasonryGallery({ images }: MasonryGalleryProps) {
         {images.map((img, i) => (
           // biome-ignore lint/a11y/useSemanticElements: grid layout container with complex children
           <div
-            key={img.basePath}
+            key={img.src}
             role="button"
             tabIndex={0}
             className={styles.item}
@@ -39,7 +39,7 @@ export function MasonryGallery({ images }: MasonryGalleryProps) {
             }}
           >
             <Image
-              src={img.basePath}
+              src={img.src}
               alt={img.alt}
               fill
               sizes={

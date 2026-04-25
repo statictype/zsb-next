@@ -1,10 +1,8 @@
 // ---- Images ----
 
 export interface ImageData {
-  basePath: string
+  src: string
   alt: string
-  ext?: 'jpg' | 'png' | 'webp'
-  widths?: number[]
 }
 
 // ---- Manifesto ----
@@ -130,7 +128,9 @@ export interface MediaKitItem {
 
 // ---- Masonry Gallery ----
 
-export interface MasonryImage extends Pick<ImageData, 'basePath' | 'alt' | 'ext' | 'widths'> {
+export interface MasonryImage {
+  src: string
+  alt: string
   caption: string
   cols: number
   rows: number

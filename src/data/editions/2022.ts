@@ -1,3 +1,4 @@
+import { blobUrl } from '@/lib/blob'
 import type { Edition } from '@/types/edition'
 
 export const edition2022: Edition = {
@@ -5,10 +6,10 @@ export const edition2022: Edition = {
   theme: '#perspectiva31',
   themeHighlight: '31',
   title: 'ZSB 2022 - #perspectiva31 | Bucharest Sculpture Days',
-  dateTape: '16\u201318 April 2022 \u00B7 Combinatul Fondului Plastic',
+  dateTape: '16–18 April 2022 · Combinatul Fondului Plastic',
   heroImage: {
-    basePath: '/img/2022/optimized/sal2',
-    alt: 'ZSB 2022 #perspectiva31 \u2014 Exhibition hall at Combinatul Fondului Plastic',
+    src: blobUrl('2022/sal2.jpg'),
+    alt: 'ZSB 2022 #perspectiva31 — Exhibition hall at Combinatul Fondului Plastic',
   },
   manifesto: {
     title: 'More art, more perspectives',
@@ -22,7 +23,7 @@ export const edition2022: Edition = {
     lead: 'There is no single voice, only coexistence and friction. Meaning is produced through presence, not consensus.',
     body: [
       'Perspective is not observed, but assumed. Enter #perspectiva31. Practice your perspective. #perspectiva31 proposed sculpture not as a unified style, but as a shared space of positions. Thirty-one works coexisted without hierarchy, forming a constellation of voices shaped by different generations, trajectories, and moments of practice.',
-      'Materials, forms, and concepts diverged, yet they converged in a common commitment to the public realm\u2014where meaning is unstable, memory contested, and presence never neutral. #perspectiva31 framed sculpture as a living practice: critical and poetic, grounded in materiality yet open to reinterpretation.',
+      'Materials, forms, and concepts diverged, yet they converged in a common commitment to the public realm—where meaning is unstable, memory contested, and presence never neutral. #perspectiva31 framed sculpture as a living practice: critical and poetic, grounded in materiality yet open to reinterpretation.',
     ],
     coda: ['Here, sculpture was understood as a form of responsibility.'],
     artistsStatement:
@@ -85,14 +86,14 @@ export const edition2022: Edition = {
   ],
 
   program: {
-    dates: 'April 16\u201418',
+    dates: 'April 16—18',
     blocks: [
       {
         type: 'Main Exhibition',
         title: '#perspectiva31',
-        dates: 'April 16\u201418, 2022',
+        dates: 'April 16—18, 2022',
         description:
-          'A curatorial exploration of plurality, monumentality, and sculpture\u2019s role in the city. The Institute Gallery and inner courtyard.',
+          'A curatorial exploration of plurality, monumentality, and sculpture’s role in the city. The Institute Gallery and inner courtyard.',
         column: 1,
       },
       {
@@ -114,7 +115,7 @@ export const edition2022: Edition = {
       {
         type: 'Talks & Workshops',
         title: 'Artist Studios & Galleries',
-        dates: 'April 16\u201418, 2022',
+        dates: 'April 16—18, 2022',
         description:
           'A number of artist studios and galleries located within Combinatul Fondului Plastic open to the public.',
         column: 2,
@@ -123,7 +124,7 @@ export const edition2022: Edition = {
     sftfBanner: {
       tag: 'Educational Program',
       title: 'Sculptors for the Future',
-      description: 'Modeling competition. Theme: The Arc de Triomphe \u2014 My Perspective.',
+      description: 'Modeling competition. Theme: The Arc de Triomphe — My Perspective.',
       href: '#',
     },
   },
@@ -133,27 +134,15 @@ export const edition2022: Edition = {
       layout: 'featured-stack',
       images: [
         {
-          image: {
-            basePath: '/img/2022/optimized/curte',
-            alt: 'ZSB 2022 Courtyard',
-            widths: [600, 960],
-          },
+          image: { src: blobUrl('2022/curte.jpg'), alt: 'ZSB 2022 Courtyard' },
           caption: 'Courtyard',
         },
         {
-          image: {
-            basePath: '/img/2022/optimized/vernisaj',
-            alt: 'ZSB 2022 Opening',
-            widths: [600, 960],
-          },
+          image: { src: blobUrl('2022/vernisaj.jpg'), alt: 'ZSB 2022 Opening' },
           caption: 'Opening',
         },
         {
-          image: {
-            basePath: '/img/2022/optimized/zidm3',
-            alt: 'ZSB 2022 Exhibition',
-            widths: [600, 960],
-          },
+          image: { src: blobUrl('2022/zidm3.jpg'), alt: 'ZSB 2022 Exhibition' },
           caption: 'Exhibition',
         },
       ],
@@ -162,11 +151,7 @@ export const edition2022: Edition = {
       layout: 'full',
       images: [
         {
-          image: {
-            basePath: '/img/2022/optimized/dup2',
-            alt: 'ZSB 2022 Exhibition',
-            widths: [600, 960],
-          },
+          image: { src: blobUrl('2022/dup2.jpg'), alt: 'ZSB 2022 Exhibition' },
           caption: 'Exhibition',
         },
       ],
@@ -175,27 +160,15 @@ export const edition2022: Edition = {
       layout: 'featured-stack',
       images: [
         {
-          image: {
-            basePath: '/img/2022/optimized/sal2',
-            alt: 'ZSB 2022 Exhibition',
-            widths: [600, 960],
-          },
+          image: { src: blobUrl('2022/sal2.jpg'), alt: 'ZSB 2022 Exhibition' },
           caption: 'Exhibition',
         },
         {
-          image: {
-            basePath: '/img/2022/optimized/mann3',
-            alt: 'ZSB 2022 Exhibition',
-            widths: [600, 960],
-          },
+          image: { src: blobUrl('2022/mann3.jpg'), alt: 'ZSB 2022 Exhibition' },
           caption: 'Exhibition',
         },
         {
-          image: {
-            basePath: '/img/2022/optimized/zidm4',
-            alt: 'ZSB 2022 Exhibition',
-            widths: [600, 960],
-          },
+          image: { src: blobUrl('2022/zidm4.jpg'), alt: 'ZSB 2022 Exhibition' },
           caption: 'Exhibition',
         },
       ],
@@ -216,7 +189,7 @@ export const edition2022: Edition = {
       label: 'In Partnership With',
       value: 'Municipality of Bucharest',
       detail:
-        'General Directorate for Landscape Architecture and Public Monuments \u2014 MONUMENT for',
+        'General Directorate for Landscape Architecture and Public Monuments — MONUMENT for',
     },
     {
       type: 'primary',
@@ -245,20 +218,12 @@ export const edition2022: Edition = {
     {
       label: 'Photography',
       name: 'Exhibition Cover',
-      image: {
-        basePath: '/img/2022/optimized/cover-image',
-        alt: 'ZSB 2022 Cover',
-        widths: [600, 1200, 1700],
-      },
+      image: { src: blobUrl('2022/cover-image.jpg'), alt: 'ZSB 2022 Cover' },
     },
     {
       label: 'Key Visual',
       name: 'Official Poster',
-      image: {
-        basePath: '/img/2022/optimized/poster-zsb-2022',
-        alt: 'ZSB 2022 Poster',
-        widths: [600, 1200, 1600],
-      },
+      image: { src: blobUrl('2022/poster-zsb-2022.jpg'), alt: 'ZSB 2022 Poster' },
     },
   ],
 }

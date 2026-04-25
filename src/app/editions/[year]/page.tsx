@@ -50,8 +50,7 @@ export async function generateMetadata(props: PageProps<'/editions/[year]'>): Pr
       ...(edition.heroImage && {
         images: [
           {
-            url: `${edition.heroImage.basePath}-1920.${edition.heroImage.ext ?? 'webp'}`,
-            width: 1920,
+            url: edition.heroImage.src,
             alt: edition.heroImage.alt,
           },
         ],

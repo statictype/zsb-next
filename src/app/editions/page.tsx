@@ -5,7 +5,6 @@ import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import shared from '@/components/Shared.module.css'
 import { getAllEditionYears, getEdition } from '@/data/editions'
-import { imageSrc } from '@/lib/image-utils'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
@@ -46,7 +45,7 @@ export default function EditionsPage() {
                 >
                   <div className={styles.frame}>
                     <Image
-                      src={imageSrc(thumb)}
+                      src={thumb.src}
                       alt={thumb.alt}
                       fill
                       sizes={

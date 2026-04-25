@@ -8,6 +8,7 @@ import {
 } from "@/components/HeroSlideshow/HeroSlideshow";
 import { MagneticButton } from "@/components/MagneticButton/MagneticButton";
 import shared from "@/components/Shared.module.css";
+import { blobUrl } from "@/lib/blob";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -17,41 +18,13 @@ export const metadata: Metadata = {
 };
 
 const heroImages: HeroImage[] = [
-  {
-    basePath: "/img/2025/optimized/_dsc5496",
-    alt: "ZSB 2025",
-    position: "top",
-  },
-  {
-    basePath: "/img/2025/optimized/_dsc5562",
-    alt: "ZSB 2025",
-    position: "center",
-  },
-  {
-    basePath: "/img/2025/optimized/bws02058",
-    alt: "ZSB 2025",
-    position: "center",
-  },
-  {
-    basePath: "/img/2025/optimized/_dsc5501",
-    alt: "ZSB 2025",
-    position: "bottom",
-  },
-  {
-    basePath: "/img/2025/optimized/_DSC5547",
-    alt: "ZSB 2025",
-    position: "top",
-  },
-  {
-    basePath: "/img/2025/optimized/_dsc5464",
-    alt: "ZSB 2025",
-    position: "center",
-  },
-  {
-    basePath: "/img/2025/optimized/_dsc5665",
-    alt: "ZSB 2025",
-    position: "top",
-  },
+  { src: blobUrl("2025/_dsc5496.jpg"), alt: "ZSB 2025", position: "top" },
+  { src: blobUrl("2025/_dsc5562.jpg"), alt: "ZSB 2025", position: "center" },
+  { src: blobUrl("2025/bws02058.jpg"), alt: "ZSB 2025", position: "center" },
+  { src: blobUrl("2025/_dsc5501.jpg"), alt: "ZSB 2025", position: "bottom" },
+  { src: blobUrl("2025/_dsc5547.jpg"), alt: "ZSB 2025", position: "top" },
+  { src: blobUrl("2025/_dsc5464.jpg"), alt: "ZSB 2025", position: "center" },
+  { src: blobUrl("2025/_dsc5665.jpg"), alt: "ZSB 2025", position: "top" },
 ];
 
 const editions = [

@@ -1,16 +1,16 @@
+import { blobUrl } from "@/lib/blob";
 import type { Edition } from "@/types/edition";
 
 export const edition2025: Edition = {
   year: 2025,
-  theme: "#cel\u0103laltcorp",
+  theme: "#celălaltcorp",
   themeHighlight: "corp",
-  title: "ZSB 2025 - #cel\u0103laltcorp | Bucharest Sculpture Days",
+  title: "ZSB 2025 - #celălaltcorp | Bucharest Sculpture Days",
   heroImage: {
-    basePath: "/img/2025/optimized/instagram_cap3",
-    alt: "The Other Body \u2014 Classical bust split to reveal skull beneath",
-    ext: "png",
+    src: blobUrl("2025/instagram_cap3.png"),
+    alt: "The Other Body — Classical bust split to reveal skull beneath",
   },
-  dateTape: "16.04-11.05 \u00B7 Combinatul Fondului Plastic",
+  dateTape: "16.04-11.05 · Combinatul Fondului Plastic",
   manifesto: {
     title: "What you see is not all there is",
     highlight: "not all there is",
@@ -20,18 +20,18 @@ export const edition2025: Edition = {
   },
 
   themeSection: {
-    lead: "The Other Body\u2014beyond ideals, beyond symmetry, beyond approval.",
+    lead: "The Other Body—beyond ideals, beyond symmetry, beyond approval.",
     body: [
-      "What you see is not all there is. Beneath the skin, beyond symmetry and ideals, there are bodies that don\u2019t seek approval: mutant, queer, scarred, vulnerable.",
+      "What you see is not all there is. Beneath the skin, beyond symmetry and ideals, there are bodies that don’t seek approval: mutant, queer, scarred, vulnerable.",
       "Sculpture no longer idealizes them. It listens. It exposes. It frees.",
-      "The exhibition brought together works that challenge traditional representations of the body in sculpture\u2014exploring fragmentation, prosthesis, decay, and rebirth.",
-      "From classical ideals to contemporary interventions, the body remains sculpture\u2019s most contested territory.",
+      "The exhibition brought together works that challenge traditional representations of the body in sculpture—exploring fragmentation, prosthesis, decay, and rebirth.",
+      "From classical ideals to contemporary interventions, the body remains sculpture’s most contested territory.",
     ],
     coda: [
-      "#theotherbody is about identity, memory, struggle, and becoming. It questions how contemporary sculpture engages with corporeal presence\u2014not as an object of beauty, but as a site of resistance, vulnerability, and transformation.",
+      "#theotherbody is about identity, memory, struggle, and becoming. It questions how contemporary sculpture engages with corporeal presence—not as an object of beauty, but as a site of resistance, vulnerability, and transformation.",
     ],
     artistsStatement:
-      "The main exhibition #cel\u0103laltcorp brought together 44 contemporary artists, whose practices span a wide range of sculptural approaches, materials, and collaborative configurations. Particular attention was given to works that engage with the body as a site of transformation.",
+      "The main exhibition #celălaltcorp brought together 44 contemporary artists, whose practices span a wide range of sculptural approaches, materials, and collaborative configurations. Particular attention was given to works that engage with the body as a site of transformation.",
   },
 
   artists: [
@@ -86,13 +86,13 @@ export const edition2025: Edition = {
       group: "Combinatul Fondului Plastic",
       subgroup: "Main Exhibition",
       name: "SENAT Gallery",
-      program: "#cel\u0103laltcorp",
+      program: "#celălaltcorp",
     },
     {
       group: "Combinatul Fondului Plastic",
       subgroup: "Main Exhibition",
       name: "The Institute Gallery",
-      program: "#cel\u0103laltcorp",
+      program: "#celălaltcorp",
     },
     {
       group: "Combinatul Fondului Plastic",
@@ -121,14 +121,14 @@ export const edition2025: Edition = {
   ],
 
   program: {
-    dates: "April 26\u2014May 11",
+    dates: "April 26—May 11",
     blocks: [
       {
         type: "Exhibition",
         title: "#theotherbody",
-        dates: "April 26\u2014May 11, 2025",
+        dates: "April 26—May 11, 2025",
         description:
-          "Main exhibition exploring the body as a contested space\u2014between identity and representation, memory and transformation.",
+          "Main exhibition exploring the body as a contested space—between identity and representation, memory and transformation.",
         location: "Combinatul Fondului Plastic",
         column: 1,
       },
@@ -137,7 +137,7 @@ export const edition2025: Edition = {
         title: "International Sculpture Day",
         dates: "April 26, 2025",
         description:
-          "Opening of the #cel\u0103laltcorp exhibition and celebration of International Sculpture Day.",
+          "Opening of the #celălaltcorp exhibition and celebration of International Sculpture Day.",
         column: 1,
       },
       {
@@ -151,21 +151,21 @@ export const edition2025: Edition = {
       {
         type: "Talks & Workshops",
         title: "Open Studios: Studio Visit",
-        dates: "April 26\u2014May 11, 2025",
+        dates: "April 26—May 11, 2025",
         description: "Marian & Victoria Zidaru",
         column: 2,
       },
       {
         type: "Talks & Workshops",
         title: "Open Studios: Studio Visit",
-        dates: "April 26\u2014May 11, 2025",
+        dates: "April 26—May 11, 2025",
         description: "Ana Zoe Pop",
         column: 2,
       },
       {
         type: "Talks & Workshops",
         title: "Open Studios: Studio Visit",
-        dates: "April 26\u2014May 11, 2025",
+        dates: "April 26—May 11, 2025",
         description: "Cristian Pentelescu",
         column: 2,
       },
@@ -179,7 +179,7 @@ export const edition2025: Edition = {
       {
         date: "Various",
         title: "NAPO Documentary",
-        note: "Dan P\u0103duraru & Cristi Calist 1995",
+        note: "Dan Păduraru & Cristi Calist 1995",
       },
       {
         date: "Ongoing",
@@ -195,7 +195,7 @@ export const edition2025: Edition = {
       tag: "Educational Program",
       title: "Sculptors for the Future",
       description:
-        "Awards ceremony May 11 \u2014 showcasing emerging talent from Bucharest\u2019s art schools.",
+        "Awards ceremony May 11 — showcasing emerging talent from Bucharest’s art schools.",
       href: "#",
     },
   },
@@ -205,24 +205,15 @@ export const edition2025: Edition = {
       layout: "featured-stack",
       images: [
         {
-          image: {
-            basePath: "/img/2025/optimized/bws00864",
-            alt: "ZSB 2025 Exhibition",
-          },
+          image: { src: blobUrl("2025/bws00864.jpg"), alt: "ZSB 2025 Exhibition" },
           caption: "Exhibition",
         },
         {
-          image: {
-            basePath: "/img/2025/optimized/_DSC5744",
-            alt: "ZSB 2025 Exhibition",
-          },
+          image: { src: blobUrl("2025/_dsc5744.jpg"), alt: "ZSB 2025 Exhibition" },
           caption: "Exhibition",
         },
         {
-          image: {
-            basePath: "/img/2025/optimized/_dsc5707",
-            alt: "ZSB 2025 Gallery View",
-          },
+          image: { src: blobUrl("2025/_dsc5707.jpg"), alt: "ZSB 2025 Gallery View" },
           caption: "Gallery View",
         },
       ],
@@ -231,24 +222,15 @@ export const edition2025: Edition = {
       layout: "featured-stack",
       images: [
         {
-          image: {
-            basePath: "/img/2025/optimized/_DSC5566",
-            alt: "ZSB 2025 Gallery Space",
-          },
+          image: { src: blobUrl("2025/_dsc5566.jpg"), alt: "ZSB 2025 Gallery Space" },
           caption: "Gallery Space",
         },
         {
-          image: {
-            basePath: "/img/2025/optimized/BWS02071",
-            alt: "ZSB 2025 Exhibition",
-          },
+          image: { src: blobUrl("2025/bws02071.jpg"), alt: "ZSB 2025 Exhibition" },
           caption: "Exhibition",
         },
         {
-          image: {
-            basePath: "/img/2025/optimized/BWS02057",
-            alt: "ZSB 2025 Gallery Space",
-          },
+          image: { src: blobUrl("2025/bws02057.jpg"), alt: "ZSB 2025 Gallery Space" },
           caption: "Gallery Space",
         },
       ],
@@ -257,24 +239,15 @@ export const edition2025: Edition = {
       layout: "featured-stack",
       images: [
         {
-          image: {
-            basePath: "/img/2025/optimized/_dsc5501",
-            alt: "ZSB 2025 Gallery Space",
-          },
+          image: { src: blobUrl("2025/_dsc5501.jpg"), alt: "ZSB 2025 Gallery Space" },
           caption: "Gallery Space",
         },
         {
-          image: {
-            basePath: "/img/2025/optimized/BWS02043",
-            alt: "ZSB 2025 Sculpture Detail",
-          },
+          image: { src: blobUrl("2025/bws02043.jpg"), alt: "ZSB 2025 Sculpture Detail" },
           caption: "Sculpture Detail",
         },
         {
-          image: {
-            basePath: "/img/2025/optimized/BWS02018",
-            alt: "ZSB 2025 Exhibition",
-          },
+          image: { src: blobUrl("2025/bws02018.jpg"), alt: "ZSB 2025 Exhibition" },
           caption: "Exhibition",
         },
       ],
@@ -283,24 +256,15 @@ export const edition2025: Edition = {
       layout: "trio",
       images: [
         {
-          image: {
-            basePath: "/img/2025/optimized/bws01924",
-            alt: "ZSB 2025 Exhibition",
-          },
+          image: { src: blobUrl("2025/bws01924.jpg"), alt: "ZSB 2025 Exhibition" },
           caption: "Exhibition",
         },
         {
-          image: {
-            basePath: "/img/2025/optimized/_DSC5739",
-            alt: "ZSB 2025 Sculpture",
-          },
+          image: { src: blobUrl("2025/_dsc5739.jpg"), alt: "ZSB 2025 Sculpture" },
           caption: "Sculpture",
         },
         {
-          image: {
-            basePath: "/img/2025/optimized/BWS01992",
-            alt: "ZSB 2025 Artwork",
-          },
+          image: { src: blobUrl("2025/bws01992.jpg"), alt: "ZSB 2025 Artwork" },
           caption: "Artwork",
         },
       ],
@@ -309,24 +273,15 @@ export const edition2025: Edition = {
       layout: "trio",
       images: [
         {
-          image: {
-            basePath: "/img/2025/optimized/BWS01913",
-            alt: "ZSB 2025 Artwork Detail",
-          },
+          image: { src: blobUrl("2025/bws01913.jpg"), alt: "ZSB 2025 Artwork Detail" },
           caption: "Artwork Detail",
         },
         {
-          image: {
-            basePath: "/img/2025/optimized/BWS01922",
-            alt: "ZSB 2025 Artwork Detail",
-          },
+          image: { src: blobUrl("2025/bws01922.jpg"), alt: "ZSB 2025 Artwork Detail" },
           caption: "Artwork Detail",
         },
         {
-          image: {
-            basePath: "/img/2025/optimized/BWS01953",
-            alt: "ZSB 2025 Artwork Detail",
-          },
+          image: { src: blobUrl("2025/bws01953.jpg"), alt: "ZSB 2025 Artwork Detail" },
           caption: "Artwork Detail",
         },
       ],
@@ -335,17 +290,11 @@ export const edition2025: Edition = {
       layout: "featured-portrait",
       images: [
         {
-          image: {
-            basePath: "/img/2025/optimized/BWS00744",
-            alt: "ZSB 2025 Exhibition",
-          },
+          image: { src: blobUrl("2025/bws00744.jpg"), alt: "ZSB 2025 Exhibition" },
           caption: "Exhibition",
         },
         {
-          image: {
-            basePath: "/img/2025/optimized/BWS00842",
-            alt: "ZSB 2025 Sculpture",
-          },
+          image: { src: blobUrl("2025/bws00842.jpg"), alt: "ZSB 2025 Sculpture" },
           caption: "Sculpture",
         },
       ],
@@ -356,18 +305,12 @@ export const edition2025: Edition = {
     {
       label: "Photography",
       name: "Exhibition Cover",
-      image: {
-        basePath: "/img/2025/optimized/1-cover-event",
-        alt: "ZSB 2025 Cover",
-      },
+      image: { src: blobUrl("2025/1-cover-event.jpg"), alt: "ZSB 2025 Cover" },
     },
     {
       label: "Key Visual",
       name: "Official Poster",
-      image: {
-        basePath: "/img/2025/optimized/poster-zsb-2025",
-        alt: "ZSB 2025 Poster",
-      },
+      image: { src: blobUrl("2025/poster-zsb-2025.jpg"), alt: "ZSB 2025 Poster" },
     },
   ],
 

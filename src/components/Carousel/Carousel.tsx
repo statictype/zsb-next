@@ -3,8 +3,9 @@
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
+import { Lightbox } from '@/components/Lightbox/Lightbox'
 import sharedStyles from '@/components/Shared.module.css'
-import { imageSrc } from '@/lib/image-utils'
+import { useLightbox } from '@/lib/use-lightbox'
 import type { CarouselLayout, CarouselSlide } from '@/types/edition'
 import styles from './Carousel.module.css'
 
@@ -21,10 +22,33 @@ const LAYOUT_MAP: Record<CarouselLayout, string | undefined> = {
   full: styles.layoutFull,
 }
 
+function sizesFor(layout: CarouselLayout, imgIndex: number): string {
+  if (layout === 'full') return '100vw'
+  const isFeaturedLarge =
+    (layout === 'featured-portrait' || layout === 'featured-stack') && imgIndex === 0
+  if (isFeaturedLarge) return '(max-width: 767px) 100vw, 66vw'
+  if (layout === 'duo') return '(max-width: 767px) 100vw, 50vw'
+  return '(max-width: 767px) 100vw, 33vw'
+}
+
 export function Carousel({ slides, theme }: CarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const touchStartX = useRef(0)
   const totalSlides = slides.length
+  const lightbox = useLightbox()
+
+  // Flatten all slide images into a single lightbox sequence and
+  // remember each item's flat index so clicks open the right one.
+  const lightboxImages: { src: string; caption: string }[] = []
+  const flatIndices: number[][] = []
+  for (const slide of slides) {
+    const indices: number[] = []
+    for (const img of slide.images) {
+      indices.push(lightboxImages.length)
+      lightboxImages.push({ src: img.image.src, caption: img.caption })
+    }
+    flatIndices.push(indices)
+  }
 
   function goTo(index: number) {
     if (index >= 0 && index < totalSlides) {
@@ -82,22 +106,38 @@ export function Carousel({ slides, theme }: CarouselProps) {
           >
             {slides.map((slide, slideIndex) => (
               <div key={slideIndex} className={`${styles.slide} ${LAYOUT_MAP[slide.layout] || ''}`}>
-                {slide.images.map((img, imgIndex) => (
-                  <div key={imgIndex} className={styles.item}>
-                    <Image
-                      src={imageSrc(img.image)}
-                      alt={img.image.alt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className={styles.itemImage}
-                    />
-                    <div className={styles.itemOverlay}>
-                      <div className={styles.itemInfo}>
-                        <div className={styles.itemCaption}>{img.caption}</div>
+                {slide.images.map((img, imgIndex) => {
+                  const flatIndex = flatIndices[slideIndex]?.[imgIndex] ?? 0
+                  return (
+                    <div
+                      key={imgIndex}
+                      className={styles.item}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => lightbox.open(flatIndex)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          lightbox.open(flatIndex)
+                        }
+                      }}
+                    >
+                      <Image
+                        src={img.image.src}
+                        alt={img.image.alt}
+                        fill
+                        sizes={sizesFor(slide.layout, imgIndex)}
+                        style={{ objectFit: 'cover' }}
+                        className={styles.itemImage}
+                      />
+                      <div className={styles.itemOverlay}>
+                        <div className={styles.itemInfo}>
+                          <div className={styles.itemCaption}>{img.caption}</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             ))}
           </div>
@@ -145,6 +185,14 @@ export function Carousel({ slides, theme }: CarouselProps) {
           </div>
         </div>
       </div>
+
+      <Lightbox
+        images={lightboxImages}
+        currentIndex={lightbox.index}
+        onIndexChange={lightbox.setIndex}
+        isOpen={lightbox.isOpen}
+        onClose={lightbox.close}
+      />
     </section>
   )
 }

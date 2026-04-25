@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { Lightbox } from '@/components/Lightbox/Lightbox'
 import { toLightboxImages } from '@/lib/format-utils'
-import { imageSrc } from '@/lib/image-utils'
 import { useLightbox } from '@/lib/use-lightbox'
 import type { MediaKitItem } from '@/types/edition'
 import styles from './MediaKitStrip.module.css'
@@ -190,7 +189,7 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
               aria-label={`Open ${item.year} ${item.name}`}
             >
               <Image
-                src={imageSrc(item.image)}
+                src={item.image.src}
                 alt={item.image.alt}
                 fill
                 sizes="(max-width: 767px) 70vw, (max-width: 1280px) 38vw, 28vw"

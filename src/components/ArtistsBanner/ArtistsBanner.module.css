@@ -1,7 +1,7 @@
 .banner {
   display: block;
   width: 100%;
-  background: linear-gradient(90deg, var(--action) 0%, var(--highlight) 100%);
+  background: linear-gradient(90deg, var(--highlight) 0%, var(--action) 100%);
   color: var(--black);
   text-decoration: none;
   padding: var(--space-xl) var(--content-padding);

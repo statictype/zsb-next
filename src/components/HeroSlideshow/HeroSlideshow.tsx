@@ -3,7 +3,8 @@
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { imageSrc } from '@/lib/image-utils'
+import { Lightbox } from '@/components/Lightbox/Lightbox'
+import { useLightbox } from '@/lib/use-lightbox'
 import type { ImageData } from '@/types/edition'
 import styles from './HeroSlideshow.module.css'
 
@@ -20,6 +21,8 @@ interface HeroSlideshowProps {
 export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
   const [active, setActive] = useState(0)
   const [resetKey, setResetKey] = useState(0)
+  const lightbox = useLightbox()
+  const lightboxImages = images.map((img) => ({ src: img.src, caption: '' }))
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -58,14 +61,26 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
           <RiArrowRightLine size={18} />
         </button>
       </div>
-      <div className={styles.stage}>
+      <div
+        className={styles.stage}
+        role="button"
+        tabIndex={0}
+        aria-label="Open image in lightbox"
+        onClick={() => lightbox.open(active)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            lightbox.open(active)
+          }
+        }}
+      >
         {images.map((img, i) => (
           <div
-            key={img.basePath}
+            key={img.src}
             className={`${styles.slide} ${i === active ? styles.slideActive : ''}`}
           >
             <Image
-              src={imageSrc(img)}
+              src={img.src}
               alt={img.alt}
               fill
               sizes="100vw"
@@ -76,6 +91,14 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
         ))}
         <div className={styles.vignette} />
       </div>
+
+      <Lightbox
+        images={lightboxImages}
+        currentIndex={lightbox.index}
+        onIndexChange={lightbox.setIndex}
+        isOpen={lightbox.isOpen}
+        onClose={lightbox.close}
+      />
     </div>
   )
 }

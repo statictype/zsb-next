@@ -19,14 +19,13 @@
 .bgImage {
   position: absolute;
   inset: -5%;
-  background-image: var(--bg-url-sm);
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  object-position: right;
   mix-blend-mode: luminosity;
   opacity: 0.5;
   filter: contrast(1.6) grayscale(0.3);
-  background-size: cover;
-  background-position: right;
-  background-repeat: no-repeat;
-  /* animation: bgDrift 40s ease-in-out infinite; */
 }
 
 @keyframes bgDrift {
@@ -226,10 +225,6 @@
 @media (min-width: 1024px) {
   .hero {
     min-height: 900px;
-  }
-
-  .bgImage {
-    background-image: var(--bg-url-lg);
   }
 
   .eyebrow {
