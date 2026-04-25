@@ -193,7 +193,8 @@ export const edition2025: Edition = {
     sftfBanner: {
       tag: 'Educational Program',
       title: 'Sculptors for the Future',
-      description: "Awards ceremony for emerging talent from Bucharest's art schools.",
+      description:
+        "Each edition ends with an awards ceremony for emerging talent from Bucharest's art schools.",
       href: '#',
     },
   },

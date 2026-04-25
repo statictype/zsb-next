@@ -106,7 +106,7 @@ export const edition2023: Edition = {
         title: 're#situăriafective',
         dates: 'April 18—29, 2023',
         description:
-          'Contemporary sculpture exhibition exploring situating as a condition shaped by lived experience — historical, cultural, familial, and personal.',
+          'Contemporary sculpture exhibition exploring situating as a condition shaped by lived experience: historical, cultural, familial, and personal.',
         column: 1,
       },
       {
@@ -133,7 +133,8 @@ export const edition2023: Edition = {
     sftfBanner: {
       tag: 'Educational Program',
       title: 'Sculptors for the Future',
-      description: "Awards ceremony for emerging talent from Bucharest's art schools.",
+      description:
+        "Each edition ends with an awards ceremony for emerging talent from Bucharest's art schools.",
       href: '#',
     },
   },

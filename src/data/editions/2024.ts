@@ -11,8 +11,8 @@ export const edition2024: Edition = {
     alt: 'ZSB 2024 #SYZYGY',
   },
   manifesto: {
-    title: 'Where bodies align, human, material, celestial: something new becomes visible.',
-    highlight: 'something new becomes visible.',
+    title: 'Where forms align, art unveils',
+    highlight: 'art unveils',
     paragraphs: [
       'For its fourth edition, ZSB functioned as a gravitational field. Operating under the theme #SYZYGY, it transformed Combinatul Fondului Plastic into a space where sculpture, film, and debate collided. We moved beyond the static pedestal to explore art as a system of tension—an active friction between materials, generations, and disciplines. It was two weeks of celestial alignment, grounded in the messy reality of contemporary practice.',
     ],
@@ -132,7 +132,7 @@ export const edition2024: Edition = {
         title: '#SYZYGY',
         dates: 'April 11—28, 2024',
         description:
-          'Contemporary sculpture exhibition at Combinatul Fondului Plastic — an extended field of relations where form emerges through resistance and proximity.',
+          'A contemporary Romanian sculpture exhibition as an extended field of relations where form emerges through resistance and proximity.',
         location: 'Combinatul Fondului Plastic',
         column: 1,
       },
@@ -168,7 +168,8 @@ export const edition2024: Edition = {
     sftfBanner: {
       tag: 'Educational Program',
       title: 'Sculptors for the Future',
-      description: "Awards ceremony for emerging talent from Bucharest's art schools.",
+      description:
+        "Each edition ends with an awards ceremony for emerging talent from Bucharest's art schools.",
       href: '#',
     },
   },
