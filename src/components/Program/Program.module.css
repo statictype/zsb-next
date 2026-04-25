@@ -71,7 +71,7 @@
 }
 
 .itemDates {
-  composes: pill from '../Shared.module.css';
+  composes: pill from "../Shared.module.css";
 }
 
 .itemTitle {
@@ -148,7 +148,7 @@
 }
 
 .compactType {
-  composes: pill from '../Shared.module.css';
+  composes: pill from "../Shared.module.css";
   align-self: flex-start;
 }
 
@@ -228,7 +228,7 @@
 }
 
 .sftfTag {
-  composes: pill from '../Shared.module.css';
+  composes: pill from "../Shared.module.css";
   margin-bottom: var(--space-md);
 }
 

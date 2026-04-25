@@ -81,9 +81,7 @@ export default function PressPage() {
                     <span className={styles.appBody}>
                       <span className={styles.appText}>
                         <span className={styles.appTitle}>{item.title}</span>
-                        {item.excerpt && (
-                          <span className={styles.appExcerpt}>{item.excerpt}</span>
-                        )}
+                        {item.excerpt && <span className={styles.appExcerpt}>{item.excerpt}</span>}
                       </span>
                       <span className={styles.appArrow}>
                         <RiArrowRightUpLine size={20} />

@@ -59,7 +59,7 @@
 }
 
 .tag {
-  composes: pill from '../Shared.module.css';
+  composes: pill from "../Shared.module.css";
   margin-bottom: var(--space-md);
 }
 

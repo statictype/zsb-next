@@ -144,7 +144,7 @@
 }
 
 .appTag {
-  composes: pill from '../../components/Shared.module.css';
+  composes: pill from "../../components/Shared.module.css";
   align-self: center;
   white-space: nowrap;
 }

@@ -180,7 +180,7 @@
 
 /* ---- Year tag — floating pill over thumbnail ---- */
 .yearTag {
-  composes: pill from '../../components/Shared.module.css';
+  composes: pill from "../../components/Shared.module.css";
   position: absolute;
   top: var(--space-md);
   left: var(--space-md);

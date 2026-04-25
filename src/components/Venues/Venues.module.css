@@ -177,7 +177,7 @@
 }
 
 .tag {
-  composes: pill from '../Shared.module.css';
+  composes: pill from "../Shared.module.css";
 }
 
 .program {
@@ -190,7 +190,7 @@
 
 /* Subgroup labels */
 .subgroupLabel {
-  composes: pill from '../Shared.module.css';
+  composes: pill from "../Shared.module.css";
   margin: var(--space-md) 0 var(--space-xs);
 }
 

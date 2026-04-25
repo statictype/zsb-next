@@ -79,7 +79,7 @@
 }
 
 .eyebrow {
-  composes: pillLg from '../Shared.module.css';
+  composes: pillLg from "../Shared.module.css";
   margin-bottom: var(--space-md);
   opacity: 0;
   animation: fadeSlideUp 1s var(--ease-out-expo) 0.2s forwards;
@@ -123,7 +123,7 @@
 }
 
 .dateTape {
-  composes: pillLg from '../Shared.module.css';
+  composes: pillLg from "../Shared.module.css";
 }
 
 /* ---- Scroll Indicator ---- */

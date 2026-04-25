@@ -181,7 +181,7 @@
 }
 
 .tag {
-  composes: pill from '../Shared.module.css';
+  composes: pill from "../Shared.module.css";
 }
 
 .title {
