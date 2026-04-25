@@ -58,10 +58,9 @@ export default function AboutPage() {
                 through which Romanian sculpture can survive, be seen, and matter.
               </p>
               <p>
-                ZSB exists to position contemporary sculpture as a critical practice of the
-                present, to support the visibility and professional recognition of Romanian
-                sculptors, and to build a living archive of Romanian contemporary sculpture in
-                Bucharest.
+                ZSB exists to position contemporary sculpture as a critical practice of the present,
+                to support the visibility and professional recognition of Romanian sculptors, and to
+                build a living archive of Romanian contemporary sculpture in Bucharest.
               </p>
               <p>
                 Each edition creates a public context where sculpture meets film, debate, and
@@ -138,8 +137,8 @@ export default function AboutPage() {
               versatility of the sculpture profession.
             </p>
             <p>
-              Our first major event was organised in 2016, in which we screened films about and
-              with sculpture and organised the first edition of the &ldquo;Sculptors for the
+              Our first major event was organised in 2016, in which we screened films about and with
+              sculpture and organised the first edition of the &ldquo;Sculptors for the
               Future&rdquo; competition. The members of the association, which dissolved in 2018,
               continue to be active largely in the leadership of the Bucharest Sculpture Branch of
               the Union of Visual Artists.
@@ -151,8 +150,8 @@ export default function AboutPage() {
               and financial constraints.
             </p>
             <p>
-              Our goal is to lay the foundations for a Romanian Sculpture Centre where we can
-              offer both working studios and transposition workshops, material resources through
+              Our goal is to lay the foundations for a Romanian Sculpture Centre where we can offer
+              both working studios and transposition workshops, material resources through
               project-writing teams, and a platform for the profession to consolidate and grow.
             </p>
             <p>
