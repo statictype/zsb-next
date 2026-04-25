@@ -41,7 +41,7 @@
 
 .wordmark {
   font-family: var(--font-display);
-  font-size: var(--text-4xl);
+  font-size: var(--text-3xl);
   line-height: var(--leading-display);
   color: var(--white);
   letter-spacing: -2px;

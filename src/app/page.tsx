@@ -69,6 +69,10 @@ export default function HomePage() {
       <section id="editions" className={`${styles.panel} ${styles.editions}`}>
         <div className={styles.editionsHead}>
           <h2 className={shared.sectionTitle}>PAST EDITIONS</h2>
+          <p className={styles.editionsSubtext}>
+            Edition after edition, ZSB holds open the question of what sculpture can do with body,
+            matter, space, and memory.
+          </p>
         </div>
         <div className={styles.editionList}>
           {editions.map((edition) => (

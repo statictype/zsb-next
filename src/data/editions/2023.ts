@@ -59,7 +59,7 @@ export const edition2023: Edition = {
     'Marcel Scutaru',
     'Alexandru Siminic',
     'Ovidiu Toader',
-    'Adriana Ultilov',
+    'Adriana Untilov',
     'Dan Vezentan',
     'Marian Zidaru',
     'Victoria Zidaru',

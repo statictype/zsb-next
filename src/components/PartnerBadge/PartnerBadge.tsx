@@ -71,7 +71,7 @@ export function PartnerBadge({ variant = 'light' }: { variant?: 'light' | 'dark'
               </defs>
               <text fontSize="40" fontWeight="600" letterSpacing="8">
                 <textPath href="#partnerCircle" startOffset="0%">
-                  SUPPORT THE PROJECT • BECOME A PARTNER •{' '}
+                  SUPPORT THE MISSION • BECOME A PARTNER •{' '}
                 </textPath>
               </text>
             </svg>

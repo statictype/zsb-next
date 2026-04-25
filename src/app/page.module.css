@@ -91,11 +91,24 @@
 
 .editionsHead {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: var(--space-md);
   max-width: var(--max-width);
-  margin: 0 auto var(--space-xl);
+  margin: 0 auto var(--space-2xl);
   width: 100%;
+}
+
+.editionsHead h2 {
+  margin-bottom: 0;
+}
+
+.editionsSubtext {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+  color: var(--body);
+  margin: 0;
+  max-width: 60ch;
 }
 
 .editionsLink {

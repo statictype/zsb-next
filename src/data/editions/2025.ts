@@ -46,7 +46,7 @@ export const edition2025: Edition = {
     'Misha Diaconu',
     'Darie Dup',
     'Raluca Ilaria Demetrescu',
-    'Elena Dumitrescu',
+    'Elena Bobi Dumitrescu',
     'Albert Kaan',
     'Iosif Kiraly',
     'Cristina Lilienfeld',
