@@ -14,15 +14,15 @@ const EXPLORE_LINKS = [
 ] as const
 
 const CONNECT_LINKS = [
-  { label: 'Contact', href: '#' },
+  { label: 'Contact', href: 'mailto:office@filialadesculptura.com' },
   { label: 'Partners', href: '/partners' },
   { label: 'Press', href: '/press' },
   { label: 'Visit', href: '/visit' },
 ] as const
 
 const SOCIAL_LINKS = [
-  { label: 'Instagram', href: '#' },
-  { label: 'Facebook', href: '#' },
+  { label: 'Instagram', href: 'https://www.instagram.com/filialadesculptura/' },
+  { label: 'Facebook', href: 'https://www.facebook.com/filiala.de.sculptura/' },
 ] as const
 
 function FooterLink({

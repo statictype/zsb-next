@@ -33,8 +33,8 @@ export default function PrivacyPage() {
             <p>
               This site is operated by the organisers of {SITE_NAME} (Zilele Sculpturii București),
               a contemporary sculpture event based in Bucharest, Romania. Contact us at{' '}
-              <a href="mailto:office@filialadesculptura.com">contact@sculpturedays.com</a> for any
-              privacy question.
+              <a href="mailto:office@filialadesculptura.com">office@filialadesculptura.com</a> for
+              any privacy question.
             </p>
 
             <h2>What we collect</h2>
