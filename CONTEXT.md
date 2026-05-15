@@ -15,6 +15,8 @@ Each edition lives in `src/data/editions/YYYY.ts` and is registered in `src/data
 
 An item inside an edition's `ProgramData.blocks`. Each block has a **type** (`Exhibition`, `Film Program`, `Main Exhibition`, `Opening Event`, `Special Event`, `Student Exhibition`, `Talks & Workshops`) which controls the section it renders in, and how it's displayed.
 
+Each block also carries a **column** (`1` or `2`). The two columns are always rendered side-by-side on desktop (collapsing to a single column on mobile in column-1-then-column-2 order) and are expected to be **visually balanced in height** — column assignment is an authoring decision driven by the rendered size of each block.
+
 ### Format
 
 An optional sub-label on a program block (`ProgramBlock.format`), used today only on `Talks & Workshops` blocks. Names the *kind* of event: `Roundtable`, `Workshop`, `Open Studios`. Distinct from `type`:
@@ -22,4 +24,4 @@ An optional sub-label on a program block (`ProgramBlock.format`), used today onl
 - `type` is the renderer-level category (which column / section the block lives in).
 - `format` is the festival-programming category (what kind of event the public is attending).
 
-A block can have a `type` of `Talks & Workshops` and a `format` of `Workshop`, `Roundtable`, or `Open Studios`. Future formats (`Lecture`, `Screening Talk`, …) extend the vocabulary without changing types.
+A block can have a `type` of `Talks & Workshops` and a `format` of `Workshop`, `Roundtable`, or `Open Studios`. The closed set lives in `ProgramBlockFormat` in `src/types/edition.ts`; future formats (`Lecture`, `Screening Talk`, …) extend that union without changing the `type` enum.

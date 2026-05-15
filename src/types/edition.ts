@@ -42,6 +42,8 @@ export type ProgramBlockType =
   | 'Student Exhibition'
   | 'Talks & Workshops'
 
+export type ProgramBlockFormat = 'Roundtable' | 'Workshop' | 'Open Studios'
+
 export interface ProgramBlock {
   type: ProgramBlockType
   title: string
@@ -49,7 +51,7 @@ export interface ProgramBlock {
   description: string
   location?: string
   column: 1 | 2
-  format?: string
+  format?: ProgramBlockFormat
 }
 
 export interface ProgramFilm {
