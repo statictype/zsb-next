@@ -2,10 +2,10 @@
 
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
-import { useRef, useState } from 'react'
-import { Lightbox } from '@/components/Lightbox/Lightbox'
+import { useRef } from 'react'
+import { useLightbox } from '@/components/Lightbox/Lightbox'
 import sharedStyles from '@/components/Shared.module.css'
-import { useLightbox } from '@/lib/use-lightbox'
+import { useSlideshow } from '@/lib/use-slideshow'
 import type { CarouselLayout, CarouselSlide } from '@/types/edition'
 import styles from './Carousel.module.css'
 
@@ -32,10 +32,11 @@ function sizesFor(layout: CarouselLayout, imgIndex: number): string {
 }
 
 export function Carousel({ slides, theme }: CarouselProps) {
-  const [currentIndex, setCurrentIndex] = useState(0)
   const touchStartX = useRef(0)
   const totalSlides = slides.length
-  const lightbox = useLightbox()
+  const { index: currentIndex, next, prev, goTo, canPrev, canNext } = useSlideshow({
+    count: totalSlides,
+  })
 
   // Flatten all slide images into a single lightbox sequence and
   // remember each item's flat index so clicks open the right one.
@@ -50,15 +51,11 @@ export function Carousel({ slides, theme }: CarouselProps) {
     flatIndices.push(indices)
   }
 
-  function goTo(index: number) {
-    if (index >= 0 && index < totalSlides) {
-      setCurrentIndex(index)
-    }
-  }
+  const lightbox = useLightbox(lightboxImages)
 
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'ArrowLeft') goTo(currentIndex - 1)
-    if (e.key === 'ArrowRight') goTo(currentIndex + 1)
+    if (e.key === 'ArrowLeft') prev()
+    if (e.key === 'ArrowRight') next()
   }
 
   function handleTouchStart(e: React.TouchEvent) {
@@ -71,8 +68,8 @@ export function Carousel({ slides, theme }: CarouselProps) {
     if (!touch) return
     const diff = touchStartX.current - touch.screenX
     if (Math.abs(diff) > 50) {
-      if (diff > 0) goTo(currentIndex + 1)
-      else goTo(currentIndex - 1)
+      if (diff > 0) next()
+      else prev()
     }
   }
 
@@ -149,8 +146,8 @@ export function Carousel({ slides, theme }: CarouselProps) {
             <button
               type="button"
               className={styles.btn}
-              onClick={() => goTo(currentIndex - 1)}
-              disabled={currentIndex === 0}
+              onClick={prev}
+              disabled={!canPrev}
               aria-label="Previous slide"
             >
               <RiArrowLeftLine size={24} />
@@ -158,8 +155,8 @@ export function Carousel({ slides, theme }: CarouselProps) {
             <button
               type="button"
               className={styles.btn}
-              onClick={() => goTo(currentIndex + 1)}
-              disabled={currentIndex === totalSlides - 1}
+              onClick={next}
+              disabled={!canNext}
               aria-label="Next slide"
             >
               <RiArrowRightLine size={24} />
@@ -186,13 +183,7 @@ export function Carousel({ slides, theme }: CarouselProps) {
         </div>
       </div>
 
-      <Lightbox
-        images={lightboxImages}
-        currentIndex={lightbox.index}
-        onIndexChange={lightbox.setIndex}
-        isOpen={lightbox.isOpen}
-        onClose={lightbox.close}
-      />
+      {lightbox.element}
     </section>
   )
 }

@@ -2,9 +2,8 @@
 
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { Lightbox } from '@/components/Lightbox/Lightbox'
-import { useLightbox } from '@/lib/use-lightbox'
+import { useLightbox } from '@/components/Lightbox/Lightbox'
+import { useSlideshow } from '@/lib/use-slideshow'
 import type { ImageData } from '@/types/edition'
 import styles from './HeroSlideshow.module.css'
 
@@ -19,27 +18,12 @@ interface HeroSlideshowProps {
 }
 
 export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
-  const [active, setActive] = useState(0)
-  const [resetKey, setResetKey] = useState(0)
-  const lightbox = useLightbox()
-  const lightboxImages = images.map((img) => ({ src: img.src, caption: '' }))
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setActive((prev) => (prev + 1) % images.length)
-    }, interval)
-    return () => clearInterval(id)
-  }, [images.length, interval, resetKey])
-
-  const goPrev = () => {
-    setActive((p) => (p - 1 + images.length) % images.length)
-    setResetKey((k) => k + 1)
-  }
-
-  const goNext = () => {
-    setActive((p) => (p + 1) % images.length)
-    setResetKey((k) => k + 1)
-  }
+  const { index: active, next, prev } = useSlideshow({
+    count: images.length,
+    wrap: true,
+    autoplay: interval,
+  })
+  const lightbox = useLightbox(images.map((img) => ({ src: img.src, caption: '' })))
 
   return (
     <div className={styles.slideshow}>
@@ -47,12 +31,12 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
         <button
           type="button"
           className={styles.control}
-          onClick={goPrev}
+          onClick={prev}
           aria-label="Previous slide"
         >
           <RiArrowLeftLine size={18} />
         </button>
-        <button type="button" className={styles.control} onClick={goNext} aria-label="Next slide">
+        <button type="button" className={styles.control} onClick={next} aria-label="Next slide">
           <RiArrowRightLine size={18} />
         </button>
       </div>
@@ -87,13 +71,7 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
         <div className={styles.vignette} />
       </div>
 
-      <Lightbox
-        images={lightboxImages}
-        currentIndex={lightbox.index}
-        onIndexChange={lightbox.setIndex}
-        isOpen={lightbox.isOpen}
-        onClose={lightbox.close}
-      />
+      {lightbox.element}
     </div>
   )
 }

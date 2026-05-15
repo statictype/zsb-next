@@ -3,9 +3,7 @@
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { Lightbox } from '@/components/Lightbox/Lightbox'
-import { toLightboxImages } from '@/lib/format-utils'
-import { useLightbox } from '@/lib/use-lightbox'
+import { useLightbox } from '@/components/Lightbox/Lightbox'
 import type { MediaKitItem } from '@/types/edition'
 import styles from './MediaKitStrip.module.css'
 
@@ -20,17 +18,15 @@ interface MediaKitStripProps {
 const pad = (n: number) => String(n).padStart(2, '0')
 
 export function MediaKitStrip({ items }: MediaKitStripProps) {
-  const lightbox = useLightbox()
-  const trackRef = useRef<HTMLDivElement>(null)
-  const cardRefs = useRef<(HTMLButtonElement | null)[]>([])
-  const [activeIndex, setActiveIndex] = useState(0)
-
-  const lightboxImages = toLightboxImages(
+  const lightbox = useLightbox(
     items.map((item) => ({
-      ...item.image,
+      src: item.image.src,
       caption: `${item.year} · ${item.name}`,
     })),
   )
+  const trackRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const [activeIndex, setActiveIndex] = useState(0)
 
   useEffect(() => {
     const track = trackRef.current
@@ -84,17 +80,14 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
     if (e.button !== 0) return
     const track = trackRef.current
     if (!track) return
-    // Stop the browser from starting a native image drag.
-    e.preventDefault()
+    // Don't capture or preventDefault yet — a plain click must reach the button's
+    // onClick. We only commit to drag mode once movement crosses the threshold.
     dragRef.current = {
       pointerId: e.pointerId,
       startX: e.clientX,
       startScroll: track.scrollLeft,
       moved: false,
     }
-    track.setPointerCapture(e.pointerId)
-    track.style.scrollBehavior = 'auto'
-    track.style.cursor = 'grabbing'
   }
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -112,23 +105,34 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
     const track = trackRef.current
     if (!drag || !track || drag.pointerId !== e.pointerId) return
     const dx = e.clientX - drag.startX
-    if (Math.abs(dx) > 4) drag.moved = true
-    track.scrollLeft = drag.startScroll - dx
+    if (!drag.moved && Math.abs(dx) > 4) {
+      // Threshold crossed: commit to drag mode.
+      drag.moved = true
+      track.setPointerCapture(e.pointerId)
+      track.style.scrollBehavior = 'auto'
+      track.style.cursor = 'grabbing'
+    }
+    if (drag.moved) {
+      track.scrollLeft = drag.startScroll - dx
+    }
   }
 
   const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
     const drag = dragRef.current
     const track = trackRef.current
     if (!drag || !track || drag.pointerId !== e.pointerId) return
-    track.releasePointerCapture(e.pointerId)
-    track.style.scrollBehavior = ''
-    track.style.cursor = ''
-    dragRef.current = null
+    if (drag.moved) {
+      track.releasePointerCapture(e.pointerId)
+      track.style.scrollBehavior = ''
+      track.style.cursor = ''
+    }
+    // Keep dragRef set so the upcoming click handler can read `.moved`.
   }
 
   const onCardClick = (e: React.MouseEvent, index: number) => {
-    // Suppress click after a drag.
-    if (dragRef.current?.moved) {
+    const wasDrag = dragRef.current?.moved
+    dragRef.current = null
+    if (wasDrag) {
       e.preventDefault()
       return
     }
@@ -201,13 +205,7 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
         </div>
       </div>
 
-      <Lightbox
-        images={lightboxImages}
-        currentIndex={lightbox.index}
-        onIndexChange={lightbox.setIndex}
-        isOpen={lightbox.isOpen}
-        onClose={lightbox.close}
-      />
+      {lightbox.element}
     </>
   )
 }

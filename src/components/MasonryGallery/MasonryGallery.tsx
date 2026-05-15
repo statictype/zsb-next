@@ -1,9 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { Lightbox } from '@/components/Lightbox/Lightbox'
-import { toLightboxImages } from '@/lib/format-utils'
-import { useLightbox } from '@/lib/use-lightbox'
+import { useLightbox } from '@/components/Lightbox/Lightbox'
 import type { MasonryImage } from '@/types/edition'
 import styles from './MasonryGallery.module.css'
 
@@ -12,9 +10,7 @@ interface MasonryGalleryProps {
 }
 
 export function MasonryGallery({ images }: MasonryGalleryProps) {
-  const lightbox = useLightbox()
-
-  const lightboxImages = toLightboxImages(images)
+  const lightbox = useLightbox(images)
 
   return (
     <>
@@ -54,13 +50,7 @@ export function MasonryGallery({ images }: MasonryGalleryProps) {
         ))}
       </div>
 
-      <Lightbox
-        images={lightboxImages}
-        currentIndex={lightbox.index}
-        onIndexChange={lightbox.setIndex}
-        isOpen={lightbox.isOpen}
-        onClose={lightbox.close}
-      />
+      {lightbox.element}
     </>
   )
 }

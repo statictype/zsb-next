@@ -1,10 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { Lightbox } from '@/components/Lightbox/Lightbox'
+import { useLightbox } from '@/components/Lightbox/Lightbox'
 import shared from '@/components/Shared.module.css'
-import { toLightboxImages } from '@/lib/format-utils'
-import { useLightbox } from '@/lib/use-lightbox'
 import type { MediaKitItem } from '@/types/edition'
 import styles from './MediaKit.module.css'
 
@@ -13,10 +11,8 @@ interface MediaKitProps {
 }
 
 export function MediaKit({ items }: MediaKitProps) {
-  const lightbox = useLightbox()
-
-  const lightboxImages = toLightboxImages(
-    items.map((item) => ({ ...item.image, caption: item.name })),
+  const lightbox = useLightbox(
+    items.map((item) => ({ src: item.image.src, caption: item.name })),
   )
 
   return (
@@ -70,13 +66,7 @@ export function MediaKit({ items }: MediaKitProps) {
         </div>
       </section>
 
-      <Lightbox
-        images={lightboxImages}
-        currentIndex={lightbox.index}
-        onIndexChange={lightbox.setIndex}
-        isOpen={lightbox.isOpen}
-        onClose={lightbox.close}
-      />
+      {lightbox.element}
     </>
   )
 }

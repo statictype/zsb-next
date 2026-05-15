@@ -1,50 +1,70 @@
 'use client'
 
 import { RiArrowLeftSLine, RiArrowRightSLine, RiCloseLine } from '@remixicon/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import styles from './Lightbox.module.css'
 
-interface LightboxImage {
+export interface LightboxImage {
   src: string
   caption: string
 }
 
-interface LightboxProps {
-  images: LightboxImage[]
-  currentIndex: number
-  onIndexChange: (index: number) => void
-  isOpen: boolean
-  onClose: () => void
+export function useLightbox(images: LightboxImage[]) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [index, setIndex] = useState(0)
+
+  const open = (i: number) => {
+    setIndex(i)
+    setIsOpen(true)
+  }
+  const close = () => setIsOpen(false)
+  const next = () => setIndex((i) => (i + 1) % images.length)
+  const prev = () => setIndex((i) => (i - 1 + images.length) % images.length)
+
+  return {
+    open,
+    element: (
+      <LightboxView
+        images={images}
+        index={index}
+        isOpen={isOpen}
+        onClose={close}
+        onNext={next}
+        onPrev={prev}
+      />
+    ),
+  }
 }
 
-export function Lightbox({ images, currentIndex, onIndexChange, isOpen, onClose }: LightboxProps) {
-  function navigate(direction: number) {
-    onIndexChange((currentIndex + direction + images.length) % images.length)
-  }
+interface LightboxViewProps {
+  images: LightboxImage[]
+  index: number
+  isOpen: boolean
+  onClose: () => void
+  onNext: () => void
+  onPrev: () => void
+}
 
+function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: LightboxViewProps) {
   useEffect(() => {
     if (!isOpen) return
 
     const handleKeydown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
-      if (e.key === 'ArrowLeft') {
-        onIndexChange((currentIndex - 1 + images.length) % images.length)
-      }
-      if (e.key === 'ArrowRight') {
-        onIndexChange((currentIndex + 1) % images.length)
-      }
+      if (e.key === 'ArrowLeft') onPrev()
+      if (e.key === 'ArrowRight') onNext()
     }
 
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  }, [isOpen, onClose, onIndexChange, currentIndex, images.length])
+  }, [isOpen, onClose, onNext, onPrev])
 
   useBodyScrollLock(isOpen)
 
   if (!images.length) return null
 
-  const current = images[currentIndex]
+  const current = images[index]
   if (!current) return null
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -62,7 +82,6 @@ export function Lightbox({ images, currentIndex, onIndexChange, isOpen, onClose 
         if (e.key === 'Escape') onClose()
       }}
     >
-      {/* Close button */}
       <button type="button" className={styles.close} onClick={onClose} aria-label="Close lightbox">
         <RiCloseLine size={24} />
       </button>
@@ -71,10 +90,8 @@ export function Lightbox({ images, currentIndex, onIndexChange, isOpen, onClose 
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className={styles.image} src={current.src} alt={current.caption} />
 
-      {/* Caption */}
       <div className={styles.caption}>{current.caption}</div>
 
-      {/* Navigation */}
       {images.length > 1 && (
         <>
           <button
@@ -82,7 +99,7 @@ export function Lightbox({ images, currentIndex, onIndexChange, isOpen, onClose 
             className={`${styles.nav} ${styles.navPrev}`}
             onClick={(e) => {
               e.stopPropagation()
-              navigate(-1)
+              onPrev()
             }}
             aria-label="Previous image"
           >
@@ -93,7 +110,7 @@ export function Lightbox({ images, currentIndex, onIndexChange, isOpen, onClose 
             className={`${styles.nav} ${styles.navNext}`}
             onClick={(e) => {
               e.stopPropagation()
-              navigate(1)
+              onNext()
             }}
             aria-label="Next image"
           >
