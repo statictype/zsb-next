@@ -4,12 +4,47 @@ import { RiAddLine } from '@remixicon/react'
 import { useState } from 'react'
 import sharedStyles from '@/components/Shared.module.css'
 import { padNum } from '@/lib/format-utils'
-import { groupVenues } from '@/lib/group-venues'
 import type { VenueEntry } from '@/types/edition'
 import styles from './Venues.module.css'
 
 interface VenuesProps {
   venues: VenueEntry[]
+}
+
+interface Subgroup {
+  subgroup: string
+  venues: (VenueEntry & { displayNumber: number })[]
+}
+
+interface Group {
+  group: string
+  subgroups: Subgroup[]
+  count: number
+}
+
+function groupVenues(venues: VenueEntry[]): Group[] {
+  const groups: Group[] = []
+  let displayNumber = 0
+
+  for (const venue of venues) {
+    let group = groups.find((g) => g.group === venue.group)
+    if (!group) {
+      group = { group: venue.group, subgroups: [], count: 0 }
+      groups.push(group)
+    }
+
+    let subgroup = group.subgroups.find((s) => s.subgroup === venue.subgroup)
+    if (!subgroup) {
+      subgroup = { subgroup: venue.subgroup, venues: [] }
+      group.subgroups.push(subgroup)
+    }
+
+    displayNumber++
+    subgroup.venues.push({ ...venue, displayNumber })
+    group.count++
+  }
+
+  return groups
 }
 
 export function Venues({ venues }: VenuesProps) {
