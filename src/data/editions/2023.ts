@@ -118,7 +118,8 @@ export const edition2023: Edition = {
       },
       {
         type: 'Talks & Workshops',
-        title: 'Restoration Roundtable',
+        format: 'Roundtable',
+        title: 'Restoration',
         dates: 'April 25, 2023',
         description:
           'Access to Specialized Restoration Professions: mentorship, accreditation, theoretical and practical education.',

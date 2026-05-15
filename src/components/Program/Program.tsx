@@ -46,20 +46,15 @@ function ProgramColumn({
           <div className={styles.itemHeader}>
             <span className={styles.itemType}>Talks &amp; Workshops</span>
           </div>
-          {talkBlocks.map((block, i) => {
-            const colonIdx = block.title.indexOf(': ')
-            const prefix = colonIdx >= 0 ? block.title.slice(0, colonIdx) : block.title
-            const suffix = colonIdx >= 0 ? block.title.slice(colonIdx + 2) : block.title
-            return (
-              <div key={i} className={styles.compactItem}>
-                <span className={styles.compactType}>{prefix}</span>
-                <span className={styles.compactTitle}>{suffix}</span>
-                {block.description && (
-                  <span className={styles.compactNote}>{block.description}</span>
-                )}
-              </div>
-            )
-          })}
+          {talkBlocks.map((block, i) => (
+            <div key={i} className={styles.compactItem}>
+              {block.format && <span className={styles.compactType}>{block.format}</span>}
+              <span className={styles.compactTitle}>{block.title}</span>
+              {block.description && (
+                <span className={styles.compactNote}>{block.description}</span>
+              )}
+            </div>
+          ))}
         </div>
       )}
 

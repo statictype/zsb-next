@@ -49,6 +49,7 @@ export interface ProgramBlock {
   description: string
   location?: string
   column: 1 | 2
+  format?: string
 }
 
 export interface ProgramFilm {

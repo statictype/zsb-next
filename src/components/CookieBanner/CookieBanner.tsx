@@ -38,16 +38,21 @@ function getServerSnapshot(): Consent {
   return 'unset'
 }
 
+const emptySubscribe = () => () => {}
+const hydratedClient = () => true
+const hydratedServer = () => false
+
 export function CookieBanner() {
   const consent = useSyncExternalStore(subscribe, readConsent, getServerSnapshot)
+  const hydrated = useSyncExternalStore(emptySubscribe, hydratedClient, hydratedServer)
 
   const accept = () => writeConsent('granted')
   const reject = () => writeConsent('denied')
 
+  if (!hydrated) return null
+
   const showBanner = consent === 'unset'
   const loadAnalytics = consent === 'granted' && GA_MEASUREMENT_ID !== ''
-
-  if (typeof document === 'undefined') return null
 
   return (
     <>

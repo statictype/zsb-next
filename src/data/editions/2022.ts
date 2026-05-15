@@ -97,6 +97,7 @@ export const edition2022: Edition = {
       },
       {
         type: 'Talks & Workshops',
+        format: 'Roundtable',
         title: 'Monuments in Bucharest: From Becoming to Protection',
         dates: 'April 18, 2022',
         description:
@@ -113,6 +114,7 @@ export const edition2022: Edition = {
       },
       {
         type: 'Talks & Workshops',
+        format: 'Open Studios',
         title: 'Artist Studios & Galleries',
         dates: 'April 16—18, 2022',
         description:

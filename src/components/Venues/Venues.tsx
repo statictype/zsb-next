@@ -4,58 +4,12 @@ import { RiAddLine } from '@remixicon/react'
 import { useState } from 'react'
 import sharedStyles from '@/components/Shared.module.css'
 import { padNum } from '@/lib/format-utils'
+import { groupVenues } from '@/lib/group-venues'
 import type { VenueEntry } from '@/types/edition'
 import styles from './Venues.module.css'
 
 interface VenuesProps {
   venues: VenueEntry[]
-}
-
-interface GroupedSubgroup {
-  subgroup: string
-  venues: (VenueEntry & { globalIndex: number })[]
-}
-
-interface GroupedVenue {
-  group: string
-  description: string
-  subgroups: GroupedSubgroup[]
-  count: number
-}
-
-function groupVenues(venues: VenueEntry[]): GroupedVenue[] {
-  const groups: GroupedVenue[] = []
-  let globalIndex = 0
-
-  for (const venue of venues) {
-    let group = groups.find((g) => g.group === venue.group)
-    if (!group) {
-      group = {
-        group: venue.group,
-        description: '',
-        subgroups: [],
-        count: 0,
-      }
-      groups.push(group)
-    }
-
-    let subgroup = group.subgroups.find((s) => s.subgroup === venue.subgroup)
-    if (!subgroup) {
-      subgroup = { subgroup: venue.subgroup, venues: [] }
-      group.subgroups.push(subgroup)
-    }
-
-    globalIndex++
-    subgroup.venues.push({ ...venue, globalIndex })
-    group.count++
-
-    // Use the first subgroup's name as the description
-    if (group.subgroups.length === 1 && subgroup.venues.length === 1) {
-      group.description = venue.subgroup ?? ''
-    }
-  }
-
-  return groups
 }
 
 export function Venues({ venues }: VenuesProps) {
@@ -123,8 +77,8 @@ export function Venues({ venues }: VenuesProps) {
                           )}
                           <div className={styles.entries}>
                             {subgroup.venues.map((venue) => (
-                              <div key={venue.globalIndex} className={styles.entry}>
-                                <span className={styles.num}>{padNum(venue.globalIndex)}</span>
+                              <div key={venue.displayNumber} className={styles.entry}>
+                                <span className={styles.num}>{padNum(venue.displayNumber)}</span>
                                 <span className={styles.name}>{venue.name}</span>
                                 <span className={styles.program}>{venue.program}</span>
                               </div>
