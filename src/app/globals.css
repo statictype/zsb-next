@@ -9,16 +9,15 @@
   --text-xs: 10px;
   --text-sm: 12px;
   --text-base: 16px;
-  --text-hero: 40px;
 
-  /* Typography — Fluid (320px → 1792px, ~1.2x major third) */
-  --text-md: clamp(19px, 17.04px + 0.6114vw, 28px);
-  --text-lg: clamp(22px, 19.83px + 0.6793vw, 32px);
-  --text-xl: clamp(26px, 22.09px + 1.2228vw, 44px);
-  --text-2xl: clamp(32px, 25.91px + 1.9022vw, 60px);
-  --text-3xl: clamp(40px, 33.04px + 2.1739vw, 72px);
-  --text-4xl: clamp(48px, 37.57px + 3.2609vw, 96px);
-  --text-5xl: clamp(58px, 44.52px + 4.212vw, 120px);
+  /* Typography — Fluid (320px → 1792px) */
+  --text-md: clamp(19px, 18.35px + 0.2038vw, 22px);
+  --text-lg: clamp(22px, 21.35px + 0.2038vw, 25px);
+  --text-xl: clamp(26px, 24.26px + 0.5435vw, 34px);
+  --text-2xl: clamp(32px, 28.96px + 0.9511vw, 46px);
+  --text-3xl: clamp(40px, 36.52px + 1.087vw, 56px);
+  --text-4xl: clamp(48px, 42.35px + 1.766vw, 74px);
+  --text-5xl: clamp(58px, 50.61px + 2.31vw, 92px);
 
   /* Spacing — Static (8px grid) */
   --space-xs: 4px;
@@ -175,8 +174,6 @@
 /* ---- Tablet (768px+) ---- */
 @media (min-width: 768px) {
   :root {
-    --text-hero: 80px;
-
     --space-md: 20px;
     --space-2xl: 56px;
     --space-3xl: 80px;
@@ -213,8 +210,10 @@
 /* ---- Desktop (1024px+) ---- */
 @media (min-width: 1024px) {
   :root {
-    --text-base: 17px;
-    --text-hero: 110px;
+    --text-base: 15px;
+    --text-sm: 12px;
+    --text-xs: 11px;
+    --text-2xs: 9px;
 
     --space-2xl: 64px;
     --space-3xl: 96px;
@@ -266,12 +265,6 @@
 /* ---- XL2 Desktop (1440px+) ---- */
 @media (min-width: 1440px) {
   :root {
-    --text-base: 18px;
-    --text-sm: 14px;
-    --text-xs: 12px;
-    --text-2xs: 10px;
-    --text-hero: 120px;
-
     --space-2xl: 88px;
     --space-3xl: 120px;
     --space-4xl: 176px;
@@ -300,9 +293,6 @@
 /* ---- XL Desktop (1536px+) ---- */
 @media (min-width: 1536px) {
   :root {
-    --text-hero: 124px;
-    --text-base: 19px;
-
     --space-2xl: 96px;
     --space-3xl: 128px;
     --space-4xl: 192px;
@@ -323,10 +313,10 @@
 /* ---- 2XL Desktop (1792px+) ---- */
 @media (min-width: 1792px) {
   :root {
-    --text-base: 20px;
-    --text-sm: 15px;
-    --text-xs: 13px;
-    --text-2xs: 11px;
+    --text-base: 16px;
+    --text-sm: 13px;
+    --text-xs: 11px;
+    --text-2xs: 10px;
 
     --space-2xl: 112px;
     --space-3xl: 144px;
