@@ -1,20 +1,20 @@
 import { RiArrowRightLine } from '@remixicon/react'
-import type { Metadata } from 'next'
 import Image from 'next/image'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import shared from '@/components/Shared.module.css'
+import { ALL_ARTISTS } from '@/data/artists'
 import { whySculpturePoints } from '@/data/partners'
 import { blobUrl } from '@/lib/blob'
+import { pageMetadata } from '@/lib/seo'
 import styles from './page.module.css'
-import { ALL_ARTISTS } from '@/data/artists'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Partners',
   description:
     'Partner with Bucharest Sculpture Days — Romania’s annual platform for contemporary sculpture.',
-  alternates: { canonical: '/partners' },
-}
+  path: '/partners',
+})
 
 function pad(n: number): string {
   return String(n).padStart(2, '0')

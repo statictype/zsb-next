@@ -1,12 +1,12 @@
-import type { Metadata } from 'next'
 import { VisitSection } from '@/components/VisitSection/VisitSection'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Visit',
   description:
     'Plan your visit to Bucharest Sculpture Days at Combinatul Fondului Plastic — address, hours, transport, and amenities.',
-  alternates: { canonical: '/visit' },
-}
+  path: '/visit',
+})
 
 export default function VisitPage() {
   return (

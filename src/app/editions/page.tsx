@@ -1,18 +1,18 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
-import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import shared from '@/components/Shared.module.css'
 import { getAllEditionYears, getEdition } from '@/data/editions'
+import { pageMetadata } from '@/lib/seo'
 import { isOnlineEdition } from '@/types/edition'
 import styles from './page.module.css'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Editions',
   description: 'Every edition of Bucharest Sculpture Days, from 2021 to today.',
-  alternates: { canonical: '/editions' },
-}
+  path: '/editions',
+})
 
 export default function EditionsPage() {
   const years = getAllEditionYears()

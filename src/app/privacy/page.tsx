@@ -1,13 +1,15 @@
-import type { Metadata } from 'next'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import shared from '@/components/Shared.module.css'
 import { SITE_NAME } from '@/lib/constants'
+import { pageMetadata } from '@/lib/seo'
 import styles from './page.module.css'
 
-export const metadata: Metadata = {
-  title: 'Privacy & Cookies',
-  description: `How ${SITE_NAME} handles your data and which cookies we use.`,
-  alternates: { canonical: '/privacy' },
+export const metadata = {
+  ...pageMetadata({
+    title: 'Privacy & Cookies',
+    description: `How ${SITE_NAME} handles your data and which cookies we use.`,
+    path: '/privacy',
+  }),
   robots: { index: true, follow: true },
 }
 

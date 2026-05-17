@@ -1,15 +1,15 @@
-import type { Metadata } from 'next'
 import Image from 'next/image'
 import shared from '@/components/Shared.module.css'
 import { blobUrl } from '@/lib/blob'
+import { pageMetadata } from '@/lib/seo'
 import styles from './page.module.css'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'About',
   description:
     'Bucharest Sculpture Days — an annual platform for Romanian contemporary sculpture, born online in 2021.',
-  alternates: { canonical: '/about' },
-}
+  path: '/about',
+})
 
 const PILLARS = [
   {

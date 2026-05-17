@@ -6,19 +6,19 @@ import {
   RiVimeoLine,
   RiYoutubeLine,
 } from '@remixicon/react'
-import type { Metadata } from 'next'
 import { MediaKitStrip } from '@/components/MediaKitStrip/MediaKitStrip'
 import shared from '@/components/Shared.module.css'
 import { MEDIA_KIT } from '@/data/media-kit'
 import { PRESS_APPEARANCES, type PressAppearanceType } from '@/data/press-appearances'
+import { pageMetadata } from '@/lib/seo'
 import styles from './page.module.css'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Press',
   description:
     'Press kit, official posters, releases, and media coverage for Bucharest Sculpture Days — across every edition.',
-  alternates: { canonical: '/press' },
-}
+  path: '/press',
+})
 
 const TYPE_META: Record<PressAppearanceType, { label: string; Icon: typeof RiYoutubeLine }> = {
   youtube: { label: 'Video', Icon: RiYoutubeLine },

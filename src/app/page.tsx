@@ -1,18 +1,18 @@
 import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
 import { type HeroImage, HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import shared from '@/components/Shared.module.css'
 import { blobUrl } from '@/lib/blob'
+import { pageMetadata } from '@/lib/seo'
 import styles from './page.module.css'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   description:
     'An annual contemporary sculpture event transforming Bucharest into an open-air museum. Discover editions, artists, and public art since 2021.',
-  alternates: { canonical: '/' },
-}
+  path: '/',
+})
 
 const heroImages: HeroImage[] = [
   { src: blobUrl('2025/_dsc5496.jpg'), alt: 'ZSB 2025', position: 'top' },

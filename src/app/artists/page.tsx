@@ -1,16 +1,16 @@
-import type { Metadata } from 'next'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import shared from '@/components/Shared.module.css'
 import { ALL_ARTISTS } from '@/data/artists'
 import { getAllEditionYears } from '@/data/editions'
+import { pageMetadata } from '@/lib/seo'
 import styles from './page.module.css'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Artists',
   description:
     'Sculptors and visual artists who have shown work at Bucharest Sculpture Days across all editions.',
-  alternates: { canonical: '/artists' },
-}
+  path: '/artists',
+})
 
 export default function ArtistsPage() {
   const editionCount = getAllEditionYears().length
