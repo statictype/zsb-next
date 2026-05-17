@@ -12,8 +12,8 @@ export const edition2022: Edition = {
     alt: 'ZSB 2022 #perspectiva31 — Exhibition hall at Combinatul Fondului Plastic',
   },
   manifesto: {
-    title: 'Perspective is not observed. It is assumed.',
-    highlight: 'Thirty-one positions, no hierarchy.',
+    title: 'Perspective is not observed, ',
+    highlight: 'it is assumed.',
     paragraphs: [
       'The 2022 edition marked our arrival in physical space. For the first time, ZSB brought contemporary practice into direct contact with the city, establishing a tangible dialogue between object and viewer. Under the theme #perspectiva31, we built a shared space for conflicting ideas and cross-generational conversations. From professional roundtables on monument protection to our annual youth competition, where students reimagined the Arc de Triomphe, the festival prioritized a wide spectrum of viewpoints over a single narrative.',
     ],

@@ -18,6 +18,7 @@
   font-size: var(--text-3xl);
   line-height: var(--leading-tight);
   color: var(--black);
+  text-wrap: pretty;
 }
 
 .titleHighlight {
@@ -94,7 +95,8 @@
 
 @media (min-width: 1792px) {
   .title {
-    font-size: var(--text-5xl);
+    font-size: var(--text-4xl);
+    line-height: 1.08;
   }
   /* .text p {
     font-size: var(--text-lg);

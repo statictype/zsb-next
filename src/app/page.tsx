@@ -62,7 +62,7 @@ export default function HomePage() {
               <p className={shared.heroLead}>
                 Artists shift the boundaries of form. ZSB gives those shifts a place to land.
               </p>
-              <MagneticButton href="/editions/2025" size="lg">
+              <MagneticButton href="/editions/2025" size="md">
                 Explore the 2025 edition <RiArrowRightLine size={14} />
               </MagneticButton>
             </div>
