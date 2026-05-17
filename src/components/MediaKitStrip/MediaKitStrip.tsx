@@ -15,8 +15,6 @@ interface MediaKitStripProps {
   items: MediaKitStripItem[]
 }
 
-const pad = (n: number) => String(n).padStart(2, '0')
-
 export function MediaKitStrip({ items }: MediaKitStripProps) {
   const lightbox = useLightbox(
     items.map((item) => ({
@@ -104,12 +102,16 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
     const drag = dragRef.current
     const track = trackRef.current
     if (!drag || !track || drag.pointerId !== e.pointerId) return
+    // Hover (no button held) must not re-engage the drag — dragRef stays set
+    // after release so the upcoming click can read `.moved`.
+    if (e.buttons === 0) return
     const dx = e.clientX - drag.startX
     if (!drag.moved && Math.abs(dx) > 4) {
       // Threshold crossed: commit to drag mode.
       drag.moved = true
       track.setPointerCapture(e.pointerId)
       track.style.scrollBehavior = 'auto'
+      track.style.scrollSnapType = 'none'
       track.style.cursor = 'grabbing'
     }
     if (drag.moved) {
@@ -124,7 +126,41 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
     if (drag.moved) {
       track.releasePointerCapture(e.pointerId)
       track.style.scrollBehavior = ''
+      track.style.scrollSnapType = ''
       track.style.cursor = ''
+
+      const findNearest = (target: number) => {
+        let nearest = 0
+        let minDist = Number.POSITIVE_INFINITY
+        cardRefs.current.forEach((card, i) => {
+          if (!card) return
+          const offset = card.offsetLeft - track.offsetLeft
+          const dist = Math.abs(offset - target)
+          if (dist < minDist) {
+            minDist = dist
+            nearest = i
+          }
+        })
+        return nearest
+      }
+
+      const startIndex = findNearest(drag.startScroll)
+      let targetIndex = findNearest(track.scrollLeft)
+
+      const delta = track.scrollLeft - drag.startScroll
+      const swipeThreshold = 50
+      if (targetIndex === startIndex && Math.abs(delta) > swipeThreshold) {
+        const direction = delta > 0 ? 1 : -1
+        targetIndex = Math.max(0, Math.min(items.length - 1, startIndex + direction))
+      }
+
+      const target = cardRefs.current[targetIndex]
+      if (target) {
+        track.scrollTo({
+          left: target.offsetLeft - track.offsetLeft,
+          behavior: 'smooth',
+        })
+      }
     }
     // Keep dragRef set so the upcoming click handler can read `.moved`.
   }
@@ -142,10 +178,7 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
   return (
     <>
       <div className={styles.controls}>
-        <div className={styles.counter}>
-          <span className={styles.counterCurrent}>{pad(activeIndex + 1)}</span>
-          <span className={styles.counterTotal}>/ {pad(items.length)}</span>
-        </div>
+        <div className={styles.eyebrow}>Media</div>
         <div className={styles.arrows}>
           <button
             type="button"

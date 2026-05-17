@@ -1,14 +1,17 @@
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
+import { Carousel } from '@/components/Carousel/Carousel'
 import shared from '@/components/Shared.module.css'
 import type { Edition } from '@/types/edition'
 import styles from './ThemeArtists.module.css'
 
 interface ThemeArtistsProps {
-  edition: Pick<Edition, 'year' | 'theme' | 'themeSection' | 'artists'>
+  edition: Pick<Edition, 'year' | 'theme' | 'themeSection' | 'artists'> & {
+    carousel?: Edition['carousel']
+  }
 }
 
 export function ThemeArtists({ edition }: ThemeArtistsProps) {
-  const { year, theme, themeSection, artists } = edition
+  const { year, theme, themeSection, artists, carousel } = edition
 
   return (
     <section className={`${shared.section} ${shared.sectionDark} ${styles.section}`}>
@@ -29,6 +32,8 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
           ]}
         />
       </div>
+
+      {carousel && <Carousel slides={carousel} eyebrow={theme} />}
     </section>
   )
 }

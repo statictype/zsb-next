@@ -12,21 +12,11 @@
   margin: 0 auto var(--space-lg);
 }
 
-.counter {
-  font-family: var(--font-display);
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  line-height: 1;
-}
-
-.counterCurrent {
-  font-size: var(--text-xl);
-  color: var(--white);
-}
-
-.counterTotal {
-  font-size: var(--text-sm);
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
   color: var(--muted);
 }
 

@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation'
-import { Carousel } from '@/components/Carousel/Carousel'
 import { Credits } from '@/components/Credits/Credits'
 import { Hero } from '@/components/Hero/Hero'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
@@ -51,8 +50,6 @@ export default async function EditionPage(props: PageProps<'/editions/[year]'>) 
       <Venues venues={edition.venues} />
 
       <Program year={edition.year} program={edition.program} />
-
-      <Carousel slides={edition.carousel} theme={edition.theme} />
 
       <Credits credits={edition.credits} />
     </main>
