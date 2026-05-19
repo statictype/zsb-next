@@ -170,6 +170,7 @@
 
 .itemImage {
   object-fit: cover;
+  background: var(--gray-900);
   pointer-events: none;
   -webkit-user-drag: none;
 }

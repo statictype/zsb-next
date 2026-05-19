@@ -22,6 +22,7 @@
 
 .image {
   object-fit: cover;
+  background: var(--gray-900);
   filter: var(--gallery-image-filter);
   transition:
     filter var(--duration-slow) var(--ease-out-expo),

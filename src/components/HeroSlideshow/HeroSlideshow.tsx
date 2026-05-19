@@ -3,6 +3,7 @@
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
+import shared from '@/components/Shared.module.css'
 import { useSlideshow } from '@/lib/use-slideshow'
 import type { ImageData } from '@/types/edition'
 import styles from './HeroSlideshow.module.css'
@@ -58,6 +59,7 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
             key={img.src}
             className={`${styles.slide} ${i === active ? styles.slideActive : ''}`}
           >
+            <span aria-hidden className={shared.skeleton} />
             <Image
               src={img.src}
               alt={img.alt}

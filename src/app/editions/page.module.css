@@ -93,6 +93,7 @@
 
 .thumbImg {
   object-fit: cover;
+  background: var(--gray-900);
   filter: var(--card-image-filter);
   transform: scale(1.01);
   transition:

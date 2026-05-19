@@ -46,6 +46,7 @@
 .image {
   object-fit: cover;
   object-position: center right;
+  background: var(--hero-bg, var(--gray-900));
   animation: imageReveal 1.3s var(--ease-out-expo) both;
   z-index: 0;
   filter: grayscale(0.3);

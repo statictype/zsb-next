@@ -58,6 +58,7 @@ export function VisitSection() {
           {/* ---- Image with pixel decorations ---- */}
           <div className={styles.imageBlock}>
             <div className={styles.imageFrame}>
+              <span aria-hidden className={shared.skeleton} />
               <Image
                 src={venueImage.src}
                 alt={venueImage.alt}

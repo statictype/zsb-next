@@ -89,6 +89,8 @@
   --divider: var(--gray-850);
   --divider-light: var(--gray-200);
 
+  --skeleton-base: var(--gray-800); /* image-loading pulse, sits behind <Image> */
+
   --action: var(--pink); /* brand primary: CTA, active, key moments */
   --highlight: var(--chartreuse); /* sparing accent: tags, stat numbers */
 
@@ -376,3 +378,4 @@ img {
 [data-fullpage] ~ footer {
   display: none;
 }
+

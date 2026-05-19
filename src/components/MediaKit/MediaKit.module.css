@@ -103,6 +103,7 @@
 
 .cardImage {
   object-fit: cover;
+  background: var(--gray-900);
   transition:
     transform 1s var(--ease-out-expo),
     filter 0.5s ease;

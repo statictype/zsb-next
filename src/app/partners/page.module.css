@@ -60,6 +60,7 @@
 
 .eventImageImg {
   object-fit: cover;
+  background: var(--gray-900);
   filter: grayscale(100%) contrast(1.05);
 }
 
@@ -95,6 +96,7 @@
 
 .whySculptureImg {
   object-fit: cover;
+  background: var(--gray-200);
   filter: grayscale(100%);
 }
 

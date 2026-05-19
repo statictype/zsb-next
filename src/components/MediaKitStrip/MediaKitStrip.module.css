@@ -101,6 +101,7 @@
 
 .image {
   object-fit: cover;
+  background: var(--gray-900);
   transition: transform 0.8s var(--ease-out-expo);
   pointer-events: none;
   -webkit-user-drag: none;

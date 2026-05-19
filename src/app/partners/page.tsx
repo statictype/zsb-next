@@ -50,6 +50,7 @@ export default function PartnersPage() {
             </p>
           </div>
           <figure className={styles.eventImage}>
+            <span aria-hidden className={shared.skeleton} />
             <Image
               src={blobUrl('2025/_dsc5708.jpg')}
               alt="Performance and audience at ZSB 2025, Combinatul Fondului Plastic"
@@ -76,6 +77,7 @@ export default function PartnersPage() {
               </h2>
             </div>
             <div className={styles.whySculptureImage}>
+              <span aria-hidden className={shared.skeleton} />
               <Image
                 src={blobUrl('2023/od6-0211.jpg')}
                 alt="Visitors examining a sculpture at ZSB 2023"

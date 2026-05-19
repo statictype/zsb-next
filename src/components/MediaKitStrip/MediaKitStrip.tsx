@@ -4,6 +4,7 @@ import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
+import shared from '@/components/Shared.module.css'
 import type { MediaKitItem } from '@/types/edition'
 import styles from './MediaKitStrip.module.css'
 
@@ -225,6 +226,7 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
               onClick={(e) => onCardClick(e, i)}
               aria-label={`Open ${item.year} ${item.name}`}
             >
+              <span aria-hidden className={shared.skeleton} />
               <Image
                 src={item.image.src}
                 alt={item.image.alt}

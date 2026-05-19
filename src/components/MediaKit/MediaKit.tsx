@@ -44,6 +44,7 @@ export function MediaKit({ items }: MediaKitProps) {
               >
                 <span className={styles.cardIndex}>{String(i + 1).padStart(2, '0')}</span>
                 <div className={styles.cardInner}>
+                  <span aria-hidden className={shared.skeleton} />
                   <Image
                     src={item.image.src}
                     alt={item.image.alt}

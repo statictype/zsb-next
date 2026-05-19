@@ -35,6 +35,7 @@
 
 .image {
   object-fit: cover;
+  background: var(--gray-900);
 }
 
 .pixel {

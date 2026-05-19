@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
+import shared from '@/components/Shared.module.css'
 import type { MasonryImage } from '@/types/edition'
 import styles from './MasonryGallery.module.css'
 
@@ -34,6 +35,7 @@ export function MasonryGallery({ images }: MasonryGalleryProps) {
               }
             }}
           >
+            <span aria-hidden className={shared.skeleton} />
             <Image
               src={img.src}
               alt={img.alt}

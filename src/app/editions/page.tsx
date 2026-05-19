@@ -47,6 +47,7 @@ export default function EditionsPage() {
                   style={{ '--card-index': index } as CSSProperties}
                 >
                   <div className={styles.frame}>
+                    <span aria-hidden className={shared.skeleton} />
                     <Image
                       src={thumb.src}
                       alt={thumb.alt}

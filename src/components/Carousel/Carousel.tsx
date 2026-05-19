@@ -4,6 +4,7 @@ import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
+import shared from '@/components/Shared.module.css'
 import type { CarouselLayout, CarouselSlide } from '@/types/edition'
 import styles from './Carousel.module.css'
 
@@ -259,6 +260,7 @@ export function Carousel({ slides, eyebrow }: CarouselProps) {
                       }
                     }}
                   >
+                    <span aria-hidden className={shared.skeleton} />
                     <Image
                       src={img.image.src}
                       alt={img.image.alt}

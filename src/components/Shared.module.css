@@ -211,6 +211,37 @@
   background: var(--muted);
 }
 
+/* ---- Image-loading skeleton ---- */
+/* Place as a sibling sitting BEFORE the <Image> inside a position:relative,
+   overflow:hidden frame. The loaded image paints on top and visually hides it.
+   The image's own className should set an opaque background so any transparent
+   areas of the loaded image don't reveal the pulse underneath. */
+.skeleton {
+  position: absolute;
+  inset: 0;
+  background: var(--skeleton-base);
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
 /* ---- Section Header ---- */
 .sectionHeader {
   display: flex;

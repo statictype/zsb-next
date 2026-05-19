@@ -87,6 +87,7 @@ export default function AboutPage() {
           </div>
 
           <figure className={styles.placeImage}>
+            <span aria-hidden className={shared.skeleton} />
             <Image
               src={blobUrl('2023/od6-0441.jpg')}
               alt="Combinatul Fondului Plastic, Bucharest — facade at night"
@@ -113,6 +114,7 @@ export default function AboutPage() {
 
               <figure className={styles.statementByline}>
                 <div className={styles.authorPhoto}>
+                  <span aria-hidden className={shared.skeleton} />
                   <Image
                     src="/img/s200_csapo_reka.dup.jpg"
                     alt="Reka Csapo Dup"
