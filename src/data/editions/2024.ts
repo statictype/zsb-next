@@ -7,7 +7,11 @@ export const edition2024: Edition = {
   themeHighlight: 'SYZYGY',
   title: 'ZSB 2024 - #SYZYGY | Bucharest Sculpture Days',
   heroImage: {
-    src: blobUrl('2024/background.png'),
+    src: blobUrl('2024/syzygy-01-transp.png'),
+    alt: 'ZSB 2024 #SYZYGY',
+  },
+  thumbImage: {
+    src: blobUrl('2024/syzygy-01.png'),
     alt: 'ZSB 2024 #SYZYGY',
   },
   manifesto: {

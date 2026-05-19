@@ -5,7 +5,6 @@ import type { CSSProperties } from 'react'
 import shared from '@/components/Shared.module.css'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
-import { isOnlineEdition } from '@/types/edition'
 import styles from './page.module.css'
 
 export const metadata = pageMetadata({
@@ -38,10 +37,7 @@ export default function EditionsPage() {
               const edition = getEdition(year)
               if (!edition) return null
               const isFeature = index === 0
-              const online = isOnlineEdition(edition)
-              const thumb = online
-                ? null
-                : (edition.carousel[0]?.images[0]?.image ?? edition.heroImage)
+              const thumb = edition.thumbImage ?? edition.heroImage
 
               return (
                 <Link
@@ -51,27 +47,17 @@ export default function EditionsPage() {
                   style={{ '--card-index': index } as CSSProperties}
                 >
                   <div className={styles.frame}>
-                    {thumb ? (
-                      <Image
-                        src={thumb.src}
-                        alt={thumb.alt}
-                        fill
-                        sizes={
-                          isFeature
-                            ? '(min-width: 1440px) 1400px, 100vw'
-                            : '(min-width: 1024px) 50vw, 100vw'
-                        }
-                        className={styles.thumbImg}
-                      />
-                    ) : (
-                      <div className={styles.thumbPlaceholder} aria-hidden>
-                        <div className={styles.thumbPlaceholderGrid} />
-                        <div className={styles.thumbPlaceholderMark}>
-                          <span>{edition.theme}</span>
-                          <span>Online · {year}</span>
-                        </div>
-                      </div>
-                    )}
+                    <Image
+                      src={thumb.src}
+                      alt={thumb.alt}
+                      fill
+                      sizes={
+                        isFeature
+                          ? '(min-width: 1440px) 1400px, 100vw'
+                          : '(min-width: 1024px) 50vw, 100vw'
+                      }
+                      className={styles.thumbImg}
+                    />
                     <span className={styles.yearTag}>{year}</span>
                   </div>
 

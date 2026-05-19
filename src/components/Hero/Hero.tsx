@@ -12,7 +12,7 @@ function splitOnFirst(a: string, b: string) {
   return [before, rest.join(b)] as [string, string]
 }
 
-function HeroThemeDisplay({
+function ThemeTape({
   theme,
   themeHighlight = '',
 }: {
@@ -21,7 +21,7 @@ function HeroThemeDisplay({
 }) {
   const [firstPart, secondPart] = splitOnFirst(theme, themeHighlight) ?? [theme, '']
   return (
-    <h1 className={styles.theme}>
+    <h1 className={styles.tapeTheme}>
       {themeHighlight ? (
         <>
           <span>{firstPart}</span>
@@ -40,31 +40,27 @@ export function Hero({ edition }: HeroProps) {
 
   return (
     <header className={styles.hero}>
-      {/* Background image */}
-      <Image
-        src={heroImage.src}
-        alt={heroImage.alt}
-        fill
-        sizes="100vw"
-        priority
-        className={styles.bgImage}
-      />
-
-      {/* Content */}
-      <div className={styles.content}>
-        <div className={styles.eyebrow}>Bucharest Sculpture Days</div>
-        <div className={styles.year} data-year={year}>
-          ZSB{year}
+      <div className={styles.stage}>
+        <div className={styles.frame}>
+          <div className={styles.background} aria-hidden="true" />
+          <Image
+            src={heroImage.src}
+            alt={heroImage.alt}
+            fill
+            sizes="(min-width: 1280px) 1200px, (min-width: 768px) 92vw, 100vw"
+            priority
+            className={styles.image}
+          />
+          <div className={styles.vignette} aria-hidden="true" />
         </div>
-        <HeroThemeDisplay theme={theme} themeHighlight={themeHighlight} />
 
-        <div className={styles.dateTape}>{dateTape}</div>
-      </div>
-
-      {/* Scroll indicator — hidden mobile, visible desktop */}
-      <div className={styles.scroll}>
-        <span className={styles.scrollText}>Scroll</span>
-        <div className={styles.scrollLine} />
+        <div className={styles.tapes}>
+          <span className={styles.tapeDate}>{dateTape}</span>
+          <ThemeTape theme={theme} themeHighlight={themeHighlight} />
+          <span className={styles.tapeEdition}>
+            Bucharest Sculpture Days <span className={styles.editionSep}>/</span> ZSB {year}
+          </span>
+        </div>
       </div>
     </header>
   )

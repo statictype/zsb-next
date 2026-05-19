@@ -1,3 +1,4 @@
+import { blobUrl } from '@/lib/blob'
 import type { OnlineEdition } from '@/types/edition'
 
 /**
@@ -104,6 +105,10 @@ export const edition2021: OnlineEdition = {
   theme: '#digitalfield',
   themeHighlight: 'field',
   title: 'ZSB 2021 - #digitalfield | Bucharest Sculpture Days',
+  heroImage: {
+    src: blobUrl('2021/digitalfield-02.png'),
+    alt: 'ZSB 2021 #digitalfield',
+  },
   dateTape: '24 April 2021 · Online',
 
   manifesto: {

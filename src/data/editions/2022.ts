@@ -8,8 +8,8 @@ export const edition2022: Edition = {
   title: 'ZSB 2022 - #perspectiva31 | Bucharest Sculpture Days',
   dateTape: '16–18 April 2022 · Combinatul Fondului Plastic',
   heroImage: {
-    src: blobUrl('2022/sal2.jpg'),
-    alt: 'ZSB 2022 #perspectiva31 — Exhibition hall at Combinatul Fondului Plastic',
+    src: blobUrl('2022/perspectiva31-01-transp.png'),
+    alt: 'ZSB 2022 #perspectiva31',
   },
   manifesto: {
     title: 'Perspective is not observed, ',

@@ -157,6 +157,7 @@ export interface Edition {
   themeHighlight: string
   title: string
   heroImage: ImageData
+  thumbImage?: ImageData
   dateTape: string
   manifesto: ManifestoData
   themeSection: ThemeData
@@ -175,6 +176,8 @@ export interface OnlineEdition {
   theme: string
   themeHighlight: string
   title: string
+  heroImage: ImageData
+  thumbImage?: ImageData
   dateTape: string
   manifesto: ManifestoData
   themeSection: ThemeData

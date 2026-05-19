@@ -8,7 +8,11 @@ export const edition2023: Edition = {
   title: 'ZSB 2023 - re#situăriafective | Bucharest Sculpture Days',
   dateTape: '18–29 April 2023 /// Combinatul Fondului Plastic',
   heroImage: {
-    src: blobUrl('2023/zsb_2023_bg.png'),
+    src: blobUrl('2023/resituariafective-02-transp.png'),
+    alt: 'ZSB 2023 re#situăriafective',
+  },
+  thumbImage: {
+    src: blobUrl('2023/resituariafective-02.png'),
     alt: 'ZSB 2023 re#situăriafective',
   },
   manifesto: {

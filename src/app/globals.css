@@ -72,8 +72,8 @@
   --gray-750: #3f3d3e;
   --gray-800: #2e2c2d;
   --gray-850: #232223;
-  --gray-900: #1e1c1d;
-
+  --gray-900: #121111;
+/* 2F001C */
   /* Semantic roles — components should use these, not raw gray-*.
      Dark is the default; *-light variants for the rare inverted sections.
      Raw grays (above) are the utility scale — reach for them only when no role fits. */
