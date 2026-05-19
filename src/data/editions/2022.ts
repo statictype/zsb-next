@@ -11,6 +11,10 @@ export const edition2022: Edition = {
     src: blobUrl('2022/perspectiva31-01-transp.png'),
     alt: 'ZSB 2022 #perspectiva31',
   },
+  thumbImage: {
+    src: blobUrl('2022/perspectiva31-01.png'),
+    alt: 'ZSB 2022 #perspectiva31',
+  },
   manifesto: {
     title: 'Perspective is not observed, ',
     highlight: 'it is assumed.',

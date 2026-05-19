@@ -124,7 +124,7 @@
   /* Card / Tile Interaction */
   --card-hover-scale: 1.03;
   --card-image-filter: grayscale(100%) brightness(0.7);
-  --card-image-filter-hover: grayscale(70%) brightness(1);
+  --card-image-filter-hover: grayscale(30%) brightness(1);
   --gallery-image-filter: grayscale(100%) contrast(1.1);
   --gallery-image-filter-hover: grayscale(0%) contrast(1);
 
@@ -198,7 +198,6 @@
     --btn-sm-fs: 10px;
     --btn-md-py: 12px;
     --btn-md-px: 28px;
-    --btn-md-fs: 11px;
     --btn-md-gap: 10px;
     --btn-lg-py: 16px;
     --btn-lg-px: 36px;
@@ -234,7 +233,7 @@
 
     --btn-md-py: 14px;
     --btn-md-px: 32px;
-    --btn-md-fs: 12px;
+    --btn-md-fs: 11px;
     --btn-lg-py: 20px;
     --btn-lg-px: 44px;
     /* --btn-lg-fs: 14px; */
@@ -282,7 +281,6 @@
 
     --btn-md-py: 16px;
     --btn-md-px: 36px;
-    --btn-md-fs: 13px;
     --btn-lg-py: 24px;
     --btn-lg-px: 52px;
     --btn-lg-fs: 13px;
