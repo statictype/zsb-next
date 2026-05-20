@@ -13,13 +13,7 @@ function splitOnFirst(a: string, b: string) {
   return [before, rest.join(b)] as [string, string]
 }
 
-function ThemeTape({
-  theme,
-  themeHighlight = '',
-}: {
-  theme: string
-  themeHighlight: string
-}) {
+function ThemeTape({ theme, themeHighlight = '' }: { theme: string; themeHighlight: string }) {
   const [firstPart, secondPart] = splitOnFirst(theme, themeHighlight) ?? [theme, '']
   return (
     <h1 className={styles.tapeTheme}>

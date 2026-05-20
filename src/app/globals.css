@@ -73,7 +73,7 @@
   --gray-800: #2e2c2d;
   --gray-850: #232223;
   --gray-900: #121111;
-/* 2F001C */
+  /* 2F001C */
   /* Semantic roles — components should use these, not raw gray-*.
      Dark is the default; *-light variants for the rare inverted sections.
      Raw grays (above) are the utility scale — reach for them only when no role fits. */
@@ -378,4 +378,3 @@ img {
 [data-fullpage] ~ footer {
   display: none;
 }
-

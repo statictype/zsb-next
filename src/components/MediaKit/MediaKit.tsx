@@ -11,9 +11,7 @@ interface MediaKitProps {
 }
 
 export function MediaKit({ items }: MediaKitProps) {
-  const lightbox = useLightbox(
-    items.map((item) => ({ src: item.image.src, caption: item.name })),
-  )
+  const lightbox = useLightbox(items.map((item) => ({ src: item.image.src, caption: item.name })))
 
   return (
     <>

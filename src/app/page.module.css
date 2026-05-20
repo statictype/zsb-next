@@ -207,6 +207,17 @@
   composes: pill from "../components/Shared.module.css";
   flex-shrink: 0;
   white-space: nowrap;
+  font-size: 7px;
+  padding: 3px 7px;
+  letter-spacing: 0.1em;
+}
+
+@media (min-width: 768px) {
+  .editionBadge {
+    font-size: var(--text-2xs);
+    padding: 6px 12px;
+    letter-spacing: var(--tracking-label);
+  }
 }
 
 /* =====================================================

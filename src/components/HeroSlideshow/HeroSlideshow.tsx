@@ -19,7 +19,11 @@ interface HeroSlideshowProps {
 }
 
 export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
-  const { index: active, next, prev } = useSlideshow({
+  const {
+    index: active,
+    next,
+    prev,
+  } = useSlideshow({
     count: images.length,
     wrap: true,
     autoplay: interval,
@@ -29,16 +33,11 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
   return (
     <div className={styles.slideshow}>
       <div className={styles.controls}>
-        <button
-          type="button"
-          className={styles.control}
-          onClick={prev}
-          aria-label="Previous slide"
-        >
-          <RiArrowLeftLine size={18} />
+        <button type="button" className={styles.control} onClick={prev} aria-label="Previous slide">
+          <RiArrowLeftLine size={20} />
         </button>
         <button type="button" className={styles.control} onClick={next} aria-label="Next slide">
-          <RiArrowRightLine size={18} />
+          <RiArrowRightLine size={20} />
         </button>
       </div>
       <div

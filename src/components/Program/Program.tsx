@@ -50,9 +50,7 @@ function ProgramColumn({
             <div key={i} className={styles.compactItem}>
               {block.format && <span className={styles.compactType}>{block.format}</span>}
               <span className={styles.compactTitle}>{block.title}</span>
-              {block.description && (
-                <span className={styles.compactNote}>{block.description}</span>
-              )}
+              {block.description && <span className={styles.compactNote}>{block.description}</span>}
             </div>
           ))}
         </div>

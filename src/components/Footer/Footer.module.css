@@ -7,7 +7,7 @@
   position: relative;
   overflow: hidden;
   padding: 0 var(--content-padding);
-  border-top: var(--border-dark)
+  border-top: var(--border-dark);
 }
 
 .inner {

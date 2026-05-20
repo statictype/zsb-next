@@ -16,6 +16,8 @@
     opacity 0.4s ease,
     visibility 0.4s ease;
   cursor: zoom-out;
+  touch-action: none;
+  overscroll-behavior: contain;
 }
 
 .isActive {
@@ -23,21 +25,26 @@
   visibility: visible;
 }
 
-/* ---- Image ---- */
-.image {
-  max-width: 90vw;
-  max-height: 90vh;
-  object-fit: contain;
-  transform: scale(0.95);
-  opacity: 0;
-  transition:
-    transform 0.5s var(--ease-out-expo),
-    opacity 0.4s ease;
+/* ---- Frame & Image ---- */
+.frame {
+  position: relative;
+  width: 90vw;
+  height: 85vh;
+  will-change: transform, opacity;
 }
 
-.isActive .image {
-  transform: scale(1);
-  opacity: 1;
+@media (min-width: 768px) {
+  .frame {
+    width: calc(100vw - 160px);
+    height: 90vh;
+  }
+}
+
+.image {
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 /* ---- Close Button ---- */
@@ -48,14 +55,15 @@
   width: var(--btn-size);
   height: var(--btn-size);
   background: transparent;
-  border: 1px solid var(--divider);
+  border: none;
   color: var(--white);
-  font-size: 24px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--duration-normal) ease;
+  transition:
+    color var(--duration-normal) ease,
+    transform var(--duration-normal) ease;
   z-index: 10;
 }
 
@@ -67,9 +75,8 @@
 }
 
 .close:hover {
-  background: var(--white);
-  color: var(--black);
-  border-color: var(--white);
+  color: var(--action);
+  transform: rotate(90deg);
 }
 
 /* ---- Caption ---- */
@@ -83,6 +90,7 @@
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
   color: var(--muted);
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
@@ -99,35 +107,59 @@
   width: var(--btn-size);
   height: var(--btn-size);
   background: transparent;
-  border: 1px solid var(--divider);
+  border: none;
   color: var(--white);
-  font-size: 20px;
   cursor: pointer;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
-  transition: all var(--duration-normal) ease;
+  transition:
+    color var(--duration-normal) ease,
+    transform var(--duration-normal) ease;
   z-index: 10;
 }
 
+@media (min-width: 768px) {
+  .nav {
+    display: flex;
+  }
+}
+
 .nav:hover {
-  background: var(--action);
-  border-color: var(--action);
+  color: var(--action);
 }
 
 .navPrev {
-  left: var(--space-md);
+  left: 16px;
 }
 
 .navNext {
-  right: var(--space-md);
+  right: 16px;
 }
 
-@media (min-width: 768px) {
-  .navPrev {
-    left: 32px;
-  }
-  .navNext {
-    right: 32px;
-  }
+.navPrev:hover {
+  transform: translateY(-50%) translateX(-2px);
+}
+
+.navNext:hover {
+  transform: translateY(-50%) translateX(2px);
+}
+
+/* ---- Preload (off-screen, fetches optimized variants for N±1) ---- */
+.preload {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.preloadFrame {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
 }
