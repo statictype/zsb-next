@@ -51,7 +51,8 @@ export const edition = defineType({
     defineField({
       name: 'dateTape',
       title: 'Date tape',
-      description: 'Dates + venue line shown under the hero, e.g. "16.04-11.05 · Combinatul Fondului Plastic"',
+      description:
+        'Dates + venue line shown under the hero, e.g. "16.04-11.05 · Combinatul Fondului Plastic"',
       type: 'string',
       group: 'hero',
       validation: (rule) => rule.required(),
@@ -172,7 +173,8 @@ export const edition = defineType({
     defineField({
       name: 'carousel',
       title: 'Carousel',
-      description: 'Optional. Press images / exhibition photography, typically added during or after the event.',
+      description:
+        'Optional. Press images / exhibition photography, typically added during or after the event.',
       type: 'array',
       group: 'carousel',
       of: [

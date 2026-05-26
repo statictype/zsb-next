@@ -37,15 +37,7 @@ const carouselImageMember = defineArrayMember({
   },
 })
 
-function slideType({
-  name,
-  title,
-  count,
-}: {
-  name: string
-  title: string
-  count: 1 | 2 | 3
-}) {
+function slideType({ name, title, count }: { name: string; title: string; count: 1 | 2 | 3 }) {
   return defineType({
     name,
     title,
