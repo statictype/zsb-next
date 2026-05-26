@@ -43,7 +43,7 @@ export function Hero({ edition }: HeroProps) {
             src={heroImage.src}
             alt={heroImage.alt}
             fill
-            sizes="(min-width: 1280px) 1200px, (min-width: 768px) 92vw, 100vw"
+            sizes="(min-width: 1024px) calc(100vw - 200px), 100vw"
             priority
             className={styles.image}
           />

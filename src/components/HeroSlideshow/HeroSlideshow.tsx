@@ -63,7 +63,7 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
               src={img.src}
               alt={img.alt}
               fill
-              sizes="100vw"
+              sizes="(min-width: 1792px) 1024px, (min-width: 1280px) 60vw, 100vw"
               priority={i === 0}
               style={img.position ? { objectPosition: img.position } : undefined}
             />
