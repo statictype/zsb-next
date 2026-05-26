@@ -20,7 +20,7 @@ function truncate(text: string, max: number): string {
 }
 
 export function editionMetadata(edition: AnyEdition): Metadata {
-  const description = truncate(edition.manifesto.paragraphs[0] ?? '', 155)
+  const description = truncate(edition.manifesto.body, 155)
   const title = `${edition.year} — ${edition.theme}`
   const path = `/editions/${edition.year}`
 
@@ -52,7 +52,7 @@ export function editionEventJsonLd(edition: Edition) {
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: `${SITE_NAME} ${edition.year} — ${edition.theme}`,
-    description: edition.manifesto.paragraphs[0] ?? '',
+    description: edition.manifesto.body,
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
       '@type': 'Place',

@@ -14,23 +14,11 @@ export const edition2025: Edition = {
   manifesto: {
     title: 'What you see is not all there is',
     highlight: 'not all there is',
-    paragraphs: [
-      'Everyone has a body. Not everyone has been allowed to show theirs as it is. For its fifth edition, ZSB brought sculpture into direct confrontation with the body as contested territory. Forty-four artists explored form beneath the skin, prioritising the mutant, the scarred, and the vulnerable over the idealised. Sculpture as exposure, not perfection. The body, loud and unpolished.',
-    ],
+    body: 'Everyone has a body. Not everyone has been allowed to show theirs as it is. For its fifth edition, ZSB brought sculpture into direct confrontation with the body as contested territory. Forty-four artists explored form beneath the skin, prioritising the mutant, the scarred, and the vulnerable over the idealised. Sculpture as exposure, not perfection. The body, loud and unpolished.',
   },
 
   themeSection: {
-    lead: 'The Other Body—beyond ideals, beyond symmetry, beyond approval.',
-    body: [
-      'What you see is not all there is. Beneath the skin, beyond symmetry and ideals, there are bodies that don’t seek approval: mutant, queer, scarred, vulnerable.',
-      'Sculpture no longer idealizes them. It listens. It exposes. It frees.',
-      "Under the theme #celălaltcorp | #theotherbody, contemporary sculpture and transmedia practices reframed the human figure beyond ideals and norms, revealing bodies that resist, transform, and redefine presence. From classical ideals to contemporary interventions, the body remains sculpture's most contested territory.",
-    ],
-    coda: [
-      '#theotherbody is about identity, memory, struggle, and becoming. It questions how contemporary sculpture engages with corporeal presence—not as an object of beauty, but as a site of resistance, vulnerability, and transformation.',
-    ],
-    artistsStatement:
-      'The main exhibition #celălaltcorp brought together 44 contemporary artists, whose practices span a wide range of sculptural approaches, materials, and collaborative configurations. Particular attention was given to works that engage with the body as a site of transformation.',
+    body: "What you see is not all there is. Beneath the skin, beyond symmetry and ideals, there are bodies that don’t seek approval: mutant, queer, scarred, vulnerable. Sculpture no longer idealizes them. It listens. It exposes. It frees. Under the theme #celălaltcorp | #theotherbody, contemporary sculpture and transmedia practices reframed the human figure beyond ideals and norms, revealing bodies that resist, transform, and redefine presence. From classical ideals to contemporary interventions, the body remains sculpture's most contested territory.",
   },
 
   artists: [

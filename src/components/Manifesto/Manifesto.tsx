@@ -27,10 +27,7 @@ export function Manifesto({ manifesto }: ManifestoProps) {
         </div>
         <div className={styles.content}>
           <div className={styles.text}>
-            {manifesto.paragraphs.map((p, i) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: static list
-              <p key={i}>{p}</p>
-            ))}
+            <p>{manifesto.body}</p>
           </div>
         </div>
       </div>

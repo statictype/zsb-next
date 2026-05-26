@@ -18,21 +18,11 @@ export const edition2023: Edition = {
   manifesto: {
     title: 'Forms that hold, not dominate',
     highlight: 'not dominate',
-    paragraphs: [
-      'In April 2023, ZSB explored sculpture as an act of holding: holding space, holding memory, holding onto difference in a fractured world. The edition included pop-up cinema and debates on heritage restoration, with form treated as a gesture of care. Matter carrying the weight of the personal.',
-    ],
+    body: 'In April 2023, ZSB explored sculpture as an act of holding: holding space, holding memory, holding onto difference in a fractured world. The edition included pop-up cinema and debates on heritage restoration, with form treated as a gesture of care. Matter carrying the weight of the personal.',
   },
 
   themeSection: {
-    lead: '',
-    body: [
-      'The prefix re# is deliberate. Situating is not a neutral act. It is shaped by lived experience: historical, cultural, familial, and personal. The re# signals a return, a repositioning, a doing-again with different knowledge.Within this frame, sculpture becomes a relational practice, capable of mediating between individual grounding and collective space. re#situariafective foregrounded coexistence, care, and vulnerability as structuring principles of form and meaning. Forms that hold, not dominate.',
-    ],
-    coda: [
-      'The exhibition proposed a shift away from isolated perspectives toward openness, dialogue, and shared responsibility.',
-    ],
-    artistsStatement:
-      'The main exhibition re#situăriafective brought together 31 contemporary artists, whose practices span a wide range of sculptural approaches, materials, and collaborative configurations.',
+    body: 'The prefix re# is deliberate. Situating is not a neutral act. It is shaped by lived experience: historical, cultural, familial, and personal. The re# signals a return, a repositioning, a doing-again with different knowledge.Within this frame, sculpture becomes a relational practice, capable of mediating between individual grounding and collective space. re#situariafective foregrounded coexistence, care, and vulnerability as structuring principles of form and meaning. Forms that hold, not dominate.',
   },
 
   artists: [

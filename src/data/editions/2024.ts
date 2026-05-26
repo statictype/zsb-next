@@ -17,21 +17,11 @@ export const edition2024: Edition = {
   manifesto: {
     title: 'Where forms align, art unveils',
     highlight: 'art unveils',
-    paragraphs: [
-      'For its fourth edition, ZSB functioned as a gravitational field. Operating under the theme #SYZYGY, it transformed Combinatul Fondului Plastic into a space where sculpture, film, and debate collided. We moved beyond the static pedestal to explore art as a system of tension—an active friction between materials, generations, and disciplines. It was two weeks of celestial alignment, grounded in the messy reality of contemporary practice.',
-    ],
+    body: 'For its fourth edition, ZSB functioned as a gravitational field. Operating under the theme #SYZYGY, it transformed Combinatul Fondului Plastic into a space where sculpture, film, and debate collided. We moved beyond the static pedestal to explore art as a system of tension—an active friction between materials, generations, and disciplines. It was two weeks of celestial alignment, grounded in the messy reality of contemporary practice.',
   },
   dateTape: '16.04-11.05 · Combinatul Fondului Plastic',
   themeSection: {
-    lead: '',
-    body: [
-      'Borrowed from astronomy, syzygy describes the alignment of celestial bodies. Transposed into sculpture, it becomes a model for understanding how form emerges through resistance and proximity.',
-      'Syzygy is treated first as a material condition. Opposing substances meet. Friction appears. From this friction, clarity is produced. Form becomes legible precisely because materials do not easily agree.',
-      'It is also a method of working. The artist steps back from full control. Authorship loosens. Materials and processes are allowed to intervene. The work is shaped through negotiation rather than domination.',
-      'At the same time, syzygy functions as a relational state. It exists between artist and object. Between creator and creation. Between individual practice and the wider system in which it operates.',
-    ],
-    coda: [],
-    artistsStatement: '',
+    body: 'Borrowed from astronomy, syzygy describes the alignment of celestial bodies. Transposed into sculpture, it becomes a model for understanding how form emerges through resistance and proximity. Syzygy is treated first as a material condition. Opposing substances meet. Friction appears. From this friction, clarity is produced. Form becomes legible precisely because materials do not easily agree. It is also a method of working. The artist steps back from full control. Authorship loosens. Materials and processes are allowed to intervene. The work is shaped through negotiation rather than domination. At the same time, syzygy functions as a relational state. It exists between artist and object. Between creator and creation. Between individual practice and the wider system in which it operates.',
   },
 
   artists: [

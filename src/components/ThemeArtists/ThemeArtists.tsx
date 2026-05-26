@@ -20,7 +20,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
       </div>
       <div className={styles.inner}>
         <div className={styles.body}>
-          <p>{themeSection.body.join(' ')}</p>
+          <p>{themeSection.body}</p>
         </div>
 
         <ArtistsTable

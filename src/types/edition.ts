@@ -10,16 +10,13 @@ export interface ImageData {
 export interface ManifestoData {
   title: string
   highlight: string
-  paragraphs: string[]
+  body: string
 }
 
 // ---- Theme ----
 
 export interface ThemeData {
-  lead: string
-  body: string[]
-  coda: string[]
-  artistsStatement: string
+  body: string
 }
 
 // ---- Venues ----
