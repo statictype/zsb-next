@@ -43,3 +43,6 @@ CLAUDE.md
 
 # personal notes / blog drafts
 /journal/
+
+# claude code — local-only settings (skills/ is shared)
+/.claude/settings.local.json
