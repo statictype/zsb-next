@@ -74,7 +74,7 @@ function canonicalSlug(slug: string): string {
   return ALIASES[slug] ?? slug
 }
 
-function collect(): Map<string, CollectedOrg> {
+async function collect(): Promise<Map<string, CollectedOrg>> {
   const bySlug = new Map<string, CollectedOrg>()
   const upsert = (name: string, source: string, logo?: { file: string; alt: string }) => {
     const trimmed = name.trim()
@@ -99,8 +99,8 @@ function collect(): Map<string, CollectedOrg> {
     bySlug.set(slug, entry)
   }
 
-  for (const year of getAllEditionYears()) {
-    const edition = getEdition(year)
+  for (const year of await getAllEditionYears()) {
+    const edition = await getEdition(year)
     if (!edition) continue
     for (const credit of edition.credits) {
       const source = `${year} · ${credit.label}`
@@ -164,7 +164,7 @@ async function main() {
     )
   }
 
-  const bySlug = collect()
+  const bySlug = await collect()
   console.log(`Collected ${bySlug.size} unique organizations from credit rows.`)
 
   if (dryRun) {

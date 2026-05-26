@@ -1,7 +1,12 @@
+import { Suspense } from 'react'
 import { Studio } from './Studio'
 
 export { metadata, viewport } from 'next-sanity/studio'
 
 export default function StudioPage() {
-  return <Studio />
+  return (
+    <Suspense>
+      <Studio />
+    </Suspense>
+  )
 }

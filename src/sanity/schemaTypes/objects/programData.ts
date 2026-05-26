@@ -144,6 +144,7 @@ export const programData = defineType({
       title: 'SFTF banner',
       description: 'Sculptors for the Future — the educational program callout',
       type: 'object',
+      validation: (rule) => rule.required(),
       fields: [
         defineField({
           name: 'tag',

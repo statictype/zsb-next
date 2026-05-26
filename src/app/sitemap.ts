@@ -2,8 +2,9 @@ import type { MetadataRoute } from 'next'
 import { getAllEditionYears } from '@/data/editions'
 import { SITE_URL } from '@/lib/constants'
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const editionEntries = getAllEditionYears().map((year) => ({
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const years = await getAllEditionYears()
+  const editionEntries = years.map((year) => ({
     url: `${SITE_URL}/editions/${year}`,
     lastModified: new Date(),
     changeFrequency: 'yearly' as const,

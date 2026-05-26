@@ -4,9 +4,9 @@ import { ALL_ARTISTS } from '@/data/artists'
 import { getAllEditionYears } from '@/data/editions'
 import styles from './ArtistsBanner.module.css'
 
-export function ArtistsBanner() {
+export async function ArtistsBanner() {
   const artistCount = ALL_ARTISTS.length
-  const editionCount = getAllEditionYears().length
+  const editionCount = (await getAllEditionYears()).length
 
   return (
     <Link href="/artists" className={styles.banner}>

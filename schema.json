@@ -673,7 +673,7 @@
             "type": "inline",
             "name": "sftfBanner"
           },
-          "optional": true
+          "optional": false
         }
       }
     }

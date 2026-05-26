@@ -123,7 +123,7 @@ export type ProgramData = {
     _type: "programFilm";
     _key: string;
   }>;
-  sftfBanner?: SftfBanner;
+  sftfBanner: SftfBanner;
 };
 
 export type CreditText = {
@@ -535,11 +535,147 @@ export type ARTIST_BY_SLUG_QUERY_RESULT = {
   }> | null;
 } | null;
 
+// Source: src/sanity/lib/queries.ts
+// Variable: EDITION_YEARS_QUERY
+// Query: *[_type == "edition" && defined(year)] | order(year desc).year
+export type EDITION_YEARS_QUERY_RESULT = Array<number>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: EDITION_BY_YEAR_QUERY
+// Query: *[_type == "edition" && year == $year][0] {    _id,    year,    title,    theme,    themeHighlight,    dateTape,    heroImage,    thumbImage,    manifesto,    themeSection,    "artists": artists[]->name,    venues,    program,    carousel[] {      _type,      images[] {        caption,        image      }    },    credits[] {      _type,      type,      label,      detail,      value,      organization->{        name,        logo      },      organizations[]->{        name,        logo      }    }  }
+export type EDITION_BY_YEAR_QUERY_RESULT = {
+  _id: string;
+  year: number;
+  title: string;
+  theme: string;
+  themeHighlight: string;
+  dateTape: string;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: "image";
+  };
+  thumbImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  manifesto: {
+    title: string;
+    highlight: string;
+    body: string;
+  };
+  themeSection: {
+    body: string;
+  };
+  artists: Array<string>;
+  venues: Array<
+    {
+      _key: string;
+    } & VenueEntry
+  > | null;
+  program: ProgramData | null;
+  carousel: Array<
+    | {
+        _type: "slideDuo";
+        images: Array<{
+          caption: string;
+          image: CarouselImageImage;
+        }>;
+      }
+    | {
+        _type: "slideFeaturedPortrait";
+        images: Array<{
+          caption: string;
+          image: CarouselImageImage;
+        }>;
+      }
+    | {
+        _type: "slideFeaturedStack";
+        images: Array<{
+          caption: string;
+          image: CarouselImageImage;
+        }>;
+      }
+    | {
+        _type: "slideFull";
+        images: Array<{
+          caption: string;
+          image: CarouselImageImage;
+        }>;
+      }
+    | {
+        _type: "slideTrio";
+        images: Array<{
+          caption: string;
+          image: CarouselImageImage;
+        }>;
+      }
+  > | null;
+  credits: Array<
+    | {
+        _type: "creditOrg";
+        type: "partner" | "primary" | "secondary";
+        label: string;
+        detail: string | null;
+        value: null;
+        organization: {
+          name: string;
+          logo: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          } | null;
+        };
+        organizations: null;
+      }
+    | {
+        _type: "creditOrgList";
+        type: "partner" | "primary" | "secondary";
+        label: string;
+        detail: null;
+        value: null;
+        organization: null;
+        organizations: Array<{
+          name: string;
+          logo: {
+            asset?: SanityImageAssetReference;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          } | null;
+        }>;
+      }
+    | {
+        _type: "creditText";
+        type: "partner" | "primary" | "secondary";
+        label: string;
+        detail: null;
+        value: string;
+        organization: null;
+        organizations: null;
+      }
+  >;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_type == "artist" && defined(slug.current)] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT;
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT;
+    '\n  *[_type == "edition" && year == $year][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateTape,\n    heroImage,\n    thumbImage,\n    manifesto,\n    themeSection,\n    "artists": artists[]->name,\n    venues,\n    program,\n    carousel[] {\n      _type,\n      images[] {\n        caption,\n        image\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      value,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT;
   }
 }

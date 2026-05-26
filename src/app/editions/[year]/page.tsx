@@ -13,20 +13,19 @@ import { OnlineEditionLayout } from './online-edition-layout'
 import styles from './page.module.css'
 
 export async function generateStaticParams() {
-  return getAllEditionYears().map((year) => ({
-    year: String(year),
-  }))
+  const years = await getAllEditionYears()
+  return years.map((year) => ({ year: String(year) }))
 }
 
 export async function generateMetadata(props: PageProps<'/editions/[year]'>) {
   const { year } = await props.params
-  const edition = getEdition(Number(year))
+  const edition = await getEdition(Number(year))
   return edition ? editionMetadata(edition) : {}
 }
 
 export default async function EditionPage(props: PageProps<'/editions/[year]'>) {
   const { year } = await props.params
-  const edition = getEdition(Number(year))
+  const edition = await getEdition(Number(year))
 
   if (!edition) {
     notFound()
@@ -49,7 +48,7 @@ export default async function EditionPage(props: PageProps<'/editions/[year]'>) 
 
       <Venues venues={edition.venues} />
 
-      <Program year={edition.year} program={edition.program} />
+      {edition.program && <Program year={edition.year} program={edition.program} />}
 
       <Credits credits={edition.credits} />
     </main>

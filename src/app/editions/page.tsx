@@ -13,8 +13,9 @@ export const metadata = pageMetadata({
   path: '/editions',
 })
 
-export default function EditionsPage() {
-  const years = getAllEditionYears()
+export default async function EditionsPage() {
+  const years = await getAllEditionYears()
+  const editions = await Promise.all(years.map(async (year) => await getEdition(year)))
 
   return (
     <main>
@@ -33,9 +34,9 @@ export default function EditionsPage() {
           </header>
 
           <div className={styles.grid}>
-            {years.map((year, index) => {
-              const edition = getEdition(year)
+            {editions.map((edition, index) => {
               if (!edition) return null
+              const year = edition.year
               const isFeature = index === 0
               const thumb = edition.thumbImage ?? edition.heroImage
 

@@ -24,3 +24,47 @@ export const ARTIST_BY_SLUG_QUERY = defineQuery(`
     externalLinks
   }
 `)
+
+export const EDITION_YEARS_QUERY = defineQuery(`
+  *[_type == "edition" && defined(year)] | order(year desc).year
+`)
+
+export const EDITION_BY_YEAR_QUERY = defineQuery(`
+  *[_type == "edition" && year == $year][0] {
+    _id,
+    year,
+    title,
+    theme,
+    themeHighlight,
+    dateTape,
+    heroImage,
+    thumbImage,
+    manifesto,
+    themeSection,
+    "artists": artists[]->name,
+    venues,
+    program,
+    carousel[] {
+      _type,
+      images[] {
+        caption,
+        image
+      }
+    },
+    credits[] {
+      _type,
+      type,
+      label,
+      detail,
+      value,
+      organization->{
+        name,
+        logo
+      },
+      organizations[]->{
+        name,
+        logo
+      }
+    }
+  }
+`)

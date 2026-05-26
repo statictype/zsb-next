@@ -12,8 +12,8 @@ export const metadata = pageMetadata({
   path: '/artists',
 })
 
-export default function ArtistsPage() {
-  const editionCount = getAllEditionYears().length
+export default async function ArtistsPage() {
+  const editionCount = (await getAllEditionYears()).length
 
   return (
     <main>

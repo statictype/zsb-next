@@ -160,8 +160,8 @@ export interface Edition {
   themeSection: ThemeData
   artists: string[]
   venues: VenueEntry[]
-  program: ProgramData
-  carousel: CarouselSlide[]
+  program?: ProgramData
+  carousel?: CarouselSlide[]
   credits: CreditEntry[]
 }
 
