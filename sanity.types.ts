@@ -15,11 +15,272 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
+export type SftfBanner = {
+  tag: string;
+  title: string;
+  description: string;
+};
+
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
+export type CarouselImageImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  alt?: string;
+  _type: "image";
+};
+
+export type SlideFeaturedStack = {
+  _type: "slideFeaturedStack";
+  images: Array<{
+    image: CarouselImageImage;
+    caption: string;
+    _type: "carouselImage";
+    _key: string;
+  }>;
+};
+
+export type SlideTrio = {
+  _type: "slideTrio";
+  images: Array<{
+    image: CarouselImageImage;
+    caption: string;
+    _type: "carouselImage";
+    _key: string;
+  }>;
+};
+
+export type SlideFeaturedPortrait = {
+  _type: "slideFeaturedPortrait";
+  images: Array<{
+    image: CarouselImageImage;
+    caption: string;
+    _type: "carouselImage";
+    _key: string;
+  }>;
+};
+
+export type SlideDuo = {
+  _type: "slideDuo";
+  images: Array<{
+    image: CarouselImageImage;
+    caption: string;
+    _type: "carouselImage";
+    _key: string;
+  }>;
+};
+
+export type SlideFull = {
+  _type: "slideFull";
+  images: Array<{
+    image: CarouselImageImage;
+    caption: string;
+    _type: "carouselImage";
+    _key: string;
+  }>;
+};
+
+export type VenueEntry = {
+  _type: "venueEntry";
+  group: string;
+  subgroup: string;
+  name: string;
+  program: string;
+};
+
+export type ProgramData = {
+  _type: "programData";
+  dates: string;
+  blocks: Array<{
+    type:
+      | "Exhibition"
+      | "Main Exhibition"
+      | "Student Exhibition"
+      | "Opening Event"
+      | "Special Event"
+      | "Film Program"
+      | "Talks & Workshops";
+    title: string;
+    dates: string;
+    description: string;
+    location?: string;
+    format?: "Roundtable" | "Workshop" | "Open Studios";
+    column: 1 | 2;
+    _type: "programBlock";
+    _key: string;
+  }>;
+  films?: Array<{
+    date: string;
+    title: string;
+    note?: string;
+    _type: "programFilm";
+    _key: string;
+  }>;
+  sftfBanner?: SftfBanner;
+};
+
+export type CreditText = {
+  _type: "creditText";
+  type: "primary" | "partner" | "secondary";
+  label: string;
+  value: string;
+};
+
+export type OrganizationReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "organization";
+};
+
+export type CreditOrgList = {
+  _type: "creditOrgList";
+  type: "primary" | "partner" | "secondary";
+  label: string;
+  organizations: Array<
+    {
+      _key: string;
+    } & OrganizationReference
+  >;
+};
+
+export type CreditOrg = {
+  _type: "creditOrg";
+  type: "primary" | "partner" | "secondary";
+  label: string;
+  organization: OrganizationReference;
+  detail?: string;
+};
+
+export type Organization = {
+  _id: string;
+  _type: "organization";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: Slug;
+  logo?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  url?: string;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
+export type ArtistReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "artist";
+};
+
+export type Edition = {
+  _id: string;
+  _type: "edition";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  year: number;
+  theme: string;
+  themeHighlight: string;
+  title: string;
+  dateTape: string;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    _type: "image";
+  };
+  thumbImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  manifesto: {
+    title: string;
+    highlight: string;
+    body: string;
+  };
+  themeSection: {
+    body: string;
+  };
+  artists: Array<
+    {
+      _key: string;
+    } & ArtistReference
+  >;
+  venues?: Array<
+    {
+      _key: string;
+    } & VenueEntry
+  >;
+  program?: ProgramData;
+  carousel?: Array<
+    | ({
+        _key: string;
+      } & SlideFull)
+    | ({
+        _key: string;
+      } & SlideDuo)
+    | ({
+        _key: string;
+      } & SlideFeaturedPortrait)
+    | ({
+        _key: string;
+      } & SlideTrio)
+    | ({
+        _key: string;
+      } & SlideFeaturedStack)
+  >;
+  credits: Array<
+    | ({
+        _key: string;
+      } & CreditOrg)
+    | ({
+        _key: string;
+      } & CreditOrgList)
+    | ({
+        _key: string;
+      } & CreditText)
+  >;
 };
 
 export type Artist = {
@@ -64,28 +325,6 @@ export type Artist = {
     _type: "externalLink";
     _key: string;
   }>;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
-
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -186,11 +425,27 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | SftfBanner
   | SanityImageAssetReference
-  | Artist
+  | CarouselImageImage
+  | SlideFeaturedStack
+  | SlideTrio
+  | SlideFeaturedPortrait
+  | SlideDuo
+  | SlideFull
+  | VenueEntry
+  | ProgramData
+  | CreditText
+  | OrganizationReference
+  | CreditOrgList
+  | CreditOrg
+  | Organization
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | ArtistReference
+  | Edition
+  | Artist
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
