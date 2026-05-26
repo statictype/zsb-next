@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
 import { type HeroImage, HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
+import { Navigation } from '@/components/Navigation/Navigation'
 import shared from '@/components/Shared.module.css'
 import { blobUrl } from '@/lib/blob'
 import { pageMetadata } from '@/lib/seo'
@@ -39,76 +40,79 @@ const editions: EditionItem[] = [
 
 export default function HomePage() {
   return (
-    <main className={styles.main}>
-      {/* ---- Hero ---- */}
-      <section id="home" className={`${styles.panel} ${styles.hero}`}>
-        <div className={styles.heroInner}>
-          <div className={styles.heroVisual}>
-            <HeroSlideshow images={heroImages} />
-          </div>
+    <>
+      <Navigation activeId="home" />
+      <main className={styles.main}>
+        {/* ---- Hero ---- */}
+        <section id="home" className={`${styles.panel} ${styles.hero}`}>
+          <div className={styles.heroInner}>
+            <div className={styles.heroVisual}>
+              <HeroSlideshow images={heroImages} />
+            </div>
 
-          <div className={styles.heroPanel}>
-            <h1 className={shared.pageTitle}>
-              Bucharest
-              <br />
-              <span className={shared.accent}>
-                {' '}
-                Sculpture
+            <div className={styles.heroPanel}>
+              <h1 className={shared.pageTitle}>
+                Bucharest
                 <br />
-                Days
-              </span>
-            </h1>
-            <div className={styles.heroText}>
-              <p className={shared.heroLead}>
-                Artists shift the boundaries of form. ZSB gives those shifts a place to land.
-              </p>
-              <MagneticButton href="/editions/2025" size="md">
-                Explore the 2025 edition <RiArrowRightLine size={14} />
-              </MagneticButton>
+                <span className={shared.accent}>
+                  {' '}
+                  Sculpture
+                  <br />
+                  Days
+                </span>
+              </h1>
+              <div className={styles.heroText}>
+                <p className={shared.heroLead}>
+                  Artists shift the boundaries of form. ZSB gives those shifts a place to land.
+                </p>
+                <MagneticButton href="/editions/2025" size="md">
+                  Explore the 2025 edition <RiArrowRightLine size={14} />
+                </MagneticButton>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ---- Editions ---- */}
-      <section id="editions" className={`${styles.panel} ${styles.editions}`}>
-        <div className={styles.editionsHead}>
-          <h2 className={shared.sectionTitle}>EDITIONS</h2>
-          <p className={styles.editionsSubtext}>
-            Edition after edition, ZSB holds open the question of what sculpture can do with body,
-            matter, space, and memory.
-          </p>
-        </div>
-        <div className={styles.editionList}>
-          {editions.map((edition) => {
-            if ('upcoming' in edition) {
+        {/* ---- Editions ---- */}
+        <section id="editions" className={`${styles.panel} ${styles.editions}`}>
+          <div className={styles.editionsHead}>
+            <h2 className={shared.sectionTitle}>EDITIONS</h2>
+            <p className={styles.editionsSubtext}>
+              Edition after edition, ZSB holds open the question of what sculpture can do with body,
+              matter, space, and memory.
+            </p>
+          </div>
+          <div className={styles.editionList}>
+            {editions.map((edition) => {
+              if ('upcoming' in edition) {
+                return (
+                  <div
+                    key={edition.year}
+                    className={`${styles.editionRow} ${styles.editionRowDisabled}`}
+                    aria-disabled="true"
+                  >
+                    <span className={styles.editionYear}>{edition.year}</span>
+                    <span className={styles.editionTheme}>{edition.theme}</span>
+                    <span className={styles.editionBadge}>Coming soon</span>
+                  </div>
+                )
+              }
               return (
-                <div
-                  key={edition.year}
-                  className={`${styles.editionRow} ${styles.editionRowDisabled}`}
-                  aria-disabled="true"
-                >
+                <Link key={edition.year} href={edition.href} className={styles.editionRow}>
                   <span className={styles.editionYear}>{edition.year}</span>
                   <span className={styles.editionTheme}>{edition.theme}</span>
-                  <span className={styles.editionBadge}>Coming soon</span>
-                </div>
+                  <span className={styles.editionArrow}>
+                    <RiArrowRightUpLine size={24} />
+                  </span>
+                </Link>
               )
-            }
-            return (
-              <Link key={edition.year} href={edition.href} className={styles.editionRow}>
-                <span className={styles.editionYear}>{edition.year}</span>
-                <span className={styles.editionTheme}>{edition.theme}</span>
-                <span className={styles.editionArrow}>
-                  <RiArrowRightUpLine size={24} />
-                </span>
-              </Link>
-            )
-          })}
-        </div>
-      </section>
+            })}
+          </div>
+        </section>
 
-      {/* ---- Artists ---- */}
-      <ArtistsBanner />
-    </main>
+        {/* ---- Artists ---- */}
+        <ArtistsBanner />
+      </main>
+    </>
   )
 }

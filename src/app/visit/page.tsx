@@ -1,3 +1,4 @@
+import { Navigation } from '@/components/Navigation/Navigation'
 import { VisitSection } from '@/components/VisitSection/VisitSection'
 import { pageMetadata } from '@/lib/seo'
 
@@ -10,8 +11,11 @@ export const metadata = pageMetadata({
 
 export default function VisitPage() {
   return (
-    <main>
-      <VisitSection />
-    </main>
+    <>
+      <Navigation activeId={null} />
+      <main>
+        <VisitSection />
+      </main>
+    </>
   )
 }

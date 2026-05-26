@@ -2,19 +2,11 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import styles from './Navigation.module.css'
 
-function getActiveFromPath(pathname: string): string {
-  if (pathname === '/') return 'home'
-  if (pathname.startsWith('/about')) return 'about'
-  if (pathname.startsWith('/editions')) return 'editions'
-  if (pathname.startsWith('/artists')) return 'artists'
-  if (pathname.startsWith('/partners')) return 'partners'
-  return 'home'
-}
+export type NavActiveId = 'home' | 'about' | 'editions' | 'artists' | null
 
 const NAV_ITEMS = [
   { id: 'home', label: 'Home', href: '/' },
@@ -23,10 +15,11 @@ const NAV_ITEMS = [
   { id: 'artists', label: 'Artists', href: '/artists' },
 ] as const
 
-export function Navigation() {
-  const pathname = usePathname()
-  const isHome = pathname === '/'
-  const activeId = getActiveFromPath(pathname)
+type Props = {
+  activeId: NavActiveId
+}
+
+export function Navigation({ activeId }: Props) {
   const [isOpen, setIsOpen] = useState(false)
   const closeMenu = () => setIsOpen(false)
 
@@ -40,7 +33,7 @@ export function Navigation() {
     return () => document.removeEventListener('keydown', handleKeydown)
   }, [])
 
-  const showLogoLink = !isHome
+  const showLogoLink = activeId !== 'home'
 
   const logoImg = (
     <Image

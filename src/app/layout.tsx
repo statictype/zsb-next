@@ -4,7 +4,6 @@ import { Suspense } from 'react'
 import { CookieBanner } from '@/components/CookieBanner/CookieBanner'
 import { Footer } from '@/components/Footer/Footer'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
-import { Navigation } from '@/components/Navigation/Navigation'
 import { SITE_NAME, SITE_URL } from '@/lib/constants'
 import './globals.css'
 
@@ -64,7 +63,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${delaGothic.variable} ${montserrat.variable}`}>
+    <html
+      lang="en"
+      className={`${delaGothic.variable} ${montserrat.variable}`}
+      data-scroll-behavior="smooth"
+    >
       <body>
         <JsonLd
           data={{
@@ -95,7 +98,6 @@ export default function RootLayout({
             ],
           }}
         />
-        <Navigation />
         {children}
         <Suspense>
           <Footer />
