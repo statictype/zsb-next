@@ -34,6 +34,14 @@ export default [
     },
   },
   {
-    ignores: ['.next/**', 'out/**', 'build/**', 'next-env.d.ts', 'node_modules/**'],
+    ignores: [
+      '.next/**',
+      'out/**',
+      'build/**',
+      'next-env.d.ts',
+      'sanity.types.ts',
+      'schema.json',
+      'node_modules/**',
+    ],
   },
 ]
