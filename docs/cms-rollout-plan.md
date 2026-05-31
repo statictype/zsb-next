@@ -23,7 +23,6 @@ Captured before coding started, won't re-litigate without a new decision in this
 
 - **Blog** — coming later, separate effort.
 - **Localization** — site is English-only today, no `i18n` plans in this rollout.
-- **Visual Editing of editions** — depends on `next-sanity` v13 upgrade (step 1.5).
 
 ## Steps
 
@@ -108,24 +107,45 @@ Four singletons in two commits.
 
 ### `[ ]` Step 5 — Press: `pressAppearance`, `pressRelease`, `edition.pressKit`
 
-- **`pressAppearance` doc:** type enum (youtube / vimeo / soundcloud / article / tv), title, year, tag, url, optional excerpt.
-- **`pressRelease` doc:** edition reference, language (EN / RO), title, PDF asset, pages, size.
-- **`edition.pressKit` object:** poster image, exhibition cover image. Press page aggregates posters + covers across all editions.
-
-**Wires:** `src/app/press/page.tsx` swaps `PRESS_APPEARANCES` / `PRESS_RELEASES` / `MEDIA_KIT` for Sanity queries.
+- **`pressAppearance` doc:** `type` enum (youtube / vimeo / soundcloud / article / tv) — drives the icon, same fixed-enum pattern as `visitPage.amenities`; `title`, `year`, `tag`, `url`, optional `excerpt`. Listed in `Press` group in structure tree.
+- **`pressRelease` doc:** `edition` reference, `language` (EN / RO), `title`, `pdf` (Sanity file asset), `pages` (number), `size` (string, editor-authored — Sanity file metadata doesn't reliably carry size). Same `Press` group.
+- **`edition.pressKit` object:** `poster` image, `coverPhoto` image. Sits inside the existing Edition document — additive, no migration needed.
+- **Queries:** `PRESS_APPEARANCES_QUERY`, `PRESS_RELEASES_QUERY` (with edition year de-referenced), and `EDITIONS_PRESS_KIT_QUERY` aggregating all editions that have a `pressKit`.
+- **Wires:** `src/app/(site)/press/page.tsx` switches from `PRESS_APPEARANCES` / `PRESS_RELEASES` / `MEDIA_KIT` (deletable from `src/data/`) to the new queries via the 3-layer pattern. Per-row icon rendering moves to a renderer-side enum→component map (mirrors VisitSection's `ICONS` map).
 
 ### `[ ]` Step 6 — Edition schema cleanups + migration
 
-The audit surfaced UX issues in the existing edition schema worth fixing before any more editions are authored against it.
+The audit surfaced UX issues in the existing edition schema worth fixing before any more editions are authored against it. Step 3 added `edition.status` without backfilling existing docs — that backfill happens here.
 
-**Changes:**
+**Schema changes:**
 1. Collapse the five `slide*` document types (`slideFull`, `slideDuo`, `slideFeaturedPortrait`, `slideTrio`, `slideFeaturedStack`) into one `carouselSlide` object with a `layout` enum + length-validated images. See [ADR 0010](./adr/0010-collapse-carousel-slide-types.md).
 2. Split `dateTape` ("16.04-11.05 · Combinatul Fondului Plastic") into structured `{start, end, venueLine}`. Renderer handles the bullet glyph.
-3. Validate that `themeHighlight ⊂ theme` and `manifesto.highlight ⊂ manifesto.title` (currently editors can drift silently).
+3. Validate that `themeHighlight ⊂ theme` and `manifesto.highlight ⊂ manifesto.title` (currently editors can drift silently). Extract the substring-validation closure into a shared `substringValidator(parentFieldName)` helper in `src/sanity/schemaTypes/shared/` since this pattern is now in **five** places (homepage hero, `pageHero`, partners CTA, plus the two edition fields above). Apply the helper to all five.
 4. Store credit org lists as arrays, not newline-joined strings. Renderer decides the separator.
 5. Add reverse-reference view on `artist` documents → which editions they appeared in (via `S.view.component` or `referencingDocuments`).
 
-**Migration:** one `sanity migration run` script per change. Drafts first, dry-run, then `--no-dry-run`. Static `src/data/editions/{2022..2025}.ts` are unaffected (they're the fallback).
+**Migrations** (one `sanity migration run` per change, dry-run first, then `--no-dry-run`):
+- Carousel slide collapse: walk every `edition.carousel[]`, derive `layout` from `_type`, rename `_type` to `carouselSlide`.
+- `dateTape` split: parse the existing string into `{start, end, venueLine}`. May need a manual review pass for atypical formats.
+- `edition.status` backfill: set `status: 'published'` on every edition doc that doesn't have a status yet. Clears the step-3 follow-up where editors otherwise see a validation prompt on first edit of an existing doc.
+
+Static `src/data/editions/{2022..2025}.ts` are unaffected (they're the fallback shape, not stored in Sanity).
+
+### `[ ]` Cross-cutting follow-ups
+
+Items that emerged during execution and don't belong to a single step.
+
+**`[ ]` Singleton seed script.** Six singletons now exist (siteSettings, homepage, aboutPage, partnersPage, visitPage, privacyPage) and none auto-create. On a fresh dataset, each page renders fallback values until the editor publishes the corresponding singleton. A `pnpm exec tsx scripts/seed-singletons.ts` script that creates each with the current hardcoded fallback values would close this gap once and for all — and would let us delete the per-page `FALLBACK` blocks afterwards. Needs `SANITY_API_WRITE_TOKEN`.
+
+**`[ ]` Extract `HeroTitle` shared component.** The "split a title on its accent substring, render the accent in a span" logic is now duplicated in `src/app/(site)/page.tsx`, `about/page.tsx`, `partners/page.tsx`, `privacy/page.tsx`. One `<HeroTitle title accent>` component would cover all four. Trivial refactor, no behaviour change.
+
+**`[ ]` Extract image-with-required-alt schema helper.** The pattern `image + alt field with conditional-required validation` is repeated in ~10 schema files (`edition.heroImage`, `edition.thumbImage`, `artist.portrait`, `organization.logo`, `carouselImage`, `heroSlide.image`, `aboutPage.placeImage` + `curatorPortrait`, `partnersPage.eventImage` + `whyImage`, `visitPage.image`). A `imageFieldWithAlt(opts)` helper in `src/sanity/schemaTypes/shared/` would deduplicate it. Pure DX, no editor-visible change.
+
+**`[ ]` Editor first-time-setup checklist** in `cms.md`. Six singletons to publish in order (settings → homepage → about → partners → visit → privacy), plus the upcoming-edition convention. A short ordered list in the docs would beat reverse-engineering it from the rollout plan. Could ship alongside the seed script (the script's docstring + the checklist link to each other).
+
+### `[ ]` Follow-up — `typegen --watch` script
+
+Add `pnpm typegen:watch` running `sanity typegen --watch` so `sanity.types.ts` regenerates as queries/schemas change. Optionally combine with `pnpm dev` via `concurrently`. **Needs `package.json` change → user approval.**
 
 ### `[ ]` Follow-up — `typegen --watch` script
 
@@ -139,9 +159,12 @@ Active tasks live in the local task tracker (`TaskList`). Map between this doc a
 |---|---|
 | Step 1 (shipped) | #5 |
 | Step 1.5 (shipped) | #11 |
-| Step 2 | #6 |
-| Step 3 | #7 |
-| Step 4 | #8 |
+| Step 2 (shipped) | #6 |
+| Step 3 (shipped) | #7 |
+| Step 4 (shipped) | #8 |
 | Step 5 | #9 |
 | Step 6 | #10 |
+| Singleton seed script | #13 |
 | typegen watch | #12 |
+
+`HeroTitle` extraction, image-with-alt helper, and editor first-time-setup checklist don't have their own tasks — they're cleanup/docs that land alongside step 5/6 or the seed-script PR, whichever happens first.
