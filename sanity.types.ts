@@ -327,6 +327,17 @@ export type Artist = {
   }>;
 };
 
+export type SiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  contactEmail: string;
+  instagramUrl?: string;
+  facebookUrl?: string;
+};
+
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
   background?: string;
@@ -446,6 +457,7 @@ export type AllSanitySchemaTypes =
   | ArtistReference
   | Edition
   | Artist
+  | SiteSettings
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -454,6 +466,22 @@ export type AllSanitySchemaTypes =
   | SanityAssetSourceData
   | SanityImageAsset
   | Geopoint;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: SITE_SETTINGS_QUERY
+// Query: *[_id == "siteSettings"][0]{    contactEmail,    instagramUrl,    facebookUrl  }
+export type SITE_SETTINGS_QUERY_RESULT =
+  | {
+      contactEmail: null;
+      instagramUrl: null;
+      facebookUrl: null;
+    }
+  | {
+      contactEmail: string;
+      instagramUrl: string | null;
+      facebookUrl: string | null;
+    }
+  | null;
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ARTISTS_QUERY
@@ -673,6 +701,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
+    '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT;
     '\n  *[_type == "artist" && defined(slug.current)] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT;
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT;

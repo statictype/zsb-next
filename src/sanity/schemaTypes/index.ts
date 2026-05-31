@@ -2,6 +2,7 @@ import type { SchemaTypeDefinition } from 'sanity'
 import { artist } from './documents/artist'
 import { edition } from './documents/edition'
 import { organization } from './documents/organization'
+import { siteSettings } from './documents/siteSettings'
 import {
   slideDuo,
   slideFeaturedPortrait,
@@ -14,6 +15,8 @@ import { programData } from './objects/programData'
 import { venueEntry } from './objects/venueEntry'
 
 export const schemaTypes: SchemaTypeDefinition[] = [
+  // Singletons
+  siteSettings,
   // Documents
   artist,
   edition,

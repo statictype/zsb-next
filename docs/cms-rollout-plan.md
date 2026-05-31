@@ -61,15 +61,17 @@ Foundation everything else depends on.
 
 **Follow-up shipped:** `/api/revalidate/tag` route (`src/app/api/revalidate/tag/route.ts`) — Sanity webhook target. Validates `SANITY_REVALIDATE_SECRET`, projects `{ tags }`, calls `revalidateTag(tag, { expire: 0 })` for each. Webhook setup documented in `cms.md` under "Caching & revalidation".
 
-### `[ ]` Step 2 — `siteSettings` singleton + footer
+### `[x]` Step 2 — `siteSettings` singleton + footer
 
-Smallest singleton, validates the pattern end-to-end before applying it to bigger schemas.
+**Shipped:**
+- `siteSettings` doc: `contactEmail` (required, email-validated), `instagramUrl`, `facebookUrl` (both optional, https-only). Registered, added to `SINGLETON_TYPES`, pinned at top of structure tree with `CogIcon`. Presentation location → homepage footer.
+- `SITE_SETTINGS_QUERY` and `getSiteSettings(options)` in `src/sanity/lib/settings.ts` — cached fetcher following the 3-layer pattern.
+- `Footer.tsx` rewritten: takes `fetchOptions`, calls `getSiteSettings` in a `'use cache'` child, falls back to no contact/no socials when the doc isn't published yet. Internal Connect links stay hardcoded (they're structural — renaming "Press" to something else would mislead, and editors don't author internal nav).
+- `(site)/layout.tsx` resolves `fetchOptions` once via `getDynamicFetchOptions()` and passes them to Footer.
 
-**Schema fields:** contact email, social links (Instagram, Facebook), footer "Explore" + "Connect" labels (link sources stay derived), legal/tagline strings.
+**Editions list in the Footer stays hardcoded** until step 3 derives it from `edition.status`.
 
-**Wires:** `src/components/Footer/Footer.tsx` reads from Sanity instead of hard-coded `EXPLORE_LINKS` / `CONNECT_LINKS` / `SOCIAL_LINKS`.
-
-**Adds:** `siteSettings` to `SINGLETON_TYPES`, appears in structure tree above the Editions divider.
+**Seed note:** the singleton doesn't auto-create. On a fresh dataset, the first editor needs to publish `siteSettings` with the values currently hardcoded in `Footer.tsx` (`office@filialadesculptura.com`, the two social URLs). A `sanity create` script for this is worth adding once we have more singletons to seed.
 
 ### `[ ]` Step 3 — `homepage` singleton + `edition.status` field
 

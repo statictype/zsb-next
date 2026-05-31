@@ -1,5 +1,13 @@
 import { defineQuery } from 'next-sanity'
 
+export const SITE_SETTINGS_QUERY = defineQuery(`
+  *[_id == "siteSettings"][0]{
+    contactEmail,
+    instagramUrl,
+    facebookUrl
+  }
+`)
+
 export const ARTISTS_QUERY = defineQuery(`
   *[_type == "artist" && defined(slug.current)] | order(name asc) {
     _id,

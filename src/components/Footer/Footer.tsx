@@ -1,11 +1,14 @@
 import Link from 'next/link'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
+import { type DynamicFetchOptions } from '@/sanity/lib/live'
+import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 import styles from './Footer.module.css'
 
 const CURRENT_YEAR = new Date().getFullYear()
-const BARCODE_LABEL = `ZSB\u20142021\u2014${CURRENT_YEAR}`
+const BARCODE_LABEL = `ZSB—2021—${CURRENT_YEAR}`
 
+// Editions list stays hardcoded until step 3 derives it from edition.status.
 const EXPLORE_LINKS = [
   { label: '#celalatcorp', href: '/editions/2025' },
   { label: '#syzygy', href: '/editions/2024' },
@@ -13,16 +16,12 @@ const EXPLORE_LINKS = [
   { label: '#perspectiva31', href: '/editions/2022' },
 ] as const
 
-const CONNECT_LINKS = [
-  { label: 'Contact', href: 'mailto:office@filialadesculptura.com' },
+// Internal navigation labels are structural, not editorial — they live
+// in code so editors don't accidentally rename the link to its own page.
+const INTERNAL_CONNECT_LINKS = [
   { label: 'Partners', href: '/partners' },
   { label: 'Press', href: '/press' },
   { label: 'Visit', href: '/visit' },
-] as const
-
-const SOCIAL_LINKS = [
-  { label: 'Instagram', href: 'https://www.instagram.com/filialadesculptura/' },
-  { label: 'Facebook', href: 'https://www.facebook.com/filiala.de.sculptura/' },
 ] as const
 
 function FooterLink({
@@ -34,7 +33,7 @@ function FooterLink({
   children: React.ReactNode
   className?: string | undefined
 }) {
-  if (href === '#' || href.startsWith('http')) {
+  if (href === '#' || href.startsWith('http') || href.startsWith('mailto:')) {
     return (
       <a href={href} className={className}>
         {children}
@@ -48,19 +47,30 @@ function FooterLink({
   )
 }
 
-export function Footer() {
+export async function Footer({ fetchOptions }: { fetchOptions: DynamicFetchOptions }) {
+  return <CachedFooter options={fetchOptions} />
+}
+
+async function CachedFooter({ options }: { options: DynamicFetchOptions }) {
+  'use cache'
+  const settings = await getSiteSettings(options)
+  return <FooterShell settings={settings} />
+}
+
+function FooterShell({ settings }: { settings: SiteSettings | null }) {
+  const socials = buildSocialLinks(settings)
+  const contactHref = settings?.contactEmail ? `mailto:${settings.contactEmail}` : undefined
+
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.top}>
-          {/* Left: Rotated Wordmark */}
           <div className={styles.brand}>
             <div className={styles.wordmark}>
               ZSB<span className={styles.wordmarkAccent}>.</span>
             </div>
           </div>
 
-          {/* Center: Links Grid */}
           <div className={styles.linksGrid}>
             <div className={styles.linksCol}>
               <div className={styles.linksColTitle}>Explore</div>
@@ -72,7 +82,12 @@ export function Footer() {
             </div>
             <div className={styles.linksCol}>
               <div className={styles.linksColTitle}>Connect</div>
-              {CONNECT_LINKS.map((link) => (
+              {contactHref && (
+                <FooterLink href={contactHref} className={styles.link}>
+                  Contact
+                </FooterLink>
+              )}
+              {INTERNAL_CONNECT_LINKS.map((link) => (
                 <FooterLink key={link.label} href={link.href} className={styles.link}>
                   {link.label}
                 </FooterLink>
@@ -83,10 +98,9 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Right: Social & Barcode */}
           <div className={styles.connect}>
             <div className={styles.social}>
-              {SOCIAL_LINKS.map((link) => (
+              {socials.map((link) => (
                 <a key={link.label} href={link.href} className={styles.socialLink}>
                   {link.label}
                 </a>
@@ -99,7 +113,6 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className={styles.bottom}>
           <div className={styles.legal}>
             <Link href="/privacy">Privacy Policy</Link>
@@ -113,4 +126,12 @@ export function Footer() {
       </div>
     </footer>
   )
+}
+
+function buildSocialLinks(settings: SiteSettings | null): { label: string; href: string }[] {
+  if (!settings) return []
+  const links: { label: string; href: string }[] = []
+  if (settings.instagramUrl) links.push({ label: 'Instagram', href: settings.instagramUrl })
+  if (settings.facebookUrl) links.push({ label: 'Facebook', href: settings.facebookUrl })
+  return links
 }

@@ -1,6 +1,15 @@
 import { defineLocations } from 'sanity/presentation'
 
 export const locations = {
+  siteSettings: defineLocations({
+    // Site settings affect every page; the footer is the most visible
+    // surface, so we point editors at the homepage where they can see
+    // both the footer and the social links in context.
+    select: { _id: '_id' },
+    resolve: () => ({
+      locations: [{ title: 'Footer (home)', href: '/' }],
+    }),
+  }),
   edition: defineLocations({
     select: { year: 'year', theme: 'theme' },
     resolve: (doc) => {

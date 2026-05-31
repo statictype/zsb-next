@@ -5,11 +5,14 @@ import { CookieBanner } from '@/components/CookieBanner/CookieBanner'
 import { DisableDraftMode } from '@/components/DisableDraftMode/DisableDraftMode'
 import { Footer } from '@/components/Footer/Footer'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
-import { SanityLive } from '@/sanity/lib/live'
+import { getDynamicFetchOptions, SanityLive } from '@/sanity/lib/live'
 import { SITE_NAME, SITE_URL } from '@/lib/constants'
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled: isDraftMode } = await draftMode()
+  const [{ isEnabled: isDraftMode }, fetchOptions] = await Promise.all([
+    draftMode(),
+    getDynamicFetchOptions(),
+  ])
   return (
     <>
       <JsonLd
@@ -39,7 +42,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       />
       {children}
       <Suspense>
-        <Footer />
+        <Footer fetchOptions={fetchOptions} />
       </Suspense>
       <CookieBanner />
       <SanityLive includeDrafts={isDraftMode} />

@@ -20,7 +20,8 @@ What's authored in Sanity, what's static:
 | About, Partners, Visit, Privacy | Sanity singletons (in progress) |
 | Press appearances, releases | Sanity docs `pressAppearance`, `pressRelease` (in progress) |
 | Press kit assets (posters, covers) | `pressKit` object on each Edition doc (in progress) |
-| Footer links, contact, social | Sanity singleton `siteSettings` (in progress) |
+| Footer contact + social links | Sanity singleton `siteSettings` (shipped) |
+| Footer Explore + Connect labels | Hard-coded in `src/components/Footer/Footer.tsx` (structural, not editorial) |
 | Navigation labels | Hard-coded in `src/components/Navigation/Navigation.tsx` — 4 items, stable |
 | Blog | Out of scope for now |
 
@@ -60,7 +61,7 @@ src/
 
 ### Document types
 
-`edition`, `artist`, `organization` are the current shipped documents. Future-state: `siteSettings`, `homepage`, `aboutPage`, `partnersPage`, `visitPage`, `privacyPage` singletons, plus `pressAppearance`, `pressRelease`.
+`siteSettings`, `edition`, `artist`, `organization` are the current shipped documents. Future-state: `homepage`, `aboutPage`, `partnersPage`, `visitPage`, `privacyPage` singletons, plus `pressAppearance`, `pressRelease`.
 
 ### Conventions
 
@@ -84,6 +85,8 @@ Defined in `src/sanity/structure.ts`. Current shape:
 
 ```
 Content
+  ├─ Site settings        (singleton)
+  ├─ ────────
   ├─ Editions
   ├─ ────────
   ├─ Artists
