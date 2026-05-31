@@ -59,7 +59,7 @@ Foundation everything else depends on.
 
 **Verified:** `pnpm build` ships 22 routes — content routes prerender static, `/editions/[year]` partial-prerenders via `loading.tsx`, `/studio/[[...tool]]` partial-prerenders. Caching at 1y/1y with sync-tag invalidation.
 
-**Still to do (out of step 1.5):** Sanity webhook → `/api/revalidate/tag` route for production on-demand revalidation. Not blocking — `SanityLive` already drives in-page updates; the webhook only matters once we want HTML cache invalidation on every publish.
+**Follow-up shipped:** `/api/revalidate/tag` route (`src/app/api/revalidate/tag/route.ts`) — Sanity webhook target. Validates `SANITY_REVALIDATE_SECRET`, projects `{ tags }`, calls `revalidateTag(tag, { expire: 0 })` for each. Webhook setup documented in `cms.md` under "Caching & revalidation".
 
 ### `[ ]` Step 2 — `siteSettings` singleton + footer
 

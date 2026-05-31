@@ -207,7 +207,14 @@ Stega = Sanity's mechanism for embedding invisible characters in strings so the 
 
 Cached helpers (`'use cache'` directive) live in `src/sanity/lib/editions.ts` and `src/data/editions/index.ts`. Each call inside a cache boundary tags itself automatically via `sanityFetch` so `<SanityLive />` knows when to refresh.
 
-For HTML cache invalidation across deploys (full-page revalidation), a Sanity webhook → `/api/revalidate/tag` route is still to-be-built. Not blocking — `<SanityLive />` already drives in-page updates so visitors with an open tab see fresh content; the webhook only matters for users hitting a deeply cached HTML response.
+For HTML cache invalidation (visitors hitting a deeply cached response, not just open tabs), the Sanity webhook target is `/api/revalidate/tag`. It expects a GROQ-projected payload of `{ tags: string[] }`, validates the signature against `SANITY_REVALIDATE_SECRET`, and calls `revalidateTag(tag, { expire: 0 })` for each. Configure the webhook in [sanity.io/manage](https://sanity.io/manage) → API → Webhooks:
+
+- **URL:** `https://zsb.app/api/revalidate/tag`
+- **Filter:** `_type in ["edition", "artist", "organization", "siteSettings", "homepage", "aboutPage", "partnersPage", "visitPage", "privacyPage", "pressAppearance", "pressRelease"]`
+- **Projection:** `{ "tags": [_type, _type + ":" + _id] }`
+- **Secret:** value of `SANITY_REVALIDATE_SECRET`
+
+`<SanityLive />` handles freshness for open tabs; the webhook handles freshness for cached HTML.
 
 ## Editions: Sanity-first with static fallback
 
@@ -223,6 +230,7 @@ NEXT_PUBLIC_SANITY_DATASET
 NEXT_PUBLIC_SANITY_API_VERSION
 SANITY_API_READ_TOKEN     # viewer-access token for draft mode
 SANITY_API_WRITE_TOKEN    # for the blob upload + migration scripts (not used at runtime)
+SANITY_REVALIDATE_SECRET  # webhook signature shared with sanity.io/manage
 ```
 
 All required. `env.ts` and `token.ts` throw at import time if anything is missing — fail fast at boot.
