@@ -10,7 +10,7 @@ import type { ListItemBuilder, StructureBuilder } from 'sanity/structure'
  * The doc's `_id` is locked to the type name (e.g. `siteSettings` → `_id: "siteSettings"`),
  * so GROQ should fetch by id: `*[_id == "siteSettings"][0]`.
  */
-export const SINGLETON_TYPES = ['siteSettings'] as const satisfies readonly string[]
+export const SINGLETON_TYPES = ['siteSettings', 'homepage'] as const satisfies readonly string[]
 
 export type SingletonType = (typeof SINGLETON_TYPES)[number]
 

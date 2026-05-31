@@ -30,7 +30,7 @@ export type SanityImageAssetReference = {
 
 export type CarouselImageImage = {
   asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "media" in schema
+  media?: unknown; // Unable to locate the referenced type "image.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   alt?: string;
@@ -126,6 +126,19 @@ export type ProgramData = {
   sftfBanner: SftfBanner;
 };
 
+export type HeroSlide = {
+  _type: "heroSlide";
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  position: "top" | "center" | "bottom";
+};
+
 export type CreditText = {
   _type: "creditText";
   type: "primary" | "partner" | "secondary";
@@ -200,6 +213,76 @@ export type Slug = {
   source?: string;
 };
 
+export type Artist = {
+  _id: string;
+  _type: "artist";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: Slug;
+  portrait?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  shortBio?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  discipline?: string;
+  country?: string;
+  externalLinks?: Array<{
+    label: string;
+    url: string;
+    _type: "externalLink";
+    _key: string;
+  }>;
+};
+
+export type EditionReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "edition";
+};
+
+export type Homepage = {
+  _id: string;
+  _type: "homepage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  heroTitle: string;
+  heroTitleAccent: string;
+  heroLead: string;
+  heroCtaLabel?: string;
+  heroCtaEdition?: EditionReference;
+  slideshow: Array<
+    {
+      _key: string;
+    } & HeroSlide
+  >;
+  editionsIntro: string;
+};
+
 export type ArtistReference = {
   _ref: string;
   _type: "reference";
@@ -214,6 +297,7 @@ export type Edition = {
   _updatedAt: string;
   _rev: string;
   year: number;
+  status: "upcoming" | "published";
   theme: string;
   themeHighlight: string;
   title: string;
@@ -281,50 +365,6 @@ export type Edition = {
         _key: string;
       } & CreditText)
   >;
-};
-
-export type Artist = {
-  _id: string;
-  _type: "artist";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name: string;
-  slug: Slug;
-  portrait?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  shortBio?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  discipline?: string;
-  country?: string;
-  externalLinks?: Array<{
-    label: string;
-    url: string;
-    _type: "externalLink";
-    _key: string;
-  }>;
 };
 
 export type SiteSettings = {
@@ -446,6 +486,7 @@ export type AllSanitySchemaTypes =
   | SlideFull
   | VenueEntry
   | ProgramData
+  | HeroSlide
   | CreditText
   | OrganizationReference
   | CreditOrgList
@@ -454,9 +495,11 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | Artist
+  | EditionReference
+  | Homepage
   | ArtistReference
   | Edition
-  | Artist
   | SiteSettings
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -482,6 +525,50 @@ export type SITE_SETTINGS_QUERY_RESULT =
       facebookUrl: string | null;
     }
   | null;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: HOMEPAGE_QUERY
+// Query: *[_id == "homepage"][0]{    heroTitle,    heroTitleAccent,    heroLead,    heroCtaLabel,    "heroCtaEditionYear": heroCtaEdition->year,    slideshow[]{      _key,      position,      image    },    editionsIntro  }
+export type HOMEPAGE_QUERY_RESULT =
+  | {
+      heroTitle: null;
+      heroTitleAccent: null;
+      heroLead: null;
+      heroCtaLabel: null;
+      heroCtaEditionYear: null;
+      slideshow: null;
+      editionsIntro: null;
+    }
+  | {
+      heroTitle: string;
+      heroTitleAccent: string;
+      heroLead: string;
+      heroCtaLabel: string | null;
+      heroCtaEditionYear: number | null;
+      slideshow: Array<{
+        _key: string;
+        position: "bottom" | "center" | "top";
+        image: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+        };
+      }>;
+      editionsIntro: string;
+    }
+  | null;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: EDITIONS_LIST_QUERY
+// Query: *[_type == "edition" && defined(year)] | order(year desc) {    year,    theme,    status  }
+export type EDITIONS_LIST_QUERY_RESULT = Array<{
+  year: number;
+  theme: string;
+  status: "published" | "upcoming";
+}>;
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ARTISTS_QUERY
@@ -702,6 +789,8 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT;
+    '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image\n    },\n    editionsIntro\n  }\n': HOMEPAGE_QUERY_RESULT;
+    '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status\n  }\n': EDITIONS_LIST_QUERY_RESULT;
     '\n  *[_type == "artist" && defined(slug.current)] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT;
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT;

@@ -25,6 +25,23 @@ export const edition = defineType({
       validation: (rule) => rule.required().integer().min(2022).max(2100),
     }),
     defineField({
+      name: 'status',
+      title: 'Status',
+      description:
+        'Upcoming editions show on the homepage with a "Coming soon" badge instead of a link. Switch to Published once the edition page is ready to go live.',
+      type: 'string',
+      group: 'hero',
+      options: {
+        list: [
+          { title: 'Upcoming', value: 'upcoming' },
+          { title: 'Published', value: 'published' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'upcoming',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'theme',
       title: 'Theme',
       description: 'Hashtag for the edition, e.g. "#celălaltcorp"',

@@ -8,6 +8,30 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
   }
 `)
 
+export const HOMEPAGE_QUERY = defineQuery(`
+  *[_id == "homepage"][0]{
+    heroTitle,
+    heroTitleAccent,
+    heroLead,
+    heroCtaLabel,
+    "heroCtaEditionYear": heroCtaEdition->year,
+    slideshow[]{
+      _key,
+      position,
+      image
+    },
+    editionsIntro
+  }
+`)
+
+export const EDITIONS_LIST_QUERY = defineQuery(`
+  *[_type == "edition" && defined(year)] | order(year desc) {
+    year,
+    theme,
+    status
+  }
+`)
+
 export const ARTISTS_QUERY = defineQuery(`
   *[_type == "artist" && defined(slug.current)] | order(name asc) {
     _id,

@@ -73,13 +73,18 @@ Foundation everything else depends on.
 
 **Seed note:** the singleton doesn't auto-create. On a fresh dataset, the first editor needs to publish `siteSettings` with the values currently hardcoded in `Footer.tsx` (`office@filialadesculptura.com`, the two social URLs). A `sanity create` script for this is worth adding once we have more singletons to seed.
 
-### `[ ]` Step 3 — `homepage` singleton + `edition.status` field
+### `[x]` Step 3 — `homepage` singleton + `edition.status` field
 
-**Schema fields:** hero H1 + lead + CTA (reference to edition), slideshow images array (image + `position: top | center | bottom`), editions intro paragraph.
+**Shipped:**
+- `homepage` doc with fields grouped into Hero (title, accented portion, lead, CTA label, CTA target reference, slideshow array) and Editions section (intro paragraph). Title-accent enforced as substring via custom validation; CTA label and target mutually require each other.
+- `heroSlide` object (image with hotspot + alt + crop position) used by the slideshow array.
+- `edition.status: 'upcoming' | 'published'` (radio, `initialValue: 'upcoming'`, required). Existing edition docs in Sanity (2022-2025) will need status set on first edit — a one-shot migration to set `'published'` on all existing docs is scoped to step 6 (where the other edition migrations live).
+- `HOMEPAGE_QUERY` + `EDITIONS_LIST_QUERY` in `src/sanity/lib/queries.ts`. `getHomepage(options)` fetcher in `src/sanity/lib/homepage.ts`; `getEditionsListFromSanity(options)` + `getEditionListItems(options)` merge helpers in `src/sanity/lib/editions.ts` / `src/data/editions/index.ts`. Static fallback editions are always `'published'` (the page exists).
+- `src/app/(site)/page.tsx` rewritten with the 3-layer pattern (inline Suspense — no sibling `loading.tsx`). Renders fallback defaults when the homepage doc isn't published yet (keeps a fresh dataset presentable).
 
-**Edition change:** add `status: 'upcoming' | 'published'` (radio, default `'published'`). Powers the "Coming soon" badge on the homepage editions list and the footer "Explore" links.
+**The footer's hardcoded `EXPLORE_LINKS`** can now be swapped for `getEditionListItems` too. Held until step 4 so footer wiring lands in one pass with the other static pages.
 
-**Wires:** `src/app/page.tsx` reads homepage doc; editions list derived from `*[_type=="edition"] | order(year desc)` with `status` controlling the rendered row.
+**Heads up:** the hero title accent uses the same substring pattern as `edition.themeHighlight`. ADR 0007's drift concern applies — editor needs to keep both fields in sync. Step 6 will backport stricter substring validation to the existing edition fields.
 
 ### `[ ]` Step 4 — `aboutPage`, `partnersPage`, `visitPage`, `privacyPage`
 

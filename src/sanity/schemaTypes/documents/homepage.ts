@@ -1,0 +1,93 @@
+import { HomeIcon } from '@sanity/icons'
+import { defineArrayMember, defineField, defineType } from 'sanity'
+
+export const homepage = defineType({
+  name: 'homepage',
+  title: 'Homepage',
+  type: 'document',
+  icon: HomeIcon,
+  groups: [
+    { name: 'hero', title: 'Hero', default: true },
+    { name: 'editions', title: 'Editions section' },
+  ],
+  fields: [
+    defineField({
+      name: 'heroTitle',
+      title: 'Hero title',
+      description:
+        'The big brand mark above the lead. Usually the event name. The renderer breaks before the accented portion and renders it on a new line.',
+      type: 'string',
+      group: 'hero',
+      validation: (rule) => rule.required().max(80),
+    }),
+    defineField({
+      name: 'heroTitleAccent',
+      title: 'Hero title — accented portion',
+      description:
+        'A substring of the hero title that gets the accent color and drops to a new line. e.g. "Sculpture Days" inside "Bucharest Sculpture Days".',
+      type: 'string',
+      group: 'hero',
+      validation: (rule) =>
+        rule.required().custom((accent, context) => {
+          const title = (context.parent as { heroTitle?: string } | undefined)?.heroTitle
+          if (!title) return true
+          if (!accent || !title.includes(accent)) {
+            return 'Must appear as a substring of the hero title'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'heroLead',
+      title: 'Hero lead',
+      description: 'One short paragraph under the title.',
+      type: 'text',
+      rows: 3,
+      group: 'hero',
+      validation: (rule) => rule.required().max(220),
+    }),
+    defineField({
+      name: 'heroCtaLabel',
+      title: 'CTA label',
+      description: 'Text on the hero button. Leave empty (with no target) to hide the button.',
+      type: 'string',
+      group: 'hero',
+    }),
+    defineField({
+      name: 'heroCtaEdition',
+      title: 'CTA target — edition',
+      description: 'Which edition the CTA links to. Usually the most recent published one.',
+      type: 'reference',
+      to: [{ type: 'edition' }],
+      group: 'hero',
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const label = (context.parent as { heroCtaLabel?: string } | undefined)?.heroCtaLabel
+          if (label && !value) return 'Set a target edition when a CTA label is filled in'
+          if (!label && value) return 'Set a CTA label when a target edition is picked'
+          return true
+        }),
+    }),
+    defineField({
+      name: 'slideshow',
+      title: 'Hero slideshow',
+      description:
+        'Photos that cycle behind the title. Pick a crop position for each so the subject stays framed across screen sizes.',
+      type: 'array',
+      group: 'hero',
+      of: [defineArrayMember({ type: 'heroSlide' })],
+      validation: (rule) => rule.required().min(1).max(12),
+    }),
+    defineField({
+      name: 'editionsIntro',
+      title: 'Editions section intro',
+      description:
+        'Short paragraph under the EDITIONS heading on the homepage. The list of editions itself is derived automatically from published edition documents.',
+      type: 'text',
+      rows: 3,
+      group: 'editions',
+      validation: (rule) => rule.required().max(280),
+    }),
+  ],
+  preview: { prepare: () => ({ title: 'Homepage' }) },
+})

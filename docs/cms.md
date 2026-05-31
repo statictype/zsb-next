@@ -16,7 +16,8 @@ What's authored in Sanity, what's static:
 | Edition 2021 (online-only) | Static — never migrated to Sanity (one-off shape, no editorial value to re-author) |
 | Artists | Sanity (`artist` doc) — currently surfaced only via the edition page; standalone artist routes pending |
 | Organizations | Sanity (`organization` doc) — referenced from edition credits |
-| Homepage | Sanity singleton `homepage` (in progress) |
+| Homepage | Sanity singleton `homepage` (shipped) — copy, CTA, slideshow, editions intro |
+| Homepage editions list | Derived from `*[_type=="edition"] \| order(year desc)` with `edition.status` controlling each row |
 | About, Partners, Visit, Privacy | Sanity singletons (in progress) |
 | Press appearances, releases | Sanity docs `pressAppearance`, `pressRelease` (in progress) |
 | Press kit assets (posters, covers) | `pressKit` object on each Edition doc (in progress) |
@@ -61,7 +62,7 @@ src/
 
 ### Document types
 
-`siteSettings`, `edition`, `artist`, `organization` are the current shipped documents. Future-state: `homepage`, `aboutPage`, `partnersPage`, `visitPage`, `privacyPage` singletons, plus `pressAppearance`, `pressRelease`.
+`siteSettings`, `homepage`, `edition`, `artist`, `organization` are the current shipped documents. Future-state: `aboutPage`, `partnersPage`, `visitPage`, `privacyPage` singletons, plus `pressAppearance`, `pressRelease`.
 
 ### Conventions
 
@@ -86,6 +87,7 @@ Defined in `src/sanity/structure.ts`. Current shape:
 ```
 Content
   ├─ Site settings        (singleton)
+  ├─ Homepage             (singleton)
   ├─ ────────
   ├─ Editions
   ├─ ────────

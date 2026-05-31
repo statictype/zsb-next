@@ -16,7 +16,13 @@ import type {
 } from '@/types/edition'
 import { urlFor } from './image'
 import { type DynamicFetchOptions, sanityFetch } from './live'
-import { EDITION_BY_YEAR_QUERY, EDITION_YEARS_QUERY } from './queries'
+import { EDITION_BY_YEAR_QUERY, EDITION_YEARS_QUERY, EDITIONS_LIST_QUERY } from './queries'
+
+export interface EditionListItem {
+  year: number
+  theme: string
+  status: 'upcoming' | 'published'
+}
 
 type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
 
@@ -172,4 +178,31 @@ export async function getEditionYearsFromSanity(): Promise<number[]> {
     stega: false,
   })
   return data ?? []
+}
+
+/**
+ * Lightweight edition list for the homepage cards. Returns just
+ * `{ year, theme, status }` per edition. Editor may want to preview an
+ * upcoming-edition draft on the homepage, so this respects the
+ * perspective the caller resolved.
+ */
+export async function getEditionsListFromSanity(
+  options: DynamicFetchOptions,
+): Promise<EditionListItem[]> {
+  'use cache'
+  const { data } = await sanityFetch({
+    query: EDITIONS_LIST_QUERY,
+    perspective: options.perspective,
+    stega: options.stega,
+  })
+  return (data ?? []).flatMap((entry) => {
+    if (!entry.year || !entry.theme) return []
+    return [
+      {
+        year: entry.year,
+        theme: entry.theme,
+        status: entry.status === 'upcoming' ? 'upcoming' : 'published',
+      },
+    ]
+  })
 }

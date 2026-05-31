@@ -1,4 +1,4 @@
-import { CaseIcon, CogIcon, ImageIcon, UsersIcon } from '@sanity/icons'
+import { CaseIcon, CogIcon, HomeIcon, ImageIcon, UsersIcon } from '@sanity/icons'
 import type { StructureResolver } from 'sanity/structure'
 import { isSingletonType, singletonListItem } from './lib/singleton'
 
@@ -8,6 +8,7 @@ export const structure: StructureResolver = (S) =>
     .items([
       // Singletons — small set of one-of-a-kind documents pinned at top
       singletonListItem(S, 'siteSettings', 'Site settings').icon(CogIcon),
+      singletonListItem(S, 'homepage', 'Homepage').icon(HomeIcon),
 
       S.divider(),
 

@@ -1,6 +1,10 @@
 import { defineLocations } from 'sanity/presentation'
 
 export const locations = {
+  homepage: defineLocations({
+    select: { _id: '_id' },
+    resolve: () => ({ locations: [{ title: 'Homepage', href: '/' }] }),
+  }),
   siteSettings: defineLocations({
     // Site settings affect every page; the footer is the most visible
     // surface, so we point editors at the homepage where they can see
