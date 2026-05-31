@@ -78,6 +78,14 @@ export const VISIT_PAGE_QUERY = defineQuery(`
   }
 `)
 
+export const PRIVACY_PAGE_QUERY = defineQuery(`
+  *[_id == "privacyPage"][0]{
+    hero,
+    body,
+    updatedAt
+  }
+`)
+
 export const ARTISTS_QUERY = defineQuery(`
   *[_type == "artist" && defined(slug.current)] | order(name asc) {
     _id,

@@ -16,6 +16,7 @@ export const SINGLETON_TYPES = [
   'aboutPage',
   'partnersPage',
   'visitPage',
+  'privacyPage',
 ] as const satisfies readonly string[]
 
 export type SingletonType = (typeof SINGLETON_TYPES)[number]

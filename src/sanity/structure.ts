@@ -5,6 +5,7 @@ import {
   HomeIcon,
   ImageIcon,
   InfoOutlineIcon,
+  LockIcon,
   PinIcon,
   UsersIcon,
 } from '@sanity/icons'
@@ -21,6 +22,7 @@ export const structure: StructureResolver = (S) =>
       singletonListItem(S, 'aboutPage', 'About').icon(InfoOutlineIcon),
       singletonListItem(S, 'partnersPage', 'Partners').icon(HeartIcon),
       singletonListItem(S, 'visitPage', 'Visit').icon(PinIcon),
+      singletonListItem(S, 'privacyPage', 'Privacy').icon(LockIcon),
 
       S.divider(),
 

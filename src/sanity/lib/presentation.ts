@@ -17,6 +17,10 @@ export const locations = {
     select: { _id: '_id' },
     resolve: () => ({ locations: [{ title: 'Visit', href: '/visit' }] }),
   }),
+  privacyPage: defineLocations({
+    select: { _id: '_id' },
+    resolve: () => ({ locations: [{ title: 'Privacy', href: '/privacy' }] }),
+  }),
   siteSettings: defineLocations({
     // Site settings affect every page; the footer is the most visible
     // surface, so we point editors at the homepage where they can see

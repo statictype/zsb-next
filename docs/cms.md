@@ -18,7 +18,8 @@ What's authored in Sanity, what's static:
 | Organizations | Sanity (`organization` doc) — referenced from edition credits |
 | Homepage | Sanity singleton `homepage` (shipped) — copy, CTA, slideshow, editions intro |
 | Homepage editions list | Derived from `*[_type=="edition"] \| order(year desc)` with `edition.status` controlling each row |
-| About, Partners, Visit, Privacy | Sanity singletons (in progress) |
+| About, Partners, Visit | Sanity singletons (shipped) — paragraph-array prose |
+| Privacy | Sanity singleton `privacyPage` (shipped) — Portable Text body (the only PT-using page; see [ADR 0007](./adr/0007-plain-paragraphs-over-portable-text.md)) |
 | Press appearances, releases | Sanity docs `pressAppearance`, `pressRelease` (in progress) |
 | Press kit assets (posters, covers) | `pressKit` object on each Edition doc (in progress) |
 | Footer contact + social links | Sanity singleton `siteSettings` (shipped) |
@@ -62,7 +63,7 @@ src/
 
 ### Document types
 
-`siteSettings`, `homepage`, `edition`, `artist`, `organization` are the current shipped documents. Future-state: `aboutPage`, `partnersPage`, `visitPage`, `privacyPage` singletons, plus `pressAppearance`, `pressRelease`.
+`siteSettings`, `homepage`, `aboutPage`, `partnersPage`, `visitPage`, `privacyPage`, `edition`, `artist`, `organization` are the current shipped documents. Future-state: `pressAppearance`, `pressRelease`.
 
 ### Conventions
 
@@ -88,6 +89,10 @@ Defined in `src/sanity/structure.ts`. Current shape:
 Content
   ├─ Site settings        (singleton)
   ├─ Homepage             (singleton)
+  ├─ About                (singleton)
+  ├─ Partners             (singleton)
+  ├─ Visit                (singleton)
+  ├─ Privacy              (singleton)
   ├─ ────────
   ├─ Editions
   ├─ ────────

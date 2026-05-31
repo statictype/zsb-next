@@ -86,14 +86,25 @@ Foundation everything else depends on.
 
 **Heads up:** the hero title accent uses the same substring pattern as `edition.themeHighlight`. ADR 0007's drift concern applies — editor needs to keep both fields in sync. Step 6 will backport stricter substring validation to the existing edition fields.
 
-### `[ ]` Step 4 — `aboutPage`, `partnersPage`, `visitPage`, `privacyPage`
+### `[x]` Step 4 — `aboutPage`, `partnersPage`, `visitPage`, `privacyPage`
 
-Four singletons in one step (same shape, no inter-dependencies).
+Four singletons in two commits.
 
-- **`aboutPage`**: hero copy, "Not a festival" paragraph array, `pillar` objects (label + body), curator letter (paragraph array + portrait + name + role).
-- **`partnersPage`**: hero copy, event paragraph (with optional stat overrides for "X editions, Y artists, Z works, W visitors" — defaults derived), `whySculpturePoint` objects, hero image, CTA email.
-- **`visitPage`**: venue (name, street, city, mapsUrl), opening hours, `transport` array (from, lines, walk), `amenity` array (icon + label), image.
-- **`privacyPage`**: hero copy, body as **Portable Text** (the exception — see [ADR 0007](./adr/0007-plain-paragraphs-over-portable-text.md)), last-updated date.
+**Commit A — paragraph-array singletons:**
+- `pageHero` shared object (title + accented substring + lead) used by About, Partners, Visit, Privacy. The homepage hero stays its own thing because it carries a CTA target + slideshow.
+- `aboutPage`: hero, "Not a festival" prose (paragraph array), pillars array (label + body; numbers derived from order), curator letter (eyebrow + headline + portrait + name + role + paragraph array).
+- `partnersPage`: hero, event section + image (paragraph array), "Why Sculpture" section + image + points array, "Become a partner" CTA (heading + accented portion + body + button label). Mailto target sources from `siteSettings.contactEmail`.
+- `visitPage`: `venueName` (per-line array — "COMBINATUL" / "FONDULUI" / "PLASTIC" is three lines), street, city, mapsUrl, image, `hoursLines` (per-line array), `amenities` (label + fixed-enum icon), `transport` routes.
+- VisitSection becomes a pure renderer taking props with fallbacks; page handles the 3-layer fetch.
+- Footer `EXPLORE` column now derives from `getEditionListItems` (published only, top 4). Hardcoded list deleted — closes the step-3 loose end.
+
+**Commit B — `privacyPage` with Portable Text:**
+- Narrow PT surface: `h2` + `normal` block styles, `bullet` + `number` lists, `strong` + `em` marks, `link` annotation with `href` + `newTab`. Documented as the single project-wide exception in the schema description.
+- Renderer uses `@portabletext/react` with custom serializers in `src/app/(site)/privacy/page.tsx`. "Change your mind" cookie-settings button rendered automatically below the body — editors don't author it (it's interactive client code).
+- Fallback `FallbackBody` component captures the current static text so a fresh dataset still renders presentable.
+- `updatedAt` field, formatted `en-GB` ("24 April 2026").
+
+**Seed note:** five new singletons (about, partners, visit, privacy, plus homepage from step 3) won't auto-create. On a fresh dataset, the editor publishes each with the values currently hardcoded in each page's fallback. A bulk seed script is worth adding once all singletons are settled.
 
 ### `[ ]` Step 5 — Press: `pressAppearance`, `pressRelease`, `edition.pressKit`
 

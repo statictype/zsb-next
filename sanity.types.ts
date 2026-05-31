@@ -289,6 +289,35 @@ export type Artist = {
   }>;
 };
 
+export type PrivacyPage = {
+  _id: string;
+  _type: "privacyPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  hero: PageHero;
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h2";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href: string;
+      newTab?: boolean;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  updatedAt: string;
+};
+
 export type VisitPage = {
   _id: string;
   _type: "visitPage";
@@ -639,6 +668,7 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Slug
   | Artist
+  | PrivacyPage
   | VisitPage
   | PartnersPage
   | AboutPage
@@ -887,6 +917,45 @@ export type VISIT_PAGE_QUERY_RESULT =
   | null;
 
 // Source: src/sanity/lib/queries.ts
+// Variable: PRIVACY_PAGE_QUERY
+// Query: *[_id == "privacyPage"][0]{    hero,    body,    updatedAt  }
+export type PRIVACY_PAGE_QUERY_RESULT =
+  | {
+      hero: PageHero;
+      body: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "h2" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href: string;
+          newTab?: boolean;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
+      updatedAt: string;
+    }
+  | {
+      hero: PageHero;
+      body: null;
+      updatedAt: null;
+    }
+  | {
+      hero: null;
+      body: null;
+      updatedAt: null;
+    }
+  | null;
+
+// Source: src/sanity/lib/queries.ts
 // Variable: ARTISTS_QUERY
 // Query: *[_type == "artist" && defined(slug.current)] | order(name asc) {    _id,    name,    "slug": slug.current,    portrait,    shortBio,    discipline,    country  }
 export type ARTISTS_QUERY_RESULT = Array<{
@@ -1110,6 +1179,7 @@ declare module "@sanity/client" {
     '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage,\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait,\n    curatorName,\n    curatorRole,\n    curatorLetter\n  }\n': ABOUT_PAGE_QUERY_RESULT;
     '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage,\n    whyEyebrow,\n    whyTitle,\n    whyImage,\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel\n  }\n': PARTNERS_PAGE_QUERY_RESULT;
     '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image,\n    hoursLines,\n    amenities,\n    transport\n  }\n': VISIT_PAGE_QUERY_RESULT;
+    '\n  *[_id == "privacyPage"][0]{\n    hero,\n    body,\n    updatedAt\n  }\n': PRIVACY_PAGE_QUERY_RESULT;
     '\n  *[_type == "artist" && defined(slug.current)] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT;
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT;
