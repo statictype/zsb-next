@@ -1,9 +1,12 @@
 import {
+  type RemixiconComponentType,
   RiBusLine,
   RiCupLine,
+  RiHomeWifiLine,
   RiMapPinLine,
   RiPaintBrushLine,
   RiParkingBoxLine,
+  RiTempColdLine,
   RiTimeLine,
   RiWheelchairLine,
 } from '@remixicon/react'
@@ -14,16 +17,62 @@ import { blobUrl } from '@/lib/blob'
 import type { ImageData } from '@/types/edition'
 import styles from './VisitSection.module.css'
 
-const venueImage: ImageData = {
+// Fallback values for when the visitPage singleton hasn't been published.
+const FALLBACK_VENUE_NAME = ['COMBINATUL', 'FONDULUI', 'PLASTIC']
+const FALLBACK_STREET = 'Str. Băiculești 29'
+const FALLBACK_CITY = 'Sector 1, București'
+const FALLBACK_MAPS_URL =
+  'https://maps.google.com/?q=Combinatul+Fondului+Plastic+Bucuresti'
+const FALLBACK_IMAGE: ImageData = {
   src: blobUrl('2023/od6-0441.jpg'),
   alt: 'Combinatul Fondului Plastic venue interior during ZSB',
 }
+const FALLBACK_HOURS = ['Daily 11:00 — 20:00', 'Free Entry']
+const FALLBACK_AMENITIES: Amenity[] = [
+  { label: 'Accessible', icon: 'wheelchair' },
+  { label: 'Free Parking', icon: 'parking' },
+  { label: 'On-site Café', icon: 'cafe' },
+  { label: 'Kids Workshops', icon: 'paint' },
+]
+const FALLBACK_TRANSPORT: TransportRoute[] = [
+  { from: 'Gara de Nord', lines: 'Bus 205 / Tram 45', walk: '5 min walk' },
+  { from: 'Piața Presei', lines: 'Bus 301 / Bus 331', walk: '3 min walk' },
+  { from: 'Piața Unirii', lines: 'Bus 205 / Tram 45', walk: '5 min walk' },
+]
 
-const VENUE = {
-  name: 'Combinatul Fondului Plastic',
-  street: 'Str. Băiculești 29',
-  city: 'Sector 1, București',
-  mapsUrl: 'https://maps.google.com/?q=Combinatul+Fondului+Plastic+Bucuresti',
+type IconKey = 'wheelchair' | 'parking' | 'cafe' | 'paint' | 'restroom' | 'wifi'
+
+// Fixed icon set mirrored from the amenity schema. Editors pick an
+// icon key; this is the renderer-side mapping.
+const ICONS: Record<IconKey, RemixiconComponentType> = {
+  wheelchair: RiWheelchairLine,
+  parking: RiParkingBoxLine,
+  cafe: RiCupLine,
+  paint: RiPaintBrushLine,
+  restroom: RiTempColdLine,
+  wifi: RiHomeWifiLine,
+}
+
+export interface Amenity {
+  label: string
+  icon: IconKey
+}
+
+export interface TransportRoute {
+  from: string
+  lines: string
+  walk: string
+}
+
+export interface VisitSectionProps {
+  venueName?: string[] | null
+  street?: string | null
+  city?: string | null
+  mapsUrl?: string | null
+  image?: ImageData | null
+  hoursLines?: string[] | null
+  amenities?: Amenity[] | null
+  transport?: TransportRoute[] | null
 }
 
 const PIXELS = [
@@ -37,31 +86,26 @@ const PIXELS = [
   { bottom: '-8px', right: '25%', size: 12, color: 'var(--highlight)' },
 ] as const
 
-const TRANSPORT = [
-  { from: 'Gara de Nord', lines: 'Bus 205 / Tram 45', walk: '5 min walk' },
-  { from: 'Piața Presei', lines: 'Bus 301 / Bus 331', walk: '3 min walk' },
-  { from: 'Piața Unirii', lines: 'Bus 205 / Tram 45', walk: '5 min walk' },
-] as const
+export function VisitSection(props: VisitSectionProps = {}) {
+  const venueName = props.venueName?.length ? props.venueName : FALLBACK_VENUE_NAME
+  const street = props.street ?? FALLBACK_STREET
+  const city = props.city ?? FALLBACK_CITY
+  const mapsUrl = props.mapsUrl ?? FALLBACK_MAPS_URL
+  const image = props.image ?? FALLBACK_IMAGE
+  const hoursLines = props.hoursLines?.length ? props.hoursLines : FALLBACK_HOURS
+  const amenities = props.amenities?.length ? props.amenities : FALLBACK_AMENITIES
+  const transport = props.transport?.length ? props.transport : FALLBACK_TRANSPORT
 
-const PRACTICAL = [
-  { icon: RiWheelchairLine, label: 'Accessible' },
-  { icon: RiParkingBoxLine, label: 'Free Parking' },
-  { icon: RiCupLine, label: 'On-site Café' },
-  { icon: RiPaintBrushLine, label: 'Kids Workshops' },
-] as const
-
-export function VisitSection() {
   return (
     <div id="visit" className={styles.section}>
       <div className={styles.inner}>
         <div className={styles.splitLayout}>
-          {/* ---- Image with pixel decorations ---- */}
           <div className={styles.imageBlock}>
             <div className={styles.imageFrame}>
               <span aria-hidden className={shared.skeleton} />
               <Image
-                src={venueImage.src}
-                alt={venueImage.alt}
+                src={image.src}
+                alt={image.alt}
                 fill
                 sizes="(max-width: 1023px) 100vw, 45vw"
                 className={styles.image}
@@ -84,14 +128,15 @@ export function VisitSection() {
             ))}
           </div>
 
-          {/* ---- Content ---- */}
           <div className={styles.content}>
             <h2 className={shared.sectionTitle}>
-              COMBINATUL
-              <br />
-              FONDULUI
-              <br />
-              PLASTIC
+              {venueName.map((line, i, arr) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: positional
+                <span key={i}>
+                  {line}
+                  {i < arr.length - 1 && <br />}
+                </span>
+              ))}
             </h2>
 
             <div className={styles.infoRow}>
@@ -99,33 +144,40 @@ export function VisitSection() {
                 <RiMapPinLine size={18} className={styles.infoIcon} />
                 <span className={styles.infoLabel}>Location</span>
                 <span className={styles.infoValue}>
-                  {VENUE.street}
+                  {street}
                   <br />
-                  {VENUE.city}
+                  {city}
                 </span>
               </div>
               <div className={styles.infoBlock}>
                 <RiTimeLine size={18} className={styles.infoIcon} />
                 <span className={styles.infoLabel}>Opening Hours</span>
                 <span className={styles.infoValue}>
-                  Daily 11:00 — 20:00
-                  <br />
-                  Free Entry
+                  {hoursLines.map((line, i, arr) => (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: positional
+                    <span key={i}>
+                      {line}
+                      {i < arr.length - 1 && <br />}
+                    </span>
+                  ))}
                 </span>
               </div>
             </div>
 
             <div className={styles.practicalStrip}>
-              {PRACTICAL.map((item) => (
-                <div key={item.label} className={styles.practicalItem}>
-                  <item.icon size={16} className={styles.practicalIcon} />
-                  <span>{item.label}</span>
-                </div>
-              ))}
+              {amenities.map((item) => {
+                const Icon = ICONS[item.icon] ?? RiMapPinLine
+                return (
+                  <div key={item.label} className={styles.practicalItem}>
+                    <Icon size={16} className={styles.practicalIcon} />
+                    <span>{item.label}</span>
+                  </div>
+                )
+              })}
             </div>
 
             <div className={styles.transportList}>
-              {TRANSPORT.map((route) => (
+              {transport.map((route) => (
                 <div key={route.from} className={styles.transportLine}>
                   <RiBusLine size={14} className={styles.transportIcon} />
                   <span className={styles.transportFrom}>{route.from}</span>
@@ -139,7 +191,7 @@ export function VisitSection() {
 
             <div className={styles.cta}>
               <MagneticButton
-                href={VENUE.mapsUrl}
+                href={mapsUrl}
                 external
                 variant="secondary"
                 color="var(--action)"

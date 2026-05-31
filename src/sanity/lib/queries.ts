@@ -32,6 +32,52 @@ export const EDITIONS_LIST_QUERY = defineQuery(`
   }
 `)
 
+export const ABOUT_PAGE_QUERY = defineQuery(`
+  *[_id == "aboutPage"][0]{
+    hero,
+    notFestivalTitle,
+    notFestivalBody,
+    pillars,
+    placeImage,
+    curatorEyebrow,
+    curatorHeadline,
+    curatorPortrait,
+    curatorName,
+    curatorRole,
+    curatorLetter
+  }
+`)
+
+export const PARTNERS_PAGE_QUERY = defineQuery(`
+  *[_id == "partnersPage"][0]{
+    hero,
+    eventTitle,
+    eventBody,
+    eventImage,
+    whyEyebrow,
+    whyTitle,
+    whyImage,
+    whyPoints,
+    ctaHeading,
+    ctaHeadingAccent,
+    ctaBody,
+    ctaLabel
+  }
+`)
+
+export const VISIT_PAGE_QUERY = defineQuery(`
+  *[_id == "visitPage"][0]{
+    venueName,
+    street,
+    city,
+    mapsUrl,
+    image,
+    hoursLines,
+    amenities,
+    transport
+  }
+`)
+
 export const ARTISTS_QUERY = defineQuery(`
   *[_type == "artist" && defined(slug.current)] | order(name asc) {
     _id,

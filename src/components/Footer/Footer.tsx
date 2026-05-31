@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
+import { getEditionListItems } from '@/data/editions'
+import { type EditionListItem } from '@/sanity/lib/editions'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 import styles from './Footer.module.css'
@@ -8,13 +10,8 @@ import styles from './Footer.module.css'
 const CURRENT_YEAR = new Date().getFullYear()
 const BARCODE_LABEL = `ZSB—2021—${CURRENT_YEAR}`
 
-// Editions list stays hardcoded until step 3 derives it from edition.status.
-const EXPLORE_LINKS = [
-  { label: '#celalatcorp', href: '/editions/2025' },
-  { label: '#syzygy', href: '/editions/2024' },
-  { label: 're#situariafective', href: '/editions/2023' },
-  { label: '#perspectiva31', href: '/editions/2022' },
-] as const
+// How many published editions show in the footer Explore column.
+const EXPLORE_LIMIT = 4
 
 // Internal navigation labels are structural, not editorial — they live
 // in code so editors don't accidentally rename the link to its own page.
@@ -53,13 +50,26 @@ export async function Footer({ fetchOptions }: { fetchOptions: DynamicFetchOptio
 
 async function CachedFooter({ options }: { options: DynamicFetchOptions }) {
   'use cache'
-  const settings = await getSiteSettings(options)
-  return <FooterShell settings={settings} />
+  const [settings, editions] = await Promise.all([
+    getSiteSettings(options),
+    getEditionListItems(options),
+  ])
+  return <FooterShell settings={settings} editions={editions} />
 }
 
-function FooterShell({ settings }: { settings: SiteSettings | null }) {
+function FooterShell({
+  settings,
+  editions,
+}: {
+  settings: SiteSettings | null
+  editions: EditionListItem[]
+}) {
   const socials = buildSocialLinks(settings)
   const contactHref = settings?.contactEmail ? `mailto:${settings.contactEmail}` : undefined
+  // Explore column: published editions only, most recent first.
+  const exploreEditions = editions
+    .filter((e) => e.status === 'published')
+    .slice(0, EXPLORE_LIMIT)
 
   return (
     <footer className={styles.footer}>
@@ -74,9 +84,13 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
           <div className={styles.linksGrid}>
             <div className={styles.linksCol}>
               <div className={styles.linksColTitle}>Explore</div>
-              {EXPLORE_LINKS.map((link) => (
-                <FooterLink key={link.label} href={link.href} className={styles.link}>
-                  {link.label}
+              {exploreEditions.map((edition) => (
+                <FooterLink
+                  key={edition.year}
+                  href={`/editions/${edition.year}`}
+                  className={styles.link}
+                >
+                  {edition.theme}
                 </FooterLink>
               ))}
             </div>

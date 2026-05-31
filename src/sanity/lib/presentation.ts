@@ -5,6 +5,18 @@ export const locations = {
     select: { _id: '_id' },
     resolve: () => ({ locations: [{ title: 'Homepage', href: '/' }] }),
   }),
+  aboutPage: defineLocations({
+    select: { _id: '_id' },
+    resolve: () => ({ locations: [{ title: 'About', href: '/about' }] }),
+  }),
+  partnersPage: defineLocations({
+    select: { _id: '_id' },
+    resolve: () => ({ locations: [{ title: 'Partners', href: '/partners' }] }),
+  }),
+  visitPage: defineLocations({
+    select: { _id: '_id' },
+    resolve: () => ({ locations: [{ title: 'Visit', href: '/visit' }] }),
+  }),
   siteSettings: defineLocations({
     // Site settings affect every page; the footer is the most visible
     // surface, so we point editors at the homepage where they can see

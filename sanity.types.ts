@@ -87,12 +87,25 @@ export type SlideFull = {
   }>;
 };
 
+export type WhyPoint = {
+  _type: "whyPoint";
+  title: string;
+  text: string;
+};
+
 export type VenueEntry = {
   _type: "venueEntry";
   group: string;
   subgroup: string;
   name: string;
   program: string;
+};
+
+export type TransportRoute = {
+  _type: "transportRoute";
+  from: string;
+  lines: string;
+  walk: string;
 };
 
 export type ProgramData = {
@@ -124,6 +137,19 @@ export type ProgramData = {
     _key: string;
   }>;
   sftfBanner: SftfBanner;
+};
+
+export type Pillar = {
+  _type: "pillar";
+  label: string;
+  body: string;
+};
+
+export type PageHero = {
+  _type: "pageHero";
+  title: string;
+  titleAccent: string;
+  lead: string;
 };
 
 export type HeroSlide = {
@@ -170,6 +196,12 @@ export type CreditOrg = {
   label: string;
   organization: OrganizationReference;
   detail?: string;
+};
+
+export type Amenity = {
+  _type: "amenity";
+  label: string;
+  icon: "wheelchair" | "parking" | "cafe" | "paint" | "restroom" | "wifi";
 };
 
 export type Organization = {
@@ -255,6 +287,112 @@ export type Artist = {
     _type: "externalLink";
     _key: string;
   }>;
+};
+
+export type VisitPage = {
+  _id: string;
+  _type: "visitPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  venueName: Array<string>;
+  street: string;
+  city: string;
+  mapsUrl: string;
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  hoursLines: Array<string>;
+  amenities: Array<
+    {
+      _key: string;
+    } & Amenity
+  >;
+  transport: Array<
+    {
+      _key: string;
+    } & TransportRoute
+  >;
+};
+
+export type PartnersPage = {
+  _id: string;
+  _type: "partnersPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  hero: PageHero;
+  eventTitle: string;
+  eventBody: Array<string>;
+  eventImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  whyEyebrow: string;
+  whyTitle: string;
+  whyImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  whyPoints: Array<
+    {
+      _key: string;
+    } & WhyPoint
+  >;
+  ctaHeading: string;
+  ctaHeadingAccent: string;
+  ctaBody: string;
+  ctaLabel: string;
+};
+
+export type AboutPage = {
+  _id: string;
+  _type: "aboutPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  hero: PageHero;
+  notFestivalTitle: string;
+  notFestivalBody: Array<string>;
+  pillars: Array<
+    {
+      _key: string;
+    } & Pillar
+  >;
+  placeImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  curatorEyebrow: string;
+  curatorHeadline: string;
+  curatorPortrait?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  curatorName: string;
+  curatorRole: string;
+  curatorLetter: Array<string>;
 };
 
 export type EditionReference = {
@@ -484,18 +622,26 @@ export type AllSanitySchemaTypes =
   | SlideFeaturedPortrait
   | SlideDuo
   | SlideFull
+  | WhyPoint
   | VenueEntry
+  | TransportRoute
   | ProgramData
+  | Pillar
+  | PageHero
   | HeroSlide
   | CreditText
   | OrganizationReference
   | CreditOrgList
   | CreditOrg
+  | Amenity
   | Organization
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
   | Artist
+  | VisitPage
+  | PartnersPage
+  | AboutPage
   | EditionReference
   | Homepage
   | ArtistReference
@@ -569,6 +715,176 @@ export type EDITIONS_LIST_QUERY_RESULT = Array<{
   theme: string;
   status: "published" | "upcoming";
 }>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: ABOUT_PAGE_QUERY
+// Query: *[_id == "aboutPage"][0]{    hero,    notFestivalTitle,    notFestivalBody,    pillars,    placeImage,    curatorEyebrow,    curatorHeadline,    curatorPortrait,    curatorName,    curatorRole,    curatorLetter  }
+export type ABOUT_PAGE_QUERY_RESULT =
+  | {
+      hero: PageHero;
+      notFestivalTitle: null;
+      notFestivalBody: null;
+      pillars: null;
+      placeImage: null;
+      curatorEyebrow: null;
+      curatorHeadline: null;
+      curatorPortrait: null;
+      curatorName: null;
+      curatorRole: null;
+      curatorLetter: null;
+    }
+  | {
+      hero: null;
+      notFestivalTitle: null;
+      notFestivalBody: null;
+      pillars: null;
+      placeImage: null;
+      curatorEyebrow: null;
+      curatorHeadline: null;
+      curatorPortrait: null;
+      curatorName: null;
+      curatorRole: null;
+      curatorLetter: null;
+    }
+  | {
+      hero: PageHero;
+      notFestivalTitle: string;
+      notFestivalBody: Array<string>;
+      pillars: Array<
+        {
+          _key: string;
+        } & Pillar
+      >;
+      placeImage: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      } | null;
+      curatorEyebrow: string;
+      curatorHeadline: string;
+      curatorPortrait: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      } | null;
+      curatorName: string;
+      curatorRole: string;
+      curatorLetter: Array<string>;
+    }
+  | null;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: PARTNERS_PAGE_QUERY
+// Query: *[_id == "partnersPage"][0]{    hero,    eventTitle,    eventBody,    eventImage,    whyEyebrow,    whyTitle,    whyImage,    whyPoints,    ctaHeading,    ctaHeadingAccent,    ctaBody,    ctaLabel  }
+export type PARTNERS_PAGE_QUERY_RESULT =
+  | {
+      hero: PageHero;
+      eventTitle: null;
+      eventBody: null;
+      eventImage: null;
+      whyEyebrow: null;
+      whyTitle: null;
+      whyImage: null;
+      whyPoints: null;
+      ctaHeading: null;
+      ctaHeadingAccent: null;
+      ctaBody: null;
+      ctaLabel: null;
+    }
+  | {
+      hero: null;
+      eventTitle: null;
+      eventBody: null;
+      eventImage: null;
+      whyEyebrow: null;
+      whyTitle: null;
+      whyImage: null;
+      whyPoints: null;
+      ctaHeading: null;
+      ctaHeadingAccent: null;
+      ctaBody: null;
+      ctaLabel: null;
+    }
+  | {
+      hero: PageHero;
+      eventTitle: string;
+      eventBody: Array<string>;
+      eventImage: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      } | null;
+      whyEyebrow: string;
+      whyTitle: string;
+      whyImage: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      } | null;
+      whyPoints: Array<
+        {
+          _key: string;
+        } & WhyPoint
+      >;
+      ctaHeading: string;
+      ctaHeadingAccent: string;
+      ctaBody: string;
+      ctaLabel: string;
+    }
+  | null;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: VISIT_PAGE_QUERY
+// Query: *[_id == "visitPage"][0]{    venueName,    street,    city,    mapsUrl,    image,    hoursLines,    amenities,    transport  }
+export type VISIT_PAGE_QUERY_RESULT =
+  | {
+      venueName: Array<string>;
+      street: string;
+      city: string;
+      mapsUrl: string;
+      image: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+      };
+      hoursLines: Array<string>;
+      amenities: Array<
+        {
+          _key: string;
+        } & Amenity
+      >;
+      transport: Array<
+        {
+          _key: string;
+        } & TransportRoute
+      >;
+    }
+  | {
+      venueName: null;
+      street: null;
+      city: null;
+      mapsUrl: null;
+      image: null;
+      hoursLines: null;
+      amenities: null;
+      transport: null;
+    }
+  | null;
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ARTISTS_QUERY
@@ -791,6 +1107,9 @@ declare module "@sanity/client" {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT;
     '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image\n    },\n    editionsIntro\n  }\n': HOMEPAGE_QUERY_RESULT;
     '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status\n  }\n': EDITIONS_LIST_QUERY_RESULT;
+    '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage,\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait,\n    curatorName,\n    curatorRole,\n    curatorLetter\n  }\n': ABOUT_PAGE_QUERY_RESULT;
+    '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage,\n    whyEyebrow,\n    whyTitle,\n    whyImage,\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel\n  }\n': PARTNERS_PAGE_QUERY_RESULT;
+    '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image,\n    hoursLines,\n    amenities,\n    transport\n  }\n': VISIT_PAGE_QUERY_RESULT;
     '\n  *[_type == "artist" && defined(slug.current)] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT;
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT;
