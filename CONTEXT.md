@@ -9,7 +9,11 @@ A single year of the festival. Modelled in `src/types/edition.ts` as a discrimin
 - **Edition** — a physical edition with venues, a program, and a carousel of on-site photography.
 - **OnlineEdition** — a digital-only edition with an external gallery and no venue map.
 
-Each edition lives in `src/data/editions/YYYY.ts` and is registered in `src/data/editions/index.ts`. The dynamic route `src/app/editions/[year]/` renders whichever variant is loaded.
+Editions live in Sanity as `edition` documents, with a static fallback in `src/data/editions/YYYY.ts` (one per year, registered in `src/data/editions/index.ts`) that's consulted only when the Sanity doc for that year isn't published yet. 2021 is permanently static — it's the online-only year, with a shape Sanity doesn't model. The dynamic route `src/app/(site)/editions/[year]/` renders whichever variant `getEdition(year, options)` returns.
+
+### Edition status
+
+Every Sanity-backed edition carries a `status: 'upcoming' | 'published'`. An **upcoming** edition is one whose theme is announced but whose page isn't ready yet — it shows on the homepage editions list as a "Coming soon" row, not a link. A **published** edition is one with a live `/editions/YYYY` page; it shows on the homepage and in the footer's Explore column. Curators flip the status from upcoming → published when the program is finalised.
 
 ## Program block
 
