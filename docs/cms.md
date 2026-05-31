@@ -151,19 +151,46 @@ Pulled from the audit and applied as the rollout progresses.
 
 ## Live preview & Visual Editing
 
-**Current state** (post step 1):
-- Presentation tool wired with `edition` + `artist` locations. Editors can open a document and click "Open preview" to jump to the rendered URL.
-- Draft mode routes (`/api/draft-mode/enable`, `/api/draft-mode/disable`) are live. The Presentation iframe enters draft mode but the rendered page still shows the published version (no draft-mode-aware fetch yet).
-- `stegaClean` is applied at the SEO boundary so invisible Visual Editing characters don't leak into `<title>`, OG tags, or JSON-LD. Without this, search engines see polluted strings and click-through tanks.
+Wired via `next-sanity` v13 + the route-group split (`app/(site)/` vs `app/studio/`).
 
-**Step 1.5 will add:**
-- `<SanityLive />` for real-time updates when published content changes.
-- `<VisualEditing />` for click-to-edit overlays in draft mode.
-- Draft-mode-aware fetch in `src/sanity/lib/editions.ts` so the Presentation iframe shows actual drafts.
-- A route-group restructure (`app/(site)/`) so neither component mounts on `/studio` — Sanity explicitly warns against that (causes unexpected reloads).
-- Bump `next-sanity` v12 → v13 for clean `cacheComponents` interop.
+- **Presentation tool** is configured in `sanity.config.ts` with `edition` + `artist` document locations. Opening a doc in Studio shows a live preview pane that the editor can click through to navigate.
+- **Draft mode routes** at `/api/draft-mode/{enable,disable}`. The Presentation tool calls `enable`; the floating "Exit preview" button (rendered by `<DisableDraftMode />`) calls `disable`.
+- **`<SanityLive />`** mounted in `src/app/(site)/layout.tsx` subscribes to Sanity sync-tag events and triggers `router.refresh()` when content the page depends on changes. Mounted on every site route — NOT on `/studio` (Sanity explicitly warns it causes unexpected reloads inside the Studio iframe). The route-group split is what enforces that boundary.
+- **`<VisualEditing />`** + **`<DisableDraftMode />`** mounted only when draft mode is on. Provides click-to-edit overlays; clicking a highlighted region jumps back into the Studio with the right field focused.
+- **`stegaClean`** at the SEO boundary in `src/lib/seo.ts` strips invisible Visual Editing characters from anything written to `<title>`, OG tags, or JSON-LD. Without this, search engines see polluted strings and click-through tanks.
 
-Until step 1.5 lands, editors can publish + see the result on the next request (or after revalidation), but cannot click-to-edit and cannot preview unpublished drafts on the public site. They can still review drafts inside the Studio form view.
+### How draft-mode-aware fetching works
+
+Cache Components forbids reading request data (`draftMode()`, `cookies()`) inside `'use cache'` boundaries. The v13 pattern resolves perspective + stega *outside* the cache and threads them in as serializable props:
+
+```ts
+// page.tsx
+const [{ year }, options] = await Promise.all([
+  props.params,
+  getDynamicFetchOptions(),   // reads draftMode + cookies, returns { perspective, stega }
+])
+return <CachedEdition year={Number(year)} options={options} />
+
+// child
+async function CachedEdition({ year, options }: { ... }) {
+  'use cache'
+  const edition = await getEdition(year, options)   // sanityFetch uses options
+  // render
+}
+```
+
+Two variants:
+- **Routes with `loading.tsx`** (e.g. `/editions/[year]`): the loading file provides Suspense; page resolves options and renders the cached child directly.
+- **Routes without `loading.tsx`** (e.g. `/editions` index): branch on `draftMode()` at the page level; cached path runs immediately when off, Suspense-wrapped dynamic component runs when on.
+
+Both ship in `src/app/(site)/editions/*` and serve as the templates for steps 2-5.
+
+### Helpers in `src/sanity/lib/live.ts`
+
+- `sanityFetch` — main fetcher. Strict mode requires every call to pass `perspective` + `stega`.
+- `getDynamicFetchOptions()` — resolves the two from draft mode + cookies. Must be called *outside* `'use cache'`.
+- `sanityFetchStaticParams()` — for `generateStaticParams`. Hardcoded published, no stega, build-time only.
+- `sanityFetchMetadata()` — for `generateMetadata` / `sitemap.ts` / `opengraph-image.tsx`. Perspective preserved (so Presentation can preview metadata for drafts), stega always off.
 
 ## Stega and SEO
 
@@ -174,9 +201,13 @@ Stega = Sanity's mechanism for embedding invisible characters in strings so the 
 
 ## Caching & revalidation
 
-`src/sanity/lib/client.ts` uses `useCdn: true` (fast, ~brief delay). `src/sanity/lib/editions.ts` wraps queries with the `'use cache'` directive — Next.js caches the mapped result. Edition pages are statically prerendered at build time and survive until the next revalidation.
+`src/sanity/lib/client.ts` uses `useCdn: true` (fast, ~brief delay) and `perspective: 'published'` (drafts never accidentally render in production).
 
-For live updates (post-publish), we'll add tag-based revalidation in step 1.5: Sanity webhook → `/api/revalidate/tag` → `revalidateTag('edition')`.
+`next.config.ts` sets `cacheLife: { default: sanity }` (the `next-sanity/live/cache-life` preset) — every cached `sanityFetch` lives until a sync-tag invalidates it, no 15-minute timer.
+
+Cached helpers (`'use cache'` directive) live in `src/sanity/lib/editions.ts` and `src/data/editions/index.ts`. Each call inside a cache boundary tags itself automatically via `sanityFetch` so `<SanityLive />` knows when to refresh.
+
+For HTML cache invalidation across deploys (full-page revalidation), a Sanity webhook → `/api/revalidate/tag` route is still to-be-built. Not blocking — `<SanityLive />` already drives in-page updates so visitors with an open tab see fresh content; the webhook only matters for users hitting a deeply cached HTML response.
 
 ## Editions: Sanity-first with static fallback
 

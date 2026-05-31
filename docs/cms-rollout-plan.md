@@ -44,20 +44,22 @@ Foundation everything else depends on.
 
 **Verified:** `pnpm typecheck`, `pnpm lint`, `pnpm typegen` all pass.
 
-### `[ ]` Step 1.5 — Live preview wiring (blocked on package upgrade)
+### `[x]` Step 1.5 — Live preview wiring
 
-Click-to-edit overlays + real-time draft preview on the public site. Held out of step 1 because `next-sanity` v12.4.5 has rough edges with `cacheComponents: true`; v13 (May 2026) ships first-class support and clean draft-mode interop.
+**Shipped:**
+- `next-sanity` 12.4.5 → 13.0.7 (plus `sanity` 5.26 → 5.28, `@sanity/client` 7.22.0 → 7.22.1, `@sanity/vision` 5.26 → 5.28). No v12 → v13 code migrations needed; we hadn't yet wired any `sanityFetch` calls or `<SanityLive>` props that the v13 release removed.
+- `next.config.ts`: `cacheLife: { default: sanity }` so `sanityFetch` calls invalidate via Sanity sync tags, not a 15-minute timer.
+- `src/sanity/lib/live.ts` rewritten with `strict: true` + three helpers required by the v13 cache-components pattern: `getDynamicFetchOptions()`, `sanityFetchStaticParams()`, `sanityFetchMetadata()`.
+- `src/sanity/lib/client.ts`: `perspective: 'published'` explicit.
+- `src/sanity/lib/editions.ts`: `getEditionFromSanity` now takes `DynamicFetchOptions` and uses `sanityFetch` under `'use cache'`. `src/data/editions/index.ts` threads the options through.
+- Route restructure: every content route moved into `src/app/(site)/`. Root layout is now bare HTML + fonts; `src/app/(site)/layout.tsx` holds `<Footer />`, `<CookieBanner />`, `<JsonLd />`, `<SanityLive />` (always — drives sync-tag invalidation), and `<VisualEditing />` + `<DisableDraftMode />` when draft mode is on.
+- `src/app/(site)/editions/[year]/page.tsx` uses the 3-layer pattern via the `loading.tsx`-sibling shortcut. `src/app/(site)/editions/page.tsx` uses inline `<Suspense>`.
+- `src/components/DisableDraftMode/` — floating "Exit preview" button outside the Presentation Tool iframe.
+- `src/app/studio/[[...tool]]/page.tsx` — Studio wrapped in a server component that touches `cookies()` inside `<Suspense>`, resolving the cacheComponents conflict between Studio's request-dependent metadata and the static page shell.
 
-**Needs user approval** (per project memory: don't patch `package.json` unilaterally).
+**Verified:** `pnpm build` ships 22 routes — content routes prerender static, `/editions/[year]` partial-prerenders via `loading.tsx`, `/studio/[[...tool]]` partial-prerenders. Caching at 1y/1y with sync-tag invalidation.
 
-**Scope:**
-1. Bump `next-sanity` 12.4.5 → 13.x. Apply migration: rename `tag` → `requestTag`, drop removed `<SanityLive>` props (`refreshOnFocus`, `refreshOnReconnect`, `refreshOnMount`, `fetchOptions`, `stega`), rename type exports.
-2. Create `app/(site)/` route group. Move every content route into it: `page.tsx`, `about/`, `artists/`, `editions/`, `partners/`, `press/`, `privacy/`, `visit/`, `error.tsx`. (Route groups don't affect URLs.)
-3. `app/(site)/layout.tsx` mounts `<Footer />`, `<CookieBanner />`, `<JsonLd />`, `<SanityLive />`, conditional `<VisualEditing />` + `<DisableDraftMode />`. Strip those from `app/layout.tsx`.
-4. Switch `src/sanity/lib/editions.ts` from raw `client.fetch` to `sanityFetch` + `cacheLife('hours')` (or `'max'` with tag-based revalidation).
-5. Sanity webhook → `/api/revalidate/tag` for on-demand revalidation.
-
-**Why not now:** v12 can't satisfy both static prerender (the journal entry `static-prerender-via-segment-layouts.md` is explicit about this) AND live drafts without compromises. v13 resolves the tension.
+**Still to do (out of step 1.5):** Sanity webhook → `/api/revalidate/tag` route for production on-demand revalidation. Not blocking — `SanityLive` already drives in-page updates; the webhook only matters once we want HTML cache invalidation on every publish.
 
 ### `[ ]` Step 2 — `siteSettings` singleton + footer
 
@@ -118,7 +120,7 @@ Active tasks live in the local task tracker (`TaskList`). Map between this doc a
 | Doc step | Task # |
 |---|---|
 | Step 1 (shipped) | #5 |
-| Step 1.5 | #11 |
+| Step 1.5 (shipped) | #11 |
 | Step 2 | #6 |
 | Step 3 | #7 |
 | Step 4 | #8 |
