@@ -7,6 +7,7 @@ import { Program } from '@/components/Program/Program'
 import { ThemeArtists } from '@/components/ThemeArtists/ThemeArtists'
 import { Venues } from '@/components/Venues/Venues'
 import { getAllEditionYears, getEdition } from '@/data/editions'
+import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import { editionBreadcrumbJsonLd, editionEventJsonLd, editionMetadata } from '@/lib/seo'
 import { isOnlineEdition } from '@/types/edition'
 import { OnlineEditionLayout } from './online-edition-layout'
@@ -18,14 +19,26 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(props: PageProps<'/editions/[year]'>) {
-  const { year } = await props.params
-  const edition = await getEdition(Number(year))
+  const [{ year }, { perspective }] = await Promise.all([
+    props.params,
+    getDynamicFetchOptions(),
+  ])
+  // Metadata never carries stega — stripping is built into the editions
+  // helper via the perspective + stega args.
+  const edition = await getEdition(Number(year), { perspective, stega: false })
   return edition ? editionMetadata(edition) : {}
 }
 
+// Sibling loading.tsx provides the Suspense fallback — see Next 16
+// Cache Components docs ("Routes with loading.tsx" pattern).
 export default async function EditionPage(props: PageProps<'/editions/[year]'>) {
-  const { year } = await props.params
-  const edition = await getEdition(Number(year))
+  const [{ year }, options] = await Promise.all([props.params, getDynamicFetchOptions()])
+  return <CachedEdition year={Number(year)} options={options} />
+}
+
+async function CachedEdition({ year, options }: { year: number; options: DynamicFetchOptions }) {
+  'use cache'
+  const edition = await getEdition(year, options)
 
   if (!edition) {
     notFound()

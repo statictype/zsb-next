@@ -1,9 +1,5 @@
 import type { Metadata } from 'next'
 import { Dela_Gothic_One, Montserrat } from 'next/font/google'
-import { Suspense } from 'react'
-import { CookieBanner } from '@/components/CookieBanner/CookieBanner'
-import { Footer } from '@/components/Footer/Footer'
-import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { SITE_NAME, SITE_URL } from '@/lib/constants'
 import './globals.css'
 
@@ -68,42 +64,7 @@ export default function RootLayout({
       className={`${delaGothic.variable} ${montserrat.variable}`}
       data-scroll-behavior="smooth"
     >
-      <body>
-        <JsonLd
-          data={{
-            '@context': 'https://schema.org',
-            '@graph': [
-              {
-                '@type': 'Organization',
-                name: SITE_NAME,
-                alternateName: 'ZSB',
-                url: SITE_URL,
-                description: 'Contemporary sculpture event in Bucharest, Romania.',
-                foundingDate: '2021',
-                location: {
-                  '@type': 'Place',
-                  name: 'Bucharest',
-                  address: {
-                    '@type': 'PostalAddress',
-                    addressLocality: 'Bucharest',
-                    addressCountry: 'RO',
-                  },
-                },
-              },
-              {
-                '@type': 'WebSite',
-                name: SITE_NAME,
-                url: SITE_URL,
-              },
-            ],
-          }}
-        />
-        {children}
-        <Suspense>
-          <Footer />
-        </Suspense>
-        <CookieBanner />
-      </body>
+      <body>{children}</body>
     </html>
   )
 }

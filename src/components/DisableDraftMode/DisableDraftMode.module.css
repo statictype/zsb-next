@@ -1,0 +1,22 @@
+.button {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 9999;
+  padding: 8px 14px;
+  background: var(--heading);
+  color: var(--canvas);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 9999px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: transform var(--duration-fast, 150ms) var(--ease-out, ease-out);
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}

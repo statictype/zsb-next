@@ -204,7 +204,7 @@
 }
 
 .editionBadge {
-  composes: pill from "../components/Shared.module.css";
+  composes: pill from "../../components/Shared.module.css";
   flex-shrink: 0;
   white-space: nowrap;
   font-size: 7px;

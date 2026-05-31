@@ -14,8 +14,8 @@ import type {
   ProgramData,
   ProgramFilm,
 } from '@/types/edition'
-import { client } from './client'
 import { urlFor } from './image'
+import { type DynamicFetchOptions, sanityFetch } from './live'
 import { EDITION_BY_YEAR_QUERY, EDITION_YEARS_QUERY } from './queries'
 
 type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
@@ -140,14 +140,36 @@ function mapEdition(raw: SanityEdition): Edition {
   }
 }
 
-export async function getEditionYearsFromSanity(): Promise<number[]> {
+/**
+ * Cached fetch of a single edition. Caller must pass perspective + stega
+ * (resolved via `getDynamicFetchOptions` outside the cache boundary).
+ * Mapped through `mapEdition` so the runtime shape stays stable.
+ */
+export async function getEditionFromSanity(
+  year: number,
+  options: DynamicFetchOptions,
+): Promise<Edition | undefined> {
   'use cache'
-  const years = await client.fetch(EDITION_YEARS_QUERY)
-  return years ?? []
+  const { data: raw } = await sanityFetch({
+    query: EDITION_BY_YEAR_QUERY,
+    params: { year },
+    perspective: options.perspective,
+    stega: options.stega,
+  })
+  return raw ? mapEdition(raw) : undefined
 }
 
-export async function getEditionFromSanity(year: number): Promise<Edition | undefined> {
+/**
+ * Cached list of edition years. Drafts never introduce or remove a year
+ * (year is set on creation and rarely changes), so we hardcode published
+ * here. Used by /editions, /artists, sitemap, generateStaticParams.
+ */
+export async function getEditionYearsFromSanity(): Promise<number[]> {
   'use cache'
-  const raw = await client.fetch(EDITION_BY_YEAR_QUERY, { year })
-  return raw ? mapEdition(raw) : undefined
+  const { data } = await sanityFetch({
+    query: EDITION_YEARS_QUERY,
+    perspective: 'published',
+    stega: false,
+  })
+  return data ?? []
 }

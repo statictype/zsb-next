@@ -1,3 +1,4 @@
+import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import { getEditionFromSanity, getEditionYearsFromSanity } from '@/sanity/lib/editions'
 import type { AnyEdition } from '@/types/edition'
 import { edition2021 } from './2021'
@@ -14,15 +15,23 @@ const staticEditions: Record<number, AnyEdition> = {
   2025: edition2025,
 }
 
+const STATIC_ONLY_YEARS = new Set([2021])
+
 /**
  * 2021 stays as a static (online edition); never lives in Sanity.
- * All other in-person editions prefer Sanity, falling back to the
- * static file while migration is in progress.
+ * Other in-person editions prefer Sanity, falling back to the static
+ * file while migration is in progress.
+ *
+ * Caller MUST supply `options` (from `getDynamicFetchOptions`) so the
+ * fetch can switch between published and draft perspectives. Static
+ * fallback is unaffected.
  */
-export async function getEdition(year: number): Promise<AnyEdition | undefined> {
-  'use cache'
-  if (year === 2021) return staticEditions[2021]
-  const fromSanity = await getEditionFromSanity(year)
+export async function getEdition(
+  year: number,
+  options: DynamicFetchOptions,
+): Promise<AnyEdition | undefined> {
+  if (STATIC_ONLY_YEARS.has(year)) return staticEditions[year]
+  const fromSanity = await getEditionFromSanity(year, options)
   if (fromSanity) return fromSanity
   return staticEditions[year]
 }
