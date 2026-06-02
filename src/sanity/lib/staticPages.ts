@@ -36,9 +36,7 @@ export async function getAboutPage(options: DynamicFetchOptions): Promise<AboutP
   return data ?? null
 }
 
-export async function getPartnersPage(
-  options: DynamicFetchOptions,
-): Promise<PartnersPage | null> {
+export async function getPartnersPage(options: DynamicFetchOptions): Promise<PartnersPage | null> {
   'use cache'
   const { data } = await sanityFetch({
     query: PARTNERS_PAGE_QUERY,
@@ -58,9 +56,7 @@ export async function getVisitPage(options: DynamicFetchOptions): Promise<VisitP
   return data ?? null
 }
 
-export async function getPrivacyPage(
-  options: DynamicFetchOptions,
-): Promise<PrivacyPage | null> {
+export async function getPrivacyPage(options: DynamicFetchOptions): Promise<PrivacyPage | null> {
   'use cache'
   const { data } = await sanityFetch({
     query: PRIVACY_PAGE_QUERY,

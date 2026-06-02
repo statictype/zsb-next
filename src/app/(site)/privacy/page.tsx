@@ -111,9 +111,7 @@ function PrivacyShell({ page }: { page?: PrivacyPage | null } = {}) {
                 <CookieSettingsButton />
               </div>
 
-              <p className={styles.updated}>
-                Last updated: {formatUpdatedAt(updatedAt)}.
-              </p>
+              <p className={styles.updated}>Last updated: {formatUpdatedAt(updatedAt)}.</p>
             </article>
           </div>
         </section>
@@ -145,12 +143,12 @@ function FallbackBody() {
       <h2>Cookies we use</h2>
       <ul>
         <li>
-          <strong>zsb_consent</strong> — first-party, essential. Stores your consent choice
-          (granted or denied). Six-month expiry. Always set.
+          <strong>zsb_consent</strong> — first-party, essential. Stores your consent choice (granted
+          or denied). Six-month expiry. Always set.
         </li>
         <li>
-          <strong>_ga, _ga_*</strong> — third-party (Google Analytics 4). Distinguishes visitors
-          and sessions. Set only after you click <em>Accept</em>. Typical expiry: up to two years.
+          <strong>_ga, _ga_*</strong> — third-party (Google Analytics 4). Distinguishes visitors and
+          sessions. Set only after you click <em>Accept</em>. Typical expiry: up to two years.
         </li>
       </ul>
       <p>
@@ -165,8 +163,8 @@ function FallbackBody() {
 
       <h2>Your rights</h2>
       <p>
-        Under GDPR you have the right to access, correct, delete, or export your data, and to
-        lodge a complaint with{' '}
+        Under GDPR you have the right to access, correct, delete, or export your data, and to lodge
+        a complaint with{' '}
         <a href="https://www.dataprotection.ro/" rel="noreferrer noopener" target="_blank">
           ANSPDCP
         </a>

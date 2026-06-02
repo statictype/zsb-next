@@ -8,12 +8,12 @@ import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import shared from '@/components/Shared.module.css'
 import { getEditionListItems } from '@/data/editions'
-import { type EditionListItem } from '@/sanity/lib/editions'
-import { getHomepage, type Homepage } from '@/sanity/lib/homepage'
-import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
-import { urlFor } from '@/sanity/lib/image'
 import { blobUrl } from '@/lib/blob'
 import { pageMetadata } from '@/lib/seo'
+import { type EditionListItem } from '@/sanity/lib/editions'
+import { getHomepage, type Homepage } from '@/sanity/lib/homepage'
+import { urlFor } from '@/sanity/lib/image'
+import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import styles from './page.module.css'
 
 export const metadata = pageMetadata({
@@ -63,10 +63,7 @@ async function DynamicHome() {
 
 async function CachedHome({ options }: { options: DynamicFetchOptions }) {
   'use cache'
-  const [home, editions] = await Promise.all([
-    getHomepage(options),
-    getEditionListItems(options),
-  ])
+  const [home, editions] = await Promise.all([getHomepage(options), getEditionListItems(options)])
   return <HomeShell home={home} editions={editions} />
 }
 
@@ -173,9 +170,7 @@ function HeroTitle({ title, accent }: { title: string; accent: string }) {
   )
 }
 
-function mapSlideshow(
-  slides: Homepage['slideshow'] | undefined,
-): HeroImage[] | undefined {
+function mapSlideshow(slides: Homepage['slideshow'] | undefined): HeroImage[] | undefined {
   if (!slides?.length) return undefined
   const out: HeroImage[] = []
   for (const slide of slides) {

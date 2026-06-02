@@ -7,8 +7,8 @@ import { Program } from '@/components/Program/Program'
 import { ThemeArtists } from '@/components/ThemeArtists/ThemeArtists'
 import { Venues } from '@/components/Venues/Venues'
 import { getAllEditionYears, getEdition } from '@/data/editions'
-import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import { editionBreadcrumbJsonLd, editionEventJsonLd, editionMetadata } from '@/lib/seo'
+import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import { isOnlineEdition } from '@/types/edition'
 import { OnlineEditionLayout } from './online-edition-layout'
 import styles from './page.module.css'
@@ -19,10 +19,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(props: PageProps<'/editions/[year]'>) {
-  const [{ year }, { perspective }] = await Promise.all([
-    props.params,
-    getDynamicFetchOptions(),
-  ])
+  const [{ year }, { perspective }] = await Promise.all([props.params, getDynamicFetchOptions()])
   // Metadata never carries stega — stripping is built into the editions
   // helper via the perspective + stega args.
   const edition = await getEdition(Number(year), { perspective, stega: false })

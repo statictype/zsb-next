@@ -15,9 +15,7 @@ export type SiteSettings = NonNullable<SITE_SETTINGS_QUERY_RESULT>
  * Footer falls back to safe defaults so the page doesn't crash on a
  * fresh dataset.
  */
-export async function getSiteSettings(
-  options: DynamicFetchOptions,
-): Promise<SiteSettings | null> {
+export async function getSiteSettings(options: DynamicFetchOptions): Promise<SiteSettings | null> {
   'use cache'
   const { data } = await sanityFetch({
     query: SITE_SETTINGS_QUERY,

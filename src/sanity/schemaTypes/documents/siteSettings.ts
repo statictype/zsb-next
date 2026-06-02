@@ -13,8 +13,7 @@ export const siteSettings = defineType({
       description:
         'Used in the footer "Contact" link, partner CTAs, and any other mailto on the site.',
       type: 'string',
-      validation: (rule) =>
-        rule.required().email().error('Must be a valid email address'),
+      validation: (rule) => rule.required().email().error('Must be a valid email address'),
     }),
     defineField({
       name: 'instagramUrl',

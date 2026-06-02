@@ -45,12 +45,8 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title('Press')
             .items([
-              S.documentTypeListItem('pressAppearance')
-                .title('Appearances')
-                .icon(LinkIcon),
-              S.documentTypeListItem('pressRelease')
-                .title('Releases')
-                .icon(TransferIcon),
+              S.documentTypeListItem('pressAppearance').title('Appearances').icon(LinkIcon),
+              S.documentTypeListItem('pressRelease').title('Releases').icon(TransferIcon),
             ]),
         ),
 

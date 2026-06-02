@@ -217,7 +217,11 @@ function PressShell({ page, appearances, releases, kit, settings }: PressShellPr
                       <span className={styles.releaseBody}>
                         <span className={styles.releaseTitle}>{release.title}</span>
                         <span className={styles.releaseMeta}>
-                          {[release.language, `${release.pages} pages`, formatBytes(release.sizeBytes)]
+                          {[
+                            release.language,
+                            `${release.pages} pages`,
+                            formatBytes(release.sizeBytes),
+                          ]
                             .filter(Boolean)
                             .join(' · ')}
                         </span>

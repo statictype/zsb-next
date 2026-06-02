@@ -41,9 +41,7 @@ export async function getPressAppearances(
   return data ?? []
 }
 
-export async function getPressReleases(
-  options: DynamicFetchOptions,
-): Promise<PressRelease[]> {
+export async function getPressReleases(options: DynamicFetchOptions): Promise<PressRelease[]> {
   'use cache'
   const { data } = await sanityFetch({
     query: PRESS_RELEASES_QUERY,

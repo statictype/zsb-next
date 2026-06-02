@@ -88,9 +88,7 @@ export function editionEventJsonLd(edition: Edition) {
   }
 }
 
-export function organizationJsonLd(args: {
-  sameAs?: Array<string | null | undefined>
-}) {
+export function organizationJsonLd(args: { sameAs?: Array<string | null | undefined> }) {
   const sameAs =
     args.sameAs
       ?.filter((s): s is string => typeof s === 'string' && s.length > 0)

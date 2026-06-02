@@ -21,8 +21,7 @@ import styles from './VisitSection.module.css'
 const FALLBACK_VENUE_NAME = ['COMBINATUL', 'FONDULUI', 'PLASTIC']
 const FALLBACK_STREET = 'Str. Băiculești 29'
 const FALLBACK_CITY = 'Sector 1, București'
-const FALLBACK_MAPS_URL =
-  'https://maps.google.com/?q=Combinatul+Fondului+Plastic+Bucuresti'
+const FALLBACK_MAPS_URL = 'https://maps.google.com/?q=Combinatul+Fondului+Plastic+Bucuresti'
 const FALLBACK_IMAGE: ImageData = {
   src: blobUrl('2023/od6-0441.jpg'),
   alt: 'Combinatul Fondului Plastic venue interior during ZSB',
