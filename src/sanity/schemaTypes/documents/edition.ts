@@ -14,6 +14,7 @@ export const edition = defineType({
     { name: 'venues', title: 'Venues' },
     { name: 'program', title: 'Program' },
     { name: 'carousel', title: 'Carousel' },
+    { name: 'pressKit', title: 'Press kit' },
     { name: 'credits', title: 'Credits' },
   ],
   fields: [
@@ -200,6 +201,61 @@ export const edition = defineType({
         defineArrayMember({ type: 'slideFeaturedPortrait' }),
         defineArrayMember({ type: 'slideTrio' }),
         defineArrayMember({ type: 'slideFeaturedStack' }),
+      ],
+    }),
+
+    defineField({
+      name: 'pressKit',
+      title: 'Press kit',
+      description:
+        'Optional. Once published, the poster and cover photo appear in the Media kit strip on the Press page.',
+      type: 'object',
+      group: 'pressKit',
+      fields: [
+        defineField({
+          name: 'poster',
+          title: 'Official poster',
+          description: 'The key visual for this edition.',
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt text',
+              type: 'string',
+              validation: (rule) =>
+                rule.custom((alt, context) => {
+                  const hasImage = Boolean(
+                    (context.parent as { asset?: unknown } | undefined)?.asset,
+                  )
+                  if (hasImage && !alt) return 'Alt text is required when a poster is set'
+                  return true
+                }),
+            }),
+          ],
+        }),
+        defineField({
+          name: 'coverPhoto',
+          title: 'Cover photo',
+          description: 'A representative photograph from the exhibition.',
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt text',
+              type: 'string',
+              validation: (rule) =>
+                rule.custom((alt, context) => {
+                  const hasImage = Boolean(
+                    (context.parent as { asset?: unknown } | undefined)?.asset,
+                  )
+                  if (hasImage && !alt) return 'Alt text is required when a cover photo is set'
+                  return true
+                }),
+            }),
+          ],
+        }),
       ],
     }),
 

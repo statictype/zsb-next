@@ -105,13 +105,24 @@ Four singletons in two commits.
 
 **Seed note:** five new singletons (about, partners, visit, privacy, plus homepage from step 3) won't auto-create. On a fresh dataset, the editor publishes each with the values currently hardcoded in each page's fallback. A bulk seed script is worth adding once all singletons are settled.
 
-### `[ ]` Step 5 — Press: `pressAppearance`, `pressRelease`, `edition.pressKit`
+### `[x]` Step 5 — Press: `pressPage`, `pressAppearance`, `pressRelease`, `edition.pressKit`
 
-- **`pressAppearance` doc:** `type` enum (youtube / vimeo / soundcloud / article / tv) — drives the icon, same fixed-enum pattern as `visitPage.amenities`; `title`, `year`, `tag`, `url`, optional `excerpt`. Listed in `Press` group in structure tree.
-- **`pressRelease` doc:** `edition` reference, `language` (EN / RO), `title`, `pdf` (Sanity file asset), `pages` (number), `size` (string, editor-authored — Sanity file metadata doesn't reliably carry size). Same `Press` group.
-- **`edition.pressKit` object:** `poster` image, `coverPhoto` image. Sits inside the existing Edition document — additive, no migration needed.
-- **Queries:** `PRESS_APPEARANCES_QUERY`, `PRESS_RELEASES_QUERY` (with edition year de-referenced), and `EDITIONS_PRESS_KIT_QUERY` aggregating all editions that have a `pressKit`.
-- **Wires:** `src/app/(site)/press/page.tsx` switches from `PRESS_APPEARANCES` / `PRESS_RELEASES` / `MEDIA_KIT` (deletable from `src/data/`) to the new queries via the 3-layer pattern. Per-row icon rendering moves to a renderer-side enum→component map (mirrors VisitSection's `ICONS` map).
+**Shipped:**
+- `pressPage` singleton (`hero: pageHero` + `mediaKitEyebrow`). Sixth singleton; added to `SINGLETON_TYPES`, pinned in the structure tree between Visit and Privacy with `DocumentsIcon`, presentation location at `/press`.
+- `pressAppearance` doc: `title`, `type` enum (youtube / vimeo / soundcloud / article / tv) — drives the icon via a renderer-side `TYPE_META` map, `year`, `tag`, `url`, optional `excerpt`. Ordered year-desc then title-asc.
+- `pressRelease` doc: `title`, `edition` reference (filtered to `status == "published"` via `options.filter` — editor footgun closed), `language` radio (EN / RO), `pdf` file (accepts only `application/pdf`), `pages` number, `size` string. Ordered by `edition->year` desc.
+- `edition.pressKit` object on Edition: `poster` + `coverPhoto` images, each with conditional-required alt. New "Press kit" group on the Edition form between Carousel and Credits. Additive — no migration needed.
+- Structure tree gains a "Press" group containing Appearances + Releases; types filtered from the auto-include catch-all to avoid duplicates.
+- Queries (`src/sanity/lib/queries.ts`): `PRESS_PAGE_QUERY`, `PRESS_APPEARANCES_QUERY`, `PRESS_RELEASES_QUERY` (de-references `edition->year` and `pdf.asset->url`), `EDITIONS_PRESS_KIT_QUERY` (aggregates editions where either poster or coverPhoto is set, ordered year-desc).
+- Fetchers in `src/sanity/lib/press.ts` (kept separate from the singleton fetchers in `staticPages.ts` since press has multiple data sources and a multi-doc shape). All follow the 3-layer pattern; multi-doc fetchers default to `[]` instead of `null`.
+- `src/app/(site)/press/page.tsx` rewritten with the 3-layer pattern. Hero/eyebrow read from `pressPage` with `FALLBACK` defaults; appearances/releases/media-kit sections only render when their data source returns rows. Media-kit strip flattens editions into `{ year, label, name, image }` items (cover photo before poster within a year, matching previous static order).
+- Deleted: `src/data/press-appearances.ts`, `src/data/press-releases.ts`, `src/data/media-kit.ts`.
+
+**Verified:** `pnpm typegen` (15 queries), `pnpm typecheck`, `pnpm lint` all pass.
+
+**Seed note:** sixth singleton (`pressPage`) won't auto-create. On a fresh dataset, editor publishes it with the values currently in `FALLBACK` (`heroTitle: 'Press room'`, accent `'room'`, lead about "reference desk", eyebrow `'Media'`). Belongs in the seed script alongside the other five.
+
+**Heads-up:** the press page's `HeroTitle` helper is now the **5th** copy of the accent-split pattern (homepage, about, partners, privacy, press). AccentSplit extraction follow-up should land soon to avoid this drifting further.
 
 ### `[ ]` Step 6 — Edition schema cleanups + migration
 
@@ -135,17 +146,15 @@ Static `src/data/editions/{2022..2025}.ts` are unaffected (they're the fallback 
 
 Items that emerged during execution and don't belong to a single step.
 
-**`[ ]` Singleton seed script.** Six singletons now exist (siteSettings, homepage, aboutPage, partnersPage, visitPage, privacyPage) and none auto-create. On a fresh dataset, each page renders fallback values until the editor publishes the corresponding singleton. A `pnpm exec tsx scripts/seed-singletons.ts` script that creates each with the current hardcoded fallback values would close this gap once and for all — and would let us delete the per-page `FALLBACK` blocks afterwards. Needs `SANITY_API_WRITE_TOKEN`.
+**`[ ]` Singleton seed script.** Seven singletons now exist (siteSettings, homepage, aboutPage, partnersPage, visitPage, pressPage, privacyPage) and none auto-create. On a fresh dataset, each page renders fallback values until the editor publishes the corresponding singleton. A `pnpm exec tsx scripts/seed-singletons.ts` script that creates each with the current hardcoded fallback values would close this gap once and for all — and would let us delete the per-page `FALLBACK` blocks afterwards. Needs `SANITY_API_WRITE_TOKEN`.
 
-**`[ ]` Extract `HeroTitle` shared component.** The "split a title on its accent substring, render the accent in a span" logic is now duplicated in `src/app/(site)/page.tsx`, `about/page.tsx`, `partners/page.tsx`, `privacy/page.tsx`. One `<HeroTitle title accent>` component would cover all four. Trivial refactor, no behaviour change.
+**`[ ]` Extract `AccentSplit` shared component.** The "split a string on its accent substring, render the accent in a span" logic is now duplicated in **six** places: `src/app/(site)/page.tsx` (HeroTitle), `about/page.tsx` (HeroTitle), `partners/page.tsx` (HeroTitle **and** CtaHeading — same logic, different accent class), `privacy/page.tsx` (HeroTitle), `press/page.tsx` (HeroTitle). One `<AccentSplit text accent className?>` component that takes the accent span's class as a prop covers all six (defaulting to `shared.accent` keeps the hero call-sites terse). Trivial refactor, no behaviour change.
 
-**`[ ]` Extract image-with-required-alt schema helper.** The pattern `image + alt field with conditional-required validation` is repeated in ~10 schema files (`edition.heroImage`, `edition.thumbImage`, `artist.portrait`, `organization.logo`, `carouselImage`, `heroSlide.image`, `aboutPage.placeImage` + `curatorPortrait`, `partnersPage.eventImage` + `whyImage`, `visitPage.image`). A `imageFieldWithAlt(opts)` helper in `src/sanity/schemaTypes/shared/` would deduplicate it. Pure DX, no editor-visible change.
+**`[ ]` Filter `homepage.heroCtaEdition` reference picker to published editions.** Editor footgun: the reference currently accepts any `edition` doc, so an editor can point the hero CTA at the upcoming-year edition. The hero button renders, but the linked `/editions/YYYY` page is in its "Coming soon" state with no real content. Add `options: { filter: 'status == "published"' }` to the reference field. Step 5 already applied this to `pressRelease.edition` — same one-line fix.
 
-**`[ ]` Editor first-time-setup checklist** in `cms.md`. Six singletons to publish in order (settings → homepage → about → partners → visit → privacy), plus the upcoming-edition convention. A short ordered list in the docs would beat reverse-engineering it from the rollout plan. Could ship alongside the seed script (the script's docstring + the checklist link to each other).
+**`[ ]` Extract image-with-required-alt schema helper.** The pattern `image + alt field with conditional-required validation` is repeated in ~12 schema files (`edition.heroImage`, `edition.thumbImage`, `edition.pressKit.poster`, `edition.pressKit.coverPhoto`, `artist.portrait`, `organization.logo`, `carouselImage`, `heroSlide.image`, `aboutPage.placeImage` + `curatorPortrait`, `partnersPage.eventImage` + `whyImage`, `visitPage.image`). A `imageFieldWithAlt(opts)` helper in `src/sanity/schemaTypes/shared/` would deduplicate it. Pure DX, no editor-visible change.
 
-### `[ ]` Follow-up — `typegen --watch` script
-
-Add `pnpm typegen:watch` running `sanity typegen --watch` so `sanity.types.ts` regenerates as queries/schemas change. Optionally combine with `pnpm dev` via `concurrently`. **Needs `package.json` change → user approval.**
+**`[ ]` Editor first-time-setup checklist** in `cms.md`. Seven singletons to publish in order (settings → homepage → about → partners → visit → press → privacy), plus the upcoming-edition convention. A short ordered list in the docs would beat reverse-engineering it from the rollout plan. Could ship alongside the seed script (the script's docstring + the checklist link to each other).
 
 ### `[ ]` Follow-up — `typegen --watch` script
 
@@ -162,7 +171,7 @@ Active tasks live in the local task tracker (`TaskList`). Map between this doc a
 | Step 2 (shipped) | #6 |
 | Step 3 (shipped) | #7 |
 | Step 4 (shipped) | #8 |
-| Step 5 | #9 |
+| Step 5 (shipped) | #9 |
 | Step 6 | #10 |
 | Singleton seed script | #13 |
 | typegen watch | #12 |

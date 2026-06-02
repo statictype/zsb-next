@@ -204,6 +204,51 @@ export type Amenity = {
   icon: "wheelchair" | "parking" | "cafe" | "paint" | "restroom" | "wifi";
 };
 
+export type EditionReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "edition";
+};
+
+export type SanityFileAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+};
+
+export type PressRelease = {
+  _id: string;
+  _type: "pressRelease";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  edition: EditionReference;
+  language: "EN" | "RO";
+  pdf: {
+    asset?: SanityFileAssetReference;
+    media?: unknown;
+    _type: "file";
+  };
+  pages: number;
+};
+
+export type PressAppearance = {
+  _id: string;
+  _type: "pressAppearance";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  type: "youtube" | "vimeo" | "soundcloud" | "article" | "tv";
+  year: number;
+  tag: string;
+  url: string;
+  excerpt?: string;
+};
+
 export type Organization = {
   _id: string;
   _type: "organization";
@@ -318,6 +363,16 @@ export type PrivacyPage = {
   updatedAt: string;
 };
 
+export type PressPage = {
+  _id: string;
+  _type: "pressPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  hero: PageHero;
+  mediaKitEyebrow: string;
+};
+
 export type VisitPage = {
   _id: string;
   _type: "visitPage";
@@ -424,13 +479,6 @@ export type AboutPage = {
   curatorLetter: Array<string>;
 };
 
-export type EditionReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "edition";
-};
-
 export type Homepage = {
   _id: string;
   _type: "homepage";
@@ -521,6 +569,24 @@ export type Edition = {
         _key: string;
       } & SlideFeaturedStack)
   >;
+  pressKit?: {
+    poster?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+    coverPhoto?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+  };
   credits: Array<
     | ({
         _key: string;
@@ -663,16 +729,20 @@ export type AllSanitySchemaTypes =
   | CreditOrgList
   | CreditOrg
   | Amenity
+  | EditionReference
+  | SanityFileAssetReference
+  | PressRelease
+  | PressAppearance
   | Organization
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
   | Artist
   | PrivacyPage
+  | PressPage
   | VisitPage
   | PartnersPage
   | AboutPage
-  | EditionReference
   | Homepage
   | ArtistReference
   | Edition
@@ -956,6 +1026,73 @@ export type PRIVACY_PAGE_QUERY_RESULT =
   | null;
 
 // Source: src/sanity/lib/queries.ts
+// Variable: PRESS_PAGE_QUERY
+// Query: *[_id == "pressPage"][0]{    hero,    mediaKitEyebrow  }
+export type PRESS_PAGE_QUERY_RESULT =
+  | {
+      hero: PageHero;
+      mediaKitEyebrow: null;
+    }
+  | {
+      hero: PageHero;
+      mediaKitEyebrow: string;
+    }
+  | {
+      hero: null;
+      mediaKitEyebrow: null;
+    }
+  | null;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: PRESS_APPEARANCES_QUERY
+// Query: *[_type == "pressAppearance"] | order(year desc, title asc) {    _id,    type,    title,    year,    tag,    url,    excerpt  }
+export type PRESS_APPEARANCES_QUERY_RESULT = Array<{
+  _id: string;
+  type: "article" | "soundcloud" | "tv" | "vimeo" | "youtube";
+  title: string;
+  year: number;
+  tag: string;
+  url: string;
+  excerpt: string | null;
+}>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: PRESS_RELEASES_QUERY
+// Query: *[_type == "pressRelease" && defined(edition->year)]    | order(edition->year desc, language asc) {      _id,      title,      language,      pages,      "year": edition->year,      "pdfUrl": pdf.asset->url,      "sizeBytes": pdf.asset->size    }
+export type PRESS_RELEASES_QUERY_RESULT = Array<{
+  _id: string;
+  title: string;
+  language: "EN" | "RO";
+  pages: number;
+  year: number;
+  pdfUrl: string | null;
+  sizeBytes: number | null;
+}>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: EDITIONS_PRESS_KIT_QUERY
+// Query: *[_type == "edition" && defined(year) && (defined(pressKit.poster) || defined(pressKit.coverPhoto))]    | order(year desc) {      year,      "poster": pressKit.poster,      "coverPhoto": pressKit.coverPhoto    }
+export type EDITIONS_PRESS_KIT_QUERY_RESULT = Array<{
+  year: number;
+  poster: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  coverPhoto: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+}>;
+
+// Source: src/sanity/lib/queries.ts
 // Variable: ARTISTS_QUERY
 // Query: *[_type == "artist" && defined(slug.current)] | order(name asc) {    _id,    name,    "slug": slug.current,    portrait,    shortBio,    discipline,    country  }
 export type ARTISTS_QUERY_RESULT = Array<{
@@ -1180,6 +1317,10 @@ declare module "@sanity/client" {
     '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage,\n    whyEyebrow,\n    whyTitle,\n    whyImage,\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel\n  }\n': PARTNERS_PAGE_QUERY_RESULT;
     '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image,\n    hoursLines,\n    amenities,\n    transport\n  }\n': VISIT_PAGE_QUERY_RESULT;
     '\n  *[_id == "privacyPage"][0]{\n    hero,\n    body,\n    updatedAt\n  }\n': PRIVACY_PAGE_QUERY_RESULT;
+    '\n  *[_id == "pressPage"][0]{\n    hero,\n    mediaKitEyebrow\n  }\n': PRESS_PAGE_QUERY_RESULT;
+    '\n  *[_type == "pressAppearance"] | order(year desc, title asc) {\n    _id,\n    type,\n    title,\n    year,\n    tag,\n    url,\n    excerpt\n  }\n': PRESS_APPEARANCES_QUERY_RESULT;
+    '\n  *[_type == "pressRelease" && defined(edition->year)]\n    | order(edition->year desc, language asc) {\n      _id,\n      title,\n      language,\n      pages,\n      "year": edition->year,\n      "pdfUrl": pdf.asset->url,\n      "sizeBytes": pdf.asset->size\n    }\n': PRESS_RELEASES_QUERY_RESULT;
+    '\n  *[_type == "edition" && defined(year) && (defined(pressKit.poster) || defined(pressKit.coverPhoto))]\n    | order(year desc) {\n      year,\n      "poster": pressKit.poster,\n      "coverPhoto": pressKit.coverPhoto\n    }\n': EDITIONS_PRESS_KIT_QUERY_RESULT;
     '\n  *[_type == "artist" && defined(slug.current)] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT;
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT;

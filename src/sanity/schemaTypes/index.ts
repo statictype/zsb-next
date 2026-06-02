@@ -5,6 +5,9 @@ import { edition } from './documents/edition'
 import { homepage } from './documents/homepage'
 import { organization } from './documents/organization'
 import { partnersPage } from './documents/partnersPage'
+import { pressAppearance } from './documents/pressAppearance'
+import { pressPage } from './documents/pressPage'
+import { pressRelease } from './documents/pressRelease'
 import { privacyPage } from './documents/privacyPage'
 import { siteSettings } from './documents/siteSettings'
 import { visitPage } from './documents/visitPage'
@@ -32,11 +35,14 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   aboutPage,
   partnersPage,
   visitPage,
+  pressPage,
   privacyPage,
   // Documents
   artist,
   edition,
   organization,
+  pressAppearance,
+  pressRelease,
   // Objects
   amenity,
   creditOrg,

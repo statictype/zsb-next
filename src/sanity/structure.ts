@@ -1,12 +1,15 @@
 import {
   CaseIcon,
   CogIcon,
+  DocumentsIcon,
   HeartIcon,
   HomeIcon,
   ImageIcon,
   InfoOutlineIcon,
+  LinkIcon,
   LockIcon,
   PinIcon,
+  TransferIcon,
   UsersIcon,
 } from '@sanity/icons'
 import type { StructureResolver } from 'sanity/structure'
@@ -22,6 +25,7 @@ export const structure: StructureResolver = (S) =>
       singletonListItem(S, 'aboutPage', 'About').icon(InfoOutlineIcon),
       singletonListItem(S, 'partnersPage', 'Partners').icon(HeartIcon),
       singletonListItem(S, 'visitPage', 'Visit').icon(PinIcon),
+      singletonListItem(S, 'pressPage', 'Press').icon(DocumentsIcon),
       singletonListItem(S, 'privacyPage', 'Privacy').icon(LockIcon),
 
       S.divider(),
@@ -31,17 +35,39 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
+      // Press — appearances + releases. Kit assets live on each Edition
+      // (under "Press kit"), not here.
+      S.listItem()
+        .id('press')
+        .title('Press')
+        .icon(DocumentsIcon)
+        .child(
+          S.list()
+            .title('Press')
+            .items([
+              S.documentTypeListItem('pressAppearance')
+                .title('Appearances')
+                .icon(LinkIcon),
+              S.documentTypeListItem('pressRelease')
+                .title('Releases')
+                .icon(TransferIcon),
+            ]),
+        ),
+
+      S.divider(),
+
       // People & organizations referenced from editions and press
       S.documentTypeListItem('artist').title('Artists').icon(UsersIcon),
       S.documentTypeListItem('organization').title('Organizations').icon(CaseIcon),
 
-      // Anything else the schema adds that isn't a singleton — singletons
-      // are pinned above the dividers, so we filter them out to avoid
-      // a duplicate entry.
+      // Anything else the schema adds that isn't a singleton or pressed-up
+      // above — singletons and explicitly-pinned types are filtered to
+      // avoid duplicate entries.
       ...S.documentTypeListItems().filter((item) => {
         const id = item.getId()
         if (!id) return false
         if (['edition', 'artist', 'organization'].includes(id)) return false
+        if (['pressAppearance', 'pressRelease'].includes(id)) return false
         return !isSingletonType(id)
       }),
     ])

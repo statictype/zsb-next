@@ -17,6 +17,10 @@ export const locations = {
     select: { _id: '_id' },
     resolve: () => ({ locations: [{ title: 'Visit', href: '/visit' }] }),
   }),
+  pressPage: defineLocations({
+    select: { _id: '_id' },
+    resolve: () => ({ locations: [{ title: 'Press', href: '/press' }] }),
+  }),
   privacyPage: defineLocations({
     select: { _id: '_id' },
     resolve: () => ({ locations: [{ title: 'Privacy', href: '/privacy' }] }),

@@ -16,6 +16,7 @@ export const SINGLETON_TYPES = [
   'aboutPage',
   'partnersPage',
   'visitPage',
+  'pressPage',
   'privacyPage',
 ] as const satisfies readonly string[]
 
