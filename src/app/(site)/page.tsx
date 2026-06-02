@@ -9,7 +9,7 @@ import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import shared from '@/components/Shared.module.css'
 import { getEditionListItems } from '@/data/editions'
-import { blobUrl } from '@/lib/blob'
+import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
 import { type EditionListItem } from '@/sanity/lib/editions'
 import { getHomepage, type Homepage } from '@/sanity/lib/homepage'
@@ -22,28 +22,6 @@ export const metadata = pageMetadata({
     'An annual contemporary sculpture event transforming Bucharest into an open-air museum. Discover editions, artists, and public art since 2021.',
   path: '/',
 })
-
-// Defaults render when the homepage doc isn't published yet (fresh
-// dataset) — keeps the page presentable instead of crashing.
-const FALLBACK_HERO_IMAGES: HeroImage[] = [
-  { src: blobUrl('2025/_dsc5496.jpg'), alt: 'ZSB 2025', position: 'top' },
-  { src: blobUrl('2025/_dsc5562.jpg'), alt: 'ZSB 2025', position: 'center' },
-  { src: blobUrl('2025/bws02058.jpg'), alt: 'ZSB 2025', position: 'center' },
-  { src: blobUrl('2025/_dsc5501.jpg'), alt: 'ZSB 2025', position: 'bottom' },
-  { src: blobUrl('2025/_dsc5547.jpg'), alt: 'ZSB 2025', position: 'top' },
-  { src: blobUrl('2025/_dsc5464.jpg'), alt: 'ZSB 2025', position: 'center' },
-  { src: blobUrl('2025/_dsc5665.jpg'), alt: 'ZSB 2025', position: 'top' },
-]
-
-const FALLBACK = {
-  heroTitle: 'Bucharest Sculpture Days',
-  heroTitleAccent: 'Sculpture Days',
-  heroLead: 'Artists shift the boundaries of form. ZSB gives those shifts a place to land.',
-  heroCtaLabel: 'Explore the 2025 edition',
-  heroCtaEditionYear: 2025,
-  editionsIntro:
-    'Edition after edition, ZSB holds open the question of what sculpture can do with body, matter, space, and memory.',
-}
 
 export default async function HomePage() {
   const { isEnabled: isDraftMode } = await draftMode()
@@ -74,13 +52,13 @@ interface HomeShellProps {
 }
 
 function HomeShell({ home, editions }: HomeShellProps = {}) {
-  const title = home?.heroTitle ?? FALLBACK.heroTitle
-  const accent = home?.heroTitleAccent ?? FALLBACK.heroTitleAccent
-  const lead = home?.heroLead ?? FALLBACK.heroLead
-  const ctaLabel = home?.heroCtaLabel ?? FALLBACK.heroCtaLabel
-  const ctaYear = home?.heroCtaEditionYear ?? FALLBACK.heroCtaEditionYear
-  const editionsIntro = home?.editionsIntro ?? FALLBACK.editionsIntro
-  const slideshow = mapSlideshow(home?.slideshow) ?? FALLBACK_HERO_IMAGES
+  const title = home?.heroTitle ?? ''
+  const accent = home?.heroTitleAccent ?? ''
+  const lead = home?.heroLead ?? ''
+  const ctaLabel = home?.heroCtaLabel ?? ''
+  const ctaYear = home?.heroCtaEditionYear
+  const editionsIntro = home?.editionsIntro ?? ''
+  const slideshow = mapSlideshow(home?.slideshow) ?? [{ ...PLACEHOLDER_IMAGE, position: 'center' }]
   const list = editions ?? []
 
   return (

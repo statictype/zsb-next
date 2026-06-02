@@ -1,12 +1,13 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
-import { ALL_ARTISTS } from '@/data/artists'
 import { getAllEditionYears } from '@/data/editions'
+import { getArtistNames } from '@/sanity/lib/artists'
 import styles from './ArtistsBanner.module.css'
 
 export async function ArtistsBanner() {
-  const artistCount = ALL_ARTISTS.length
-  const editionCount = (await getAllEditionYears()).length
+  const [artists, editionYears] = await Promise.all([getArtistNames(), getAllEditionYears()])
+  const artistCount = artists.length
+  const editionCount = editionYears.length
 
   return (
     <Link href="/artists" className={styles.banner}>

@@ -69,6 +69,7 @@ export const aboutPage = defineType({
             }),
         }),
       ],
+      validation: (rule) => rule.required(),
     }),
 
     defineField({
@@ -105,6 +106,7 @@ export const aboutPage = defineType({
             }),
         }),
       ],
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'curatorName',

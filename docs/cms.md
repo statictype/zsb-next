@@ -12,9 +12,9 @@ What's authored in Sanity, what's static:
 
 | Surface | Authored where |
 |---|---|
-| Editions (year pages) | Sanity, with `src/data/editions/YYYY.ts` as a fallback during migration |
-| Edition 2021 (online-only) | Static — never migrated to Sanity (one-off shape, no editorial value to re-author) |
-| Artists | Sanity (`artist` doc) — currently surfaced only via the edition page; standalone artist routes pending |
+| Editions (year pages) | Sanity (`edition` doc). 2022+ fully authored there; the static fallback files were deleted |
+| Edition 2021 (online-only) | Static `src/data/editions/2021.ts` — never migrated to Sanity (one-off shape, no editorial value to re-author) |
+| Artists | Sanity (`artist` doc) — the `/artists` index and homepage banner read names from Sanity (surname-ordered via `sortName`); standalone artist detail routes pending |
 | Organizations | Sanity (`organization` doc) — referenced from edition credits |
 | Homepage | Sanity singleton `homepage` (shipped) — copy, CTA, slideshow, editions intro |
 | Homepage editions list | Derived from `*[_type=="edition"] \| order(year desc)` with `edition.status` controlling each row |
@@ -66,7 +66,7 @@ src/
       settings.ts                 # getSiteSettings — siteSettings fetcher
       homepage.ts                 # getHomepage — homepage fetcher
       staticPages.ts              # getAboutPage / getPartnersPage / getVisitPage / getPrivacyPage
-  data/editions/                  # Static-fallback edition files (one per year)
+  data/editions/                  # 2021.ts (static online edition) + index.ts gateway
   types/edition.ts                # Runtime edition shape (Sanity is mapped to this)
   components/
     DisableDraftMode/             # Floating "Exit preview" button in draft mode
@@ -212,11 +212,11 @@ Templates of both variants ship across `src/app/(site)/`:
 - **With `loading.tsx`**: `editions/[year]/page.tsx`. Shortest version.
 - **Inline Suspense**: `editions/page.tsx`, `page.tsx` (homepage), `about/page.tsx`, `partners/page.tsx`, `visit/page.tsx`, `privacy/page.tsx`. Add a `loading.tsx` sibling if you want to drop the inline pattern.
 
-### Fallback rendering before publish
+### Rendering when a singleton is missing
 
-Every page that reads a singleton renders a `FallbackBody` / `FALLBACK` constant block when its query returns `null` — i.e. the singleton hasn't been published yet on this dataset. This keeps a fresh dataset (or a clone for staging) presentable instead of crashing or showing empty placeholders.
+When a singleton query returns `null` (the doc isn't published — only happens on an un-seeded dataset; editors can't unpublish singletons, see the singleton guards), pages **degrade to empty** rather than carrying default content: text fields coalesce to `''`, arrays to `[]`, and images to a shared neutral placeholder (`PLACEHOLDER_IMAGE` in `src/lib/placeholder.ts` → `public/img/placeholder.jpg`). The old per-page `FALLBACK` / `FallbackBody` content blocks were removed — they duplicated content that now lives in Sanity and only ever rendered on an un-seeded dataset.
 
-Once the singleton seed script lands (see [`cms-rollout-plan.md`](./cms-rollout-plan.md) → Cross-cutting follow-ups), the fallback blocks can be deleted — every singleton will exist from day one.
+Singleton image fields are `required()`, so on any seeded (published) dataset the real image is always present and the placeholder never shows.
 
 ### Helpers in `src/sanity/lib/live.ts`
 
@@ -242,18 +242,20 @@ Cached helpers (`'use cache'` directive) live in `src/sanity/lib/editions.ts` an
 
 For HTML cache invalidation (visitors hitting a deeply cached response, not just open tabs), the Sanity webhook target is `/api/revalidate/tag`. It expects a GROQ-projected payload of `{ tags: string[] }`, validates the signature against `SANITY_REVALIDATE_SECRET`, and calls `revalidateTag(tag, { expire: 0 })` for each. Configure the webhook in [sanity.io/manage](https://sanity.io/manage) → API → Webhooks:
 
-- **URL:** `https://zsb.app/api/revalidate/tag`
+- **URL:** `https://sculpturedays.com/api/revalidate/tag`
 - **Filter:** `_type in ["edition", "artist", "organization", "siteSettings", "homepage", "aboutPage", "partnersPage", "visitPage", "privacyPage", "pressAppearance", "pressRelease"]`
 - **Projection:** `{ "tags": [_type, _type + ":" + _id] }`
-- **Secret:** value of `SANITY_REVALIDATE_SECRET`
+- **API version:** `v2025-02-19`
+- **Trigger on:** Create, Update, Delete · **Include drafts:** off
+- **Secret:** value of `SANITY_REVALIDATE_SECRET` (also set as a Vercel env var, Production)
 
-`<SanityLive />` handles freshness for open tabs; the webhook handles freshness for cached HTML.
+`<SanityLive />` handles freshness for open tabs; the webhook handles freshness for cached HTML. This webhook is **configured and live** (set up 2026-06-02) — if a publish doesn't reach prod, check its delivery log in sanity.io/manage first (a 401 means the secret no longer matches Vercel's `SANITY_REVALIDATE_SECRET`).
 
-## Editions: Sanity-first with static fallback
+## Editions: Sanity, with 2021 static
 
-`src/data/editions/index.ts` is the gateway. `getEdition(year)` queries Sanity first and falls back to `src/data/editions/YYYY.ts` if not found. `getAllEditionYears()` merges both sets.
+`src/data/editions/index.ts` is the gateway. `getEdition(year)` serves 2021 (the only static year) from `src/data/editions/2021.ts` and queries Sanity for every other year. `getAllEditionYears()` merges the 2021 entry with the Sanity years.
 
-This lets us migrate one year at a time without breaking pages. As each year is fully entered into Sanity, the static file becomes dead weight — delete when confident. (2021 is intentionally permanent in code: it's the online-only edition with a unique shape, no editorial value to re-author.)
+The 2022–2025 static fallback files were deleted once those editions were fully authored in Sanity (the one-year-at-a-time migration is done). Only 2021 stays in code — the online-only edition with a unique shape, no editorial value to re-author. To add a brand-new year, author it in Sanity; no static file is needed.
 
 ## Environment variables
 
@@ -379,13 +381,13 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
    }
 
    function ContactShell({ page }: { page?: ContactPage | null } = {}) {
-     // Render `page` if present, fall back to a FALLBACK const otherwise.
-     // See about/page.tsx, privacy/page.tsx for the pattern.
+     // Render `page` fields with null-coalescing: text ?? '', arrays ?? [],
+     // images ?? PLACEHOLDER_IMAGE. See about/page.tsx, privacy/page.tsx.
    }
    ```
 
    Variant with `loading.tsx` sibling: skip the `draftMode` branch and call `getDynamicFetchOptions` in the page directly; Next-provided loading state covers the Suspense. See `editions/[year]/page.tsx` for that shape.
 
-9. **Fallback constants** — `FALLBACK` and `FALLBACK_*` blocks at the top of the page file capture sensible defaults for when the singleton isn't published yet. Will be deletable once the singleton seed script lands.
+9. **Missing-singleton rendering** — don't add `FALLBACK` content blocks. Coalesce nullable fields to empties (`?? ''`, `?? []`) and images to `PLACEHOLDER_IMAGE` (`src/lib/placeholder.ts`). A `null` singleton only happens on an un-seeded dataset; on a seeded one the required fields are always present.
 
 10. **Webhook filter** — when adding a new doc type that needs HTML cache invalidation, add it to the GROQ filter on the `/api/revalidate/tag` webhook in [sanity.io/manage](https://sanity.io/manage).

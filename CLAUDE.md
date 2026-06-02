@@ -17,9 +17,9 @@ Next.js 16 (App Router, `cacheComponents: true`, `reactCompiler: true`), React 1
 
 ## Data model: Editions
 
-Editions live in Sanity as `edition` documents. `src/data/editions/YYYY.ts` files are a static fallback — `getEdition(year, options)` in `src/data/editions/index.ts` queries Sanity first and falls back to the static file. 2021 is permanently static (online-only edition with a unique shape). Pages render via the dynamic route `src/app/(site)/editions/[year]/`.
+Editions live in Sanity as `edition` documents. `getEdition(year, options)` in `src/data/editions/index.ts` is the gateway: it serves 2021 from its static file (`src/data/editions/2021.ts`) and queries Sanity for every other year. 2021 is the only static year — the online-only edition with a unique shape Sanity doesn't model. The 2022–2025 static fallback files were deleted once those editions were fully authored in Sanity. Pages render via the dynamic route `src/app/(site)/editions/[year]/`.
 
-To add a new year as a draft you can preview: create the `edition` document in Studio. To add a year while migration is in progress: drop a `src/data/editions/YYYY.ts` file and register it in `src/data/editions/index.ts`.
+To add a new year: create the `edition` document in Studio (Sanity-only — no static file). Set its `status` to `upcoming` while it's a previewable draft, then `published` when the page is ready.
 
 ## CMS / Sanity Studio
 
@@ -33,12 +33,11 @@ Key project conventions:
 
 ## Image system
 
-Originals live in Vercel Blob; Vercel's built-in image optimizer handles resizing, format negotiation (AVIF/WebP), and edge caching on demand. `ImageData` is just `{ src, alt }` and `src` is a full URL built via `blobUrl(path)` from `src/lib/blob.ts`.
+Two paths. The **primary** one is Sanity: images authored in the Studio are stored as Sanity assets and served from Sanity's image CDN via `urlFor()` (`src/sanity/lib/image.ts`). All current content — published editions, homepage, the static pages — uses this. The runtime image shape is `{ src, alt }`.
 
-- Set `NEXT_PUBLIC_BLOB_URL` to the Blob store's public origin (e.g. `https://xxxx.public.blob.vercel-storage.com`) in `.env.local` and in Vercel env vars.
-- Upload originals to Blob at paths like `YYYY/<basename>.jpg` (or `.png`) so `blobUrl('2025/bws01906.jpg')` resolves correctly. Filenames are case-sensitive on Linux/Vercel — keep them lowercase.
-- `pnpm exec tsx scripts/blob-upload.ts <file>...` uploads local originals — auto-detects the year from the source path (or pass `--year YYYY`), lowercases the basename, and resizes anything over 3840px on the longest edge.
-- `remotePatterns` in `next.config.ts` whitelists `*.public.blob.vercel-storage.com`. `minimumCacheTTL` is 31 days.
+**Vercel Blob is legacy** (`blobUrl(path)` from `src/lib/blob.ts`), now used only by: the permanently-static 2021 edition; and as the origin the `sanity-*` migration scripts uploaded into Sanity assets from. New images go into Sanity, not Blob. A missing CMS image falls back to a neutral **local** placeholder (`src/lib/placeholder.ts` → `public/img/placeholder.jpg`), not Blob. See [ADR 0005](./docs/adr/0005-vercel-blob-for-image-originals.md) + [ADR 0011](./docs/adr/0011-sanity-assets-for-authored-images.md).
+
+- For the legacy Blob path: `NEXT_PUBLIC_BLOB_URL` is the Blob store's public origin; `remotePatterns` in `next.config.ts` whitelists `*.public.blob.vercel-storage.com` (and Sanity's `cdn.sanity.io`); `minimumCacheTTL` is 31 days. `pnpm exec tsx scripts/blob-upload.ts <file>...` still uploads originals (lowercases basenames, resizes over 3840px) for the 2021/fallback images.
 
 ## Styling
 

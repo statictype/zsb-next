@@ -13,31 +13,9 @@ import {
 import Image from 'next/image'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import shared from '@/components/Shared.module.css'
-import { blobUrl } from '@/lib/blob'
+import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import type { ImageData } from '@/types/edition'
 import styles from './VisitSection.module.css'
-
-// Fallback values for when the visitPage singleton hasn't been published.
-const FALLBACK_VENUE_NAME = ['COMBINATUL', 'FONDULUI', 'PLASTIC']
-const FALLBACK_STREET = 'Str. Băiculești 29'
-const FALLBACK_CITY = 'Sector 1, București'
-const FALLBACK_MAPS_URL = 'https://maps.google.com/?q=Combinatul+Fondului+Plastic+Bucuresti'
-const FALLBACK_IMAGE: ImageData = {
-  src: blobUrl('2023/od6-0441.jpg'),
-  alt: 'Combinatul Fondului Plastic venue interior during ZSB',
-}
-const FALLBACK_HOURS = ['Daily 11:00 — 20:00', 'Free Entry']
-const FALLBACK_AMENITIES: Amenity[] = [
-  { label: 'Accessible', icon: 'wheelchair' },
-  { label: 'Free Parking', icon: 'parking' },
-  { label: 'On-site Café', icon: 'cafe' },
-  { label: 'Kids Workshops', icon: 'paint' },
-]
-const FALLBACK_TRANSPORT: TransportRoute[] = [
-  { from: 'Gara de Nord', lines: 'Bus 205 / Tram 45', walk: '5 min walk' },
-  { from: 'Piața Presei', lines: 'Bus 301 / Bus 331', walk: '3 min walk' },
-  { from: 'Piața Unirii', lines: 'Bus 205 / Tram 45', walk: '5 min walk' },
-]
 
 type IconKey = 'wheelchair' | 'parking' | 'cafe' | 'paint' | 'restroom' | 'wifi'
 
@@ -86,14 +64,14 @@ const PIXELS = [
 ] as const
 
 export function VisitSection(props: VisitSectionProps = {}) {
-  const venueName = props.venueName?.length ? props.venueName : FALLBACK_VENUE_NAME
-  const street = props.street ?? FALLBACK_STREET
-  const city = props.city ?? FALLBACK_CITY
-  const mapsUrl = props.mapsUrl ?? FALLBACK_MAPS_URL
-  const image = props.image ?? FALLBACK_IMAGE
-  const hoursLines = props.hoursLines?.length ? props.hoursLines : FALLBACK_HOURS
-  const amenities = props.amenities?.length ? props.amenities : FALLBACK_AMENITIES
-  const transport = props.transport?.length ? props.transport : FALLBACK_TRANSPORT
+  const venueName = props.venueName ?? []
+  const street = props.street ?? ''
+  const city = props.city ?? ''
+  const mapsUrl = props.mapsUrl ?? ''
+  const image = props.image ?? PLACEHOLDER_IMAGE
+  const hoursLines = props.hoursLines ?? []
+  const amenities = props.amenities ?? []
+  const transport = props.transport ?? []
 
   return (
     <div id="visit" className={styles.section}>

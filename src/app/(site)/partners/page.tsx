@@ -6,8 +6,7 @@ import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import shared from '@/components/Shared.module.css'
-import { whySculpturePoints } from '@/data/partners'
-import { blobUrl } from '@/lib/blob'
+import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
 import { urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
@@ -21,34 +20,6 @@ export const metadata = pageMetadata({
     'Partner with Bucharest Sculpture Days — Romania’s annual platform for contemporary sculpture.',
   path: '/partners',
 })
-
-const FALLBACK = {
-  heroTitle: 'Partners',
-  heroTitleAccent: 's',
-  heroLead:
-    'ZSB is built by a small team and sustained by the people and organisations who believe sculpture deserves a place. If that matters to you, there is room here.',
-  eventTitle: 'The event',
-  eventBody: [
-    'Since 2021, ZSB has brought together Romanian contemporary sculpture and its public at Combinatul Fondului Plastic. Five editions, dozens of artists, hundreds of works, and thousands of visitors who encountered sculpture, often for the first time, without a ticket.',
-  ],
-  whyEyebrow: 'Why Sculpture',
-  whyTitle: 'The most resilient art form',
-  whyPoints: whySculpturePoints.map((p) => ({ title: p.title, text: p.text })),
-  ctaHeading: 'BECOME A PARTNER',
-  ctaHeadingAccent: 'PARTNER',
-  ctaBody:
-    "We work with institutional partners, cultural organisations, and businesses that want a genuine connection to contemporary art practice in Romania. If you're interested, write to us.",
-  ctaLabel: 'Get in Touch',
-}
-const FALLBACK_EVENT_IMAGE = {
-  src: blobUrl('2025/_dsc5708.jpg'),
-  alt: 'Performance and audience at ZSB 2025, Combinatul Fondului Plastic',
-}
-const FALLBACK_WHY_IMAGE = {
-  src: blobUrl('2023/od6-0211.jpg'),
-  alt: 'Visitors examining a sculpture at ZSB 2023',
-}
-const FALLBACK_CONTACT_EMAIL = 'office@filialadesculptura.com'
 
 function pad(n: number): string {
   return String(n).padStart(2, '0')
@@ -83,25 +54,25 @@ interface PartnersShellProps {
 }
 
 function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
-  const heroTitle = page?.hero?.title ?? FALLBACK.heroTitle
-  const heroAccent = page?.hero?.titleAccent ?? FALLBACK.heroTitleAccent
-  const heroLead = page?.hero?.lead ?? FALLBACK.heroLead
-  const eventTitle = page?.eventTitle ?? FALLBACK.eventTitle
-  const eventBody = page?.eventBody ?? FALLBACK.eventBody
+  const heroTitle = page?.hero?.title ?? ''
+  const heroAccent = page?.hero?.titleAccent ?? ''
+  const heroLead = page?.hero?.lead ?? ''
+  const eventTitle = page?.eventTitle ?? ''
+  const eventBody = page?.eventBody ?? []
   const eventImage = page?.eventImage?.asset
     ? { src: urlFor(page.eventImage).url(), alt: page.eventImage.alt ?? '' }
-    : FALLBACK_EVENT_IMAGE
-  const whyEyebrow = page?.whyEyebrow ?? FALLBACK.whyEyebrow
-  const whyTitle = page?.whyTitle ?? FALLBACK.whyTitle
+    : PLACEHOLDER_IMAGE
+  const whyEyebrow = page?.whyEyebrow ?? ''
+  const whyTitle = page?.whyTitle ?? ''
   const whyImage = page?.whyImage?.asset
     ? { src: urlFor(page.whyImage).url(), alt: page.whyImage.alt ?? '' }
-    : FALLBACK_WHY_IMAGE
-  const whyPoints = page?.whyPoints ?? FALLBACK.whyPoints
-  const ctaHeading = page?.ctaHeading ?? FALLBACK.ctaHeading
-  const ctaAccent = page?.ctaHeadingAccent ?? FALLBACK.ctaHeadingAccent
-  const ctaBody = page?.ctaBody ?? FALLBACK.ctaBody
-  const ctaLabel = page?.ctaLabel ?? FALLBACK.ctaLabel
-  const ctaHref = `mailto:${contactEmail ?? FALLBACK_CONTACT_EMAIL}`
+    : PLACEHOLDER_IMAGE
+  const whyPoints = page?.whyPoints ?? []
+  const ctaHeading = page?.ctaHeading ?? ''
+  const ctaAccent = page?.ctaHeadingAccent ?? ''
+  const ctaBody = page?.ctaBody ?? ''
+  const ctaLabel = page?.ctaLabel ?? ''
+  const ctaHref = `mailto:${contactEmail ?? ''}`
 
   return (
     <>

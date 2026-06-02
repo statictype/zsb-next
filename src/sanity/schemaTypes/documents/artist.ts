@@ -14,6 +14,13 @@ export const artist = defineType({
       validation: (rule) => rule.required().min(1).max(120),
     }),
     defineField({
+      name: 'sortName',
+      title: 'Sort name',
+      description:
+        'Hidden ordering key — surname first, e.g. "Popescu Marcel". The Name field is still what gets displayed. Auto-filled from Name; override for particles (van, de la) or double surnames.',
+      type: 'string',
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',

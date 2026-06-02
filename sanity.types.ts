@@ -298,6 +298,7 @@ export type Artist = {
   _updatedAt: string
   _rev: string
   name: string
+  sortName?: string
   slug: Slug
   portrait?: {
     asset?: SanityImageAssetReference
@@ -413,7 +414,7 @@ export type PartnersPage = {
   hero: PageHero
   eventTitle: string
   eventBody: Array<string>
-  eventImage?: {
+  eventImage: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -423,7 +424,7 @@ export type PartnersPage = {
   }
   whyEyebrow: string
   whyTitle: string
-  whyImage?: {
+  whyImage: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -456,7 +457,7 @@ export type AboutPage = {
       _key: string
     } & Pillar
   >
-  placeImage?: {
+  placeImage: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -466,7 +467,7 @@ export type AboutPage = {
   }
   curatorEyebrow: string
   curatorHeadline: string
-  curatorPortrait?: {
+  curatorPortrait: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -862,7 +863,7 @@ export type ABOUT_PAGE_QUERY_RESULT =
         crop?: SanityImageCrop
         alt?: string
         _type: 'image'
-      } | null
+      }
       curatorEyebrow: string
       curatorHeadline: string
       curatorPortrait: {
@@ -872,7 +873,7 @@ export type ABOUT_PAGE_QUERY_RESULT =
         crop?: SanityImageCrop
         alt?: string
         _type: 'image'
-      } | null
+      }
       curatorName: string
       curatorRole: string
       curatorLetter: Array<string>
@@ -922,7 +923,7 @@ export type PARTNERS_PAGE_QUERY_RESULT =
         crop?: SanityImageCrop
         alt?: string
         _type: 'image'
-      } | null
+      }
       whyEyebrow: string
       whyTitle: string
       whyImage: {
@@ -932,7 +933,7 @@ export type PARTNERS_PAGE_QUERY_RESULT =
         crop?: SanityImageCrop
         alt?: string
         _type: 'image'
-      } | null
+      }
       whyPoints: Array<
         {
           _key: string
@@ -1101,7 +1102,7 @@ export type EDITIONS_PRESS_KIT_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ARTISTS_QUERY
-// Query: *[_type == "artist" && defined(slug.current)] | order(name asc) {    _id,    name,    "slug": slug.current,    portrait,    shortBio,    discipline,    country  }
+// Query: *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc) {    _id,    name,    "slug": slug.current,    portrait,    shortBio,    discipline,    country  }
 export type ARTISTS_QUERY_RESULT = Array<{
   _id: string
   name: string
@@ -1135,6 +1136,11 @@ export type ARTISTS_QUERY_RESULT = Array<{
   discipline: string | null
   country: string | null
 }>
+
+// Source: src/sanity/lib/queries.ts
+// Variable: ARTIST_NAMES_QUERY
+// Query: *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc).name
+export type ARTIST_NAMES_QUERY_RESULT = Array<string>
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ARTIST_BY_SLUG_QUERY
@@ -1186,7 +1192,7 @@ export type EDITION_YEARS_QUERY_RESULT = Array<number>
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITION_BY_YEAR_QUERY
-// Query: *[_type == "edition" && year == $year && status == "published"][0] {    _id,    year,    title,    theme,    themeHighlight,    dateTape,    heroImage,    thumbImage,    manifesto,    themeSection,    "artists": artists[]->name,    venues,    program,    carousel[] {      _type,      images[] {        caption,        image      }    },    credits[] {      _type,      type,      label,      detail,      value,      organization->{        name,        logo      },      organizations[]->{        name,        logo      }    }  }
+// Query: *[_type == "edition" && year == $year && status == "published"][0] {    _id,    year,    title,    theme,    themeHighlight,    dateTape,    heroImage,    thumbImage,    manifesto,    themeSection,    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,    venues,    program,    carousel[] {      _type,      images[] {        caption,        image      }    },    credits[] {      _type,      type,      label,      detail,      value,      organization->{        name,        logo      },      organizations[]->{        name,        logo      }    }  }
 export type EDITION_BY_YEAR_QUERY_RESULT = {
   _id: string
   year: number
@@ -1328,9 +1334,10 @@ declare module '@sanity/client' {
     '\n  *[_type == "pressAppearance"] | order(year desc, title asc) {\n    _id,\n    medium,\n    title,\n    year,\n    tag,\n    url,\n    excerpt\n  }\n': PRESS_APPEARANCES_QUERY_RESULT
     '\n  *[_type == "pressRelease" && defined(edition->year)]\n    | order(publishedAt desc, language asc) {\n      _id,\n      title,\n      language,\n      pages,\n      publishedAt,\n      "year": edition->year,\n      "pdfUrl": pdf.asset->url,\n      "sizeBytes": pdf.asset->size\n    }\n': PRESS_RELEASES_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year) && (defined(pressKit.poster) || defined(pressKit.coverPhoto))]\n    | order(year desc) {\n      year,\n      "poster": pressKit.poster{\n        ...,\n        asset->{ url, metadata { lqip, dimensions } }\n      },\n      "coverPhoto": pressKit.coverPhoto{\n        ...,\n        asset->{ url, metadata { lqip, dimensions } }\n      }\n    }\n': EDITIONS_PRESS_KIT_QUERY_RESULT
-    '\n  *[_type == "artist" && defined(slug.current)] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT
+    '\n  *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT
+    '\n  *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc).name\n': ARTIST_NAMES_QUERY_RESULT
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT
-    '\n  *[_type == "edition" && year == $year && status == "published"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateTape,\n    heroImage,\n    thumbImage,\n    manifesto,\n    themeSection,\n    "artists": artists[]->name,\n    venues,\n    program,\n    carousel[] {\n      _type,\n      images[] {\n        caption,\n        image\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      value,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
+    '\n  *[_type == "edition" && year == $year && status == "published"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateTape,\n    heroImage,\n    thumbImage,\n    manifesto,\n    themeSection,\n    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,\n    venues,\n    program,\n    carousel[] {\n      _type,\n      images[] {\n        caption,\n        image\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      value,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
   }
 }

@@ -137,7 +137,7 @@ export const EDITIONS_PRESS_KIT_QUERY = defineQuery(`
 `)
 
 export const ARTISTS_QUERY = defineQuery(`
-  *[_type == "artist" && defined(slug.current)] | order(name asc) {
+  *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc) {
     _id,
     name,
     "slug": slug.current,
@@ -146,6 +146,11 @@ export const ARTISTS_QUERY = defineQuery(`
     discipline,
     country
   }
+`)
+
+// Names only, surname-ordered — for the artists index and the homepage banner.
+export const ARTIST_NAMES_QUERY = defineQuery(`
+  *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc).name
 `)
 
 export const ARTIST_BY_SLUG_QUERY = defineQuery(`
@@ -180,7 +185,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     thumbImage,
     manifesto,
     themeSection,
-    "artists": artists[]->name,
+    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,
     venues,
     program,
     carousel[] {

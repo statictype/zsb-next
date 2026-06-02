@@ -7,29 +7,24 @@ import {
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import type { AnyEdition } from '@/types/edition'
 import { edition2021 } from './2021'
-import { edition2022 } from './2022'
-import { edition2023 } from './2023'
-import { edition2024 } from './2024'
-import { edition2025 } from './2025'
 
+// 2021 is the only static edition — the online-only year, never migrated
+// to Sanity (unique shape, no editorial value to re-author). Every other
+// year lives in Sanity; the static-fallback files for 2022–2025 were
+// deleted once those editions were fully authored there.
 const staticEditions: Record<number, AnyEdition> = {
   2021: edition2021,
-  2022: edition2022,
-  2023: edition2023,
-  2024: edition2024,
-  2025: edition2025,
 }
 
 const STATIC_ONLY_YEARS = new Set([2021])
 
 /**
- * 2021 stays as a static (online edition); never lives in Sanity.
- * Other in-person editions prefer Sanity, falling back to the static
- * file while migration is in progress.
+ * 2021 is served from its static file; never lives in Sanity. Every other
+ * year is fetched from Sanity.
  *
  * Caller MUST supply `options` (from `getDynamicFetchOptions`) so the
- * fetch can switch between published and draft perspectives. Static
- * fallback is unaffected.
+ * fetch can switch between published and draft perspectives. The 2021
+ * static path is unaffected.
  */
 export async function getEdition(
   year: number,

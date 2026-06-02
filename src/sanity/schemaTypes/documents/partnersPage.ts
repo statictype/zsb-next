@@ -58,6 +58,7 @@ export const partnersPage = defineType({
             }),
         }),
       ],
+      validation: (rule) => rule.required(),
     }),
 
     defineField({
@@ -95,6 +96,7 @@ export const partnersPage = defineType({
             }),
         }),
       ],
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'whyPoints',

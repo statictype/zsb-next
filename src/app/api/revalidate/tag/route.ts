@@ -9,7 +9,7 @@ interface WebhookPayload {
 /**
  * Sanity webhook target. Bust the HTML cache for any tag the publish
  * touched. Configure a GROQ-powered webhook in sanity.io/manage with:
- *   URL:        https://zsb.app/api/revalidate/tag
+ *   URL:        https://sculpturedays.com/api/revalidate/tag
  *   Filter:     _type in ["edition", "artist", "organization",
  *               "siteSettings", "homepage", "aboutPage", "partnersPage",
  *               "visitPage", "privacyPage", "pressAppearance",

@@ -1705,6 +1705,13 @@
         },
         "optional": false
       },
+      "sortName": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "slug": {
         "type": "objectAttribute",
         "value": {
@@ -2553,7 +2560,7 @@
             }
           }
         },
-        "optional": true
+        "optional": false
       },
       "whyEyebrow": {
         "type": "objectAttribute",
@@ -2621,7 +2628,7 @@
             }
           }
         },
-        "optional": true
+        "optional": false
       },
       "whyPoints": {
         "type": "objectAttribute",
@@ -2809,7 +2816,7 @@
             }
           }
         },
-        "optional": true
+        "optional": false
       },
       "curatorEyebrow": {
         "type": "objectAttribute",
@@ -2877,7 +2884,7 @@
             }
           }
         },
-        "optional": true
+        "optional": false
       },
       "curatorName": {
         "type": "objectAttribute",

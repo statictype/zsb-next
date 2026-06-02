@@ -1,8 +1,8 @@
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import shared from '@/components/Shared.module.css'
-import { ALL_ARTISTS } from '@/data/artists'
 import { getAllEditionYears } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
+import { getArtistNames } from '@/sanity/lib/artists'
 import styles from './page.module.css'
 
 export const metadata = pageMetadata({
@@ -13,7 +13,8 @@ export const metadata = pageMetadata({
 })
 
 export default async function ArtistsPage() {
-  const editionCount = (await getAllEditionYears()).length
+  const [artists, editionYears] = await Promise.all([getArtistNames(), getAllEditionYears()])
+  const editionCount = editionYears.length
 
   return (
     <main>
@@ -30,10 +31,10 @@ export default async function ArtistsPage() {
           </header>
 
           <ArtistsTable
-            artists={ALL_ARTISTS}
+            artists={artists}
             className={styles.table}
             meta={[
-              { label: 'Total', value: ALL_ARTISTS.length },
+              { label: 'Total', value: artists.length },
               { label: 'Editions', value: editionCount },
             ]}
           />

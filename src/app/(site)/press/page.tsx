@@ -59,13 +59,6 @@ function iconForUrl(url: string, medium: Medium): typeof RiYoutubeLine {
   return RiNewspaperLine
 }
 
-const FALLBACK = {
-  heroTitle: 'Press room',
-  heroTitleAccent: 'room',
-  heroLead:
-    'A reference desk for editors, reporters, and curators. Posters, releases, and media coverage from every edition since 2021.',
-}
-
 export default async function PressRoute() {
   const { isEnabled: isDraftMode } = await draftMode()
   if (isDraftMode) {
@@ -112,9 +105,9 @@ interface PressShellProps {
 }
 
 function PressShell({ page, appearances, releases, kit, settings }: PressShellProps = {}) {
-  const title = page?.hero?.title ?? FALLBACK.heroTitle
-  const accent = page?.hero?.titleAccent ?? FALLBACK.heroTitleAccent
-  const lead = page?.hero?.lead ?? FALLBACK.heroLead
+  const title = page?.hero?.title ?? ''
+  const accent = page?.hero?.titleAccent ?? ''
+  const lead = page?.hero?.lead ?? ''
   const kitItems = kit?.length ? flattenKit(kit) : []
 
   return (
