@@ -10,6 +10,7 @@ import styles from './MediaKitStrip.module.css'
 
 export interface MediaKitStripItem extends MediaKitItem {
   year: number
+  blurDataURL?: string
 }
 
 interface MediaKitStripProps {
@@ -234,6 +235,9 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
                 sizes="(max-width: 767px) 70vw, (max-width: 1280px) 38vw, 28vw"
                 className={styles.image}
                 draggable={false}
+                {...(item.blurDataURL
+                  ? { placeholder: 'blur' as const, blurDataURL: item.blurDataURL }
+                  : {})}
               />
             </button>
           ))}

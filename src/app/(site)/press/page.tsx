@@ -11,11 +11,11 @@ import {
 import { stegaClean } from '@sanity/client/stega'
 import { draftMode } from 'next/headers'
 import { Suspense } from 'react'
+import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { MediaKitStrip, type MediaKitStripItem } from '@/components/MediaKitStrip/MediaKitStrip'
 import { Navigation } from '@/components/Navigation/Navigation'
 import shared from '@/components/Shared.module.css'
-import { pageMetadata } from '@/lib/seo'
-import { urlFor } from '@/sanity/lib/image'
+import { organizationJsonLd, pageMetadata, pressAppearancesJsonLd } from '@/lib/seo'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import {
   type EditionPressKit,
@@ -27,6 +27,7 @@ import {
   type PressPage,
   type PressRelease,
 } from '@/sanity/lib/press'
+import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 import styles from './page.module.css'
 
 export const metadata = pageMetadata({
@@ -36,16 +37,26 @@ export const metadata = pageMetadata({
   path: '/press',
 })
 
-// Editor-facing labels live on the Sanity `pressAppearance.type` enum;
-// the icon and short renderer label live here because they're a
-// renderer concern (and CMSing icon picks isn't worth the surface area).
-type AppearanceType = NonNullable<PressAppearance['type']>
-const TYPE_META: Record<AppearanceType, { label: string; Icon: typeof RiYoutubeLine }> = {
-  youtube: { label: 'Video', Icon: RiYoutubeLine },
-  vimeo: { label: 'Video', Icon: RiVimeoLine },
-  soundcloud: { label: 'Audio', Icon: RiSoundcloudLine },
-  article: { label: 'Article', Icon: RiNewspaperLine },
-  tv: { label: 'Broadcast', Icon: RiPlayCircleLine },
+type Medium = NonNullable<PressAppearance['medium']>
+
+const MEDIUM_LABEL: Record<Medium, string> = {
+  article: 'Article',
+  video: 'Video',
+  audio: 'Audio',
+}
+
+function iconForUrl(url: string, medium: Medium): typeof RiYoutubeLine {
+  try {
+    const host = new URL(url).hostname
+    if (host.includes('youtube.com') || host.includes('youtu.be')) return RiYoutubeLine
+    if (host.includes('vimeo.com')) return RiVimeoLine
+    if (host.includes('soundcloud.com')) return RiSoundcloudLine
+  } catch {
+    /* invalid URL — fall through to medium fallback */
+  }
+  if (medium === 'video') return RiPlayCircleLine
+  if (medium === 'audio') return RiSoundcloudLine
+  return RiNewspaperLine
 }
 
 const FALLBACK = {
@@ -53,7 +64,6 @@ const FALLBACK = {
   heroTitleAccent: 'room',
   heroLead:
     'A reference desk for editors, reporters, and curators. Posters, releases, and media coverage from every edition since 2021.',
-  mediaKitEyebrow: 'Media',
 }
 
 export default async function PressRoute() {
@@ -75,14 +85,21 @@ async function DynamicPress() {
 
 async function CachedPress({ options }: { options: DynamicFetchOptions }) {
   'use cache'
-  const [page, appearances, releases, kit] = await Promise.all([
+  const [page, appearances, releases, kit, settings] = await Promise.all([
     getPressPage(options),
     getPressAppearances(options),
     getPressReleases(options),
     getEditionsPressKit(options),
+    getSiteSettings(options),
   ])
   return (
-    <PressShell page={page} appearances={appearances} releases={releases} kit={kit} />
+    <PressShell
+      page={page}
+      appearances={appearances}
+      releases={releases}
+      kit={kit}
+      settings={settings}
+    />
   )
 }
 
@@ -91,17 +108,25 @@ interface PressShellProps {
   appearances?: PressAppearance[]
   releases?: PressRelease[]
   kit?: EditionPressKit[]
+  settings?: SiteSettings | null
 }
 
-function PressShell({ page, appearances, releases, kit }: PressShellProps = {}) {
+function PressShell({ page, appearances, releases, kit, settings }: PressShellProps = {}) {
   const title = page?.hero?.title ?? FALLBACK.heroTitle
   const accent = page?.hero?.titleAccent ?? FALLBACK.heroTitleAccent
   const lead = page?.hero?.lead ?? FALLBACK.heroLead
-  const eyebrow = page?.mediaKitEyebrow ?? FALLBACK.mediaKitEyebrow
   const kitItems = kit?.length ? flattenKit(kit) : []
 
   return (
     <>
+      <JsonLd
+        data={organizationJsonLd({
+          sameAs: [settings?.instagramUrl, settings?.facebookUrl],
+        })}
+      />
+      {appearances && appearances.length > 0 && (
+        <JsonLd data={pressAppearancesJsonLd(appearances)} />
+      )}
       <Navigation activeId={null} />
       <main className={styles.page}>
         {/* ===== Hero ===== */}
@@ -118,7 +143,7 @@ function PressShell({ page, appearances, releases, kit }: PressShellProps = {}) 
         {kitItems.length > 0 && (
           <section id="media-kit" className={styles.kitSection}>
             <div className={styles.kitHeader}>
-              <h2 className={`${shared.sectionTitle} ${styles.kitTitle}`}>{eyebrow} kit</h2>
+              <h2 className={`${shared.sectionTitle} ${styles.kitTitle}`}>Media kit</h2>
             </div>
             <MediaKitStrip items={kitItems} />
           </section>
@@ -132,20 +157,19 @@ function PressShell({ page, appearances, releases, kit }: PressShellProps = {}) 
 
               <ul className={styles.appList}>
                 {appearances.map((item) => {
-                  if (!item.type) return null
-                  const meta = TYPE_META[item.type]
-                  const Icon = meta.Icon
+                  if (!item.medium || !item.url) return null
+                  const Icon = iconForUrl(item.url, item.medium)
                   return (
                     <li key={item._id} className={styles.appRow}>
                       <a
-                        href={item.url ?? '#'}
+                        href={item.url}
                         className={styles.appLink}
                         target="_blank"
                         rel="noreferrer noopener"
                       >
                         <span className={styles.appType}>
                           <Icon size={24} />
-                          <span>{meta.label}</span>
+                          <span>{MEDIUM_LABEL[item.medium]}</span>
                         </span>
                         <span className={styles.appAside}>
                           <span className={styles.appDate}>{item.year}</span>
@@ -235,26 +259,32 @@ function flattenKit(editions: EditionPressKit[]): MediaKitStripItem[] {
   const out: MediaKitStripItem[] = []
   for (const ed of editions) {
     if (!ed.year) continue
-    if (ed.coverPhoto?.asset) {
+    if (ed.coverPhoto?.asset?.url) {
       out.push({
         year: ed.year,
         label: 'Photography',
         name: 'Exhibition Cover',
         image: {
-          src: urlFor(ed.coverPhoto).url(),
-          alt: (ed.coverPhoto as { alt?: string }).alt ?? `ZSB ${ed.year} cover`,
+          src: ed.coverPhoto.asset.url,
+          alt: ed.coverPhoto.alt ?? `ZSB ${ed.year} cover`,
         },
+        ...(ed.coverPhoto.asset.metadata?.lqip && {
+          blurDataURL: ed.coverPhoto.asset.metadata.lqip,
+        }),
       })
     }
-    if (ed.poster?.asset) {
+    if (ed.poster?.asset?.url) {
       out.push({
         year: ed.year,
         label: 'Key Visual',
         name: 'Official Poster',
         image: {
-          src: urlFor(ed.poster).url(),
-          alt: (ed.poster as { alt?: string }).alt ?? `ZSB ${ed.year} poster`,
+          src: ed.poster.asset.url,
+          alt: ed.poster.alt ?? `ZSB ${ed.year} poster`,
         },
+        ...(ed.poster.asset.metadata?.lqip && {
+          blurDataURL: ed.poster.asset.metadata.lqip,
+        }),
       })
     }
   }

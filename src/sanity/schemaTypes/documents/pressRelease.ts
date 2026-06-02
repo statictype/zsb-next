@@ -29,6 +29,13 @@ export const pressRelease = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'publishedAt',
+      title: 'Published at',
+      description: 'Release date — used for sort order and JSON-LD datePublished.',
+      type: 'date',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'language',
       title: 'Language',
       type: 'string',
@@ -59,10 +66,10 @@ export const pressRelease = defineType({
   },
   orderings: [
     {
-      title: 'Edition, newest first',
-      name: 'editionYearDesc',
+      title: 'Published, newest first',
+      name: 'publishedAtDesc',
       by: [
-        { field: 'edition.year', direction: 'desc' },
+        { field: 'publishedAt', direction: 'desc' },
         { field: 'language', direction: 'asc' },
       ],
     },

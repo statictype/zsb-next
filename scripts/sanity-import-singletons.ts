@@ -105,6 +105,14 @@ function buildSiteSettings(): Record<string, unknown> {
 
 async function buildHomepage(ctx: UploadContext): Promise<Record<string, unknown>> {
   console.log('\nBuilding homepage…')
+  const editionRef = await ctx.client.fetch<string | null>(
+    `*[_type == "edition" && year == 2025][0]._id`,
+  )
+  if (!editionRef) {
+    throw new Error(
+      'No edition doc found for year 2025 — create it before importing the homepage singleton.',
+    )
+  }
   const slides: Array<{ src: string; alt: string; position: 'top' | 'center' | 'bottom' }> = [
     { src: blobUrl('2025/_dsc5496.jpg'), alt: 'ZSB 2025', position: 'top' },
     { src: blobUrl('2025/_dsc5562.jpg'), alt: 'ZSB 2025', position: 'center' },
@@ -133,7 +141,7 @@ async function buildHomepage(ctx: UploadContext): Promise<Record<string, unknown
     heroLead:
       'Artists shift the boundaries of form. ZSB gives those shifts a place to land.',
     heroCtaLabel: 'Explore the 2025 edition',
-    heroCtaEdition: { _type: 'reference', _ref: 'edition-2025' },
+    heroCtaEdition: { _type: 'reference', _ref: editionRef },
     slideshow,
     editionsIntro:
       'Edition after edition, ZSB holds open the question of what sculpture can do with body, matter, space, and memory.',
@@ -317,7 +325,6 @@ function buildPressPage(): Record<string, unknown> {
       titleAccent: 'room',
       lead: 'A reference desk for editors, reporters, and curators. Posters, releases, and media coverage from every edition since 2021.',
     },
-    mediaKitEyebrow: 'Media',
   }
 }
 

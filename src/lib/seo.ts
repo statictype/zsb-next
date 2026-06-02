@@ -88,6 +88,55 @@ export function editionEventJsonLd(edition: Edition) {
   }
 }
 
+export function organizationJsonLd(args: {
+  sameAs?: Array<string | null | undefined>
+}) {
+  const sameAs =
+    args.sameAs
+      ?.filter((s): s is string => typeof s === 'string' && s.length > 0)
+      .map((s) => clean(s)) ?? []
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    alternateName: 'ZSB',
+    url: SITE_URL,
+    ...(sameAs.length > 0 && { sameAs }),
+  }
+}
+
+interface PressAppearanceForJsonLd {
+  medium: 'article' | 'video' | 'audio' | null
+  title: string | null
+  year: number | null
+  url: string | null
+  excerpt?: string | null
+}
+
+export function pressAppearancesJsonLd(appearances: PressAppearanceForJsonLd[]) {
+  const items = appearances
+    .filter((a) => a.url && a.title && a.medium)
+    .map((a, i) => {
+      const type =
+        a.medium === 'video' ? 'VideoObject' : a.medium === 'audio' ? 'AudioObject' : 'Article'
+      const item: Record<string, unknown> = {
+        '@type': type,
+        name: clean(a.title!),
+        url: clean(a.url!),
+        about: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+      }
+      if (a.excerpt) item.description = clean(a.excerpt)
+      if (a.year) item.datePublished = `${a.year}`
+      return { '@type': 'ListItem', position: i + 1, item }
+    })
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Press appearances — ${SITE_NAME}`,
+    itemListElement: items,
+  }
+}
+
 export function editionBreadcrumbJsonLd(edition: Edition) {
   const theme = clean(edition.theme)
   return {

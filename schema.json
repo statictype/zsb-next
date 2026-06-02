@@ -1275,6 +1275,13 @@
         },
         "optional": false
       },
+      "publishedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
       "language": {
         "type": "objectAttribute",
         "value": {
@@ -1374,30 +1381,22 @@
         },
         "optional": false
       },
-      "type": {
+      "medium": {
         "type": "objectAttribute",
         "value": {
           "type": "union",
           "of": [
             {
               "type": "string",
-              "value": "youtube"
-            },
-            {
-              "type": "string",
-              "value": "vimeo"
-            },
-            {
-              "type": "string",
-              "value": "soundcloud"
-            },
-            {
-              "type": "string",
               "value": "article"
             },
             {
               "type": "string",
-              "value": "tv"
+              "value": "video"
+            },
+            {
+              "type": "string",
+              "value": "audio"
             }
           ]
         },
@@ -2261,13 +2260,6 @@
         "value": {
           "type": "inline",
           "name": "pageHero"
-        },
-        "optional": false
-      },
-      "mediaKitEyebrow": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
         },
         "optional": false
       }

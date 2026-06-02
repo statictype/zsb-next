@@ -25,10 +25,10 @@ import { createClient, type SanityClient } from '@sanity/client'
 // Appearances
 // ---------------------------------------------------------------------------
 
-type AppearanceType = 'youtube' | 'vimeo' | 'soundcloud' | 'article' | 'tv'
+type AppearanceMedium = 'article' | 'video' | 'audio'
 
 interface AppearanceSource {
-  type: AppearanceType
+  medium: AppearanceMedium
   title: string
   year: number
   tag: string
@@ -38,28 +38,28 @@ interface AppearanceSource {
 
 const APPEARANCES: AppearanceSource[] = [
   {
-    type: 'soundcloud',
+    medium: 'audio',
     title: 'Reka Csapo Dup, Radio Romania International',
     year: 2025,
     tag: 'interview',
     url: 'https://soundcloud.com/radioromaniainternational/interviu-reka-csapo-dup-curatoare-despre-zilele-sculpturii-bucuresti-2025',
   },
   {
-    type: 'youtube',
+    medium: 'video',
     title: 'Intrare Libera, TVR Cultural',
     year: 2024,
     tag: 'TV',
     url: 'https://youtu.be/CI8Dq3I9CTI?si=PinacaxLyfpKi59J',
   },
   {
-    type: 'youtube',
+    medium: 'video',
     title: 'Jurnal Cultural, TVR Cultural',
     year: 2023,
     tag: 'TV',
     url: 'https://www.youtube.com/watch?v=d2DExa1AhpY&list=PLga_ov2ae3I0lXakqsZFOkonAoDz9jxSU&index=33',
   },
   {
-    type: 'vimeo',
+    medium: 'video',
     title: 'Video summary, SensoArte',
     year: 2023,
     tag: 'interview',
@@ -90,7 +90,7 @@ async function importAppearances(client: SanityClient, dryRun: boolean): Promise
   for (const a of targets) {
     const doc: Record<string, unknown> = {
       _type: 'pressAppearance',
-      type: a.type,
+      medium: a.medium,
       title: a.title,
       year: a.year,
       tag: a.tag,

@@ -2,18 +2,15 @@ import { LinkIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
 
 /**
- * Press coverage of ZSB — a single article, video, podcast, or
- * broadcast segment. The `type` value drives which icon the renderer
- * shows next to each row; keeping the list fixed prevents editors from
- * picking icons we can't render. See the `TYPE_META` map on the press
- * page for the icon mapping.
+ * Press coverage of ZSB — a single article, video, or audio segment.
+ * `medium` is the editorial content type; the icon next to each row
+ * is derived from the URL host (youtube/vimeo/soundcloud) with a
+ * medium-based fallback for other outlets.
  */
-const APPEARANCE_TYPES = [
-  { title: 'YouTube video', value: 'youtube' },
-  { title: 'Vimeo video', value: 'vimeo' },
-  { title: 'SoundCloud / podcast', value: 'soundcloud' },
+const APPEARANCE_MEDIA = [
   { title: 'Article', value: 'article' },
-  { title: 'TV / broadcast', value: 'tv' },
+  { title: 'Video', value: 'video' },
+  { title: 'Audio', value: 'audio' },
 ] as const
 
 export const pressAppearance = defineType({
@@ -30,11 +27,11 @@ export const pressAppearance = defineType({
       validation: (rule) => rule.required().min(1).max(160),
     }),
     defineField({
-      name: 'type',
-      title: 'Type',
-      description: 'Drives which icon shows next to this row on the press page.',
+      name: 'medium',
+      title: 'Medium',
+      description: 'Editorial type of coverage. Drives the row label.',
       type: 'string',
-      options: { list: [...APPEARANCE_TYPES] },
+      options: { list: [...APPEARANCE_MEDIA], layout: 'radio' },
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -66,10 +63,10 @@ export const pressAppearance = defineType({
     }),
   ],
   preview: {
-    select: { title: 'title', type: 'type', year: 'year', tag: 'tag' },
-    prepare: ({ title, type, year, tag }) => ({
+    select: { title: 'title', medium: 'medium', year: 'year', tag: 'tag' },
+    prepare: ({ title, medium, year, tag }) => ({
       title,
-      subtitle: [year, type, tag].filter(Boolean).join(' · '),
+      subtitle: [year, medium, tag].filter(Boolean).join(' · '),
     }),
   },
   orderings: [

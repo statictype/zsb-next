@@ -88,15 +88,14 @@ export const PRIVACY_PAGE_QUERY = defineQuery(`
 
 export const PRESS_PAGE_QUERY = defineQuery(`
   *[_id == "pressPage"][0]{
-    hero,
-    mediaKitEyebrow
+    hero
   }
 `)
 
 export const PRESS_APPEARANCES_QUERY = defineQuery(`
   *[_type == "pressAppearance"] | order(year desc, title asc) {
     _id,
-    type,
+    medium,
     title,
     year,
     tag,
@@ -107,11 +106,12 @@ export const PRESS_APPEARANCES_QUERY = defineQuery(`
 
 export const PRESS_RELEASES_QUERY = defineQuery(`
   *[_type == "pressRelease" && defined(edition->year)]
-    | order(edition->year desc, language asc) {
+    | order(publishedAt desc, language asc) {
       _id,
       title,
       language,
       pages,
+      publishedAt,
       "year": edition->year,
       "pdfUrl": pdf.asset->url,
       "sizeBytes": pdf.asset->size
@@ -120,12 +120,19 @@ export const PRESS_RELEASES_QUERY = defineQuery(`
 
 // All editions that have at least one Press-kit asset, newest year first.
 // The renderer flattens poster + coverPhoto into a single strip.
+// Image fields include hotspot/crop + asset metadata for LQIP + dimensions.
 export const EDITIONS_PRESS_KIT_QUERY = defineQuery(`
   *[_type == "edition" && defined(year) && (defined(pressKit.poster) || defined(pressKit.coverPhoto))]
     | order(year desc) {
       year,
-      "poster": pressKit.poster,
-      "coverPhoto": pressKit.coverPhoto
+      "poster": pressKit.poster{
+        ...,
+        asset->{ url, metadata { lqip, dimensions } }
+      },
+      "coverPhoto": pressKit.coverPhoto{
+        ...,
+        asset->{ url, metadata { lqip, dimensions } }
+      }
     }
 `)
 
