@@ -17,7 +17,8 @@
     "images:unused": "tsx scripts/find-unused-images.ts",
     "images:unused:json": "tsx scripts/find-unused-images.ts --json",
     "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
-    "sanity": "sanity"
+    "sanity": "sanity",
+    "prepare": "git config core.hooksPath .githooks"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.4",

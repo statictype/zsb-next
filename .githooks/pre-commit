@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+# Pre-commit: format staged files in place with Biome, then re-stage
+# them so the commit contains the formatted versions. `git update-index
+# --again` only re-stages paths already in the index, so partially
+# staged files don't get their unstaged hunks swept in.
+set -e
+
+pnpm exec biome check --write --staged --no-errors-on-unmatched
+
+git update-index --again
