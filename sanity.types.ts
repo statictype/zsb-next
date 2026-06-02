@@ -12,701 +12,701 @@
  * ---------------------------------------------------------------------------------
  */
 
-export declare const internalGroqTypeReferenceTo: unique symbol;
+export declare const internalGroqTypeReferenceTo: unique symbol
 
 // Source: schema.json
 export type SftfBanner = {
-  tag: string;
-  title: string;
-  description: string;
-};
+  tag: string
+  title: string
+  description: string
+}
 
 export type SanityImageAssetReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-};
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+}
 
 export type CarouselImageImage = {
-  asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "image.media" in schema
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  alt?: string;
-  _type: "image";
-};
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  alt?: string
+  _type: 'image'
+}
 
 export type SlideFeaturedStack = {
-  _type: "slideFeaturedStack";
+  _type: 'slideFeaturedStack'
   images: Array<{
-    image: CarouselImageImage;
-    caption: string;
-    _type: "carouselImage";
-    _key: string;
-  }>;
-};
+    image: CarouselImageImage
+    caption: string
+    _type: 'carouselImage'
+    _key: string
+  }>
+}
 
 export type SlideTrio = {
-  _type: "slideTrio";
+  _type: 'slideTrio'
   images: Array<{
-    image: CarouselImageImage;
-    caption: string;
-    _type: "carouselImage";
-    _key: string;
-  }>;
-};
+    image: CarouselImageImage
+    caption: string
+    _type: 'carouselImage'
+    _key: string
+  }>
+}
 
 export type SlideFeaturedPortrait = {
-  _type: "slideFeaturedPortrait";
+  _type: 'slideFeaturedPortrait'
   images: Array<{
-    image: CarouselImageImage;
-    caption: string;
-    _type: "carouselImage";
-    _key: string;
-  }>;
-};
+    image: CarouselImageImage
+    caption: string
+    _type: 'carouselImage'
+    _key: string
+  }>
+}
 
 export type SlideDuo = {
-  _type: "slideDuo";
+  _type: 'slideDuo'
   images: Array<{
-    image: CarouselImageImage;
-    caption: string;
-    _type: "carouselImage";
-    _key: string;
-  }>;
-};
+    image: CarouselImageImage
+    caption: string
+    _type: 'carouselImage'
+    _key: string
+  }>
+}
 
 export type SlideFull = {
-  _type: "slideFull";
+  _type: 'slideFull'
   images: Array<{
-    image: CarouselImageImage;
-    caption: string;
-    _type: "carouselImage";
-    _key: string;
-  }>;
-};
+    image: CarouselImageImage
+    caption: string
+    _type: 'carouselImage'
+    _key: string
+  }>
+}
 
 export type WhyPoint = {
-  _type: "whyPoint";
-  title: string;
-  text: string;
-};
+  _type: 'whyPoint'
+  title: string
+  text: string
+}
 
 export type VenueEntry = {
-  _type: "venueEntry";
-  group: string;
-  subgroup: string;
-  name: string;
-  program: string;
-};
+  _type: 'venueEntry'
+  group: string
+  subgroup: string
+  name: string
+  program: string
+}
 
 export type TransportRoute = {
-  _type: "transportRoute";
-  from: string;
-  lines: string;
-  walk: string;
-};
+  _type: 'transportRoute'
+  from: string
+  lines: string
+  walk: string
+}
 
 export type ProgramData = {
-  _type: "programData";
-  dates: string;
+  _type: 'programData'
+  dates: string
   blocks: Array<{
     type:
-      | "Exhibition"
-      | "Main Exhibition"
-      | "Student Exhibition"
-      | "Opening Event"
-      | "Special Event"
-      | "Film Program"
-      | "Talks & Workshops";
-    title: string;
-    dates: string;
-    description: string;
-    location?: string;
-    format?: "Roundtable" | "Workshop" | "Open Studios";
-    column: 1 | 2;
-    _type: "programBlock";
-    _key: string;
-  }>;
+      | 'Exhibition'
+      | 'Main Exhibition'
+      | 'Student Exhibition'
+      | 'Opening Event'
+      | 'Special Event'
+      | 'Film Program'
+      | 'Talks & Workshops'
+    title: string
+    dates: string
+    description: string
+    location?: string
+    format?: 'Roundtable' | 'Workshop' | 'Open Studios'
+    column: 1 | 2
+    _type: 'programBlock'
+    _key: string
+  }>
   films?: Array<{
-    date: string;
-    title: string;
-    note?: string;
-    _type: "programFilm";
-    _key: string;
-  }>;
-  sftfBanner: SftfBanner;
-};
+    date: string
+    title: string
+    note?: string
+    _type: 'programFilm'
+    _key: string
+  }>
+  sftfBanner: SftfBanner
+}
 
 export type Pillar = {
-  _type: "pillar";
-  label: string;
-  body: string;
-};
+  _type: 'pillar'
+  label: string
+  body: string
+}
 
 export type PageHero = {
-  _type: "pageHero";
-  title: string;
-  titleAccent: string;
-  lead: string;
-};
+  _type: 'pageHero'
+  title: string
+  titleAccent: string
+  lead: string
+}
 
 export type HeroSlide = {
-  _type: "heroSlide";
+  _type: 'heroSlide'
   image: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  position: "top" | "center" | "bottom";
-};
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  position: 'top' | 'center' | 'bottom'
+}
 
 export type CreditText = {
-  _type: "creditText";
-  type: "primary" | "partner" | "secondary";
-  label: string;
-  value: string;
-};
+  _type: 'creditText'
+  type: 'primary' | 'partner' | 'secondary'
+  label: string
+  value: string
+}
 
 export type OrganizationReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "organization";
-};
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'organization'
+}
 
 export type CreditOrgList = {
-  _type: "creditOrgList";
-  type: "primary" | "partner" | "secondary";
-  label: string;
+  _type: 'creditOrgList'
+  type: 'primary' | 'partner' | 'secondary'
+  label: string
   organizations: Array<
     {
-      _key: string;
+      _key: string
     } & OrganizationReference
-  >;
-};
+  >
+}
 
 export type CreditOrg = {
-  _type: "creditOrg";
-  type: "primary" | "partner" | "secondary";
-  label: string;
-  organization: OrganizationReference;
-  detail?: string;
-};
+  _type: 'creditOrg'
+  type: 'primary' | 'partner' | 'secondary'
+  label: string
+  organization: OrganizationReference
+  detail?: string
+}
 
 export type Amenity = {
-  _type: "amenity";
-  label: string;
-  icon: "wheelchair" | "parking" | "cafe" | "paint" | "restroom" | "wifi";
-};
+  _type: 'amenity'
+  label: string
+  icon: 'wheelchair' | 'parking' | 'cafe' | 'paint' | 'restroom' | 'wifi'
+}
 
 export type EditionReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "edition";
-};
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'edition'
+}
 
 export type SanityFileAssetReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-};
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
+}
 
 export type PressRelease = {
-  _id: string;
-  _type: "pressRelease";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  edition: EditionReference;
-  publishedAt: string;
-  language: "EN" | "RO";
+  _id: string
+  _type: 'pressRelease'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  edition: EditionReference
+  publishedAt: string
+  language: 'EN' | 'RO'
   pdf: {
-    asset?: SanityFileAssetReference;
-    media?: unknown;
-    _type: "file";
-  };
-  pages: number;
-};
+    asset?: SanityFileAssetReference
+    media?: unknown
+    _type: 'file'
+  }
+  pages: number
+}
 
 export type PressAppearance = {
-  _id: string;
-  _type: "pressAppearance";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  medium: "article" | "video" | "audio";
-  year: number;
-  tag: string;
-  url: string;
-  excerpt?: string;
-};
+  _id: string
+  _type: 'pressAppearance'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  medium: 'article' | 'video' | 'audio'
+  year: number
+  tag: string
+  url: string
+  excerpt?: string
+}
 
 export type Organization = {
-  _id: string;
-  _type: "organization";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name: string;
-  slug: Slug;
+  _id: string
+  _type: 'organization'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  slug: Slug
   logo?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  url?: string;
-};
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  url?: string
+}
 
 export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
 
 export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
+}
 
 export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
-};
+  _type: 'slug'
+  current: string
+  source?: string
+}
 
 export type Artist = {
-  _id: string;
-  _type: "artist";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name: string;
-  slug: Slug;
+  _id: string
+  _type: 'artist'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  slug: Slug
   portrait?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
   shortBio?: Array<{
     children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
     markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  discipline?: string;
-  country?: string;
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  discipline?: string
+  country?: string
   externalLinks?: Array<{
-    label: string;
-    url: string;
-    _type: "externalLink";
-    _key: string;
-  }>;
-};
+    label: string
+    url: string
+    _type: 'externalLink'
+    _key: string
+  }>
+}
 
 export type PrivacyPage = {
-  _id: string;
-  _type: "privacyPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  hero: PageHero;
+  _id: string
+  _type: 'privacyPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  hero: PageHero
   body: Array<{
     children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h2";
-    listItem?: "bullet" | "number";
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h2'
+    listItem?: 'bullet' | 'number'
     markDefs?: Array<{
-      href: string;
-      newTab?: boolean;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-  updatedAt: string;
-};
+      href: string
+      newTab?: boolean
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  updatedAt: string
+}
 
 export type PressPage = {
-  _id: string;
-  _type: "pressPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  hero: PageHero;
-};
+  _id: string
+  _type: 'pressPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  hero: PageHero
+}
 
 export type VisitPage = {
-  _id: string;
-  _type: "visitPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  venueName: Array<string>;
-  street: string;
-  city: string;
-  mapsUrl: string;
+  _id: string
+  _type: 'visitPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  venueName: Array<string>
+  street: string
+  city: string
+  mapsUrl: string
   image: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  hoursLines: Array<string>;
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  hoursLines: Array<string>
   amenities: Array<
     {
-      _key: string;
+      _key: string
     } & Amenity
-  >;
+  >
   transport: Array<
     {
-      _key: string;
+      _key: string
     } & TransportRoute
-  >;
-};
+  >
+}
 
 export type PartnersPage = {
-  _id: string;
-  _type: "partnersPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  hero: PageHero;
-  eventTitle: string;
-  eventBody: Array<string>;
+  _id: string
+  _type: 'partnersPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  hero: PageHero
+  eventTitle: string
+  eventBody: Array<string>
   eventImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  whyEyebrow: string;
-  whyTitle: string;
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  whyEyebrow: string
+  whyTitle: string
   whyImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
   whyPoints: Array<
     {
-      _key: string;
+      _key: string
     } & WhyPoint
-  >;
-  ctaHeading: string;
-  ctaHeadingAccent: string;
-  ctaBody: string;
-  ctaLabel: string;
-};
+  >
+  ctaHeading: string
+  ctaHeadingAccent: string
+  ctaBody: string
+  ctaLabel: string
+}
 
 export type AboutPage = {
-  _id: string;
-  _type: "aboutPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  hero: PageHero;
-  notFestivalTitle: string;
-  notFestivalBody: Array<string>;
+  _id: string
+  _type: 'aboutPage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  hero: PageHero
+  notFestivalTitle: string
+  notFestivalBody: Array<string>
   pillars: Array<
     {
-      _key: string;
+      _key: string
     } & Pillar
-  >;
+  >
   placeImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  curatorEyebrow: string;
-  curatorHeadline: string;
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  curatorEyebrow: string
+  curatorHeadline: string
   curatorPortrait?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  curatorName: string;
-  curatorRole: string;
-  curatorLetter: Array<string>;
-};
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  curatorName: string
+  curatorRole: string
+  curatorLetter: Array<string>
+}
 
 export type Homepage = {
-  _id: string;
-  _type: "homepage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  heroTitle: string;
-  heroTitleAccent: string;
-  heroLead: string;
-  heroCtaLabel?: string;
-  heroCtaEdition?: EditionReference;
+  _id: string
+  _type: 'homepage'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  heroTitle: string
+  heroTitleAccent: string
+  heroLead: string
+  heroCtaLabel?: string
+  heroCtaEdition?: EditionReference
   slideshow: Array<
     {
-      _key: string;
+      _key: string
     } & HeroSlide
-  >;
-  editionsIntro: string;
-};
+  >
+  editionsIntro: string
+}
 
 export type ArtistReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "artist";
-};
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'artist'
+}
 
 export type Edition = {
-  _id: string;
-  _type: "edition";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  year: number;
-  status: "upcoming" | "published";
-  theme: string;
-  themeHighlight: string;
-  title: string;
-  dateTape: string;
-  heroImage: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string;
-    _type: "image";
-  };
+  _id: string
+  _type: 'edition'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  year: number
+  status: 'upcoming' | 'published'
+  theme: string
+  themeHighlight?: string
+  title?: string
+  dateTape?: string
+  heroImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
   thumbImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  manifesto: {
-    title: string;
-    highlight: string;
-    body: string;
-  };
-  themeSection: {
-    body: string;
-  };
-  artists: Array<
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  manifesto?: {
+    title?: string
+    highlight?: string
+    body?: string
+  }
+  themeSection?: {
+    body?: string
+  }
+  artists?: Array<
     {
-      _key: string;
+      _key: string
     } & ArtistReference
-  >;
+  >
   venues?: Array<
     {
-      _key: string;
+      _key: string
     } & VenueEntry
-  >;
-  program?: ProgramData;
+  >
+  program?: ProgramData
   carousel?: Array<
     | ({
-        _key: string;
+        _key: string
       } & SlideFull)
     | ({
-        _key: string;
+        _key: string
       } & SlideDuo)
     | ({
-        _key: string;
+        _key: string
       } & SlideFeaturedPortrait)
     | ({
-        _key: string;
+        _key: string
       } & SlideTrio)
     | ({
-        _key: string;
+        _key: string
       } & SlideFeaturedStack)
-  >;
+  >
   pressKit?: {
     poster?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-    };
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    }
     coverPhoto?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-    };
-  };
-  credits: Array<
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    }
+  }
+  credits?: Array<
     | ({
-        _key: string;
+        _key: string
       } & CreditOrg)
     | ({
-        _key: string;
+        _key: string
       } & CreditOrgList)
     | ({
-        _key: string;
+        _key: string
       } & CreditText)
-  >;
-};
+  >
+}
 
 export type SiteSettings = {
-  _id: string;
-  _type: "siteSettings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  contactEmail: string;
-  instagramUrl?: string;
-  facebookUrl?: string;
-};
+  _id: string
+  _type: 'siteSettings'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  contactEmail: string
+  instagramUrl?: string
+  facebookUrl?: string
+}
 
 export type SanityImagePaletteSwatch = {
-  _type: "sanity.imagePaletteSwatch";
-  background?: string;
-  foreground?: string;
-  population?: number;
-  title?: string;
-};
+  _type: 'sanity.imagePaletteSwatch'
+  background?: string
+  foreground?: string
+  population?: number
+  title?: string
+}
 
 export type SanityImagePalette = {
-  _type: "sanity.imagePalette";
-  darkMuted?: SanityImagePaletteSwatch;
-  lightVibrant?: SanityImagePaletteSwatch;
-  darkVibrant?: SanityImagePaletteSwatch;
-  vibrant?: SanityImagePaletteSwatch;
-  dominant?: SanityImagePaletteSwatch;
-  lightMuted?: SanityImagePaletteSwatch;
-  muted?: SanityImagePaletteSwatch;
-};
+  _type: 'sanity.imagePalette'
+  darkMuted?: SanityImagePaletteSwatch
+  lightVibrant?: SanityImagePaletteSwatch
+  darkVibrant?: SanityImagePaletteSwatch
+  vibrant?: SanityImagePaletteSwatch
+  dominant?: SanityImagePaletteSwatch
+  lightMuted?: SanityImagePaletteSwatch
+  muted?: SanityImagePaletteSwatch
+}
 
 export type SanityImageDimensions = {
-  _type: "sanity.imageDimensions";
-  height: number;
-  width: number;
-  aspectRatio: number;
-};
+  _type: 'sanity.imageDimensions'
+  height: number
+  width: number
+  aspectRatio: number
+}
 
 export type SanityImageMetadata = {
-  _type: "sanity.imageMetadata";
-  location?: Geopoint;
-  dimensions?: SanityImageDimensions;
-  palette?: SanityImagePalette;
-  lqip?: string;
-  blurHash?: string;
-  thumbHash?: string;
-  hasAlpha?: boolean;
-  isOpaque?: boolean;
-};
+  _type: 'sanity.imageMetadata'
+  location?: Geopoint
+  dimensions?: SanityImageDimensions
+  palette?: SanityImagePalette
+  lqip?: string
+  blurHash?: string
+  thumbHash?: string
+  hasAlpha?: boolean
+  isOpaque?: boolean
+}
 
 export type SanityFileAsset = {
-  _id: string;
-  _type: "sanity.fileAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash: string;
-  extension: string;
-  mimeType: string;
-  size: number;
-  assetId: string;
-  uploadId?: string;
-  path: string;
-  url: string;
-  source?: SanityAssetSourceData;
-};
+  _id: string
+  _type: 'sanity.fileAsset'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  originalFilename?: string
+  label?: string
+  title?: string
+  description?: string
+  altText?: string
+  sha1hash: string
+  extension: string
+  mimeType: string
+  size: number
+  assetId: string
+  uploadId?: string
+  path: string
+  url: string
+  source?: SanityAssetSourceData
+}
 
 export type SanityAssetSourceData = {
-  _type: "sanity.assetSourceData";
-  name?: string;
-  id?: string;
-  url?: string;
-};
+  _type: 'sanity.assetSourceData'
+  name?: string
+  id?: string
+  url?: string
+}
 
 export type SanityImageAsset = {
-  _id: string;
-  _type: "sanity.imageAsset";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash: string;
-  extension: string;
-  mimeType: string;
-  size: number;
-  assetId: string;
-  uploadId?: string;
-  path: string;
-  url: string;
-  metadata?: SanityImageMetadata;
-  source?: SanityAssetSourceData;
-};
+  _id: string
+  _type: 'sanity.imageAsset'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  originalFilename?: string
+  label?: string
+  title?: string
+  description?: string
+  altText?: string
+  sha1hash: string
+  extension: string
+  mimeType: string
+  size: number
+  assetId: string
+  uploadId?: string
+  path: string
+  url: string
+  metadata?: SanityImageMetadata
+  source?: SanityAssetSourceData
+}
 
 export type Geopoint = {
-  _type: "geopoint";
-  lat?: number;
-  lng?: number;
-  alt?: number;
-};
+  _type: 'geopoint'
+  lat?: number
+  lng?: number
+  alt?: number
+}
 
 export type AllSanitySchemaTypes =
   | SftfBanner
@@ -754,583 +754,583 @@ export type AllSanitySchemaTypes =
   | SanityFileAsset
   | SanityAssetSourceData
   | SanityImageAsset
-  | Geopoint;
+  | Geopoint
 
 // Source: src/sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
 // Query: *[_id == "siteSettings"][0]{    contactEmail,    instagramUrl,    facebookUrl  }
 export type SITE_SETTINGS_QUERY_RESULT =
   | {
-      contactEmail: null;
-      instagramUrl: null;
-      facebookUrl: null;
+      contactEmail: null
+      instagramUrl: null
+      facebookUrl: null
     }
   | {
-      contactEmail: string;
-      instagramUrl: string | null;
-      facebookUrl: string | null;
+      contactEmail: string
+      instagramUrl: string | null
+      facebookUrl: string | null
     }
-  | null;
+  | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: HOMEPAGE_QUERY
 // Query: *[_id == "homepage"][0]{    heroTitle,    heroTitleAccent,    heroLead,    heroCtaLabel,    "heroCtaEditionYear": heroCtaEdition->year,    slideshow[]{      _key,      position,      image    },    editionsIntro  }
 export type HOMEPAGE_QUERY_RESULT =
   | {
-      heroTitle: null;
-      heroTitleAccent: null;
-      heroLead: null;
-      heroCtaLabel: null;
-      heroCtaEditionYear: null;
-      slideshow: null;
-      editionsIntro: null;
+      heroTitle: null
+      heroTitleAccent: null
+      heroLead: null
+      heroCtaLabel: null
+      heroCtaEditionYear: null
+      slideshow: null
+      editionsIntro: null
     }
   | {
-      heroTitle: string;
-      heroTitleAccent: string;
-      heroLead: string;
-      heroCtaLabel: string | null;
-      heroCtaEditionYear: number | null;
+      heroTitle: string
+      heroTitleAccent: string
+      heroLead: string
+      heroCtaLabel: string | null
+      heroCtaEditionYear: number | null
       slideshow: Array<{
-        _key: string;
-        position: "bottom" | "center" | "top";
+        _key: string
+        position: 'bottom' | 'center' | 'top'
         image: {
-          asset?: SanityImageAssetReference;
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-        };
-      }>;
-      editionsIntro: string;
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          alt?: string
+          _type: 'image'
+        }
+      }>
+      editionsIntro: string
     }
-  | null;
+  | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITIONS_LIST_QUERY
 // Query: *[_type == "edition" && defined(year)] | order(year desc) {    year,    theme,    status  }
 export type EDITIONS_LIST_QUERY_RESULT = Array<{
-  year: number;
-  theme: string;
-  status: "published" | "upcoming";
-}>;
+  year: number
+  theme: string
+  status: 'published' | 'upcoming'
+}>
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ABOUT_PAGE_QUERY
 // Query: *[_id == "aboutPage"][0]{    hero,    notFestivalTitle,    notFestivalBody,    pillars,    placeImage,    curatorEyebrow,    curatorHeadline,    curatorPortrait,    curatorName,    curatorRole,    curatorLetter  }
 export type ABOUT_PAGE_QUERY_RESULT =
   | {
-      hero: PageHero;
-      notFestivalTitle: null;
-      notFestivalBody: null;
-      pillars: null;
-      placeImage: null;
-      curatorEyebrow: null;
-      curatorHeadline: null;
-      curatorPortrait: null;
-      curatorName: null;
-      curatorRole: null;
-      curatorLetter: null;
+      hero: PageHero
+      notFestivalTitle: null
+      notFestivalBody: null
+      pillars: null
+      placeImage: null
+      curatorEyebrow: null
+      curatorHeadline: null
+      curatorPortrait: null
+      curatorName: null
+      curatorRole: null
+      curatorLetter: null
     }
   | {
-      hero: null;
-      notFestivalTitle: null;
-      notFestivalBody: null;
-      pillars: null;
-      placeImage: null;
-      curatorEyebrow: null;
-      curatorHeadline: null;
-      curatorPortrait: null;
-      curatorName: null;
-      curatorRole: null;
-      curatorLetter: null;
+      hero: null
+      notFestivalTitle: null
+      notFestivalBody: null
+      pillars: null
+      placeImage: null
+      curatorEyebrow: null
+      curatorHeadline: null
+      curatorPortrait: null
+      curatorName: null
+      curatorRole: null
+      curatorLetter: null
     }
   | {
-      hero: PageHero;
-      notFestivalTitle: string;
-      notFestivalBody: Array<string>;
+      hero: PageHero
+      notFestivalTitle: string
+      notFestivalBody: Array<string>
       pillars: Array<
         {
-          _key: string;
+          _key: string
         } & Pillar
-      >;
+      >
       placeImage: {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-      } | null;
-      curatorEyebrow: string;
-      curatorHeadline: string;
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
+      curatorEyebrow: string
+      curatorHeadline: string
       curatorPortrait: {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-      } | null;
-      curatorName: string;
-      curatorRole: string;
-      curatorLetter: Array<string>;
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
+      curatorName: string
+      curatorRole: string
+      curatorLetter: Array<string>
     }
-  | null;
+  | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: PARTNERS_PAGE_QUERY
 // Query: *[_id == "partnersPage"][0]{    hero,    eventTitle,    eventBody,    eventImage,    whyEyebrow,    whyTitle,    whyImage,    whyPoints,    ctaHeading,    ctaHeadingAccent,    ctaBody,    ctaLabel  }
 export type PARTNERS_PAGE_QUERY_RESULT =
   | {
-      hero: PageHero;
-      eventTitle: null;
-      eventBody: null;
-      eventImage: null;
-      whyEyebrow: null;
-      whyTitle: null;
-      whyImage: null;
-      whyPoints: null;
-      ctaHeading: null;
-      ctaHeadingAccent: null;
-      ctaBody: null;
-      ctaLabel: null;
+      hero: PageHero
+      eventTitle: null
+      eventBody: null
+      eventImage: null
+      whyEyebrow: null
+      whyTitle: null
+      whyImage: null
+      whyPoints: null
+      ctaHeading: null
+      ctaHeadingAccent: null
+      ctaBody: null
+      ctaLabel: null
     }
   | {
-      hero: null;
-      eventTitle: null;
-      eventBody: null;
-      eventImage: null;
-      whyEyebrow: null;
-      whyTitle: null;
-      whyImage: null;
-      whyPoints: null;
-      ctaHeading: null;
-      ctaHeadingAccent: null;
-      ctaBody: null;
-      ctaLabel: null;
+      hero: null
+      eventTitle: null
+      eventBody: null
+      eventImage: null
+      whyEyebrow: null
+      whyTitle: null
+      whyImage: null
+      whyPoints: null
+      ctaHeading: null
+      ctaHeadingAccent: null
+      ctaBody: null
+      ctaLabel: null
     }
   | {
-      hero: PageHero;
-      eventTitle: string;
-      eventBody: Array<string>;
+      hero: PageHero
+      eventTitle: string
+      eventBody: Array<string>
       eventImage: {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-      } | null;
-      whyEyebrow: string;
-      whyTitle: string;
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
+      whyEyebrow: string
+      whyTitle: string
       whyImage: {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-      } | null;
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
       whyPoints: Array<
         {
-          _key: string;
+          _key: string
         } & WhyPoint
-      >;
-      ctaHeading: string;
-      ctaHeadingAccent: string;
-      ctaBody: string;
-      ctaLabel: string;
+      >
+      ctaHeading: string
+      ctaHeadingAccent: string
+      ctaBody: string
+      ctaLabel: string
     }
-  | null;
+  | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: VISIT_PAGE_QUERY
 // Query: *[_id == "visitPage"][0]{    venueName,    street,    city,    mapsUrl,    image,    hoursLines,    amenities,    transport  }
 export type VISIT_PAGE_QUERY_RESULT =
   | {
-      venueName: Array<string>;
-      street: string;
-      city: string;
-      mapsUrl: string;
+      venueName: Array<string>
+      street: string
+      city: string
+      mapsUrl: string
       image: {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-      };
-      hoursLines: Array<string>;
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      }
+      hoursLines: Array<string>
       amenities: Array<
         {
-          _key: string;
+          _key: string
         } & Amenity
-      >;
+      >
       transport: Array<
         {
-          _key: string;
+          _key: string
         } & TransportRoute
-      >;
+      >
     }
   | {
-      venueName: null;
-      street: null;
-      city: null;
-      mapsUrl: null;
-      image: null;
-      hoursLines: null;
-      amenities: null;
-      transport: null;
+      venueName: null
+      street: null
+      city: null
+      mapsUrl: null
+      image: null
+      hoursLines: null
+      amenities: null
+      transport: null
     }
-  | null;
+  | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: PRIVACY_PAGE_QUERY
 // Query: *[_id == "privacyPage"][0]{    hero,    body,    updatedAt  }
 export type PRIVACY_PAGE_QUERY_RESULT =
   | {
-      hero: PageHero;
+      hero: PageHero
       body: Array<{
         children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "h2" | "normal";
-        listItem?: "bullet" | "number";
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'h2' | 'normal'
+        listItem?: 'bullet' | 'number'
         markDefs?: Array<{
-          href: string;
-          newTab?: boolean;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }>;
-      updatedAt: string;
+          href: string
+          newTab?: boolean
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }>
+      updatedAt: string
     }
   | {
-      hero: PageHero;
-      body: null;
-      updatedAt: null;
+      hero: PageHero
+      body: null
+      updatedAt: null
     }
   | {
-      hero: null;
-      body: null;
-      updatedAt: null;
+      hero: null
+      body: null
+      updatedAt: null
     }
-  | null;
+  | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: PRESS_PAGE_QUERY
 // Query: *[_id == "pressPage"][0]{    hero  }
 export type PRESS_PAGE_QUERY_RESULT =
   | {
-      hero: PageHero;
+      hero: PageHero
     }
   | {
-      hero: null;
+      hero: null
     }
-  | null;
+  | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: PRESS_APPEARANCES_QUERY
 // Query: *[_type == "pressAppearance"] | order(year desc, title asc) {    _id,    medium,    title,    year,    tag,    url,    excerpt  }
 export type PRESS_APPEARANCES_QUERY_RESULT = Array<{
-  _id: string;
-  medium: "article" | "audio" | "video";
-  title: string;
-  year: number;
-  tag: string;
-  url: string;
-  excerpt: string | null;
-}>;
+  _id: string
+  medium: 'article' | 'audio' | 'video'
+  title: string
+  year: number
+  tag: string
+  url: string
+  excerpt: string | null
+}>
 
 // Source: src/sanity/lib/queries.ts
 // Variable: PRESS_RELEASES_QUERY
 // Query: *[_type == "pressRelease" && defined(edition->year)]    | order(publishedAt desc, language asc) {      _id,      title,      language,      pages,      publishedAt,      "year": edition->year,      "pdfUrl": pdf.asset->url,      "sizeBytes": pdf.asset->size    }
 export type PRESS_RELEASES_QUERY_RESULT = Array<{
-  _id: string;
-  title: string;
-  language: "EN" | "RO";
-  pages: number;
-  publishedAt: string;
-  year: number;
-  pdfUrl: string | null;
-  sizeBytes: number | null;
-}>;
+  _id: string
+  title: string
+  language: 'EN' | 'RO'
+  pages: number
+  publishedAt: string
+  year: number
+  pdfUrl: string | null
+  sizeBytes: number | null
+}>
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITIONS_PRESS_KIT_QUERY
 // Query: *[_type == "edition" && defined(year) && (defined(pressKit.poster) || defined(pressKit.coverPhoto))]    | order(year desc) {      year,      "poster": pressKit.poster{        ...,        asset->{ url, metadata { lqip, dimensions } }      },      "coverPhoto": pressKit.coverPhoto{        ...,        asset->{ url, metadata { lqip, dimensions } }      }    }
 export type EDITIONS_PRESS_KIT_QUERY_RESULT = Array<{
-  year: number;
+  year: number
   poster: {
     asset: {
-      url: string;
+      url: string
       metadata: {
-        lqip: string | null;
-        dimensions: SanityImageDimensions | null;
-      } | null;
-    } | null;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  } | null;
+        lqip: string | null
+        dimensions: SanityImageDimensions | null
+      } | null
+    } | null
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  } | null
   coverPhoto: {
     asset: {
-      url: string;
+      url: string
       metadata: {
-        lqip: string | null;
-        dimensions: SanityImageDimensions | null;
-      } | null;
-    } | null;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  } | null;
-}>;
+        lqip: string | null
+        dimensions: SanityImageDimensions | null
+      } | null
+    } | null
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  } | null
+}>
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ARTISTS_QUERY
 // Query: *[_type == "artist" && defined(slug.current)] | order(name asc) {    _id,    name,    "slug": slug.current,    portrait,    shortBio,    discipline,    country  }
 export type ARTISTS_QUERY_RESULT = Array<{
-  _id: string;
-  name: string;
-  slug: string;
+  _id: string
+  name: string
+  slug: string
   portrait: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  } | null;
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  } | null
   shortBio: Array<{
     children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+    listItem?: 'bullet' | 'number'
     markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }> | null;
-  discipline: string | null;
-  country: string | null;
-}>;
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }> | null
+  discipline: string | null
+  country: string | null
+}>
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ARTIST_BY_SLUG_QUERY
 // Query: *[_type == "artist" && slug.current == $slug][0] {    _id,    name,    "slug": slug.current,    portrait,    shortBio,    discipline,    country,    externalLinks  }
 export type ARTIST_BY_SLUG_QUERY_RESULT = {
-  _id: string;
-  name: string;
-  slug: string;
+  _id: string
+  name: string
+  slug: string
   portrait: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  } | null;
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  } | null
   shortBio: Array<{
     children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-    listItem?: "bullet" | "number";
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+    listItem?: 'bullet' | 'number'
     markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }> | null;
-  discipline: string | null;
-  country: string | null;
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }> | null
+  discipline: string | null
+  country: string | null
   externalLinks: Array<{
-    label: string;
-    url: string;
-    _type: "externalLink";
-    _key: string;
-  }> | null;
-} | null;
+    label: string
+    url: string
+    _type: 'externalLink'
+    _key: string
+  }> | null
+} | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITION_YEARS_QUERY
 // Query: *[_type == "edition" && defined(year)] | order(year desc).year
-export type EDITION_YEARS_QUERY_RESULT = Array<number>;
+export type EDITION_YEARS_QUERY_RESULT = Array<number>
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITION_BY_YEAR_QUERY
-// Query: *[_type == "edition" && year == $year][0] {    _id,    year,    title,    theme,    themeHighlight,    dateTape,    heroImage,    thumbImage,    manifesto,    themeSection,    "artists": artists[]->name,    venues,    program,    carousel[] {      _type,      images[] {        caption,        image      }    },    credits[] {      _type,      type,      label,      detail,      value,      organization->{        name,        logo      },      organizations[]->{        name,        logo      }    }  }
+// Query: *[_type == "edition" && year == $year && status == "published"][0] {    _id,    year,    title,    theme,    themeHighlight,    dateTape,    heroImage,    thumbImage,    manifesto,    themeSection,    "artists": artists[]->name,    venues,    program,    carousel[] {      _type,      images[] {        caption,        image      }    },    credits[] {      _type,      type,      label,      detail,      value,      organization->{        name,        logo      },      organizations[]->{        name,        logo      }    }  }
 export type EDITION_BY_YEAR_QUERY_RESULT = {
-  _id: string;
-  year: number;
-  title: string;
-  theme: string;
-  themeHighlight: string;
-  dateTape: string;
+  _id: string
+  year: number
+  title: string | null
+  theme: string
+  themeHighlight: string | null
+  dateTape: string | null
   heroImage: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string;
-    _type: "image";
-  };
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  } | null
   thumbImage: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  } | null;
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  } | null
   manifesto: {
-    title: string;
-    highlight: string;
-    body: string;
-  };
+    title?: string
+    highlight?: string
+    body?: string
+  } | null
   themeSection: {
-    body: string;
-  };
-  artists: Array<string>;
+    body?: string
+  } | null
+  artists: Array<string> | null
   venues: Array<
     {
-      _key: string;
+      _key: string
     } & VenueEntry
-  > | null;
-  program: ProgramData | null;
+  > | null
+  program: ProgramData | null
   carousel: Array<
     | {
-        _type: "slideDuo";
+        _type: 'slideDuo'
         images: Array<{
-          caption: string;
-          image: CarouselImageImage;
-        }>;
+          caption: string
+          image: CarouselImageImage
+        }>
       }
     | {
-        _type: "slideFeaturedPortrait";
+        _type: 'slideFeaturedPortrait'
         images: Array<{
-          caption: string;
-          image: CarouselImageImage;
-        }>;
+          caption: string
+          image: CarouselImageImage
+        }>
       }
     | {
-        _type: "slideFeaturedStack";
+        _type: 'slideFeaturedStack'
         images: Array<{
-          caption: string;
-          image: CarouselImageImage;
-        }>;
+          caption: string
+          image: CarouselImageImage
+        }>
       }
     | {
-        _type: "slideFull";
+        _type: 'slideFull'
         images: Array<{
-          caption: string;
-          image: CarouselImageImage;
-        }>;
+          caption: string
+          image: CarouselImageImage
+        }>
       }
     | {
-        _type: "slideTrio";
+        _type: 'slideTrio'
         images: Array<{
-          caption: string;
-          image: CarouselImageImage;
-        }>;
+          caption: string
+          image: CarouselImageImage
+        }>
       }
-  > | null;
+  > | null
   credits: Array<
     | {
-        _type: "creditOrg";
-        type: "partner" | "primary" | "secondary";
-        label: string;
-        detail: string | null;
-        value: null;
+        _type: 'creditOrg'
+        type: 'partner' | 'primary' | 'secondary'
+        label: string
+        detail: string | null
+        value: null
         organization: {
-          name: string;
+          name: string
           logo: {
-            asset?: SanityImageAssetReference;
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            alt?: string;
-            _type: "image";
-          } | null;
-        };
-        organizations: null;
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            alt?: string
+            _type: 'image'
+          } | null
+        }
+        organizations: null
       }
     | {
-        _type: "creditOrgList";
-        type: "partner" | "primary" | "secondary";
-        label: string;
-        detail: null;
-        value: null;
-        organization: null;
+        _type: 'creditOrgList'
+        type: 'partner' | 'primary' | 'secondary'
+        label: string
+        detail: null
+        value: null
+        organization: null
         organizations: Array<{
-          name: string;
+          name: string
           logo: {
-            asset?: SanityImageAssetReference;
-            media?: unknown;
-            hotspot?: SanityImageHotspot;
-            crop?: SanityImageCrop;
-            alt?: string;
-            _type: "image";
-          } | null;
-        }>;
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            alt?: string
+            _type: 'image'
+          } | null
+        }>
       }
     | {
-        _type: "creditText";
-        type: "partner" | "primary" | "secondary";
-        label: string;
-        detail: null;
-        value: string;
-        organization: null;
-        organizations: null;
+        _type: 'creditText'
+        type: 'partner' | 'primary' | 'secondary'
+        label: string
+        detail: null
+        value: string
+        organization: null
+        organizations: null
       }
-  >;
-} | null;
+  > | null
+} | null
 
 // Query TypeMap
-import "@sanity/client";
-declare module "@sanity/client" {
+import '@sanity/client'
+declare module '@sanity/client' {
   interface SanityQueries {
-    '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT;
-    '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image\n    },\n    editionsIntro\n  }\n': HOMEPAGE_QUERY_RESULT;
-    '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status\n  }\n': EDITIONS_LIST_QUERY_RESULT;
-    '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage,\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait,\n    curatorName,\n    curatorRole,\n    curatorLetter\n  }\n': ABOUT_PAGE_QUERY_RESULT;
-    '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage,\n    whyEyebrow,\n    whyTitle,\n    whyImage,\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel\n  }\n': PARTNERS_PAGE_QUERY_RESULT;
-    '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image,\n    hoursLines,\n    amenities,\n    transport\n  }\n': VISIT_PAGE_QUERY_RESULT;
-    '\n  *[_id == "privacyPage"][0]{\n    hero,\n    body,\n    updatedAt\n  }\n': PRIVACY_PAGE_QUERY_RESULT;
-    '\n  *[_id == "pressPage"][0]{\n    hero\n  }\n': PRESS_PAGE_QUERY_RESULT;
-    '\n  *[_type == "pressAppearance"] | order(year desc, title asc) {\n    _id,\n    medium,\n    title,\n    year,\n    tag,\n    url,\n    excerpt\n  }\n': PRESS_APPEARANCES_QUERY_RESULT;
-    '\n  *[_type == "pressRelease" && defined(edition->year)]\n    | order(publishedAt desc, language asc) {\n      _id,\n      title,\n      language,\n      pages,\n      publishedAt,\n      "year": edition->year,\n      "pdfUrl": pdf.asset->url,\n      "sizeBytes": pdf.asset->size\n    }\n': PRESS_RELEASES_QUERY_RESULT;
-    '\n  *[_type == "edition" && defined(year) && (defined(pressKit.poster) || defined(pressKit.coverPhoto))]\n    | order(year desc) {\n      year,\n      "poster": pressKit.poster{\n        ...,\n        asset->{ url, metadata { lqip, dimensions } }\n      },\n      "coverPhoto": pressKit.coverPhoto{\n        ...,\n        asset->{ url, metadata { lqip, dimensions } }\n      }\n    }\n': EDITIONS_PRESS_KIT_QUERY_RESULT;
-    '\n  *[_type == "artist" && defined(slug.current)] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT;
-    '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT;
-    '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT;
-    '\n  *[_type == "edition" && year == $year][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateTape,\n    heroImage,\n    thumbImage,\n    manifesto,\n    themeSection,\n    "artists": artists[]->name,\n    venues,\n    program,\n    carousel[] {\n      _type,\n      images[] {\n        caption,\n        image\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      value,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT;
+    '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT
+    '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image\n    },\n    editionsIntro\n  }\n': HOMEPAGE_QUERY_RESULT
+    '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status\n  }\n': EDITIONS_LIST_QUERY_RESULT
+    '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage,\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait,\n    curatorName,\n    curatorRole,\n    curatorLetter\n  }\n': ABOUT_PAGE_QUERY_RESULT
+    '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage,\n    whyEyebrow,\n    whyTitle,\n    whyImage,\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel\n  }\n': PARTNERS_PAGE_QUERY_RESULT
+    '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image,\n    hoursLines,\n    amenities,\n    transport\n  }\n': VISIT_PAGE_QUERY_RESULT
+    '\n  *[_id == "privacyPage"][0]{\n    hero,\n    body,\n    updatedAt\n  }\n': PRIVACY_PAGE_QUERY_RESULT
+    '\n  *[_id == "pressPage"][0]{\n    hero\n  }\n': PRESS_PAGE_QUERY_RESULT
+    '\n  *[_type == "pressAppearance"] | order(year desc, title asc) {\n    _id,\n    medium,\n    title,\n    year,\n    tag,\n    url,\n    excerpt\n  }\n': PRESS_APPEARANCES_QUERY_RESULT
+    '\n  *[_type == "pressRelease" && defined(edition->year)]\n    | order(publishedAt desc, language asc) {\n      _id,\n      title,\n      language,\n      pages,\n      publishedAt,\n      "year": edition->year,\n      "pdfUrl": pdf.asset->url,\n      "sizeBytes": pdf.asset->size\n    }\n': PRESS_RELEASES_QUERY_RESULT
+    '\n  *[_type == "edition" && defined(year) && (defined(pressKit.poster) || defined(pressKit.coverPhoto))]\n    | order(year desc) {\n      year,\n      "poster": pressKit.poster{\n        ...,\n        asset->{ url, metadata { lqip, dimensions } }\n      },\n      "coverPhoto": pressKit.coverPhoto{\n        ...,\n        asset->{ url, metadata { lqip, dimensions } }\n      }\n    }\n': EDITIONS_PRESS_KIT_QUERY_RESULT
+    '\n  *[_type == "artist" && defined(slug.current)] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT
+    '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT
+    '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT
+    '\n  *[_type == "edition" && year == $year && status == "published"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateTape,\n    heroImage,\n    thumbImage,\n    manifesto,\n    themeSection,\n    "artists": artists[]->name,\n    venues,\n    program,\n    carousel[] {\n      _type,\n      images[] {\n        caption,\n        image\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      value,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
   }
 }

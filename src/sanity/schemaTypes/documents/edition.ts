@@ -1,6 +1,18 @@
 import { CalendarIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 
+// Conditional required: an `upcoming` edition can be saved with only
+// year, status, and theme set; everything else is filled in over time
+// and only enforced when the editor flips status to `published`.
+function requiredWhenPublished(value: unknown, context: { document?: unknown }): true | string {
+  const status = (context.document as { status?: string } | undefined)?.status
+  if (status !== 'published') return true
+  if (value === undefined || value === null) return 'Required when status is Published'
+  if (typeof value === 'string' && !value.trim()) return 'Required when status is Published'
+  if (Array.isArray(value) && value.length === 0) return 'Required when status is Published'
+  return true
+}
+
 export const edition = defineType({
   name: 'edition',
   title: 'Edition',
@@ -56,7 +68,7 @@ export const edition = defineType({
       description: 'Substring of the theme to emphasize visually',
       type: 'string',
       group: 'hero',
-      validation: (rule) => rule.required(),
+      validation: (rule) => rule.custom(requiredWhenPublished),
     }),
     defineField({
       name: 'title',
@@ -64,7 +76,7 @@ export const edition = defineType({
       description: 'Browser tab / SEO title',
       type: 'string',
       group: 'hero',
-      validation: (rule) => rule.required(),
+      validation: (rule) => rule.custom(requiredWhenPublished),
     }),
     defineField({
       name: 'dateTape',
@@ -73,7 +85,7 @@ export const edition = defineType({
         'Dates + venue line shown under the hero, e.g. "16.04-11.05 · Combinatul Fondului Plastic"',
       type: 'string',
       group: 'hero',
-      validation: (rule) => rule.required(),
+      validation: (rule) => rule.custom(requiredWhenPublished),
     }),
     defineField({
       name: 'heroImage',
@@ -86,10 +98,16 @@ export const edition = defineType({
           name: 'alt',
           title: 'Alt text',
           type: 'string',
-          validation: (rule) => rule.required(),
+          // Alt is required whenever an image is actually uploaded, regardless of edition status.
+          validation: (rule) =>
+            rule.custom((alt, context) => {
+              const hasImage = Boolean((context.parent as { asset?: unknown } | undefined)?.asset)
+              if (hasImage && !alt) return 'Alt text is required when a hero image is set'
+              return true
+            }),
         }),
       ],
-      validation: (rule) => rule.required(),
+      validation: (rule) => rule.custom(requiredWhenPublished),
     }),
     defineField({
       name: 'thumbImage',
@@ -118,28 +136,28 @@ export const edition = defineType({
       title: 'Manifesto',
       type: 'object',
       group: 'manifesto',
-      validation: (rule) => rule.required(),
+      validation: (rule) => rule.custom(requiredWhenPublished),
       fields: [
         defineField({
           name: 'title',
           title: 'Title',
           description: 'Short manifesto phrase, e.g. "Forms that hold, not dominate"',
           type: 'string',
-          validation: (rule) => rule.required(),
+          validation: (rule) => rule.custom(requiredWhenPublished),
         }),
         defineField({
           name: 'highlight',
           title: 'Highlight',
           description: 'Substring of the title to emphasize (may also be appended text)',
           type: 'string',
-          validation: (rule) => rule.required(),
+          validation: (rule) => rule.custom(requiredWhenPublished),
         }),
         defineField({
           name: 'body',
           title: 'Body',
           type: 'text',
           rows: 6,
-          validation: (rule) => rule.required(),
+          validation: (rule) => rule.custom(requiredWhenPublished),
         }),
       ],
     }),
@@ -149,7 +167,7 @@ export const edition = defineType({
       title: 'Theme section',
       type: 'object',
       group: 'theme',
-      validation: (rule) => rule.required(),
+      validation: (rule) => rule.custom(requiredWhenPublished),
       fields: [
         defineField({
           name: 'body',
@@ -157,7 +175,7 @@ export const edition = defineType({
           description: 'Longer prose for the theme section. Renders as one paragraph.',
           type: 'text',
           rows: 8,
-          validation: (rule) => rule.required(),
+          validation: (rule) => rule.custom(requiredWhenPublished),
         }),
       ],
     }),
@@ -168,7 +186,7 @@ export const edition = defineType({
       type: 'array',
       group: 'artists',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'artist' }] })],
-      validation: (rule) => rule.required().min(1).unique(),
+      validation: (rule) => rule.custom(requiredWhenPublished).unique(),
     }),
 
     defineField({
@@ -269,7 +287,7 @@ export const edition = defineType({
         defineArrayMember({ type: 'creditOrgList' }),
         defineArrayMember({ type: 'creditText' }),
       ],
-      validation: (rule) => rule.required().min(1),
+      validation: (rule) => rule.custom(requiredWhenPublished),
     }),
   ],
   preview: {

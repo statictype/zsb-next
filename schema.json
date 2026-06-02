@@ -3108,21 +3108,21 @@
         "value": {
           "type": "string"
         },
-        "optional": false
+        "optional": true
       },
       "title": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": false
+        "optional": true
       },
       "dateTape": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": false
+        "optional": true
       },
       "heroImage": {
         "type": "objectAttribute",
@@ -3165,7 +3165,7 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "_type": {
               "type": "objectAttribute",
@@ -3176,7 +3176,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "thumbImage": {
         "type": "objectAttribute",
@@ -3242,25 +3242,25 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "highlight": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             },
             "body": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "themeSection": {
         "type": "objectAttribute",
@@ -3272,11 +3272,11 @@
               "value": {
                 "type": "string"
               },
-              "optional": false
+              "optional": true
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "artists": {
         "type": "objectAttribute",
@@ -3298,7 +3298,7 @@
             }
           }
         },
-        "optional": false
+        "optional": true
       },
       "venues": {
         "type": "objectAttribute",
@@ -3589,7 +3589,7 @@
             ]
           }
         },
-        "optional": false
+        "optional": true
       }
     }
   },

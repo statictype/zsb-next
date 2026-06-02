@@ -101,6 +101,7 @@ function mapProgram(raw: NonNullable<SanityEdition['program']>): ProgramData {
 
 function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
   const out: CreditEntry[] = []
+  if (!rows) return out
   for (const row of rows) {
     if (row._type === 'creditOrg' && row.organization) {
       const org = row.organization
@@ -125,20 +126,29 @@ function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
   return out
 }
 
+// Fields below are marked nullable by TypeGen because the schema makes
+// them optional for `upcoming` editions, but EDITION_BY_YEAR_QUERY only
+// returns `published` editions where Sanity's conditional validation has
+// enforced them as required. The empty-string / empty-array fallbacks
+// are belt-and-suspenders for an unexpected dataset shape.
 function mapEdition(raw: SanityEdition): Edition {
   const thumb = toImageData(raw.thumbImage)
   const carousel = mapCarousel(raw.carousel)
   return {
     year: raw.year,
-    title: raw.title,
+    title: raw.title ?? '',
     theme: raw.theme,
-    themeHighlight: raw.themeHighlight,
-    dateTape: raw.dateTape,
+    themeHighlight: raw.themeHighlight ?? '',
+    dateTape: raw.dateTape ?? '',
     heroImage: requireImageData(raw.heroImage, 'heroImage'),
     ...(thumb ? { thumbImage: thumb } : {}),
-    manifesto: raw.manifesto,
-    themeSection: raw.themeSection,
-    artists: raw.artists,
+    manifesto: {
+      title: raw.manifesto?.title ?? '',
+      highlight: raw.manifesto?.highlight ?? '',
+      body: raw.manifesto?.body ?? '',
+    },
+    themeSection: { body: raw.themeSection?.body ?? '' },
+    artists: raw.artists ?? [],
     venues: raw.venues?.map(({ _key, ...rest }) => rest) ?? [],
     ...(raw.program ? { program: mapProgram(raw.program) } : {}),
     ...(carousel ? { carousel } : {}),
