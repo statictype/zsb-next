@@ -22,10 +22,9 @@ export const pressRelease = defineType({
     defineField({
       name: 'edition',
       title: 'Edition',
-      description: 'Which edition this release covers. Only published editions are selectable.',
+      description: 'Which edition this release covers. Upcoming editions are selectable too.',
       type: 'reference',
       to: [{ type: 'edition' }],
-      options: { filter: 'status == "published"' },
       validation: (rule) => rule.required(),
     }),
     defineField({
