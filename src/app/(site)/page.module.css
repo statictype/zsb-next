@@ -57,11 +57,19 @@
 
 /* ---- Title + lead + CTA ---- */
 .heroPanel {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
   color: var(--heading);
   min-width: 0;
+}
+
+/* Forces "Bucharest / Sculpture / Days" — min-content uses the widest
+   unbreakable token as the box width, so any whitespace in the accent
+   becomes a wrap point. */
+.heroTitle {
+  width: min-content;
 }
 
 .heroText {
@@ -71,14 +79,14 @@
   gap: var(--space-lg);
 }
 
-/* ---- Partner badge — bottom-right of section ---- */
+/* ---- Partner badge ---- */
+/* Mobile: normal flow, lands below the CTA (DOM order), centered. Tablet+:
+   absolute top-right next to the title. */
 .heroBadge {
-  position: absolute;
+  align-self: center;
+  margin-top: var(--space-2xl);
   z-index: 5;
-  bottom: var(--space-lg);
-  right: var(--content-padding);
-  transform: scale(1.1);
-  transform-origin: bottom right;
+  --partner-badge-scale: 2.5;
 }
 
 /* =====================================================
@@ -233,10 +241,13 @@
     width: 60px;
   }
 
+  /* Tablet: absolute top-right of heroInner — sits next to the title. */
   .heroBadge {
-    right: var(--space-lg);
-    bottom: var(--space-xl);
-    transform: scale(1.25);
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 0;
+    --partner-badge-scale: 1.5;
   }
 }
 
@@ -299,20 +310,19 @@
     pointer-events: auto;
   }
 
+  /* Top-aligned with the title, anchored to the right edge of heroInner. */
   .heroBadge {
-    transform: scale(1.35);
-  }
-}
-
-@media (min-width: 1280px) {
-  .heroBadge {
-    transform: scale(1.5);
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    --partner-badge-scale: 1.65;
   }
 }
 
 @media (min-width: 1536px) {
   .heroBadge {
-    transform: scale(1.6);
+    --partner-badge-scale: 1.85;
   }
 }
 

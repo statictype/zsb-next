@@ -6,6 +6,7 @@ import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
 import { type HeroImage, HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
+import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import shared from '@/components/Shared.module.css'
 import { getEditionListItems } from '@/data/editions'
 import { blobUrl } from '@/lib/blob'
@@ -93,7 +94,7 @@ function HomeShell({ home, editions }: HomeShellProps = {}) {
             </div>
 
             <div className={styles.heroPanel}>
-              <h1 className={shared.pageTitle}>
+              <h1 className={`${shared.pageTitle} ${styles.heroTitle}`}>
                 <HeroTitle title={title} accent={accent} />
               </h1>
               <div className={styles.heroText}>
@@ -103,6 +104,9 @@ function HomeShell({ home, editions }: HomeShellProps = {}) {
                     {ctaLabel} <RiArrowRightLine size={14} />
                   </MagneticButton>
                 )}
+              </div>
+              <div className={styles.heroBadge}>
+                <PartnerBadge />
               </div>
             </div>
           </div>
