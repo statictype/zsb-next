@@ -1,12 +1,12 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
+import { draftMode } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
-import { draftMode } from 'next/headers'
 import { type CSSProperties, Suspense } from 'react'
 import shared from '@/components/Shared.module.css'
 import { getAllEditionYears, getEdition } from '@/data/editions'
-import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import { pageMetadata } from '@/lib/seo'
+import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import styles from './page.module.css'
 
 export const metadata = pageMetadata({

@@ -1,12 +1,12 @@
-import { VisualEditing } from 'next-sanity/visual-editing'
 import { draftMode } from 'next/headers'
+import { VisualEditing } from 'next-sanity/visual-editing'
 import { Suspense } from 'react'
 import { CookieBanner } from '@/components/CookieBanner/CookieBanner'
 import { DisableDraftMode } from '@/components/DisableDraftMode/DisableDraftMode'
 import { Footer } from '@/components/Footer/Footer'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
-import { getDynamicFetchOptions, SanityLive } from '@/sanity/lib/live'
 import { SITE_NAME, SITE_URL } from '@/lib/constants'
+import { getDynamicFetchOptions, SanityLive } from '@/sanity/lib/live'
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const [{ isEnabled: isDraftMode }, fetchOptions] = await Promise.all([

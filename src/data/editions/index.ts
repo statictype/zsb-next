@@ -1,10 +1,10 @@
-import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import {
   type EditionListItem,
   getEditionFromSanity,
   getEditionsListFromSanity,
   getEditionYearsFromSanity,
 } from '@/sanity/lib/editions'
+import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import type { AnyEdition } from '@/types/edition'
 import { edition2021 } from './2021'
 import { edition2022 } from './2022'
