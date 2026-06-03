@@ -1,6 +1,7 @@
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
 import { draftMode } from 'next/headers'
 import { Suspense } from 'react'
+import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import shared from '@/components/Shared.module.css'
@@ -83,7 +84,7 @@ function PrivacyShell({ page }: { page?: PrivacyPage | null } = {}) {
         <section className={styles.hero}>
           <div className={styles.heroInner}>
             <h1 className={shared.pageTitle}>
-              <HeroTitle title={title} accent={accent} />
+              <AccentSplit text={title} accent={accent} />
             </h1>
             <p className={shared.lead}>{lead}</p>
           </div>
@@ -107,18 +108,6 @@ function PrivacyShell({ page }: { page?: PrivacyPage | null } = {}) {
           </div>
         </section>
       </main>
-    </>
-  )
-}
-
-function HeroTitle({ title, accent }: { title: string; accent: string }) {
-  const idx = title.indexOf(accent)
-  if (idx === -1) return <>{title}</>
-  const before = title.slice(0, idx)
-  return (
-    <>
-      {before}
-      <span className={shared.accent}>{accent}</span>
     </>
   )
 }

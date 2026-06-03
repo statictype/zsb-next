@@ -1,6 +1,7 @@
 import { draftMode } from 'next/headers'
 import Image from 'next/image'
 import { Suspense } from 'react'
+import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import shared from '@/components/Shared.module.css'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
@@ -67,7 +68,7 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <h1 className={shared.pageTitle}>
-            <HeroTitle title={heroTitle} accent={heroAccent} />
+            <AccentSplit text={heroTitle} accent={heroAccent} />
           </h1>
           <p className={shared.lead}>{heroLead}</p>
         </div>
@@ -166,17 +167,5 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
         </div>
       </section>
     </main>
-  )
-}
-
-function HeroTitle({ title, accent }: { title: string; accent: string }) {
-  const idx = title.indexOf(accent)
-  if (idx === -1) return <>{title}</>
-  const before = title.slice(0, idx).trimEnd()
-  return (
-    <>
-      {before && <>{before} </>}
-      <span className={shared.accent}>{accent}</span>
-    </>
   )
 }

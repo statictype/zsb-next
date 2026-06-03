@@ -161,6 +161,21 @@ The single source of truth for which types are singletons is `SINGLETON_TYPES` i
 5. Query by id, not type: `*[_id == "fooPage"][0]` (faster, no need for `[0]` semantics on collections).
 6. Add a Presentation `locations` entry in `src/sanity/lib/presentation.ts` so editors can jump from doc → live URL.
 
+### First-time setup (fresh dataset)
+
+Singletons don't auto-create — on an empty dataset a missing singleton degrades to empty fields + a local image placeholder. Seed them one of two ways:
+
+- **Automated (recommended):** `pnpm exec tsx scripts/sanity-import-singletons.ts` (idempotent; `--dry` to preview, `--only siteSettings,homepage` to scope; needs `SANITY_API_WRITE_TOKEN`). Downloads referenced images and uploads them as Sanity assets.
+- **Manual:** publish each singleton in Studio.
+
+Either way, the order that matters is **Site settings first** — the footer and the partners "Become a partner" CTA read `siteSettings.contactEmail`, so publishing it first means no other page renders a blank contact. After that the order is cosmetic:
+
+1. **Site settings** — contact email + social URLs (other pages depend on the email).
+2. **Homepage** — hero, CTA target, slideshow, editions intro.
+3. **About** · 4. **Partners** · 5. **Visit** · 6. **Press** · 7. **Privacy** — the static pages, in any order.
+
+Then create the **edition** document(s): set `status` to **Upcoming** while it's a previewable draft, **Live** once the page is ready (the public route gates on `status != "upcoming"` — see [`CONTEXT.md` → Edition status](../CONTEXT.md)). No static file is needed for any year except 2021.
+
 ## Editor UX principles
 
 Pulled from the audit and applied as the rollout progresses.

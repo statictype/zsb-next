@@ -11,6 +11,7 @@ import {
 import { stegaClean } from '@sanity/client/stega'
 import { draftMode } from 'next/headers'
 import { Suspense } from 'react'
+import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { MediaKitStrip, type MediaKitStripItem } from '@/components/MediaKitStrip/MediaKitStrip'
 import { Navigation } from '@/components/Navigation/Navigation'
@@ -126,7 +127,7 @@ function PressShell({ page, appearances, releases, kit, settings }: PressShellPr
         <section className={styles.hero}>
           <div className={styles.heroInner}>
             <h1 className={shared.pageTitle}>
-              <HeroTitle title={title} accent={accent} />
+              <AccentSplit text={title} accent={accent} />
             </h1>
             <p className={shared.lead}>{lead}</p>
           </div>
@@ -238,18 +239,6 @@ function formatBytes(bytes: number | null | undefined): string | null {
   if (!bytes || bytes <= 0) return null
   if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-}
-
-function HeroTitle({ title, accent }: { title: string; accent: string }) {
-  const idx = title.indexOf(accent)
-  if (idx === -1) return <>{title}</>
-  const before = title.slice(0, idx)
-  return (
-    <>
-      {before}
-      <span className={shared.accent}>{accent}</span>
-    </>
-  )
 }
 
 function flattenKit(editions: EditionPressKit[]): MediaKitStripItem[] {

@@ -49,10 +49,14 @@ export const homepage = defineType({
     defineField({
       name: 'heroCtaEdition',
       title: 'CTA target — edition',
-      description: 'Which edition the CTA links to. Usually the most recent published one.',
+      description: 'Which edition the CTA links to. Usually the most recent live one.',
       type: 'reference',
       to: [{ type: 'edition' }],
       group: 'hero',
+      // Only live editions have a reachable page; an upcoming edition's route
+      // is a hard 404, so the picker is filtered to live editions to keep the
+      // hero button from ever linking to a dead page.
+      options: { filter: 'status == "live"' },
       validation: (rule) =>
         rule.custom((value, context) => {
           const label = (context.parent as { heroCtaLabel?: string } | undefined)?.heroCtaLabel

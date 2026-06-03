@@ -2,6 +2,7 @@ import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
 import { draftMode } from 'next/headers'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
 import { type HeroImage, HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
@@ -73,7 +74,7 @@ function HomeShell({ home, editions }: HomeShellProps = {}) {
 
             <div className={styles.heroPanel}>
               <h1 className={`${shared.pageTitle} ${styles.heroTitle}`}>
-                <HeroTitle title={title} accent={accent} />
+                <AccentSplit text={title} accent={accent} lineBreak />
               </h1>
               <div className={styles.heroText}>
                 <p className={shared.heroLead}>{lead}</p>
@@ -139,19 +140,6 @@ function HomeShell({ home, editions }: HomeShellProps = {}) {
  * title if the accent isn't found (schema validates this but the
  * runtime should still degrade gracefully).
  */
-function HeroTitle({ title, accent }: { title: string; accent: string }) {
-  const idx = title.indexOf(accent)
-  if (idx === -1) return <>{title}</>
-  const before = title.slice(0, idx).trimEnd()
-  return (
-    <>
-      {before}
-      {before && <br />}
-      <span className={shared.accent}>{accent}</span>
-    </>
-  )
-}
-
 function mapSlideshow(slides: Homepage['slideshow'] | undefined): HeroImage[] | undefined {
   if (!slides?.length) return undefined
   const out: HeroImage[] = []

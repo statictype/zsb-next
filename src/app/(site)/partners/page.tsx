@@ -2,6 +2,7 @@ import { RiArrowRightLine } from '@remixicon/react'
 import { draftMode } from 'next/headers'
 import Image from 'next/image'
 import { Suspense } from 'react'
+import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
@@ -81,7 +82,7 @@ function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
         <section className={styles.hero}>
           <div className={styles.heroInner}>
             <h1 className={shared.pageTitle}>
-              <HeroTitle title={heroTitle} accent={heroAccent} />
+              <AccentSplit text={heroTitle} accent={heroAccent} />
             </h1>
             <p className={shared.lead}>{heroLead}</p>
           </div>
@@ -153,7 +154,12 @@ function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
               <PartnerBadge />
             </div>
             <h2 className={styles.partnerCtaHeading}>
-              <CtaHeading heading={ctaHeading} accent={ctaAccent} />
+              <AccentSplit
+                text={ctaHeading}
+                accent={ctaAccent}
+                className={styles.partnerCtaAccent}
+                lineBreak
+              />
             </h2>
             <p className={styles.partnerCtaBody}>{ctaBody}</p>
             <MagneticButton href={ctaHref}>
@@ -162,33 +168,6 @@ function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
           </div>
         </section>
       </main>
-    </>
-  )
-}
-
-function HeroTitle({ title, accent }: { title: string; accent: string }) {
-  const idx = title.indexOf(accent)
-  if (idx === -1) return <>{title}</>
-  const before = title.slice(0, idx)
-  return (
-    <>
-      {before}
-      <span className={shared.accent}>{accent}</span>
-    </>
-  )
-}
-
-// Same shape as HeroTitle but the CTA heading wraps the accent in its
-// own styled span and inserts an explicit line break before it.
-function CtaHeading({ heading, accent }: { heading: string; accent: string }) {
-  const idx = heading.indexOf(accent)
-  if (idx === -1) return <>{heading}</>
-  const before = heading.slice(0, idx).trimEnd()
-  return (
-    <>
-      {before}
-      {before && <br />}
-      <span className={styles.partnerCtaAccent}>{accent}</span>
     </>
   )
 }
