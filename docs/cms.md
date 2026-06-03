@@ -2,7 +2,7 @@
 
 How content authoring works in this project. Read this first when adding a schema, debugging an editor experience issue, or wiring a new page to Sanity.
 
-For the rollout that built this system, see [`cms-rollout-plan.md`](./cms-rollout-plan.md) (delete once the rollout is complete and this doc captures the final state). For decision rationale, see [`adr/`](./adr/).
+For the rollout that built this system, see [`cms-rollout-plan.archived.md`](./cms-rollout-plan.archived.md) (archived — the rollout is complete and this doc captures the final state). For decision rationale, see [`adr/`](./adr/).
 
 ## Overview
 

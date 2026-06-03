@@ -23,7 +23,7 @@ To add a new year: create the `edition` document in Studio (Sanity-only — no s
 
 ## CMS / Sanity Studio
 
-Embedded Sanity Studio at `/studio`. Schema, GROQ queries, and the components that read them all change in a single PR. For the architecture, conventions, and a step-by-step "add a new page" walkthrough, see [`docs/cms.md`](./docs/cms.md). For the in-flight rollout (status, queued steps, follow-ups), see [`docs/cms-rollout-plan.md`](./docs/cms-rollout-plan.md). For specific decisions with tradeoffs, see [`docs/adr/`](./docs/adr/).
+Embedded Sanity Studio at `/studio`. Schema, GROQ queries, and the components that read them all change in a single PR. For the architecture, conventions, and a step-by-step "add a new page" walkthrough, see [`docs/cms.md`](./docs/cms.md). For the (now-complete) rollout record, see [`docs/cms-rollout-plan.archived.md`](./docs/cms-rollout-plan.archived.md). For specific decisions with tradeoffs, see [`docs/adr/`](./docs/adr/).
 
 Key project conventions:
 - Site routes live in `src/app/(site)/` route group so `<SanityLive />` and `<VisualEditing />` don't mount on `/studio`.
