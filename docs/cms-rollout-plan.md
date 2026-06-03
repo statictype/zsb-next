@@ -173,7 +173,7 @@ Not in the original plan — surfaced during the docs audit. The `edition.status
 
 **Lesson (2026-06-03):** `sanity typegen` formats its emitted `sanity.types.ts` with **Prettier** (hardcoded in the CLI), but this repo formats with **Biome**. So every regen shows a large phantom diff — semicolons + double quotes — even when the types are semantically unchanged. Always follow `pnpm typegen` with `pnpm exec biome format --write sanity.types.ts` (or `pnpm format`); a clean schema change then leaves an empty diff, which doubles as the check that you didn't alter any types.
 
-### `[ ]` Cross-cutting follow-ups
+### `[x]` Cross-cutting follow-ups
 
 Items that emerged during execution and don't belong to a single step.
 
