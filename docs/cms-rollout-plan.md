@@ -138,7 +138,7 @@ _Decisions locked 2026-06-03 (production data audited first — all four live ed
 2. **Migrate.** Three idempotent scripts, `raw` perspective (catches drafts), `--dry` then apply. Publishing fires the existing revalidate webhook → affected edition pages re-render automatically.
 3. **Commit 2 — Contract (later deploy, batchable).** Drop old fields/types from schema, query, and mapper fallbacks; mark new fields required-when-live. Site is never broken if this slips.
 
-**Shipped.** All three phases ran cleanly with no frontend downtime. The three dry-runs matched the production audit exactly (22 carousel slides, 4 dateTapes, 16 creditText rows; no draft versions); applying them and the contract deploy verified live — 2024/2025 now render `16 April – 11 May …` from the typed fields. The legacy `dateTape` / `creditText.value` *data* still sits orphaned on the four docs (the schema fields are gone; the query no longer reads them) — harmless, can be unset in a future cleanup if desired.
+**Shipped.** All three phases ran cleanly with no frontend downtime. The three dry-runs matched the production audit exactly (22 carousel slides, 4 dateTapes, 16 creditText rows; no draft versions); applying them and the contract deploy verified live — 2024/2025 now render `16 April – 11 May …` from the typed fields. A follow-up cleanup (`scripts/sanity-migrate-drop-legacy-edition-fields.ts`) then `unset` the orphaned `dateTape` / `creditText.value` *data* the additive migrations had left behind (20 fields across 4 docs) — the dataset now carries only the new shapes.
 
 The audit surfaced UX issues in the existing edition schema worth fixing before any more editions are authored against it.
 
@@ -152,7 +152,8 @@ The audit surfaced UX issues in the existing edition schema worth fixing before 
 **Migrations** (run *after* Commit 1 deploys; each an idempotent `tsx` script using the `raw` perspective like `sanity-migrate-edition-status-live.ts`; `--dry` first, then apply):
 - `[x]` Carousel slide collapse (`scripts/sanity-migrate-carousel-slide.ts`): set each item's `layout` from `_type`, then `_type` → `carouselSlide`. 22 slides across 4 editions.
 - `[x]` `dateTape` typing (`scripts/sanity-migrate-datetape.ts`): explicit per-year `{dateStart, dateEnd, venueLine}` map (2022: 04-16→04-18; 2023: 04-18→04-29; 2024: 04-16→05-11; 2025: 04-16→05-11; venueLine "Combinatul Fondului Plastic" for all). Deterministic, no parsing. 4 editions.
-- `[x]` `creditText` → array (`scripts/sanity-migrate-credittext-names.ts`): split `value` on `\n` into `names`. 16 rows across 4 editions. (Legacy `value` *data* left in place; schema field removed in the contract commit.)
+- `[x]` `creditText` → array (`scripts/sanity-migrate-credittext-names.ts`): split `value` on `\n` into `names`. 16 rows across 4 editions.
+- `[x]` Legacy-field cleanup (`scripts/sanity-migrate-drop-legacy-edition-fields.ts`): after the contract deploy, `unset` the orphaned `dateTape` + `creditText.value` data the additive migrations left behind. 20 fields across 4 editions. Idempotent.
 - `[x]` `edition.status` backfill — **done.** All editions carry a status (2022-2025 `live`, 2026 `upcoming`); see the rename note below. The script `scripts/sanity-migrate-edition-status-live.ts` is the published→live value migration (idempotent).
 
 Static `src/data/editions/{2022..2025}.ts` are unaffected (they're the fallback shape, not stored in Sanity).
