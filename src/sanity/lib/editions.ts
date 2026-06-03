@@ -31,12 +31,82 @@ interface SanityImage {
   alt?: string | null
 }
 
+// Legacy per-type → layout map. Used as a fallback for carousel items that
+// haven't been migrated to the unified `carouselSlide` (which carries `layout`
+// directly). Remove with the contract phase. See cms-rollout-plan.md Step 6.
 const SLIDE_LAYOUTS: Record<string, CarouselLayout> = {
   slideFull: 'full',
   slideDuo: 'duo',
   slideFeaturedPortrait: 'featured-portrait',
   slideTrio: 'trio',
   slideFeaturedStack: 'featured-stack',
+}
+
+const LAYOUT_VALUES: readonly CarouselLayout[] = [
+  'full',
+  'duo',
+  'featured-portrait',
+  'trio',
+  'featured-stack',
+]
+
+// Dual-read: prefer the unified slide's `layout`, fall back to the legacy
+// `_type` map for not-yet-migrated items.
+function slideLayout(slide: { _type: string; layout?: string | null }): CarouselLayout | undefined {
+  if (slide.layout && (LAYOUT_VALUES as readonly string[]).includes(slide.layout)) {
+    return slide.layout as CarouselLayout
+  }
+  return SLIDE_LAYOUTS[slide._type]
+}
+
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+] as const
+
+// Parse a stored `YYYY-MM-DD` date by hand (no Date object) to avoid timezone
+// drift shifting the day.
+function dateParts(iso: string): { y: number; m: number; d: number } | undefined {
+  const [y, m, d] = iso.split('-').map(Number)
+  if (!y || !m || !d || m < 1 || m > 12) return undefined
+  return { y, m, d }
+}
+
+// Canonical hero date string. Same month: "16–18 April 2022".
+// Cross month: "16 April – 11 May 2024". Cross year (rare): full both sides.
+function formatDateRange(startIso: string, endIso: string): string | undefined {
+  const s = dateParts(startIso)
+  const e = dateParts(endIso)
+  if (!s || !e) return undefined
+  if (s.y === e.y && s.m === e.m) return `${s.d}–${e.d} ${MONTHS[s.m - 1]} ${s.y}`
+  if (s.y === e.y) return `${s.d} ${MONTHS[s.m - 1]} – ${e.d} ${MONTHS[e.m - 1]} ${e.y}`
+  return `${s.d} ${MONTHS[s.m - 1]} ${s.y} – ${e.d} ${MONTHS[e.m - 1]} ${e.y}`
+}
+
+// Dual-read: compose the hero date tape from the typed fields when present,
+// else fall back to the legacy free-text `dateTape`. The renderer owns the
+// `·` glyph so it stays consistent across editions.
+function composeDateTape(raw: {
+  dateStart?: string | null
+  dateEnd?: string | null
+  venueLine?: string | null
+  dateTape?: string | null
+}): string {
+  if (raw.dateStart && raw.dateEnd) {
+    const range = formatDateRange(raw.dateStart, raw.dateEnd)
+    if (range) return raw.venueLine ? `${range} · ${raw.venueLine}` : range
+  }
+  return raw.dateTape ?? ''
 }
 
 function toImageData(field: SanityImage | null | undefined): ImageData | undefined {
@@ -58,9 +128,9 @@ function mapCarousel(slides: SanityEdition['carousel']): CarouselSlide[] | undef
   if (!slides?.length) return undefined
   const out: CarouselSlide[] = []
   for (const slide of slides) {
-    const layout = SLIDE_LAYOUTS[slide._type]
+    const layout = slideLayout(slide)
     if (!layout) continue
-    const images = slide.images.map(mapCarouselImage)
+    const images = (slide.images ?? []).map(mapCarouselImage)
     if (layout === 'full' && images.length === 1) {
       out.push({ layout, images: [images[0]!] })
     } else if ((layout === 'duo' || layout === 'featured-portrait') && images.length === 2) {
@@ -120,7 +190,11 @@ function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
         value: row.organizations.map((o) => o.name).join('\n'),
       })
     } else if (row._type === 'creditText') {
-      out.push({ type: row.type, label: row.label, value: row.value })
+      // Dual-read: prefer the `names` array, fall back to the legacy
+      // newline-joined `value` for not-yet-migrated rows.
+      const names = row.names?.filter((n): n is string => Boolean(n?.trim()))
+      const value = names?.length ? names.join('\n') : (row.value ?? '')
+      out.push({ type: row.type, label: row.label, value })
     }
   }
   return out
@@ -139,7 +213,7 @@ function mapEdition(raw: SanityEdition): Edition {
     title: raw.title ?? '',
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
-    dateTape: raw.dateTape ?? '',
+    dateTape: composeDateTape(raw),
     heroImage: requireImageData(raw.heroImage, 'heroImage'),
     ...(thumb ? { thumbImage: thumb } : {}),
     manifesto: {

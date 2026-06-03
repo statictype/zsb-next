@@ -87,6 +87,17 @@ export type SlideFull = {
   }>
 }
 
+export type CarouselSlide = {
+  _type: 'carouselSlide'
+  layout: 'full' | 'duo' | 'featured-portrait' | 'trio' | 'featured-stack'
+  images?: Array<{
+    image: CarouselImageImage
+    caption: string
+    _type: 'carouselImage'
+    _key: string
+  }>
+}
+
 export type WhyPoint = {
   _type: 'whyPoint'
   title: string
@@ -169,7 +180,8 @@ export type CreditText = {
   _type: 'creditText'
   type: 'primary' | 'partner' | 'secondary'
   label: string
-  value: string
+  names?: Array<string>
+  value?: string
 }
 
 export type OrganizationReference = {
@@ -518,6 +530,9 @@ export type Edition = {
   themeHighlight?: string
   title?: string
   dateTape?: string
+  dateStart?: string
+  dateEnd?: string
+  venueLine?: string
   heroImage?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -554,6 +569,9 @@ export type Edition = {
   >
   program?: ProgramData
   carousel?: Array<
+    | ({
+        _key: string
+      } & CarouselSlide)
     | ({
         _key: string
       } & SlideFull)
@@ -718,6 +736,7 @@ export type AllSanitySchemaTypes =
   | SlideFeaturedPortrait
   | SlideDuo
   | SlideFull
+  | CarouselSlide
   | WhyPoint
   | VenueEntry
   | TransportRoute
@@ -1192,7 +1211,7 @@ export type EDITION_YEARS_QUERY_RESULT = Array<number>
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITION_BY_YEAR_QUERY
-// Query: *[_type == "edition" && year == $year && status != "upcoming"][0] {    _id,    year,    title,    theme,    themeHighlight,    dateTape,    heroImage,    thumbImage,    manifesto,    themeSection,    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,    venues,    program,    carousel[] {      _type,      images[] {        caption,        image      }    },    credits[] {      _type,      type,      label,      detail,      value,      organization->{        name,        logo      },      organizations[]->{        name,        logo      }    }  }
+// Query: *[_type == "edition" && year == $year && status != "upcoming"][0] {    _id,    year,    title,    theme,    themeHighlight,    dateTape,    dateStart,    dateEnd,    venueLine,    heroImage,    thumbImage,    manifesto,    themeSection,    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,    venues,    program,    carousel[] {      _type,      layout,      images[] {        caption,        image      }    },    credits[] {      _type,      type,      label,      detail,      value,      names,      organization->{        name,        logo      },      organizations[]->{        name,        logo      }    }  }
 export type EDITION_BY_YEAR_QUERY_RESULT = {
   _id: string
   year: number
@@ -1200,6 +1219,9 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
   theme: string
   themeHighlight: string | null
   dateTape: string | null
+  dateStart: string | null
+  dateEnd: string | null
+  venueLine: string | null
   heroImage: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -1233,7 +1255,16 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
   program: ProgramData | null
   carousel: Array<
     | {
+        _type: 'carouselSlide'
+        layout: 'duo' | 'featured-portrait' | 'featured-stack' | 'full' | 'trio'
+        images: Array<{
+          caption: string
+          image: CarouselImageImage
+        }> | null
+      }
+    | {
         _type: 'slideDuo'
+        layout: null
         images: Array<{
           caption: string
           image: CarouselImageImage
@@ -1241,6 +1272,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
       }
     | {
         _type: 'slideFeaturedPortrait'
+        layout: null
         images: Array<{
           caption: string
           image: CarouselImageImage
@@ -1248,6 +1280,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
       }
     | {
         _type: 'slideFeaturedStack'
+        layout: null
         images: Array<{
           caption: string
           image: CarouselImageImage
@@ -1255,6 +1288,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
       }
     | {
         _type: 'slideFull'
+        layout: null
         images: Array<{
           caption: string
           image: CarouselImageImage
@@ -1262,6 +1296,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
       }
     | {
         _type: 'slideTrio'
+        layout: null
         images: Array<{
           caption: string
           image: CarouselImageImage
@@ -1275,6 +1310,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
         label: string
         detail: string | null
         value: null
+        names: null
         organization: {
           name: string
           logo: {
@@ -1294,6 +1330,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
         label: string
         detail: null
         value: null
+        names: null
         organization: null
         organizations: Array<{
           name: string
@@ -1312,7 +1349,8 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
         type: 'partner' | 'primary' | 'secondary'
         label: string
         detail: null
-        value: string
+        value: string | null
+        names: Array<string> | null
         organization: null
         organizations: null
       }
@@ -1338,6 +1376,6 @@ declare module '@sanity/client' {
     '\n  *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc).name\n': ARTIST_NAMES_QUERY_RESULT
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT
-    '\n  *[_type == "edition" && year == $year && status != "upcoming"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateTape,\n    heroImage,\n    thumbImage,\n    manifesto,\n    themeSection,\n    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,\n    venues,\n    program,\n    carousel[] {\n      _type,\n      images[] {\n        caption,\n        image\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      value,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
+    '\n  *[_type == "edition" && year == $year && status != "upcoming"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateTape,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage,\n    thumbImage,\n    manifesto,\n    themeSection,\n    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,\n    venues,\n    program,\n    carousel[] {\n      _type,\n      layout,\n      images[] {\n        caption,\n        image\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      value,\n      names,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
   }
 }

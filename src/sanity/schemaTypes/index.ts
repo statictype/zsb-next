@@ -13,6 +13,7 @@ import { siteSettings } from './documents/siteSettings'
 import { visitPage } from './documents/visitPage'
 import { amenity } from './objects/amenity'
 import {
+  carouselSlide,
   slideDuo,
   slideFeaturedPortrait,
   slideFeaturedStack,
@@ -55,6 +56,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   transportRoute,
   venueEntry,
   whyPoint,
+  carouselSlide,
   slideFull,
   slideDuo,
   slideFeaturedPortrait,

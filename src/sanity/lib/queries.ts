@@ -184,6 +184,9 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     theme,
     themeHighlight,
     dateTape,
+    dateStart,
+    dateEnd,
+    venueLine,
     heroImage,
     thumbImage,
     manifesto,
@@ -193,6 +196,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     program,
     carousel[] {
       _type,
+      layout,
       images[] {
         caption,
         image
@@ -204,6 +208,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
       label,
       detail,
       value,
+      names,
       organization->{
         name,
         logo
