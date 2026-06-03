@@ -189,9 +189,9 @@ Items that emerged during execution and don't belong to a single step.
 
 **`[x]` Editor first-time-setup checklist — shipped** in `cms.md` (§ Singleton pattern → First-time setup). Ordered singleton seeding (Site settings first, since the footer + partners CTA read `siteSettings.contactEmail`), the automated vs manual paths, and the upcoming→live edition convention. _(Loose end: `scripts/sanity-import-singletons.ts`'s docstring still says it builds docs from in-page `FALLBACK` constants, which were since removed — the script now carries the content itself. Worth a docstring fix next time that file is touched.)_
 
-### `[ ]` Follow-up — `typegen --watch` script
+### `[x]` Follow-up — `typegen:watch` script — shipped
 
-Add `pnpm typegen:watch` running `sanity typegen --watch` so `sanity.types.ts` regenerates as queries/schemas change. Optionally combine with `pnpm dev` via `concurrently`. **Needs `package.json` change → user approval.**
+Added `"typegen:watch": "sanity typegen generate --watch"` to `package.json` (standalone, no new dep — run in a separate terminal). It watches the query files + extracted `schema.json`, so it regenerates `sanity.types.ts` live as **queries** change; a **schema** edit still needs a full `pnpm typegen` (which re-runs `schema extract`). Note the output is Prettier-formatted by the CLI — the pre-commit Biome pass reconciles it, so no need to `biome format` between watch saves.
 
 ## Tracking
 
