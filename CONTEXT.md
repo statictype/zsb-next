@@ -15,7 +15,9 @@ Editions live in Sanity as `edition` documents. The one exception is 2021 — pe
 
 ### Edition status
 
-Every Sanity-backed edition carries a `status: 'upcoming' | 'published'`. An **upcoming** edition is one whose theme is announced but whose page isn't ready yet — it shows on the homepage editions list as a "Coming soon" row, not a link. A **published** edition is one with a live `/editions/YYYY` page; it shows on the homepage and in the footer's Explore column. Curators flip the status from upcoming → published when the program is finalised.
+Every Sanity-backed edition carries a `status: 'upcoming' | 'live'`. An **upcoming** edition is one whose theme is announced but whose page isn't ready yet — it shows on the homepage editions list as a "Coming soon" row, not a link. A **live** edition is one with a viewable `/editions/YYYY` page; it shows on the homepage and in the footer's Explore column. Curators flip the status from upcoming → live when the program is finalised.
+
+The value is `live`, deliberately **not** `published`: "published" is reserved for Sanity's own document publish/draft lifecycle, which is orthogonal to this field. A document can be published in Sanity while its edition is still `upcoming`. The route gate is written `status != "upcoming"` (rather than `== "live"`) so the public page stays reachable through any future value migration; `upcoming` is the single special-cased value.
 
 ## Program block
 

@@ -1,6 +1,6 @@
 # ZSB — Zilele Sculpturii București
 
-Website for **Bucharest Sculpture Days**, an annual contemporary sculpture event in Bucharest (an event, not a festival — the About page makes the point explicitly). Built with Next.js 16 (App Router), React 19, TypeScript, and Sanity as the CMS.
+Website for **Bucharest Sculpture Days**, an annual contemporary sculpture event in Bucharest. Built with Next.js 16 (App Router), React 19, TypeScript, and Sanity as the CMS.
 
 ## Setup
 
@@ -52,7 +52,7 @@ docs/                   # Architecture (cms.md), ADRs, specs
 
 - **Editions** — Sanity is the source of truth; each year is an `edition` document rendered via the dynamic route `editions/[year]/`. Only 2021 (the online-only year) stays as a static file (`src/data/editions/2021.ts`); every other year lives in Sanity. See [`docs/cms.md`](docs/cms.md).
 - **CMS** — Sanity Studio is embedded at `/studio` in this same app. Schema, GROQ, and the components that read them change in one PR. Run `pnpm typegen` after schema/query changes and commit `sanity.types.ts`.
-- **Image system** — images authored in Sanity are served from Sanity's asset CDN via `urlFor()` (`src/sanity/lib/image.ts`). This is the primary path for all current content (published editions, homepage, static pages). A legacy **Vercel Blob** store (`blobUrl()` in `src/lib/blob.ts`, `NEXT_PUBLIC_BLOB_URL`) still backs the permanently-static 2021 edition and the hardcoded fallback images on each singleton page; it's also the origin the migration scripts upload into Sanity from. `ImageData` is `{ src, alt }`.
+- **Image system** — images authored in Sanity are served from Sanity's asset CDN via `urlFor()` (`src/sanity/lib/image.ts`). This is the primary path for all current content (editions, homepage, static pages). A legacy **Vercel Blob** store (`blobUrl()` in `src/lib/blob.ts`, `NEXT_PUBLIC_BLOB_URL`) still backs the permanently-static 2021 edition and is the origin the migration scripts uploaded into Sanity from. A missing CMS image falls back to a neutral **local** placeholder (`src/lib/placeholder.ts` → `public/img/placeholder.jpg`), not Blob; singleton image fields are `required()`, so on a seeded dataset the placeholder never shows. `ImageData` is `{ src, alt }`.
 - **Styling** — CSS Modules only. Design tokens live in `src/app/globals.css`; prefer semantic role tokens (`--canvas`, `--heading`, `--body`, `--action`, …) over raw `--gray-*`. Shared typography and section primitives are in `src/components/Shared.module.css`.
 - **Fonts** — Dela Gothic One (display) and Montserrat (body), loaded via `next/font/google`.
 

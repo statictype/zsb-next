@@ -1,5 +1,7 @@
 # Edition listings derive from `edition.status`, not from explicit arrays
 
+> **Update (2026-06-03):** the `status` value originally named `published` was renamed to `live`, to avoid colliding with Sanity's own document publish/draft lifecycle. The enum is now `'upcoming' | 'live'`. The decision below is unchanged — wherever this ADR says `published` as a status value, read `live`. The route gate is now written `status != "upcoming"`. See `CONTEXT.md` → Edition status.
+
 The homepage editions list, the `/editions` index, and the footer's "Explore" links all derive from the same source: every `edition` document, ordered by `year desc`, with `edition.status: 'upcoming' | 'published'` controlling how each row renders. The homepage doc does **not** carry an explicit "list of editions to show" or a separate "upcoming edition" field. Same for the footer.
 
 Why:

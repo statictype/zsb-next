@@ -17,7 +17,7 @@ Captured before coding started, won't re-litigate without a new decision in this
 | 3 | Rich text shape | Plain paragraph arrays everywhere; Portable Text only on `privacyPage` | [ADR 0007](./adr/0007-plain-paragraphs-over-portable-text.md) |
 | 4 | Edition schema cleanups | Folded into this rollout (not a separate later effort) | [ADR 0010](./adr/0010-collapse-carousel-slide-types.md), plus split `dateTape`, validate `themeHighlight ⊂ theme`, store credit lists as arrays |
 | 5 | Singleton enforcement | Structure tree + `document.actions` / `newDocumentOptions` guards | [ADR 0009](./adr/0009-singleton-pattern.md) |
-| 6 | Editions list derivation | Derive from `edition.status: upcoming \| published`, not an explicit array on the homepage doc | [ADR 0008](./adr/0008-derive-edition-listings-from-status.md) |
+| 6 | Editions list derivation | Derive from `edition.status: upcoming \| live`, not an explicit array on the homepage doc | [ADR 0008](./adr/0008-derive-edition-listings-from-status.md) |
 
 ## Out of scope
 
@@ -77,8 +77,8 @@ Foundation everything else depends on.
 **Shipped:**
 - `homepage` doc with fields grouped into Hero (title, accented portion, lead, CTA label, CTA target reference, slideshow array) and Editions section (intro paragraph). Title-accent enforced as substring via custom validation; CTA label and target mutually require each other.
 - `heroSlide` object (image with hotspot + alt + crop position) used by the slideshow array.
-- `edition.status: 'upcoming' | 'published'` (radio, `initialValue: 'upcoming'`, required). Existing edition docs in Sanity (2022-2025) will need status set on first edit — a one-shot migration to set `'published'` on all existing docs is scoped to step 6 (where the other edition migrations live).
-- `HOMEPAGE_QUERY` + `EDITIONS_LIST_QUERY` in `src/sanity/lib/queries.ts`. `getHomepage(options)` fetcher in `src/sanity/lib/homepage.ts`; `getEditionsListFromSanity(options)` + `getEditionListItems(options)` merge helpers in `src/sanity/lib/editions.ts` / `src/data/editions/index.ts`. Static fallback editions are always `'published'` (the page exists).
+- `edition.status: 'upcoming' | 'live'` (radio, `initialValue: 'upcoming'`, required). _(Shipped initially as `'upcoming' | 'published'`; the value was renamed `published → live` on 2026-06-03 to stop colliding with Sanity's document publish/draft state — see the "Status value rename" note below.)_ All existing edition docs (2022-2025) now have `status: 'live'`; 2026 is `upcoming`. The backfill is done.
+- `HOMEPAGE_QUERY` + `EDITIONS_LIST_QUERY` in `src/sanity/lib/queries.ts`. `getHomepage(options)` fetcher in `src/sanity/lib/homepage.ts`; `getEditionsListFromSanity(options)` + `getEditionListItems(options)` merge helpers in `src/sanity/lib/editions.ts` / `src/data/editions/index.ts`. Static fallback editions are always `'live'` (the page exists).
 - `src/app/(site)/page.tsx` rewritten with the 3-layer pattern (inline Suspense — no sibling `loading.tsx`). Renders fallback defaults when the homepage doc isn't published yet (keeps a fresh dataset presentable).
 
 **The footer's hardcoded `EXPLORE_LINKS`** can now be swapped for `getEditionListItems` too. Held until step 4 so footer wiring lands in one pass with the other static pages.
@@ -109,8 +109,8 @@ Four singletons in two commits.
 
 **Shipped:**
 - `pressPage` singleton (`hero: pageHero` + `mediaKitEyebrow`). Sixth singleton; added to `SINGLETON_TYPES`, pinned in the structure tree between Visit and Privacy with `DocumentsIcon`, presentation location at `/press`.
-- `pressAppearance` doc: `title`, `type` enum (youtube / vimeo / soundcloud / article / tv) — drives the icon via a renderer-side `TYPE_META` map, `year`, `tag`, `url`, optional `excerpt`. Ordered year-desc then title-asc.
-- `pressRelease` doc: `title`, `edition` reference (filtered to `status == "published"` via `options.filter` — editor footgun closed), `language` radio (EN / RO), `pdf` file (accepts only `application/pdf`), `pages` number, `size` string. Ordered by `edition->year` desc.
+- `pressAppearance` doc: `title`, `medium` enum (Article / Video / Audio — drives the row label), `year`, `tag`, `url`, optional `excerpt`. The icon is derived from the URL host (youtube/vimeo/soundcloud) with a medium-based fallback for other outlets. Ordered year-desc then title-asc. _(Refined after the initial ship — `565bcf2` — from a `type` enum to this `medium` enum + host-derived icon.)_
+- `pressRelease` doc: `title`, `edition` reference, `publishedAt` (date — sort key + JSON-LD `datePublished`), `language` radio (EN / RO), `pdf` file (accepts only `application/pdf`), `pages` number. File size is **derived** from `pdf.asset->size` (`sizeBytes` in the query), not an authored field. Ordered by `publishedAt` desc, then language asc. _(The `edition` reference is intentionally **not** filtered to live editions — `b9bc60f`: press releases for an upcoming edition are a real workflow, and the release renders only a year label + PDF, never a link to the edition page, so there's no broken-link risk. The "footgun" framing in the original plan was wrong.)_
 - `edition.pressKit` object on Edition: `poster` + `coverPhoto` images, each with conditional-required alt. New "Press kit" group on the Edition form between Carousel and Credits. Additive — no migration needed.
 - Structure tree gains a "Press" group containing Appearances + Releases; types filtered from the auto-include catch-all to avoid duplicates.
 - Queries (`src/sanity/lib/queries.ts`): `PRESS_PAGE_QUERY`, `PRESS_APPEARANCES_QUERY`, `PRESS_RELEASES_QUERY` (de-references `edition->year` and `pdf.asset->url`), `EDITIONS_PRESS_KIT_QUERY` (aggregates editions where either poster or coverPhoto is set, ordered year-desc).
@@ -124,33 +124,48 @@ Four singletons in two commits.
 
 **Heads-up:** the press page's `HeroTitle` helper is now the **5th** copy of the accent-split pattern (homepage, about, partners, privacy, press). AccentSplit extraction follow-up should land soon to avoid this drifting further.
 
-### `[ ]` Step 6 — Edition schema cleanups + migration
+### `[~]` Step 6 — Edition schema cleanups + migration
 
-The audit surfaced UX issues in the existing edition schema worth fixing before any more editions are authored against it. Step 3 added `edition.status` without backfilling existing docs — that backfill happens here.
+_Partially done: the `status` backfill and `creditOrgList` array shipped (see below); carousel collapse, `dateTape` split, substring validation, and the artist reverse-reference view are still pending._
+
+The audit surfaced UX issues in the existing edition schema worth fixing before any more editions are authored against it.
 
 **Schema changes:**
-1. Collapse the five `slide*` document types (`slideFull`, `slideDuo`, `slideFeaturedPortrait`, `slideTrio`, `slideFeaturedStack`) into one `carouselSlide` object with a `layout` enum + length-validated images. See [ADR 0010](./adr/0010-collapse-carousel-slide-types.md).
-2. Split `dateTape` ("16.04-11.05 · Combinatul Fondului Plastic") into structured `{start, end, venueLine}`. Renderer handles the bullet glyph.
-3. Validate that `themeHighlight ⊂ theme` and `manifesto.highlight ⊂ manifesto.title` (currently editors can drift silently). Extract the substring-validation closure into a shared `substringValidator(parentFieldName)` helper in `src/sanity/schemaTypes/shared/` since this pattern is now in **five** places (homepage hero, `pageHero`, partners CTA, plus the two edition fields above). Apply the helper to all five.
-4. Store credit org lists as arrays, not newline-joined strings. Renderer decides the separator.
-5. Add reverse-reference view on `artist` documents → which editions they appeared in (via `S.view.component` or `referencingDocuments`).
+1. `[ ]` Collapse the five `slide*` document types (`slideFull`, `slideDuo`, `slideFeaturedPortrait`, `slideTrio`, `slideFeaturedStack`) into one `carouselSlide` object with a `layout` enum + length-validated images. See [ADR 0010](./adr/0010-collapse-carousel-slide-types.md). **Not started** — note the file `src/sanity/schemaTypes/objects/carouselSlide.ts` already exists but still exports all five `slide*` types (it was renamed without collapsing); `edition.carousel` and `schemaTypes/index.ts` still register all five.
+2. `[ ]` Split `dateTape` ("16.04-11.05 · Combinatul Fondului Plastic") into structured `{start, end, venueLine}`. Renderer handles the bullet glyph. Still a single free-text string.
+3. `[ ]` Validate that `themeHighlight ⊂ theme` and `manifesto.highlight ⊂ manifesto.title` (currently editors can drift silently — these fields are only `requiredWhenLive`, no substring check). Extract the substring-validation closure into a shared `substringValidator(parentFieldName)` helper in `src/sanity/schemaTypes/shared/` (the dir doesn't exist yet) since this pattern is now in **five** places (homepage hero, `pageHero`, partners CTA, plus the two edition fields above). Apply the helper to all five.
+4. `[~]` Store credit org lists as arrays, not newline-joined strings. **Partially done:** `creditOrgList` (array of organization references) shipped. Remaining: `creditText` still uses a newline-joined `value` string ("Use newlines to separate multiple names").
+5. `[ ]` Add reverse-reference view on `artist` documents → which editions they appeared in (via `S.view.component` or `referencingDocuments`).
 
 **Migrations** (one `sanity migration run` per change, dry-run first, then `--no-dry-run`):
-- Carousel slide collapse: walk every `edition.carousel[]`, derive `layout` from `_type`, rename `_type` to `carouselSlide`.
-- `dateTape` split: parse the existing string into `{start, end, venueLine}`. May need a manual review pass for atypical formats.
-- `edition.status` backfill: set `status: 'published'` on every edition doc that doesn't have a status yet. Clears the step-3 follow-up where editors otherwise see a validation prompt on first edit of an existing doc.
+- `[ ]` Carousel slide collapse: walk every `edition.carousel[]`, derive `layout` from `_type`, rename `_type` to `carouselSlide`.
+- `[ ]` `dateTape` split: parse the existing string into `{start, end, venueLine}`. May need a manual review pass for atypical formats.
+- `[x]` `edition.status` backfill — **done.** All editions carry a status (2022-2025 `live`, 2026 `upcoming`); see the rename note below. The script `scripts/sanity-migrate-edition-status-live.ts` is the published→live value migration (idempotent).
 
 Static `src/data/editions/{2022..2025}.ts` are unaffected (they're the fallback shape, not stored in Sanity).
+
+### `[x]` Status value rename (`published` → `live`)
+
+Not in the original plan — surfaced during the docs audit. The `edition.status` value `published` collided with Sanity's own document publish/draft lifecycle ("a published document that's an upcoming edition" / "publish a release for a published edition" were genuinely ambiguous). Renamed the value to `live`; the field name stays `status`, enum is now `'upcoming' | 'live'`.
+
+**Shipped (`6f9115e`, `b8087bf`):**
+- Schema radio value `Published → Live`; `requiredWhenPublished` → `requiredWhenLive` (its `status !== 'published'` check would otherwise have silently stopped enforcing required-when-live validation).
+- `EDITION_BY_YEAR_QUERY` gates on `status != "upcoming"` rather than `== "live"`, so the public route never 404s during the value migration — deploy and data migration need no ordering coordination. `upcoming` is the single special-cased value.
+- `EditionListItem` union, list mappings (`editions.ts`, `data/editions/index.ts`), and the Footer Explore filter updated. `sanity.types.ts` regenerated.
+- Data migrated in `production`: 2022-2025 → `live`, 2026 stays `upcoming` (after the deploy went green).
+- Docs updated: `CONTEXT.md` (Edition status), `CLAUDE.md`, [ADR 0008](./adr/0008-derive-edition-listings-from-status.md) (dated update note).
+
+**Lesson:** run `pnpm typegen` as the **last** step after any query edit, before committing — the first push shipped stale types keyed to the old query string and failed `next build` on Vercel.
 
 ### `[ ]` Cross-cutting follow-ups
 
 Items that emerged during execution and don't belong to a single step.
 
-**`[ ]` Singleton seed script.** Seven singletons now exist (siteSettings, homepage, aboutPage, partnersPage, visitPage, pressPage, privacyPage) and none auto-create. On a fresh dataset, each page renders fallback values until the editor publishes the corresponding singleton. A `pnpm exec tsx scripts/seed-singletons.ts` script that creates each with the current hardcoded fallback values would close this gap once and for all — and would let us delete the per-page `FALLBACK` blocks afterwards. Needs `SANITY_API_WRITE_TOKEN`.
+**`[x]` Singleton seed script — shipped** as `scripts/sanity-import-singletons.ts` (idempotent; `--dry` preview, `--only <ids>` filter; downloads referenced images from their Blob/`public` URL and re-uploads them as Sanity assets). Covers all seven singletons (siteSettings, homepage, aboutPage, partnersPage, visitPage, pressPage, privacyPage). The per-page `FALLBACK` / `FallbackBody` blocks have since been **removed** — a missing singleton now degrades to empty fields + a local image placeholder rather than carrying hardcoded defaults (see `cms.md` → missing-singleton rendering). Needs `SANITY_API_WRITE_TOKEN`.
 
 **`[ ]` Extract `AccentSplit` shared component.** The "split a string on its accent substring, render the accent in a span" logic is now duplicated in **six** places: `src/app/(site)/page.tsx` (HeroTitle), `about/page.tsx` (HeroTitle), `partners/page.tsx` (HeroTitle **and** CtaHeading — same logic, different accent class), `privacy/page.tsx` (HeroTitle), `press/page.tsx` (HeroTitle). One `<AccentSplit text accent className?>` component that takes the accent span's class as a prop covers all six (defaulting to `shared.accent` keeps the hero call-sites terse). Trivial refactor, no behaviour change.
 
-**`[ ]` Filter `homepage.heroCtaEdition` reference picker to published editions.** Editor footgun: the reference currently accepts any `edition` doc, so an editor can point the hero CTA at the upcoming-year edition. The hero button renders, but the linked `/editions/YYYY` page is in its "Coming soon" state with no real content. Add `options: { filter: 'status == "published"' }` to the reference field. Step 5 already applied this to `pressRelease.edition` — same one-line fix.
+**`[ ]` Filter `homepage.heroCtaEdition` reference picker to live editions.** Genuine editor footgun: the reference accepts any `edition` doc, so an editor can point the hero CTA at an upcoming edition. There is **no** "Coming soon" page — `/editions/YYYY` for an upcoming edition is a hard 404 (the route gates on `status != "upcoming"`). So the hero button would link to a 404. Add `options: { filter: 'status == "live"' }` to the reference field. _(Note: this filter is **not** wanted on `pressRelease.edition` — see Step 5 — because releases only render a year label, never a link to the edition page.)_
 
 **`[ ]` Extract image-with-required-alt schema helper.** The pattern `image + alt field with conditional-required validation` is repeated in ~12 schema files (`edition.heroImage`, `edition.thumbImage`, `edition.pressKit.poster`, `edition.pressKit.coverPhoto`, `artist.portrait`, `organization.logo`, `carouselImage`, `heroSlide.image`, `aboutPage.placeImage` + `curatorPortrait`, `partnersPage.eventImage` + `whyImage`, `visitPage.image`). A `imageFieldWithAlt(opts)` helper in `src/sanity/schemaTypes/shared/` would deduplicate it. Pure DX, no editor-visible change.
 
@@ -172,8 +187,8 @@ Active tasks live in the local task tracker (`TaskList`). Map between this doc a
 | Step 3 (shipped) | #7 |
 | Step 4 (shipped) | #8 |
 | Step 5 (shipped) | #9 |
-| Step 6 | #10 |
-| Singleton seed script | #13 |
+| Step 6 (in progress) | #10 |
+| Singleton seed script (shipped) | #13 |
 | typegen watch | #12 |
 
 `HeroTitle` extraction, image-with-alt helper, and editor first-time-setup checklist don't have their own tasks — they're cleanup/docs that land alongside step 5/6 or the seed-script PR, whichever happens first.

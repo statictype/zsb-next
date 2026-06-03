@@ -19,7 +19,7 @@ Next.js 16 (App Router, `cacheComponents: true`, `reactCompiler: true`), React 1
 
 Editions live in Sanity as `edition` documents. `getEdition(year, options)` in `src/data/editions/index.ts` is the gateway: it serves 2021 from its static file (`src/data/editions/2021.ts`) and queries Sanity for every other year. 2021 is the only static year — the online-only edition with a unique shape Sanity doesn't model. The 2022–2025 static fallback files were deleted once those editions were fully authored in Sanity. Pages render via the dynamic route `src/app/(site)/editions/[year]/`.
 
-To add a new year: create the `edition` document in Studio (Sanity-only — no static file). Set its `status` to `upcoming` while it's a previewable draft, then `published` when the page is ready.
+To add a new year: create the `edition` document in Studio (Sanity-only — no static file). Set its `status` to `upcoming` while it's a previewable draft, then `live` when the page is ready. (The value is `live`, not `published` — "published" is Sanity's own document lifecycle and is a separate axis; see `CONTEXT.md` → Edition status. The route gate is `status != "upcoming"`.)
 
 ## CMS / Sanity Studio
 
@@ -33,7 +33,7 @@ Key project conventions:
 
 ## Image system
 
-Two paths. The **primary** one is Sanity: images authored in the Studio are stored as Sanity assets and served from Sanity's image CDN via `urlFor()` (`src/sanity/lib/image.ts`). All current content — published editions, homepage, the static pages — uses this. The runtime image shape is `{ src, alt }`.
+Two paths. The **primary** one is Sanity: images authored in the Studio are stored as Sanity assets and served from Sanity's image CDN via `urlFor()` (`src/sanity/lib/image.ts`). All current content — the live editions, homepage, the static pages — uses this. The runtime image shape is `{ src, alt }`.
 
 **Vercel Blob is legacy** (`blobUrl(path)` from `src/lib/blob.ts`), now used only by: the permanently-static 2021 edition; and as the origin the `sanity-*` migration scripts uploaded into Sanity assets from. New images go into Sanity, not Blob. A missing CMS image falls back to a neutral **local** placeholder (`src/lib/placeholder.ts` → `public/img/placeholder.jpg`), not Blob. See [ADR 0005](./docs/adr/0005-vercel-blob-for-image-originals.md) + [ADR 0011](./docs/adr/0011-sanity-assets-for-authored-images.md).
 

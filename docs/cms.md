@@ -20,8 +20,9 @@ What's authored in Sanity, what's static:
 | Homepage editions list | Derived from `*[_type=="edition"] \| order(year desc)` with `edition.status` controlling each row |
 | About, Partners, Visit | Sanity singletons (shipped) — paragraph-array prose |
 | Privacy | Sanity singleton `privacyPage` (shipped) — Portable Text body (the only PT-using page; see [ADR 0007](./adr/0007-plain-paragraphs-over-portable-text.md)) |
-| Press appearances, releases | Sanity docs `pressAppearance`, `pressRelease` (in progress) |
-| Press kit assets (posters, covers) | `pressKit` object on each Edition doc (in progress) |
+| Press page (hero + media-kit eyebrow) | Sanity singleton `pressPage` (shipped) |
+| Press appearances, releases | Sanity docs `pressAppearance`, `pressRelease` (shipped) |
+| Press kit assets (posters, covers) | `pressKit` object on each Edition doc (shipped) |
 | Footer contact + social links | Sanity singleton `siteSettings` (shipped) |
 | Footer Explore + Connect labels | Hard-coded in `src/components/Footer/Footer.tsx` (structural, not editorial) |
 | Navigation labels | Hard-coded in `src/components/Navigation/Navigation.tsx` — 4 items, stable |
@@ -77,7 +78,7 @@ src/
 
 ### Document types
 
-`siteSettings`, `homepage`, `aboutPage`, `partnersPage`, `visitPage`, `privacyPage`, `edition`, `artist`, `organization` are the current shipped documents. Future-state: `pressAppearance`, `pressRelease`.
+`siteSettings`, `homepage`, `aboutPage`, `partnersPage`, `visitPage`, `pressPage`, `privacyPage`, `edition`, `artist`, `organization`, `pressAppearance`, `pressRelease` are the current shipped documents.
 
 ### Conventions
 
@@ -230,7 +231,7 @@ Singleton image fields are `required()`, so on any seeded (published) dataset th
 Stega = Sanity's mechanism for embedding invisible characters in strings so the Presentation tool knows which field a rendered string came from. Two rules in this project:
 
 1. **Never let stega'd strings reach `<head>` or `<script type="application/ld+json">`.** Search engines render them as garbage. Already handled in `src/lib/seo.ts` — every metadata / JSON-LD string passes through `stegaClean()`.
-2. **Never compare stega'd strings with `===`.** `"published" === stegaCleanedValue` works; `"published" === rawValueFromQuery` may not. If you're branching on a string field's value, call `stegaClean` first.
+2. **Never compare stega'd strings with `===`.** Branching on a field value like `edition.status`: `"live" === stegaCleanedValue` works; `"live" === rawValueFromQuery` may not. If you're branching on a string field's value, call `stegaClean` first.
 
 ## Caching & revalidation
 
