@@ -4,7 +4,7 @@ Website for **Bucharest Sculpture Days**, an annual contemporary sculpture event
 
 ## Setup
 
-Requires Node.js 22.x (pinned in `engines`) and pnpm.
+Requires Node.js 24.x (see `.nvmrc`; matches Vercel's Project Settings default) and pnpm.
 
 ```bash
 pnpm install
