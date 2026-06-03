@@ -1,5 +1,6 @@
 import { UserIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 export const artist = defineType({
   name: 'artist',
@@ -27,25 +28,11 @@ export const artist = defineType({
       options: { source: 'name', maxLength: 96 },
       validation: (rule) => rule.required(),
     }),
-    defineField({
+    imageFieldWithAlt({
       name: 'portrait',
       title: 'Portrait',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          description: 'Describe the portrait for screen readers and SEO.',
-          type: 'string',
-          validation: (rule) =>
-            rule.custom((alt, context) => {
-              const hasImage = Boolean((context.parent as { asset?: unknown } | undefined)?.asset)
-              if (hasImage && !alt) return 'Alt text is required when a portrait is set'
-              return true
-            }),
-        }),
-      ],
+      altNoun: 'a portrait',
+      altDescription: 'Describe the portrait for screen readers and SEO.',
     }),
     defineField({
       name: 'shortBio',

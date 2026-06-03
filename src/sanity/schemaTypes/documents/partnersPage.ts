@@ -1,5 +1,7 @@
 import { HeartIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { isSubstringOf } from '../shared/substringValidator'
 
 export const partnersPage = defineType({
   name: 'partnersPage',
@@ -39,25 +41,10 @@ export const partnersPage = defineType({
       of: [defineArrayMember({ type: 'text', rows: 4 })],
       validation: (rule) => rule.required().min(1),
     }),
-    defineField({
+    imageFieldWithAlt({
       name: 'eventImage',
       title: 'Image',
-      type: 'image',
       group: 'event',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          type: 'string',
-          validation: (rule) =>
-            rule.custom((alt, context) => {
-              const hasImage = Boolean((context.parent as { asset?: unknown } | undefined)?.asset)
-              if (hasImage && !alt) return 'Alt text is required when an image is set'
-              return true
-            }),
-        }),
-      ],
       validation: (rule) => rule.required(),
     }),
 
@@ -77,25 +64,10 @@ export const partnersPage = defineType({
       group: 'why',
       validation: (rule) => rule.required().max(80),
     }),
-    defineField({
+    imageFieldWithAlt({
       name: 'whyImage',
       title: 'Image',
-      type: 'image',
       group: 'why',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          type: 'string',
-          validation: (rule) =>
-            rule.custom((alt, context) => {
-              const hasImage = Boolean((context.parent as { asset?: unknown } | undefined)?.asset)
-              if (hasImage && !alt) return 'Alt text is required when an image is set'
-              return true
-            }),
-        }),
-      ],
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -122,15 +94,7 @@ export const partnersPage = defineType({
       description: 'Substring of the heading that gets the accent color.',
       type: 'string',
       group: 'cta',
-      validation: (rule) =>
-        rule.required().custom((accent, context) => {
-          const heading = (context.parent as { ctaHeading?: string } | undefined)?.ctaHeading
-          if (!heading) return true
-          if (!accent || !heading.includes(accent)) {
-            return 'Must appear as a substring of the heading'
-          }
-          return true
-        }),
+      validation: (rule) => rule.required().custom(isSubstringOf('ctaHeading', 'heading')),
     }),
     defineField({
       name: 'ctaBody',

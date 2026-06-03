@@ -1,5 +1,6 @@
 import { CaseIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 export const organization = defineType({
   name: 'organization',
@@ -20,25 +21,12 @@ export const organization = defineType({
       options: { source: 'name', maxLength: 96 },
       validation: (rule) => rule.required(),
     }),
-    defineField({
+    imageFieldWithAlt({
       name: 'logo',
       title: 'Logo',
       description: 'Optional. Used on edition pages and partner strips.',
-      type: 'image',
-      options: { hotspot: false },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          type: 'string',
-          validation: (rule) =>
-            rule.custom((alt, context) => {
-              const hasImage = Boolean((context.parent as { asset?: unknown } | undefined)?.asset)
-              if (hasImage && !alt) return 'Alt text is required when a logo is set'
-              return true
-            }),
-        }),
-      ],
+      hotspot: false,
+      altNoun: 'a logo',
     }),
     defineField({
       name: 'url',

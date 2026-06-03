@@ -1,5 +1,6 @@
 import { ImageIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 const POSITIONS = [
   { title: 'Top', value: 'top' },
@@ -13,25 +14,10 @@ export const heroSlide = defineType({
   type: 'object',
   icon: ImageIcon,
   fields: [
-    defineField({
+    imageFieldWithAlt({
       name: 'image',
       title: 'Image',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          description: 'Describe the photo for screen readers and SEO.',
-          type: 'string',
-          validation: (rule) =>
-            rule.custom((alt, context) => {
-              const hasImage = Boolean((context.parent as { asset?: unknown } | undefined)?.asset)
-              if (hasImage && !alt) return 'Alt text is required when an image is set'
-              return true
-            }),
-        }),
-      ],
+      altDescription: 'Describe the photo for screen readers and SEO.',
       validation: (rule) => rule.required(),
     }),
     defineField({

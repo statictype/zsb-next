@@ -1,5 +1,7 @@
 import { CalendarIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { isSubstringOf } from '../shared/substringValidator'
 
 // Conditional required: an `upcoming` edition can be saved with only
 // year, status, and theme set; everything else is filled in over time
@@ -68,7 +70,7 @@ export const edition = defineType({
       description: 'Substring of the theme to emphasize visually',
       type: 'string',
       group: 'hero',
-      validation: (rule) => rule.custom(requiredWhenLive),
+      validation: (rule) => rule.custom(requiredWhenLive).custom(isSubstringOf('theme', 'theme')),
     }),
     defineField({
       name: 'title',
@@ -87,48 +89,20 @@ export const edition = defineType({
       group: 'hero',
       validation: (rule) => rule.custom(requiredWhenLive),
     }),
-    defineField({
+    // Alt is required whenever an image is actually uploaded, regardless of edition status.
+    imageFieldWithAlt({
       name: 'heroImage',
       title: 'Hero image',
-      type: 'image',
       group: 'hero',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          type: 'string',
-          // Alt is required whenever an image is actually uploaded, regardless of edition status.
-          validation: (rule) =>
-            rule.custom((alt, context) => {
-              const hasImage = Boolean((context.parent as { asset?: unknown } | undefined)?.asset)
-              if (hasImage && !alt) return 'Alt text is required when a hero image is set'
-              return true
-            }),
-        }),
-      ],
+      altNoun: 'a hero image',
       validation: (rule) => rule.custom(requiredWhenLive),
     }),
-    defineField({
+    imageFieldWithAlt({
       name: 'thumbImage',
       title: 'Thumbnail image',
       description: 'Optional. Used on the home page / edition cards. Falls back to hero image.',
-      type: 'image',
       group: 'hero',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          type: 'string',
-          validation: (rule) =>
-            rule.custom((alt, context) => {
-              const hasImage = Boolean((context.parent as { asset?: unknown } | undefined)?.asset)
-              if (hasImage && !alt) return 'Alt text is required when a thumbnail is set'
-              return true
-            }),
-        }),
-      ],
+      altNoun: 'a thumbnail',
     }),
 
     defineField({
@@ -230,49 +204,17 @@ export const edition = defineType({
       type: 'object',
       group: 'pressKit',
       fields: [
-        defineField({
+        imageFieldWithAlt({
           name: 'poster',
           title: 'Official poster',
           description: 'The key visual for this edition.',
-          type: 'image',
-          options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              title: 'Alt text',
-              type: 'string',
-              validation: (rule) =>
-                rule.custom((alt, context) => {
-                  const hasImage = Boolean(
-                    (context.parent as { asset?: unknown } | undefined)?.asset,
-                  )
-                  if (hasImage && !alt) return 'Alt text is required when a poster is set'
-                  return true
-                }),
-            }),
-          ],
+          altNoun: 'a poster',
         }),
-        defineField({
+        imageFieldWithAlt({
           name: 'coverPhoto',
           title: 'Cover photo',
           description: 'A representative photograph from the exhibition.',
-          type: 'image',
-          options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              title: 'Alt text',
-              type: 'string',
-              validation: (rule) =>
-                rule.custom((alt, context) => {
-                  const hasImage = Boolean(
-                    (context.parent as { asset?: unknown } | undefined)?.asset,
-                  )
-                  if (hasImage && !alt) return 'Alt text is required when a cover photo is set'
-                  return true
-                }),
-            }),
-          ],
+          altNoun: 'a cover photo',
         }),
       ],
     }),

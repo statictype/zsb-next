@@ -1,5 +1,6 @@
 import { HomeIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { isSubstringOf } from '../shared/substringValidator'
 
 export const homepage = defineType({
   name: 'homepage',
@@ -27,15 +28,7 @@ export const homepage = defineType({
         'A substring of the hero title that gets the accent color and drops to a new line. e.g. "Sculpture Days" inside "Bucharest Sculpture Days".',
       type: 'string',
       group: 'hero',
-      validation: (rule) =>
-        rule.required().custom((accent, context) => {
-          const title = (context.parent as { heroTitle?: string } | undefined)?.heroTitle
-          if (!title) return true
-          if (!accent || !title.includes(accent)) {
-            return 'Must appear as a substring of the hero title'
-          }
-          return true
-        }),
+      validation: (rule) => rule.required().custom(isSubstringOf('heroTitle', 'hero title')),
     }),
     defineField({
       name: 'heroLead',

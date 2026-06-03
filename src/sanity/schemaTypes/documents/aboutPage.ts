@@ -1,5 +1,6 @@
 import { InfoOutlineIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 export const aboutPage = defineType({
   name: 'aboutPage',
@@ -49,26 +50,11 @@ export const aboutPage = defineType({
       of: [defineArrayMember({ type: 'pillar' })],
       validation: (rule) => rule.required().min(1).max(6),
     }),
-    defineField({
+    imageFieldWithAlt({
       name: 'placeImage',
       title: 'Place image',
       description: 'Wide image under the pillars (the venue / context shot).',
-      type: 'image',
       group: 'pillars',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          type: 'string',
-          validation: (rule) =>
-            rule.custom((alt, context) => {
-              const hasImage = Boolean((context.parent as { asset?: unknown } | undefined)?.asset)
-              if (hasImage && !alt) return 'Alt text is required when an image is set'
-              return true
-            }),
-        }),
-      ],
       validation: (rule) => rule.required(),
     }),
 
@@ -87,25 +73,11 @@ export const aboutPage = defineType({
       group: 'curator',
       validation: (rule) => rule.required().max(80),
     }),
-    defineField({
+    imageFieldWithAlt({
       name: 'curatorPortrait',
       title: 'Portrait',
-      type: 'image',
       group: 'curator',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          type: 'string',
-          validation: (rule) =>
-            rule.custom((alt, context) => {
-              const hasImage = Boolean((context.parent as { asset?: unknown } | undefined)?.asset)
-              if (hasImage && !alt) return 'Alt text is required when a portrait is set'
-              return true
-            }),
-        }),
-      ],
+      altNoun: 'a portrait',
       validation: (rule) => rule.required(),
     }),
     defineField({

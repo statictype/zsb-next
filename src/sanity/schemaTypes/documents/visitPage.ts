@@ -1,5 +1,6 @@
 import { PinIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 export const visitPage = defineType({
   name: 'visitPage',
@@ -45,25 +46,10 @@ export const visitPage = defineType({
       group: 'venue',
       validation: (rule) => rule.required().uri({ scheme: ['https', 'http'] }),
     }),
-    defineField({
+    imageFieldWithAlt({
       name: 'image',
       title: 'Venue image',
-      type: 'image',
       group: 'venue',
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          type: 'string',
-          validation: (rule) =>
-            rule.custom((alt, context) => {
-              const hasImage = Boolean((context.parent as { asset?: unknown } | undefined)?.asset)
-              if (hasImage && !alt) return 'Alt text is required when an image is set'
-              return true
-            }),
-        }),
-      ],
       validation: (rule) => rule.required(),
     }),
 

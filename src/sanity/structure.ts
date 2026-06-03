@@ -1,4 +1,5 @@
 import {
+  CalendarIcon,
   CaseIcon,
   CogIcon,
   DocumentsIcon,
@@ -13,6 +14,7 @@ import {
   UsersIcon,
 } from '@sanity/icons'
 import type { StructureResolver } from 'sanity/structure'
+import { ArtistEditionsView } from './components/ArtistEditionsView'
 import { isSingletonType, singletonListItem } from './lib/singleton'
 
 export const structure: StructureResolver = (S) =>
@@ -52,8 +54,30 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      // People & organizations referenced from editions and press
-      S.documentTypeListItem('artist').title('Artists').icon(UsersIcon),
+      // People & organizations referenced from editions and press.
+      // Artists get an "Editions" view tab listing the editions that
+      // reference them (the reverse of `edition.artists[]`).
+      S.listItem()
+        .id('artist')
+        .title('Artists')
+        .icon(UsersIcon)
+        .child(
+          S.documentTypeList('artist')
+            .title('Artists')
+            .child((artistId) =>
+              S.document()
+                .documentId(artistId)
+                .schemaType('artist')
+                .views([
+                  S.view.form(),
+                  S.view
+                    .component(ArtistEditionsView)
+                    .id('editions')
+                    .title('Editions')
+                    .icon(CalendarIcon),
+                ]),
+            ),
+        ),
       S.documentTypeListItem('organization').title('Organizations').icon(CaseIcon),
 
       // Anything else the schema adds that isn't a singleton or pressed-up
