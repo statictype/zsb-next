@@ -3,13 +3,13 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 
 // Conditional required: an `upcoming` edition can be saved with only
 // year, status, and theme set; everything else is filled in over time
-// and only enforced when the editor flips status to `published`.
-function requiredWhenPublished(value: unknown, context: { document?: unknown }): true | string {
+// and only enforced when the editor flips status to `live`.
+function requiredWhenLive(value: unknown, context: { document?: unknown }): true | string {
   const status = (context.document as { status?: string } | undefined)?.status
-  if (status !== 'published') return true
-  if (value === undefined || value === null) return 'Required when status is Published'
-  if (typeof value === 'string' && !value.trim()) return 'Required when status is Published'
-  if (Array.isArray(value) && value.length === 0) return 'Required when status is Published'
+  if (status !== 'live') return true
+  if (value === undefined || value === null) return 'Required when status is Live'
+  if (typeof value === 'string' && !value.trim()) return 'Required when status is Live'
+  if (Array.isArray(value) && value.length === 0) return 'Required when status is Live'
   return true
 }
 
@@ -41,13 +41,13 @@ export const edition = defineType({
       name: 'status',
       title: 'Status',
       description:
-        'Upcoming editions show on the homepage with a "Coming soon" badge instead of a link. Switch to Published once the edition page is ready to go live.',
+        'Upcoming editions show on the homepage with a "Coming soon" badge instead of a link. Switch to Live once the edition page is ready and should be reachable. ("Live" is distinct from Sanity\'s own publish/draft state — a published document can still be an Upcoming edition.)',
       type: 'string',
       group: 'hero',
       options: {
         list: [
           { title: 'Upcoming', value: 'upcoming' },
-          { title: 'Published', value: 'published' },
+          { title: 'Live', value: 'live' },
         ],
         layout: 'radio',
       },
@@ -68,7 +68,7 @@ export const edition = defineType({
       description: 'Substring of the theme to emphasize visually',
       type: 'string',
       group: 'hero',
-      validation: (rule) => rule.custom(requiredWhenPublished),
+      validation: (rule) => rule.custom(requiredWhenLive),
     }),
     defineField({
       name: 'title',
@@ -76,7 +76,7 @@ export const edition = defineType({
       description: 'Browser tab / SEO title',
       type: 'string',
       group: 'hero',
-      validation: (rule) => rule.custom(requiredWhenPublished),
+      validation: (rule) => rule.custom(requiredWhenLive),
     }),
     defineField({
       name: 'dateTape',
@@ -85,7 +85,7 @@ export const edition = defineType({
         'Dates + venue line shown under the hero, e.g. "16.04-11.05 · Combinatul Fondului Plastic"',
       type: 'string',
       group: 'hero',
-      validation: (rule) => rule.custom(requiredWhenPublished),
+      validation: (rule) => rule.custom(requiredWhenLive),
     }),
     defineField({
       name: 'heroImage',
@@ -107,7 +107,7 @@ export const edition = defineType({
             }),
         }),
       ],
-      validation: (rule) => rule.custom(requiredWhenPublished),
+      validation: (rule) => rule.custom(requiredWhenLive),
     }),
     defineField({
       name: 'thumbImage',
@@ -136,28 +136,28 @@ export const edition = defineType({
       title: 'Manifesto',
       type: 'object',
       group: 'manifesto',
-      validation: (rule) => rule.custom(requiredWhenPublished),
+      validation: (rule) => rule.custom(requiredWhenLive),
       fields: [
         defineField({
           name: 'title',
           title: 'Title',
           description: 'Short manifesto phrase, e.g. "Forms that hold, not dominate"',
           type: 'string',
-          validation: (rule) => rule.custom(requiredWhenPublished),
+          validation: (rule) => rule.custom(requiredWhenLive),
         }),
         defineField({
           name: 'highlight',
           title: 'Highlight',
           description: 'Substring of the title to emphasize (may also be appended text)',
           type: 'string',
-          validation: (rule) => rule.custom(requiredWhenPublished),
+          validation: (rule) => rule.custom(requiredWhenLive),
         }),
         defineField({
           name: 'body',
           title: 'Body',
           type: 'text',
           rows: 6,
-          validation: (rule) => rule.custom(requiredWhenPublished),
+          validation: (rule) => rule.custom(requiredWhenLive),
         }),
       ],
     }),
@@ -167,7 +167,7 @@ export const edition = defineType({
       title: 'Theme section',
       type: 'object',
       group: 'theme',
-      validation: (rule) => rule.custom(requiredWhenPublished),
+      validation: (rule) => rule.custom(requiredWhenLive),
       fields: [
         defineField({
           name: 'body',
@@ -175,7 +175,7 @@ export const edition = defineType({
           description: 'Longer prose for the theme section. Renders as one paragraph.',
           type: 'text',
           rows: 8,
-          validation: (rule) => rule.custom(requiredWhenPublished),
+          validation: (rule) => rule.custom(requiredWhenLive),
         }),
       ],
     }),
@@ -186,7 +186,7 @@ export const edition = defineType({
       type: 'array',
       group: 'artists',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'artist' }] })],
-      validation: (rule) => rule.custom(requiredWhenPublished).unique(),
+      validation: (rule) => rule.custom(requiredWhenLive).unique(),
     }),
 
     defineField({
@@ -287,7 +287,7 @@ export const edition = defineType({
         defineArrayMember({ type: 'creditOrgList' }),
         defineArrayMember({ type: 'creditText' }),
       ],
-      validation: (rule) => rule.custom(requiredWhenPublished),
+      validation: (rule) => rule.custom(requiredWhenLive),
     }),
   ],
   preview: {

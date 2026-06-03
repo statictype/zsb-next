@@ -3097,7 +3097,7 @@
             },
             {
               "type": "string",
-              "value": "published"
+              "value": "live"
             }
           ]
         },

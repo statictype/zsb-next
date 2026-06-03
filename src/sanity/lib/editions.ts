@@ -21,7 +21,7 @@ import { EDITION_BY_YEAR_QUERY, EDITION_YEARS_QUERY, EDITIONS_LIST_QUERY } from 
 export interface EditionListItem {
   year: number
   theme: string
-  status: 'upcoming' | 'published'
+  status: 'upcoming' | 'live'
 }
 
 type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
@@ -211,7 +211,7 @@ export async function getEditionsListFromSanity(
       {
         year: entry.year,
         theme: entry.theme,
-        status: entry.status === 'upcoming' ? 'upcoming' : 'published',
+        status: entry.status === 'upcoming' ? 'upcoming' : 'live',
       },
     ]
   })

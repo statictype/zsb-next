@@ -170,11 +170,14 @@ export const EDITION_YEARS_QUERY = defineQuery(`
   *[_type == "edition" && defined(year)] | order(year desc).year
 `)
 
-// Only published editions have a viewable page. Upcoming editions show on
-// the homepage list with a "Coming soon" badge but don't get a dedicated
-// route — fetching one returns null so the route 404s.
+// Only live editions have a viewable page. "Upcoming" is the single
+// special-case status (shows on the homepage with a "Coming soon" badge,
+// no dedicated route); everything else is reachable. Matched as
+// `!= "upcoming"` rather than `== "live"` so the public route never 404s
+// during the published→live value migration. Fetching an upcoming edition
+// returns null so the route 404s.
 export const EDITION_BY_YEAR_QUERY = defineQuery(`
-  *[_type == "edition" && year == $year && status == "published"][0] {
+  *[_type == "edition" && year == $year && status != "upcoming"][0] {
     _id,
     year,
     title,

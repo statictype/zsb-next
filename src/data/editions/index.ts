@@ -46,9 +46,9 @@ export async function getAllEditionYears(): Promise<number[]> {
 /**
  * Merged edition list for the homepage cards. Sanity entries win when
  * both sources have the same year — Sanity is where `status` lives, so
- * an editor flipping an upcoming → published row updates the homepage.
+ * an editor flipping an upcoming → live row updates the homepage.
  * Static fallback fills in years not yet authored in Sanity, always as
- * "published" (the page exists).
+ * "live" (the page exists).
  */
 export async function getEditionListItems(
   options: DynamicFetchOptions,
@@ -58,7 +58,7 @@ export async function getEditionListItems(
 
   const staticFallback: EditionListItem[] = Object.values(staticEditions)
     .filter((e) => !sanityYears.has(e.year))
-    .map((e) => ({ year: e.year, theme: e.theme, status: 'published' as const }))
+    .map((e) => ({ year: e.year, theme: e.theme, status: 'live' as const }))
 
   return [...sanityList, ...staticFallback].sort((a, b) => b.year - a.year)
 }

@@ -66,8 +66,8 @@ function FooterShell({
 }) {
   const socials = buildSocialLinks(settings)
   const contactHref = settings?.contactEmail ? `mailto:${settings.contactEmail}` : undefined
-  // Explore column: published editions only, most recent first.
-  const exploreEditions = editions.filter((e) => e.status === 'published').slice(0, EXPLORE_LIMIT)
+  // Explore column: live editions only, most recent first.
+  const exploreEditions = editions.filter((e) => e.status === 'live').slice(0, EXPLORE_LIMIT)
 
   return (
     <footer className={styles.footer}>
