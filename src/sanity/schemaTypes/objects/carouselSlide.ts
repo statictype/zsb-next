@@ -37,56 +37,9 @@ const carouselImageMember = defineArrayMember({
   },
 })
 
-function slideType({ name, title, count }: { name: string; title: string; count: 1 | 2 | 3 }) {
-  return defineType({
-    name,
-    title,
-    type: 'object',
-    fields: [
-      defineField({
-        name: 'images',
-        title: 'Images',
-        type: 'array',
-        of: [carouselImageMember],
-        validation: (rule) =>
-          rule
-            .required()
-            .length(count)
-            .error(`This layout requires exactly ${count} image${count === 1 ? '' : 's'}`),
-      }),
-    ],
-    preview: {
-      select: { media: 'images.0.image' },
-      prepare({ media }) {
-        return { title, subtitle: `${count} image${count === 1 ? '' : 's'}`, media }
-      },
-    },
-  })
-}
-
-// --- Legacy: five per-layout slide types ---------------------------------
-// Kept registered during the carousel-collapse migration (expand phase) so
-// existing `edition.carousel[]` items still validate while data is migrated
-// to the unified `carouselSlide` below. Removed in the contract phase once
-// the migration has run. See docs/cms-rollout-plan.md Step 6.
-export const slideFull = slideType({ name: 'slideFull', title: 'Full slide', count: 1 })
-export const slideDuo = slideType({ name: 'slideDuo', title: 'Duo slide', count: 2 })
-export const slideFeaturedPortrait = slideType({
-  name: 'slideFeaturedPortrait',
-  title: 'Featured portrait slide',
-  count: 2,
-})
-export const slideTrio = slideType({ name: 'slideTrio', title: 'Trio slide', count: 3 })
-export const slideFeaturedStack = slideType({
-  name: 'slideFeaturedStack',
-  title: 'Featured stack slide',
-  count: 3,
-})
-
-// --- Unified slide type (ADR 0010) ----------------------------------------
-// One object, a `layout` enum, and a length-validated `images` array whose
-// required count is derived from the chosen layout. Replaces the five types
-// above after the migration.
+// One slide type (ADR 0010): a `layout` enum plus a length-validated `images`
+// array whose required count is derived from the chosen layout. Replaced the
+// five legacy per-layout slide types after the carousel-collapse migration.
 const CAROUSEL_LAYOUTS = [
   { title: 'Full (1 image)', value: 'full', count: 1 },
   { title: 'Duo (2 images)', value: 'duo', count: 2 },

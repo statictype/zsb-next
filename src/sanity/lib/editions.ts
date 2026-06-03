@@ -31,17 +31,6 @@ interface SanityImage {
   alt?: string | null
 }
 
-// Legacy per-type → layout map. Used as a fallback for carousel items that
-// haven't been migrated to the unified `carouselSlide` (which carries `layout`
-// directly). Remove with the contract phase. See cms-rollout-plan.md Step 6.
-const SLIDE_LAYOUTS: Record<string, CarouselLayout> = {
-  slideFull: 'full',
-  slideDuo: 'duo',
-  slideFeaturedPortrait: 'featured-portrait',
-  slideTrio: 'trio',
-  slideFeaturedStack: 'featured-stack',
-}
-
 const LAYOUT_VALUES: readonly CarouselLayout[] = [
   'full',
   'duo',
@@ -50,13 +39,10 @@ const LAYOUT_VALUES: readonly CarouselLayout[] = [
   'featured-stack',
 ]
 
-// Dual-read: prefer the unified slide's `layout`, fall back to the legacy
-// `_type` map for not-yet-migrated items.
-function slideLayout(slide: { _type: string; layout?: string | null }): CarouselLayout | undefined {
-  if (slide.layout && (LAYOUT_VALUES as readonly string[]).includes(slide.layout)) {
-    return slide.layout as CarouselLayout
-  }
-  return SLIDE_LAYOUTS[slide._type]
+function asLayout(value: string | null | undefined): CarouselLayout | undefined {
+  return value && (LAYOUT_VALUES as readonly string[]).includes(value)
+    ? (value as CarouselLayout)
+    : undefined
 }
 
 const MONTHS = [
@@ -93,20 +79,18 @@ function formatDateRange(startIso: string, endIso: string): string | undefined {
   return `${s.d} ${MONTHS[s.m - 1]} ${s.y} – ${e.d} ${MONTHS[e.m - 1]} ${e.y}`
 }
 
-// Dual-read: compose the hero date tape from the typed fields when present,
-// else fall back to the legacy free-text `dateTape`. The renderer owns the
-// `·` glyph so it stays consistent across editions.
+// Compose the hero date tape from the typed fields. The mapper owns the `·`
+// glyph so it stays consistent across editions. Empty string if the dates are
+// missing (only possible on a malformed doc — live editions require them).
 function composeDateTape(raw: {
   dateStart?: string | null
   dateEnd?: string | null
   venueLine?: string | null
-  dateTape?: string | null
 }): string {
-  if (raw.dateStart && raw.dateEnd) {
-    const range = formatDateRange(raw.dateStart, raw.dateEnd)
-    if (range) return raw.venueLine ? `${range} · ${raw.venueLine}` : range
-  }
-  return raw.dateTape ?? ''
+  if (!raw.dateStart || !raw.dateEnd) return ''
+  const range = formatDateRange(raw.dateStart, raw.dateEnd)
+  if (!range) return ''
+  return raw.venueLine ? `${range} · ${raw.venueLine}` : range
 }
 
 function toImageData(field: SanityImage | null | undefined): ImageData | undefined {
@@ -128,7 +112,7 @@ function mapCarousel(slides: SanityEdition['carousel']): CarouselSlide[] | undef
   if (!slides?.length) return undefined
   const out: CarouselSlide[] = []
   for (const slide of slides) {
-    const layout = slideLayout(slide)
+    const layout = asLayout(slide.layout)
     if (!layout) continue
     const images = (slide.images ?? []).map(mapCarouselImage)
     if (layout === 'full' && images.length === 1) {
@@ -190,11 +174,8 @@ function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
         value: row.organizations.map((o) => o.name).join('\n'),
       })
     } else if (row._type === 'creditText') {
-      // Dual-read: prefer the `names` array, fall back to the legacy
-      // newline-joined `value` for not-yet-migrated rows.
-      const names = row.names?.filter((n): n is string => Boolean(n?.trim()))
-      const value = names?.length ? names.join('\n') : (row.value ?? '')
-      out.push({ type: row.type, label: row.label, value })
+      const names = row.names?.filter((n): n is string => Boolean(n?.trim())) ?? []
+      out.push({ type: row.type, label: row.label, value: names.join('\n') })
     }
   }
   return out

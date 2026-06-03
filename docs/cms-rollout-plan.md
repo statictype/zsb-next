@@ -124,9 +124,9 @@ Four singletons in two commits.
 
 **Heads-up:** the press page's `HeroTitle` helper is now the **5th** copy of the accent-split pattern (homepage, about, partners, privacy, press). AccentSplit extraction follow-up should land soon to avoid this drifting further.
 
-### `[~]` Step 6 — Edition schema cleanups + migration
+### `[x]` Step 6 — Edition schema cleanups + migration
 
-_Update 2026-06-03: substring validation (#3) and the artist reverse-reference view (#5) shipped. Still pending — all migration-bearing, run as one zero-downtime pass (expand → migrate → contract, see below): carousel collapse (#1), `dateTape` typing (#2), and the `creditText`→array half of #4._
+_Update 2026-06-03: **all of Step 6 shipped.** Substring validation (#3) and the artist reverse-reference view (#5) landed earlier; carousel collapse (#1), `dateTape` typing (#2), and `creditText`→`names[]` (#4) shipped via the zero-downtime expand → migrate → contract pass below (expand `1fb621b`, migration scripts `07accf5`, contract committed alongside this doc update)._
 
 _Decisions locked 2026-06-03 (production data audited first — all four live editions 2022–2025 carry `dateTape`, carousel, and multi-line `creditText`):_
 - _**#2 `dateTape` → typed, not free-text.** Split into `dateStart` (date) + `dateEnd` (date, `≥ dateStart`) + `venueLine` (string), all required-when-live. The four stored values have **no consistent format** (`"16–18 April 2022"` vs `"16.04-11.05"`, separator `·` vs `///`), so the migration uses an **explicit per-year map** (not a parser) — deterministic for N=4. The mapper composes these back into the runtime `Edition.dateTape` string, so `Hero.tsx` and the runtime type are unchanged; the renderer/mapper now own a single canonical format (en-GB written month: `16–18 April 2022` same-month, `16 April – 11 May 2024` cross-month) and a single `·` glyph. 2024/2025 visibly switch from `16.04-11.05` to the unified written form — intended normalization._
@@ -138,19 +138,21 @@ _Decisions locked 2026-06-03 (production data audited first — all four live ed
 2. **Migrate.** Three idempotent scripts, `raw` perspective (catches drafts), `--dry` then apply. Publishing fires the existing revalidate webhook → affected edition pages re-render automatically.
 3. **Commit 2 — Contract (later deploy, batchable).** Drop old fields/types from schema, query, and mapper fallbacks; mark new fields required-when-live. Site is never broken if this slips.
 
+**Shipped.** All three phases ran cleanly with no frontend downtime. The three dry-runs matched the production audit exactly (22 carousel slides, 4 dateTapes, 16 creditText rows; no draft versions); applying them and the contract deploy verified live — 2024/2025 now render `16 April – 11 May …` from the typed fields. The legacy `dateTape` / `creditText.value` *data* still sits orphaned on the four docs (the schema fields are gone; the query no longer reads them) — harmless, can be unset in a future cleanup if desired.
+
 The audit surfaced UX issues in the existing edition schema worth fixing before any more editions are authored against it.
 
 **Schema changes:**
-1. `[ ]` Collapse the five `slide*` document types (`slideFull`, `slideDuo`, `slideFeaturedPortrait`, `slideTrio`, `slideFeaturedStack`) into one `carouselSlide` object with a `layout` enum + length-validated images. See [ADR 0010](./adr/0010-collapse-carousel-slide-types.md). **Not started** — note the file `src/sanity/schemaTypes/objects/carouselSlide.ts` already exists but still exports all five `slide*` types (it was renamed without collapsing); `edition.carousel` and `schemaTypes/index.ts` still register all five.
-2. `[ ]` Type `dateTape` ("16.04-11.05 · Combinatul Fondului Plastic"): split into `dateStart` (date) + `dateEnd` (date, validated `≥ dateStart`) + `venueLine` (string), required-when-live. The mapper composes them into the runtime `Edition.dateTape` string with a single canonical en-GB written-month format + `·` glyph; `Hero.tsx` and the `Edition` type are unchanged. Still a single free-text string in the schema.
+1. `[x]` **Shipped.** Collapsed the five `slide*` types into one `carouselSlide` object (`layout` enum + `images` array whose required count is derived from the layout via a custom rule). See [ADR 0010](./adr/0010-collapse-carousel-slide-types.md). `carouselSlide.ts` now exports only `carouselSlide`; `edition.carousel.of` and `schemaTypes/index.ts` register only it. The mapper reads `slide.layout` directly (the legacy `_type`→layout map is gone). _(`carouselImage` was **not** folded into `imageFieldWithAlt` — it's an array member wrapping `{image, caption}`, a different shape; stays as its own follow-up if wanted.)_
+2. `[x]` **Shipped.** Typed `dateTape` into `dateStart` (date) + `dateEnd` (date, validated `≥ dateStart`) + `venueLine` (string), all required-when-live. The mapper composes them into the runtime `Edition.dateTape` string with a single canonical en-GB written-month format + `·` glyph; `Hero.tsx` and the `Edition` type are unchanged. The legacy `dateTape` schema field is removed.
 3. `[x]` **Shipped 2026-06-03.** Extracted the substring-validation closure into `isSubstringOf(siblingField, siblingLabel)` in `src/sanity/schemaTypes/shared/substringValidator.ts` and applied it to **four** places: homepage hero, `pageHero`, partners CTA, and `edition.themeHighlight` (chained after `requiredWhenLive`). **Divergence from the original plan:** `manifesto.highlight` is intentionally **excluded** — a production check showed the live 2022 edition's highlight (`"it is assumed."`) is appended text, not a substring of its title (`"Perspective is not observed, "`), and the Manifesto renderer supports that (`split()` returns the whole title, then appends the highlight span). A strict substring check there would wrongly flag valid content. The helper's docstring records this.
-4. `[~]` Store credit org lists as arrays, not newline-joined strings. **Partially done:** `creditOrgList` (array of organization references) shipped. Remaining: convert `creditText.value` (newline-joined string, "Use newlines to separate multiple names") to a `names[]` string array. Every 2022–2025 edition has `creditText` rows, several multi-name (e.g. 2025 Photo Credit = "Sorin Nainer\nDarie Dup\nStefan Bogdan\nFlorin Aldea"), so this needs the data migration below (split on `\n`). **Authoring-surface change only** — the runtime mapper in `editions.ts` already flattens all three credit types to a newline-joined `value`, so the renderer and `CreditEntry` type are unaffected.
+4. `[x]` **Shipped.** Store credit org lists as arrays, not newline-joined strings. `creditOrgList` (array of organization references) shipped earlier; now `creditText.value` (newline-joined string) is replaced by a `names[]` string array (`required().min(1).unique()`). **Authoring-surface change only** — the mapper joins `names` with `\n` into the runtime `value`, so the renderer and `CreditEntry` type are unaffected. The legacy `value` schema field is removed.
 5. `[x]` **Shipped 2026-06-03.** Added an "Editions" document-view tab on `artist` via `S.view.component`. The artist node in `structure.ts` now resolves to `S.document().views([S.view.form(), S.view.component(ArtistEditionsView)…])`. `src/sanity/components/ArtistEditionsView.tsx` queries `*[_type == "edition" && references($id) && !(_id in path("drafts.**"))]`, lists referencing editions year-desc, and links into each via `IntentLink`. Built with `@sanity/ui` primitives (see the `@sanity/ui` note under Cross-cutting follow-ups).
 
 **Migrations** (run *after* Commit 1 deploys; each an idempotent `tsx` script using the `raw` perspective like `sanity-migrate-edition-status-live.ts`; `--dry` first, then apply):
-- `[ ]` Carousel slide collapse: walk every `edition.carousel[]`, derive `layout` from `_type`, set `_type` to `carouselSlide`.
-- `[ ]` `dateTape` typing: apply the explicit per-year `{dateStart, dateEnd, venueLine}` map (2022: 04-16→04-18; 2023: 04-18→04-29; 2024: 04-16→05-11; 2025: 04-16→05-11; venueLine "Combinatul Fondului Plastic" for all). Deterministic, no parsing.
-- `[ ]` `creditText` → array: for each `edition.credits[_type == "creditText"]`, split `value` on `\n` into a new `names` array, then drop `value` (Commit 2). Pairs with the schema change in #4. Dry-run first.
+- `[x]` Carousel slide collapse (`scripts/sanity-migrate-carousel-slide.ts`): set each item's `layout` from `_type`, then `_type` → `carouselSlide`. 22 slides across 4 editions.
+- `[x]` `dateTape` typing (`scripts/sanity-migrate-datetape.ts`): explicit per-year `{dateStart, dateEnd, venueLine}` map (2022: 04-16→04-18; 2023: 04-18→04-29; 2024: 04-16→05-11; 2025: 04-16→05-11; venueLine "Combinatul Fondului Plastic" for all). Deterministic, no parsing. 4 editions.
+- `[x]` `creditText` → array (`scripts/sanity-migrate-credittext-names.ts`): split `value` on `\n` into `names`. 16 rows across 4 editions. (Legacy `value` *data* left in place; schema field removed in the contract commit.)
 - `[x]` `edition.status` backfill — **done.** All editions carry a status (2022-2025 `live`, 2026 `upcoming`); see the rename note below. The script `scripts/sanity-migrate-edition-status-live.ts` is the published→live value migration (idempotent).
 
 Static `src/data/editions/{2022..2025}.ts` are unaffected (they're the fallback shape, not stored in Sanity).
@@ -202,7 +204,7 @@ Active tasks live in the local task tracker (`TaskList`). Map between this doc a
 | Step 3 (shipped) | #7 |
 | Step 4 (shipped) | #8 |
 | Step 5 (shipped) | #9 |
-| Step 6 (in progress) | #10 |
+| Step 6 (shipped) | #10 |
 | Singleton seed script (shipped) | #13 |
 | typegen watch | #12 |
 

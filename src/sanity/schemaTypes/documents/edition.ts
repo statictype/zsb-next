@@ -80,29 +80,15 @@ export const edition = defineType({
       group: 'hero',
       validation: (rule) => rule.custom(requiredWhenLive),
     }),
-    // Legacy free-text date tape. Kept (optional) during the dateTape-typing
-    // migration so live editions still validate before their dateStart/dateEnd/
-    // venueLine are backfilled. Removed in the contract phase. The runtime
-    // composes the hero string from the typed fields below when they're set,
-    // falling back to this. See docs/cms-rollout-plan.md Step 6.
-    defineField({
-      name: 'dateTape',
-      title: 'Date tape (legacy)',
-      description: 'Being replaced by Start date / End date / Venue line. Leave as-is.',
-      type: 'string',
-      group: 'hero',
-      readOnly: true,
-    }),
-    // dateStart / dateEnd / venueLine are optional during the expand phase so
-    // the not-yet-migrated live editions still validate. They become
-    // required-when-live in the contract phase once the migration has filled
-    // them. See docs/cms-rollout-plan.md Step 6.
+    // The hero date tape, composed by the renderer from the typed fields below
+    // (dates + venue line), with a single canonical format + glyph.
     defineField({
       name: 'dateStart',
       title: 'Start date',
       type: 'date',
       group: 'hero',
       options: { dateFormat: 'DD MMMM YYYY' },
+      validation: (rule) => rule.custom(requiredWhenLive),
     }),
     defineField({
       name: 'dateEnd',
@@ -111,7 +97,7 @@ export const edition = defineType({
       group: 'hero',
       options: { dateFormat: 'DD MMMM YYYY' },
       validation: (rule) =>
-        rule.custom((end, context) => {
+        rule.custom(requiredWhenLive).custom((end, context) => {
           const start = (context.parent as { dateStart?: string } | undefined)?.dateStart
           if (typeof end === 'string' && typeof start === 'string' && end < start) {
             return 'End date must be on or after the start date'
@@ -125,6 +111,7 @@ export const edition = defineType({
       description: 'Venue shown after the dates, e.g. "Combinatul Fondului Plastic"',
       type: 'string',
       group: 'hero',
+      validation: (rule) => rule.custom(requiredWhenLive),
     }),
     // Alt is required whenever an image is actually uploaded, regardless of edition status.
     imageFieldWithAlt({
@@ -224,17 +211,7 @@ export const edition = defineType({
         'Optional. Press images / exhibition photography, typically added during or after the event.',
       type: 'array',
       group: 'carousel',
-      // Expand phase: accept the unified `carouselSlide` and the five legacy
-      // slide types side by side so existing items validate while the
-      // migration runs. The legacy members are dropped in the contract phase.
-      of: [
-        defineArrayMember({ type: 'carouselSlide' }),
-        defineArrayMember({ type: 'slideFull' }),
-        defineArrayMember({ type: 'slideDuo' }),
-        defineArrayMember({ type: 'slideFeaturedPortrait' }),
-        defineArrayMember({ type: 'slideTrio' }),
-        defineArrayMember({ type: 'slideFeaturedStack' }),
-      ],
+      of: [defineArrayMember({ type: 'carouselSlide' })],
     }),
 
     defineField({

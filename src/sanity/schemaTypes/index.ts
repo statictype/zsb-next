@@ -12,14 +12,7 @@ import { privacyPage } from './documents/privacyPage'
 import { siteSettings } from './documents/siteSettings'
 import { visitPage } from './documents/visitPage'
 import { amenity } from './objects/amenity'
-import {
-  carouselSlide,
-  slideDuo,
-  slideFeaturedPortrait,
-  slideFeaturedStack,
-  slideFull,
-  slideTrio,
-} from './objects/carouselSlide'
+import { carouselSlide } from './objects/carouselSlide'
 import { creditOrg, creditOrgList, creditText } from './objects/creditRow'
 import { heroSlide } from './objects/heroSlide'
 import { pageHero } from './objects/pageHero'
@@ -57,9 +50,4 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   venueEntry,
   whyPoint,
   carouselSlide,
-  slideFull,
-  slideDuo,
-  slideFeaturedPortrait,
-  slideTrio,
-  slideFeaturedStack,
 ]
