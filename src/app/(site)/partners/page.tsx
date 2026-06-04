@@ -15,12 +15,17 @@ import { getSiteSettings } from '@/sanity/lib/settings'
 import { getPartnersPage, type PartnersPage } from '@/sanity/lib/staticPages'
 import styles from './page.module.css'
 
-export const metadata = pageMetadata({
-  title: 'Partners',
-  description:
-    'Partner with Bucharest Sculpture Days — Romania’s annual platform for contemporary sculpture.',
-  path: '/partners',
-})
+export async function generateMetadata() {
+  const { perspective } = await getDynamicFetchOptions()
+  const page = await getPartnersPage({ perspective, stega: false })
+  return pageMetadata({
+    title: 'Partners',
+    description:
+      'Partner with Bucharest Sculpture Days — Romania’s annual platform for contemporary sculpture.',
+    path: '/partners',
+    shareImage: page?.ogImage,
+  })
+}
 
 function pad(n: number): string {
   return String(n).padStart(2, '0')

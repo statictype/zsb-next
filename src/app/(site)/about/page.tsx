@@ -10,12 +10,17 @@ import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/l
 import { type AboutPage, getAboutPage } from '@/sanity/lib/staticPages'
 import styles from './page.module.css'
 
-export const metadata = pageMetadata({
-  title: 'About',
-  description:
-    'Bucharest Sculpture Days — an annual platform for Romanian contemporary sculpture, born online in 2021.',
-  path: '/about',
-})
+export async function generateMetadata() {
+  const { perspective } = await getDynamicFetchOptions()
+  const page = await getAboutPage({ perspective, stega: false })
+  return pageMetadata({
+    title: 'About',
+    description:
+      'Bucharest Sculpture Days — an annual platform for Romanian contemporary sculpture, born online in 2021.',
+    path: '/about',
+    shareImage: page?.ogImage,
+  })
+}
 
 function pad(n: number): string {
   return String(n).padStart(2, '0')

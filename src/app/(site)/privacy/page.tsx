@@ -11,13 +11,18 @@ import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/l
 import { getPrivacyPage, type PrivacyPage } from '@/sanity/lib/staticPages'
 import styles from './page.module.css'
 
-export const metadata = {
-  ...pageMetadata({
-    title: 'Privacy & Cookies',
-    description: `How ${SITE_NAME} handles your data and which cookies we use.`,
-    path: '/privacy',
-  }),
-  robots: { index: true, follow: true },
+export async function generateMetadata() {
+  const { perspective } = await getDynamicFetchOptions()
+  const page = await getPrivacyPage({ perspective, stega: false })
+  return {
+    ...pageMetadata({
+      title: 'Privacy & Cookies',
+      description: `How ${SITE_NAME} handles your data and which cookies we use.`,
+      path: '/privacy',
+      shareImage: page?.ogImage,
+    }),
+    robots: { index: true, follow: true },
+  }
 }
 
 const portableTextComponents: PortableTextComponents = {

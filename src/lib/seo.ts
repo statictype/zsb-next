@@ -1,7 +1,9 @@
 import { stegaClean } from '@sanity/client/stega'
+import type { SanityImageSource } from '@sanity/image-url'
 import type { Metadata } from 'next'
 import { SITE_NAME, SITE_URL } from '@/lib/constants'
-import { type AnyEdition, type Edition, isOnlineEdition } from '@/types/edition'
+import { urlFor } from '@/sanity/lib/image'
+import type { AnyEdition, Edition } from '@/types/edition'
 
 // Strings sourced from Sanity carry invisible Visual Editing characters
 // (stega) so the Presentation tool can map rendered text back to fields.
@@ -13,15 +15,52 @@ function clean<T extends string | undefined>(value: T): T {
   return (typeof value === 'string' ? stegaClean(value) : value) as T
 }
 
+// An editor-set image field from Sanity (image object with optional alt).
+type ShareImageSource = { asset?: unknown; alt?: string | null } | null | undefined
+
+// Resolve a Sanity share-image override to a 1200×630 OpenGraph image entry,
+// or undefined when the editor left it empty (so the page falls back to the
+// default branded card via the root opengraph-image route).
+function shareImages(source: ShareImageSource): NonNullable<Metadata['openGraph']>['images'] {
+  if (!source?.asset) return undefined
+  return [
+    {
+      url: urlFor(source as SanityImageSource)
+        .width(1200)
+        .height(630)
+        .fit('crop')
+        .url(),
+      width: 1200,
+      height: 630,
+      alt: clean(source.alt ?? undefined) || SITE_NAME,
+    },
+  ]
+}
+
 export function pageMetadata(args: {
   title?: string
   description: string
   path: string
+  /** Optional editor-set custom share image (Sanity image field). */
+  shareImage?: ShareImageSource
 }): Metadata {
+  const images = shareImages(args.shareImage)
   return {
     ...(args.title !== undefined && { title: clean(args.title) }),
     description: clean(args.description),
     alternates: { canonical: args.path },
+    // Only emit openGraph when overriding the image — re-declaring the global
+    // fields here because a page-level openGraph replaces the inherited one
+    // wholesale. With no override, the root opengraph-image card applies.
+    ...(images && {
+      openGraph: {
+        siteName: SITE_NAME,
+        locale: 'en_US',
+        type: 'website',
+        url: args.path,
+        images,
+      },
+    }),
   }
 }
 
@@ -51,9 +90,8 @@ export function editionMetadata(edition: AnyEdition): Metadata {
       description,
       type: 'article',
       url: path,
-      ...(!isOnlineEdition(edition) && {
-        images: [{ url: edition.heroImage.src, alt: clean(edition.heroImage.alt) }],
-      }),
+      // The share image is supplied by editions/[year]/opengraph-image (editor
+      // override or branded hero overlay); setting it here would duplicate it.
     },
     alternates: { canonical: path },
   }

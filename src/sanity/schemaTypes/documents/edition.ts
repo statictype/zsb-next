@@ -1,6 +1,7 @@
 import { CalendarIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { ogImageField } from '../shared/ogImageField'
 import { isSubstringOf } from '../shared/substringValidator'
 
 // Conditional required: an `upcoming` edition can be saved with only
@@ -30,6 +31,7 @@ export const edition = defineType({
     { name: 'carousel', title: 'Carousel' },
     { name: 'pressKit', title: 'Press kit' },
     { name: 'credits', title: 'Credits' },
+    { name: 'social', title: 'Social' },
   ],
   fields: [
     defineField({
@@ -249,6 +251,7 @@ export const edition = defineType({
       ],
       validation: (rule) => rule.custom(requiredWhenLive),
     }),
+    ogImageField({ group: 'social' }),
   ],
   preview: {
     select: { year: 'year', theme: 'theme', media: 'heroImage' },

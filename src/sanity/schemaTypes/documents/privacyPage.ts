@@ -1,5 +1,6 @@
 import { LockIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { ogImageField } from '../shared/ogImageField'
 
 export const privacyPage = defineType({
   name: 'privacyPage',
@@ -73,6 +74,7 @@ export const privacyPage = defineType({
       type: 'date',
       validation: (rule) => rule.required(),
     }),
+    ogImageField(),
   ],
   preview: { prepare: () => ({ title: 'Privacy' }) },
 })

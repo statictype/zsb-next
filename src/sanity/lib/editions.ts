@@ -193,6 +193,7 @@ function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
 // are belt-and-suspenders for an unexpected dataset shape.
 function mapEdition(raw: SanityEdition): Edition {
   const thumb = toImageData(raw.thumbImage)
+  const ogImage = toImageData(raw.ogImage)
   const carousel = mapCarousel(raw.carousel)
   return {
     year: raw.year,
@@ -205,6 +206,7 @@ function mapEdition(raw: SanityEdition): Edition {
     venueLine: raw.venueLine ?? '',
     heroImage: requireImageData(raw.heroImage, 'heroImage'),
     ...(thumb ? { thumbImage: thumb } : {}),
+    ...(ogImage ? { ogImage } : {}),
     manifesto: {
       title: raw.manifesto?.title ?? '',
       highlight: raw.manifesto?.highlight ?? '',

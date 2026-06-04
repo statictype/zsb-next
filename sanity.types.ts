@@ -325,6 +325,14 @@ export type PrivacyPage = {
     _key: string
   }>
   updatedAt: string
+  ogImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
 }
 
 export type PressPage = {
@@ -334,6 +342,14 @@ export type PressPage = {
   _updatedAt: string
   _rev: string
   hero: PageHero
+  ogImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
 }
 
 export type VisitPage = {
@@ -365,6 +381,14 @@ export type VisitPage = {
       _key: string
     } & TransportRoute
   >
+  ogImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
 }
 
 export type PartnersPage = {
@@ -403,6 +427,14 @@ export type PartnersPage = {
   ctaHeadingAccent: string
   ctaBody: string
   ctaLabel: string
+  ogImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
 }
 
 export type AboutPage = {
@@ -440,6 +472,14 @@ export type AboutPage = {
   curatorName: string
   curatorRole: string
   curatorLetter: Array<string>
+  ogImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
 }
 
 export type Homepage = {
@@ -459,6 +499,14 @@ export type Homepage = {
     } & HeroSlide
   >
   editionsIntro: string
+  ogImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
 }
 
 export type ArtistReference = {
@@ -551,6 +599,14 @@ export type Edition = {
         _key: string
       } & CreditText)
   >
+  ogImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
 }
 
 export type SiteSettings = {
@@ -723,7 +779,7 @@ export type SITE_SETTINGS_QUERY_RESULT =
 
 // Source: src/sanity/lib/queries.ts
 // Variable: HOMEPAGE_QUERY
-// Query: *[_id == "homepage"][0]{    heroTitle,    heroTitleAccent,    heroLead,    heroCtaLabel,    "heroCtaEditionYear": heroCtaEdition->year,    slideshow[]{      _key,      position,      image    },    editionsIntro  }
+// Query: *[_id == "homepage"][0]{    heroTitle,    heroTitleAccent,    heroLead,    heroCtaLabel,    "heroCtaEditionYear": heroCtaEdition->year,    slideshow[]{      _key,      position,      image    },    editionsIntro,    ogImage  }
 export type HOMEPAGE_QUERY_RESULT =
   | {
       heroTitle: null
@@ -733,6 +789,24 @@ export type HOMEPAGE_QUERY_RESULT =
       heroCtaEditionYear: null
       slideshow: null
       editionsIntro: null
+      ogImage: null
+    }
+  | {
+      heroTitle: null
+      heroTitleAccent: null
+      heroLead: null
+      heroCtaLabel: null
+      heroCtaEditionYear: null
+      slideshow: null
+      editionsIntro: null
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | {
       heroTitle: string
@@ -753,6 +827,14 @@ export type HOMEPAGE_QUERY_RESULT =
         }
       }>
       editionsIntro: string
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | null
 
@@ -767,7 +849,7 @@ export type EDITIONS_LIST_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ABOUT_PAGE_QUERY
-// Query: *[_id == "aboutPage"][0]{    hero,    notFestivalTitle,    notFestivalBody,    pillars,    placeImage,    curatorEyebrow,    curatorHeadline,    curatorPortrait,    curatorName,    curatorRole,    curatorLetter  }
+// Query: *[_id == "aboutPage"][0]{    hero,    notFestivalTitle,    notFestivalBody,    pillars,    placeImage,    curatorEyebrow,    curatorHeadline,    curatorPortrait,    curatorName,    curatorRole,    curatorLetter,    ogImage  }
 export type ABOUT_PAGE_QUERY_RESULT =
   | {
       hero: PageHero
@@ -781,6 +863,14 @@ export type ABOUT_PAGE_QUERY_RESULT =
       curatorName: null
       curatorRole: null
       curatorLetter: null
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | {
       hero: null
@@ -794,6 +884,28 @@ export type ABOUT_PAGE_QUERY_RESULT =
       curatorName: null
       curatorRole: null
       curatorLetter: null
+      ogImage: null
+    }
+  | {
+      hero: null
+      notFestivalTitle: null
+      notFestivalBody: null
+      pillars: null
+      placeImage: null
+      curatorEyebrow: null
+      curatorHeadline: null
+      curatorPortrait: null
+      curatorName: null
+      curatorRole: null
+      curatorLetter: null
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | {
       hero: PageHero
@@ -825,12 +937,20 @@ export type ABOUT_PAGE_QUERY_RESULT =
       curatorName: string
       curatorRole: string
       curatorLetter: Array<string>
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: PARTNERS_PAGE_QUERY
-// Query: *[_id == "partnersPage"][0]{    hero,    eventTitle,    eventBody,    eventImage,    whyEyebrow,    whyTitle,    whyImage,    whyPoints,    ctaHeading,    ctaHeadingAccent,    ctaBody,    ctaLabel  }
+// Query: *[_id == "partnersPage"][0]{    hero,    eventTitle,    eventBody,    eventImage,    whyEyebrow,    whyTitle,    whyImage,    whyPoints,    ctaHeading,    ctaHeadingAccent,    ctaBody,    ctaLabel,    ogImage  }
 export type PARTNERS_PAGE_QUERY_RESULT =
   | {
       hero: PageHero
@@ -845,6 +965,14 @@ export type PARTNERS_PAGE_QUERY_RESULT =
       ctaHeadingAccent: null
       ctaBody: null
       ctaLabel: null
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | {
       hero: null
@@ -859,6 +987,29 @@ export type PARTNERS_PAGE_QUERY_RESULT =
       ctaHeadingAccent: null
       ctaBody: null
       ctaLabel: null
+      ogImage: null
+    }
+  | {
+      hero: null
+      eventTitle: null
+      eventBody: null
+      eventImage: null
+      whyEyebrow: null
+      whyTitle: null
+      whyImage: null
+      whyPoints: null
+      ctaHeading: null
+      ctaHeadingAccent: null
+      ctaBody: null
+      ctaLabel: null
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | {
       hero: PageHero
@@ -891,12 +1042,20 @@ export type PARTNERS_PAGE_QUERY_RESULT =
       ctaHeadingAccent: string
       ctaBody: string
       ctaLabel: string
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: VISIT_PAGE_QUERY
-// Query: *[_id == "visitPage"][0]{    venueName,    street,    city,    mapsUrl,    image,    hoursLines,    amenities,    transport  }
+// Query: *[_id == "visitPage"][0]{    venueName,    street,    city,    mapsUrl,    image,    hoursLines,    amenities,    transport,    ogImage  }
 export type VISIT_PAGE_QUERY_RESULT =
   | {
       venueName: Array<string>
@@ -922,6 +1081,14 @@ export type VISIT_PAGE_QUERY_RESULT =
           _key: string
         } & TransportRoute
       >
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | {
       venueName: null
@@ -932,12 +1099,31 @@ export type VISIT_PAGE_QUERY_RESULT =
       hoursLines: null
       amenities: null
       transport: null
+      ogImage: null
+    }
+  | {
+      venueName: null
+      street: null
+      city: null
+      mapsUrl: null
+      image: null
+      hoursLines: null
+      amenities: null
+      transport: null
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: PRIVACY_PAGE_QUERY
-// Query: *[_id == "privacyPage"][0]{    hero,    body,    updatedAt  }
+// Query: *[_id == "privacyPage"][0]{    hero,    body,    updatedAt,    ogImage  }
 export type PRIVACY_PAGE_QUERY_RESULT =
   | {
       hero: PageHero
@@ -961,28 +1147,78 @@ export type PRIVACY_PAGE_QUERY_RESULT =
         _key: string
       }>
       updatedAt: string
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | {
       hero: PageHero
       body: null
       updatedAt: null
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | {
       hero: null
       body: null
       updatedAt: null
+      ogImage: null
+    }
+  | {
+      hero: null
+      body: null
+      updatedAt: null
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | null
 
 // Source: src/sanity/lib/queries.ts
 // Variable: PRESS_PAGE_QUERY
-// Query: *[_id == "pressPage"][0]{    hero  }
+// Query: *[_id == "pressPage"][0]{    hero,    ogImage  }
 export type PRESS_PAGE_QUERY_RESULT =
   | {
       hero: PageHero
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | {
       hero: null
+      ogImage: null
+    }
+  | {
+      hero: null
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
     }
   | null
 
@@ -1155,7 +1391,7 @@ export type SITEMAP_QUERY_RESULT = {
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITION_BY_YEAR_QUERY
-// Query: *[_type == "edition" && year == $year && status != "upcoming"][0] {    _id,    year,    title,    theme,    themeHighlight,    dateStart,    dateEnd,    venueLine,    heroImage,    thumbImage,    manifesto,    themeSection,    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,    venues,    program,    carousel[] {      layout,      images[] {        caption,        image      }    },    credits[] {      _type,      type,      label,      detail,      names,      organization->{        name,        logo      },      organizations[]->{        name,        logo      }    }  }
+// Query: *[_type == "edition" && year == $year && status != "upcoming"][0] {    _id,    year,    title,    theme,    themeHighlight,    dateStart,    dateEnd,    venueLine,    heroImage,    thumbImage,    ogImage,    manifesto,    themeSection,    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,    venues,    program,    carousel[] {      layout,      images[] {        caption,        image      }    },    credits[] {      _type,      type,      label,      detail,      names,      organization->{        name,        logo      },      organizations[]->{        name,        logo      }    }  }
 export type EDITION_BY_YEAR_QUERY_RESULT = {
   _id: string
   year: number
@@ -1174,6 +1410,14 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
     _type: 'image'
   } | null
   thumbImage: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  } | null
+  ogImage: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -1259,13 +1503,13 @@ import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT
-    '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image\n    },\n    editionsIntro\n  }\n': HOMEPAGE_QUERY_RESULT
+    '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image\n    },\n    editionsIntro,\n    ogImage\n  }\n': HOMEPAGE_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status\n  }\n': EDITIONS_LIST_QUERY_RESULT
-    '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage,\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait,\n    curatorName,\n    curatorRole,\n    curatorLetter\n  }\n': ABOUT_PAGE_QUERY_RESULT
-    '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage,\n    whyEyebrow,\n    whyTitle,\n    whyImage,\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel\n  }\n': PARTNERS_PAGE_QUERY_RESULT
-    '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image,\n    hoursLines,\n    amenities,\n    transport\n  }\n': VISIT_PAGE_QUERY_RESULT
-    '\n  *[_id == "privacyPage"][0]{\n    hero,\n    body,\n    updatedAt\n  }\n': PRIVACY_PAGE_QUERY_RESULT
-    '\n  *[_id == "pressPage"][0]{\n    hero\n  }\n': PRESS_PAGE_QUERY_RESULT
+    '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage,\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait,\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage\n  }\n': ABOUT_PAGE_QUERY_RESULT
+    '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage,\n    whyEyebrow,\n    whyTitle,\n    whyImage,\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel,\n    ogImage\n  }\n': PARTNERS_PAGE_QUERY_RESULT
+    '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image,\n    hoursLines,\n    amenities,\n    transport,\n    ogImage\n  }\n': VISIT_PAGE_QUERY_RESULT
+    '\n  *[_id == "privacyPage"][0]{\n    hero,\n    body,\n    updatedAt,\n    ogImage\n  }\n': PRIVACY_PAGE_QUERY_RESULT
+    '\n  *[_id == "pressPage"][0]{\n    hero,\n    ogImage\n  }\n': PRESS_PAGE_QUERY_RESULT
     '\n  *[_type == "pressAppearance"] | order(year desc, title asc) {\n    _id,\n    medium,\n    title,\n    year,\n    tag,\n    url,\n    excerpt\n  }\n': PRESS_APPEARANCES_QUERY_RESULT
     '\n  *[_type == "pressRelease" && defined(edition->year)]\n    | order(publishedAt desc, language asc) {\n      _id,\n      title,\n      language,\n      pages,\n      publishedAt,\n      "year": edition->year,\n      "pdfUrl": pdf.asset->url,\n      "sizeBytes": pdf.asset->size\n    }\n': PRESS_RELEASES_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year) && (defined(pressKit.poster) || defined(pressKit.coverPhoto))]\n    | order(year desc) {\n      year,\n      "poster": pressKit.poster{\n        ...,\n        asset->{ url, metadata { lqip, dimensions } }\n      },\n      "coverPhoto": pressKit.coverPhoto{\n        ...,\n        asset->{ url, metadata { lqip, dimensions } }\n      }\n    }\n': EDITIONS_PRESS_KIT_QUERY_RESULT
@@ -1274,6 +1518,6 @@ declare module '@sanity/client' {
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT
     '\n  {\n    "editions": *[_type == "edition" && defined(year) && status != "upcoming"]\n      | order(year desc){ year, _updatedAt },\n    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{\n      _id,\n      _updatedAt\n    },\n    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]\n      | order(_updatedAt desc)[0]._updatedAt\n  }\n': SITEMAP_QUERY_RESULT
-    '\n  *[_type == "edition" && year == $year && status != "upcoming"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage,\n    thumbImage,\n    manifesto,\n    themeSection,\n    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,\n    venues,\n    program,\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
+    '\n  *[_type == "edition" && year == $year && status != "upcoming"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage,\n    thumbImage,\n    ogImage,\n    manifesto,\n    themeSection,\n    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,\n    venues,\n    program,\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
   }
 }

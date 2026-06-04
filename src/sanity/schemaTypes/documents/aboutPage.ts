@@ -1,6 +1,7 @@
 import { InfoOutlineIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { ogImageField } from '../shared/ogImageField'
 
 export const aboutPage = defineType({
   name: 'aboutPage',
@@ -12,6 +13,7 @@ export const aboutPage = defineType({
     { name: 'notFestival', title: '"Not a festival"' },
     { name: 'pillars', title: 'Pillars' },
     { name: 'curator', title: 'Curator letter' },
+    { name: 'social', title: 'Social' },
   ],
   fields: [
     defineField({
@@ -104,6 +106,7 @@ export const aboutPage = defineType({
       of: [defineArrayMember({ type: 'text', rows: 4 })],
       validation: (rule) => rule.required().min(1),
     }),
+    ogImageField({ group: 'social' }),
   ],
   preview: { prepare: () => ({ title: 'About' }) },
 })

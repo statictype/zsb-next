@@ -1,6 +1,7 @@
 import { HeartIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { ogImageField } from '../shared/ogImageField'
 import { isSubstringOf } from '../shared/substringValidator'
 
 export const partnersPage = defineType({
@@ -13,6 +14,7 @@ export const partnersPage = defineType({
     { name: 'event', title: 'The event' },
     { name: 'why', title: 'Why Sculpture' },
     { name: 'cta', title: 'Become a partner' },
+    { name: 'social', title: 'Social' },
   ],
   fields: [
     defineField({
@@ -112,6 +114,7 @@ export const partnersPage = defineType({
       group: 'cta',
       validation: (rule) => rule.required().max(40),
     }),
+    ogImageField({ group: 'social' }),
   ],
   preview: { prepare: () => ({ title: 'Partners' }) },
 })

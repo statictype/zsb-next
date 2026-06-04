@@ -31,12 +31,17 @@ import {
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 import styles from './page.module.css'
 
-export const metadata = pageMetadata({
-  title: 'Press',
-  description:
-    'Press kit, official posters, releases, and media coverage for Bucharest Sculpture Days — across every edition.',
-  path: '/press',
-})
+export async function generateMetadata() {
+  const { perspective } = await getDynamicFetchOptions()
+  const page = await getPressPage({ perspective, stega: false })
+  return pageMetadata({
+    title: 'Press',
+    description:
+      'Press kit, official posters, releases, and media coverage for Bucharest Sculpture Days — across every edition.',
+    path: '/press',
+    shareImage: page?.ogImage,
+  })
+}
 
 type Medium = NonNullable<PressAppearance['medium']>
 

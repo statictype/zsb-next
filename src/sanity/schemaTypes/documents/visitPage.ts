@@ -1,6 +1,7 @@
 import { PinIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { ogImageField } from '../shared/ogImageField'
 
 export const visitPage = defineType({
   name: 'visitPage',
@@ -10,6 +11,7 @@ export const visitPage = defineType({
   groups: [
     { name: 'venue', title: 'Venue', default: true },
     { name: 'practical', title: 'Practical' },
+    { name: 'social', title: 'Social' },
   ],
   fields: [
     defineField({
@@ -80,6 +82,7 @@ export const visitPage = defineType({
       of: [defineArrayMember({ type: 'transportRoute' })],
       validation: (rule) => rule.required().min(1).max(8),
     }),
+    ogImageField({ group: 'social' }),
   ],
   preview: { prepare: () => ({ title: 'Visit' }) },
 })

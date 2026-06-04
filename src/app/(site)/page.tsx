@@ -18,11 +18,16 @@ import { urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import styles from './page.module.css'
 
-export const metadata = pageMetadata({
-  description:
-    'An annual contemporary sculpture event transforming Bucharest into an open-air museum. Discover editions, artists, and public art since 2021.',
-  path: '/',
-})
+export async function generateMetadata() {
+  const { perspective } = await getDynamicFetchOptions()
+  const home = await getHomepage({ perspective, stega: false })
+  return pageMetadata({
+    description:
+      'An annual contemporary sculpture event transforming Bucharest into an open-air museum. Discover editions, artists, and public art since 2021.',
+    path: '/',
+    shareImage: home?.ogImage,
+  })
+}
 
 export default async function HomePage() {
   const { isEnabled: isDraftMode } = await draftMode()
