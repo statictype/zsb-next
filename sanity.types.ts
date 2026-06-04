@@ -258,6 +258,7 @@ export type Artist = {
   _createdAt: string
   _updatedAt: string
   _rev: string
+  editions?: string
   name: string
   sortName?: string
   slug: Slug

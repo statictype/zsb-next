@@ -1,5 +1,6 @@
 import { UserIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { ArtistEditionsField } from '../../components/ArtistEditionsField'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 export const artist = defineType({
@@ -8,6 +9,16 @@ export const artist = defineType({
   type: 'document',
   icon: UserIcon,
   fields: [
+    // Read-only listing of the editions that reference this artist (reverse of
+    // `edition.artists[]`). Synthetic — stores nothing; the component fetches on
+    // its own. Placed first so it sits just below the "Used on N pages" panel.
+    defineField({
+      name: 'editions',
+      title: 'Editions',
+      type: 'string',
+      readOnly: true,
+      components: { input: ArtistEditionsField },
+    }),
     defineField({
       name: 'name',
       title: 'Name',

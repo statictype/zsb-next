@@ -1,5 +1,4 @@
 import {
-  CalendarIcon,
   CaseIcon,
   CogIcon,
   DocumentsIcon,
@@ -14,7 +13,6 @@ import {
   UsersIcon,
 } from '@sanity/icons'
 import type { StructureResolver } from 'sanity/structure'
-import { ArtistEditionsView } from './components/ArtistEditionsView'
 import { isSingletonType, singletonListItem } from './lib/singleton'
 
 export const structure: StructureResolver = (S) =>
@@ -54,30 +52,10 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      // People & organizations referenced from editions and press.
-      // Artists get an "Editions" view tab listing the editions that
-      // reference them (the reverse of `edition.artists[]`).
-      S.listItem()
-        .id('artist')
-        .title('Artists')
-        .icon(UsersIcon)
-        .child(
-          S.documentTypeList('artist')
-            .title('Artists')
-            .child((artistId) =>
-              S.document()
-                .documentId(artistId)
-                .schemaType('artist')
-                .views([
-                  S.view.form(),
-                  S.view
-                    .component(ArtistEditionsView)
-                    .id('editions')
-                    .title('Editions')
-                    .icon(CalendarIcon),
-                ]),
-            ),
-        ),
+      // People & organizations referenced from editions and press. The
+      // editions that reference an artist show up in the document's
+      // "Used on N pages" panel (see the `artist` location resolver).
+      S.documentTypeListItem('artist').title('Artists').icon(UsersIcon),
       S.documentTypeListItem('organization').title('Organizations').icon(CaseIcon),
 
       // Anything else the schema adds that isn't a singleton or pressed-up
