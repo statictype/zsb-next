@@ -170,6 +170,23 @@ export const EDITION_YEARS_QUERY = defineQuery(`
   *[_type == "edition" && defined(year)] | order(year desc).year
 `)
 
+// Everything the sitemap needs to emit honest `lastModified` dates in a
+// single round trip: each live edition's content-update time, the six
+// page singletons' update times, and the newest artist edit (the /artists
+// index reflects the collection, so its freshest member dates it).
+export const SITEMAP_QUERY = defineQuery(`
+  {
+    "editions": *[_type == "edition" && defined(year) && status != "upcoming"]
+      | order(year desc){ year, _updatedAt },
+    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{
+      _id,
+      _updatedAt
+    },
+    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]
+      | order(_updatedAt desc)[0]._updatedAt
+  }
+`)
+
 // Only live editions have a viewable page. "Upcoming" is the single
 // special-case status (shows on the homepage with a "Coming soon" badge,
 // no dedicated route); everything else is reachable. Matched as

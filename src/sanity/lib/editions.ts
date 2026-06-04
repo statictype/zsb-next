@@ -16,7 +16,12 @@ import type {
 } from '@/types/edition'
 import { urlFor } from './image'
 import { type DynamicFetchOptions, sanityFetch } from './live'
-import { EDITION_BY_YEAR_QUERY, EDITION_YEARS_QUERY, EDITIONS_LIST_QUERY } from './queries'
+import {
+  EDITION_BY_YEAR_QUERY,
+  EDITION_YEARS_QUERY,
+  EDITIONS_LIST_QUERY,
+  SITEMAP_QUERY,
+} from './queries'
 
 export interface EditionListItem {
   year: number
@@ -243,6 +248,20 @@ export async function getEditionYearsFromSanity(): Promise<number[]> {
     stega: false,
   })
   return data ?? []
+}
+
+/**
+ * Update timestamps for the sitemap, in one query. Published-only and
+ * stega-free — the sitemap never previews drafts.
+ */
+export async function getSitemapMetadataFromSanity() {
+  'use cache'
+  const { data } = await sanityFetch({
+    query: SITEMAP_QUERY,
+    perspective: 'published',
+    stega: false,
+  })
+  return data
 }
 
 /**
