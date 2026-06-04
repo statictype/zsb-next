@@ -200,6 +200,9 @@ function mapEdition(raw: SanityEdition): Edition {
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
     dateTape: composeDateTape(raw),
+    dateStart: raw.dateStart ?? '',
+    dateEnd: raw.dateEnd ?? '',
+    venueLine: raw.venueLine ?? '',
     heroImage: requireImageData(raw.heroImage, 'heroImage'),
     ...(thumb ? { thumbImage: thumb } : {}),
     manifesto: {

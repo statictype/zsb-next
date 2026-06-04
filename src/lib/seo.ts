@@ -61,15 +61,25 @@ export function editionMetadata(edition: AnyEdition): Metadata {
 
 export function editionEventJsonLd(edition: Edition) {
   const theme = clean(edition.theme)
+  const venue = clean(edition.venueLine)
+  const start = clean(edition.dateStart)
+  const end = clean(edition.dateEnd)
   return {
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: `${SITE_NAME} ${edition.year} — ${theme}`,
     description: clean(edition.manifesto.body),
+    // startDate is effectively required for Google Event rich results; both
+    // are stored as YYYY-MM-DD, which schema.org accepts as-is.
+    ...(start && { startDate: start }),
+    ...(end && { endDate: end }),
+    eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    ...(edition.heroImage.src && { image: [edition.heroImage.src] }),
+    url: `${SITE_URL}/editions/${edition.year}`,
     location: {
       '@type': 'Place',
-      name: 'Bucharest',
+      name: venue || 'Bucharest',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Bucharest',

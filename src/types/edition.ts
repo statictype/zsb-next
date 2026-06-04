@@ -156,6 +156,11 @@ export interface Edition {
   heroImage: ImageData
   thumbImage?: ImageData
   dateTape: string
+  // Raw ISO dates + venue name, kept alongside the composed `dateTape` so
+  // the Event JSON-LD can emit machine-readable startDate/endDate/location.
+  dateStart: string
+  dateEnd: string
+  venueLine: string
   manifesto: ManifestoData
   themeSection: ThemeData
   artists: string[]
