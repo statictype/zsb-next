@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Dela_Gothic_One, Montserrat } from 'next/font/google'
 import { SITE_NAME, SITE_URL } from '@/lib/constants'
 import './globals.css'
@@ -34,6 +34,14 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
   },
+  // iOS standalone ("add to home screen") presentation. The icon itself comes
+  // from src/app/apple-icon.png (Next file convention); the manifest is linked
+  // automatically from src/app/manifest.ts.
+  appleWebApp: {
+    capable: true,
+    title: 'ZSB',
+    statusBarStyle: 'black-translucent',
+  },
   robots: {
     index: true,
     follow: true,
@@ -43,6 +51,13 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
     },
   },
+}
+
+// themeColor tints the mobile browser chrome / installed-PWA title bar; it
+// belongs in `viewport`, not `metadata`, in the App Router. Matches the dark
+// brand canvas and the manifest's theme_color.
+export const viewport: Viewport = {
+  themeColor: '#0e0b10',
 }
 
 export default function RootLayout({
