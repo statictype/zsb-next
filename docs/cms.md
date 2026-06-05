@@ -201,32 +201,31 @@ Wired via `next-sanity` v13 + the route-group split (`app/(site)/` vs `app/studi
 
 ### How draft-mode-aware fetching works
 
-Cache Components forbids reading request data (`draftMode()`, `cookies()`) inside `'use cache'` boundaries. The v13 pattern resolves perspective + stega *outside* the cache and threads them in as serializable props:
+Cache Components forbids reading request data (`draftMode()`, `cookies()`) inside `'use cache'` boundaries, so each draft-previewable page is split in two across the cache line: a **Dynamic** half that reads the request and a **Cached** half keyed on its result. The full rationale — why this split is the unavoidable cost of being static-by-default *and* draft-previewable — is in [ADR 0012](./adr/0012-cache-components-three-layer-fetch.md). The split itself is mandatory; two seams keep it from becoming per-page boilerplate:
 
-```ts
-// page.tsx
-const [{ year }, options] = await Promise.all([
-  props.params,
-  getDynamicFetchOptions(),   // reads draftMode + cookies, returns { perspective, stega }
-])
-return <CachedEdition year={Number(year)} options={options} />
+- **`<DraftAware cached={…} fallback={…} />`** (`src/components/DraftAware/`) owns the Dynamic half — the `draftMode()` branch, the published-default short-circuit (public path stays fully static), the Suspense wrapper, and the options resolution. A page supplies only its cached leaf and its fallback. The `'use cache'` leaf **stays lexically in the page** (closing over nothing but the serializable `options` prop) — see ADR 0012 for why hoisting it into the harness would break the cache key.
+- **`queryData(query, options, params?)`** (`live.ts`) is the single bridge from `DynamicFetchOptions` to `sanityFetch`; every fetcher routes through it.
 
-// child
-async function CachedEdition({ year, options }: { ... }) {
+```tsx
+// page.tsx — most pages
+export default function AboutRoute() {
+  return <DraftAware cached={(options) => <CachedAbout options={options} />} fallback={<AboutShell />} />
+}
+
+async function CachedAbout({ options }: { options: DynamicFetchOptions }) {
   'use cache'
-  const edition = await getEdition(year, options)   // sanityFetch uses options
-  // render
+  const about = await getAboutPage(options)   // getAboutPage → queryData → sanityFetch
+  return <AboutShell about={about} />
 }
 ```
 
 Two variants:
-- **Routes with `loading.tsx`** (e.g. `/editions/[year]`): the loading file provides Suspense; page resolves options and renders the cached child directly.
-- **Routes without `loading.tsx`** (e.g. `/editions` index): branch on `draftMode()` at the page level; cached path runs immediately when off, Suspense-wrapped dynamic component runs when on.
-
-Templates of both variants ship across `src/app/(site)/`:
-
-- **With `loading.tsx`**: `editions/[year]/page.tsx`. Shortest version.
-- **Inline Suspense**: `editions/page.tsx`, `page.tsx` (homepage), `about/page.tsx`, `partners/page.tsx`, `visit/page.tsx`, `privacy/page.tsx`. Add a `loading.tsx` sibling if you want to drop the inline pattern.
+- **Most routes** use `<DraftAware>` for the Dynamic half: `page.tsx` (homepage), `about`, `partners`, `visit`, `privacy`, `press`, `editions` index. (`visit` shows the harness sitting inside page chrome — `<Navigation>` + `<main>` wrap it.)
+- **Routes with `loading.tsx`** (e.g. `/editions/[year]`): the loading file provides Suspense, so the page skips the `DraftAware` branch and resolves options directly:
+  ```tsx
+  const [{ year }, options] = await Promise.all([props.params, getDynamicFetchOptions()])
+  return <CachedEdition year={Number(year)} options={options} />
+  ```
 
 ### Rendering when a singleton is missing
 
@@ -236,8 +235,9 @@ Singleton image fields are `required()`, so on any seeded (published) dataset th
 
 ### Helpers in `src/sanity/lib/live.ts`
 
-- `sanityFetch` — main fetcher. Strict mode requires every call to pass `perspective` + `stega`.
-- `getDynamicFetchOptions()` — resolves the two from draft mode + cookies. Must be called *outside* `'use cache'`.
+- `sanityFetch` — low-level fetcher. Strict mode requires every call to pass `perspective` + `stega`. In normal fetchers you call `queryData` rather than this directly; `sanityFetch` is referenced only inside `live.ts`.
+- `queryData(query, options, params?)` — the bridge that threads `options.perspective` + `options.stega` onto a `sanityFetch` call. The single seam between `DynamicFetchOptions` and the query; call it from inside a fetcher's `'use cache'` body. Not cached itself.
+- `getDynamicFetchOptions()` — resolves perspective + stega from draft mode + cookies. Must be called *outside* `'use cache'`.
 - `sanityFetchStaticParams()` — for `generateStaticParams`. Hardcoded published, no stega, build-time only.
 - `sanityFetchMetadata()` — for `generateMetadata` / `sitemap.ts` / `opengraph-image.tsx`. Perspective preserved (so Presentation can preview metadata for drafts), stega always off.
 
@@ -336,11 +336,11 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
 
 5. **`pnpm typegen`** — `CONTACT_PAGE_QUERY_RESULT` becomes typed.
 
-6. **Server-only fetch helper** — either add `getContactPage` to `src/sanity/lib/staticPages.ts`, or create a new file. The 3-layer pattern requires it to take `DynamicFetchOptions`:
+6. **Server-only fetch helper** — either add `getContactPage` to `src/sanity/lib/staticPages.ts`, or create a new file. It takes `DynamicFetchOptions` and routes through `queryData`; keep the `'use cache'` directive on this named fetcher:
    ```ts
    import 'server-only'
    import type { CONTACT_PAGE_QUERY_RESULT } from '@/../sanity.types'
-   import { type DynamicFetchOptions, sanityFetch } from './live'
+   import { type DynamicFetchOptions, queryData } from './live'
    import { CONTACT_PAGE_QUERY } from './queries'
 
    export type ContactPage = NonNullable<CONTACT_PAGE_QUERY_RESULT>
@@ -349,12 +349,7 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
      options: DynamicFetchOptions,
    ): Promise<ContactPage | null> {
      'use cache'
-     const { data } = await sanityFetch({
-       query: CONTACT_PAGE_QUERY,
-       perspective: options.perspective,
-       stega: options.stega,
-     })
-     return data ?? null
+     return (await queryData(CONTACT_PAGE_QUERY, options)) ?? null
    }
    ```
 
@@ -366,28 +361,16 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
    }),
    ```
 
-8. **Page** (`src/app/(site)/contact/page.tsx`) — 3-layer pattern with inline Suspense (no `loading.tsx` sibling):
+8. **Page** (`src/app/(site)/contact/page.tsx`) — let `<DraftAware>` own the Dynamic half; the page declares only its cached leaf and fallback. Keep `'use cache'` on the leaf, lexically in the page:
    ```tsx
-   import { draftMode } from 'next/headers'
-   import { Suspense } from 'react'
-   import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
+   import { DraftAware } from '@/components/DraftAware/DraftAware'
+   import { type DynamicFetchOptions } from '@/sanity/lib/live'
    import { type ContactPage, getContactPage } from '@/sanity/lib/staticPages'
 
-   export default async function ContactRoute() {
-     const { isEnabled: isDraftMode } = await draftMode()
-     if (isDraftMode) {
-       return (
-         <Suspense fallback={<ContactShell />}>
-           <DynamicContact />
-         </Suspense>
-       )
-     }
-     return <CachedContact options={{ perspective: 'published', stega: false }} />
-   }
-
-   async function DynamicContact() {
-     const options = await getDynamicFetchOptions()
-     return <CachedContact options={options} />
+   export default function ContactRoute() {
+     return (
+       <DraftAware cached={(options) => <CachedContact options={options} />} fallback={<ContactShell />} />
+     )
    }
 
    async function CachedContact({ options }: { options: DynamicFetchOptions }) {
@@ -402,7 +385,7 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
    }
    ```
 
-   Variant with `loading.tsx` sibling: skip the `draftMode` branch and call `getDynamicFetchOptions` in the page directly; Next-provided loading state covers the Suspense. See `editions/[year]/page.tsx` for that shape.
+   Variant with `loading.tsx` sibling: skip `<DraftAware>` and call `getDynamicFetchOptions` in the page directly; Next-provided loading state covers the Suspense. See `editions/[year]/page.tsx` for that shape.
 
 9. **Missing-singleton rendering** — don't add `FALLBACK` content blocks. Coalesce nullable fields to empties (`?? ''`, `?? []`) and images to `PLACEHOLDER_IMAGE` (`src/lib/placeholder.ts`). A `null` singleton only happens on an un-seeded dataset; on a seeded one the required fields are always present.
 

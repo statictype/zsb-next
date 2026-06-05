@@ -1,9 +1,8 @@
 import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
-import { draftMode } from 'next/headers'
 import Link from 'next/link'
-import { Suspense } from 'react'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
+import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { type HeroImage, HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
@@ -29,21 +28,10 @@ export async function generateMetadata() {
   })
 }
 
-export default async function HomePage() {
-  const { isEnabled: isDraftMode } = await draftMode()
-  if (isDraftMode) {
-    return (
-      <Suspense fallback={<HomeShell />}>
-        <DynamicHome />
-      </Suspense>
-    )
-  }
-  return <CachedHome options={{ perspective: 'published', stega: false }} />
-}
-
-async function DynamicHome() {
-  const options = await getDynamicFetchOptions()
-  return <CachedHome options={options} />
+export default function HomePage() {
+  return (
+    <DraftAware cached={(options) => <CachedHome options={options} />} fallback={<HomeShell />} />
+  )
 }
 
 async function CachedHome({ options }: { options: DynamicFetchOptions }) {

@@ -1,8 +1,7 @@
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
-import { draftMode } from 'next/headers'
-import { Suspense } from 'react'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
+import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { Navigation } from '@/components/Navigation/Navigation'
 import shared from '@/components/Shared.module.css'
 import { SITE_DESCRIPTION } from '@/lib/constants'
@@ -52,21 +51,13 @@ const portableTextComponents: PortableTextComponents = {
   },
 }
 
-export default async function PrivacyRoute() {
-  const { isEnabled: isDraftMode } = await draftMode()
-  if (isDraftMode) {
-    return (
-      <Suspense fallback={<PrivacyShell />}>
-        <DynamicPrivacy />
-      </Suspense>
-    )
-  }
-  return <CachedPrivacy options={{ perspective: 'published', stega: false }} />
-}
-
-async function DynamicPrivacy() {
-  const options = await getDynamicFetchOptions()
-  return <CachedPrivacy options={options} />
+export default function PrivacyRoute() {
+  return (
+    <DraftAware
+      cached={(options) => <CachedPrivacy options={options} />}
+      fallback={<PrivacyShell />}
+    />
+  )
 }
 
 async function CachedPrivacy({ options }: { options: DynamicFetchOptions }) {

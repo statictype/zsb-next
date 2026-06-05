@@ -1,12 +1,12 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
-import { draftMode } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
-import { type CSSProperties, Suspense } from 'react'
+import { type CSSProperties } from 'react'
+import { DraftAware } from '@/components/DraftAware/DraftAware'
 import shared from '@/components/Shared.module.css'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
-import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
+import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import styles from './page.module.css'
 
 export const metadata = pageMetadata({
@@ -15,21 +15,13 @@ export const metadata = pageMetadata({
   path: '/editions',
 })
 
-export default async function EditionsPage() {
-  const { isEnabled: isDraftMode } = await draftMode()
-  if (isDraftMode) {
-    return (
-      <Suspense fallback={<EditionsListShell />}>
-        <DynamicEditionsList />
-      </Suspense>
-    )
-  }
-  return <CachedEditionsList options={{ perspective: 'published', stega: false }} />
-}
-
-async function DynamicEditionsList() {
-  const options = await getDynamicFetchOptions()
-  return <CachedEditionsList options={options} />
+export default function EditionsPage() {
+  return (
+    <DraftAware
+      cached={(options) => <CachedEditionsList options={options} />}
+      fallback={<EditionsListShell />}
+    />
+  )
 }
 
 async function CachedEditionsList({ options }: { options: DynamicFetchOptions }) {

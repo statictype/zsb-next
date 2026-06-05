@@ -1,7 +1,6 @@
-import { draftMode } from 'next/headers'
 import Image from 'next/image'
-import { Suspense } from 'react'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
+import { DraftAware } from '@/components/DraftAware/DraftAware'
 import shared from '@/components/Shared.module.css'
 import { SITE_DESCRIPTION } from '@/lib/constants'
 import { pageMetadata } from '@/lib/seo'
@@ -25,21 +24,10 @@ function pad(n: number): string {
   return String(n).padStart(2, '0')
 }
 
-export default async function AboutRoute() {
-  const { isEnabled: isDraftMode } = await draftMode()
-  if (isDraftMode) {
-    return (
-      <Suspense fallback={<AboutShell />}>
-        <DynamicAbout />
-      </Suspense>
-    )
-  }
-  return <CachedAbout options={{ perspective: 'published', stega: false }} />
-}
-
-async function DynamicAbout() {
-  const options = await getDynamicFetchOptions()
-  return <CachedAbout options={options} />
+export default function AboutRoute() {
+  return (
+    <DraftAware cached={(options) => <CachedAbout options={options} />} fallback={<AboutShell />} />
+  )
 }
 
 async function CachedAbout({ options }: { options: DynamicFetchOptions }) {

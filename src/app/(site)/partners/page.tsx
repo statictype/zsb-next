@@ -1,8 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
-import { draftMode } from 'next/headers'
 import Image from 'next/image'
-import { Suspense } from 'react'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
+import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
@@ -30,21 +29,13 @@ function pad(n: number): string {
   return String(n).padStart(2, '0')
 }
 
-export default async function PartnersRoute() {
-  const { isEnabled: isDraftMode } = await draftMode()
-  if (isDraftMode) {
-    return (
-      <Suspense fallback={<PartnersShell />}>
-        <DynamicPartners />
-      </Suspense>
-    )
-  }
-  return <CachedPartners options={{ perspective: 'published', stega: false }} />
-}
-
-async function DynamicPartners() {
-  const options = await getDynamicFetchOptions()
-  return <CachedPartners options={options} />
+export default function PartnersRoute() {
+  return (
+    <DraftAware
+      cached={(options) => <CachedPartners options={options} />}
+      fallback={<PartnersShell />}
+    />
+  )
 }
 
 async function CachedPartners({ options }: { options: DynamicFetchOptions }) {

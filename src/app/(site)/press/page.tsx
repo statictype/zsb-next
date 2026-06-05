@@ -9,9 +9,8 @@ import {
   RiYoutubeLine,
 } from '@remixicon/react'
 import { stegaClean } from '@sanity/client/stega'
-import { draftMode } from 'next/headers'
-import { Suspense } from 'react'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
+import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { MediaKitStrip, type MediaKitStripItem } from '@/components/MediaKitStrip/MediaKitStrip'
 import { Navigation } from '@/components/Navigation/Navigation'
@@ -65,21 +64,10 @@ function iconForUrl(url: string, medium: Medium): typeof RiYoutubeLine {
   return RiNewspaperLine
 }
 
-export default async function PressRoute() {
-  const { isEnabled: isDraftMode } = await draftMode()
-  if (isDraftMode) {
-    return (
-      <Suspense fallback={<PressShell />}>
-        <DynamicPress />
-      </Suspense>
-    )
-  }
-  return <CachedPress options={{ perspective: 'published', stega: false }} />
-}
-
-async function DynamicPress() {
-  const options = await getDynamicFetchOptions()
-  return <CachedPress options={options} />
+export default function PressRoute() {
+  return (
+    <DraftAware cached={(options) => <CachedPress options={options} />} fallback={<PressShell />} />
+  )
 }
 
 async function CachedPress({ options }: { options: DynamicFetchOptions }) {

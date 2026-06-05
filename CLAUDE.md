@@ -27,7 +27,7 @@ Embedded Sanity Studio at `/studio`. Schema, GROQ queries, and the components th
 
 Key project conventions:
 - Site routes live in `src/app/(site)/` route group so `<SanityLive />` and `<VisualEditing />` don't mount on `/studio`.
-- Every Sanity fetcher takes `DynamicFetchOptions` resolved outside the cache boundary — three-layer pattern (page → dynamic → cached).
+- Every Sanity fetcher takes `DynamicFetchOptions` resolved outside the cache boundary — the three-layer split Cache Components forces ([ADR 0012](./docs/adr/0012-cache-components-three-layer-fetch.md)). Fetchers route through `queryData` (the `DynamicFetchOptions`→`sanityFetch` bridge); pages let `<DraftAware>` own the dynamic half and keep their `'use cache'` leaf lexically in the page.
 - Singletons: enforce via the `SINGLETON_TYPES` registry in `src/sanity/lib/singleton.ts`; never query a singleton by type, always by fixed id.
 - After schema or query changes, run `pnpm typegen` and commit `sanity.types.ts`.
 

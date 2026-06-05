@@ -1,5 +1,4 @@
-import { draftMode } from 'next/headers'
-import { Suspense } from 'react'
+import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { VisitFaq } from '@/components/VisitFaq/VisitFaq'
@@ -25,33 +24,18 @@ export async function generateMetadata() {
   })
 }
 
-export default async function VisitRoute() {
-  const { isEnabled: isDraftMode } = await draftMode()
-  if (isDraftMode) {
-    return (
-      <>
-        <Navigation activeId={null} />
-        <main>
-          <Suspense fallback={<VisitSection />}>
-            <DynamicVisit />
-          </Suspense>
-        </main>
-      </>
-    )
-  }
+export default function VisitRoute() {
   return (
     <>
       <Navigation activeId={null} />
       <main>
-        <CachedVisit options={{ perspective: 'published', stega: false }} />
+        <DraftAware
+          cached={(options) => <CachedVisit options={options} />}
+          fallback={<VisitSection />}
+        />
       </main>
     </>
   )
-}
-
-async function DynamicVisit() {
-  const options = await getDynamicFetchOptions()
-  return <CachedVisit options={options} />
 }
 
 async function CachedVisit({ options }: { options: DynamicFetchOptions }) {
