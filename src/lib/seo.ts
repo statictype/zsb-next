@@ -108,7 +108,7 @@ export function editionEventJsonLd(edition: Edition) {
   // in step with the visible content and reflecting the real footprint instead
   // of the single venueLine. Fall back to venueLine, then "Bucharest", when no
   // venues are authored yet (the field is optional until the list is finalized).
-  const groups = [...new Set(edition.venues.map((v) => clean(v.group)).filter(Boolean))]
+  const groups = [...new Set((edition.venues ?? []).map((v) => clean(v.group)).filter(Boolean))]
   const placeNames = groups.length > 0 ? groups : [clean(edition.venueLine) || 'Bucharest']
   const places = placeNames.map((name) => ({
     '@type': 'Place',
