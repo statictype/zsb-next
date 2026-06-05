@@ -269,6 +269,9 @@ export function Carousel({ slides, eyebrow }: CarouselProps) {
                       style={{ objectFit: 'cover' }}
                       className={styles.itemImage}
                       draggable={false}
+                      {...(img.image.blurDataURL
+                        ? { placeholder: 'blur' as const, blurDataURL: img.image.blurDataURL }
+                        : {})}
                     />
                   </div>
                 )

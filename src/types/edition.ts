@@ -3,6 +3,9 @@
 export interface ImageData {
   src: string
   alt: string
+  // Base64 LQIP from Sanity asset metadata, fetched only for the most-viewed
+  // images (hero, edition cards, carousel) to drive next/image placeholder="blur".
+  blurDataURL?: string
 }
 
 // ---- Manifesto ----

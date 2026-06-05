@@ -46,6 +46,9 @@ export function Hero({ edition }: HeroProps) {
             sizes="(min-width: 1024px) calc(100vw - 200px), 100vw"
             priority
             className={styles.image}
+            {...(heroImage.blurDataURL
+              ? { placeholder: 'blur' as const, blurDataURL: heroImage.blurDataURL }
+              : {})}
           />
           <div className={styles.vignette} aria-hidden="true" />
         </div>

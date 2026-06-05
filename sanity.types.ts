@@ -798,7 +798,7 @@ export type SITE_SETTINGS_QUERY_RESULT =
 
 // Source: src/sanity/lib/queries.ts
 // Variable: HOMEPAGE_QUERY
-// Query: *[_id == "homepage"][0]{    heroTitle,    heroTitleAccent,    heroLead,    heroCtaLabel,    "heroCtaEditionYear": heroCtaEdition->year,    slideshow[]{      _key,      position,      image    },    editionsIntro,    ogImage,    metaDescription  }
+// Query: *[_id == "homepage"][0]{    heroTitle,    heroTitleAccent,    heroLead,    heroCtaLabel,    "heroCtaEditionYear": heroCtaEdition->year,    slideshow[]{      _key,      position,      image{ ..., "lqip": asset->metadata.lqip }    },    editionsIntro,    ogImage,    metaDescription  }
 export type HOMEPAGE_QUERY_RESULT =
   | {
       heroTitle: null
@@ -863,6 +863,7 @@ export type HOMEPAGE_QUERY_RESULT =
           crop?: SanityImageCrop
           alt?: string
           _type: 'image'
+          lqip: string | null
         }
       }>
       editionsIntro: string
@@ -1546,7 +1547,7 @@ export type SITEMAP_QUERY_RESULT = {
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITION_BY_YEAR_QUERY
-// Query: *[_type == "edition" && year == $year && status != "upcoming"][0] {    _id,    year,    title,    theme,    themeHighlight,    dateStart,    dateEnd,    venueLine,    heroImage,    thumbImage,    ogImage,    metaDescription,    manifesto,    themeSection,    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,    venues,    program,    carousel[] {      layout,      images[] {        caption,        image      }    },    credits[] {      _type,      type,      label,      detail,      names,      organization->{        name,        logo      },      organizations[]->{        name,        logo      }    }  }
+// Query: *[_type == "edition" && year == $year && status != "upcoming"][0] {    _id,    year,    title,    theme,    themeHighlight,    dateStart,    dateEnd,    venueLine,    heroImage{ ..., "lqip": asset->metadata.lqip },    thumbImage{ ..., "lqip": asset->metadata.lqip },    ogImage,    metaDescription,    manifesto,    themeSection,    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,    venues,    program,    carousel[] {      layout,      images[] {        caption,        image{ ..., "lqip": asset->metadata.lqip }      }    },    credits[] {      _type,      type,      label,      detail,      names,      organization->{        name,        logo      },      organizations[]->{        name,        logo      }    }  }
 export type EDITION_BY_YEAR_QUERY_RESULT = {
   _id: string
   year: number
@@ -1563,6 +1564,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
     crop?: SanityImageCrop
     alt?: string
     _type: 'image'
+    lqip: string | null
   } | null
   thumbImage: {
     asset?: SanityImageAssetReference
@@ -1571,6 +1573,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
     crop?: SanityImageCrop
     alt?: string
     _type: 'image'
+    lqip: string | null
   } | null
   ogImage: {
     asset?: SanityImageAssetReference
@@ -1600,7 +1603,15 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
     layout: 'duo' | 'featured-portrait' | 'featured-stack' | 'full' | 'trio'
     images: Array<{
       caption: string
-      image: CarouselImageImage
+      image: {
+        asset?: SanityImageAssetReference
+        media?: unknown // Unable to locate the referenced type "image.media" in schema
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+        lqip: string | null
+      }
     }> | null
   }> | null
   credits: Array<
@@ -1659,7 +1670,7 @@ import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT
-    '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
+    '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status\n  }\n': EDITIONS_LIST_QUERY_RESULT
     '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage,\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait,\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT
     '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage,\n    whyEyebrow,\n    whyTitle,\n    whyImage,\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel,\n    ogImage,\n    metaDescription\n  }\n': PARTNERS_PAGE_QUERY_RESULT
@@ -1674,6 +1685,6 @@ declare module '@sanity/client' {
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT
     '\n  {\n    "editions": *[_type == "edition" && defined(year) && status != "upcoming"]\n      | order(year desc){ year, _updatedAt },\n    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{\n      _id,\n      _updatedAt\n    },\n    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]\n      | order(_updatedAt desc)[0]._updatedAt\n  }\n': SITEMAP_QUERY_RESULT
-    '\n  *[_type == "edition" && year == $year && status != "upcoming"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage,\n    thumbImage,\n    ogImage,\n    metaDescription,\n    manifesto,\n    themeSection,\n    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,\n    venues,\n    program,\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
+    '\n  *[_type == "edition" && year == $year && status != "upcoming"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip },\n    ogImage,\n    metaDescription,\n    manifesto,\n    themeSection,\n    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,\n    venues,\n    program,\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
   }
 }

@@ -154,6 +154,7 @@ function mapSlideshow(slides: Homepage['slideshow'] | undefined): HeroImage[] | 
       src: urlFor(slide.image).url(),
       alt: slide.image.alt ?? '',
       position: slide.position ?? 'center',
+      ...(slide.image.lqip ? { blurDataURL: slide.image.lqip } : {}),
     })
   }
   return out.length ? out : undefined

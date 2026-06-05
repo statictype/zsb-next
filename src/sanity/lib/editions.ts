@@ -34,6 +34,9 @@ type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
 interface SanityImage {
   asset?: unknown
   alt?: string | null
+  // Present only on projections that fetch it (hero, thumb, carousel); the
+  // raw asset ref is left untouched so urlFor() is unaffected.
+  lqip?: string | null
 }
 
 const LAYOUT_VALUES: readonly CarouselLayout[] = [
@@ -100,7 +103,11 @@ function composeDateTape(raw: {
 
 function toImageData(field: SanityImage | null | undefined): ImageData | undefined {
   if (!field?.asset) return undefined
-  return { src: urlFor(field).url(), alt: field.alt ?? '' }
+  return {
+    src: urlFor(field).url(),
+    alt: field.alt ?? '',
+    ...(field.lqip ? { blurDataURL: field.lqip } : {}),
+  }
 }
 
 function requireImageData(field: SanityImage | null | undefined, label: string): ImageData {

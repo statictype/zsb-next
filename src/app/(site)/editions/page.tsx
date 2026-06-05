@@ -65,6 +65,9 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
                       : '(min-width: 1024px) 50vw, 100vw'
                   }
                   className={styles.thumbImg}
+                  {...(thumb.blurDataURL
+                    ? { placeholder: 'blur' as const, blurDataURL: thumb.blurDataURL }
+                    : {})}
                 />
                 <span className={styles.yearTag}>{year}</span>
               </div>

@@ -108,14 +108,14 @@ surfaces that can silently go wrong, plus a few accuracy gaps worth a later fix.
 
 ---
 
-## Tier 3 — Polish 🟡 (keywords + robots done)
+## Tier 3 — Polish 🟡 (keywords + robots + LQIP done)
 
 | Item | Notes |
 |------|-------|
 | **Web manifest + `apple-icon`** | Better mobile "add to home screen" and richer mobile share UI. |
 | ✅ **Drop the dead `keywords` meta** | **Done.** Removed from `layout.tsx` and `editionMetadata`; Google has ignored it since 2009. |
 | ✅ **`robots` → disallow `/api/`** | **Done.** `disallow` is now `['/studio/', '/api/']`. The allow-all AI-crawler stance elsewhere stays intentional (more crawl access → more AEO citations). |
-| **LQIP blur on hero/carousel/edition-card images** | `EDITIONS_PRESS_KIT_QUERY` already fetches `metadata.lqip`, but the most-viewed images (hero, carousel, edition cards) don't — adding it improves perceived LCP/CLS, which feeds Core Web Vitals. |
+| ✅ **LQIP blur on hero/carousel/edition-card images** | **Done.** The most-viewed images now drive `next/image` `placeholder="blur"`. GROQ projects `"lqip": asset->metadata.lqip` as a **sibling** field on `heroImage`/`thumbImage`/`carousel[].image` (EDITION_BY_YEAR) and `slideshow[].image` (HOMEPAGE) — leaving the raw `asset` ref intact so `urlFor()` is unaffected. `ImageData` gained an optional `blurDataURL?`; the shared `toImageData` mapper passes lqip through (covering edition hero, edition cards, carousel in one place), and the homepage `mapSlideshow` does the same. Components apply `placeholder`/`blurDataURL` conditionally, mirroring the existing `MediaKitStrip`/press idiom. Surfaces: edition Hero, HeroSlideshow, Carousel, /editions cards. Build clean. |
 
 ---
 

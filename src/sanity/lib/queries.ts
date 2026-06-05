@@ -18,7 +18,7 @@ export const HOMEPAGE_QUERY = defineQuery(`
     slideshow[]{
       _key,
       position,
-      image
+      image{ ..., "lqip": asset->metadata.lqip }
     },
     editionsIntro,
     ogImage,
@@ -216,8 +216,8 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     dateStart,
     dateEnd,
     venueLine,
-    heroImage,
-    thumbImage,
+    heroImage{ ..., "lqip": asset->metadata.lqip },
+    thumbImage{ ..., "lqip": asset->metadata.lqip },
     ogImage,
     metaDescription,
     manifesto,
@@ -229,7 +229,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
       layout,
       images[] {
         caption,
-        image
+        image{ ..., "lqip": asset->metadata.lqip }
       }
     },
     credits[] {
