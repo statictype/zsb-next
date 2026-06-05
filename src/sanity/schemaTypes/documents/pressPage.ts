@@ -1,5 +1,6 @@
 import { DocumentsIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { metaDescriptionField } from '../shared/metaDescriptionField'
 import { ogImageField } from '../shared/ogImageField'
 
 export const pressPage = defineType({
@@ -15,6 +16,7 @@ export const pressPage = defineType({
       validation: (rule) => rule.required(),
     }),
     ogImageField(),
+    metaDescriptionField({ required: true }),
   ],
   preview: { prepare: () => ({ title: 'Press' }) },
 })

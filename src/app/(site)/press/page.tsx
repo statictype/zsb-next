@@ -16,6 +16,7 @@ import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { MediaKitStrip, type MediaKitStripItem } from '@/components/MediaKitStrip/MediaKitStrip'
 import { Navigation } from '@/components/Navigation/Navigation'
 import shared from '@/components/Shared.module.css'
+import { SITE_DESCRIPTION } from '@/lib/constants'
 import { organizationJsonLd, pageMetadata, pressAppearancesJsonLd } from '@/lib/seo'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import {
@@ -36,8 +37,7 @@ export async function generateMetadata() {
   const page = await getPressPage({ perspective, stega: false })
   return pageMetadata({
     title: 'Press',
-    description:
-      'Press kit, official posters, releases, and media coverage for Bucharest Sculpture Days — across every edition.',
+    description: page?.metaDescription ?? SITE_DESCRIPTION,
     path: '/press',
     shareImage: page?.ogImage,
   })

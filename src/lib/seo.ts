@@ -39,15 +39,21 @@ function shareImages(source: ShareImageSource): NonNullable<Metadata['openGraph'
 
 export function pageMetadata(args: {
   title?: string
+  /**
+   * The final meta description. Page singletons resolve this from Sanity
+   * (`page.metaDescription`, required) before calling; the two doc-less static
+   * pages (/artists, /editions) pass their own string.
+   */
   description: string
   path: string
   /** Optional editor-set custom share image (Sanity image field). */
   shareImage?: ShareImageSource
 }): Metadata {
   const images = shareImages(args.shareImage)
+  const description = clean(args.description)
   return {
     ...(args.title !== undefined && { title: clean(args.title) }),
-    description: clean(args.description),
+    description,
     alternates: { canonical: args.path },
     // Only emit openGraph when overriding the image — re-declaring the global
     // fields here because a page-level openGraph replaces the inherited one
@@ -71,7 +77,7 @@ function truncate(text: string, max: number): string {
 
 export function editionMetadata(edition: AnyEdition): Metadata {
   const theme = clean(edition.theme)
-  const description = clean(truncate(edition.manifesto.body, 155))
+  const description = clean(edition.metaDescription) || clean(truncate(edition.manifesto.body, 155))
   const title = `${edition.year} — ${theme}`
   const path = `/editions/${edition.year}`
 
@@ -132,6 +138,30 @@ export function editionEventJsonLd(edition: Edition) {
     performer: edition.artists.map((name) => ({
       '@type': 'Person',
       name: clean(name),
+    })),
+  }
+}
+
+export interface FaqEntry {
+  question: string
+  answer: string
+}
+
+// FAQPage structured data for the Visit page. Google requires every Q&A here
+// to be visibly present on the page, so this is built from the SAME merged
+// list the visible FAQ renders from — never a separate copy. Strings are
+// stega-stripped because this goes straight into a <script> tag.
+export function visitFaqJsonLd(entries: FaqEntry[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: entries.map((entry) => ({
+      '@type': 'Question',
+      name: clean(entry.question),
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: clean(entry.answer),
+      },
     })),
   }
 }

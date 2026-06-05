@@ -158,6 +158,9 @@ export interface Edition {
   // Optional editor-set social share image; falls back to the branded hero
   // overlay generated in editions/[year]/opengraph-image.
   ogImage?: ImageData
+  // Optional editor-set meta description; falls back to the truncated manifesto
+  // body in editionMetadata.
+  metaDescription?: string
   dateTape: string
   // Raw ISO dates + venue name, kept alongside the composed `dateTape` so
   // the Event JSON-LD can emit machine-readable startDate/endDate/location.
@@ -184,6 +187,7 @@ export interface OnlineEdition {
   heroImage: ImageData
   thumbImage?: ImageData
   ogImage?: ImageData
+  metaDescription?: string
   dateTape: string
   manifesto: ManifestoData
   themeSection: ThemeData

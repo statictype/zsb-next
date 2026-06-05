@@ -21,7 +21,8 @@ export const HOMEPAGE_QUERY = defineQuery(`
       image
     },
     editionsIntro,
-    ogImage
+    ogImage,
+    metaDescription
   }
 `)
 
@@ -46,7 +47,8 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     curatorName,
     curatorRole,
     curatorLetter,
-    ogImage
+    ogImage,
+    metaDescription
   }
 `)
 
@@ -64,7 +66,8 @@ export const PARTNERS_PAGE_QUERY = defineQuery(`
     ctaHeadingAccent,
     ctaBody,
     ctaLabel,
-    ogImage
+    ogImage,
+    metaDescription
   }
 `)
 
@@ -78,7 +81,9 @@ export const VISIT_PAGE_QUERY = defineQuery(`
     hoursLines,
     amenities,
     transport,
-    ogImage
+    faq[]{ question, answer },
+    ogImage,
+    metaDescription
   }
 `)
 
@@ -87,14 +92,16 @@ export const PRIVACY_PAGE_QUERY = defineQuery(`
     hero,
     body,
     updatedAt,
-    ogImage
+    ogImage,
+    metaDescription
   }
 `)
 
 export const PRESS_PAGE_QUERY = defineQuery(`
   *[_id == "pressPage"][0]{
     hero,
-    ogImage
+    ogImage,
+    metaDescription
   }
 `)
 
@@ -212,6 +219,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     heroImage,
     thumbImage,
     ogImage,
+    metaDescription,
     manifesto,
     themeSection,
     "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,

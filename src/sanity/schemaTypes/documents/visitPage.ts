@@ -1,6 +1,7 @@
 import { PinIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { metaDescriptionField } from '../shared/metaDescriptionField'
 import { ogImageField } from '../shared/ogImageField'
 
 export const visitPage = defineType({
@@ -11,6 +12,7 @@ export const visitPage = defineType({
   groups: [
     { name: 'venue', title: 'Venue', default: true },
     { name: 'practical', title: 'Practical' },
+    { name: 'faq', title: 'FAQ' },
     { name: 'social', title: 'Social' },
   ],
   fields: [
@@ -82,7 +84,18 @@ export const visitPage = defineType({
       of: [defineArrayMember({ type: 'transportRoute' })],
       validation: (rule) => rule.required().min(1).max(8),
     }),
+    defineField({
+      name: 'faq',
+      title: 'Frequently asked questions',
+      description:
+        'Optional. Opening hours and location are answered automatically from the fields above (scoped to “during the event”), so add entries here only for what those can’t cover — tickets, accessibility, the year-round venue, etc.',
+      type: 'array',
+      group: 'faq',
+      of: [defineArrayMember({ type: 'faqItem' })],
+      validation: (rule) => rule.max(12),
+    }),
     ogImageField({ group: 'social' }),
+    metaDescriptionField({ group: 'social', required: true }),
   ],
   preview: { prepare: () => ({ title: 'Visit' }) },
 })

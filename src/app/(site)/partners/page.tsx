@@ -7,6 +7,7 @@ import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import shared from '@/components/Shared.module.css'
+import { SITE_DESCRIPTION } from '@/lib/constants'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
 import { urlFor } from '@/sanity/lib/image'
@@ -20,8 +21,7 @@ export async function generateMetadata() {
   const page = await getPartnersPage({ perspective, stega: false })
   return pageMetadata({
     title: 'Partners',
-    description:
-      'Partner with Bucharest Sculpture Days — Romania’s annual platform for contemporary sculpture.',
+    description: page?.metaDescription ?? SITE_DESCRIPTION,
     path: '/partners',
     shareImage: page?.ogImage,
   })

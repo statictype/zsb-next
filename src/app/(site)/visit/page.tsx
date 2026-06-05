@@ -1,12 +1,15 @@
 import { draftMode } from 'next/headers'
 import { Suspense } from 'react'
+import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Navigation } from '@/components/Navigation/Navigation'
+import { VisitFaq } from '@/components/VisitFaq/VisitFaq'
 import {
   type Amenity,
   type TransportRoute,
   VisitSection,
 } from '@/components/VisitSection/VisitSection'
-import { pageMetadata } from '@/lib/seo'
+import { SITE_DESCRIPTION, SITE_NAME } from '@/lib/constants'
+import { type FaqEntry, pageMetadata, visitFaqJsonLd } from '@/lib/seo'
 import { urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import { getVisitPage, type VisitPage } from '@/sanity/lib/staticPages'
@@ -16,8 +19,7 @@ export async function generateMetadata() {
   const page = await getVisitPage({ perspective, stega: false })
   return pageMetadata({
     title: 'Visit',
-    description:
-      'Plan your visit to Bucharest Sculpture Days at Combinatul Fondului Plastic — address, hours, transport, and amenities.',
+    description: page?.metaDescription ?? SITE_DESCRIPTION,
     path: '/visit',
     shareImage: page?.ogImage,
   })
@@ -55,7 +57,47 @@ async function DynamicVisit() {
 async function CachedVisit({ options }: { options: DynamicFetchOptions }) {
   'use cache'
   const page = await getVisitPage(options)
-  return <VisitSection {...mapVisit(page)} />
+  const faq = buildFaq(page)
+  return (
+    <>
+      <VisitSection {...mapVisit(page)} />
+      <VisitFaq entries={faq} />
+      {faq.length > 0 && <JsonLd data={visitFaqJsonLd(faq)} />}
+    </>
+  )
+}
+
+// Merge the Visit FAQ from two sources. The opening-hours and location entries
+// are DERIVED from the structured fields (read at render time, so they can't
+// drift from what the page displays) and scoped to "during the event" so the
+// answers aren't mistaken for the venue's year-round schedule. Editorial
+// entries — tickets, accessibility, the year-round venue — come from the
+// optional `faq` array. Both feed the visible FAQ and the JSON-LD.
+function buildFaq(page: VisitPage | null): FaqEntry[] {
+  if (!page) return []
+  const entries: FaqEntry[] = []
+
+  const hours = (page.hoursLines ?? []).filter(Boolean)
+  if (hours.length > 0) {
+    entries.push({
+      question: `What are the opening hours during ${SITE_NAME}?`,
+      answer: `${hours.join('. ')}. These hours apply during the event.`,
+    })
+  }
+  if (page.street && page.city) {
+    entries.push({
+      question: `Where is ${SITE_NAME} held?`,
+      answer: `The main venue is at ${page.street}, ${page.city}. The program also extends to partner venues and public locations across Bucharest.`,
+    })
+  }
+
+  for (const item of page.faq ?? []) {
+    if (item.question && item.answer) {
+      entries.push({ question: item.question, answer: item.answer })
+    }
+  }
+
+  return entries
 }
 
 type Mapped = Parameters<typeof VisitSection>[0]

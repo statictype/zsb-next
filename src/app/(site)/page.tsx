@@ -10,6 +10,7 @@ import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import shared from '@/components/Shared.module.css'
 import { getEditionListItems } from '@/data/editions'
+import { SITE_DESCRIPTION } from '@/lib/constants'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
 import { type EditionListItem } from '@/sanity/lib/editions'
@@ -22,8 +23,7 @@ export async function generateMetadata() {
   const { perspective } = await getDynamicFetchOptions()
   const home = await getHomepage({ perspective, stega: false })
   return pageMetadata({
-    description:
-      'An annual contemporary sculpture event transforming Bucharest into an open-air museum. Discover editions, artists, and public art since 2021.',
+    description: home?.metaDescription ?? SITE_DESCRIPTION,
     path: '/',
     shareImage: home?.ogImage,
   })

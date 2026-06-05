@@ -14,6 +14,7 @@ import { visitPage } from './documents/visitPage'
 import { amenity } from './objects/amenity'
 import { carouselSlide } from './objects/carouselSlide'
 import { creditOrg, creditOrgList, creditText } from './objects/creditRow'
+import { faqItem } from './objects/faqItem'
 import { heroSlide } from './objects/heroSlide'
 import { pageHero } from './objects/pageHero'
 import { pillar } from './objects/pillar'
@@ -42,6 +43,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   creditOrg,
   creditOrgList,
   creditText,
+  faqItem,
   heroSlide,
   pageHero,
   pillar,

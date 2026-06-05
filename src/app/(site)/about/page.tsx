@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Suspense } from 'react'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import shared from '@/components/Shared.module.css'
+import { SITE_DESCRIPTION } from '@/lib/constants'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
 import { urlFor } from '@/sanity/lib/image'
@@ -15,8 +16,7 @@ export async function generateMetadata() {
   const page = await getAboutPage({ perspective, stega: false })
   return pageMetadata({
     title: 'About',
-    description:
-      'Bucharest Sculpture Days — an annual platform for Romanian contemporary sculpture, born online in 2021.',
+    description: page?.metaDescription ?? SITE_DESCRIPTION,
     path: '/about',
     shareImage: page?.ogImage,
   })

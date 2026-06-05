@@ -5,7 +5,7 @@ import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import shared from '@/components/Shared.module.css'
-import { SITE_NAME } from '@/lib/constants'
+import { SITE_DESCRIPTION } from '@/lib/constants'
 import { pageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import { getPrivacyPage, type PrivacyPage } from '@/sanity/lib/staticPages'
@@ -17,7 +17,7 @@ export async function generateMetadata() {
   return {
     ...pageMetadata({
       title: 'Privacy & Cookies',
-      description: `How ${SITE_NAME} handles your data and which cookies we use.`,
+      description: page?.metaDescription ?? SITE_DESCRIPTION,
       path: '/privacy',
       shareImage: page?.ogImage,
     }),

@@ -1,6 +1,7 @@
 import { CalendarIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { metaDescriptionField } from '../shared/metaDescriptionField'
 import { ogImageField } from '../shared/ogImageField'
 import { isSubstringOf } from '../shared/substringValidator'
 
@@ -252,6 +253,7 @@ export const edition = defineType({
       validation: (rule) => rule.custom(requiredWhenLive),
     }),
     ogImageField({ group: 'social' }),
+    metaDescriptionField({ group: 'social' }),
   ],
   preview: {
     select: { year: 'year', theme: 'theme', media: 'heroImage' },

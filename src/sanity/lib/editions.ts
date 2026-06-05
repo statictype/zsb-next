@@ -207,6 +207,7 @@ function mapEdition(raw: SanityEdition): Edition {
     heroImage: requireImageData(raw.heroImage, 'heroImage'),
     ...(thumb ? { thumbImage: thumb } : {}),
     ...(ogImage ? { ogImage } : {}),
+    ...(raw.metaDescription ? { metaDescription: raw.metaDescription } : {}),
     manifesto: {
       title: raw.manifesto?.title ?? '',
       highlight: raw.manifesto?.highlight ?? '',

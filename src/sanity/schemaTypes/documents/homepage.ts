@@ -1,5 +1,6 @@
 import { HomeIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { metaDescriptionField } from '../shared/metaDescriptionField'
 import { ogImageField } from '../shared/ogImageField'
 import { isSubstringOf } from '../shared/substringValidator'
 
@@ -88,6 +89,7 @@ export const homepage = defineType({
       validation: (rule) => rule.required().max(280),
     }),
     ogImageField({ group: 'social' }),
+    metaDescriptionField({ group: 'social', required: true }),
   ],
   preview: { prepare: () => ({ title: 'Homepage' }) },
 })
