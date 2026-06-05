@@ -108,13 +108,13 @@ surfaces that can silently go wrong, plus a few accuracy gaps worth a later fix.
 
 ---
 
-## Tier 3 — Polish ⬜ not started
+## Tier 3 — Polish 🟡 (keywords + robots done)
 
 | Item | Notes |
 |------|-------|
 | **Web manifest + `apple-icon`** | Better mobile "add to home screen" and richer mobile share UI. |
-| **Drop the dead `keywords` meta** | In `layout.tsx` and `editionMetadata`; Google has ignored it since 2009. Harmless but dead weight. |
-| **`robots` → disallow `/api/`** | Conventionally excluded; currently only `/studio/` is. The allow-all AI-crawler stance is intentional (more crawl access → more AEO citations). |
+| ✅ **Drop the dead `keywords` meta** | **Done.** Removed from `layout.tsx` and `editionMetadata`; Google has ignored it since 2009. |
+| ✅ **`robots` → disallow `/api/`** | **Done.** `disallow` is now `['/studio/', '/api/']`. The allow-all AI-crawler stance elsewhere stays intentional (more crawl access → more AEO citations). |
 | **LQIP blur on hero/carousel/edition-card images** | `EDITIONS_PRESS_KIT_QUERY` already fetches `metadata.lqip`, but the most-viewed images (hero, carousel, edition cards) don't — adding it improves perceived LCP/CLS, which feeds Core Web Vitals. |
 
 ---

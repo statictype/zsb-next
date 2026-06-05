@@ -84,13 +84,6 @@ export function editionMetadata(edition: AnyEdition): Metadata {
   return {
     title,
     description,
-    keywords: [
-      `${edition.year}`,
-      theme,
-      'contemporary sculpture',
-      'Bucharest art',
-      ...edition.artists.slice(0, 5).map(clean),
-    ],
     openGraph: {
       title,
       description,

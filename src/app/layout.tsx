@@ -25,14 +25,6 @@ export const metadata: Metadata = {
     default: `ZSB — ${SITE_NAME}`,
   },
   description: 'Zilele Sculpturii București — contemporary sculpture event in Bucharest, Romania.',
-  keywords: [
-    'contemporary sculpture',
-    'Bucharest',
-    'sculpture event',
-    'Romanian art',
-    'ZSB',
-    'Zilele Sculpturii București',
-  ],
   openGraph: {
     siteName: SITE_NAME,
     locale: 'en_US',
