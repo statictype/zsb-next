@@ -37,6 +37,30 @@ export async function getDynamicFetchOptions(): Promise<DynamicFetchOptions> {
 }
 
 /**
+ * Bridge from resolved {@link DynamicFetchOptions} to `sanityFetch`: the single
+ * place perspective + stega are threaded onto a query. Call from inside a
+ * fetcher's `'use cache'` body — this helper is intentionally NOT cached itself,
+ * so the cache boundary (and its tags) stays on the named fetcher.
+ *
+ * Mirrors `sanityFetch`'s `<const QueryString>` generic so the literal query
+ * string keeps resolving to its generated result type instead of collapsing to
+ * `unknown`.
+ */
+export async function queryData<const QueryString extends string>(
+  query: QueryString,
+  options: DynamicFetchOptions,
+  params?: QueryParams,
+) {
+  const { data } = await sanityFetch({
+    query,
+    ...(params ? { params } : {}),
+    perspective: options.perspective,
+    stega: options.stega,
+  })
+  return data
+}
+
+/**
  * For use inside generateStaticParams. Build-time only — no draft mode,
  * no stega, no cookie access.
  */

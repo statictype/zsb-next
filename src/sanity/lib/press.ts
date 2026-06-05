@@ -6,7 +6,7 @@ import type {
   PRESS_PAGE_QUERY_RESULT,
   PRESS_RELEASES_QUERY_RESULT,
 } from '@/../sanity.types'
-import { type DynamicFetchOptions, sanityFetch } from './live'
+import { type DynamicFetchOptions, queryData } from './live'
 import {
   EDITIONS_PRESS_KIT_QUERY,
   PRESS_APPEARANCES_QUERY,
@@ -21,44 +21,24 @@ export type EditionPressKit = EDITIONS_PRESS_KIT_QUERY_RESULT[number]
 
 export async function getPressPage(options: DynamicFetchOptions): Promise<PressPage | null> {
   'use cache'
-  const { data } = await sanityFetch({
-    query: PRESS_PAGE_QUERY,
-    perspective: options.perspective,
-    stega: options.stega,
-  })
-  return data ?? null
+  return (await queryData(PRESS_PAGE_QUERY, options)) ?? null
 }
 
 export async function getPressAppearances(
   options: DynamicFetchOptions,
 ): Promise<PressAppearance[]> {
   'use cache'
-  const { data } = await sanityFetch({
-    query: PRESS_APPEARANCES_QUERY,
-    perspective: options.perspective,
-    stega: options.stega,
-  })
-  return data ?? []
+  return (await queryData(PRESS_APPEARANCES_QUERY, options)) ?? []
 }
 
 export async function getPressReleases(options: DynamicFetchOptions): Promise<PressRelease[]> {
   'use cache'
-  const { data } = await sanityFetch({
-    query: PRESS_RELEASES_QUERY,
-    perspective: options.perspective,
-    stega: options.stega,
-  })
-  return data ?? []
+  return (await queryData(PRESS_RELEASES_QUERY, options)) ?? []
 }
 
 export async function getEditionsPressKit(
   options: DynamicFetchOptions,
 ): Promise<EditionPressKit[]> {
   'use cache'
-  const { data } = await sanityFetch({
-    query: EDITIONS_PRESS_KIT_QUERY,
-    perspective: options.perspective,
-    stega: options.stega,
-  })
-  return data ?? []
+  return (await queryData(EDITIONS_PRESS_KIT_QUERY, options)) ?? []
 }

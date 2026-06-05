@@ -14,7 +14,7 @@ import type {
   ProgramFilm,
 } from '@/types/edition'
 import { requireImageData, type SanityImageField, toImageData } from './image'
-import { type DynamicFetchOptions, sanityFetch } from './live'
+import { type DynamicFetchOptions, queryData } from './live'
 import {
   EDITION_BY_YEAR_QUERY,
   EDITION_YEARS_QUERY,
@@ -215,12 +215,7 @@ export async function getEditionFromSanity(
   options: DynamicFetchOptions,
 ): Promise<Edition | undefined> {
   'use cache'
-  const { data: raw } = await sanityFetch({
-    query: EDITION_BY_YEAR_QUERY,
-    params: { year },
-    perspective: options.perspective,
-    stega: options.stega,
-  })
+  const raw = await queryData(EDITION_BY_YEAR_QUERY, options, { year })
   return raw ? mapEdition(raw) : undefined
 }
 
@@ -231,12 +226,7 @@ export async function getEditionFromSanity(
  */
 export async function getEditionYearsFromSanity(): Promise<number[]> {
   'use cache'
-  const { data } = await sanityFetch({
-    query: EDITION_YEARS_QUERY,
-    perspective: 'published',
-    stega: false,
-  })
-  return data ?? []
+  return (await queryData(EDITION_YEARS_QUERY, { perspective: 'published', stega: false })) ?? []
 }
 
 /**
@@ -245,12 +235,7 @@ export async function getEditionYearsFromSanity(): Promise<number[]> {
  */
 export async function getSitemapMetadataFromSanity() {
   'use cache'
-  const { data } = await sanityFetch({
-    query: SITEMAP_QUERY,
-    perspective: 'published',
-    stega: false,
-  })
-  return data
+  return queryData(SITEMAP_QUERY, { perspective: 'published', stega: false })
 }
 
 /**
@@ -263,11 +248,7 @@ export async function getEditionsListFromSanity(
   options: DynamicFetchOptions,
 ): Promise<EditionListItem[]> {
   'use cache'
-  const { data } = await sanityFetch({
-    query: EDITIONS_LIST_QUERY,
-    perspective: options.perspective,
-    stega: options.stega,
-  })
+  const data = await queryData(EDITIONS_LIST_QUERY, options)
   return (data ?? []).flatMap((entry) => {
     if (!entry.year || !entry.theme) return []
     return [

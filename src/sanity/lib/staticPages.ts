@@ -6,7 +6,7 @@ import type {
   PRIVACY_PAGE_QUERY_RESULT,
   VISIT_PAGE_QUERY_RESULT,
 } from '@/../sanity.types'
-import { type DynamicFetchOptions, sanityFetch } from './live'
+import { type DynamicFetchOptions, queryData } from './live'
 import {
   ABOUT_PAGE_QUERY,
   PARTNERS_PAGE_QUERY,
@@ -28,40 +28,20 @@ export type PrivacyPage = NonNullable<PRIVACY_PAGE_QUERY_RESULT>
 
 export async function getAboutPage(options: DynamicFetchOptions): Promise<AboutPage | null> {
   'use cache'
-  const { data } = await sanityFetch({
-    query: ABOUT_PAGE_QUERY,
-    perspective: options.perspective,
-    stega: options.stega,
-  })
-  return data ?? null
+  return (await queryData(ABOUT_PAGE_QUERY, options)) ?? null
 }
 
 export async function getPartnersPage(options: DynamicFetchOptions): Promise<PartnersPage | null> {
   'use cache'
-  const { data } = await sanityFetch({
-    query: PARTNERS_PAGE_QUERY,
-    perspective: options.perspective,
-    stega: options.stega,
-  })
-  return data ?? null
+  return (await queryData(PARTNERS_PAGE_QUERY, options)) ?? null
 }
 
 export async function getVisitPage(options: DynamicFetchOptions): Promise<VisitPage | null> {
   'use cache'
-  const { data } = await sanityFetch({
-    query: VISIT_PAGE_QUERY,
-    perspective: options.perspective,
-    stega: options.stega,
-  })
-  return data ?? null
+  return (await queryData(VISIT_PAGE_QUERY, options)) ?? null
 }
 
 export async function getPrivacyPage(options: DynamicFetchOptions): Promise<PrivacyPage | null> {
   'use cache'
-  const { data } = await sanityFetch({
-    query: PRIVACY_PAGE_QUERY,
-    perspective: options.perspective,
-    stega: options.stega,
-  })
-  return data ?? null
+  return (await queryData(PRIVACY_PAGE_QUERY, options)) ?? null
 }
