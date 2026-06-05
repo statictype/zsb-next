@@ -11,6 +11,12 @@ BreadcrumbList, ItemList). The items below are refinements, grouped by impact.
 
 Status legend: ✅ done · 🟡 partial · ⬜ not started · ⏸ deferred
 
+**Status as of 2026-06-05:** Tiers 1 & 3 complete; Tier 2 complete except
+**#6 artist entity pages** (⏸ deferred until artist docs carry real
+bios/portraits). The **multi-site Event JSON-LD** follow-up shipped; the
+remaining follow-ups are conditional ("if editors should own X") and otherwise
+left as drift watch. No actionable items remain.
+
 ---
 
 ## Tier 1 — Concrete SEO fixes ✅ done
@@ -108,11 +114,11 @@ surfaces that can silently go wrong, plus a few accuracy gaps worth a later fix.
 
 ---
 
-## Tier 3 — Polish 🟡 (keywords + robots + LQIP done)
+## Tier 3 — Polish ✅ done
 
 | Item | Notes |
 |------|-------|
-| **Web manifest + `apple-icon`** | Better mobile "add to home screen" and richer mobile share UI. |
+| ✅ **Web manifest + `apple-icon`** | **Done.** `src/app/manifest.ts` (`MetadataRoute.Manifest`) — `name`/`short_name` (ZSB), CMS-free `SITE_DESCRIPTION`, `display: standalone`, dark-canvas `background_color`/`theme_color` (`#0e0b10`), 192/512 icons (`any` + `maskable`). `themeColor` also exported via `viewport` in `layout.tsx` (App-Router location, not `metadata`), plus `appleWebApp` (title "ZSB", black-translucent status bar). **Icons** are generated from the canonical `src/app/icon.svg` by a committed `scripts/generate-app-icons.ts` (single source of truth): pink monogram trimmed to ink bounds + optically centered on the dark canvas with even padding — the "dark tile, pink mark" identity matching the favicon + default OG card. Outputs `src/app/apple-icon.png` (180, Next file convention → apple-touch-icon) and `public/icon-192.png`/`icon-512.png`. Build clean; `/apple-icon.png` + `/manifest.webmanifest` resolve. |
 | ✅ **Drop the dead `keywords` meta** | **Done.** Removed from `layout.tsx` and `editionMetadata`; Google has ignored it since 2009. |
 | ✅ **`robots` → disallow `/api/`** | **Done.** `disallow` is now `['/studio/', '/api/']`. The allow-all AI-crawler stance elsewhere stays intentional (more crawl access → more AEO citations). |
 | ✅ **LQIP blur on hero/carousel/edition-card images** | **Done.** The most-viewed images now drive `next/image` `placeholder="blur"`. GROQ projects `"lqip": asset->metadata.lqip` as a **sibling** field on `heroImage`/`thumbImage`/`carousel[].image` (EDITION_BY_YEAR) and `slideshow[].image` (HOMEPAGE) — leaving the raw `asset` ref intact so `urlFor()` is unaffected. `ImageData` gained an optional `blurDataURL?`; the shared `toImageData` mapper passes lqip through (covering edition hero, edition cards, carousel in one place), and the homepage `mapSlideshow` does the same. Components apply `placeholder`/`blurDataURL` conditionally, mirroring the existing `MediaKitStrip`/press idiom. Surfaces: edition Hero, HeroSlideshow, Carousel, /editions cards. Build clean. |
