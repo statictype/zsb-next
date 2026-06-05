@@ -105,9 +105,28 @@ export function editionMetadata(edition: AnyEdition): Metadata {
 
 export function editionEventJsonLd(edition: Edition) {
   const theme = clean(edition.theme)
-  const venue = clean(edition.venueLine)
   const start = clean(edition.dateStart)
   const end = clean(edition.dateEnd)
+
+  // ZSB is multi-site. The venues[] array nests spaces under top-level location
+  // labels (`group`, e.g. "Combinatul Fondului Plastic", "Partner Venues"),
+  // which is exactly what the edition page's "Locations" accordion renders as
+  // headers. Emit one schema.org Place per distinct group — keeping the JSON-LD
+  // in step with the visible content and reflecting the real footprint instead
+  // of the single venueLine. Fall back to venueLine, then "Bucharest", when no
+  // venues are authored yet (the field is optional until the list is finalized).
+  const groups = [...new Set(edition.venues.map((v) => clean(v.group)).filter(Boolean))]
+  const placeNames = groups.length > 0 ? groups : [clean(edition.venueLine) || 'Bucharest']
+  const places = placeNames.map((name) => ({
+    '@type': 'Place',
+    name,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Bucharest',
+      addressCountry: 'RO',
+    },
+  }))
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Event',
@@ -121,15 +140,10 @@ export function editionEventJsonLd(edition: Edition) {
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     ...(edition.heroImage.src && { image: [edition.heroImage.src] }),
     url: `${SITE_URL}/editions/${edition.year}`,
-    location: {
-      '@type': 'Place',
-      name: venue || 'Bucharest',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'Bucharest',
-        addressCountry: 'RO',
-      },
-    },
+    // Single Place when there's one location, an array for the multi-site case;
+    // both are valid schema.org and degrade gracefully for consumers that read
+    // only the first.
+    location: places.length === 1 ? places[0] : places,
     organizer: {
       '@type': 'Organization',
       name: SITE_NAME,
