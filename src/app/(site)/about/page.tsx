@@ -4,9 +4,8 @@ import { Suspense } from 'react'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import shared from '@/components/Shared.module.css'
 import { SITE_DESCRIPTION } from '@/lib/constants'
-import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
-import { urlFor } from '@/sanity/lib/image'
+import { imageDataOrPlaceholder } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import { type AboutPage, getAboutPage } from '@/sanity/lib/staticPages'
 import styles from './page.module.css'
@@ -56,17 +55,13 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
   const notFestivalTitle = about?.notFestivalTitle ?? ''
   const notFestivalBody = about?.notFestivalBody ?? []
   const pillars = about?.pillars ?? []
-  const placeImage = about?.placeImage?.asset
-    ? { src: urlFor(about.placeImage).url(), alt: about.placeImage.alt ?? '' }
-    : PLACEHOLDER_IMAGE
+  const placeImage = imageDataOrPlaceholder(about?.placeImage)
   const curatorEyebrow = about?.curatorEyebrow ?? ''
   const curatorHeadline = about?.curatorHeadline ?? ''
   const curatorName = about?.curatorName ?? ''
   const curatorRole = about?.curatorRole ?? ''
   const curatorLetter = about?.curatorLetter ?? []
-  const curatorPortrait = about?.curatorPortrait?.asset
-    ? { src: urlFor(about.curatorPortrait).url(), alt: about.curatorPortrait.alt ?? '' }
-    : PLACEHOLDER_IMAGE
+  const curatorPortrait = imageDataOrPlaceholder(about?.curatorPortrait)
 
   return (
     <main>

@@ -10,7 +10,7 @@ import {
 } from '@/components/VisitSection/VisitSection'
 import { SITE_DESCRIPTION, SITE_NAME } from '@/lib/constants'
 import { type FaqEntry, pageMetadata, visitFaqJsonLd } from '@/lib/seo'
-import { urlFor } from '@/sanity/lib/image'
+import { toImageData } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import { getVisitPage, type VisitPage } from '@/sanity/lib/staticPages'
 
@@ -104,9 +104,7 @@ type Mapped = Parameters<typeof VisitSection>[0]
 
 function mapVisit(page: VisitPage | null): Mapped {
   if (!page) return {}
-  const image = page.image?.asset
-    ? { src: urlFor(page.image).url(), alt: page.image.alt ?? '' }
-    : null
+  const image = toImageData(page.image) ?? null
   return {
     venueName: page.venueName ?? null,
     street: page.street ?? null,

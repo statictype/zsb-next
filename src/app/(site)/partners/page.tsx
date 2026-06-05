@@ -8,9 +8,8 @@ import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import shared from '@/components/Shared.module.css'
 import { SITE_DESCRIPTION } from '@/lib/constants'
-import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
-import { urlFor } from '@/sanity/lib/image'
+import { imageDataOrPlaceholder } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
 import { getPartnersPage, type PartnersPage } from '@/sanity/lib/staticPages'
@@ -65,14 +64,10 @@ function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
   const heroLead = page?.hero?.lead ?? ''
   const eventTitle = page?.eventTitle ?? ''
   const eventBody = page?.eventBody ?? []
-  const eventImage = page?.eventImage?.asset
-    ? { src: urlFor(page.eventImage).url(), alt: page.eventImage.alt ?? '' }
-    : PLACEHOLDER_IMAGE
+  const eventImage = imageDataOrPlaceholder(page?.eventImage)
   const whyEyebrow = page?.whyEyebrow ?? ''
   const whyTitle = page?.whyTitle ?? ''
-  const whyImage = page?.whyImage?.asset
-    ? { src: urlFor(page.whyImage).url(), alt: page.whyImage.alt ?? '' }
-    : PLACEHOLDER_IMAGE
+  const whyImage = imageDataOrPlaceholder(page?.whyImage)
   const whyPoints = page?.whyPoints ?? []
   const ctaHeading = page?.ctaHeading ?? ''
   const ctaAccent = page?.ctaHeadingAccent ?? ''
