@@ -6,6 +6,17 @@ import { Figure } from '@/components/Figure/Figure'
 import { type DayToken, dayToken, formatShortRange, isMultiDayRun } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 import styles from './Calendar.module.css'
+import { CalendarFilters } from './CalendarFilters'
+import {
+  applyFilters,
+  computeFacets,
+  editionWindow,
+  hasActiveFilters,
+  hasPastEvents,
+  hasUpcomingEvents,
+  resolveShowPast,
+} from './calendar-filters'
+import { useCalendarFilters } from './useCalendarFilters'
 
 interface CalendarProps {
   year: number
@@ -23,9 +34,6 @@ interface Schedule {
   onView: CalendarEvent[]
   /** Single-day events, grouped and ordered by date. */
   days: AgendaDay[]
-  /** [earliest start, latest end] across every event — the edition window. */
-  windowStart: string | null
-  windowEnd: string | null
 }
 
 // Untimed events sort before timed ones (empty string < "18:00"); ties break
@@ -34,19 +42,14 @@ function byTimeThenName(a: CalendarEvent, b: CalendarEvent): number {
   return (a.startTime ?? '').localeCompare(b.startTime ?? '') || a.name.localeCompare(b.name)
 }
 
-// Split events into the "On view" multi-day runs and the day-by-day agenda,
-// and measure the overall window. Pure so it stays cheap to memoize and test.
+// Split events into the "On view" multi-day runs and the day-by-day agenda.
+// Pure so it stays cheap to memoize and test. The edition window is measured
+// separately (see `editionWindow`) on the full, unfiltered set.
 function buildSchedule(events: CalendarEvent[]): Schedule {
   const onView: CalendarEvent[] = []
   const byDay = new Map<string, CalendarEvent[]>()
-  let windowStart: string | null = null
-  let windowEnd: string | null = null
 
   for (const event of events) {
-    const end = event.endDate ?? event.startDate
-    if (windowStart === null || event.startDate < windowStart) windowStart = event.startDate
-    if (windowEnd === null || end > windowEnd) windowEnd = end
-
     if (isMultiDayRun(event.startDate, event.endDate)) {
       onView.push(event)
     } else {
@@ -79,7 +82,7 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
       events: (byDay.get(iso) ?? []).sort(byTimeThenName),
     }))
 
-  return { onView, days, windowStart, windowEnd }
+  return { onView, days }
 }
 
 // Local "today" as an ISO `YYYY-MM-DD`, resolved on the client only — `null`
@@ -100,12 +103,22 @@ function useTodayIso(): string | null {
 }
 
 export function Calendar({ year, events }: CalendarProps) {
-  const { onView, days, windowStart, windowEnd } = useMemo(() => buildSchedule(events), [events])
   const todayIso = useTodayIso()
+  const facets = useMemo(() => computeFacets(events), [events])
+  const { filters, ready, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(facets)
 
-  // Archive guard: once an edition is fully over, drop the past/now treatment
-  // entirely — a finished edition reads as a clean record, not a greyed-out one.
-  const ended = todayIso !== null && windowEnd !== null && todayIso > windowEnd
+  // Narrow to the active selection, then build the schedule from what's left.
+  const visible = useMemo(
+    () => applyFilters(events, filters, todayIso),
+    [events, filters, todayIso],
+  )
+  const { onView, days } = useMemo(() => buildSchedule(visible), [visible])
+
+  // Edition window + live/ended judged on the WHOLE edition, never the filtered
+  // subset — filtering to past-only on a live edition must keep the live "past"
+  // greying, not flip the board into clean-archive mode.
+  const [editionStart, editionEnd] = useMemo(() => editionWindow(events), [events])
+  const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
   const live = todayIso !== null && !ended
 
   // Where "now" falls in the agenda: the first day on or after today. When every
@@ -117,9 +130,21 @@ export function Calendar({ year, events }: CalendarProps) {
     return idx === -1 ? days.length : idx
   }, [days, live, todayIso])
 
+  // Filter affordances. The past toggle only appears when it would actually
+  // change the view (the edition has both past and upcoming events); Reset
+  // lights up once the filters deviate from the all-selected default.
+  const showPast = resolveShowPast(filters, events, todayIso)
+  const showPastControl =
+    ready &&
+    todayIso !== null &&
+    hasPastEvents(events, todayIso) &&
+    hasUpcomingEvents(events, todayIso)
+  const showFilterBar = facets.venues.length > 1 || facets.types.length > 1 || showPastControl
+  const canReset = hasActiveFilters(filters)
+
   const todayToken = todayIso ? dayToken(todayIso) : undefined
   const windowLabel =
-    windowStart && windowEnd ? formatShortRange(windowStart, windowEnd) : undefined
+    editionStart && editionEnd ? formatShortRange(editionStart, editionEnd) : undefined
   const onViewLabel =
     onView.length > 0
       ? formatShortRange(
@@ -148,7 +173,6 @@ export function Calendar({ year, events }: CalendarProps) {
     <section className={styles.section} aria-labelledby="calendar-heading">
       <div className={styles.inner}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Programme</p>
           <h2 id="calendar-heading" className={styles.title}>
             Calendar
           </h2>
@@ -167,75 +191,104 @@ export function Calendar({ year, events }: CalendarProps) {
           </p>
         </header>
 
-        {onView.length > 0 && (
-          <section className={styles.band} aria-label="On view throughout the edition">
-            <div className={styles.bandHead}>
-              <h3 className={styles.bandLabel}>On view</h3>
-              {onViewLabel && <span className={styles.bandRange}>{onViewLabel}</span>}
-            </div>
-            <ul className={styles.runs}>
-              {onView.map((run) => {
-                const runEnd = run.endDate ?? run.startDate
-                const status = !live
-                  ? 'archive'
-                  : runEnd < todayIso!
-                    ? 'past'
-                    : run.startDate <= todayIso!
-                      ? 'now'
-                      : 'upcoming'
-                // Only surface a per-run span when it differs from the band
-                // window — otherwise it's just noise repeated down the list.
-                const runRange =
-                  onViewLabel && formatShortRange(run.startDate, runEnd) !== onViewLabel
-                    ? formatShortRange(run.startDate, runEnd)
-                    : undefined
-                return (
-                  <li
-                    key={run.key}
-                    className={`${styles.run} ${status === 'past' ? styles.isPast : ''} ${
-                      status === 'now' ? styles.isNow : ''
-                    }`}
-                  >
-                    <div className={styles.runBody}>
-                      <TypeChips event={run} />
-                      <h4 className={styles.runName}>{run.name}</h4>
-                      <VenueLine venue={run.venue} />
-                    </div>
-                    <div className={styles.runAside}>
-                      {status === 'now' && <span className={styles.runNow}>On view now</span>}
-                      {runRange && <span className={styles.runRange}>{runRange}</span>}
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
-          </section>
+        {showFilterBar && (
+          <CalendarFilters
+            facets={facets}
+            filters={filters}
+            showPast={showPast}
+            showPastControl={showPastControl}
+            canReset={canReset}
+            resultCount={visible.length}
+            totalCount={events.length}
+            onToggleVenue={toggleVenue}
+            onToggleType={toggleType}
+            onSetShowPast={setShowPast}
+            onReset={reset}
+          />
         )}
 
-        {days.length > 0 && (
-          <ol className={styles.agenda}>
-            {days.map((day, i) => (
-              <Fragment key={day.iso}>
-                {i === nowIndex && NowMarker}
-                <li className={`${styles.day} ${live && day.iso < todayIso! ? styles.isPast : ''}`}>
-                  <div className={styles.marker}>
-                    <span className={styles.markerNode} aria-hidden />
-                    <span className={styles.markerDay}>{day.token.dayPadded}</span>
-                    <span className={styles.markerMeta}>
-                      <span className={styles.markerMonth}>{day.token.month}</span>
-                      <span className={styles.markerWeekday}>{day.token.weekday}</span>
-                    </span>
-                  </div>
-                  <ul className={styles.events}>
-                    {day.events.map((event) => (
-                      <EventRow key={event.key} event={event} />
-                    ))}
-                  </ul>
-                </li>
-              </Fragment>
-            ))}
-            {nowIndex === days.length && NowMarker}
-          </ol>
+        {visible.length === 0 ? (
+          <div className={styles.empty} role="status">
+            <p className={styles.emptyText}>No events match these filters.</p>
+            <button type="button" className={styles.emptyClear} onClick={reset}>
+              Show all events
+            </button>
+          </div>
+        ) : (
+          <>
+            {onView.length > 0 && (
+              <section className={styles.band} aria-label="On view throughout the edition">
+                <div className={styles.bandHead}>
+                  <h3 className={styles.bandLabel}>On view</h3>
+                  {onViewLabel && <span className={styles.bandRange}>{onViewLabel}</span>}
+                </div>
+                <ul className={styles.runs}>
+                  {onView.map((run) => {
+                    const runEnd = run.endDate ?? run.startDate
+                    const status = !live
+                      ? 'archive'
+                      : runEnd < todayIso!
+                        ? 'past'
+                        : run.startDate <= todayIso!
+                          ? 'now'
+                          : 'upcoming'
+                    // Only surface a per-run span when it differs from the band
+                    // window — otherwise it's just noise repeated down the list.
+                    const runRange =
+                      onViewLabel && formatShortRange(run.startDate, runEnd) !== onViewLabel
+                        ? formatShortRange(run.startDate, runEnd)
+                        : undefined
+                    return (
+                      <li
+                        key={run.key}
+                        className={`${styles.run} ${status === 'past' ? styles.isPast : ''} ${
+                          status === 'now' ? styles.isNow : ''
+                        }`}
+                      >
+                        <div className={styles.runBody}>
+                          <TypeChips event={run} />
+                          <h4 className={styles.runName}>{run.name}</h4>
+                          <VenueLine venue={run.venue} />
+                        </div>
+                        <div className={styles.runAside}>
+                          {status === 'now' && <span className={styles.runNow}>On view now</span>}
+                          {runRange && <span className={styles.runRange}>{runRange}</span>}
+                        </div>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </section>
+            )}
+
+            {days.length > 0 && (
+              <ol className={styles.agenda}>
+                {days.map((day, i) => (
+                  <Fragment key={day.iso}>
+                    {i === nowIndex && NowMarker}
+                    <li
+                      className={`${styles.day} ${live && day.iso < todayIso! ? styles.isPast : ''}`}
+                    >
+                      <div className={styles.marker}>
+                        <span className={styles.markerNode} aria-hidden />
+                        <span className={styles.markerDay}>{day.token.dayPadded}</span>
+                        <span className={styles.markerMeta}>
+                          <span className={styles.markerMonth}>{day.token.month}</span>
+                          <span className={styles.markerWeekday}>{day.token.weekday}</span>
+                        </span>
+                      </div>
+                      <ul className={styles.events}>
+                        {day.events.map((event) => (
+                          <EventRow key={event.key} event={event} />
+                        ))}
+                      </ul>
+                    </li>
+                  </Fragment>
+                ))}
+                {nowIndex === days.length && NowMarker}
+              </ol>
+            )}
+          </>
         )}
       </div>
     </section>

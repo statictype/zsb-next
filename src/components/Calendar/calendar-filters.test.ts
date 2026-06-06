@@ -1,0 +1,321 @@
+import { describe, expect, it } from 'vitest'
+import type { CalendarEvent } from '@/types/edition'
+import {
+  applyFilters,
+  computeFacets,
+  DEFAULT_FILTERS,
+  editionWindow,
+  eventEndIso,
+  filterVenue,
+  hasActiveFilters,
+  hasPastEvents,
+  hasUpcomingEvents,
+  isAllSelected,
+  isNoneSelected,
+  isPastEvent,
+  isSelected,
+  parseFilters,
+  resolveShowPast,
+  serializeFilters,
+  toggleSelection,
+  venueSlug,
+} from './calendar-filters'
+
+const CFP = 'Combinatul Fondului Plastic'
+
+// Minimal event factory — only the fields the filter logic touches.
+function ev(
+  partial: Partial<CalendarEvent> & Pick<CalendarEvent, 'key' | 'startDate'>,
+): CalendarEvent {
+  return {
+    name: partial.key,
+    description: '',
+    featured: false,
+    types: [{ title: 'Exhibition', slug: 'exhibition' }],
+    venue: { name: CFP, type: 'venue' },
+    ...partial,
+  }
+}
+
+describe('venueSlug', () => {
+  it('lowercases, strips diacritics, and dashes non-alphanumerics', () => {
+    expect(venueSlug(CFP)).toBe('combinatul-fondului-plastic')
+    expect(venueSlug('Galeria Posibilă')).toBe('galeria-posibila')
+    expect(venueSlug('Atelier 35 / Studio')).toBe('atelier-35-studio')
+  })
+
+  it('trims leading and trailing separators', () => {
+    expect(venueSlug('  —Studio—  ')).toBe('studio')
+  })
+})
+
+describe('filterVenue', () => {
+  it('rolls a sub-venue up to its parent so studios / UNAgaleria fold into CFP', () => {
+    expect(filterVenue({ name: 'UNAgaleria', type: 'venue', partOf: CFP })).toEqual({
+      slug: 'combinatul-fondului-plastic',
+      label: CFP,
+    })
+    expect(filterVenue({ name: 'Ana Zoe Pop Studio', type: 'venue', partOf: CFP })).toEqual({
+      slug: 'combinatul-fondului-plastic',
+      label: CFP,
+    })
+  })
+
+  it('uses the venue itself when it has no parent', () => {
+    expect(filterVenue({ name: 'Galeria Simeza', type: 'venue' })).toEqual({
+      slug: 'galeria-simeza',
+      label: 'Galeria Simeza',
+    })
+  })
+})
+
+describe('eventEndIso / isPastEvent', () => {
+  it('uses endDate for multi-day runs and startDate otherwise', () => {
+    expect(eventEndIso(ev({ key: 'a', startDate: '2026-04-10' }))).toBe('2026-04-10')
+    expect(eventEndIso(ev({ key: 'b', startDate: '2026-04-10', endDate: '2026-04-20' }))).toBe(
+      '2026-04-20',
+    )
+  })
+
+  it('treats an event as past only once its last day is before today', () => {
+    const today = '2026-04-15'
+    expect(isPastEvent(ev({ key: 'yesterday', startDate: '2026-04-14' }), today)).toBe(true)
+    expect(isPastEvent(ev({ key: 'today', startDate: '2026-04-15' }), today)).toBe(false)
+    expect(
+      isPastEvent(ev({ key: 'run', startDate: '2026-04-01', endDate: '2026-04-20' }), today),
+    ).toBe(false)
+    expect(
+      isPastEvent(ev({ key: 'over', startDate: '2026-04-01', endDate: '2026-04-14' }), today),
+    ).toBe(true)
+  })
+})
+
+describe('hasUpcomingEvents / hasPastEvents / editionWindow', () => {
+  const events = [
+    ev({ key: 'past', startDate: '2026-04-10' }),
+    ev({ key: 'future', startDate: '2026-04-20' }),
+  ]
+  it('detects upcoming and past presence against today', () => {
+    expect(hasUpcomingEvents(events, '2026-04-15')).toBe(true)
+    expect(hasPastEvents(events, '2026-04-15')).toBe(true)
+    expect(hasUpcomingEvents(events, '2026-05-01')).toBe(false)
+    expect(hasPastEvents(events, '2026-04-01')).toBe(false)
+  })
+
+  it('measures [earliest start, latest end] across the edition', () => {
+    expect(
+      editionWindow([
+        ev({ key: 'a', startDate: '2026-04-12' }),
+        ev({ key: 'b', startDate: '2026-04-10', endDate: '2026-04-25' }),
+        ev({ key: 'c', startDate: '2026-04-18' }),
+      ]),
+    ).toEqual(['2026-04-10', '2026-04-25'])
+    expect(editionWindow([])).toEqual([null, null])
+  })
+})
+
+describe('resolveShowPast', () => {
+  const mixed = [
+    ev({ key: 'past', startDate: '2026-04-10' }),
+    ev({ key: 'future', startDate: '2026-04-20' }),
+  ]
+  it('shows everything before the client clock resolves', () => {
+    expect(resolveShowPast(DEFAULT_FILTERS, mixed, null)).toBe(true)
+  })
+  it('hides past by default on a live edition (has upcoming)', () => {
+    expect(resolveShowPast(DEFAULT_FILTERS, mixed, '2026-04-15')).toBe(false)
+  })
+  it('shows past by default on a finished edition (nothing upcoming)', () => {
+    expect(resolveShowPast(DEFAULT_FILTERS, mixed, '2026-05-01')).toBe(true)
+  })
+  it('honours an explicit choice over the default', () => {
+    expect(resolveShowPast({ ...DEFAULT_FILTERS, showPast: true }, mixed, '2026-04-15')).toBe(true)
+    expect(resolveShowPast({ ...DEFAULT_FILTERS, showPast: false }, mixed, '2026-05-01')).toBe(
+      false,
+    )
+  })
+})
+
+describe('computeFacets', () => {
+  it('rolls sub-venues into their parent and counts events under the parent', () => {
+    const events = [
+      ev({ key: 'a', startDate: '2026-04-10', venue: { name: CFP, type: 'venue' } }),
+      ev({
+        key: 'b',
+        startDate: '2026-04-11',
+        venue: { name: 'UNAgaleria', type: 'venue', partOf: CFP },
+      }),
+      ev({
+        key: 'c',
+        startDate: '2026-04-12',
+        venue: { name: 'Ana Zoe Pop Studio', type: 'venue', partOf: CFP },
+      }),
+      ev({ key: 'd', startDate: '2026-04-13', venue: { name: 'Galeria Simeza', type: 'venue' } }),
+    ]
+    const { venues } = computeFacets(events)
+    expect(venues).toEqual([
+      { slug: 'combinatul-fondului-plastic', label: CFP, count: 3 },
+      { slug: 'galeria-simeza', label: 'Galeria Simeza', count: 1 },
+    ])
+  })
+
+  it('counts an event under each of its types, ordered by count then label', () => {
+    const events = [
+      ev({
+        key: 'a',
+        startDate: '2026-04-10',
+        types: [
+          { title: 'Exhibition', slug: 'exhibition' },
+          { title: 'Opening', slug: 'opening' },
+        ],
+      }),
+      ev({ key: 'b', startDate: '2026-04-11', types: [{ title: 'Opening', slug: 'opening' }] }),
+    ]
+    const { types } = computeFacets(events)
+    expect(types).toEqual([
+      { slug: 'opening', label: 'Opening', count: 2 },
+      { slug: 'exhibition', label: 'Exhibition', count: 1 },
+    ])
+  })
+})
+
+describe('facet selection helpers', () => {
+  it('treats null as all-selected and [] as none-selected', () => {
+    expect(isAllSelected(null)).toBe(true)
+    expect(isAllSelected([])).toBe(false)
+    expect(isNoneSelected([])).toBe(true)
+    expect(isNoneSelected(null)).toBe(false)
+    expect(isSelected(null, 'cfp')).toBe(true)
+    expect(isSelected(['cfp'], 'cfp')).toBe(true)
+    expect(isSelected(['cfp'], 'simeza')).toBe(false)
+    expect(isSelected([], 'cfp')).toBe(false)
+  })
+
+  it('toggles off from the all-selected default by expanding then removing', () => {
+    expect(toggleSelection(null, 'a', ['a', 'b', 'c'])).toEqual(['b', 'c'])
+  })
+
+  it('collapses back to null once everything is reselected', () => {
+    expect(toggleSelection(['b', 'c'], 'a', ['a', 'b', 'c'])).toBeNull()
+  })
+
+  it('reaches the none state by toggling off the last selected option', () => {
+    expect(toggleSelection(['a'], 'a', ['a', 'b'])).toEqual([])
+  })
+})
+
+describe('applyFilters', () => {
+  const events = [
+    ev({
+      key: 'cfp-ex',
+      startDate: '2026-04-20',
+      venue: { name: CFP, type: 'venue' },
+      types: [{ title: 'Exhibition', slug: 'exhibition' }],
+    }),
+    ev({
+      key: 'una-talk',
+      startDate: '2026-04-21',
+      venue: { name: 'UNAgaleria', type: 'venue', partOf: CFP },
+      types: [{ title: 'Talk', slug: 'talk' }],
+    }),
+    ev({
+      key: 'simeza-ex',
+      startDate: '2026-04-22',
+      venue: { name: 'Galeria Simeza', type: 'venue' },
+      types: [
+        { title: 'Exhibition', slug: 'exhibition' },
+        { title: 'Talk', slug: 'talk' },
+      ],
+    }),
+  ]
+
+  it('imposes no constraint when a facet is null (all selected)', () => {
+    expect(applyFilters(events, DEFAULT_FILTERS, '2026-04-01')).toHaveLength(3)
+  })
+
+  it('matches sub-venues through their parent slug', () => {
+    const out = applyFilters(
+      events,
+      { ...DEFAULT_FILTERS, venues: ['combinatul-fondului-plastic'] },
+      '2026-04-01',
+    )
+    expect(out.map((e) => e.key)).toEqual(['cfp-ex', 'una-talk'])
+  })
+
+  it('shows nothing when a facet is empty (none selected)', () => {
+    expect(applyFilters(events, { ...DEFAULT_FILTERS, venues: [] }, '2026-04-01')).toHaveLength(0)
+  })
+
+  it('OR-combines within the type facet, matching any of an event’s types', () => {
+    const out = applyFilters(events, { ...DEFAULT_FILTERS, types: ['talk'] }, '2026-04-01')
+    expect(out.map((e) => e.key)).toEqual(['una-talk', 'simeza-ex'])
+  })
+
+  it('AND-combines across facets', () => {
+    const out = applyFilters(
+      events,
+      { ...DEFAULT_FILTERS, venues: ['galeria-simeza'], types: ['exhibition'] },
+      '2026-04-01',
+    )
+    expect(out.map((e) => e.key)).toEqual(['simeza-ex'])
+  })
+
+  it('hides past events by default on a live edition, reveals them when asked', () => {
+    const mixed = [
+      ev({ key: 'past', startDate: '2026-04-10' }),
+      ev({ key: 'future', startDate: '2026-04-20' }),
+    ]
+    expect(applyFilters(mixed, DEFAULT_FILTERS, '2026-04-15').map((e) => e.key)).toEqual(['future'])
+    expect(
+      applyFilters(mixed, { ...DEFAULT_FILTERS, showPast: true }, '2026-04-15').map((e) => e.key),
+    ).toEqual(['past', 'future'])
+  })
+
+  it('never hides anything before the clock resolves', () => {
+    const mixed = [
+      ev({ key: 'past', startDate: '2026-04-10' }),
+      ev({ key: 'future', startDate: '2026-04-20' }),
+    ]
+    expect(applyFilters(mixed, DEFAULT_FILTERS, null)).toHaveLength(2)
+  })
+})
+
+describe('hasActiveFilters', () => {
+  it('is false at the default and true on any deviation', () => {
+    expect(hasActiveFilters(DEFAULT_FILTERS)).toBe(false)
+    expect(hasActiveFilters({ ...DEFAULT_FILTERS, venues: ['cfp'] })).toBe(true)
+    expect(hasActiveFilters({ ...DEFAULT_FILTERS, venues: [] })).toBe(true)
+    expect(hasActiveFilters({ ...DEFAULT_FILTERS, showPast: true })).toBe(true)
+  })
+})
+
+describe('parseFilters / serializeFilters', () => {
+  it('reads an absent param as all-selected (null) and a present one as a selection', () => {
+    expect(parseFilters('?venue=cfp,galeria&type=talk&past=1')).toEqual({
+      venues: ['cfp', 'galeria'],
+      types: ['talk'],
+      showPast: true,
+    })
+    expect(parseFilters('')).toEqual(DEFAULT_FILTERS)
+  })
+
+  it('reads an empty param as the none selection', () => {
+    expect(parseFilters('?venue=')).toEqual({ venues: [], types: null, showPast: null })
+  })
+
+  it('round-trips through serialize → parse, including the none state', () => {
+    const filters = { venues: ['cfp', 'galeria'], types: [], showPast: false }
+    expect(parseFilters(serializeFilters(filters))).toEqual(filters)
+  })
+
+  it('emits an empty string at the default', () => {
+    expect(serializeFilters(DEFAULT_FILTERS)).toBe('')
+  })
+
+  it('preserves unrelated params already on the URL', () => {
+    const query = serializeFilters({ ...DEFAULT_FILTERS, venues: ['cfp'] }, 'utm=fb')
+    const params = new URLSearchParams(query)
+    expect(params.get('utm')).toBe('fb')
+    expect(params.get('venue')).toBe('cfp')
+  })
+})
