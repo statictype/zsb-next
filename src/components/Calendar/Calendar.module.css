@@ -6,6 +6,10 @@
   background: var(--black-pure);
   color: var(--white);
   padding: var(--section-padding-y) var(--content-padding);
+  /* Shared links land on #program. Offset past the section's tall top padding
+     so the schedule — not empty space — fills the screen; the title settles a
+     hair below the top edge. (The nav isn't fixed, so nothing to clear.) */
+  scroll-margin-top: calc(var(--space-lg) - var(--section-padding-y));
   /* Width of the agenda's date-marker column; the timeline spine rides its
      right edge. Scales up with the type at larger breakpoints. */
   --marker-col: 84px;
@@ -18,7 +22,15 @@
 
 /* ---- Header ---- */
 .header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
   margin-bottom: var(--space-xl);
+}
+
+.headerMain {
+  min-width: 0;
 }
 
 .title {
@@ -559,7 +571,7 @@
     padding-right: var(--space-lg);
     text-align: right;
     position: sticky;
-    top: calc(var(--nav-height) + var(--space-md));
+    top: var(--space-lg);
   }
 
   /* node sits on the spine at the marker column's right edge */

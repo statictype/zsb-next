@@ -187,10 +187,12 @@
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Desktop: nav as fixed top-right pill row, hide hamburger */
+/* Desktop: nav as a top-right pill row, hide hamburger. Absolute (not fixed) so
+   it sits at the top of the page and scrolls away with the content — like the
+   logo — rather than floating over sections further down. */
 @media (min-width: 768px) {
   .nav {
-    position: fixed;
+    position: absolute;
     top: 32px;
     right: var(--content-padding);
     bottom: auto;

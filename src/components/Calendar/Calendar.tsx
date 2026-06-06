@@ -1,12 +1,13 @@
 'use client'
 
 import { RiArrowRightUpLine } from '@remixicon/react'
-import { Fragment, useMemo, useSyncExternalStore } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useSyncExternalStore } from 'react'
 import { Figure } from '@/components/Figure/Figure'
 import { type DayToken, dayToken, formatShortRange, isMultiDayRun } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 import styles from './Calendar.module.css'
 import { CalendarFilters } from './CalendarFilters'
+import { CalendarShare, PROGRAM_SECTION_ID } from './CalendarShare'
 import {
   applyFilters,
   computeFacets,
@@ -107,6 +108,17 @@ export function Calendar({ year, events }: CalendarProps) {
   const facets = useMemo(() => computeFacets(events), [events])
   const { filters, ready, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(facets)
 
+  // A shared link arrives as `/editions/<year>#program`, but the programme
+  // streams in behind the route's Suspense boundary (loading.tsx) — so the
+  // browser's native fragment scroll usually fires before this section exists
+  // and is lost. Re-run it once on mount, when the element is guaranteed here.
+  const sectionRef = useRef<HTMLElement>(null)
+  useEffect(() => {
+    if (window.location.hash === `#${PROGRAM_SECTION_ID}`) {
+      sectionRef.current?.scrollIntoView({ behavior: 'instant' })
+    }
+  }, [])
+
   // Narrow to the active selection, then build the schedule from what's left.
   const visible = useMemo(
     () => applyFilters(events, filters, todayIso),
@@ -170,25 +182,33 @@ export function Calendar({ year, events }: CalendarProps) {
   )
 
   return (
-    <section className={styles.section} aria-labelledby="calendar-heading">
+    <section
+      id={PROGRAM_SECTION_ID}
+      ref={sectionRef}
+      className={styles.section}
+      aria-labelledby="calendar-heading"
+    >
       <div className={styles.inner}>
         <header className={styles.header}>
-          <h2 id="calendar-heading" className={styles.title}>
-            Calendar
-          </h2>
-          <p className={styles.meta}>
-            <span className={styles.metaYear}>{year}</span>
-            {windowLabel && (
-              <>
-                <span className={styles.metaDot} aria-hidden />
-                <span>{windowLabel}</span>
-              </>
-            )}
-            <span className={styles.metaDot} aria-hidden />
-            <span>
-              {events.length} {events.length === 1 ? 'event' : 'events'}
-            </span>
-          </p>
+          <div className={styles.headerMain}>
+            <h2 id="calendar-heading" className={styles.title}>
+              Calendar
+            </h2>
+            <p className={styles.meta}>
+              <span className={styles.metaYear}>{year}</span>
+              {windowLabel && (
+                <>
+                  <span className={styles.metaDot} aria-hidden />
+                  <span>{windowLabel}</span>
+                </>
+              )}
+              <span className={styles.metaDot} aria-hidden />
+              <span>
+                {events.length} {events.length === 1 ? 'event' : 'events'}
+              </span>
+            </p>
+          </div>
+          <CalendarShare />
         </header>
 
         {showFilterBar && (
