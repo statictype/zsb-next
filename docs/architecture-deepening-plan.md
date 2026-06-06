@@ -15,7 +15,7 @@ merely *move* it (a pass-through, not worth extracting).
 |---|-----------|-------|
 | 1 | Render seam (`Figure`) | ✅ Done — see note below |
 | 2 | Media-strip controls (`StripControls`) | ✅ Done — commit `64e8b45` |
-| 3 | `generateMetadata` factory | **Pending** |
+| 3 | `generateMetadata` factory (`makePageMetadata`) | ✅ Done — see note below |
 | 4 | Mappers in the data layer | ✅ Done — commit `d4e3694`, [ADR 0013](./adr/0013-reshaping-in-data-layer.md) |
 | 5 | `useMouseMagnetic` hook | **Pending** — verify overlap first |
 
@@ -104,7 +104,25 @@ re-scatters the scaffold across all 13 callers → concentrates, earns its keep.
 
 ---
 
-## 3. A `generateMetadata` factory
+## 3. A `generateMetadata` factory — ✅ Done
+
+**Outcome.** Added `makePageMetadata(fetcher, { title, path, description?, robots? })`
+to `lib/seo.ts`. It binds a page singleton's fetcher + its fixed title/path into a
+`generateMetadata`, owning the resolve-perspective → fetch (stega off) → map-meta
+orchestration in one place. The five static pages collapse to one line each:
+
+```ts
+export const generateMetadata = makePageMetadata(getAboutPage, { title: 'About', path: '/about' })
+```
+
+Migrated `about`, `partners`, `press`, `visit`, `privacy`. The privacy `robots`
+override rides the config's optional `robots` (merged onto the result), and the
+`metaDescription ?? SITE_DESCRIPTION` fallback now lives once in the factory.
+Verified with `pnpm build` — Next picks up the const-bound `generateMetadata` and
+all five pages prerender. Per the note below, **no** `makePage()` route wrapper
+was added (pure pass-through; fails the deletion test).
+
+---
 
 **Problem.** `pageMetadata()` (`lib/seo.ts`) is already a clean adapter, but the
 orchestration around it is copy-pasted across **5 pages**:
