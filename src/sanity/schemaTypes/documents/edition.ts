@@ -207,6 +207,51 @@ export const edition = defineType({
       group: 'program',
     }),
 
+    // The new events-and-venues model (ADR 0014). Events are nested here, one
+    // list per edition; the calendar, filters, featured and venues view all
+    // read from this list.
+    defineField({
+      name: 'events',
+      title: 'Events',
+      description:
+        "This edition's program as a list of events. Order doesn't matter — the calendar sorts by date.",
+      type: 'array',
+      group: 'program',
+      of: [defineArrayMember({ type: 'event' })],
+    }),
+
+    // The SFTF ("Sculptors for the Future") callout, lifted out of the old
+    // program so it survives that format's removal (ADR 0014).
+    defineField({
+      name: 'programCallout',
+      title: 'Program callout',
+      description:
+        'Optional edition-level banner above the program — e.g. the "Sculptors for the Future" educational-program callout.',
+      type: 'object',
+      group: 'program',
+      fields: [
+        defineField({
+          name: 'tag',
+          title: 'Tag',
+          type: 'string',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'title',
+          title: 'Title',
+          type: 'string',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'description',
+          title: 'Description',
+          type: 'text',
+          rows: 3,
+          validation: (rule) => rule.required(),
+        }),
+      ],
+    }),
+
     defineField({
       name: 'carousel',
       title: 'Carousel',

@@ -8,6 +8,14 @@ export const siteSettings = defineType({
   icon: CogIcon,
   fields: [
     defineField({
+      name: 'currentEdition',
+      title: 'Current edition',
+      description:
+        'The edition the site is showing right now. Drives the homepage featured events and the Visit-page venues list. Flip this once the new edition is ready to take over — past editions stay online either way.',
+      type: 'reference',
+      to: [{ type: 'edition' }],
+    }),
+    defineField({
       name: 'contactEmail',
       title: 'Contact email',
       description:

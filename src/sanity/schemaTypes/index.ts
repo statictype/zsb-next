@@ -2,6 +2,7 @@ import type { SchemaTypeDefinition } from 'sanity'
 import { aboutPage } from './documents/aboutPage'
 import { artist } from './documents/artist'
 import { edition } from './documents/edition'
+import { eventType } from './documents/eventType'
 import { homepage } from './documents/homepage'
 import { organization } from './documents/organization'
 import { partnersPage } from './documents/partnersPage'
@@ -10,10 +11,13 @@ import { pressPage } from './documents/pressPage'
 import { pressRelease } from './documents/pressRelease'
 import { privacyPage } from './documents/privacyPage'
 import { siteSettings } from './documents/siteSettings'
+import { venue } from './documents/venue'
+import { venueType } from './documents/venueType'
 import { visitPage } from './documents/visitPage'
 import { amenity } from './objects/amenity'
 import { carouselSlide } from './objects/carouselSlide'
 import { creditOrg, creditOrgList, creditText } from './objects/creditRow'
+import { event } from './objects/event'
 import { faqItem } from './objects/faqItem'
 import { heroSlide } from './objects/heroSlide'
 import { pageHero } from './objects/pageHero'
@@ -38,11 +42,16 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   organization,
   pressAppearance,
   pressRelease,
+  // Program & calendar
+  venue,
+  eventType,
+  venueType,
   // Objects
   amenity,
   creditOrg,
   creditOrgList,
   creditText,
+  event,
   faqItem,
   heroSlide,
   pageHero,

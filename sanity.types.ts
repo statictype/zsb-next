@@ -30,7 +30,7 @@ export type SanityImageAssetReference = {
 
 export type CarouselImageImage = {
   asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "image.media" in schema
+  media?: unknown // Unable to locate the referenced type "carouselImage.image.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   alt?: string
@@ -132,6 +132,46 @@ export type FaqItem = {
   answer: string
 }
 
+export type EventTypeReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'eventType'
+}
+
+export type VenueReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'venue'
+}
+
+export type Event = {
+  _type: 'event'
+  name: string
+  startDate: string
+  startTime?: string
+  endDate?: string
+  types: Array<
+    {
+      _key: string
+    } & EventTypeReference
+  >
+  venue: VenueReference
+  description: string
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  facebookUrl?: string
+  ticketUrl?: string
+  featured?: boolean
+}
+
 export type CreditText = {
   _type: 'creditText'
   type: 'primary' | 'partner' | 'secondary'
@@ -169,6 +209,53 @@ export type Amenity = {
   _type: 'amenity'
   label: string
   icon: 'wheelchair' | 'parking' | 'cafe' | 'paint' | 'restroom' | 'wifi'
+}
+
+export type EventType = {
+  _id: string
+  _type: 'eventType'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  slug: Slug
+}
+
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
+}
+
+export type VenueTypeReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'venueType'
+}
+
+export type Venue = {
+  _id: string
+  _type: 'venue'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  type: VenueTypeReference
+  partOf?: VenueReference
+  address?: string
+  mapUrl?: string
+  description?: string
+}
+
+export type VenueType = {
+  _id: string
+  _type: 'venueType'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  slug: Slug
 }
 
 export type EditionReference = {
@@ -250,12 +337,6 @@ export type SanityImageHotspot = {
   y: number
   height: number
   width: number
-}
-
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
 }
 
 export type Artist = {
@@ -526,6 +607,18 @@ export type Homepage = {
   metaDescription: string
 }
 
+export type SiteSettings = {
+  _id: string
+  _type: 'siteSettings'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  currentEdition?: EditionReference
+  contactEmail: string
+  instagramUrl?: string
+  facebookUrl?: string
+}
+
 export type ArtistReference = {
   _ref: string
   _type: 'reference'
@@ -582,6 +675,16 @@ export type Edition = {
     } & VenueEntry
   >
   program?: ProgramData
+  events?: Array<
+    {
+      _key: string
+    } & Event
+  >
+  programCallout?: {
+    tag: string
+    title: string
+    description: string
+  }
   carousel?: Array<
     {
       _key: string
@@ -625,17 +728,6 @@ export type Edition = {
     _type: 'image'
   }
   metaDescription?: string
-}
-
-export type SiteSettings = {
-  _id: string
-  _type: 'siteSettings'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  contactEmail: string
-  instagramUrl?: string
-  facebookUrl?: string
 }
 
 export type SanityImagePaletteSwatch = {
@@ -748,11 +840,19 @@ export type AllSanitySchemaTypes =
   | PageHero
   | HeroSlide
   | FaqItem
+  | EventTypeReference
+  | VenueReference
+  | Event
   | CreditText
   | OrganizationReference
   | CreditOrgList
   | CreditOrg
   | Amenity
+  | EventType
+  | Slug
+  | VenueTypeReference
+  | Venue
+  | VenueType
   | EditionReference
   | SanityFileAssetReference
   | PressRelease
@@ -760,7 +860,6 @@ export type AllSanitySchemaTypes =
   | Organization
   | SanityImageCrop
   | SanityImageHotspot
-  | Slug
   | Artist
   | PrivacyPage
   | PressPage
@@ -768,9 +867,9 @@ export type AllSanitySchemaTypes =
   | PartnersPage
   | AboutPage
   | Homepage
+  | SiteSettings
   | ArtistReference
   | Edition
-  | SiteSettings
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -1610,7 +1709,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
       caption: string
       image: {
         asset?: SanityImageAssetReference
-        media?: unknown // Unable to locate the referenced type "image.media" in schema
+        media?: unknown // Unable to locate the referenced type "carouselImage.image.media" in schema
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
         alt?: string

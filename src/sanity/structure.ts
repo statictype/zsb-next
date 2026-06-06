@@ -9,6 +9,8 @@ import {
   LinkIcon,
   LockIcon,
   PinIcon,
+  TagIcon,
+  TagsIcon,
   TransferIcon,
   UsersIcon,
 } from '@sanity/icons'
@@ -32,6 +34,25 @@ export const structure: StructureResolver = (S) =>
 
       // Editions — primary content
       S.documentTypeListItem('edition').title('Editions').icon(ImageIcon),
+
+      S.divider(),
+
+      // Program & calendar — venues are reused across editions (events
+      // reference them); the type lists are the team-managed taxonomies the
+      // calendar filters and venues view enumerate. See ADR 0014.
+      S.documentTypeListItem('venue').title('Venues').icon(PinIcon),
+      S.listItem()
+        .id('programTypes')
+        .title('Types')
+        .icon(TagIcon)
+        .child(
+          S.list()
+            .title('Types')
+            .items([
+              S.documentTypeListItem('eventType').title('Event types').icon(TagIcon),
+              S.documentTypeListItem('venueType').title('Venue types').icon(TagsIcon),
+            ]),
+        ),
 
       S.divider(),
 
@@ -66,6 +87,7 @@ export const structure: StructureResolver = (S) =>
         if (!id) return false
         if (['edition', 'artist', 'organization'].includes(id)) return false
         if (['pressAppearance', 'pressRelease'].includes(id)) return false
+        if (['venue', 'eventType', 'venueType'].includes(id)) return false
         return !isSingletonType(id)
       }),
     ])
