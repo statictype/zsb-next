@@ -50,3 +50,77 @@ export function composeDateTape(raw: {
   if (!range) return ''
   return raw.venueLine ? `${range} · ${raw.venueLine}` : range
 }
+
+// ---- Calendar helpers (ZSB-28) ----
+
+const WEEKDAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const
+const WEEKDAYS_LONG = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+] as const
+const MONTHS_SHORT = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+] as const
+
+export interface DayToken {
+  weekday: string
+  weekdayLong: string
+  day: number
+  /** Zero-padded day, for the big agenda numeral. */
+  dayPadded: string
+  month: string
+  monthLong: string
+  year: number
+}
+
+// Break an ISO `YYYY-MM-DD` into the pieces the agenda date marker renders.
+// Weekday is derived via UTC so it never drifts by a day across timezones.
+export function dayToken(iso: string): DayToken | undefined {
+  const p = dateParts(iso)
+  if (!p) return undefined
+  const wd = new Date(Date.UTC(p.y, p.m - 1, p.d)).getUTCDay()
+  return {
+    weekday: WEEKDAYS_SHORT[wd] ?? '',
+    weekdayLong: WEEKDAYS_LONG[wd] ?? '',
+    day: p.d,
+    dayPadded: String(p.d).padStart(2, '0'),
+    month: MONTHS_SHORT[p.m - 1] ?? '',
+    monthLong: MONTHS[p.m - 1] ?? '',
+    year: p.y,
+  }
+}
+
+// A run is multi-day ("On view") when it has an end date on a later calendar
+// day than its start. ISO `YYYY-MM-DD` strings compare chronologically.
+export function isMultiDayRun(startIso: string, endIso?: string | null): boolean {
+  return Boolean(endIso) && (endIso as string) > startIso
+}
+
+// Compact span for the "On view" pills, short months, year only when it spans
+// one: "26 Apr – 11 May", same month "26–28 Apr", cross-year full both sides.
+export function formatShortRange(startIso: string, endIso: string): string | undefined {
+  const s = dateParts(startIso)
+  const e = dateParts(endIso)
+  if (!s || !e) return undefined
+  const sm = MONTHS_SHORT[s.m - 1]
+  const em = MONTHS_SHORT[e.m - 1]
+  if (s.y === e.y && s.m === e.m) return `${s.d}–${e.d} ${sm}`
+  if (s.y === e.y) return `${s.d} ${sm} – ${e.d} ${em}`
+  return `${s.d} ${sm} ${s.y} – ${e.d} ${em} ${e.y}`
+}

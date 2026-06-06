@@ -225,6 +225,20 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,
     venues,
     program,
+    events[] {
+      _key,
+      name,
+      startDate,
+      startTime,
+      endDate,
+      "types": types[]->{ "title": title, "slug": slug.current },
+      "venue": venue->{ name, "type": type->title, "partOf": partOf->name },
+      description,
+      image{ ..., "lqip": asset->metadata.lqip },
+      facebookUrl,
+      ticketUrl,
+      featured
+    },
     carousel[] {
       layout,
       images[] {

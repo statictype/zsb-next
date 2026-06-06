@@ -3,6 +3,7 @@ import 'server-only'
 import type { EDITION_BY_YEAR_QUERY_RESULT } from '@/../sanity.types'
 import { composeDateTape } from '@/lib/edition-dates'
 import type {
+  CalendarEvent,
   CarouselImage,
   CarouselLayout,
   CarouselSlide,
@@ -94,6 +95,31 @@ function mapProgram(raw: NonNullable<SanityEdition['program']>): ProgramData {
   }
 }
 
+function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
+  if (!raw?.length) return undefined
+  return raw.map((e) => {
+    const image = toImageData(e.image)
+    return {
+      key: e._key,
+      name: e.name,
+      startDate: e.startDate,
+      ...(e.startTime ? { startTime: e.startTime } : {}),
+      ...(e.endDate ? { endDate: e.endDate } : {}),
+      types: e.types.map((t) => ({ title: t.title, slug: t.slug })),
+      venue: {
+        name: e.venue.name,
+        type: e.venue.type,
+        ...(e.venue.partOf ? { partOf: e.venue.partOf } : {}),
+      },
+      description: e.description,
+      ...(image ? { image } : {}),
+      ...(e.facebookUrl ? { facebookUrl: e.facebookUrl } : {}),
+      ...(e.ticketUrl ? { ticketUrl: e.ticketUrl } : {}),
+      featured: e.featured ?? false,
+    }
+  })
+}
+
 function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
   const out: CreditEntry[] = []
   if (!rows) return out
@@ -153,6 +179,10 @@ function mapEdition(raw: SanityEdition): Edition {
     artists: raw.artists ?? [],
     venues: raw.venues?.map(({ _key, ...rest }) => rest) ?? [],
     ...(raw.program ? { program: mapProgram(raw.program) } : {}),
+    ...(() => {
+      const events = mapEvents(raw.events)
+      return events ? { events } : {}
+    })(),
     ...(carousel ? { carousel } : {}),
     credits: mapCredits(raw.credits),
   }

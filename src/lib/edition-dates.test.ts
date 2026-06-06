@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { composeDateTape, dateParts, formatDateRange } from './edition-dates'
+import {
+  composeDateTape,
+  dateParts,
+  dayToken,
+  formatDateRange,
+  formatShortRange,
+  isMultiDayRun,
+} from './edition-dates'
 
 describe('dateParts', () => {
   it('parses a YYYY-MM-DD string without a Date object', () => {
@@ -54,5 +61,59 @@ describe('composeDateTape', () => {
 
   it('returns an empty string when the dates are unparseable', () => {
     expect(composeDateTape({ dateStart: 'x', dateEnd: 'y', venueLine: 'Bucharest' })).toBe('')
+  })
+})
+
+describe('dayToken', () => {
+  it('derives the weekday via UTC so it never drifts a day', () => {
+    // 2025-04-26 is a Saturday.
+    expect(dayToken('2025-04-26')).toEqual({
+      weekday: 'Sat',
+      weekdayLong: 'Saturday',
+      day: 26,
+      dayPadded: '26',
+      month: 'Apr',
+      monthLong: 'April',
+      year: 2025,
+    })
+  })
+
+  it('zero-pads single-digit days for the agenda numeral', () => {
+    expect(dayToken('2025-05-03')?.dayPadded).toBe('03')
+  })
+
+  it('returns undefined for a malformed date', () => {
+    expect(dayToken('2025-13-40')).toBeUndefined()
+  })
+})
+
+describe('isMultiDayRun', () => {
+  it('is true only when the end date is on a later day', () => {
+    expect(isMultiDayRun('2025-04-26', '2025-05-11')).toBe(true)
+  })
+
+  it('is false for a same-day end, a missing end, or an earlier end', () => {
+    expect(isMultiDayRun('2025-04-26', '2025-04-26')).toBe(false)
+    expect(isMultiDayRun('2025-04-26')).toBe(false)
+    expect(isMultiDayRun('2025-04-26', null)).toBe(false)
+    expect(isMultiDayRun('2025-04-26', '2025-04-25')).toBe(false)
+  })
+})
+
+describe('formatShortRange', () => {
+  it('collapses a same-month span to one short month', () => {
+    expect(formatShortRange('2025-04-26', '2025-04-28')).toBe('26–28 Apr')
+  })
+
+  it('shows both short months for a cross-month span in one year', () => {
+    expect(formatShortRange('2025-04-26', '2025-05-11')).toBe('26 Apr – 11 May')
+  })
+
+  it('spells out both sides with years for a cross-year span', () => {
+    expect(formatShortRange('2024-12-30', '2025-01-02')).toBe('30 Dec 2024 – 2 Jan 2025')
+  })
+
+  it('returns undefined when either date is malformed', () => {
+    expect(formatShortRange('2025-04-26', 'nope')).toBeUndefined()
   })
 })

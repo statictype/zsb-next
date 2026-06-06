@@ -1,0 +1,688 @@
+/* =====================================================
+   CALENDAR — date-by-date programme as a dark schedule board
+   ===================================================== */
+
+.section {
+  background: var(--black-pure);
+  color: var(--white);
+  padding: var(--section-padding-y) var(--content-padding);
+  /* Width of the agenda's date-marker column; the timeline spine rides its
+     right edge. Scales up with the type at larger breakpoints. */
+  --marker-col: 84px;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* ---- Header ---- */
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: var(--space-md);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 36px;
+  height: 2px;
+  background: var(--action);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  line-height: var(--leading-display);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-tight);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--body);
+}
+
+.metaYear {
+  color: var(--highlight);
+}
+
+.metaDot {
+  width: 4px;
+  height: 4px;
+  background: var(--gray-700);
+  border-radius: var(--radius-circle);
+}
+
+/* ---- On view band ---- */
+.band {
+  margin-bottom: var(--space-2xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--divider);
+}
+
+.bandHead {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: var(--space-md);
+}
+
+.bandLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  font-weight: var(--weight-semibold);
+  color: var(--highlight);
+}
+
+.bandRange {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--muted);
+}
+
+.runs {
+  list-style: none;
+}
+
+.run {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md) 0 var(--space-md) var(--space-md);
+  border-top: 1px solid var(--divider);
+  position: relative;
+  transition: background var(--duration-fast) var(--ease-out-quint);
+}
+
+.run:first-child {
+  border-top: none;
+}
+
+/* chartreuse tick anchoring each run to the band */
+.run::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: var(--space-md);
+  bottom: var(--space-md);
+  width: 2px;
+  background: var(--gray-800);
+  transition: background var(--duration-fast) var(--ease-out-quint);
+}
+
+.run:hover::before {
+  background: var(--highlight);
+}
+
+.runName {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  line-height: var(--leading-tight);
+  color: var(--white);
+}
+
+.runAside {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.runNow {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--action);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.runNow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-circle);
+  background: var(--action);
+  animation: pulse 2s var(--ease-out-quint) infinite;
+}
+
+.runRange {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--muted);
+}
+
+/* ---- Agenda timeline ---- */
+.agenda {
+  list-style: none;
+  position: relative;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--divider);
+}
+
+.day:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.marker {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.markerNode {
+  display: none;
+}
+
+.markerDay {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  line-height: 0.8;
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+}
+
+.markerMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+}
+
+.markerWeekday {
+  color: var(--action);
+}
+
+.markerMonth {
+  color: var(--muted);
+}
+
+.events {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Event row ---- */
+.event {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md) 0 var(--space-md) var(--space-md);
+  border-top: 1px solid var(--divider);
+  position: relative;
+}
+
+.event:first-child {
+  border-top: none;
+}
+
+/* hover accent: a pink rule that grows in on the row's left edge */
+.event::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: var(--space-md);
+  bottom: var(--space-md);
+  width: 2px;
+  background: var(--action);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--duration-normal) var(--ease-out-expo);
+}
+
+.event:hover::before {
+  transform: scaleY(1);
+}
+
+.eventBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.eventTop {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.eventTime {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-subtle);
+}
+
+.eventName {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  color: var(--white);
+}
+
+.eventDesc {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--body);
+  max-width: 64ch;
+}
+
+.eventLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: var(--space-xs);
+}
+
+.eventLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--gray-700);
+  transition:
+    color var(--duration-fast) var(--ease-out-quint),
+    border-color var(--duration-fast) var(--ease-out-quint);
+}
+
+.eventLink:hover {
+  color: var(--action);
+  border-color: var(--action);
+}
+
+.eventLink svg {
+  transition: transform var(--duration-fast) var(--ease-out-quint);
+}
+
+.eventLink:hover svg {
+  transform: translate(2px, -2px);
+}
+
+/* Poster — touch / narrow fallback: an always-visible portrait thumbnail
+   below the text. Desktop (hover-capable, wide) swaps this for a hover-reveal
+   float; see the @media (hover: hover) block below. */
+.poster {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  max-width: 260px;
+  overflow: hidden;
+  background: var(--skeleton-base);
+}
+
+.poster img {
+  object-fit: cover;
+  filter: var(--gallery-image-filter);
+  transition:
+    filter var(--duration-medium) var(--ease-out-quint),
+    transform var(--duration-medium) var(--ease-out-quint);
+}
+
+.event:hover .poster img {
+  filter: var(--gallery-image-filter-hover);
+  transform: scale(1.03);
+}
+
+/* "Poster" affordance — hidden by default; only revealed on hover-capable
+   desktop where the poster itself is hover-gated and needs a hint. */
+.posterTag {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--muted);
+  transition: color var(--duration-fast) var(--ease-out-quint);
+}
+
+.posterTag::before {
+  content: "";
+  width: 7px;
+  height: 9px;
+  background: currentColor;
+}
+
+/* ---- Venue line + type chips (shared by runs and events) ---- */
+.venue {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+}
+
+.venueName {
+  color: var(--gray-300);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-subtle);
+  font-weight: var(--weight-medium);
+}
+
+.venueParent {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-size: var(--text-2xs);
+}
+
+.venueParent::before {
+  content: "↳ ";
+}
+
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--highlight);
+  border: 1px solid color-mix(in srgb, var(--highlight) 32%, transparent);
+  padding: 3px 9px;
+  line-height: 1.4;
+}
+
+/* ---- NOW marker ---- */
+.now {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: var(--space-md) 0;
+  list-style: none;
+}
+
+.nowDot {
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radius-circle);
+  background: var(--action);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--action) 70%, transparent);
+  animation: pulse 2s var(--ease-out-quint) infinite;
+  flex-shrink: 0;
+}
+
+.nowLabel {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-subtle);
+  color: var(--action);
+}
+
+.nowDate {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--muted);
+}
+
+.nowRule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--action), transparent);
+}
+
+/* ---- Past de-emphasis (live edition only) ---- */
+.isPast {
+  opacity: 0.42;
+  transition: opacity var(--duration-normal) var(--ease-out-quint);
+}
+
+.isPast:hover {
+  opacity: 1;
+}
+
+/* ---- Motion ---- */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--action) 60%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--action) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--action) 0%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nowDot,
+  .runNow::before {
+    animation: none;
+  }
+
+  .event::before {
+    transition: none;
+  }
+}
+
+/* ---- Tablet ---- */
+@media (min-width: 768px) {
+  .section {
+    --marker-col: 132px;
+  }
+
+  .meta {
+    font-size: var(--text-sm);
+  }
+
+  /* On view runs become two-column: body + aside */
+  .run {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    padding-left: var(--space-lg);
+  }
+
+  .runBody {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    min-width: 0;
+  }
+
+  .runAside {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  /* Agenda gains the timeline spine + marker column */
+  .agenda::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: var(--marker-col);
+    width: 1px;
+    background: var(--divider);
+  }
+
+  .day {
+    display: grid;
+    grid-template-columns: var(--marker-col) 1fr;
+    gap: 0;
+    align-items: start;
+    position: relative;
+  }
+
+  .marker {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    padding-right: var(--space-lg);
+    text-align: right;
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-md));
+  }
+
+  /* node sits on the spine at the marker column's right edge */
+  .markerNode {
+    display: block;
+    position: absolute;
+    right: -4px;
+    top: 9px;
+    width: 8px;
+    height: 8px;
+    background: var(--white);
+    border-radius: var(--radius-circle);
+  }
+
+  .markerDay {
+    font-size: var(--text-4xl);
+  }
+
+  .markerMeta {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .events {
+    padding-left: var(--space-lg);
+  }
+
+  .now {
+    margin-left: var(--marker-col);
+    padding-left: var(--space-lg);
+  }
+}
+
+/* ---- Desktop ---- */
+@media (min-width: 1024px) {
+  .section {
+    --marker-col: 168px;
+  }
+
+  .eventName {
+    font-size: var(--text-xl);
+  }
+
+  .runName {
+    font-size: var(--text-lg);
+  }
+}
+
+/* ---- Hover-reveal poster (wide, hover-capable screens only) ----
+   The agenda stays a uniform text-only list; a poster floats in over the
+   right-hand whitespace when its row is hovered. Touch and narrow widths
+   keep the inline poster defined in the base block above. */
+@media (hover: hover) and (pointer: fine) and (min-width: 1280px) {
+  .poster {
+    position: absolute;
+    top: var(--space-md);
+    right: 0;
+    width: 220px;
+    max-width: none;
+    opacity: 0;
+    transform: translateX(20px);
+    transition:
+      opacity var(--duration-normal) var(--ease-out-expo),
+      transform var(--duration-normal) var(--ease-out-expo);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .hasPoster:hover .poster {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* reserve the float's column on poster rows so text never collides with it */
+  .hasPoster .eventBody {
+    padding-right: calc(220px + var(--space-lg));
+  }
+
+  .posterTag {
+    display: inline-flex;
+  }
+
+  .hasPoster:hover .posterTag {
+    color: var(--action);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 1280px) and (
+    prefers-reduced-motion: reduce
+  ) {
+  .poster {
+    transition: opacity var(--duration-normal) var(--ease-out-quint);
+    transform: none;
+  }
+
+  .hasPoster:hover .poster {
+    transform: none;
+  }
+}
+
+/* ---- Large desktop ---- */
+@media (min-width: 1440px) {
+  .section {
+    --marker-col: 200px;
+  }
+}

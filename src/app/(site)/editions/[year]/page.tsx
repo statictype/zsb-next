@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation'
+import { Calendar } from '@/components/Calendar/Calendar'
 import { Credits } from '@/components/Credits/Credits'
 import { Hero } from '@/components/Hero/Hero'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Manifesto } from '@/components/Manifesto/Manifesto'
-import { Program } from '@/components/Program/Program'
 import { ThemeArtists } from '@/components/ThemeArtists/ThemeArtists'
 import { Venues } from '@/components/Venues/Venues'
 import { getAllEditionYears, getEdition } from '@/data/editions'
@@ -58,7 +58,9 @@ async function CachedEdition({ year, options }: { year: number; options: Dynamic
 
       <Venues venues={edition.venues} />
 
-      {edition.program && <Program year={edition.year} program={edition.program} />}
+      {edition.events && edition.events.length > 0 && (
+        <Calendar year={edition.year} events={edition.events} />
+      )}
 
       <Credits credits={edition.credits} />
     </main>

@@ -79,6 +79,43 @@ export interface ProgramData {
   sftfBanner: SFTFBanner
 }
 
+// ---- Calendar / Events (ZSB-28) ----
+
+export interface EventTypeTag {
+  title: string
+  /** Stable key from the team-managed Event types list; used in filter URLs. */
+  slug: string
+}
+
+export interface EventVenue {
+  name: string
+  type: string
+  /** Parent venue name when this place sits inside a bigger one (a studio inside CFP). */
+  partOf?: string
+}
+
+// One program event, as the calendar reads it. Timing is Bucharest-local:
+// `startDate` is always present; `startTime` only when it matters; `endDate`
+// only for multi-day "On view" runs (an exhibition that spans several days).
+export interface CalendarEvent {
+  /** Stable `_key` from the edition's events array — React key + share anchor. */
+  key: string
+  name: string
+  /** ISO `YYYY-MM-DD`, Bucharest-local. */
+  startDate: string
+  /** Optional `HH:mm`, present only when the time matters (an 18:00 opening). */
+  startTime?: string
+  /** ISO `YYYY-MM-DD`. Present and after `startDate` for a multi-day run. */
+  endDate?: string
+  types: EventTypeTag[]
+  venue: EventVenue
+  description: string
+  image?: ImageData
+  facebookUrl?: string
+  ticketUrl?: string
+  featured: boolean
+}
+
 // ---- Carousel ----
 
 export type CarouselLayout = 'trio' | 'duo' | 'featured-portrait' | 'featured-stack' | 'full'
@@ -181,6 +218,9 @@ export interface Edition {
   artists: string[]
   venues: VenueEntry[]
   program?: ProgramData
+  // The new events-and-venues model (ADR 0014). The calendar reads this list;
+  // the old `program` field above is removed once every edition is migrated.
+  events?: CalendarEvent[]
   carousel?: CarouselSlide[]
   credits: CreditEntry[]
 }
