@@ -98,14 +98,14 @@ pieces, each there for a reason:
 
 On every PR (and pushes to `main`), two jobs:
 
-1. **`check`** — secret-free: typecheck → lint → `format:check` → `pnpm test`
-   (unit + component, dummy env).
-2. **`e2e`** — installs Chromium, `pnpm build`, then `pnpm test:e2e`.
+1. **`check`** — lint → `format:check` → `pnpm test` (unit + component).
+2. **`build-e2e`** — `pnpm build`, then `pnpm test:e2e`. Reads the Sanity env
+   from Actions secrets (the vars in `.env.example`).
 
-> ⚠️ The **`e2e` job needs Sanity secrets** to build. Add these as repository
-> Actions secrets, or the build/E2E steps fail:
-> `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`,
-> `NEXT_PUBLIC_SANITY_API_VERSION`, `SANITY_API_READ_TOKEN`.
+**Types are checked by `pnpm build`, not a standalone `tsc`** — Next generates the
+route types (`PageProps` etc.) during `build`/`dev`/`next typegen`, so
+`tsc --noEmit` alone fails on a fresh checkout. `pnpm typecheck` stays for local
+use, where a running `pnpm dev` has already generated those types.
 
 The format-only pre-commit hook (`.githooks/pre-commit`) is unchanged — it
 formats staged files with Biome and is independent of the test gate.

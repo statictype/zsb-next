@@ -24,7 +24,7 @@ co-locate next to source (`*.test.ts` = unit/node, `*.test.tsx` = component/jsdo
 E2E lives in `e2e/`. We test risky logic and key pages, and deliberately skip
 presentational markup, framework internals, and live Sanity (the data layer is
 mocked). See [`docs/testing.md`](./docs/testing.md) for the full guide — config
-gotchas (`server-only` alias, dummy env, `vi.mock` of `live.ts`) and the CI secrets.
+gotchas (`server-only` alias, dummy env, `vi.mock` of `live.ts`) and CI.
 
 ## Data model: Editions
 
