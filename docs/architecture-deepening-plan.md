@@ -17,7 +17,7 @@ merely *move* it (a pass-through, not worth extracting).
 | 2 | Media-strip controls (`StripControls`) | ✅ Done — commit `64e8b45` |
 | 3 | `generateMetadata` factory (`makePageMetadata`) | ✅ Done — see note below |
 | 4 | Mappers in the data layer | ✅ Done — commit `d4e3694`, [ADR 0013](./adr/0013-reshaping-in-data-layer.md) |
-| 5 | `useMouseMagnetic` hook | **Pending** — verify overlap first |
+| 5 | `useMouseMagnetic` hook | ⏹️ Declined — verified, core too thin vs. divergent tuning |
 
 ---
 
@@ -158,7 +158,25 @@ perspective handling, and any future canonical/hreflang change move to one place
 
 ---
 
-## 5. A `useMouseMagnetic` hook
+## 5. A `useMouseMagnetic` hook — ⏹️ Declined (verified)
+
+**Verdict — declined after the verification pass.** The shared *mechanism* is
+real and duplicated (element-center math → `gsap.to` translate on move →
+`elastic.out` reset on leave), but the tuning diverges enough that a hook
+couldn't unify it, only parameterize it: `MagneticButton` applies a
+`max(0, 1 - dist/120)` distance falloff and asymmetric `x·0.4 / y·0.35`
+multipliers; `PartnerBadge` uses a flat symmetric `·0.3` with no falloff,
+listens on its inner `<Link>` but translates the outer wrapper, and layers a
+scale-on-enter on a *separate* element. `MagneticButton` additionally owns a
+click ripple + press-scale. So both call sites would still pass near-full option
+objects (`strength`, `radius`, durations, ease) — the hook would concentrate
+~12 lines of mechanism while the *intent* stayed in the options, leaving net LOC
+≈ neutral for a config-heavy, two-caller interface. `gsap`/`elastic.out` appear
+in no other component, so there's no third caller to tip the balance. Left both
+as-is. (A `prefers-reduced-motion` guard, if wanted, can be added to each
+component directly — it doesn't need a shared hook.)
+
+---
 
 **Problem.** `components/MagneticButton/MagneticButton.tsx` and
 `components/PartnerBadge/PartnerBadge.tsx` both hand-roll the same "follow the
@@ -181,10 +199,11 @@ scope the hook to the shared core and leave the divergent bits in each component
 
 ---
 
-## How to pick one up
+## Wrap-up
 
-Each candidate is independent. Order by leverage: **#1** is the widest (13 sites,
-real drift to fix). **#3** is a clean, low-risk factor. **#5** wants a
-verification pass first. Grill the interface before building (the
-`improve-codebase-architecture` skill walks the design tree); land naming in
-`CONTEXT.md` only for domain concepts, not UI primitives.
+All five candidates are resolved: **#1–#4 landed**, **#5 was declined** after a
+verification pass (see its note). Process notes kept for future passes: grill
+the interface before building (the `improve-codebase-architecture` skill walks
+the design tree); land naming in `CONTEXT.md` only for domain concepts, not UI
+primitives; and run the deletion test before extracting — #5 is the case where a
+candidate failed it.
