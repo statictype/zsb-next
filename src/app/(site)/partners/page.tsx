@@ -6,24 +6,17 @@ import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import shared from '@/components/Shared.module.css'
-import { SITE_DESCRIPTION } from '@/lib/constants'
-import { pageMetadata } from '@/lib/seo'
+import { makePageMetadata } from '@/lib/seo'
 import { imageDataOrPlaceholder } from '@/sanity/lib/image'
-import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
+import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
 import { getPartnersPage, type PartnersPage } from '@/sanity/lib/staticPages'
 import styles from './page.module.css'
 
-export async function generateMetadata() {
-  const { perspective } = await getDynamicFetchOptions()
-  const page = await getPartnersPage({ perspective, stega: false })
-  return pageMetadata({
-    title: 'Partners',
-    description: page?.metaDescription ?? SITE_DESCRIPTION,
-    path: '/partners',
-    shareImage: page?.ogImage,
-  })
-}
+export const generateMetadata = makePageMetadata(getPartnersPage, {
+  title: 'Partners',
+  path: '/partners',
+})
 
 function pad(n: number): string {
   return String(n).padStart(2, '0')

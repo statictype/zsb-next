@@ -2,23 +2,16 @@ import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { Figure } from '@/components/Figure/Figure'
 import shared from '@/components/Shared.module.css'
-import { SITE_DESCRIPTION } from '@/lib/constants'
-import { pageMetadata } from '@/lib/seo'
+import { makePageMetadata } from '@/lib/seo'
 import { imageDataOrPlaceholder } from '@/sanity/lib/image'
-import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
+import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { type AboutPage, getAboutPage } from '@/sanity/lib/staticPages'
 import styles from './page.module.css'
 
-export async function generateMetadata() {
-  const { perspective } = await getDynamicFetchOptions()
-  const page = await getAboutPage({ perspective, stega: false })
-  return pageMetadata({
-    title: 'About',
-    description: page?.metaDescription ?? SITE_DESCRIPTION,
-    path: '/about',
-    shareImage: page?.ogImage,
-  })
-}
+export const generateMetadata = makePageMetadata(getAboutPage, {
+  title: 'About',
+  path: '/about',
+})
 
 function pad(n: number): string {
   return String(n).padStart(2, '0')

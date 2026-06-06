@@ -15,9 +15,8 @@ import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { MediaKitStrip, type MediaKitStripItem } from '@/components/MediaKitStrip/MediaKitStrip'
 import { Navigation } from '@/components/Navigation/Navigation'
 import shared from '@/components/Shared.module.css'
-import { SITE_DESCRIPTION } from '@/lib/constants'
-import { organizationJsonLd, pageMetadata, pressAppearancesJsonLd } from '@/lib/seo'
-import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
+import { makePageMetadata, organizationJsonLd, pressAppearancesJsonLd } from '@/lib/seo'
+import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import {
   type EditionPressKit,
   getEditionsPressKit,
@@ -31,16 +30,10 @@ import {
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 import styles from './page.module.css'
 
-export async function generateMetadata() {
-  const { perspective } = await getDynamicFetchOptions()
-  const page = await getPressPage({ perspective, stega: false })
-  return pageMetadata({
-    title: 'Press',
-    description: page?.metaDescription ?? SITE_DESCRIPTION,
-    path: '/press',
-    shareImage: page?.ogImage,
-  })
-}
+export const generateMetadata = makePageMetadata(getPressPage, {
+  title: 'Press',
+  path: '/press',
+})
 
 type Medium = NonNullable<PressAppearance['medium']>
 

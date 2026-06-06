@@ -4,25 +4,16 @@ import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsBu
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { Navigation } from '@/components/Navigation/Navigation'
 import shared from '@/components/Shared.module.css'
-import { SITE_DESCRIPTION } from '@/lib/constants'
-import { pageMetadata } from '@/lib/seo'
-import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
+import { makePageMetadata } from '@/lib/seo'
+import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getPrivacyPage, type PrivacyPage } from '@/sanity/lib/staticPages'
 import styles from './page.module.css'
 
-export async function generateMetadata() {
-  const { perspective } = await getDynamicFetchOptions()
-  const page = await getPrivacyPage({ perspective, stega: false })
-  return {
-    ...pageMetadata({
-      title: 'Privacy & Cookies',
-      description: page?.metaDescription ?? SITE_DESCRIPTION,
-      path: '/privacy',
-      shareImage: page?.ogImage,
-    }),
-    robots: { index: true, follow: true },
-  }
-}
+export const generateMetadata = makePageMetadata(getPrivacyPage, {
+  title: 'Privacy & Cookies',
+  path: '/privacy',
+  robots: { index: true, follow: true },
+})
 
 const portableTextComponents: PortableTextComponents = {
   block: {

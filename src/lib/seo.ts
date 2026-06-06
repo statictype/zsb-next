@@ -1,8 +1,9 @@
 import { stegaClean } from '@sanity/client/stega'
 import type { SanityImageSource } from '@sanity/image-url'
 import type { Metadata } from 'next'
-import { SITE_NAME, SITE_URL } from '@/lib/constants'
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
 import { urlFor } from '@/sanity/lib/image'
+import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import type { AnyEdition, Edition } from '@/types/edition'
 
 // Strings sourced from Sanity carry invisible Visual Editing characters
@@ -67,6 +68,49 @@ export function pageMetadata(args: {
         images,
       },
     }),
+  }
+}
+
+// The metadata fields every page singleton projects. A fetcher whose result
+// carries at least these can back a generateMetadata.
+interface PageMetaFields {
+  metaDescription?: string | null
+  ogImage?: ShareImageSource
+}
+
+interface MakePageMetadataConfig {
+  title: string
+  path: string
+  /** Fallback when the document has no metaDescription. Defaults to SITE_DESCRIPTION. */
+  description?: string
+  /** Optional override merged onto the result — e.g. the privacy page's robots. */
+  robots?: Metadata['robots']
+}
+
+/**
+ * Bind a page singleton's fetcher + its fixed title/path into a
+ * `generateMetadata`, collapsing the resolve-perspective → fetch → map-meta
+ * orchestration that was copy-pasted across the static pages into one seam.
+ *
+ * Safe under ADR 0012 (docs/adr/0012-cache-components-three-layer-fetch.md):
+ * this caches nothing and hides no render `'use cache'` boundary — metadata
+ * fetchers are already cached behind their own directive, and metadata always
+ * strips stega (perspective resolved, stega: false).
+ */
+export function makePageMetadata(
+  fetcher: (options: DynamicFetchOptions) => Promise<PageMetaFields | null>,
+  { title, path, description = SITE_DESCRIPTION, robots }: MakePageMetadataConfig,
+): () => Promise<Metadata> {
+  return async () => {
+    const { perspective } = await getDynamicFetchOptions()
+    const page = await fetcher({ perspective, stega: false })
+    const meta = pageMetadata({
+      title,
+      description: page?.metaDescription ?? description,
+      path,
+      shareImage: page?.ogImage,
+    })
+    return robots ? { ...meta, robots } : meta
   }
 }
 
