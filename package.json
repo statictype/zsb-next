@@ -11,6 +11,9 @@
     "lint:fix": "eslint ./src --fix",
     "format": "biome check --write ./src",
     "format:check": "biome check ./src",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "images:unused": "tsx scripts/find-unused-images.ts",
     "images:unused:json": "tsx scripts/find-unused-images.ts --json",
     "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
@@ -37,16 +40,24 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.14",
+    "@playwright/test": "^1.60.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vercel/blob": "^2.3.3",
+    "@vitejs/plugin-react": "^5.2.0",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.4",
     "eslint-plugin-react-compiler": "19.1.0-rc.2",
+    "jsdom": "^29.1.1",
     "sharp": "^0.34.5",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.8"
   },
   "packageManager": "pnpm@10.18.3+sha512.bbd16e6d7286fd7e01f6b3c0b3c932cda2965c06a908328f74663f10a9aea51f1129eea615134bf992831b009eabe167ecb7008b597f40ff9bc75946aadfb08d"
 }

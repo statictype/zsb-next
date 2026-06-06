@@ -1,0 +1,100 @@
+import { describe, expect, it, vi } from 'vitest'
+
+// staticPages.ts imports the live data layer at module load; defineLive()
+// throws outside React Server Components. buildFaq / mapVisit are pure and
+// never call into it, so stub the module to let the import resolve.
+vi.mock('./live', () => ({
+  queryData: async () => null,
+}))
+
+import { buildFaq, mapVisit, type VisitPage } from './staticPages'
+
+// buildFaq / mapVisit only read a handful of fields off the page; the cast
+// keeps fixtures small without reconstructing the full generated query type.
+function page(fields: Record<string, unknown>): VisitPage {
+  return fields as unknown as VisitPage
+}
+
+describe('buildFaq', () => {
+  it('returns no entries for a null page', () => {
+    expect(buildFaq(null)).toEqual([])
+  })
+
+  it('returns no entries when nothing derivable is present', () => {
+    expect(buildFaq(page({}))).toEqual([])
+  })
+
+  it('derives an opening-hours entry scoped to the event', () => {
+    const [entry] = buildFaq(page({ hoursLines: ['Mon–Fri 10–18', 'Sat 11–16'] }))
+    expect(entry?.question).toBe('What are the opening hours during Bucharest Sculpture Days?')
+    expect(entry?.answer).toBe('Mon–Fri 10–18. Sat 11–16. These hours apply during the event.')
+  })
+
+  it('derives a location entry from street + city', () => {
+    const entries = buildFaq(page({ street: '15 Foo St', city: 'Bucharest' }))
+    expect(entries).toHaveLength(1)
+    expect(entries[0]?.question).toBe('Where is Bucharest Sculpture Days held?')
+    expect(entries[0]?.answer).toContain('The main venue is at 15 Foo St, Bucharest.')
+  })
+
+  it('omits the location entry unless both street and city are present', () => {
+    expect(buildFaq(page({ street: '15 Foo St' }))).toEqual([])
+    expect(buildFaq(page({ city: 'Bucharest' }))).toEqual([])
+  })
+
+  it('appends editorial FAQ entries after the derived ones, skipping incomplete rows', () => {
+    const entries = buildFaq(
+      page({
+        hoursLines: ['Daily 10–18'],
+        faq: [
+          { question: 'Tickets?', answer: 'Free entry.' },
+          { question: 'Missing answer?', answer: '' },
+          { question: '', answer: 'Missing question' },
+        ],
+      }),
+    )
+    expect(entries).toHaveLength(2)
+    expect(entries[0]?.question).toBe('What are the opening hours during Bucharest Sculpture Days?')
+    expect(entries[1]).toEqual({ question: 'Tickets?', answer: 'Free entry.' })
+  })
+})
+
+describe('mapVisit', () => {
+  it('returns an empty object for a null page', () => {
+    expect(mapVisit(null)).toEqual({})
+  })
+
+  it('passes structured fields through and nulls a missing image', () => {
+    const result = mapVisit(
+      page({
+        venueName: ['Combinatul Fondului Plastic'],
+        street: '15 Foo St',
+        city: 'Bucharest',
+        mapsUrl: 'https://maps.test/x',
+        hoursLines: ['Daily 10–18'],
+        amenities: [{ label: 'Cafe', icon: 'cafe' }],
+        transport: [{ from: 'Piața Unirii', lines: 'M2', walk: '5 min' }],
+      }),
+    )
+    expect(result.venueName).toEqual(['Combinatul Fondului Plastic'])
+    expect(result.street).toBe('15 Foo St')
+    expect(result.mapsUrl).toBe('https://maps.test/x')
+    expect(result.amenities).toEqual([{ label: 'Cafe', icon: 'cafe' }])
+    expect(result.transport).toEqual([{ from: 'Piața Unirii', lines: 'M2', walk: '5 min' }])
+    expect(result.image).toBeNull()
+  })
+
+  it('resolves an authored image to a Sanity CDN url', () => {
+    const result = mapVisit(
+      page({
+        image: {
+          _type: 'image',
+          alt: 'Venue',
+          asset: { _type: 'reference', _ref: 'image-Tb9Ew8CXIwaY6R1kjMvI0uRR-2000x3000-jpg' },
+        },
+      }),
+    )
+    expect(result.image?.src).toContain('cdn.sanity.io')
+    expect(result.image?.alt).toBe('Venue')
+  })
+})

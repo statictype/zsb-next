@@ -13,7 +13,18 @@ Next.js 16 (App Router, `cacheComponents: true`, `reactCompiler: true`), React 1
 - `pnpm typecheck` — `tsc --noEmit` (faster signal than a full build)
 - `pnpm lint` / `pnpm lint:fix` — ESLint (flat config in `eslint.config.mjs`, scoped to `./src`)
 - `pnpm format` / `pnpm format:check` — Biome format
+- `pnpm test` / `pnpm test:watch` — Vitest unit + component tests
+- `pnpm test:e2e` — Playwright E2E smoke (builds + starts the app)
 - `pnpm images:unused` — find unused files under `public/img/`
+
+## Testing
+
+Vitest (unit + component) + Playwright (E2E smoke), gated in CI on every PR. Tests
+co-locate next to source (`*.test.ts` = unit/node, `*.test.tsx` = component/jsdom);
+E2E lives in `e2e/`. We test risky logic and key pages, and deliberately skip
+presentational markup, framework internals, and live Sanity (the data layer is
+mocked). See [`docs/testing.md`](./docs/testing.md) for the full guide — config
+gotchas (`server-only` alias, dummy env, `vi.mock` of `live.ts`) and the CI secrets.
 
 ## Data model: Editions
 
