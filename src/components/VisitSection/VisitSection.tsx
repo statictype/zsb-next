@@ -14,10 +14,8 @@ import Image from 'next/image'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import shared from '@/components/Shared.module.css'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
-import type { ImageData } from '@/types/edition'
+import type { IconKey, VisitData } from '@/types/edition'
 import styles from './VisitSection.module.css'
-
-type IconKey = 'wheelchair' | 'parking' | 'cafe' | 'paint' | 'restroom' | 'wifi'
 
 // Fixed icon set mirrored from the amenity schema. Editors pick an
 // icon key; this is the renderer-side mapping.
@@ -28,28 +26,6 @@ const ICONS: Record<IconKey, RemixiconComponentType> = {
   paint: RiPaintBrushLine,
   restroom: RiTempColdLine,
   wifi: RiHomeWifiLine,
-}
-
-export interface Amenity {
-  label: string
-  icon: IconKey
-}
-
-export interface TransportRoute {
-  from: string
-  lines: string
-  walk: string
-}
-
-export interface VisitSectionProps {
-  venueName?: string[] | null
-  street?: string | null
-  city?: string | null
-  mapsUrl?: string | null
-  image?: ImageData | null
-  hoursLines?: string[] | null
-  amenities?: Amenity[] | null
-  transport?: TransportRoute[] | null
 }
 
 const PIXELS = [
@@ -63,7 +39,7 @@ const PIXELS = [
   { bottom: '-8px', right: '25%', size: 12, color: 'var(--highlight)' },
 ] as const
 
-export function VisitSection(props: VisitSectionProps = {}) {
+export function VisitSection(props: VisitData = {}) {
   const venueName = props.venueName ?? []
   const street = props.street ?? ''
   const city = props.city ?? ''

@@ -8,6 +8,12 @@ export interface ImageData {
   blurDataURL?: string
 }
 
+// A homepage slideshow image: an ImageData plus where to anchor it in frame.
+export interface HeroImage extends ImageData {
+  /** CSS object-position value, e.g. "top", "center", "bottom" */
+  position?: string
+}
+
 // ---- Manifesto ----
 
 export interface ManifestoData {
@@ -203,4 +209,34 @@ export type AnyEdition = Edition | OnlineEdition
 
 export function isOnlineEdition(e: AnyEdition): e is OnlineEdition {
   return 'kind' in e && e.kind === 'online'
+}
+
+// ---- Visit page ----
+
+// Closed icon set an editor can pick per amenity, mirrored from the amenity
+// schema. The renderer-side key→icon-component map lives in VisitSection.
+export type IconKey = 'wheelchair' | 'parking' | 'cafe' | 'paint' | 'restroom' | 'wifi'
+
+export interface Amenity {
+  label: string
+  icon: IconKey
+}
+
+export interface TransportRoute {
+  from: string
+  lines: string
+  walk: string
+}
+
+// The runtime shape of the Visit page, produced by mapVisit and rendered by
+// VisitSection.
+export interface VisitData {
+  venueName?: string[] | null
+  street?: string | null
+  city?: string | null
+  mapsUrl?: string | null
+  image?: ImageData | null
+  hoursLines?: string[] | null
+  amenities?: Amenity[] | null
+  transport?: TransportRoute[] | null
 }

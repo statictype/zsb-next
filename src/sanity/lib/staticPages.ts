@@ -6,6 +6,10 @@ import type {
   PRIVACY_PAGE_QUERY_RESULT,
   VISIT_PAGE_QUERY_RESULT,
 } from '@/../sanity.types'
+import { SITE_NAME } from '@/lib/constants'
+import type { FaqEntry } from '@/lib/seo'
+import type { Amenity, TransportRoute, VisitData } from '@/types/edition'
+import { toImageData } from './image'
 import { type DynamicFetchOptions, queryData } from './live'
 import {
   ABOUT_PAGE_QUERY,
@@ -44,4 +48,59 @@ export async function getVisitPage(options: DynamicFetchOptions): Promise<VisitP
 export async function getPrivacyPage(options: DynamicFetchOptions): Promise<PrivacyPage | null> {
   'use cache'
   return (await queryData(PRIVACY_PAGE_QUERY, options)) ?? null
+}
+
+// ---- Visit page projections ----
+// getVisitPage returns the raw page (metadata + the FAQ below still read its
+// other fields); these two derive the shapes the view renders from it.
+
+/** Project a VisitPage into the runtime shape VisitSection renders. */
+export function mapVisit(page: VisitPage | null): VisitData {
+  if (!page) return {}
+  const image = toImageData(page.image) ?? null
+  return {
+    venueName: page.venueName ?? null,
+    street: page.street ?? null,
+    city: page.city ?? null,
+    mapsUrl: page.mapsUrl ?? null,
+    image,
+    hoursLines: page.hoursLines ?? null,
+    amenities: (page.amenities ?? null) as Amenity[] | null,
+    transport: (page.transport ?? null) as TransportRoute[] | null,
+  }
+}
+
+/**
+ * Merge the Visit FAQ from two sources. The opening-hours and location entries
+ * are DERIVED from the structured fields (so they can't drift from what the page
+ * displays) and scoped to "during the event" so the answers aren't mistaken for
+ * the venue's year-round schedule. Editorial entries — tickets, accessibility,
+ * the year-round venue — come from the optional `faq` array. One call feeds both
+ * the visible FAQ and the JSON-LD, so the two stay in step.
+ */
+export function buildFaq(page: VisitPage | null): FaqEntry[] {
+  if (!page) return []
+  const entries: FaqEntry[] = []
+
+  const hours = (page.hoursLines ?? []).filter(Boolean)
+  if (hours.length > 0) {
+    entries.push({
+      question: `What are the opening hours during ${SITE_NAME}?`,
+      answer: `${hours.join('. ')}. These hours apply during the event.`,
+    })
+  }
+  if (page.street && page.city) {
+    entries.push({
+      question: `Where is ${SITE_NAME} held?`,
+      answer: `The main venue is at ${page.street}, ${page.city}. The program also extends to partner venues and public locations across Bucharest.`,
+    })
+  }
+
+  for (const item of page.faq ?? []) {
+    if (item.question && item.answer) {
+      entries.push({ question: item.question, answer: item.answer })
+    }
+  }
+
+  return entries
 }

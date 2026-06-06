@@ -5,13 +5,8 @@ import Image from 'next/image'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
 import shared from '@/components/Shared.module.css'
 import { useSlideshow } from '@/lib/use-slideshow'
-import type { ImageData } from '@/types/edition'
+import type { HeroImage } from '@/types/edition'
 import styles from './HeroSlideshow.module.css'
-
-export interface HeroImage extends ImageData {
-  /** CSS object-position value, e.g. "top", "center", "bottom" */
-  position?: string
-}
 
 interface HeroSlideshowProps {
   images: HeroImage[]

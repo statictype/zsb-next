@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
-import { type HeroImage, HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
+import { HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
@@ -14,7 +14,6 @@ import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
 import { type EditionListItem } from '@/sanity/lib/editions'
 import { getHomepage, type Homepage } from '@/sanity/lib/homepage'
-import { urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import styles from './page.module.css'
 
@@ -52,7 +51,8 @@ function HomeShell({ home, editions }: HomeShellProps = {}) {
   const ctaLabel = home?.heroCtaLabel ?? ''
   const ctaYear = home?.heroCtaEditionYear
   const editionsIntro = home?.editionsIntro ?? ''
-  const slideshow = mapSlideshow(home?.slideshow) ?? [{ ...PLACEHOLDER_IMAGE, position: 'center' }]
+  const slides = home?.slideshow ?? []
+  const slideshow = slides.length > 0 ? slides : [{ ...PLACEHOLDER_IMAGE, position: 'center' }]
   const list = editions ?? []
 
   return (
@@ -125,25 +125,4 @@ function HomeShell({ home, editions }: HomeShellProps = {}) {
       </main>
     </>
   )
-}
-
-/**
- * Splits the title at the accent substring and renders the accented
- * portion on a new line with the accent class. Falls back to the plain
- * title if the accent isn't found (schema validates this but the
- * runtime should still degrade gracefully).
- */
-function mapSlideshow(slides: Homepage['slideshow'] | undefined): HeroImage[] | undefined {
-  if (!slides?.length) return undefined
-  const out: HeroImage[] = []
-  for (const slide of slides) {
-    if (!slide.image?.asset) continue
-    out.push({
-      src: urlFor(slide.image).url(),
-      alt: slide.image.alt ?? '',
-      position: slide.position ?? 'center',
-      ...(slide.image.lqip ? { blurDataURL: slide.image.lqip } : {}),
-    })
-  }
-  return out.length ? out : undefined
 }
