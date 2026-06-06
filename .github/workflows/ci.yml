@@ -44,6 +44,8 @@ jobs:
       NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
       NEXT_PUBLIC_SANITY_API_VERSION: ${{ secrets.NEXT_PUBLIC_SANITY_API_VERSION }}
       SANITY_API_READ_TOKEN: ${{ secrets.SANITY_API_READ_TOKEN }}
+      # Inlined at build time — the legacy 2021 hero is served from Blob.
+      NEXT_PUBLIC_BLOB_URL: ${{ secrets.NEXT_PUBLIC_BLOB_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

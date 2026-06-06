@@ -99,7 +99,7 @@ pieces, each there for a reason:
 On every PR (and pushes to `main`), two jobs:
 
 1. **`check`** — lint → `format:check` → `pnpm test` (unit + component).
-2. **`build-e2e`** — `pnpm build`, then `pnpm test:e2e`. Reads the Sanity env
+2. **`build-e2e`** — `pnpm build`, then `pnpm test:e2e`. Reads its build env
    from Actions secrets (the vars in `.env.example`).
 
 **Types are checked by `pnpm build`, not a standalone `tsc`** — Next generates the
