@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
+import { Figure } from '@/components/Figure/Figure'
 import shared from '@/components/Shared.module.css'
 import { SITE_DESCRIPTION } from '@/lib/constants'
 import { pageMetadata } from '@/lib/seo'
@@ -103,14 +103,7 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
           </div>
 
           <figure className={styles.placeImage}>
-            <span aria-hidden className={shared.skeleton} />
-            <Image
-              src={placeImage.src}
-              alt={placeImage.alt}
-              fill
-              sizes="100vw"
-              className={styles.placeImageImg}
-            />
+            <Figure image={placeImage} sizes="100vw" className={styles.placeImageImg} />
           </figure>
         </div>
       </section>
@@ -129,11 +122,8 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
 
               <figure className={styles.statementByline}>
                 <div className={styles.authorPhoto}>
-                  <span aria-hidden className={shared.skeleton} />
-                  <Image
-                    src={curatorPortrait.src}
-                    alt={curatorPortrait.alt}
-                    fill
+                  <Figure
+                    image={curatorPortrait}
                     sizes="(max-width: 767px) 160px, 180px"
                     className={styles.authorPhotoImg}
                   />

@@ -1,8 +1,8 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { type CSSProperties } from 'react'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
+import { Figure } from '@/components/Figure/Figure'
 import shared from '@/components/Shared.module.css'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
@@ -46,20 +46,14 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
               style={{ '--card-index': index } as CSSProperties}
             >
               <div className={styles.frame}>
-                <span aria-hidden className={shared.skeleton} />
-                <Image
-                  src={thumb.src}
-                  alt={thumb.alt}
-                  fill
+                <Figure
+                  image={thumb}
                   sizes={
                     isFeature
                       ? '(min-width: 1440px) 1400px, 100vw'
                       : '(min-width: 1024px) 50vw, 100vw'
                   }
                   className={styles.thumbImg}
-                  {...(thumb.blurDataURL
-                    ? { placeholder: 'blur' as const, blurDataURL: thumb.blurDataURL }
-                    : {})}
                 />
                 <span className={styles.yearTag}>{year}</span>
               </div>

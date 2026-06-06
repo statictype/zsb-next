@@ -246,10 +246,10 @@ function flattenKit(editions: EditionPressKit[]): MediaKitStripItem[] {
         image: {
           src: ed.coverPhoto.asset.url,
           alt: ed.coverPhoto.alt ?? `ZSB ${ed.year} cover`,
+          ...(ed.coverPhoto.asset.metadata?.lqip && {
+            blurDataURL: ed.coverPhoto.asset.metadata.lqip,
+          }),
         },
-        ...(ed.coverPhoto.asset.metadata?.lqip && {
-          blurDataURL: ed.coverPhoto.asset.metadata.lqip,
-        }),
       })
     }
     if (ed.poster?.asset?.url) {
@@ -260,10 +260,10 @@ function flattenKit(editions: EditionPressKit[]): MediaKitStripItem[] {
         image: {
           src: ed.poster.asset.url,
           alt: ed.poster.alt ?? `ZSB ${ed.year} poster`,
+          ...(ed.poster.asset.metadata?.lqip && {
+            blurDataURL: ed.poster.asset.metadata.lqip,
+          }),
         },
-        ...(ed.poster.asset.metadata?.lqip && {
-          blurDataURL: ed.poster.asset.metadata.lqip,
-        }),
       })
     }
   }

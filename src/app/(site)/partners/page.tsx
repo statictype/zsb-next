@@ -1,7 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
-import Image from 'next/image'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
+import { Figure } from '@/components/Figure/Figure'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
@@ -89,14 +89,7 @@ function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
               ))}
             </div>
             <figure className={styles.eventImage}>
-              <span aria-hidden className={shared.skeleton} />
-              <Image
-                src={eventImage.src}
-                alt={eventImage.alt}
-                fill
-                sizes="100vw"
-                className={styles.eventImageImg}
-              />
+              <Figure image={eventImage} sizes="100vw" className={styles.eventImageImg} />
             </figure>
           </div>
         </section>
@@ -113,11 +106,8 @@ function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
                 </h2>
               </div>
               <div className={styles.whySculptureImage}>
-                <span aria-hidden className={shared.skeleton} />
-                <Image
-                  src={whyImage.src}
-                  alt={whyImage.alt}
-                  fill
+                <Figure
+                  image={whyImage}
                   sizes="(max-width: 1023px) 100vw, 50vw"
                   className={styles.whySculptureImg}
                 />

@@ -1,5 +1,4 @@
-import Image from 'next/image'
-import shared from '@/components/Shared.module.css'
+import { Figure } from '@/components/Figure/Figure'
 import type { Edition } from '@/types/edition'
 import styles from './Hero.module.css'
 
@@ -38,17 +37,11 @@ export function Hero({ edition }: HeroProps) {
       <div className={styles.stage}>
         <div className={styles.frame}>
           <div className={styles.background} aria-hidden="true" />
-          <span aria-hidden className={shared.skeleton} />
-          <Image
-            src={heroImage.src}
-            alt={heroImage.alt}
-            fill
+          <Figure
+            image={heroImage}
             sizes="(min-width: 1024px) calc(100vw - 200px), 100vw"
             priority
             className={styles.image}
-            {...(heroImage.blurDataURL
-              ? { placeholder: 'blur' as const, blurDataURL: heroImage.blurDataURL }
-              : {})}
           />
           <div className={styles.vignette} aria-hidden="true" />
         </div>

@@ -1,9 +1,8 @@
 'use client'
 
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
-import Image from 'next/image'
+import { Figure } from '@/components/Figure/Figure'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
-import shared from '@/components/Shared.module.css'
 import { useSlideshow } from '@/lib/use-slideshow'
 import type { HeroImage } from '@/types/edition'
 import styles from './HeroSlideshow.module.css'
@@ -53,17 +52,11 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
             key={img.src}
             className={`${styles.slide} ${i === active ? styles.slideActive : ''}`}
           >
-            <span aria-hidden className={shared.skeleton} />
-            <Image
-              src={img.src}
-              alt={img.alt}
-              fill
+            <Figure
+              image={img}
               sizes="(min-width: 1792px) 1024px, (min-width: 1280px) 60vw, 100vw"
               priority={i === 0}
               style={img.position ? { objectPosition: img.position } : undefined}
-              {...(img.blurDataURL
-                ? { placeholder: 'blur' as const, blurDataURL: img.blurDataURL }
-                : {})}
             />
           </div>
         ))}

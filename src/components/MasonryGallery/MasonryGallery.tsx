@@ -1,8 +1,7 @@
 'use client'
 
-import Image from 'next/image'
+import { Figure } from '@/components/Figure/Figure'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
-import shared from '@/components/Shared.module.css'
 import type { MasonryImage } from '@/types/edition'
 import styles from './MasonryGallery.module.css'
 
@@ -35,11 +34,8 @@ export function MasonryGallery({ images }: MasonryGalleryProps) {
               }
             }}
           >
-            <span aria-hidden className={shared.skeleton} />
-            <Image
-              src={img.src}
-              alt={img.alt}
-              fill
+            <Figure
+              image={img}
               sizes={
                 img.cols >= 2
                   ? '(max-width: 767px) 100vw, (max-width: 1023px) 66vw, 50vw'

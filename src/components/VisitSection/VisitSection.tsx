@@ -10,7 +10,7 @@ import {
   RiTimeLine,
   RiWheelchairLine,
 } from '@remixicon/react'
-import Image from 'next/image'
+import { Figure } from '@/components/Figure/Figure'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import shared from '@/components/Shared.module.css'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
@@ -55,11 +55,8 @@ export function VisitSection(props: VisitData = {}) {
         <div className={styles.splitLayout}>
           <div className={styles.imageBlock}>
             <div className={styles.imageFrame}>
-              <span aria-hidden className={shared.skeleton} />
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
+              <Figure
+                image={image}
                 sizes="(max-width: 1023px) 100vw, 45vw"
                 className={styles.image}
               />

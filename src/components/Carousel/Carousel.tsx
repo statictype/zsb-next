@@ -1,8 +1,7 @@
 'use client'
 
-import Image from 'next/image'
+import { Figure } from '@/components/Figure/Figure'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
-import shared from '@/components/Shared.module.css'
 import { StripControls } from '@/components/StripControls/StripControls'
 import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
 import type { CarouselLayout, CarouselSlide } from '@/types/edition'
@@ -91,18 +90,11 @@ export function Carousel({ slides, eyebrow }: CarouselProps) {
                       }
                     }}
                   >
-                    <span aria-hidden className={shared.skeleton} />
-                    <Image
-                      src={img.image.src}
-                      alt={img.image.alt}
-                      fill
+                    <Figure
+                      image={img.image}
                       sizes={sizesFor(slide.layout, imgIndex)}
-                      style={{ objectFit: 'cover' }}
                       className={styles.itemImage}
                       draggable={false}
-                      {...(img.image.blurDataURL
-                        ? { placeholder: 'blur' as const, blurDataURL: img.image.blurDataURL }
-                        : {})}
                     />
                   </div>
                 )

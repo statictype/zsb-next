@@ -890,7 +890,7 @@ export type EDITIONS_LIST_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ABOUT_PAGE_QUERY
-// Query: *[_id == "aboutPage"][0]{    hero,    notFestivalTitle,    notFestivalBody,    pillars,    placeImage,    curatorEyebrow,    curatorHeadline,    curatorPortrait,    curatorName,    curatorRole,    curatorLetter,    ogImage,    metaDescription  }
+// Query: *[_id == "aboutPage"][0]{    hero,    notFestivalTitle,    notFestivalBody,    pillars,    placeImage{ ..., "lqip": asset->metadata.lqip },    curatorEyebrow,    curatorHeadline,    curatorPortrait{ ..., "lqip": asset->metadata.lqip },    curatorName,    curatorRole,    curatorLetter,    ogImage,    metaDescription  }
 export type ABOUT_PAGE_QUERY_RESULT =
   | {
       hero: PageHero
@@ -989,6 +989,7 @@ export type ABOUT_PAGE_QUERY_RESULT =
         crop?: SanityImageCrop
         alt?: string
         _type: 'image'
+        lqip: string | null
       }
       curatorEyebrow: string
       curatorHeadline: string
@@ -999,6 +1000,7 @@ export type ABOUT_PAGE_QUERY_RESULT =
         crop?: SanityImageCrop
         alt?: string
         _type: 'image'
+        lqip: string | null
       }
       curatorName: string
       curatorRole: string
@@ -1017,7 +1019,7 @@ export type ABOUT_PAGE_QUERY_RESULT =
 
 // Source: src/sanity/lib/queries.ts
 // Variable: PARTNERS_PAGE_QUERY
-// Query: *[_id == "partnersPage"][0]{    hero,    eventTitle,    eventBody,    eventImage,    whyEyebrow,    whyTitle,    whyImage,    whyPoints,    ctaHeading,    ctaHeadingAccent,    ctaBody,    ctaLabel,    ogImage,    metaDescription  }
+// Query: *[_id == "partnersPage"][0]{    hero,    eventTitle,    eventBody,    eventImage{ ..., "lqip": asset->metadata.lqip },    whyEyebrow,    whyTitle,    whyImage{ ..., "lqip": asset->metadata.lqip },    whyPoints,    ctaHeading,    ctaHeadingAccent,    ctaBody,    ctaLabel,    ogImage,    metaDescription  }
 export type PARTNERS_PAGE_QUERY_RESULT =
   | {
       hero: PageHero
@@ -1115,6 +1117,7 @@ export type PARTNERS_PAGE_QUERY_RESULT =
         crop?: SanityImageCrop
         alt?: string
         _type: 'image'
+        lqip: string | null
       }
       whyEyebrow: string
       whyTitle: string
@@ -1125,6 +1128,7 @@ export type PARTNERS_PAGE_QUERY_RESULT =
         crop?: SanityImageCrop
         alt?: string
         _type: 'image'
+        lqip: string | null
       }
       whyPoints: Array<
         {
@@ -1149,7 +1153,7 @@ export type PARTNERS_PAGE_QUERY_RESULT =
 
 // Source: src/sanity/lib/queries.ts
 // Variable: VISIT_PAGE_QUERY
-// Query: *[_id == "visitPage"][0]{    venueName,    street,    city,    mapsUrl,    image,    hoursLines,    amenities,    transport,    faq[]{ question, answer },    ogImage,    metaDescription  }
+// Query: *[_id == "visitPage"][0]{    venueName,    street,    city,    mapsUrl,    image{ ..., "lqip": asset->metadata.lqip },    hoursLines,    amenities,    transport,    faq[]{ question, answer },    ogImage,    metaDescription  }
 export type VISIT_PAGE_QUERY_RESULT =
   | {
       venueName: Array<string>
@@ -1163,6 +1167,7 @@ export type VISIT_PAGE_QUERY_RESULT =
         crop?: SanityImageCrop
         alt?: string
         _type: 'image'
+        lqip: string | null
       }
       hoursLines: Array<string>
       amenities: Array<
@@ -1672,9 +1677,9 @@ declare module '@sanity/client' {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT
     '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status\n  }\n': EDITIONS_LIST_QUERY_RESULT
-    '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage,\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait,\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT
-    '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage,\n    whyEyebrow,\n    whyTitle,\n    whyImage,\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel,\n    ogImage,\n    metaDescription\n  }\n': PARTNERS_PAGE_QUERY_RESULT
-    '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image,\n    hoursLines,\n    amenities,\n    transport,\n    faq[]{ question, answer },\n    ogImage,\n    metaDescription\n  }\n': VISIT_PAGE_QUERY_RESULT
+    '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage{ ..., "lqip": asset->metadata.lqip },\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait{ ..., "lqip": asset->metadata.lqip },\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT
+    '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage{ ..., "lqip": asset->metadata.lqip },\n    whyEyebrow,\n    whyTitle,\n    whyImage{ ..., "lqip": asset->metadata.lqip },\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel,\n    ogImage,\n    metaDescription\n  }\n': PARTNERS_PAGE_QUERY_RESULT
+    '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image{ ..., "lqip": asset->metadata.lqip },\n    hoursLines,\n    amenities,\n    transport,\n    faq[]{ question, answer },\n    ogImage,\n    metaDescription\n  }\n': VISIT_PAGE_QUERY_RESULT
     '\n  *[_id == "privacyPage"][0]{\n    hero,\n    body,\n    updatedAt,\n    ogImage,\n    metaDescription\n  }\n': PRIVACY_PAGE_QUERY_RESULT
     '\n  *[_id == "pressPage"][0]{\n    hero,\n    ogImage,\n    metaDescription\n  }\n': PRESS_PAGE_QUERY_RESULT
     '\n  *[_type == "pressAppearance"] | order(year desc, title asc) {\n    _id,\n    medium,\n    title,\n    year,\n    tag,\n    url,\n    excerpt\n  }\n': PRESS_APPEARANCES_QUERY_RESULT
