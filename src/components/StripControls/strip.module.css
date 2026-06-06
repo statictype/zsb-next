@@ -1,0 +1,36 @@
+/* =====================================================
+   STRIP LAYOUT — shared by Carousel + MediaKitStrip via
+   `composes:`. The viewport bleeds to the section edge by
+   cancelling the parent's content-padding, so any strip
+   dropped in a padded section reaches the true edge.
+   ===================================================== */
+
+.viewport {
+  position: relative;
+  width: calc(100% + 2 * var(--content-padding));
+  margin-left: calc(-1 * var(--content-padding));
+  margin-right: calc(-1 * var(--content-padding));
+}
+
+.track {
+  display: flex;
+  gap: var(--space-md);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 0 var(--content-padding) var(--space-lg);
+  scrollbar-width: none;
+  cursor: grab;
+  touch-action: pan-x;
+  user-select: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.track:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 4px;
+}

@@ -182,6 +182,19 @@ export function useScrollSnapStrip<T extends HTMLElement = HTMLElement>({
     return wasDrag
   }
 
+  /**
+   * Wrap an item's click action with the drag guard: a click that concluded a
+   * drag is swallowed (preventDefault, no-op), a genuine click runs `handler`.
+   * The ergonomic path over reading {@link consumeDrag} by hand.
+   */
+  const guardClick = (handler: () => void) => (e: React.MouseEvent) => {
+    if (consumeDrag()) {
+      e.preventDefault()
+      return
+    }
+    handler()
+  }
+
   const trackProps = {
     onPointerDown,
     onPointerMove,
@@ -190,5 +203,14 @@ export function useScrollSnapStrip<T extends HTMLElement = HTMLElement>({
     onKeyDown,
   }
 
-  return { trackRef, activeIndex, registerItem, goPrev, goNext, trackProps, consumeDrag }
+  return {
+    trackRef,
+    activeIndex,
+    registerItem,
+    goPrev,
+    goNext,
+    trackProps,
+    consumeDrag,
+    guardClick,
+  }
 }

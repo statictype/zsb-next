@@ -1,9 +1,9 @@
 'use client'
 
-import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
 import shared from '@/components/Shared.module.css'
+import { StripControls } from '@/components/StripControls/StripControls'
 import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
 import type { CarouselLayout, CarouselSlide } from '@/types/edition'
 import styles from './Carousel.module.css'
@@ -45,42 +45,20 @@ export function Carousel({ slides, eyebrow }: CarouselProps) {
   }
   const lightbox = useLightbox(lightboxImages)
 
-  const { trackRef, activeIndex, registerItem, goPrev, goNext, trackProps, consumeDrag } =
+  const { trackRef, activeIndex, registerItem, goPrev, goNext, trackProps, guardClick } =
     useScrollSnapStrip<HTMLDivElement>({ count: slides.length })
-
-  const onItemClick = (e: React.MouseEvent, flatIndex: number) => {
-    if (consumeDrag()) {
-      e.preventDefault()
-      return
-    }
-    lightbox.open(flatIndex)
-  }
 
   return (
     <>
-      <div className={styles.controls}>
-        <div className={styles.eyebrow}>{eyebrow}</div>
-        <div className={styles.arrows}>
-          <button
-            type="button"
-            className={styles.arrow}
-            onClick={goPrev}
-            disabled={activeIndex === 0}
-            aria-label="Previous slide"
-          >
-            <RiArrowLeftLine size={20} />
-          </button>
-          <button
-            type="button"
-            className={styles.arrow}
-            onClick={goNext}
-            disabled={activeIndex === slides.length - 1}
-            aria-label="Next slide"
-          >
-            <RiArrowRightLine size={20} />
-          </button>
-        </div>
-      </div>
+      <StripControls
+        className={styles.controlsSpacing}
+        eyebrow={eyebrow}
+        activeIndex={activeIndex}
+        count={slides.length}
+        onPrev={goPrev}
+        onNext={goNext}
+        labels={{ prev: 'Previous slide', next: 'Next slide' }}
+      />
 
       <div className={styles.viewport}>
         <div
@@ -105,7 +83,7 @@ export function Carousel({ slides, eyebrow }: CarouselProps) {
                     className={styles.item}
                     role="button"
                     tabIndex={0}
-                    onClick={(e) => onItemClick(e, flatIndex)}
+                    onClick={guardClick(() => lightbox.open(flatIndex))}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault()

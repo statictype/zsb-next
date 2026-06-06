@@ -2,83 +2,18 @@
    GALLERY CAROUSEL — CSS Module
    ===================================================== */
 
-/* ---- Controls (counter + arrows) ---- */
-.controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
-  max-width: var(--max-width);
-  margin: var(--space-3xl) auto var(--space-lg);
+/* ---- Controls (eyebrow + arrows) shared via StripControls ---- */
+.controlsSpacing {
+  margin-top: var(--space-3xl);
 }
 
-.eyebrow {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--muted);
-}
-
-.arrows {
-  display: flex;
-  gap: var(--space-sm);
-}
-
-.arrow {
-  width: 44px;
-  height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  color: var(--white);
-  cursor: pointer;
-  transition:
-    color var(--duration-normal) ease,
-    transform var(--duration-normal) var(--ease-out-expo);
-}
-
-.arrow:hover:not(:disabled) {
-  color: var(--action);
-}
-
-.arrow:disabled {
-  color: var(--gray-800); /* exception: disabled state needs specific dim tone */
-  cursor: not-allowed;
-}
-
-/* ---- Viewport (bleeds to section edges) ---- */
+/* ---- Viewport + track (bleed + scroll-snap) shared via strip.module.css ---- */
 .viewport {
-  position: relative;
-  width: 100%;
-  margin-left: calc(-1 * var(--content-padding));
-  margin-right: calc(-1 * var(--content-padding));
-  width: calc(100% + 2 * var(--content-padding));
+  composes: viewport from "../StripControls/strip.module.css";
 }
 
 .track {
-  display: flex;
-  gap: var(--space-md);
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  padding: 0 var(--content-padding) var(--space-lg);
-  scrollbar-width: none;
-  cursor: grab;
-  touch-action: pan-x;
-  user-select: none;
-}
-
-.track::-webkit-scrollbar {
-  display: none;
-}
-
-.track:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: 4px;
+  composes: track from "../StripControls/strip.module.css";
 }
 
 /* ---- Slide ---- */

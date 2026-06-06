@@ -1,9 +1,9 @@
 'use client'
 
-import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
 import shared from '@/components/Shared.module.css'
+import { StripControls } from '@/components/StripControls/StripControls'
 import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
 import type { MediaKitItem } from '@/types/edition'
 import styles from './MediaKitStrip.module.css'
@@ -24,42 +24,19 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
       caption: `${item.year} · ${item.name}`,
     })),
   )
-  const { trackRef, activeIndex, registerItem, goPrev, goNext, trackProps, consumeDrag } =
+  const { trackRef, activeIndex, registerItem, goPrev, goNext, trackProps, guardClick } =
     useScrollSnapStrip<HTMLButtonElement>({ count: items.length })
-
-  const onCardClick = (e: React.MouseEvent, index: number) => {
-    if (consumeDrag()) {
-      e.preventDefault()
-      return
-    }
-    lightbox.open(index)
-  }
 
   return (
     <>
-      <div className={styles.controls}>
-        <div className={styles.eyebrow}>Media</div>
-        <div className={styles.arrows}>
-          <button
-            type="button"
-            className={styles.arrow}
-            onClick={goPrev}
-            disabled={activeIndex === 0}
-            aria-label="Previous poster"
-          >
-            <RiArrowLeftLine size={20} />
-          </button>
-          <button
-            type="button"
-            className={styles.arrow}
-            onClick={goNext}
-            disabled={activeIndex === items.length - 1}
-            aria-label="Next poster"
-          >
-            <RiArrowRightLine size={20} />
-          </button>
-        </div>
-      </div>
+      <StripControls
+        eyebrow="Media"
+        activeIndex={activeIndex}
+        count={items.length}
+        onPrev={goPrev}
+        onNext={goNext}
+        labels={{ prev: 'Previous poster', next: 'Next poster' }}
+      />
 
       <div className={styles.viewport}>
         <div
@@ -76,7 +53,7 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
               ref={registerItem(i)}
               type="button"
               className={styles.card}
-              onClick={(e) => onCardClick(e, i)}
+              onClick={guardClick(() => lightbox.open(i))}
               aria-label={`Open ${item.year} ${item.name}`}
             >
               <span aria-hidden className={shared.skeleton} />
