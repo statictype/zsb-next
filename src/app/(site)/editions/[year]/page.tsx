@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Calendar } from '@/components/Calendar/Calendar'
+import { ComingSoon, type SocialLink } from '@/components/Calendar/ComingSoon'
 import { Credits } from '@/components/Credits/Credits'
 import { Hero } from '@/components/Hero/Hero'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
@@ -9,6 +10,7 @@ import { Venues } from '@/components/Venues/Venues'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { editionBreadcrumbJsonLd, editionEventJsonLd, editionMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
+import { getSiteSettings } from '@/sanity/lib/settings'
 import { isOnlineEdition } from '@/types/edition'
 import { OnlineEditionLayout } from './online-edition-layout'
 import styles from './page.module.css'
@@ -45,6 +47,13 @@ async function CachedEdition({ year, options }: { year: number; options: Dynamic
     return <OnlineEditionLayout edition={edition} />
   }
 
+  // A live edition with no events yet is — in practice — the forthcoming one,
+  // its programme not announced. Stand in for the calendar with a "coming soon"
+  // block (ZSB-34); only then do we need the socials for its follow CTA.
+  const events = edition.events ?? []
+  const hasProgram = events.length > 0
+  const socials = hasProgram ? [] : await socialLinks(options)
+
   return (
     <main className={styles.page}>
       <JsonLd data={editionEventJsonLd(edition)} />
@@ -58,11 +67,23 @@ async function CachedEdition({ year, options }: { year: number; options: Dynamic
 
       <Venues venues={edition.venues} />
 
-      {edition.events && edition.events.length > 0 && (
-        <Calendar year={edition.year} events={edition.events} />
+      {hasProgram ? (
+        <Calendar year={edition.year} events={events} />
+      ) : (
+        <ComingSoon year={edition.year} socials={socials} />
       )}
 
       <Credits credits={edition.credits} />
     </main>
   )
+}
+
+// Site-wide socials (Instagram, then Facebook — same order as the footer),
+// for the "coming soon" follow CTA. Empty when the settings singleton is unset.
+async function socialLinks(options: DynamicFetchOptions): Promise<SocialLink[]> {
+  const settings = await getSiteSettings(options)
+  const links: SocialLink[] = []
+  if (settings?.instagramUrl) links.push({ label: 'Instagram', href: settings.instagramUrl })
+  if (settings?.facebookUrl) links.push({ label: 'Facebook', href: settings.facebookUrl })
+  return links
 }

@@ -1,0 +1,145 @@
+/* =====================================================
+   COMING SOON (ZSB-34) — stands in for the calendar on a live edition
+   whose events aren't announced yet. Shares the schedule board's surface.
+   ===================================================== */
+
+.section {
+  background: var(--black-pure);
+  color: var(--white);
+  padding: var(--section-padding-y) var(--content-padding);
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* ---- Header (mirrors the live calendar's, minus the window/count meta) ---- */
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.title {
+  composes: sectionTitle from "../Shared.module.css";
+  margin-bottom: 0;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+}
+
+.metaYear,
+.metaSoon {
+  color: var(--highlight);
+}
+
+.metaDot {
+  width: 4px;
+  height: 4px;
+  background: var(--gray-700);
+  border-radius: var(--radius-circle);
+}
+
+/* ---- Notice (sits where the agenda would, with the same top rule) ---- */
+.notice {
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--divider);
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-tight);
+  color: var(--white);
+  max-width: 18ch;
+}
+
+.body {
+  margin-top: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--body);
+  max-width: 52ch;
+}
+
+/* ---- Follow for updates ---- */
+.follow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.followLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--muted);
+}
+
+.links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--gray-700);
+  transition:
+    color var(--duration-fast) var(--ease-out-quint),
+    border-color var(--duration-fast) var(--ease-out-quint);
+}
+
+.link:hover {
+  color: var(--action);
+  border-color: var(--action);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--highlight);
+  outline-offset: 2px;
+}
+
+.link svg {
+  transition: transform var(--duration-fast) var(--ease-out-quint);
+}
+
+.link:hover svg {
+  transform: translate(2px, -2px);
+}
+
+@media (min-width: 768px) {
+  .meta {
+    font-size: var(--text-sm);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .link svg {
+    transition: none;
+  }
+}
