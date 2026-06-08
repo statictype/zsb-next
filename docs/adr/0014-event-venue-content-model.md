@@ -12,11 +12,17 @@ edition). Events are **not** their own Sanity documents.
 
 The edition is the aggregate: an event has no life outside the edition it
 belongs to, and every reader (calendar, filters, featured, venues view) starts
-from a single edition's list. We deliberately do **not** support deep-linking a
-single event — sharing targets the **filtered calendar view** (its filter state
-lives in the URL — [ZSB-29/ZSB-33]), not an individual event — so events need no
-slug and no standalone route. That removes the only reason nesting would have
-hurt (per-event addressability).
+from a single edition's list.
+
+> **Amended (2026-06-08): per-event addressability is now supported.** This ADR
+> originally argued that events needed no slug or standalone route because
+> sharing targeted only the filtered calendar view. That was reversed —
+> single events are shareable, with their own URL and Open Graph card. See
+> [ADR 0015](./0015-per-event-route-and-modal.md). The nesting decision here
+> still holds: events stay nested objects, and the per-event route resolves an
+> event by its array `_key` out of the already-cached edition — it does **not**
+> promote events to documents and gives them no human slug. So nesting costs us
+> nothing on addressability after all.
 
 Venues are the exception: the same places recur across editions, so a **venue is
 a document**, referenced from the event. An event points at the *most specific*
