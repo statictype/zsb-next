@@ -8,6 +8,13 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
   }
 `)
 
+// The year of the edition the team has marked current (ZSB-36). Drives the
+// homepage featured events and the Visit-page venues list. Null until set —
+// the site never guesses, so consumers render nothing rather than a stale year.
+export const CURRENT_EDITION_YEAR_QUERY = defineQuery(`
+  *[_id == "siteSettings"][0].currentEdition->year
+`)
+
 export const HOMEPAGE_QUERY = defineQuery(`
   *[_id == "homepage"][0]{
     heroTitle,
@@ -232,7 +239,13 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
       startTime,
       endDate,
       "types": types[]->{ "title": title, "slug": slug.current },
-      "venue": venue->{ name, "type": type->title, "partOf": partOf->name },
+      "venue": venue->{
+        name,
+        "type": type->title,
+        address,
+        mapUrl,
+        "partOf": partOf->{ name, "type": type->title }
+      },
       description,
       image{ ..., "lqip": asset->metadata.lqip },
       facebookUrl,

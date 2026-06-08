@@ -1,8 +1,10 @@
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Navigation } from '@/components/Navigation/Navigation'
+import { VenuesView } from '@/components/VenuesView/VenuesView'
 import { VisitFaq } from '@/components/VisitFaq/VisitFaq'
 import { VisitSection } from '@/components/VisitSection/VisitSection'
+import { getCurrentEdition } from '@/data/editions'
 import { makePageMetadata, visitFaqJsonLd } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { buildFaq, getVisitPage, mapVisit } from '@/sanity/lib/staticPages'
@@ -28,11 +30,18 @@ export default function VisitRoute() {
 
 async function CachedVisit({ options }: { options: DynamicFetchOptions }) {
   'use cache'
-  const page = await getVisitPage(options)
+  const [page, currentEdition] = await Promise.all([
+    getVisitPage(options),
+    getCurrentEdition(options),
+  ])
   const faq = buildFaq(page)
   return (
     <>
       <VisitSection {...mapVisit(page)} />
+      {/* Venues view only when the current edition has a programme to show. */}
+      {currentEdition?.events?.length ? (
+        <VenuesView year={currentEdition.year} events={currentEdition.events} />
+      ) : null}
       <VisitFaq entries={faq} />
       {faq.length > 0 && <JsonLd data={visitFaqJsonLd(faq)} />}
     </>

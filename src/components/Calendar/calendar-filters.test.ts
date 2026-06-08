@@ -53,11 +53,23 @@ describe('venueSlug', () => {
 
 describe('filterVenue', () => {
   it('rolls a sub-venue up to its parent so studios / UNAgaleria fold into CFP', () => {
-    expect(filterVenue({ name: 'UNAgaleria', type: 'venue', partOf: CFP })).toEqual({
+    expect(
+      filterVenue({
+        name: 'UNAgaleria',
+        type: 'venue',
+        partOf: { name: CFP, type: 'Partner venue' },
+      }),
+    ).toEqual({
       slug: 'combinatul-fondului-plastic',
       label: CFP,
     })
-    expect(filterVenue({ name: 'Ana Zoe Pop Studio', type: 'venue', partOf: CFP })).toEqual({
+    expect(
+      filterVenue({
+        name: 'Ana Zoe Pop Studio',
+        type: 'venue',
+        partOf: { name: CFP, type: 'Partner venue' },
+      }),
+    ).toEqual({
       slug: 'combinatul-fondului-plastic',
       label: CFP,
     })
@@ -145,12 +157,16 @@ describe('computeFacets', () => {
       ev({
         key: 'b',
         startDate: '2026-04-11',
-        venue: { name: 'UNAgaleria', type: 'venue', partOf: CFP },
+        venue: { name: 'UNAgaleria', type: 'venue', partOf: { name: CFP, type: 'Partner venue' } },
       }),
       ev({
         key: 'c',
         startDate: '2026-04-12',
-        venue: { name: 'Ana Zoe Pop Studio', type: 'venue', partOf: CFP },
+        venue: {
+          name: 'Ana Zoe Pop Studio',
+          type: 'venue',
+          partOf: { name: CFP, type: 'Partner venue' },
+        },
       }),
       ev({ key: 'd', startDate: '2026-04-13', venue: { name: 'Galeria Simeza', type: 'venue' } }),
     ]
@@ -217,7 +233,7 @@ describe('applyFilters', () => {
     ev({
       key: 'una-talk',
       startDate: '2026-04-21',
-      venue: { name: 'UNAgaleria', type: 'venue', partOf: CFP },
+      venue: { name: 'UNAgaleria', type: 'venue', partOf: { name: CFP, type: 'Partner venue' } },
       types: [{ title: 'Talk', slug: 'talk' }],
     }),
     ev({

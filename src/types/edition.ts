@@ -90,8 +90,13 @@ export interface EventTypeTag {
 export interface EventVenue {
   name: string
   type: string
-  /** Parent venue name when this place sits inside a bigger one (a studio inside CFP). */
-  partOf?: string
+  /** Optional street address; shown by the venues view, not the calendar. */
+  address?: string
+  /** Optional Google Maps link. */
+  mapUrl?: string
+  /** The bigger place this sits inside (a studio inside CFP). Carries the
+   *  parent's own type so the venues view can group + label the roll-up. */
+  partOf?: { name: string; type: string }
 }
 
 // One program event, as the calendar reads it. Timing is Bucharest-local:

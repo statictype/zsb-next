@@ -343,7 +343,7 @@ function VenueLine({ venue }: { venue: CalendarEvent['venue'] }) {
   return (
     <p className={styles.venue}>
       <span className={styles.venueName}>{venue.name}</span>
-      {venue.partOf && <span className={styles.venueParent}>{venue.partOf}</span>}
+      {venue.partOf && <span className={styles.venueParent}>{venue.partOf.name}</span>}
     </p>
   )
 }

@@ -113,7 +113,9 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
 
           <p className={styles.venue}>
             <span className={styles.venueName}>{event.venue.name}</span>
-            {event.venue.partOf && <span className={styles.venueParent}>{event.venue.partOf}</span>}
+            {event.venue.partOf && (
+              <span className={styles.venueParent}>{event.venue.partOf.name}</span>
+            )}
           </p>
 
           {event.description && <p className={styles.description}>{event.description}</p>}

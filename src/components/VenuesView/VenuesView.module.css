@@ -1,0 +1,276 @@
+/* =====================================================
+   VENUES VIEW (ZSB-27) — the programme browsed by place, on the Visit page
+   below the main-venue block. Dark canvas, echoing the calendar board.
+   ===================================================== */
+
+.section {
+  padding: var(--section-padding-y) var(--content-padding);
+  border-top: 1px solid var(--divider);
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.title {
+  composes: sectionTitle from "../Shared.module.css";
+  margin-bottom: 0;
+}
+
+.lede {
+  margin-top: var(--space-md);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--body);
+}
+
+/* ---- Type group ---- */
+.group {
+  margin-top: var(--space-2xl);
+}
+
+.groupTitle {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  font-weight: var(--weight-semibold);
+  color: var(--highlight);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--divider);
+}
+
+.venues {
+  list-style: none;
+}
+
+/* ---- Venue disclosure ---- */
+.venue {
+  border-top: 1px solid var(--divider);
+}
+
+.venue:first-of-type {
+  border-top: none;
+}
+
+.summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--duration-fast) var(--ease-out-quint);
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:focus-visible {
+  outline: 2px solid var(--highlight);
+  outline-offset: 3px;
+}
+
+.venueName {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  color: var(--white);
+  transition: color var(--duration-fast) var(--ease-out-quint);
+}
+
+.summary:hover .venueName {
+  color: var(--action);
+}
+
+.summaryMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.count {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--muted);
+}
+
+.chevron {
+  color: var(--muted);
+  transition: transform var(--duration-fast) var(--ease-out-quint);
+}
+
+.venue[open] .chevron {
+  transform: rotate(180deg);
+}
+
+/* ---- Open panel ---- */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding-bottom: var(--space-lg);
+}
+
+.place {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.mapLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--gray-700);
+  transition:
+    color var(--duration-fast) var(--ease-out-quint),
+    border-color var(--duration-fast) var(--ease-out-quint);
+}
+
+.mapLink:hover {
+  color: var(--action);
+  border-color: var(--action);
+}
+
+/* ---- Event rows ---- */
+.events {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.event {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-sm) 0;
+  border-top: 1px solid var(--divider);
+}
+
+.event:first-child {
+  border-top: none;
+}
+
+.eventName {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  line-height: var(--leading-tight);
+  color: var(--white);
+  transition: color var(--duration-fast) var(--ease-out-quint);
+  width: fit-content;
+}
+
+.eventName:hover {
+  color: var(--action);
+}
+
+.eventName:focus-visible {
+  outline: 2px solid var(--highlight);
+  outline-offset: 2px;
+}
+
+.eventWhen {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--highlight);
+  border: 1px solid color-mix(in srgb, var(--highlight) 32%, transparent);
+  padding: 2px 8px;
+  line-height: 1.4;
+}
+
+/* ---- Rolled-up sub-venue ---- */
+.child {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-left: var(--space-md);
+  border-left: 1px solid var(--divider);
+}
+
+.childHead {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.childName {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-subtle);
+  font-weight: var(--weight-semibold);
+  color: var(--gray-300);
+}
+
+.childType {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--muted);
+}
+
+@media (min-width: 768px) {
+  .lede {
+    font-size: var(--text-base);
+  }
+
+  .venueName {
+    font-size: var(--text-xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .summary,
+  .venueName,
+  .chevron,
+  .eventName,
+  .mapLink {
+    transition: none;
+  }
+}

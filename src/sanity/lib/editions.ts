@@ -18,6 +18,7 @@ import type {
 import { requireImageData, type SanityImageField, toImageData } from './image'
 import { type DynamicFetchOptions, queryData } from './live'
 import {
+  CURRENT_EDITION_YEAR_QUERY,
   EDITION_BY_YEAR_QUERY,
   EDITION_YEARS_QUERY,
   EDITIONS_LIST_QUERY,
@@ -109,7 +110,11 @@ function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
       venue: {
         name: e.venue.name,
         type: e.venue.type,
-        ...(e.venue.partOf ? { partOf: e.venue.partOf } : {}),
+        ...(e.venue.address ? { address: e.venue.address } : {}),
+        ...(e.venue.mapUrl ? { mapUrl: e.venue.mapUrl } : {}),
+        ...(e.venue.partOf
+          ? { partOf: { name: e.venue.partOf.name, type: e.venue.partOf.type } }
+          : {}),
       },
       description: e.description,
       ...(image ? { image } : {}),
@@ -200,6 +205,19 @@ export async function getEditionFromSanity(
   'use cache'
   const raw = await queryData(EDITION_BY_YEAR_QUERY, options, { year })
   return raw ? mapEdition(raw) : undefined
+}
+
+/**
+ * The year the team marked as the current edition (siteSettings.currentEdition),
+ * or `null` when unset. Respects the caller's perspective so the Studio can
+ * preview a draft switch. Consumers (homepage featured events, Visit venues)
+ * decide what to do with a missing value.
+ */
+export async function getCurrentEditionYearFromSanity(
+  options: DynamicFetchOptions,
+): Promise<number | null> {
+  'use cache'
+  return (await queryData(CURRENT_EDITION_YEAR_QUERY, options)) ?? null
 }
 
 /**

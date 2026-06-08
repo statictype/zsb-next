@@ -1,11 +1,12 @@
 import {
   type EditionListItem,
+  getCurrentEditionYearFromSanity,
   getEditionFromSanity,
   getEditionsListFromSanity,
   getEditionYearsFromSanity,
 } from '@/sanity/lib/editions'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
-import type { AnyEdition } from '@/types/edition'
+import { type AnyEdition, type Edition, isOnlineEdition } from '@/types/edition'
 import { edition2021 } from './2021'
 
 // 2021 is the only static edition — the online-only year, never migrated
@@ -34,6 +35,21 @@ export async function getEdition(
   const fromSanity = await getEditionFromSanity(year, options)
   if (fromSanity) return fromSanity
   return staticEditions[year]
+}
+
+/**
+ * The edition the team has marked current (ZSB-36) — the one whose programme
+ * the homepage featured events and the Visit-page venues list read from.
+ * `undefined` when the setting is unset (the site never guesses) or, defensively,
+ * when it points at the online-only 2021 edition (no events/venues to show).
+ */
+export async function getCurrentEdition(
+  options: DynamicFetchOptions,
+): Promise<Edition | undefined> {
+  const year = await getCurrentEditionYearFromSanity(options)
+  if (year === null) return undefined
+  const edition = await getEdition(year, options)
+  return edition && !isOnlineEdition(edition) ? edition : undefined
 }
 
 export async function getAllEditionYears(): Promise<number[]> {

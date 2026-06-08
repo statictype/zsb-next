@@ -1,0 +1,113 @@
+import { RiArrowDownSLine, RiMapPinLine } from '@remixicon/react'
+import type { CalendarEvent } from '@/types/edition'
+import styles from './VenuesView.module.css'
+import { groupVenuesByType, type TopVenue, type VenueEvent, type VenueNode } from './venues'
+
+// The current edition's programme browsed by place (ZSB-27), on the Visit page
+// below the main-venue block. Venues that have events, grouped by type, with
+// sub-venues rolled up under their parent. Each venue is a disclosure — its
+// events reveal on tap/click (keyboard-accessible); event names deep-link to
+// the edition calendar's detail modal (reusing ZSB-40). Renders nothing when
+// the team hasn't set a current edition.
+export function VenuesView({ year, events }: { year: number; events: CalendarEvent[] }) {
+  const sections = groupVenuesByType(events)
+  if (sections.length === 0) return null
+
+  return (
+    <section className={styles.section} aria-labelledby="venues-heading">
+      <div className={styles.inner}>
+        <header className={styles.header}>
+          <h2 id="venues-heading" className={styles.title}>
+            Where it happens
+          </h2>
+          <p className={styles.lede}>The {year} programme, venue by venue.</p>
+        </header>
+
+        {sections.map((section) => (
+          <div key={section.type} className={styles.group}>
+            <h3 className={styles.groupTitle}>{section.type}</h3>
+            <ul className={styles.venues}>
+              {section.venues.map((venue) => (
+                <li key={venue.name}>
+                  <VenueCard venue={venue} year={year} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function VenueCard({ venue, year }: { venue: TopVenue; year: number }) {
+  return (
+    <details className={styles.venue}>
+      <summary className={styles.summary}>
+        <span className={styles.venueName}>{venue.name}</span>
+        <span className={styles.summaryMeta}>
+          <span className={styles.count}>
+            {venue.totalEvents} {venue.totalEvents === 1 ? 'event' : 'events'}
+          </span>
+          <RiArrowDownSLine size={20} className={styles.chevron} aria-hidden />
+        </span>
+      </summary>
+
+      <div className={styles.panel}>
+        <VenuePlace venue={venue} />
+        {venue.events.length > 0 && <EventList events={venue.events} year={year} />}
+
+        {venue.children.map((child) => (
+          <div key={child.name} className={styles.child}>
+            <p className={styles.childHead}>
+              <span className={styles.childName}>{child.name}</span>
+              <span className={styles.childType}>{child.type}</span>
+            </p>
+            <VenuePlace venue={child} />
+            <EventList events={child.events} year={year} />
+          </div>
+        ))}
+      </div>
+    </details>
+  )
+}
+
+// Address + map link, when authored. Often empty for now (no venue has an
+// address yet), so it self-hides.
+function VenuePlace({ venue }: { venue: VenueNode }) {
+  if (!venue.address && !venue.mapUrl) return null
+  return (
+    <p className={styles.place}>
+      {venue.address && <span>{venue.address}</span>}
+      {venue.mapUrl && (
+        <a className={styles.mapLink} href={venue.mapUrl} target="_blank" rel="noreferrer">
+          <RiMapPinLine size={14} aria-hidden /> Map
+        </a>
+      )}
+    </p>
+  )
+}
+
+function EventList({ events, year }: { events: VenueEvent[]; year: number }) {
+  return (
+    <ul className={styles.events}>
+      {events.map((event) => (
+        <li key={event.key} className={styles.event}>
+          <a className={styles.eventName} href={`/editions/${year}?event=${event.key}#program`}>
+            {event.name}
+          </a>
+          <span className={styles.eventWhen}>{event.when}</span>
+          {event.types.length > 0 && (
+            <ul className={styles.chips}>
+              {event.types.map((t) => (
+                <li key={t.slug} className={styles.chip}>
+                  {t.title}
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ul>
+  )
+}

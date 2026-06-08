@@ -63,7 +63,7 @@ export function venueSlug(name: string): string {
 // Artist studios therefore never appear as their own venue. Events still render
 // their specific venue in the agenda; only the facet rolls up.
 export function filterVenue(venue: EventVenue): { slug: string; label: string } {
-  const label = venue.partOf ?? venue.name
+  const label = venue.partOf?.name ?? venue.name
   return { slug: venueSlug(label), label }
 }
 
