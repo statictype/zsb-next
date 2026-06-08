@@ -4,13 +4,14 @@
 // split run in the browser — the edition page is cached, so "what's past" is
 // judged against the visitor's own clock, never at build time.
 
+import { slugify } from '@/lib/slugify'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
 
-// URL param names — short so shared links (ZSB-33) stay compact.
+// URL param names — short so shared links (ZSB-33) stay compact. The open event
+// is a route now (`events/[key]`, ADR 0015), not a query param.
 const PARAM_VENUE = 'venue'
 const PARAM_TYPE = 'type'
 const PARAM_PAST = 'past'
-const PARAM_EVENT = 'event'
 
 // A facet selection. The chips read as a multi-select that's all-on by default,
 // so the states are:
@@ -44,17 +45,12 @@ export interface CalendarFacets {
   types: FacetOption[]
 }
 
-// Derive a stable, URL-safe slug from a venue name. Venues carry no slug in the
-// model, so we compute one; matching is always slug↔slug (see `applyFilters`),
-// so it round-trips even though the transform is lossy. Diacritics are stripped
-// (Bucharest venue names use ă/î/ș/ț) before slugifying.
+// The filter facet slug for a venue, derived from its (rolled-up) name. This is
+// the calendar's `venue=` filter key, separate from the venue's own URL `slug`
+// field (used in event routes); matching here is always slug↔slug (see
+// `applyFilters`), so it round-trips even though the transform is lossy.
 export function venueSlug(name: string): string {
-  return name
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
+  return slugify(name)
 }
 
 // The venue a filter chip represents: a space inside a bigger place rolls up to
@@ -234,20 +230,5 @@ export function serializeFilters(filters: CalendarFilters, base = ''): string {
   setSelection(params, PARAM_TYPE, filters.types)
   if (filters.showPast === null) params.delete(PARAM_PAST)
   else params.set(PARAM_PAST, filters.showPast ? '1' : '0')
-  return params.toString()
-}
-
-// The open event modal is URL-backed (ZSB-40): `?event=<key>` holds the active
-// event's key, alongside any filter params. A shared link reopens it directly.
-export function parseEventKey(search: string): string | null {
-  return new URLSearchParams(search).get(PARAM_EVENT) || null
-}
-
-// Set or clear the event key on a query string, preserving unrelated params
-// (the active filters). Returns the query without a leading `?`.
-export function withEventKey(base: string, key: string | null): string {
-  const params = new URLSearchParams(base)
-  if (key) params.set(PARAM_EVENT, key)
-  else params.delete(PARAM_EVENT)
   return params.toString()
 }

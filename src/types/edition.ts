@@ -103,8 +103,14 @@ export interface EventVenue {
 // `startDate` is always present; `startTime` only when it matters; `endDate`
 // only for multi-day "On view" runs (an exhibition that spans several days).
 export interface CalendarEvent {
-  /** Stable `_key` from the edition's events array — React key + share anchor. */
+  /** Stable `_key` from the edition's events array — React key. */
   key: string
+  /**
+   * URL slug for the event's route (`events/[slug]`) — an editor override or,
+   * by default, derived from date · venue · name and made unique per edition
+   * (ADR 0015). Distinct from `key`: human-readable and shareable.
+   */
+  slug: string
   name: string
   /** ISO `YYYY-MM-DD`, Bucharest-local. */
   startDate: string

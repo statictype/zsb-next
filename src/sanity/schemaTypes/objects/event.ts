@@ -1,5 +1,6 @@
 import { CalendarIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { slugify } from '../../../lib/slugify'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 // The building block of the program. Events are nested in the edition (one list
@@ -103,6 +104,14 @@ export const event = defineType({
       description: 'Mark a few must-see events to surface them on the homepage.',
       type: 'boolean',
       initialValue: false,
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Custom URL slug',
+      description:
+        'Optional. Overrides the auto-generated event link (date · venue · name). Leave empty to auto-generate.',
+      type: 'slug',
+      options: { source: 'name', slugify, maxLength: 80 },
     }),
   ],
   preview: {

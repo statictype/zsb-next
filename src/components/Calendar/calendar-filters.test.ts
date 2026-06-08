@@ -14,13 +14,11 @@ import {
   isNoneSelected,
   isPastEvent,
   isSelected,
-  parseEventKey,
   parseFilters,
   resolveShowPast,
   serializeFilters,
   toggleSelection,
   venueSlug,
-  withEventKey,
 } from './calendar-filters'
 
 const CFP = 'Combinatul Fondului Plastic'
@@ -31,6 +29,7 @@ function ev(
 ): CalendarEvent {
   return {
     name: partial.key,
+    slug: partial.key,
     description: '',
     featured: false,
     types: [{ title: 'Exhibition', slug: 'exhibition' }],
@@ -335,26 +334,5 @@ describe('parseFilters / serializeFilters', () => {
     const params = new URLSearchParams(query)
     expect(params.get('utm')).toBe('fb')
     expect(params.get('venue')).toBe('cfp')
-  })
-})
-
-describe('event key in the URL (ZSB-40)', () => {
-  it('reads the open event key, or null when absent/empty', () => {
-    expect(parseEventKey('?event=abc123')).toBe('abc123')
-    expect(parseEventKey('?venue=cfp')).toBeNull()
-    expect(parseEventKey('?event=')).toBeNull()
-    expect(parseEventKey('')).toBeNull()
-  })
-
-  it('sets and clears the event key, preserving filter params', () => {
-    expect(new URLSearchParams(withEventKey('venue=cfp', 'abc123')).get('event')).toBe('abc123')
-    expect(new URLSearchParams(withEventKey('venue=cfp', 'abc123')).get('venue')).toBe('cfp')
-    const cleared = new URLSearchParams(withEventKey('venue=cfp&event=abc123', null))
-    expect(cleared.get('event')).toBeNull()
-    expect(cleared.get('venue')).toBe('cfp')
-  })
-
-  it('round-trips through withEventKey → parseEventKey', () => {
-    expect(parseEventKey(`?${withEventKey('', 'xyz')}`)).toBe('xyz')
   })
 })

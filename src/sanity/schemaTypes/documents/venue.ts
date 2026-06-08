@@ -1,5 +1,6 @@
 import { PinIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { slugify } from '../../../lib/slugify'
 
 // A place, saved once and reused across editions (its own document, not retyped
 // per edition) — ADR 0014. Events reference the *most specific* venue they
@@ -19,6 +20,14 @@ export const venue = defineType({
       title: 'Name',
       type: 'string',
       validation: (rule) => rule.required().min(1).max(120),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'URL slug',
+      description:
+        'Short id used in event URLs (e.g. "cfp"). Generated from the name — shorten it to keep event links tidy. Leave blank to fall back to the full name.',
+      type: 'slug',
+      options: { source: 'name', slugify, maxLength: 40 },
     }),
     defineField({
       name: 'type',

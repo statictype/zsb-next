@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Fragment, useEffect, useMemo, useRef, useSyncExternalStore } from 'react'
 import { Figure } from '@/components/Figure/Figure'
 import { type DayToken, dayToken, formatShortRange, isMultiDayRun } from '@/lib/edition-dates'
@@ -16,9 +17,7 @@ import {
   hasUpcomingEvents,
   resolveShowPast,
 } from './calendar-filters'
-import { EventModal } from './EventModal'
 import { useCalendarFilters } from './useCalendarFilters'
-import { useEventModal } from './useEventModal'
 
 interface CalendarProps {
   year: number
@@ -107,8 +106,7 @@ function useTodayIso(): string | null {
 export function Calendar({ year, events }: CalendarProps) {
   const todayIso = useTodayIso()
   const facets = useMemo(() => computeFacets(events), [events])
-  const { filters, ready, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(facets)
-  const { activeEvent, open: openEvent, close: closeEvent } = useEventModal(events)
+  const { filters, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(facets)
 
   // A shared link arrives as `/editions/<year>#program`, but the programme
   // streams in behind the route's Suspense boundary (loading.tsx) — so the
@@ -149,10 +147,7 @@ export function Calendar({ year, events }: CalendarProps) {
   // lights up once the filters deviate from the all-selected default.
   const showPast = resolveShowPast(filters, events, todayIso)
   const showPastControl =
-    ready &&
-    todayIso !== null &&
-    hasPastEvents(events, todayIso) &&
-    hasUpcomingEvents(events, todayIso)
+    todayIso !== null && hasPastEvents(events, todayIso) && hasUpcomingEvents(events, todayIso)
   const showFilterBar = facets.venues.length > 1 || facets.types.length > 1 || showPastControl
   const canReset = hasActiveFilters(filters)
 
@@ -270,13 +265,12 @@ export function Calendar({ year, events }: CalendarProps) {
                         <div className={styles.runBody}>
                           <TypeChips event={run} />
                           <h4 className={styles.runName}>
-                            <button
-                              type="button"
+                            <Link
                               className={styles.nameButton}
-                              onClick={() => openEvent(run.key)}
+                              href={`/editions/${year}/events/${run.slug}`}
                             >
                               {run.name}
-                            </button>
+                            </Link>
                           </h4>
                           <VenueLine venue={run.venue} />
                         </div>
@@ -309,7 +303,7 @@ export function Calendar({ year, events }: CalendarProps) {
                       </div>
                       <ul className={styles.events}>
                         {day.events.map((event) => (
-                          <EventRow key={event.key} event={event} onOpen={openEvent} />
+                          <EventRow key={event.key} event={event} year={year} />
                         ))}
                       </ul>
                     </li>
@@ -321,8 +315,6 @@ export function Calendar({ year, events }: CalendarProps) {
           </>
         )}
       </div>
-
-      {activeEvent && <EventModal event={activeEvent} onClose={closeEvent} />}
     </section>
   )
 }
@@ -348,7 +340,7 @@ function VenueLine({ venue }: { venue: CalendarEvent['venue'] }) {
   )
 }
 
-function EventRow({ event, onOpen }: { event: CalendarEvent; onOpen: (key: string) => void }) {
+function EventRow({ event, year }: { event: CalendarEvent; year: number }) {
   return (
     <li className={`${styles.event} ${event.image ? styles.hasPoster : ''}`}>
       <div className={styles.eventBody}>
@@ -357,12 +349,13 @@ function EventRow({ event, onOpen }: { event: CalendarEvent; onOpen: (key: strin
           <TypeChips event={event} />
           {event.image && <span className={styles.posterTag}>Poster</span>}
         </div>
-        {/* The name opens the detail modal; its stretched overlay makes the
-            whole row the hit target (see `.nameButton` in the CSS). */}
+        {/* The name links to the event's route (the modal opens over the
+            edition); its stretched overlay makes the whole row the hit target
+            (see `.nameButton` in the CSS). */}
         <h4 className={styles.eventName}>
-          <button type="button" className={styles.nameButton} onClick={() => onOpen(event.key)}>
+          <Link className={styles.nameButton} href={`/editions/${year}/events/${event.slug}`}>
             {event.name}
-          </button>
+          </Link>
         </h4>
         <VenueLine venue={event.venue} />
         <p className={styles.eventDesc}>{event.description}</p>

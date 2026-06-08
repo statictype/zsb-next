@@ -11,8 +11,8 @@ import styles from './EventModal.module.css'
 // The full picture for a single event, opened from the calendar (ZSB-40). A
 // dialog over the schedule: everything the agenda row summarises — the whole
 // poster, the complete description, venue + grouping, type(s), date & time, and
-// the ways to act on it. Driven by URL state (see `useEventModal`); this
-// component only renders while an event is active, so mount == open.
+// the ways to act on it. Rendered by the event route via `RoutedEventModal`
+// (ADR 0015), which owns the close behaviour; mount == open.
 
 function whenLabel(event: CalendarEvent): string {
   if (isMultiDayRun(event.startDate, event.endDate)) {

@@ -10,16 +10,24 @@ how, and what it costs the calendar's existing URL/state model.
 Each event gets a path-keyed route:
 
 ```
-editions/[year]/events/[key]/page.tsx             — hard nav / refresh / share
-editions/[year]/events/[key]/opengraph-image.tsx  — the social card
-editions/[year]/@modal/(.)events/[key]/page.tsx   — soft nav: modal over the calendar
-editions/[year]/@modal/default.tsx                — null
+editions/[year]/events/[slug]/page.tsx             — hard nav / refresh / share
+editions/[year]/events/[slug]/opengraph-image.tsx  — the social card
+editions/[year]/@modal/(.)events/[slug]/page.tsx   — soft nav: modal over the calendar
+editions/[year]/@modal/default.tsx                 — null
 ```
 
-The `[key]` is the event's array `_key` (the same id the calendar already used to
-key the modal). No human slug, no event document — the route reads the
-already-cached edition and picks the event out of its nested list ([ADR 0014]
-still holds).
+The `[slug]` is a **human slug** — `12-sep-cfp-opening-night`, composed of the
+date (`d-MMM`), the venue's slug, and the first words of the event name. Still
+**no event document**: the slug is derived in the data layer from the event's own
+fields and made unique within the edition (a `-2`/`-3` suffix on collision), and
+the route reads the already-cached edition and picks the event out of its nested
+list by slug ([ADR 0014] still holds). Two optional override fields back it: a
+`slug` on the venue (so the segment reads `cfp`, not `combinatul-fondului-plastic`)
+and a `slug` on the event (to pin a custom URL). This **reverses** the original
+draft of this ADR, which keyed the route on the array `_key` and declared "no
+human slug" — we took the slug for shareable, readable URLs and a meaningful OG
+card filename; the cost is that reordering events or renaming a venue can shift a
+derived slug, which the override fields exist to pin.
 
 We chose a **route over the shipped `?event=` query state** because the route is
 keyed on a path param, not `searchParams`. That is what makes it free of the

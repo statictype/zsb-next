@@ -1,7 +1,8 @@
 import 'server-only'
 
 import type { EDITION_BY_YEAR_QUERY_RESULT } from '@/../sanity.types'
-import { composeDateTape } from '@/lib/edition-dates'
+import { composeDateTape, dayToken } from '@/lib/edition-dates'
+import { slugify } from '@/lib/slugify'
 import type {
   CalendarEvent,
   CarouselImage,
@@ -96,12 +97,48 @@ function mapProgram(raw: NonNullable<SanityEdition['program']>): ProgramData {
   }
 }
 
+type SanityEvent = NonNullable<SanityEdition['events']>[number]
+
+// Words of the event name kept in an auto-derived slug — enough to disambiguate
+// while staying short ("opening-of-the-main-exhibition" → first five).
+const SLUG_NAME_WORDS = 5
+
+// `d-MMM` lowercased from an ISO date: "2025-09-12" → "12-sep".
+function dateSlugPart(iso: string): string {
+  const token = dayToken(iso)
+  return token ? `${token.day}-${token.month.toLowerCase()}` : slugify(iso)
+}
+
+// The auto-derived event slug — date · venue · shortened name (ADR 0015). Uses
+// the venue's own `slug` (e.g. "cfp") when set, else its slugified name.
+function deriveEventSlug(e: SanityEvent): string {
+  const venuePart = slugify(e.venue.slug ?? e.venue.name)
+  const namePart = slugify(e.name).split('-').filter(Boolean).slice(0, SLUG_NAME_WORDS).join('-')
+  return [dateSlugPart(e.startDate), venuePart, namePart].filter(Boolean).join('-')
+}
+
+// Make every slug unique within the edition so a path-keyed route resolves to
+// exactly one event: append -2/-3… on collision (an editor's override is taken
+// as-is first, the counter is the deterministic tiebreaker).
+function uniqueEventSlugs(bases: string[]): string[] {
+  const used = new Set<string>()
+  return bases.map((base) => {
+    let candidate = base || 'event'
+    let n = 2
+    while (used.has(candidate)) candidate = `${base || 'event'}-${n++}`
+    used.add(candidate)
+    return candidate
+  })
+}
+
 function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
   if (!raw?.length) return undefined
-  return raw.map((e) => {
+  const slugs = uniqueEventSlugs(raw.map((e) => (e.slug ? slugify(e.slug) : deriveEventSlug(e))))
+  return raw.map((e, i) => {
     const image = toImageData(e.image)
     return {
       key: e._key,
+      slug: slugs[i]!,
       name: e.name,
       startDate: e.startDate,
       ...(e.startTime ? { startTime: e.startTime } : {}),

@@ -234,6 +234,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     program,
     events[] {
       _key,
+      "slug": slug.current,
       name,
       startDate,
       startTime,
@@ -241,6 +242,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
       "types": types[]->{ "title": title, "slug": slug.current },
       "venue": venue->{
         name,
+        "slug": slug.current,
         "type": type->title,
         address,
         mapUrl,
