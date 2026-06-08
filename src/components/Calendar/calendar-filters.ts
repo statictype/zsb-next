@@ -10,6 +10,7 @@ import type { CalendarEvent, EventVenue } from '@/types/edition'
 const PARAM_VENUE = 'venue'
 const PARAM_TYPE = 'type'
 const PARAM_PAST = 'past'
+const PARAM_EVENT = 'event'
 
 // A facet selection. The chips read as a multi-select that's all-on by default,
 // so the states are:
@@ -233,5 +234,20 @@ export function serializeFilters(filters: CalendarFilters, base = ''): string {
   setSelection(params, PARAM_TYPE, filters.types)
   if (filters.showPast === null) params.delete(PARAM_PAST)
   else params.set(PARAM_PAST, filters.showPast ? '1' : '0')
+  return params.toString()
+}
+
+// The open event modal is URL-backed (ZSB-40): `?event=<key>` holds the active
+// event's key, alongside any filter params. A shared link reopens it directly.
+export function parseEventKey(search: string): string | null {
+  return new URLSearchParams(search).get(PARAM_EVENT) || null
+}
+
+// Set or clear the event key on a query string, preserving unrelated params
+// (the active filters). Returns the query without a leading `?`.
+export function withEventKey(base: string, key: string | null): string {
+  const params = new URLSearchParams(base)
+  if (key) params.set(PARAM_EVENT, key)
+  else params.delete(PARAM_EVENT)
   return params.toString()
 }

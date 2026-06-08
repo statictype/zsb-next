@@ -9,30 +9,11 @@ import {
   serializeFilters,
   toggleSelection,
 } from './calendar-filters'
+import { getSearchSnapshot, getServerSnapshot, subscribeUrl, writeUrl } from './calendar-url'
 
-// Filter state lives entirely in the URL, read and written on the client only —
-// the edition page is cached (`'use cache'`), so we must never touch
-// `searchParams` on the server (that would de-opt the static shell) and we
-// avoid `useSearchParams`, which forces a CSR bailout on a prerendered route.
-// Instead this mirrors the Calendar's `useTodayIso`: a `useSyncExternalStore`
-// whose server snapshot is `null`, so the prerendered HTML renders every event
-// and the client narrows it once hydrated. Sharing (ZSB-33) just reads the URL.
-
-// `replaceState` doesn't fire `popstate`, so we emit our own event to notify
-// the store after a programmatic URL change.
-const URL_EVENT = 'zsb:calendar-url'
-
-function subscribe(onChange: () => void): () => void {
-  window.addEventListener('popstate', onChange)
-  window.addEventListener(URL_EVENT, onChange)
-  return () => {
-    window.removeEventListener('popstate', onChange)
-    window.removeEventListener(URL_EVENT, onChange)
-  }
-}
-
-const getSearchSnapshot = (): string => window.location.search
-const getServerSnapshot = (): null => null
+// Filter state lives entirely in the URL, read and written on the client only.
+// See `calendar-url.ts` for why (cached page, no `useSearchParams`). Sharing
+// (ZSB-33) just reads the URL; the event modal (ZSB-40) shares the same store.
 
 export interface UseCalendarFilters {
   filters: CalendarFilters
@@ -46,7 +27,7 @@ export interface UseCalendarFilters {
 }
 
 export function useCalendarFilters(facets: CalendarFacets): UseCalendarFilters {
-  const search = useSyncExternalStore(subscribe, getSearchSnapshot, getServerSnapshot)
+  const search = useSyncExternalStore(subscribeUrl, getSearchSnapshot, getServerSnapshot)
   const ready = search !== null
   const filters = useMemo(
     () => (search === null ? DEFAULT_FILTERS : parseFilters(search)),
@@ -56,13 +37,10 @@ export function useCalendarFilters(facets: CalendarFacets): UseCalendarFilters {
   const venueSlugs = useMemo(() => facets.venues.map((o) => o.slug), [facets])
   const typeSlugs = useMemo(() => facets.types.map((o) => o.slug), [facets])
 
-  // Write the next filter state to the URL without a navigation or scroll jump,
-  // preserving any unrelated params, then nudge the store to re-read.
+  // Write the next filter state to the URL (replacing, preserving unrelated
+  // params like the open event), then the store re-reads.
   const commit = useCallback((next: CalendarFilters) => {
-    const query = serializeFilters(next, window.location.search)
-    const url = `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`
-    window.history.replaceState(window.history.state, '', url)
-    window.dispatchEvent(new Event(URL_EVENT))
+    writeUrl(serializeFilters(next, window.location.search))
   }, [])
 
   const toggleVenue = useCallback(

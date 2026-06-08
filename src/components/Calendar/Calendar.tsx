@@ -1,6 +1,5 @@
 'use client'
 
-import { RiArrowRightUpLine } from '@remixicon/react'
 import { Fragment, useEffect, useMemo, useRef, useSyncExternalStore } from 'react'
 import { Figure } from '@/components/Figure/Figure'
 import { type DayToken, dayToken, formatShortRange, isMultiDayRun } from '@/lib/edition-dates'
@@ -17,7 +16,9 @@ import {
   hasUpcomingEvents,
   resolveShowPast,
 } from './calendar-filters'
+import { EventModal } from './EventModal'
 import { useCalendarFilters } from './useCalendarFilters'
+import { useEventModal } from './useEventModal'
 
 interface CalendarProps {
   year: number
@@ -107,6 +108,7 @@ export function Calendar({ year, events }: CalendarProps) {
   const todayIso = useTodayIso()
   const facets = useMemo(() => computeFacets(events), [events])
   const { filters, ready, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(facets)
+  const { activeEvent, open: openEvent, close: closeEvent } = useEventModal(events)
 
   // A shared link arrives as `/editions/<year>#program`, but the programme
   // streams in behind the route's Suspense boundary (loading.tsx) — so the
@@ -267,7 +269,15 @@ export function Calendar({ year, events }: CalendarProps) {
                       >
                         <div className={styles.runBody}>
                           <TypeChips event={run} />
-                          <h4 className={styles.runName}>{run.name}</h4>
+                          <h4 className={styles.runName}>
+                            <button
+                              type="button"
+                              className={styles.nameButton}
+                              onClick={() => openEvent(run.key)}
+                            >
+                              {run.name}
+                            </button>
+                          </h4>
                           <VenueLine venue={run.venue} />
                         </div>
                         <div className={styles.runAside}>
@@ -299,7 +309,7 @@ export function Calendar({ year, events }: CalendarProps) {
                       </div>
                       <ul className={styles.events}>
                         {day.events.map((event) => (
-                          <EventRow key={event.key} event={event} />
+                          <EventRow key={event.key} event={event} onOpen={openEvent} />
                         ))}
                       </ul>
                     </li>
@@ -311,6 +321,8 @@ export function Calendar({ year, events }: CalendarProps) {
           </>
         )}
       </div>
+
+      {activeEvent && <EventModal event={activeEvent} onClose={closeEvent} />}
     </section>
   )
 }
@@ -336,8 +348,7 @@ function VenueLine({ venue }: { venue: CalendarEvent['venue'] }) {
   )
 }
 
-function EventRow({ event }: { event: CalendarEvent }) {
-  const hasLinks = Boolean(event.ticketUrl || event.facebookUrl)
+function EventRow({ event, onOpen }: { event: CalendarEvent; onOpen: (key: string) => void }) {
   return (
     <li className={`${styles.event} ${event.image ? styles.hasPoster : ''}`}>
       <div className={styles.eventBody}>
@@ -346,33 +357,15 @@ function EventRow({ event }: { event: CalendarEvent }) {
           <TypeChips event={event} />
           {event.image && <span className={styles.posterTag}>Poster</span>}
         </div>
-        <h4 className={styles.eventName}>{event.name}</h4>
+        {/* The name opens the detail modal; its stretched overlay makes the
+            whole row the hit target (see `.nameButton` in the CSS). */}
+        <h4 className={styles.eventName}>
+          <button type="button" className={styles.nameButton} onClick={() => onOpen(event.key)}>
+            {event.name}
+          </button>
+        </h4>
         <VenueLine venue={event.venue} />
         <p className={styles.eventDesc}>{event.description}</p>
-        {hasLinks && (
-          <div className={styles.eventLinks}>
-            {event.ticketUrl && (
-              <a
-                className={styles.eventLink}
-                href={event.ticketUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Tickets <RiArrowRightUpLine size={14} aria-hidden />
-              </a>
-            )}
-            {event.facebookUrl && (
-              <a
-                className={styles.eventLink}
-                href={event.facebookUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Facebook event <RiArrowRightUpLine size={14} aria-hidden />
-              </a>
-            )}
-          </div>
-        )}
       </div>
       {event.image && (
         <div className={styles.poster}>

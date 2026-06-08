@@ -104,6 +104,7 @@
   gap: var(--space-sm);
   padding: var(--space-md) 0;
   border-top: 1px solid var(--divider);
+  position: relative;
 }
 
 .run:first-child {
@@ -302,49 +303,50 @@
   color: var(--white);
 }
 
+/* The event/run name is a button that opens the detail modal. It inherits the
+   heading's type, and its ::after stretches the hit target over the whole row
+   (which is positioned), so a tap anywhere opens the event. */
+.nameButton {
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out-quint);
+}
+
+.nameButton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.event:hover .nameButton,
+.run:hover .nameButton {
+  color: var(--action);
+}
+
+.nameButton:focus-visible {
+  color: var(--action);
+  outline: 2px solid var(--highlight);
+  outline-offset: 3px;
+}
+
+/* A two-line teaser in the agenda; the full text lives in the detail modal. */
 .eventDesc {
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: var(--leading-body);
   color: var(--body);
   max-width: 64ch;
-}
-
-.eventLinks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-top: var(--space-xs);
-}
-
-.eventLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-body);
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  font-weight: var(--weight-semibold);
-  color: var(--white);
-  padding-bottom: 3px;
-  border-bottom: 1px solid var(--gray-700);
-  transition:
-    color var(--duration-fast) var(--ease-out-quint),
-    border-color var(--duration-fast) var(--ease-out-quint);
-}
-
-.eventLink:hover {
-  color: var(--action);
-  border-color: var(--action);
-}
-
-.eventLink svg {
-  transition: transform var(--duration-fast) var(--ease-out-quint);
-}
-
-.eventLink:hover svg {
-  transform: translate(2px, -2px);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Poster — touch / narrow fallback: an always-visible portrait thumbnail
@@ -509,6 +511,10 @@
   .nowDot,
   .runNow::before {
     animation: none;
+  }
+
+  .nameButton {
+    transition: none;
   }
 }
 
