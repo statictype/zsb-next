@@ -143,64 +143,8 @@
   opacity: 0.6;
 }
 
-/* ---- Controls row (past toggle) ---- */
-.controls {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 36px;
-  padding: 8px 14px;
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  font-weight: var(--weight-semibold);
-  color: var(--gray-300);
-  background: transparent;
-  border: 1px solid var(--gray-700);
-  cursor: pointer;
-  transition:
-    color var(--duration-fast) var(--ease-out-quint),
-    border-color var(--duration-fast) var(--ease-out-quint),
-    background var(--duration-fast) var(--ease-out-quint);
-}
-
-.toggle:hover {
-  color: var(--white);
-  border-color: var(--white);
-}
-
-.toggleOn,
-.toggleOn:hover {
-  color: var(--black-pure);
-  background: var(--highlight);
-  border-color: var(--highlight);
-}
-
-.summary {
-  font-family: var(--font-body);
-  font-size: var(--text-2xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-label);
-  font-weight: var(--weight-semibold);
-  color: var(--muted);
-  min-height: 1em;
-}
-
-.summary:empty {
-  display: none;
-}
-
 /* Keyboard focus — chartreuse ring reads clearly on the black board. */
 .chip:focus-visible,
-.toggle:focus-visible,
 .reset:focus-visible {
   outline: 2px solid var(--highlight);
   outline-offset: 2px;
@@ -223,7 +167,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .chip,
-  .toggle,
   .reset,
   .reset svg,
   .box {

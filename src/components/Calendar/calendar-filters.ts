@@ -170,20 +170,28 @@ export function computeFacets(events: CalendarEvent[]): CalendarFacets {
   }
 }
 
-// Narrow events to the active selection. A `null` facet imposes no constraint
-// (everything selected); otherwise the event must match a selected venue / one
-// of its types must be selected (so an empty selection matches nothing). Past
-// events drop out unless show-past resolves on.
+// Whether an event passes the venue/type facet selection — the time-independent
+// half of the filter. A `null` facet imposes no constraint (everything
+// selected); otherwise the event must match a selected venue / one of its types
+// must be selected (so an empty selection matches nothing). Drives both the
+// headline "X of Y upcoming" count (ZSB-47) and `applyFilters`.
+export function matchesFacets(event: CalendarEvent, filters: CalendarFilters): boolean {
+  const { venues, types } = filters
+  if (venues !== null && !venues.includes(filterVenue(event.venue).slug)) return false
+  if (types !== null && !event.types.some((t) => types.includes(t.slug))) return false
+  return true
+}
+
+// Narrow events to the active selection: the facet match above, then the
+// past/upcoming split — past events drop out unless show-past resolves on.
 export function applyFilters(
   events: CalendarEvent[],
   filters: CalendarFilters,
   todayIso: string | null,
 ): CalendarEvent[] {
-  const { venues, types } = filters
   const showPast = resolveShowPast(filters, events, todayIso)
   return events.filter((e) => {
-    if (venues !== null && !venues.includes(filterVenue(e.venue).slug)) return false
-    if (types !== null && !e.types.some((t) => types.includes(t.slug))) return false
+    if (!matchesFacets(e, filters)) return false
     if (!showPast && todayIso !== null && isPastEvent(e, todayIso)) return false
     return true
   })

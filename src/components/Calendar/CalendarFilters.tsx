@@ -1,6 +1,6 @@
 'use client'
 
-import { RiCheckLine, RiHistoryLine, RiResetLeftLine } from '@remixicon/react'
+import { RiCheckLine, RiResetLeftLine } from '@remixicon/react'
 import styles from './CalendarFilters.module.css'
 import {
   type CalendarFacets,
@@ -13,17 +13,10 @@ import {
 interface CalendarFiltersProps {
   facets: CalendarFacets
   filters: Filters
-  /** Resolved show-past value — drives the toggle's pressed state. */
-  showPast: boolean
-  /** Only render the past toggle when it would actually change the view. */
-  showPastControl: boolean
   /** True once the filters deviate from the default — enables Reset. */
   canReset: boolean
-  resultCount: number
-  totalCount: number
   onToggleVenue: (slug: string) => void
   onToggleType: (slug: string) => void
-  onSetShowPast: (value: boolean) => void
   onReset: () => void
 }
 
@@ -73,14 +66,9 @@ function FacetChips({
 export function CalendarFilters({
   facets,
   filters,
-  showPast,
-  showPastControl,
   canReset,
-  resultCount,
-  totalCount,
   onToggleVenue,
   onToggleType,
-  onSetShowPast,
   onReset,
 }: CalendarFiltersProps) {
   return (
@@ -111,29 +99,6 @@ export function CalendarFilters({
           onToggle={onToggleType}
         />
       )}
-
-      {showPastControl && (
-        <div className={styles.controls}>
-          <button
-            type="button"
-            className={`${styles.toggle} ${showPast ? styles.toggleOn : ''}`}
-            aria-pressed={showPast}
-            onClick={() => onSetShowPast(!showPast)}
-          >
-            <RiHistoryLine size={15} aria-hidden />
-            Past events
-          </button>
-        </div>
-      )}
-
-      {/* Live region so screen readers hear the count change as filters toggle.
-          Shown whenever the view is narrowed — by a selection or the
-          default-hidden past events. */}
-      <p className={styles.summary} aria-live="polite">
-        {resultCount !== totalCount
-          ? `${resultCount} of ${totalCount} ${totalCount === 1 ? 'event' : 'events'}`
-          : ''}
-      </p>
     </div>
   )
 }

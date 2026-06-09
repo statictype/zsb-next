@@ -69,6 +69,66 @@
   border-radius: var(--radius-circle);
 }
 
+/* ---- Headline counts + past toggle (ZSB-47) ---- */
+.counts {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+/* The reactive "X of Y upcoming events" — primary, so it leads in white. */
+.count {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+}
+
+.pastToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--gray-300);
+  background: transparent;
+  border: 1px solid var(--gray-700);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  transition:
+    color var(--duration-fast) var(--ease-out-quint),
+    border-color var(--duration-fast) var(--ease-out-quint),
+    background var(--duration-fast) var(--ease-out-quint);
+}
+
+.pastToggle:hover {
+  color: var(--white);
+  border-color: var(--white);
+}
+
+/* On → the chartreuse "active" fill, the same confirmed-accent the board uses. */
+.pastToggleOn,
+.pastToggleOn:hover {
+  color: var(--black-pure);
+  background: var(--highlight);
+  border-color: var(--highlight);
+}
+
+.pastToggle:focus-visible {
+  outline: 2px solid var(--highlight);
+  outline-offset: 2px;
+}
+
 /* ---- Ongoing band ---- */
 .band {
   margin-bottom: var(--space-2xl);
@@ -507,7 +567,8 @@
     animation: none;
   }
 
-  .nameButton {
+  .nameButton,
+  .pastToggle {
     transition: none;
   }
 }

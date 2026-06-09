@@ -1,5 +1,6 @@
 'use client'
 
+import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import { Fragment, useEffect, useMemo, useRef, useSyncExternalStore } from 'react'
 import { Figure } from '@/components/Figure/Figure'
@@ -15,6 +16,8 @@ import {
   hasActiveFilters,
   hasPastEvents,
   hasUpcomingEvents,
+  isPastEvent,
+  matchesFacets,
   resolveShowPast,
 } from './calendar-filters'
 import { useCalendarFilters } from './useCalendarFilters'
@@ -146,14 +149,48 @@ export function Calendar({ year, events }: CalendarProps) {
   // change the view (the edition has both past and upcoming events); Reset
   // lights up once the filters deviate from the all-selected default.
   const showPast = resolveShowPast(filters, events, todayIso)
+  // The past toggle lives in the headline now (ZSB-47); it shows whenever past
+  // events could be revealed — i.e. a live edition with both past and upcoming.
   const showPastControl =
     todayIso !== null && hasPastEvents(events, todayIso) && hasUpcomingEvents(events, todayIso)
-  const showFilterBar = facets.venues.length > 1 || facets.types.length > 1 || showPastControl
+  const showFilterBar = facets.venues.length > 1 || facets.types.length > 1
   const canReset = hasActiveFilters(filters)
 
   const todayToken = todayIso ? dayToken(todayIso) : undefined
   const windowLabel =
     editionStart && editionEnd ? formatShortRange(editionStart, editionEnd) : undefined
+
+  // Headline counts (ZSB-47). Upcoming/past split is judged client-side, so
+  // before the clock resolves (`todayIso === null`) we just count everything as
+  // "upcoming" and show no past affordance — matching the all-events shell.
+  // `upcomingMatching` reacts to the venue/type filters; `upcoming`/`past` are
+  // whole-edition totals, independent of the selection.
+  const { upcoming, upcomingMatching, past } = useMemo(() => {
+    if (todayIso === null) {
+      return { upcoming: events.length, upcomingMatching: events.length, past: 0 }
+    }
+    let up = 0
+    let match = 0
+    let pastCount = 0
+    for (const e of events) {
+      if (isPastEvent(e, todayIso)) pastCount++
+      else {
+        up++
+        if (matchesFacets(e, filters)) match++
+      }
+    }
+    return { upcoming: up, upcomingMatching: match, past: pastCount }
+  }, [events, filters, todayIso])
+
+  // "X of Y upcoming events", collapsing to "Y upcoming events" when the venue/
+  // type filters aren't narrowing anything. A finished edition (nothing upcoming)
+  // falls back to a plain archive total — its recap treatment is ZSB-45.
+  const countLabel =
+    upcoming === 0
+      ? `${events.length} ${events.length === 1 ? 'event' : 'events'}`
+      : upcomingMatching === upcoming
+        ? `${upcoming} upcoming ${upcoming === 1 ? 'event' : 'events'}`
+        : `${upcomingMatching} of ${upcoming} upcoming events`
 
   const NowMarker = (
     <li className={styles.now} aria-label="Happening now">
@@ -189,11 +226,23 @@ export function Calendar({ year, events }: CalendarProps) {
                   <span>{windowLabel}</span>
                 </>
               )}
-              <span className={styles.metaDot} aria-hidden />
-              <span>
-                {events.length} {events.length === 1 ? 'event' : 'events'}
-              </span>
             </p>
+            <div className={styles.counts}>
+              <span className={styles.count} aria-live="polite">
+                {countLabel}
+              </span>
+              {showPastControl && (
+                <button
+                  type="button"
+                  className={`${styles.pastToggle} ${showPast ? styles.pastToggleOn : ''}`}
+                  aria-pressed={showPast}
+                  onClick={() => setShowPast(!showPast)}
+                >
+                  <RiHistoryLine size={15} aria-hidden />
+                  {showPast ? 'Hide' : 'Show'} {past} past {past === 1 ? 'event' : 'events'}
+                </button>
+              )}
+            </div>
           </div>
           <CalendarShare />
         </header>
@@ -202,14 +251,9 @@ export function Calendar({ year, events }: CalendarProps) {
           <CalendarFilters
             facets={facets}
             filters={filters}
-            showPast={showPast}
-            showPastControl={showPastControl}
             canReset={canReset}
-            resultCount={visible.length}
-            totalCount={events.length}
             onToggleVenue={toggleVenue}
             onToggleType={toggleType}
-            onSetShowPast={setShowPast}
             onReset={reset}
           />
         )}
