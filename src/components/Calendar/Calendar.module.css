@@ -20,6 +20,12 @@
   margin: 0 auto;
 }
 
+/* Wraps the Ongoing band + agenda. Stacks by default; becomes a two-column grid
+   (agenda main + Ongoing rail) at >=1280 when both are present — see `.split`. */
+.layout {
+  min-width: 0;
+}
+
 /* ---- Header ---- */
 .header {
   display: flex;
@@ -615,6 +621,70 @@
   }
 }
 
+/* ---- Wide screens: density pass + two-column layout (ZSB-49) ----
+   At <1280 the calendar keeps the single-column reading layout above. From
+   1280 the type and padding tighten (the 1024 step over-scales on wide
+   monitors), and — when there's an Ongoing band to pair with the agenda — the
+   two sit side by side: agenda main (left, ~2/3), Ongoing a sticky rail
+   (right, ~1/3). A lone agenda or lone band keeps the full width. */
+@media (min-width: 1280px) {
+  .section {
+    --marker-col: 144px;
+  }
+
+  .day {
+    padding: var(--space-md) 0;
+  }
+
+  .eventName {
+    font-size: var(--text-lg);
+  }
+
+  .markerDay {
+    font-size: var(--text-3xl);
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: var(--space-2xl);
+    align-items: start;
+    /* the agenda column is narrower than a full-width board — tuck the marker in */
+    --marker-col: 116px;
+  }
+
+  .split .agenda {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  /* The band rides up into a sticky rail beside the agenda — shed the stacked
+     spacing (top border / vertical margins) it carries in single-column. */
+  .split .band {
+    grid-column: 2;
+    grid-row: 1;
+    position: sticky;
+    top: var(--space-lg);
+    margin-bottom: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  /* In the narrow rail, runs stack (body over a compact range) instead of
+     splitting into body | aside, which would wrap awkwardly. */
+  .split .run {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .split .runAside {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding-top: 0;
+  }
+}
+
 /* ---- Hover-reveal poster (wide, hover-capable screens only) ----
    The agenda stays a uniform text-only list; a poster floats in over the
    right-hand whitespace when its row is hovered. Touch and narrow widths
@@ -669,7 +739,10 @@
 
 /* ---- Large desktop ---- */
 @media (min-width: 1440px) {
+  /* A touch more room for the date marker on a full-width board, but well short
+     of the old 200px — the density pass keeps wide screens from over-scaling.
+     The `.split` rail keeps its own tighter marker from the 1280 block. */
   .section {
-    --marker-col: 200px;
+    --marker-col: 160px;
   }
 }

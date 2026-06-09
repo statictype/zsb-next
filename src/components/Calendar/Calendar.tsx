@@ -222,7 +222,13 @@ export function Calendar({ year, events }: CalendarProps) {
             </button>
           </div>
         ) : (
-          <>
+          // ≥1280px: agenda is the main left column, the Ongoing band a sticky
+          // rail on the right — but only when both are present; either one alone
+          // takes the full width (ZSB-49). Below 1280 it all stacks (the `.split`
+          // grid simply doesn't apply).
+          <div
+            className={`${styles.layout} ${onView.length > 0 && days.length > 0 ? styles.split : ''}`}
+          >
             {onView.length > 0 && (
               <section className={styles.band} aria-label="Ongoing throughout the edition">
                 <h3 className={styles.bandLabel}>Ongoing</h3>
@@ -297,7 +303,7 @@ export function Calendar({ year, events }: CalendarProps) {
                 {nowIndex === days.length && NowMarker}
               </ol>
             )}
-          </>
+          </div>
         )}
       </div>
     </section>
