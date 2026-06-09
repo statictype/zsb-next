@@ -11,6 +11,7 @@ function ev(
 ): CalendarEvent {
   return {
     key,
+    slug: key,
     name: opts.name ?? key,
     startDate: opts.startDate ?? '2026-05-16',
     ...(opts.startTime ? { startTime: opts.startTime } : {}),

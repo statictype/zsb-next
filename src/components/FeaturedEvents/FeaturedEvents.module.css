@@ -1,0 +1,309 @@
+/* =====================================================
+   FEATURED EVENTS — the homepage spotlight (ZSB-31)
+   Must-see events pulled off the schedule board and pinned
+   up as poster cards. Same dark palette as the calendar;
+   bigger, image-forward, magazine-cover composition.
+   ===================================================== */
+
+.section {
+  background: var(--black-pure);
+  color: var(--white);
+  padding: var(--section-padding-y) var(--content-padding);
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.headerMain {
+  min-width: 0;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  font-weight: var(--weight-semibold);
+  color: var(--highlight);
+  margin-bottom: var(--space-sm);
+}
+
+.title {
+  composes: sectionTitle from "../Shared.module.css";
+  margin-bottom: 0;
+}
+
+.calendarLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--gray-700);
+  transition:
+    color var(--duration-fast) var(--ease-out-quint),
+    border-color var(--duration-fast) var(--ease-out-quint),
+    gap var(--duration-normal) var(--ease-out-expo);
+}
+
+.calendarLink:hover {
+  color: var(--action);
+  border-color: var(--action);
+  gap: 14px;
+}
+
+.calendarLink:focus-visible {
+  outline: 2px solid var(--highlight);
+  outline-offset: 3px;
+}
+
+/* ---- Grid ---- */
+.grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap);
+}
+
+/* ---- Card ---- */
+.card {
+  opacity: 0;
+  animation: cardIn var(--duration-medium) var(--ease-out-expo) forwards;
+  /* staggered reveal — each card waits a beat longer than the last */
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* The poster frame: a portrait stage that the image fills, the scrim darkens,
+   and the caption sits over. Positioned so the name link's ::after can stretch
+   the hit target across the whole card. */
+.frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--skeleton-base);
+  isolation: isolate;
+}
+
+.frame img {
+  object-fit: cover;
+  filter: var(--gallery-image-filter);
+  transition:
+    filter var(--duration-medium) var(--ease-out-quint),
+    transform var(--duration-medium) var(--ease-out-quint);
+}
+
+.card:hover .frame img {
+  filter: var(--gallery-image-filter-hover);
+  transform: scale(1.04);
+}
+
+/* Image-less card: a tonal stage with a vast, faded day numeral so the void
+   still reads as "an event on this date" rather than an empty box. */
+.noPoster {
+  background: linear-gradient(150deg, var(--gray-900), var(--black-pure) 70%);
+}
+
+.watermark {
+  position: absolute;
+  top: -0.18em;
+  right: 0.04em;
+  font-family: var(--font-display);
+  font-size: clamp(120px, 32vw, 260px);
+  line-height: 1;
+  color: var(--white);
+  opacity: 0.05;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Bottom-anchored scrim so the caption stays legible over any poster. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    var(--black-pure) 2%,
+    color-mix(in srgb, var(--black-pure) 72%, transparent) 26%,
+    transparent 58%
+  );
+  pointer-events: none;
+}
+
+/* Curatorial index stamp — top-right, like a numbered plate on a wall. */
+.stamp {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+}
+
+/* ---- Caption ---- */
+.caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+}
+
+.when {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--highlight);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  color: var(--white);
+}
+
+/* The name links to the event's route (modal over the edition). Inherits the
+   heading type; its ::after stretches the hit target over the whole frame. */
+.cardLink {
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out-quint);
+}
+
+.cardLink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+.card:hover .cardLink {
+  color: var(--action);
+}
+
+.cardLink:focus-visible {
+  color: var(--action);
+  outline: 2px solid var(--highlight);
+  outline-offset: 3px;
+}
+
+.venue {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+}
+
+.venueName {
+  color: var(--gray-300);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-subtle);
+  font-weight: var(--weight-medium);
+}
+
+.venueParent {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-size: var(--text-2xs);
+}
+
+.venueParent::before {
+  content: "↳ ";
+}
+
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.chip {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--highlight);
+  border: 1px solid color-mix(in srgb, var(--highlight) 32%, transparent);
+  padding: 3px 9px;
+  line-height: 1.4;
+  /* a touch of backdrop so chips hold up over a bright patch of poster */
+  background: color-mix(in srgb, var(--black-pure) 35%, transparent);
+}
+
+/* ---- Motion ---- */
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    opacity: 1;
+    animation: none;
+  }
+
+  .frame img,
+  .card:hover .frame img {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ---- Tablet ---- */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .name {
+    font-size: var(--text-xl);
+  }
+}
+
+/* ---- Desktop ---- */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
