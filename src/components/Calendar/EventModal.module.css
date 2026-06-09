@@ -30,33 +30,76 @@
   animation: dialogIn var(--duration-normal) var(--ease-out-expo);
 }
 
-.close {
+/* Floating control bar over the dialog top: Back (left) + Share (right). The
+   bar itself is click-through so the area between the chips never swallows a
+   tap; only the buttons take pointer events. */
+.controls {
   position: absolute;
   top: var(--space-sm);
+  left: var(--space-sm);
   right: var(--space-sm);
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  pointer-events: none;
+}
+
+.back,
+.share {
+  pointer-events: auto;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 13px;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
   color: var(--white);
   background: color-mix(in srgb, var(--black-pure) 55%, transparent);
   border: 1px solid var(--divider);
   cursor: pointer;
+  backdrop-filter: blur(4px);
   transition:
     color var(--duration-fast) var(--ease-out-quint),
     border-color var(--duration-fast) var(--ease-out-quint);
 }
 
-.close:hover {
+.back:hover,
+.share:hover {
   color: var(--action);
   border-color: var(--action);
 }
 
-.close:focus-visible {
+.back:focus-visible,
+.share:focus-visible {
   outline: 2px solid var(--highlight);
   outline-offset: 2px;
+}
+
+.share svg {
+  transition: transform var(--duration-fast) var(--ease-out-quint);
+}
+
+.share:hover svg {
+  transform: translateY(-2px);
+}
+
+/* Copied — settle into the chartreuse "confirmed" accent used across the board,
+   matching the calendar share. */
+.copied,
+.copied:hover {
+  color: var(--highlight);
+  border-color: var(--highlight);
+}
+
+.copied svg,
+.copied:hover svg {
+  transform: none;
 }
 
 .poster {
@@ -80,7 +123,10 @@
   min-height: 0;
   flex-direction: column;
   gap: var(--space-xs);
-  padding: var(--space-lg);
+  /* extra top padding clears the floating control bar (36px tall, offset by
+     --space-sm) and leaves a clear gap beneath it — it sits over the body on
+     desktop, and over the very top when there's no poster. */
+  padding: calc(36px + var(--space-sm) + var(--space-lg)) var(--space-lg) var(--space-lg);
   overflow-y: auto;
 }
 
@@ -235,7 +281,9 @@
     animation: none;
   }
 
-  .close,
+  .back,
+  .share,
+  .share svg,
   .link,
   .link svg {
     transition: none;

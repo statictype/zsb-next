@@ -1,12 +1,13 @@
 'use client'
 
-import { RiArrowRightUpLine, RiCloseLine } from '@remixicon/react'
+import { RiArrowLeftLine, RiArrowRightUpLine } from '@remixicon/react'
 import { useEffect, useRef } from 'react'
 import { Figure } from '@/components/Figure/Figure'
 import { dayToken, formatShortRange, isMultiDayRun } from '@/lib/edition-dates'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import type { CalendarEvent } from '@/types/edition'
 import styles from './EventModal.module.css'
+import { useShareLink } from './useShareLink'
 
 // The full picture for a single event, opened from the calendar (ZSB-40). A
 // dialog over the schedule: everything the agenda row summarises — the whole
@@ -28,6 +29,17 @@ const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1
 export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: () => void }) {
   const dialogRef = useRef<HTMLDivElement>(null)
   useBodyScrollLock(true)
+
+  // The event detail is its own route (ADR 0015), so the URL in the bar IS this
+  // event's shareable URL — in both the intercepted (soft-nav) and standalone
+  // (hard load) cases. Share it as-is; no fragment, unlike the calendar's
+  // programme-anchored share (ZSB-50).
+  const {
+    share,
+    copied,
+    label: shareLabel,
+    Icon: ShareIcon,
+  } = useShareLink(() => window.location.href)
 
   // Move focus into the dialog, trap Tab within it, close on Escape, and restore
   // focus to the opener on unmount — the keyboard/SR contract for a modal.
@@ -70,7 +82,7 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
   const titleId = `event-modal-${event.key}`
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: click-outside dismiss; Escape + close button cover the keyboard
+    // biome-ignore lint/a11y/noStaticElementInteractions: click-outside dismiss; Escape + Back button cover the keyboard
     <div
       className={styles.backdrop}
       onClick={(e) => {
@@ -85,9 +97,23 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
         aria-labelledby={titleId}
         tabIndex={-1}
       >
-        <button type="button" className={styles.close} onClick={onClose} aria-label="Close">
-          <RiCloseLine size={24} aria-hidden />
-        </button>
+        <div className={styles.controls}>
+          {/* Dismiss returns to the programme (router back / link up); ✕ was a
+              generic close that no longer fits the route model (ZSB-50). */}
+          <button type="button" className={styles.back} onClick={onClose}>
+            <RiArrowLeftLine size={16} aria-hidden />
+            Back to programme
+          </button>
+          <button
+            type="button"
+            className={`${styles.share} ${copied ? styles.copied : ''}`}
+            onClick={share}
+            aria-live="polite"
+          >
+            <ShareIcon size={15} aria-hidden />
+            {shareLabel}
+          </button>
+        </div>
 
         {event.image && (
           <div className={styles.poster}>
