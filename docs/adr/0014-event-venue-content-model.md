@@ -57,10 +57,11 @@ UTC — drifts by hours. A naive local `HH:mm` string can't drift: the renderer
 composes the Bucharest instant when it needs one. And "how long something lasts
 is shown by us, not typed in by editors", so no end-time field exists.
 
-**"On view" is derived**, not flagged: an event whose `endDate` falls on a later
-calendar day than `startDate` is a multi-day run and renders in the separate
-"On view" area; a single-day event with a `startTime` is a timed agenda item; a
-single-day event without one is an all-day agenda item.
+**The "Ongoing" run is derived**, not flagged: an event whose `endDate` falls on
+a later calendar day than `startDate` is a multi-day run and renders in the
+separate "Ongoing" area (labelled "On view" until ZSB-48), each with its own date
+range; a single-day event with a `startTime` is a timed agenda item; a single-day
+event without one is an all-day agenda item.
 
 ## Considered alternatives
 

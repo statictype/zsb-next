@@ -101,7 +101,7 @@ export interface EventVenue {
 
 // One program event, as the calendar reads it. Timing is Bucharest-local:
 // `startDate` is always present; `startTime` only when it matters; `endDate`
-// only for multi-day "On view" runs (an exhibition that spans several days).
+// only for multi-day "Ongoing" runs (an exhibition that spans several days).
 export interface CalendarEvent {
   /** Stable `_key` from the edition's events array — React key. */
   key: string

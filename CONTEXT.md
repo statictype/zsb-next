@@ -58,9 +58,9 @@ Team-managed taxonomies, each its own Sanity document (`eventType`, `venueType`)
 
 An edition's events shown as a **date-ordered, day-by-day agenda** (not a month grid). The primary way people read an edition's program; it replaces the hand-arranged program section. Filterable by venue and type, with a "hide past events" default. Past/upcoming is judged client-side against the current instant (the page itself is cached).
 
-### On view
+### Ongoing
 
-The separate area of the calendar for **multi-day runs** (exhibitions), kept apart from the day-by-day agenda so they don't repeat under every date. Derived, not flagged: an event whose end date is on a later day than its start date is "on view".
+The separate area of the calendar for **multi-day runs** (exhibitions and the like), kept apart from the day-by-day agenda so they don't repeat under every date; each run carries its own date range. Derived, not flagged: an event whose end date is on a later day than its start date is "ongoing". (Renamed from "On view" in ZSB-48 — the label was misread as "on display this second"; "Ongoing" plus per-run ranges carry the durational, multi-day sense.)
 
 ### Latest & Upcoming editions
 

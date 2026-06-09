@@ -31,7 +31,7 @@ interface AgendaDay {
 }
 
 interface Schedule {
-  /** Multi-day runs (exhibitions) — shown once in the "On view" band. */
+  /** Multi-day runs (exhibitions) — shown in the "Ongoing" band, each with its range. */
   onView: CalendarEvent[]
   /** Single-day events, grouped and ordered by date. */
   days: AgendaDay[]
@@ -43,7 +43,7 @@ function byTimeThenName(a: CalendarEvent, b: CalendarEvent): number {
   return (a.startTime ?? '').localeCompare(b.startTime ?? '') || a.name.localeCompare(b.name)
 }
 
-// Split events into the "On view" multi-day runs and the day-by-day agenda.
+// Split events into the "Ongoing" multi-day runs and the day-by-day agenda.
 // Pure so it stays cheap to memoize and test. The edition window is measured
 // separately (see `editionWindow`) on the full, unfiltered set.
 function buildSchedule(events: CalendarEvent[]): Schedule {
@@ -154,16 +154,6 @@ export function Calendar({ year, events }: CalendarProps) {
   const todayToken = todayIso ? dayToken(todayIso) : undefined
   const windowLabel =
     editionStart && editionEnd ? formatShortRange(editionStart, editionEnd) : undefined
-  const onViewLabel =
-    onView.length > 0
-      ? formatShortRange(
-          onView[0]!.startDate,
-          onView.reduce(
-            (max, r) => ((r.endDate ?? r.startDate) > max ? (r.endDate ?? r.startDate) : max),
-            onView[0]!.endDate ?? onView[0]!.startDate,
-          ),
-        )
-      : undefined
 
   const NowMarker = (
     <li className={styles.now} aria-label="Happening now">
@@ -234,11 +224,8 @@ export function Calendar({ year, events }: CalendarProps) {
         ) : (
           <>
             {onView.length > 0 && (
-              <section className={styles.band} aria-label="On view throughout the edition">
-                <div className={styles.bandHead}>
-                  <h3 className={styles.bandLabel}>On view</h3>
-                  {onViewLabel && <span className={styles.bandRange}>{onViewLabel}</span>}
-                </div>
+              <section className={styles.band} aria-label="Ongoing throughout the edition">
+                <h3 className={styles.bandLabel}>Ongoing</h3>
                 <ul className={styles.runs}>
                   {onView.map((run) => {
                     const runEnd = run.endDate ?? run.startDate
@@ -249,12 +236,10 @@ export function Calendar({ year, events }: CalendarProps) {
                         : run.startDate <= todayIso!
                           ? 'now'
                           : 'upcoming'
-                    // Only surface a per-run span when it differs from the band
-                    // window — otherwise it's just noise repeated down the list.
-                    const runRange =
-                      onViewLabel && formatShortRange(run.startDate, runEnd) !== onViewLabel
-                        ? formatShortRange(run.startDate, runEnd)
-                        : undefined
+                    // Every run carries its own span — runs cover different
+                    // stretches of the edition, so a shared band range read as
+                    // "everything runs these dates" (ZSB-48).
+                    const runRange = formatShortRange(run.startDate, runEnd)
                     return (
                       <li
                         key={run.key}
@@ -275,7 +260,7 @@ export function Calendar({ year, events }: CalendarProps) {
                           <VenueLine venue={run.venue} />
                         </div>
                         <div className={styles.runAside}>
-                          {status === 'now' && <span className={styles.runNow}>On view now</span>}
+                          {status === 'now' && <span className={styles.runNow}>On now</span>}
                           {runRange && <span className={styles.runRange}>{runRange}</span>}
                         </div>
                       </li>

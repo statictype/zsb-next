@@ -106,13 +106,13 @@ export function dayToken(iso: string): DayToken | undefined {
   }
 }
 
-// A run is multi-day ("On view") when it has an end date on a later calendar
+// A run is multi-day ("Ongoing") when it has an end date on a later calendar
 // day than its start. ISO `YYYY-MM-DD` strings compare chronologically.
 export function isMultiDayRun(startIso: string, endIso?: string | null): boolean {
   return Boolean(endIso) && (endIso as string) > startIso
 }
 
-// Compact span for the "On view" pills, short months, year only when it spans
+// Compact span for the "Ongoing" run ranges, short months, year only when it spans
 // one: "26 Apr – 11 May", same month "26–28 Apr", cross-year full both sides.
 export function formatShortRange(startIso: string, endIso: string): string | undefined {
   const s = dateParts(startIso)

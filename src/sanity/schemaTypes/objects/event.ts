@@ -8,7 +8,7 @@ import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 // edition and we don't deep-link a single one; sharing targets the filtered
 // calendar view (ADR 0014). Timing is a Bucharest-local `startDate` + optional
 // `startTime` (only when the time matters) + optional `endDate`; we store no UTC
-// instants and no end-times. "On view" (multi-day) and "past vs upcoming" are
+// instants and no end-times. "Ongoing" (multi-day) and "past vs upcoming" are
 // *derived* by the renderer, never stored here.
 export const event = defineType({
   name: 'event',
@@ -44,7 +44,7 @@ export const event = defineType({
       name: 'endDate',
       title: 'End date',
       description:
-        'Optional. For an exhibition that runs over several days. An event whose end date is on a later day than its start is shown as a multi-day "On view" run.',
+        'Optional. For an exhibition that runs over several days. An event whose end date is on a later day than its start is shown as a multi-day "Ongoing" run, with its own date range.',
       type: 'date',
       options: { dateFormat: 'DD MMMM YYYY' },
       validation: (rule) =>
