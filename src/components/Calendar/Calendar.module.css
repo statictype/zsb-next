@@ -20,8 +20,8 @@
   margin: 0 auto;
 }
 
-/* Wraps the Ongoing band + agenda. Stacks by default; becomes a two-column grid
-   (agenda main + Ongoing rail) at >=1280 when both are present — see `.split`. */
+/* Wraps the Ongoing band + agenda, always stacked: the Ongoing card grid on
+   top, the day-by-day agenda below. */
 .layout {
   min-width: 0;
 }
@@ -129,7 +129,10 @@
   outline-offset: 2px;
 }
 
-/* ---- Ongoing band ---- */
+/* ---- Ongoing band — exhibitions on view across the edition, as a card grid ----
+   Stacks on top of the agenda at full width (the ZSB-49 two-column split is
+   gone). A grid of poster cards sets the Ongoing exhibitions apart from the
+   one-off agenda below: a gallery vs. a text timeline. */
 .band {
   margin-bottom: var(--space-2xl);
   padding-top: var(--space-lg);
@@ -148,33 +151,109 @@
 
 .runs {
   list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-md);
 }
 
+/* A card: a subtle lift off the pure-black board behind a hairline border, with
+   a poster on top when there is one. On hover a 1px gradient border lights up
+   around the card — the carousel's gradient (Carousel's `.item::before`). */
 .run {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-md) 0;
-  border-top: 1px solid var(--divider);
+  background: var(--black);
+  border: 1px solid var(--divider);
   position: relative;
 }
 
-.run:first-child {
-  border-top: none;
+/* Gradient border, revealed + animated only on hover. The mask cuts out the
+   card's interior so only the 1px ring shows; it sits above the content but
+   ignores pointer events. */
+.run::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 0.5px;
+  background: linear-gradient(90deg, var(--action) 0%, var(--highlight) 50%, var(--action) 100%);
+  background-size: 200% 100%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) ease;
 }
 
+.run:hover::before {
+  opacity: 1;
+  animation: gradientBorderShift 2s linear infinite;
+}
+
+@keyframes gradientBorderShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.runMedia {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--skeleton-base);
+}
+
+.runMedia img {
+  object-fit: cover;
+  filter: var(--card-image-filter);
+  transition:
+    filter var(--duration-medium) var(--ease-out-quint),
+    transform var(--duration-medium) var(--ease-out-quint);
+}
+
+.run:hover .runMedia img {
+  filter: var(--card-image-filter-hover);
+  transform: scale(var(--card-hover-scale));
+}
+
+.runContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Bold Montserrat rather than the display face — a tighter, more editorial card
+   title (the agenda keeps Dela Gothic). Rests at a light gray and inverts to
+   pure white on hover (see the hover rule below), not the agenda's pink. */
 .runName {
-  font-family: var(--font-display);
-  font-size: var(--text-md);
+  font-family: var(--font-body);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-base);
   line-height: var(--leading-tight);
-  color: var(--white);
+  letter-spacing: var(--tracking-tight);
+  color: var(--gray-200);
 }
 
-.runAside {
+/* Live status + range, pinned to the card's foot so they align across a row. */
+.runFoot {
   display: flex;
   align-items: center;
-  gap: 14px;
   flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: var(--space-sm);
 }
 
 .runNow {
@@ -204,6 +283,12 @@
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   color: var(--muted);
+}
+
+/* The "On now" exhibition — a pink border lifts the live card out of the grid. */
+.isNow,
+.isNow:hover {
+  border-color: var(--action);
 }
 
 /* ---- Empty state (filters matched nothing) ---- */
@@ -348,10 +433,14 @@
   letter-spacing: var(--tracking-subtle);
 }
 
+/* Bold Montserrat to match the Ongoing cards (was Dela Gothic); keeps the
+   agenda's white rest / pink hover. */
 .eventName {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
+  font-family: var(--font-body);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-base);
   line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
   color: var(--white);
 }
 
@@ -378,9 +467,14 @@
   z-index: 1;
 }
 
-.event:hover .nameButton,
-.run:hover .nameButton {
+.event:hover .nameButton {
   color: var(--action);
+}
+
+/* Card titles invert to pure white on hover/focus, not the agenda's pink. */
+.run:hover .nameButton,
+.run .nameButton:focus-visible {
+  color: var(--white);
 }
 
 .nameButton:focus-visible {
@@ -392,7 +486,7 @@
 /* A two-line teaser in the agenda; the full text lives in the detail modal. */
 .eventDesc {
   font-family: var(--font-body);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   line-height: var(--leading-body);
   color: var(--body);
   max-width: 64ch;
@@ -457,7 +551,7 @@
   flex-wrap: wrap;
   gap: 8px;
   font-family: var(--font-body);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 
 .venueName {
@@ -563,7 +657,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .nowDot,
-  .runNow::before {
+  .runNow::before,
+  .run:hover::before {
     animation: none;
   }
 
@@ -581,29 +676,6 @@
 
   .meta {
     font-size: var(--text-sm);
-  }
-
-  /* Ongoing runs become two-column: body + aside */
-  .run {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--space-xl);
-  }
-
-  .runBody {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    min-width: 0;
-  }
-
-  .runAside {
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-    flex-shrink: 0;
-    padding-top: 2px;
   }
 
   /* Agenda gains the timeline spine + marker column */
@@ -648,7 +720,7 @@
   }
 
   .markerDay {
-    font-size: var(--text-4xl);
+    font-size: var(--text-2xl);
   }
 
   .markerMeta {
@@ -672,22 +744,13 @@
   .section {
     --marker-col: 168px;
   }
-
-  .eventName {
-    font-size: var(--text-xl);
-  }
-
-  .runName {
-    font-size: var(--text-lg);
-  }
 }
 
-/* ---- Wide screens: density pass + two-column layout (ZSB-49) ----
-   At <1280 the calendar keeps the single-column reading layout above. From
-   1280 the type and padding tighten (the 1024 step over-scales on wide
-   monitors), and — when there's an Ongoing band to pair with the agenda — the
-   two sit side by side: agenda main (left, ~2/3), Ongoing a sticky rail
-   (right, ~1/3). A lone agenda or lone band keeps the full width. */
+/* ---- Wide screens: density pass (ZSB-49) ----
+   At <1280 the calendar keeps the single-column reading layout above. From 1280
+   the type and padding tighten (the 1024 step over-scales on wide monitors). The
+   Ongoing band stays stacked above the agenda; its card grid fills the extra
+   width on its own (auto-fill). */
 @media (min-width: 1280px) {
   .section {
     --marker-col: 144px;
@@ -696,56 +759,7 @@
   .day {
     padding: var(--space-md) 0;
   }
-
-  .eventName {
-    font-size: var(--text-lg);
-  }
-
-  .markerDay {
-    font-size: var(--text-3xl);
-  }
-
-  .split {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-    gap: var(--space-2xl);
-    align-items: start;
-    /* the agenda column is narrower than a full-width board — tuck the marker in */
-    --marker-col: 116px;
-  }
-
-  .split .agenda {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  /* The band rides up into a sticky rail beside the agenda — shed the stacked
-     spacing (top border / vertical margins) it carries in single-column. */
-  .split .band {
-    grid-column: 2;
-    grid-row: 1;
-    position: sticky;
-    top: var(--space-lg);
-    margin-bottom: 0;
-    padding-top: 0;
-    border-top: none;
-  }
-
-  /* In the narrow rail, runs stack (body over a compact range) instead of
-     splitting into body | aside, which would wrap awkwardly. */
-  .split .run {
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-
-  .split .runAside {
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-    padding-top: 0;
-  }
 }
-
 /* ---- Hover-reveal poster (wide, hover-capable screens only) ----
    The agenda stays a uniform text-only list; a poster floats in over the
    right-hand whitespace when its row is hovered. Touch and narrow widths
@@ -801,8 +815,7 @@
 /* ---- Large desktop ---- */
 @media (min-width: 1440px) {
   /* A touch more room for the date marker on a full-width board, but well short
-     of the old 200px — the density pass keeps wide screens from over-scaling.
-     The `.split` rail keeps its own tighter marker from the 1280 block. */
+     of the old 200px — the density pass keeps wide screens from over-scaling. */
   .section {
     --marker-col: 160px;
   }

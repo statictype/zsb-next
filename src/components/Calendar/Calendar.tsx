@@ -266,13 +266,12 @@ export function Calendar({ year, events }: CalendarProps) {
             </button>
           </div>
         ) : (
-          // ≥1280px: agenda is the main left column, the Ongoing band a sticky
-          // rail on the right — but only when both are present; either one alone
-          // takes the full width (ZSB-49). Below 1280 it all stacks (the `.split`
-          // grid simply doesn't apply).
-          <div
-            className={`${styles.layout} ${onView.length > 0 && days.length > 0 ? styles.split : ''}`}
-          >
+          // Ongoing exhibitions sit on top as a card grid; the one-off events
+          // follow below as the day-by-day agenda. They used to share a two-column
+          // split (ZSB-49) — reverted to stacked so each reads full width and the
+          // Ongoing cards can breathe across the grid. The cards also set the
+          // exhibitions apart from the agenda: a gallery vs. a timeline.
+          <div className={styles.layout}>
             {onView.length > 0 && (
               <section className={styles.band} aria-label="Ongoing throughout the edition">
                 <h3 className={styles.bandLabel}>Ongoing</h3>
@@ -297,7 +296,15 @@ export function Calendar({ year, events }: CalendarProps) {
                           status === 'now' ? styles.isNow : ''
                         }`}
                       >
-                        <div className={styles.runBody}>
+                        {run.image && (
+                          <div className={styles.runMedia}>
+                            <Figure
+                              image={run.image}
+                              sizes="(min-width: 1280px) 360px, (min-width: 768px) 45vw, 90vw"
+                            />
+                          </div>
+                        )}
+                        <div className={styles.runContent}>
                           <TypeChips event={run} />
                           <h4 className={styles.runName}>
                             <Link
@@ -308,10 +315,10 @@ export function Calendar({ year, events }: CalendarProps) {
                             </Link>
                           </h4>
                           <VenueLine venue={run.venue} />
-                        </div>
-                        <div className={styles.runAside}>
-                          {status === 'now' && <span className={styles.runNow}>On now</span>}
-                          {runRange && <span className={styles.runRange}>{runRange}</span>}
+                          <div className={styles.runFoot}>
+                            {status === 'now' && <span className={styles.runNow}>On now</span>}
+                            {runRange && <span className={styles.runRange}>{runRange}</span>}
+                          </div>
                         </div>
                       </li>
                     )
