@@ -27,7 +27,6 @@ export const edition = defineType({
     { name: 'manifesto', title: 'Manifesto' },
     { name: 'theme', title: 'Theme' },
     { name: 'artists', title: 'Artists' },
-    { name: 'venues', title: 'Venues' },
     { name: 'program', title: 'Program' },
     { name: 'carousel', title: 'Carousel' },
     { name: 'pressKit', title: 'Press kit' },
@@ -188,23 +187,6 @@ export const edition = defineType({
       group: 'artists',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'artist' }] })],
       validation: (rule) => rule.custom(requiredWhenLive).unique(),
-    }),
-
-    defineField({
-      name: 'venues',
-      title: 'Venues',
-      description: 'Optional. Populate once the venue list is finalized.',
-      type: 'array',
-      group: 'venues',
-      of: [defineArrayMember({ type: 'venueEntry' })],
-    }),
-
-    defineField({
-      name: 'program',
-      title: 'Program',
-      description: 'Optional. Populate once the program is announced.',
-      type: 'programData',
-      group: 'program',
     }),
 
     // The new events-and-venues model (ADR 0014). Events are nested here, one

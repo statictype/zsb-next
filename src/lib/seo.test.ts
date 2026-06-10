@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { Edition, VenueEntry } from '@/types/edition'
+import type { CalendarEvent, Edition } from '@/types/edition'
 
 // seo.ts imports the live data layer at module load; defineLive() throws
 // outside React Server Components, and the functions under test are pure and
@@ -17,8 +17,23 @@ import {
   visitFaqJsonLd,
 } from './seo'
 
-function venue(group: string, name: string): VenueEntry {
-  return { group, subgroup: '', name, program: '' }
+// A minimal event at a venue. `parent` sets the bigger place it sits inside (a
+// studio inside CFP) — which is what the JSON-LD rolls Places up to.
+function event(venueName: string, parent?: string): CalendarEvent {
+  return {
+    key: `${venueName}-${parent ?? ''}`,
+    slug: 'event',
+    name: `Event at ${venueName}`,
+    startDate: '2024-04-16',
+    types: [],
+    venue: {
+      name: venueName,
+      type: 'Gallery',
+      ...(parent ? { partOf: { name: parent, type: 'Cultural centre' } } : {}),
+    },
+    description: '',
+    featured: false,
+  }
 }
 
 function makeEdition(overrides: Partial<Edition> = {}): Edition {
@@ -35,7 +50,7 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
     manifesto: { title: 'A title', highlight: 'title', body: 'The manifesto body.' },
     themeSection: { body: 'Theme body.' },
     artists: ['Mircea Roman', 'Ana Rus'],
-    venues: [venue('Combinatul Fondului Plastic', 'Hall A'), venue('Partner Venues', 'Gallery X')],
+    events: [event('Combinatul Fondului Plastic'), event('Partner Venues')],
     credits: [{ type: 'primary', label: 'Curator', value: 'Reka Csapo Dup' }],
     ...overrides,
   }
@@ -60,13 +75,15 @@ describe('editionEventJsonLd', () => {
     ])
   })
 
-  it('emits one distinct Place per venue group, as an array when multi-site', () => {
+  it('emits one distinct Place per top-level venue, as an array when multi-site', () => {
     const ld = editionEventJsonLd(
       makeEdition({
-        venues: [
-          venue('Combinatul Fondului Plastic', 'Hall A'),
-          venue('Combinatul Fondului Plastic', 'Hall B'),
-          venue('Partner Venues', 'Gallery X'),
+        // Two events roll up to CFP (one directly, one via a sub-venue), one to
+        // a partner venue → two distinct Places.
+        events: [
+          event('Combinatul Fondului Plastic'),
+          event('Studio 3', 'Combinatul Fondului Plastic'),
+          event('Partner Venues'),
         ],
       }),
     )
@@ -78,17 +95,17 @@ describe('editionEventJsonLd', () => {
   })
 
   it('uses a single Place object when there is one location', () => {
-    const ld = editionEventJsonLd(makeEdition({ venues: [venue('Sole Venue', 'Hall')] }))
+    const ld = editionEventJsonLd(makeEdition({ events: [event('Sole Venue')] }))
     expect(Array.isArray(ld.location)).toBe(false)
     expect((ld.location as { '@type': string; name: string })['@type']).toBe('Place')
     expect((ld.location as { name: string }).name).toBe('Sole Venue')
   })
 
-  it('falls back to venueLine then "Bucharest" when no venues are authored', () => {
-    const fromLine = editionEventJsonLd(makeEdition({ venues: [], venueLine: 'Some Hall' }))
+  it('falls back to venueLine then "Bucharest" when no events are authored', () => {
+    const fromLine = editionEventJsonLd(makeEdition({ events: [], venueLine: 'Some Hall' }))
     expect((fromLine.location as { name: string }).name).toBe('Some Hall')
 
-    const fallback = editionEventJsonLd(makeEdition({ venues: [], venueLine: '' }))
+    const fallback = editionEventJsonLd(makeEdition({ events: [], venueLine: '' }))
     expect((fallback.location as { name: string }).name).toBe('Bucharest')
   })
 

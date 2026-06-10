@@ -28,57 +28,6 @@ export interface ThemeData {
   body: string
 }
 
-// ---- Venues ----
-
-export interface VenueEntry {
-  group: string
-  subgroup: string
-  name: string
-  program: string
-}
-
-// ---- Program ----
-
-export type ProgramBlockType =
-  | 'Exhibition'
-  | 'Film Program'
-  | 'Main Exhibition'
-  | 'Opening Event'
-  | 'Special Event'
-  | 'Student Exhibition'
-  | 'Talks & Workshops'
-
-export type ProgramBlockFormat = 'Roundtable' | 'Workshop' | 'Open Studios'
-
-export interface ProgramBlock {
-  type: ProgramBlockType
-  title: string
-  dates: string
-  description: string
-  location?: string
-  column: 1 | 2
-  format?: ProgramBlockFormat
-}
-
-export interface ProgramFilm {
-  date: string
-  title: string
-  note?: string
-}
-
-export interface SFTFBanner {
-  tag: string
-  title: string
-  description: string
-}
-
-export interface ProgramData {
-  dates: string
-  blocks: ProgramBlock[]
-  films?: ProgramFilm[]
-  sftfBanner: SFTFBanner
-}
-
 // ---- Calendar / Events (ZSB-28) ----
 
 export interface EventTypeTag {
@@ -230,10 +179,9 @@ export interface Edition {
   manifesto: ManifestoData
   themeSection: ThemeData
   artists: string[]
-  venues: VenueEntry[]
-  program?: ProgramData
-  // The new events-and-venues model (ADR 0014). The calendar reads this list;
-  // the old `program` field above is removed once every edition is migrated.
+  // The events-and-venues model (ADR 0014). The calendar, filters, featured and
+  // venues view all read from this list; it replaced the old program/venues
+  // format (ZSB-38).
   events?: CalendarEvent[]
   carousel?: CarouselSlide[]
   credits: CreditEntry[]

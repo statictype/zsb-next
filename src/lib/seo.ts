@@ -167,15 +167,14 @@ export function editionEventJsonLd(edition: Edition) {
   const start = clean(edition.dateStart)
   const end = clean(edition.dateEnd)
 
-  // ZSB is multi-site. The venues[] array nests spaces under top-level location
-  // labels (`group`, e.g. "Combinatul Fondului Plastic", "Partner Venues"),
-  // which is exactly what the edition page's "Locations" accordion renders as
-  // headers. Emit one schema.org Place per distinct group — keeping the JSON-LD
-  // in step with the visible content and reflecting the real footprint instead
-  // of the single venueLine. Fall back to venueLine, then "Bucharest", when no
-  // venues are authored yet (the field is optional until the list is finalized).
-  const groups = [...new Set((edition.venues ?? []).map((v) => clean(v.group)).filter(Boolean))]
-  const placeNames = groups.length > 0 ? groups : [clean(edition.venueLine) || 'Bucharest']
+  // ZSB is multi-site. Emit one schema.org Place per distinct top-level location
+  // across the edition's events — the venue's parent place when it sits inside a
+  // bigger one (a studio inside CFP), else the venue itself. This reflects the
+  // real footprint instead of the single venueLine. Fall back to venueLine, then
+  // "Bucharest", when no events are authored yet (the forthcoming edition).
+  const eventPlaces = (edition.events ?? []).map((e) => clean(e.venue.partOf?.name ?? e.venue.name))
+  const venueNames = [...new Set(eventPlaces.filter(Boolean))]
+  const placeNames = venueNames.length > 0 ? venueNames : [clean(edition.venueLine) || 'Bucharest']
   const places = placeNames.map((name) => ({
     '@type': 'Place',
     name,

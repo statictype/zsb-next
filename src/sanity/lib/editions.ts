@@ -11,11 +11,6 @@ import type {
   CarouselSlide,
   CreditEntry,
   Edition,
-  ProgramBlock,
-  ProgramBlockFormat,
-  ProgramBlockType,
-  ProgramData,
-  ProgramFilm,
 } from '@/types/edition'
 import { requireImageData, type SanityImageField, toImageData } from './image'
 import { type DynamicFetchOptions, queryData } from './live'
@@ -73,33 +68,6 @@ function mapCarousel(slides: SanityEdition['carousel']): CarouselSlide[] | undef
     }
   }
   return out.length ? out : undefined
-}
-
-function mapProgram(raw: NonNullable<SanityEdition['program']>): ProgramData {
-  const blocks: ProgramBlock[] = raw.blocks.map((b) => ({
-    type: b.type as ProgramBlockType,
-    title: b.title,
-    dates: b.dates,
-    description: b.description,
-    column: b.column as 1 | 2,
-    ...(b.location ? { location: b.location } : {}),
-    ...(b.format ? { format: b.format as ProgramBlockFormat } : {}),
-  }))
-  const films: ProgramFilm[] | undefined = raw.films?.map((f) => ({
-    date: f.date,
-    title: f.title,
-    ...(f.note ? { note: f.note } : {}),
-  }))
-  return {
-    dates: raw.dates,
-    blocks,
-    ...(films?.length ? { films } : {}),
-    sftfBanner: {
-      tag: raw.sftfBanner.tag,
-      title: raw.sftfBanner.title,
-      description: raw.sftfBanner.description,
-    },
-  }
 }
 
 type SanityEvent = NonNullable<SanityEdition['events']>[number]
@@ -226,8 +194,6 @@ function mapEdition(raw: SanityEdition): Edition {
     },
     themeSection: { body: raw.themeSection?.body ?? '' },
     artists: raw.artists ?? [],
-    venues: raw.venues?.map(({ _key, ...rest }) => rest) ?? [],
-    ...(raw.program ? { program: mapProgram(raw.program) } : {}),
     ...(() => {
       const events = mapEvents(raw.events)
       return events ? { events } : {}

@@ -49,3 +49,5 @@ next-env.d.ts
 
 # claude code — local-only settings (skills/ is shared)
 /.claude/settings.local.json
+# Sanity dataset backup dumps
+zsb-backup-*.tar.gz

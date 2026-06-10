@@ -238,8 +238,6 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     manifesto,
     themeSection,
     "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,
-    venues,
-    program,
     events[] {
       _key,
       "slug": slug.current,

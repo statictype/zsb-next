@@ -22,9 +22,7 @@ import { faqItem } from './objects/faqItem'
 import { heroSlide } from './objects/heroSlide'
 import { pageHero } from './objects/pageHero'
 import { pillar } from './objects/pillar'
-import { programData } from './objects/programData'
 import { transportRoute } from './objects/transportRoute'
-import { venueEntry } from './objects/venueEntry'
 import { whyPoint } from './objects/whyPoint'
 
 export const schemaTypes: SchemaTypeDefinition[] = [
@@ -56,9 +54,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   heroSlide,
   pageHero,
   pillar,
-  programData,
   transportRoute,
-  venueEntry,
   whyPoint,
   carouselSlide,
 ]

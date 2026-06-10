@@ -7,7 +7,6 @@ import { Hero } from '@/components/Hero/Hero'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Manifesto } from '@/components/Manifesto/Manifesto'
 import { ThemeArtists } from '@/components/ThemeArtists/ThemeArtists'
-import { Venues } from '@/components/Venues/Venues'
 import { getEdition } from '@/data/editions'
 import { editionBreadcrumbJsonLd, editionEventJsonLd } from '@/lib/seo'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
@@ -60,8 +59,6 @@ export async function CachedEdition({
       <Manifesto manifesto={edition.manifesto} />
 
       <ThemeArtists edition={edition} />
-
-      <Venues venues={edition.venues} />
 
       {hasProgram ? (
         // The calendar reads `useSearchParams` (filters) on the client; a
