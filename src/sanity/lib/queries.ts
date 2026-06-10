@@ -8,11 +8,11 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
   }
 `)
 
-// The year of the edition the team has marked current (ZSB-36). Drives the
-// homepage featured events and the Visit-page venues list. Null until set —
-// the site never guesses, so consumers render nothing rather than a stale year.
-export const CURRENT_EDITION_YEAR_QUERY = defineQuery(`
-  *[_id == "siteSettings"][0].currentEdition->year
+// The Visit page's edition switch (ZSB-46): 'latest' or 'upcoming'. The venues
+// view shows whichever edition this resolves to against the derived editions
+// (ADR 0016). Null until set — getVisitEditionLeadFromSanity defaults to latest.
+export const VISIT_EDITION_QUERY = defineQuery(`
+  *[_id == "siteSettings"][0].visitEdition
 `)
 
 export const HOMEPAGE_QUERY = defineQuery(`

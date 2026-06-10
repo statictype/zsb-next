@@ -617,19 +617,6 @@ export type Homepage = {
   metaDescription: string
 }
 
-export type SiteSettings = {
-  _id: string
-  _type: 'siteSettings'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  currentEdition?: EditionReference
-  heroEdition: 'latest' | 'upcoming'
-  contactEmail: string
-  instagramUrl?: string
-  facebookUrl?: string
-}
-
 export type ArtistReference = {
   _ref: string
   _type: 'reference'
@@ -739,6 +726,19 @@ export type Edition = {
     _type: 'image'
   }
   metaDescription?: string
+}
+
+export type SiteSettings = {
+  _id: string
+  _type: 'siteSettings'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  heroEdition: 'latest' | 'upcoming'
+  visitEdition: 'latest' | 'upcoming'
+  contactEmail: string
+  instagramUrl?: string
+  facebookUrl?: string
 }
 
 export type SanityImagePaletteSwatch = {
@@ -878,9 +878,9 @@ export type AllSanitySchemaTypes =
   | PartnersPage
   | AboutPage
   | Homepage
-  | SiteSettings
   | ArtistReference
   | Edition
+  | SiteSettings
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -907,9 +907,9 @@ export type SITE_SETTINGS_QUERY_RESULT =
   | null
 
 // Source: src/sanity/lib/queries.ts
-// Variable: CURRENT_EDITION_YEAR_QUERY
-// Query: *[_id == "siteSettings"][0].currentEdition->year
-export type CURRENT_EDITION_YEAR_QUERY_RESULT = number | null
+// Variable: VISIT_EDITION_QUERY
+// Query: *[_id == "siteSettings"][0].visitEdition
+export type VISIT_EDITION_QUERY_RESULT = null | 'latest' | 'upcoming'
 
 // Source: src/sanity/lib/queries.ts
 // Variable: HOMEPAGE_QUERY
@@ -1835,7 +1835,7 @@ import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT
-    '\n  *[_id == "siteSettings"][0].currentEdition->year\n': CURRENT_EDITION_YEAR_QUERY_RESULT
+    '\n  *[_id == "siteSettings"][0].visitEdition\n': VISIT_EDITION_QUERY_RESULT
     '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status,\n    dateStart\n  }\n': EDITIONS_LIST_QUERY_RESULT
     '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage{ ..., "lqip": asset->metadata.lqip },\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait{ ..., "lqip": asset->metadata.lqip },\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT

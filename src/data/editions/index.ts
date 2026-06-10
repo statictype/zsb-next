@@ -1,9 +1,10 @@
+import { deriveEditions, resolveLeadEdition } from '@/lib/derive-editions'
 import {
   type EditionListItem,
-  getCurrentEditionYearFromSanity,
   getEditionFromSanity,
   getEditionsListFromSanity,
   getEditionYearsFromSanity,
+  getVisitEditionLeadFromSanity,
 } from '@/sanity/lib/editions'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import { type AnyEdition, type Edition, isOnlineEdition } from '@/types/edition'
@@ -37,18 +38,32 @@ export async function getEdition(
   return staticEditions[year]
 }
 
+// Local "today" as ISO `YYYY-MM-DD`. Read where `getVisitEdition` runs — inside
+// the Visit page's cache boundary — so the latest/upcoming split is fixed at
+// cache-fill time and refreshes on revalidation (which includes the editor
+// flipping the Visit switch). Visit isn't date-critical to the minute, so this
+// fill-time snapshot is the deliberate, simple choice (ADR 0016).
+function todayIso(): string {
+  const d = new Date()
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
+
 /**
- * The edition the team has marked current (ZSB-36) — the one whose programme
- * the homepage featured events and the Visit-page venues list read from.
- * `undefined` when the setting is unset (the site never guesses) or, defensively,
- * when it points at the online-only 2021 edition (no events/venues to show).
+ * The edition shown on the Visit page's venues view (ZSB-46): the Visit switch
+ * (latest|upcoming) resolved against the derived editions (ADR 0016), falling
+ * back to Latest when the switch is 'upcoming' but nothing is ahead. `undefined`
+ * when there are no eligible editions, or the pick is the online-only 2021 (no
+ * physical venues to show).
  */
-export async function getCurrentEdition(
-  options: DynamicFetchOptions,
-): Promise<Edition | undefined> {
-  const year = await getCurrentEditionYearFromSanity(options)
-  if (year === null) return undefined
-  const edition = await getEdition(year, options)
+export async function getVisitEdition(options: DynamicFetchOptions): Promise<Edition | undefined> {
+  const [lead, list] = await Promise.all([
+    getVisitEditionLeadFromSanity(options),
+    getEditionListItems(options),
+  ])
+  const chosen = resolveLeadEdition(lead, deriveEditions(list, todayIso()))
+  if (!chosen) return undefined
+  const edition = await getEdition(chosen.year, options)
   return edition && !isOnlineEdition(edition) ? edition : undefined
 }
 

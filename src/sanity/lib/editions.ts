@@ -1,6 +1,7 @@
 import 'server-only'
 
 import type { EDITION_BY_YEAR_QUERY_RESULT } from '@/../sanity.types'
+import type { EditionLead } from '@/lib/derive-editions'
 import { composeDateTape, dayToken } from '@/lib/edition-dates'
 import { slugify } from '@/lib/slugify'
 import type {
@@ -19,11 +20,11 @@ import type {
 import { requireImageData, type SanityImageField, toImageData } from './image'
 import { type DynamicFetchOptions, queryData } from './live'
 import {
-  CURRENT_EDITION_YEAR_QUERY,
   EDITION_BY_YEAR_QUERY,
   EDITION_YEARS_QUERY,
   EDITIONS_LIST_QUERY,
   SITEMAP_QUERY,
+  VISIT_EDITION_QUERY,
 } from './queries'
 
 export interface EditionListItem {
@@ -250,16 +251,16 @@ export async function getEditionFromSanity(
 }
 
 /**
- * The year the team marked as the current edition (siteSettings.currentEdition),
- * or `null` when unset. Respects the caller's perspective so the Studio can
- * preview a draft switch. Consumers (homepage featured events, Visit venues)
- * decide what to do with a missing value.
+ * The Visit page's edition switch (siteSettings.visitEdition) — 'latest' or
+ * 'upcoming', defaulting to 'latest' when unset. Resolved against the derived
+ * editions by `getVisitEdition` (ADR 0016). Respects the caller's perspective so
+ * the Studio can preview a draft switch.
  */
-export async function getCurrentEditionYearFromSanity(
+export async function getVisitEditionLeadFromSanity(
   options: DynamicFetchOptions,
-): Promise<number | null> {
+): Promise<EditionLead> {
   'use cache'
-  return (await queryData(CURRENT_EDITION_YEAR_QUERY, options)) ?? null
+  return (await queryData(VISIT_EDITION_QUERY, options)) === 'upcoming' ? 'upcoming' : 'latest'
 }
 
 /**
