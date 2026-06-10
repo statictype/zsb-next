@@ -283,30 +283,31 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
           <CalendarShare />
         </header>
 
-        {/* No filter bar on a finished edition — the archive collapses instead. */}
-        {showFilterBar && !ended && (
-          <CalendarFilters
-            facets={facets}
-            filters={filters}
-            canReset={canReset}
-            onToggleVenue={toggleVenue}
-            onToggleType={toggleType}
-            onReset={reset}
-          />
-        )}
+        {/* On a finished edition the filters and the board fold into the archive
+            disclosure together (ZSB-45), so filtering still works once expanded;
+            a live edition renders them inline. */}
+        <ArchiveCollapse ended={ended} count={events.length}>
+          {showFilterBar && (
+            <CalendarFilters
+              facets={facets}
+              filters={filters}
+              canReset={canReset}
+              onToggleVenue={toggleVenue}
+              onToggleType={toggleType}
+              onReset={reset}
+            />
+          )}
 
-        {visible.length === 0 ? (
-          <div className={styles.empty} role="status">
-            <p className={styles.emptyText}>No events match these filters.</p>
-            <button type="button" className={styles.emptyClear} onClick={reset}>
-              Show all events
-            </button>
-          </div>
-        ) : (
-          // Ongoing exhibitions sit on top as a card grid; the one-off events
-          // follow below as the day-by-day agenda (ZSB-49). On a finished edition
-          // the whole board folds into the archive disclosure (ZSB-45).
-          <ArchiveCollapse ended={ended} year={year} count={events.length}>
+          {visible.length === 0 ? (
+            <div className={styles.empty} role="status">
+              <p className={styles.emptyText}>No events match these filters.</p>
+              <button type="button" className={styles.emptyClear} onClick={reset}>
+                Show all events
+              </button>
+            </div>
+          ) : (
+            // Ongoing exhibitions sit on top as a card grid; the one-off events
+            // follow below as the day-by-day agenda (ZSB-49).
             <div className={styles.layout}>
               {onView.length > 0 && (
                 <section className={styles.band} aria-label="Ongoing throughout the edition">
@@ -391,8 +392,8 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                 </ol>
               )}
             </div>
-          </ArchiveCollapse>
-        )}
+          )}
+        </ArchiveCollapse>
       </div>
     </section>
   )
@@ -403,12 +404,10 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
 // render the board as-is. Native <details> — house style (VenuesView), no JS.
 function ArchiveCollapse({
   ended,
-  year,
   count,
   children,
 }: {
   ended: boolean
-  year: number
   count: number
   children: ReactNode
 }) {
@@ -416,7 +415,9 @@ function ArchiveCollapse({
   return (
     <details className={styles.archive}>
       <summary className={styles.archiveSummary}>
-        <span className={styles.archiveLabel}>Full {year} programme</span>
+        {/* Native <details> has no open state in JS — swap the label via [open]. */}
+        <span className={styles.archiveShow}>View full programme</span>
+        <span className={styles.archiveHide}>Hide full programme</span>
         <span className={styles.archiveCount}>
           {count} {count === 1 ? 'event' : 'events'}
         </span>

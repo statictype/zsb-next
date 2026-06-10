@@ -732,21 +732,36 @@
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   font-weight: var(--weight-semibold);
-  color: var(--gray-300);
-  transition: color var(--duration-fast) var(--ease-out-quint);
+  color: var(--action);
 }
 
 .archiveSummary::-webkit-details-marker {
   display: none;
 }
 
-.archiveSummary:hover {
-  color: var(--white);
+/* Underline just the label on hover — not the count, no colour change. */
+.archiveSummary:hover .archiveShow,
+.archiveSummary:hover .archiveHide {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .archiveSummary:focus-visible {
   outline: 2px solid var(--highlight);
   outline-offset: 2px;
+}
+
+/* "View" / "Hide" label swap, driven by the <details> open state. */
+.archiveHide {
+  display: none;
+}
+
+.archive[open] .archiveShow {
+  display: none;
+}
+
+.archive[open] .archiveHide {
+  display: inline;
 }
 
 .archiveCount {
@@ -756,7 +771,7 @@
 
 .archiveChevron {
   margin-left: auto;
-  color: var(--muted);
+  color: inherit;
   transition: transform var(--duration-normal) var(--ease-out-quint);
 }
 
