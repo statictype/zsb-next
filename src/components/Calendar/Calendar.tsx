@@ -347,6 +347,7 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                               <Link
                                 className={styles.nameButton}
                                 href={`/editions/${year}/events/${run.slug}`}
+                                scroll={false}
                               >
                                 {run.name}
                               </Link>
@@ -462,7 +463,11 @@ function EventRow({ event, year }: { event: CalendarEvent; year: number }) {
             edition); its stretched overlay makes the whole row the hit target
             (see `.nameButton` in the CSS). */}
         <h4 className={styles.eventName}>
-          <Link className={styles.nameButton} href={`/editions/${year}/events/${event.slug}`}>
+          <Link
+            className={styles.nameButton}
+            href={`/editions/${year}/events/${event.slug}`}
+            scroll={false}
+          >
             {event.name}
           </Link>
         </h4>
