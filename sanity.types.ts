@@ -912,6 +912,11 @@ export type SITE_SETTINGS_QUERY_RESULT =
 export type VISIT_EDITION_QUERY_RESULT = null | 'latest' | 'upcoming'
 
 // Source: src/sanity/lib/queries.ts
+// Variable: HERO_EDITION_QUERY
+// Query: *[_id == "siteSettings"][0].heroEdition
+export type HERO_EDITION_QUERY_RESULT = null | 'latest' | 'upcoming'
+
+// Source: src/sanity/lib/queries.ts
 // Variable: HOMEPAGE_QUERY
 // Query: *[_id == "homepage"][0]{    heroTitle,    heroTitleAccent,    heroLead,    heroCtaLabel,    "heroCtaEditionYear": heroCtaEdition->year,    slideshow[]{      _key,      position,      image{ ..., "lqip": asset->metadata.lqip }    },    editionsIntro,    ogImage,    metaDescription  }
 export type HOMEPAGE_QUERY_RESULT =
@@ -1836,6 +1841,7 @@ declare module '@sanity/client' {
   interface SanityQueries {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT
     '\n  *[_id == "siteSettings"][0].visitEdition\n': VISIT_EDITION_QUERY_RESULT
+    '\n  *[_id == "siteSettings"][0].heroEdition\n': HERO_EDITION_QUERY_RESULT
     '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status,\n    dateStart\n  }\n': EDITIONS_LIST_QUERY_RESULT
     '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage{ ..., "lqip": asset->metadata.lqip },\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait{ ..., "lqip": asset->metadata.lqip },\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT

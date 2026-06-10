@@ -15,6 +15,13 @@ export const VISIT_EDITION_QUERY = defineQuery(`
   *[_id == "siteSettings"][0].visitEdition
 `)
 
+// The home-hero edition switch (ZSB-44): 'latest' or 'upcoming'. The hero leads
+// with whichever edition this resolves to against the derived editions (ADR
+// 0016). Null until set — getHeroEditionLeadFromSanity defaults to latest.
+export const HERO_EDITION_QUERY = defineQuery(`
+  *[_id == "siteSettings"][0].heroEdition
+`)
+
 export const HOMEPAGE_QUERY = defineQuery(`
   *[_id == "homepage"][0]{
     heroTitle,

@@ -23,6 +23,7 @@ import {
   EDITION_BY_YEAR_QUERY,
   EDITION_YEARS_QUERY,
   EDITIONS_LIST_QUERY,
+  HERO_EDITION_QUERY,
   SITEMAP_QUERY,
   VISIT_EDITION_QUERY,
 } from './queries'
@@ -261,6 +262,19 @@ export async function getVisitEditionLeadFromSanity(
 ): Promise<EditionLead> {
   'use cache'
   return (await queryData(VISIT_EDITION_QUERY, options)) === 'upcoming' ? 'upcoming' : 'latest'
+}
+
+/**
+ * The home-hero edition switch (siteSettings.heroEdition) — 'latest' or
+ * 'upcoming', defaulting to 'latest' when unset. Resolved against the derived
+ * editions by `getHeroUpcoming` (ADR 0016). Respects the caller's perspective so
+ * the Studio can preview a draft switch.
+ */
+export async function getHeroEditionLeadFromSanity(
+  options: DynamicFetchOptions,
+): Promise<EditionLead> {
+  'use cache'
+  return (await queryData(HERO_EDITION_QUERY, options)) === 'upcoming' ? 'upcoming' : 'latest'
 }
 
 /**

@@ -4,10 +4,11 @@ import {
   getEditionFromSanity,
   getEditionsListFromSanity,
   getEditionYearsFromSanity,
+  getHeroEditionLeadFromSanity,
   getVisitEditionLeadFromSanity,
 } from '@/sanity/lib/editions'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
-import { type AnyEdition, type Edition, isOnlineEdition } from '@/types/edition'
+import { type AnyEdition, type CalendarEvent, type Edition, isOnlineEdition } from '@/types/edition'
 import { edition2021 } from './2021'
 
 // 2021 is the only static edition — the online-only year, never migrated
@@ -65,6 +66,59 @@ export async function getVisitEdition(options: DynamicFetchOptions): Promise<Edi
   if (!chosen) return undefined
   const edition = await getEdition(chosen.year, options)
   return edition && !isOnlineEdition(edition) ? edition : undefined
+}
+
+/** The upcoming edition the home hero leads with (ZSB-44), once auto-derived. */
+export interface UpcomingHero {
+  year: number
+  theme: string
+  themeHighlight: string
+  /** Composed human date string, e.g. "10–20 September 2026". */
+  dateTape: string
+}
+
+/**
+ * The upcoming edition the home hero should lead with (ZSB-44) — returned only
+ * when the hero switch is 'upcoming' AND there is a next edition to promote.
+ * `null` means lead with Latest, i.e. render the standard homepage hero. The
+ * lead pulls the edition's own theme + dates (it has no homepage photography of
+ * its own yet); the kept Latest slideshow + CTA come from the homepage doc.
+ */
+export async function getHeroUpcoming(options: DynamicFetchOptions): Promise<UpcomingHero | null> {
+  const [lead, list] = await Promise.all([
+    getHeroEditionLeadFromSanity(options),
+    getEditionListItems(options),
+  ])
+  if (lead !== 'upcoming') return null
+  const { upcoming } = deriveEditions(list, todayIso())
+  if (!upcoming) return null
+  const edition = await getEdition(upcoming.year, options)
+  if (!edition || isOnlineEdition(edition)) return null
+  return {
+    year: edition.year,
+    theme: edition.theme,
+    themeHighlight: edition.themeHighlight,
+    dateTape: edition.dateTape,
+  }
+}
+
+/**
+ * The homepage featured spotlight's source (ZSB-44): the `featured`-marked events
+ * of the newest **live** edition (its routes are reachable, unlike an upcoming
+ * one). `undefined` when there's no live physical edition or nothing is marked.
+ * Past events are hidden client-side by the consumer, not here.
+ */
+export async function getFeaturedEvents(
+  options: DynamicFetchOptions,
+): Promise<{ year: number; events: CalendarEvent[] } | undefined> {
+  const list = await getEditionListItems(options)
+  // `list` is sorted year-desc, so the first live entry is the newest live edition.
+  const newestLive = list.find((e) => e.status === 'live')
+  if (!newestLive) return undefined
+  const edition = await getEdition(newestLive.year, options)
+  if (!edition || isOnlineEdition(edition)) return undefined
+  const featured = edition.events?.filter((e) => e.featured) ?? []
+  return featured.length ? { year: edition.year, events: featured } : undefined
 }
 
 export async function getAllEditionYears(): Promise<number[]> {
