@@ -624,6 +624,7 @@ export type SiteSettings = {
   _updatedAt: string
   _rev: string
   currentEdition?: EditionReference
+  heroEdition: 'latest' | 'upcoming'
   contactEmail: string
   instagramUrl?: string
   facebookUrl?: string
@@ -995,11 +996,12 @@ export type HOMEPAGE_QUERY_RESULT =
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITIONS_LIST_QUERY
-// Query: *[_type == "edition" && defined(year)] | order(year desc) {    year,    theme,    status  }
+// Query: *[_type == "edition" && defined(year)] | order(year desc) {    year,    theme,    status,    dateStart  }
 export type EDITIONS_LIST_QUERY_RESULT = Array<{
   year: number
   theme: string
   status: 'live' | 'upcoming'
+  dateStart: string | null
 }>
 
 // Source: src/sanity/lib/queries.ts
@@ -1835,7 +1837,7 @@ declare module '@sanity/client' {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT
     '\n  *[_id == "siteSettings"][0].currentEdition->year\n': CURRENT_EDITION_YEAR_QUERY_RESULT
     '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
-    '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status\n  }\n': EDITIONS_LIST_QUERY_RESULT
+    '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status,\n    dateStart\n  }\n': EDITIONS_LIST_QUERY_RESULT
     '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage{ ..., "lqip": asset->metadata.lqip },\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait{ ..., "lqip": asset->metadata.lqip },\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT
     '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage{ ..., "lqip": asset->metadata.lqip },\n    whyEyebrow,\n    whyTitle,\n    whyImage{ ..., "lqip": asset->metadata.lqip },\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel,\n    ogImage,\n    metaDescription\n  }\n': PARTNERS_PAGE_QUERY_RESULT
     '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image{ ..., "lqip": asset->metadata.lqip },\n    hoursLines,\n    amenities,\n    transport,\n    faq[]{ question, answer },\n    ogImage,\n    metaDescription\n  }\n': VISIT_PAGE_QUERY_RESULT

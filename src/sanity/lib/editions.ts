@@ -30,6 +30,9 @@ export interface EditionListItem {
   year: number
   theme: string
   status: 'upcoming' | 'live'
+  /** ISO `YYYY-MM-DD` edition start, when set — lets the latest/upcoming
+   *  derivation (ADR 0016) place this edition. Absent for the online 2021. */
+  dateStart?: string
 }
 
 type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
@@ -296,6 +299,7 @@ export async function getEditionsListFromSanity(
         year: entry.year,
         theme: entry.theme,
         status: entry.status === 'upcoming' ? 'upcoming' : 'live',
+        ...(entry.dateStart ? { dateStart: entry.dateStart } : {}),
       },
     ]
   })

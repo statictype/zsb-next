@@ -16,6 +16,22 @@ export const siteSettings = defineType({
       to: [{ type: 'edition' }],
     }),
     defineField({
+      name: 'heroEdition',
+      title: 'Home hero — lead with',
+      description:
+        'Which edition the homepage hero leads with: the Latest edition (the most recent that has taken place) or the Upcoming one (the next). Falls back to Latest when there is no upcoming edition. Independent of the Visit page’s setting.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Latest edition', value: 'latest' },
+          { title: 'Upcoming edition', value: 'upcoming' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'latest',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'contactEmail',
       title: 'Contact email',
       description:
