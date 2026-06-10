@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
 import { urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
-import type { AnyEdition, Edition } from '@/types/edition'
+import type { AnyEdition, CalendarEvent, Edition } from '@/types/edition'
 
 // Strings sourced from Sanity carry invisible Visual Editing characters
 // (stega) so the Presentation tool can map rendered text back to fields.
@@ -135,6 +135,28 @@ export function editionMetadata(edition: AnyEdition): Metadata {
       url: path,
       // The share image is supplied by editions/[year]/opengraph-image (editor
       // override or branded hero overlay); setting it here would duplicate it.
+    },
+    alternates: { canonical: path },
+  }
+}
+
+// A shared event link (ADR 0015) gets its own title + description so the
+// preview reads as the event, not the edition. The share image is supplied by
+// the event route's opengraph-image (override → poster → generated card,
+// ZSB-41); setting it here would duplicate it.
+export function eventMetadata(year: number, event: CalendarEvent): Metadata {
+  const title = clean(event.name)
+  const description = clean(truncate(event.description, 155))
+  const path = `/editions/${year}/events/${event.slug}`
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      url: path,
     },
     alternates: { canonical: path },
   }

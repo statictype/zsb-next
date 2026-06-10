@@ -86,6 +86,13 @@ export const event = defineType({
       description: 'Optional.',
       altNoun: 'an event image',
     }),
+    imageFieldWithAlt({
+      name: 'ogImage',
+      title: 'Social share image',
+      description:
+        'Optional. A custom image (1200×630, landscape) used when this event is shared. Leave empty to fall back to the poster, then a generated card.',
+      altNoun: 'a share image',
+    }),
     defineField({
       name: 'facebookUrl',
       title: 'Facebook link',

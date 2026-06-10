@@ -250,6 +250,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
       },
       description,
       image{ ..., "lqip": asset->metadata.lqip },
+      ogImage{ ... },
       facebookUrl,
       ticketUrl,
       featured

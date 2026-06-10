@@ -1,11 +1,25 @@
 import { notFound } from 'next/navigation'
 import { RoutedEventModal } from '@/components/Calendar/RoutedEventModal'
 import { getAllEditionYears, getEdition } from '@/data/editions'
+import { eventMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import { isOnlineEdition } from '@/types/edition'
 import { CachedEdition, findEvent, loadEdition } from '../../edition-content'
 
 const PUBLISHED: DynamicFetchOptions = { perspective: 'published', stega: false }
+
+// Title + description for a shared event link; the share card (og:image) is the
+// sibling opengraph-image route. Metadata always strips stega (perspective
+// resolved, stega: false) and caches nothing — safe under ADR 0012.
+export async function generateMetadata(props: PageProps<'/editions/[year]/events/[slug]'>) {
+  const [{ year, slug }, { perspective }] = await Promise.all([
+    props.params,
+    getDynamicFetchOptions(),
+  ])
+  const edition = await getEdition(Number(year), { perspective, stega: false })
+  const event = findEvent(edition, slug)
+  return event ? eventMetadata(Number(year), event) : {}
+}
 
 // Prerender one page per event — a slug-keyed route is statically optimisable
 // (it reads the already-cached edition and picks the event by slug), which a

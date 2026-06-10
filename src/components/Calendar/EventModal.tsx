@@ -3,7 +3,7 @@
 import { RiArrowLeftLine, RiArrowRightUpLine } from '@remixicon/react'
 import { useEffect, useRef } from 'react'
 import { Figure } from '@/components/Figure/Figure'
-import { dayToken, formatShortRange, isMultiDayRun } from '@/lib/edition-dates'
+import { eventWhenLabel } from '@/lib/edition-dates'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import type { CalendarEvent } from '@/types/edition'
 import styles from './EventModal.module.css'
@@ -14,15 +14,6 @@ import { useShareLink } from './useShareLink'
 // poster, the complete description, venue + grouping, type(s), date & time, and
 // the ways to act on it. Rendered by the event route via `RoutedEventModal`
 // (ADR 0015), which owns the close behaviour; mount == open.
-
-function whenLabel(event: CalendarEvent): string {
-  if (isMultiDayRun(event.startDate, event.endDate)) {
-    return formatShortRange(event.startDate, event.endDate as string) ?? event.startDate
-  }
-  const token = dayToken(event.startDate)
-  const date = token ? `${token.weekdayLong} ${token.day} ${token.monthLong}` : event.startDate
-  return event.startTime ? `${date} · ${event.startTime}` : date
-}
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
@@ -122,7 +113,7 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
         )}
 
         <div className={styles.body}>
-          <p className={styles.when}>{whenLabel(event)}</p>
+          <p className={styles.when}>{eventWhenLabel(event)}</p>
           <h2 id={titleId} className={styles.name}>
             {event.name}
           </h2>

@@ -122,6 +122,9 @@ export interface CalendarEvent {
   venue: EventVenue
   description: string
   image?: ImageData
+  /** Editor-set override for the social share card; falls back to the poster,
+   *  then a generated card (ZSB-41). */
+  ogImage?: ImageData
   facebookUrl?: string
   ticketUrl?: string
   featured: boolean

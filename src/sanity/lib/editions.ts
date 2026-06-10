@@ -136,6 +136,7 @@ function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
   const slugs = uniqueEventSlugs(raw.map((e) => (e.slug ? slugify(e.slug) : deriveEventSlug(e))))
   return raw.map((e, i) => {
     const image = toImageData(e.image)
+    const ogImage = toImageData(e.ogImage)
     return {
       key: e._key,
       slug: slugs[i]!,
@@ -155,6 +156,7 @@ function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
       },
       description: e.description,
       ...(image ? { image } : {}),
+      ...(ogImage ? { ogImage } : {}),
       ...(e.facebookUrl ? { facebookUrl: e.facebookUrl } : {}),
       ...(e.ticketUrl ? { ticketUrl: e.ticketUrl } : {}),
       featured: e.featured ?? false,

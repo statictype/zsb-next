@@ -124,3 +124,20 @@ export function formatShortRange(startIso: string, endIso: string): string | und
   if (s.y === e.y) return `${s.d} ${sm} – ${e.d} ${em}`
   return `${s.d} ${sm} ${s.y} – ${e.d} ${em} ${e.y}`
 }
+
+// The human "when" line for a single event — the run span for a multi-day
+// "Ongoing" event, otherwise the long weekday·day·month plus the time when one
+// is set. Shared by the event detail modal and the share card (ZSB-41) so they
+// phrase it identically. Typed structurally so this stays free of CalendarEvent.
+export function eventWhenLabel(event: {
+  startDate: string
+  startTime?: string
+  endDate?: string
+}): string {
+  if (isMultiDayRun(event.startDate, event.endDate)) {
+    return formatShortRange(event.startDate, event.endDate as string) ?? event.startDate
+  }
+  const token = dayToken(event.startDate)
+  const date = token ? `${token.weekdayLong} ${token.day} ${token.monthLong}` : event.startDate
+  return event.startTime ? `${date} · ${event.startTime}` : date
+}
