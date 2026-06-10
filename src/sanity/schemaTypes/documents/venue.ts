@@ -1,6 +1,7 @@
 import { PinIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
 import { slugify } from '../../../lib/slugify'
+import { apiVersion } from '../../env'
 
 // A place, saved once and reused across editions (its own document, not retyped
 // per edition) — ADR 0014. Events reference the *most specific* venue they
@@ -45,10 +46,20 @@ export const venue = defineType({
       type: 'reference',
       to: [{ type: 'venue' }],
       validation: (rule) =>
-        rule.custom((value, context) => {
+        rule.custom(async (value, context) => {
           if (!value?._ref) return true
           const selfId = (context.document?._id as string | undefined)?.replace(/^drafts\./, '')
           if (selfId && value._ref === selfId) return 'A venue cannot be part of itself'
+          // One level of nesting only (ADR 0014): the parent must itself be
+          // top-level. The roll-up ignores a parent's own `partOf`, so a
+          // two-level nest would silently mis-group — reject it at authoring
+          // time instead. Prefer the parent's draft state over its published one.
+          const client = context.getClient({ apiVersion })
+          const parentPartOf: string | null = await client.fetch(
+            'coalesce(*[_id == "drafts." + $id][0].partOf._ref, *[_id == $id][0].partOf._ref)',
+            { id: value._ref },
+          )
+          if (parentPartOf) return 'That venue is already a sub-venue — pick a top-level venue'
           return true
         }),
     }),
