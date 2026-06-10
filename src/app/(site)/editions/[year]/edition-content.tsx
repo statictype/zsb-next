@@ -42,12 +42,13 @@ export async function CachedEdition({
     return <OnlineEditionLayout edition={edition} />
   }
 
-  // A live edition with no events yet is — in practice — the forthcoming one,
-  // its programme not announced. Stand in for the calendar with a "coming soon"
-  // block (ZSB-34); only then do we need the socials for its follow CTA.
+  // A live edition with no events yet is — in practice — the forthcoming one, its
+  // programme not announced; it stands in with a "coming soon" block (ZSB-34).
+  // Socials feed both that block's follow CTA and a finished edition's recap
+  // (ZSB-45), so resolve them either way — `ended` is judged client-side.
   const events = edition.events ?? []
   const hasProgram = events.length > 0
-  const socials = hasProgram ? [] : await socialLinks(options)
+  const socials = await socialLinks(options)
 
   return (
     <main className={styles.page}>
@@ -68,7 +69,7 @@ export async function CachedEdition({
         // only this subtree client-renders, keeping the route partial-prerender
         // rather than fully dynamic (ADR 0015).
         <Suspense fallback={null}>
-          <Calendar year={edition.year} events={events} />
+          <Calendar year={edition.year} events={events} theme={edition.theme} socials={socials} />
         </Suspense>
       ) : (
         <ComingSoon year={edition.year} socials={socials} />

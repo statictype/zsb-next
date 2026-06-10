@@ -1,14 +1,15 @@
 'use client'
 
-import { RiHistoryLine } from '@remixicon/react'
+import { RiArrowDownSLine, RiArrowRightUpLine, RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
-import { Fragment, useEffect, useMemo, useRef, useSyncExternalStore } from 'react'
+import { Fragment, type ReactNode, useEffect, useMemo, useRef, useSyncExternalStore } from 'react'
 import { Figure } from '@/components/Figure/Figure'
 import { type DayToken, dayToken, formatShortRange, isMultiDayRun } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 import styles from './Calendar.module.css'
 import { CalendarFilters } from './CalendarFilters'
 import { CalendarShare, PROGRAM_SECTION_ID } from './CalendarShare'
+import type { SocialLink } from './ComingSoon'
 import {
   applyFilters,
   computeFacets,
@@ -25,6 +26,10 @@ import { useCalendarFilters } from './useCalendarFilters'
 interface CalendarProps {
   year: number
   events: CalendarEvent[]
+  /** Edition theme, for the finished-edition recap line (ZSB-45). */
+  theme?: string
+  /** Follow CTAs for the finished-edition recap (ZSB-45); empty hides them. */
+  socials?: SocialLink[]
 }
 
 interface AgendaDay {
@@ -106,7 +111,7 @@ function useTodayIso(): string | null {
   return useSyncExternalStore(subscribeNoop, getTodayIso, () => null)
 }
 
-export function Calendar({ year, events }: CalendarProps) {
+export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
   const todayIso = useTodayIso()
   const facets = useMemo(() => computeFacets(events), [events])
   const { filters, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(facets)
@@ -227,27 +232,59 @@ export function Calendar({ year, events }: CalendarProps) {
                 </>
               )}
             </p>
-            <div className={styles.counts}>
-              <span className={styles.count} aria-live="polite">
-                {countLabel}
-              </span>
-              {showPastControl && (
-                <button
-                  type="button"
-                  className={`${styles.pastToggle} ${showPast ? styles.pastToggleOn : ''}`}
-                  aria-pressed={showPast}
-                  onClick={() => setShowPast(!showPast)}
-                >
-                  <RiHistoryLine size={15} aria-hidden />
-                  {showPast ? 'Hide' : 'Show'} {past} past {past === 1 ? 'event' : 'events'}
-                </button>
-              )}
-            </div>
+            {ended ? (
+              // A finished edition leads with a short recap + follow CTAs; its
+              // archive agenda collapses below (ZSB-45). Applies to every
+              // finished edition, judged client-side like the rest of the board.
+              <div className={styles.recap}>
+                <p className={styles.recapLine}>
+                  That was <strong className={styles.recapMark}>ZSB {year}</strong>
+                  {theme ? ` — ${theme}` : ''}.
+                </p>
+                {socials.length > 0 && (
+                  <div className={styles.recapFollow}>
+                    <span className={styles.recapFollowLabel}>Follow for what&rsquo;s next</span>
+                    <ul className={styles.recapLinks}>
+                      {socials.map((social) => (
+                        <li key={social.label}>
+                          <a
+                            className={styles.recapLink}
+                            href={social.href}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {social.label} <RiArrowRightUpLine size={14} aria-hidden />
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className={styles.counts}>
+                <span className={styles.count} aria-live="polite">
+                  {countLabel}
+                </span>
+                {showPastControl && (
+                  <button
+                    type="button"
+                    className={`${styles.pastToggle} ${showPast ? styles.pastToggleOn : ''}`}
+                    aria-pressed={showPast}
+                    onClick={() => setShowPast(!showPast)}
+                  >
+                    <RiHistoryLine size={15} aria-hidden />
+                    {showPast ? 'Hide' : 'Show'} {past} past {past === 1 ? 'event' : 'events'}
+                  </button>
+                )}
+              </div>
+            )}
           </div>
           <CalendarShare />
         </header>
 
-        {showFilterBar && (
+        {/* No filter bar on a finished edition — the archive collapses instead. */}
+        {showFilterBar && !ended && (
           <CalendarFilters
             facets={facets}
             filters={filters}
@@ -267,97 +304,126 @@ export function Calendar({ year, events }: CalendarProps) {
           </div>
         ) : (
           // Ongoing exhibitions sit on top as a card grid; the one-off events
-          // follow below as the day-by-day agenda. They used to share a two-column
-          // split (ZSB-49) — reverted to stacked so each reads full width and the
-          // Ongoing cards can breathe across the grid. The cards also set the
-          // exhibitions apart from the agenda: a gallery vs. a timeline.
-          <div className={styles.layout}>
-            {onView.length > 0 && (
-              <section className={styles.band} aria-label="Ongoing throughout the edition">
-                <h3 className={styles.bandLabel}>Ongoing</h3>
-                <ul className={styles.runs}>
-                  {onView.map((run) => {
-                    const runEnd = run.endDate ?? run.startDate
-                    const status = !live
-                      ? 'archive'
-                      : runEnd < todayIso!
-                        ? 'past'
-                        : run.startDate <= todayIso!
-                          ? 'now'
-                          : 'upcoming'
-                    // Every run carries its own span — runs cover different
-                    // stretches of the edition, so a shared band range read as
-                    // "everything runs these dates" (ZSB-48).
-                    const runRange = formatShortRange(run.startDate, runEnd)
-                    return (
-                      <li
-                        key={run.key}
-                        className={`${styles.run} ${status === 'past' ? styles.isPast : ''} ${
-                          status === 'now' ? styles.isNow : ''
-                        }`}
-                      >
-                        {run.image && (
-                          <div className={styles.runMedia}>
-                            <Figure
-                              image={run.image}
-                              sizes="(min-width: 1280px) 360px, (min-width: 768px) 45vw, 90vw"
-                            />
+          // follow below as the day-by-day agenda (ZSB-49). On a finished edition
+          // the whole board folds into the archive disclosure (ZSB-45).
+          <ArchiveCollapse ended={ended} year={year} count={events.length}>
+            <div className={styles.layout}>
+              {onView.length > 0 && (
+                <section className={styles.band} aria-label="Ongoing throughout the edition">
+                  <h3 className={styles.bandLabel}>Ongoing</h3>
+                  <ul className={styles.runs}>
+                    {onView.map((run) => {
+                      const runEnd = run.endDate ?? run.startDate
+                      const status = !live
+                        ? 'archive'
+                        : runEnd < todayIso!
+                          ? 'past'
+                          : run.startDate <= todayIso!
+                            ? 'now'
+                            : 'upcoming'
+                      // Every run carries its own span — runs cover different
+                      // stretches of the edition, so a shared band range read as
+                      // "everything runs these dates" (ZSB-48).
+                      const runRange = formatShortRange(run.startDate, runEnd)
+                      return (
+                        <li
+                          key={run.key}
+                          className={`${styles.run} ${status === 'past' ? styles.isPast : ''} ${
+                            status === 'now' ? styles.isNow : ''
+                          }`}
+                        >
+                          {run.image && (
+                            <div className={styles.runMedia}>
+                              <Figure
+                                image={run.image}
+                                sizes="(min-width: 1280px) 360px, (min-width: 768px) 45vw, 90vw"
+                              />
+                            </div>
+                          )}
+                          <div className={styles.runContent}>
+                            <TypeChips event={run} />
+                            <h4 className={styles.runName}>
+                              <Link
+                                className={styles.nameButton}
+                                href={`/editions/${year}/events/${run.slug}`}
+                              >
+                                {run.name}
+                              </Link>
+                            </h4>
+                            <VenueLine venue={run.venue} />
+                            <div className={styles.runFoot}>
+                              {status === 'now' && <span className={styles.runNow}>On now</span>}
+                              {runRange && <span className={styles.runRange}>{runRange}</span>}
+                            </div>
                           </div>
-                        )}
-                        <div className={styles.runContent}>
-                          <TypeChips event={run} />
-                          <h4 className={styles.runName}>
-                            <Link
-                              className={styles.nameButton}
-                              href={`/editions/${year}/events/${run.slug}`}
-                            >
-                              {run.name}
-                            </Link>
-                          </h4>
-                          <VenueLine venue={run.venue} />
-                          <div className={styles.runFoot}>
-                            {status === 'now' && <span className={styles.runNow}>On now</span>}
-                            {runRange && <span className={styles.runRange}>{runRange}</span>}
-                          </div>
-                        </div>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </section>
-            )}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </section>
+              )}
 
-            {days.length > 0 && (
-              <ol className={styles.agenda}>
-                {days.map((day, i) => (
-                  <Fragment key={day.iso}>
-                    {i === nowIndex && NowMarker}
-                    <li
-                      className={`${styles.day} ${live && day.iso < todayIso! ? styles.isPast : ''}`}
-                    >
-                      <div className={styles.marker}>
-                        <span className={styles.markerNode} aria-hidden />
-                        <span className={styles.markerDay}>{day.token.dayPadded}</span>
-                        <span className={styles.markerMeta}>
-                          <span className={styles.markerMonth}>{day.token.month}</span>
-                          <span className={styles.markerWeekday}>{day.token.weekday}</span>
-                        </span>
-                      </div>
-                      <ul className={styles.events}>
-                        {day.events.map((event) => (
-                          <EventRow key={event.key} event={event} year={year} />
-                        ))}
-                      </ul>
-                    </li>
-                  </Fragment>
-                ))}
-                {nowIndex === days.length && NowMarker}
-              </ol>
-            )}
-          </div>
+              {days.length > 0 && (
+                <ol className={styles.agenda}>
+                  {days.map((day, i) => (
+                    <Fragment key={day.iso}>
+                      {i === nowIndex && NowMarker}
+                      <li
+                        className={`${styles.day} ${live && day.iso < todayIso! ? styles.isPast : ''}`}
+                      >
+                        <div className={styles.marker}>
+                          <span className={styles.markerNode} aria-hidden />
+                          <span className={styles.markerDay}>{day.token.dayPadded}</span>
+                          <span className={styles.markerMeta}>
+                            <span className={styles.markerMonth}>{day.token.month}</span>
+                            <span className={styles.markerWeekday}>{day.token.weekday}</span>
+                          </span>
+                        </div>
+                        <ul className={styles.events}>
+                          {day.events.map((event) => (
+                            <EventRow key={event.key} event={event} year={year} />
+                          ))}
+                        </ul>
+                      </li>
+                    </Fragment>
+                  ))}
+                  {nowIndex === days.length && NowMarker}
+                </ol>
+              )}
+            </div>
+          </ArchiveCollapse>
         )}
       </div>
     </section>
+  )
+}
+
+// On a finished edition the full board is kept as the historical record but
+// folded behind a disclosure so the recap leads (ZSB-45); live/upcoming editions
+// render the board as-is. Native <details> — house style (VenuesView), no JS.
+function ArchiveCollapse({
+  ended,
+  year,
+  count,
+  children,
+}: {
+  ended: boolean
+  year: number
+  count: number
+  children: ReactNode
+}) {
+  if (!ended) return <>{children}</>
+  return (
+    <details className={styles.archive}>
+      <summary className={styles.archiveSummary}>
+        <span className={styles.archiveLabel}>Full {year} programme</span>
+        <span className={styles.archiveCount}>
+          {count} {count === 1 ? 'event' : 'events'}
+        </span>
+        <RiArrowDownSLine className={styles.archiveChevron} size={20} aria-hidden />
+      </summary>
+      <div className={styles.archivePanel}>{children}</div>
+    </details>
   )
 }
 

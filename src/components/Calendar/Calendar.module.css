@@ -642,6 +642,133 @@
   opacity: 1;
 }
 
+/* ---- Finished-edition recap (ZSB-45) — sits where the counts row would ---- */
+.recap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+/* A plain sentence — "That was ZSB 2025 — Theme." — not a label. */
+.recapLine {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--body);
+}
+
+.recapMark {
+  color: var(--white);
+  font-weight: var(--weight-semibold);
+}
+
+.recapFollow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.recapFollowLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--muted);
+}
+
+.recapLinks {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.recapLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--white);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--gray-700);
+  transition:
+    color var(--duration-fast) var(--ease-out-quint),
+    border-color var(--duration-fast) var(--ease-out-quint);
+}
+
+.recapLink:hover {
+  color: var(--action);
+  border-color: var(--action);
+}
+
+.recapLink:focus-visible {
+  outline: 2px solid var(--highlight);
+  outline-offset: 2px;
+}
+
+/* ---- Finished-edition archive disclosure (ZSB-45) — the full board, folded ---- */
+.archive {
+  border-top: 1px solid var(--divider);
+}
+
+.archiveSummary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg) 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-body);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  font-weight: var(--weight-semibold);
+  color: var(--gray-300);
+  transition: color var(--duration-fast) var(--ease-out-quint);
+}
+
+.archiveSummary::-webkit-details-marker {
+  display: none;
+}
+
+.archiveSummary:hover {
+  color: var(--white);
+}
+
+.archiveSummary:focus-visible {
+  outline: 2px solid var(--highlight);
+  outline-offset: 2px;
+}
+
+.archiveCount {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.archiveChevron {
+  margin-left: auto;
+  color: var(--muted);
+  transition: transform var(--duration-normal) var(--ease-out-quint);
+}
+
+.archive[open] .archiveChevron {
+  transform: rotate(180deg);
+}
+
+.archivePanel {
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-lg);
+}
+
 /* ---- Motion ---- */
 @keyframes pulse {
   0% {
@@ -663,7 +790,8 @@
   }
 
   .nameButton,
-  .pastToggle {
+  .pastToggle,
+  .archiveChevron {
     transition: none;
   }
 }
