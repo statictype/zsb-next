@@ -109,7 +109,7 @@
 .carouselSection {
   /* Horizontal content-padding lets the strip viewport bleed to the edge;
      vertical padding sets the section rhythm. */
-  padding: var(--section-padding-y) var(--content-padding);
+  padding: var(--section-padding-y) var(--content-padding) 0;
 }
 
 /* The carousel's controls carry a top margin meant to separate them from
@@ -153,9 +153,10 @@
 
 @media (min-width: 768px) {
   .pillar {
-    padding: var(--section-padding-y-double) var(--space-xl);
+    padding: var(--space-xl) var(--space-xl);
     border-bottom: none;
     border-right: var(--border-dark);
+    margin: var(--space-4xl) 0;
   }
 
   .pillar:first-child {
@@ -172,13 +173,6 @@
   display: flex;
   align-items: baseline;
   gap: var(--space-md);
-}
-
-.pillarNum {
-  font-family: var(--font-display);
-  font-size: var(--text-md);
-  color: var(--highlight);
-  letter-spacing: var(--tracking-tight);
 }
 
 .pillarTitle {

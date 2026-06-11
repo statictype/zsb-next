@@ -19,7 +19,7 @@
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  padding: 0 var(--content-padding) var(--space-lg);
+  padding: 0 var(--space-lg);
   scrollbar-width: none;
   cursor: grab;
   touch-action: pan-x;
