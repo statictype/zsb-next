@@ -1,6 +1,6 @@
 import styles from './IsdayBadge.module.css'
 
-export function IsdayBadge({ className }: { className?: string }) {
+export function IsdayBadge({ className }: { className?: string | undefined }) {
   return (
     <div className={className ? `${styles.card} ${className}` : styles.card}>
       <div className={styles.inner}>
