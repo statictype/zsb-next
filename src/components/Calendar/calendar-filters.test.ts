@@ -5,14 +5,12 @@ import {
   computeFacets,
   DEFAULT_FILTERS,
   editionWindow,
-  eventEndIso,
   filterVenue,
   hasActiveFilters,
   hasPastEvents,
   hasUpcomingEvents,
   isAllSelected,
   isNoneSelected,
-  isPastEvent,
   isSelected,
   parseFilters,
   resolveShowPast,
@@ -79,27 +77,6 @@ describe('filterVenue', () => {
       slug: 'galeria-simeza',
       label: 'Galeria Simeza',
     })
-  })
-})
-
-describe('eventEndIso / isPastEvent', () => {
-  it('uses endDate for multi-day runs and startDate otherwise', () => {
-    expect(eventEndIso(ev({ key: 'a', startDate: '2026-04-10' }))).toBe('2026-04-10')
-    expect(eventEndIso(ev({ key: 'b', startDate: '2026-04-10', endDate: '2026-04-20' }))).toBe(
-      '2026-04-20',
-    )
-  })
-
-  it('treats an event as past only once its last day is before today', () => {
-    const today = '2026-04-15'
-    expect(isPastEvent(ev({ key: 'yesterday', startDate: '2026-04-14' }), today)).toBe(true)
-    expect(isPastEvent(ev({ key: 'today', startDate: '2026-04-15' }), today)).toBe(false)
-    expect(
-      isPastEvent(ev({ key: 'run', startDate: '2026-04-01', endDate: '2026-04-20' }), today),
-    ).toBe(false)
-    expect(
-      isPastEvent(ev({ key: 'over', startDate: '2026-04-01', endDate: '2026-04-14' }), today),
-    ).toBe(true)
   })
 })
 

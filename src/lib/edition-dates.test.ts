@@ -3,9 +3,13 @@ import {
   composeDateTape,
   dateParts,
   dayToken,
+  eventEndIso,
+  eventWhenLabel,
+  eventWhenLabelShort,
   formatDateRange,
   formatShortRange,
   isMultiDayRun,
+  isPastEvent,
 } from './edition-dates'
 
 describe('dateParts', () => {
@@ -115,5 +119,44 @@ describe('formatShortRange', () => {
 
   it('returns undefined when either date is malformed', () => {
     expect(formatShortRange('2025-04-26', 'nope')).toBeUndefined()
+  })
+})
+
+describe('eventWhenLabel / eventWhenLabelShort', () => {
+  it('formats a single-day event with its time in both registers', () => {
+    const ev = { startDate: '2026-05-15', startTime: '18:00' }
+    expect(eventWhenLabel(ev)).toBe('Friday 15 May · 18:00')
+    expect(eventWhenLabelShort(ev)).toBe('Fri 15 May · 18:00')
+  })
+
+  it('omits the time when none is set', () => {
+    expect(eventWhenLabel({ startDate: '2026-05-15' })).toBe('Friday 15 May')
+    expect(eventWhenLabelShort({ startDate: '2026-05-15' })).toBe('Fri 15 May')
+  })
+
+  it('shows the run span for a multi-day "Ongoing" event in both registers', () => {
+    const run = { startDate: '2026-04-26', endDate: '2026-05-11', startTime: '18:00' }
+    expect(eventWhenLabel(run)).toBe('26 Apr – 11 May')
+    expect(eventWhenLabelShort(run)).toBe('26 Apr – 11 May')
+  })
+
+  it('falls back to the raw start date when it is malformed', () => {
+    expect(eventWhenLabel({ startDate: 'nope' })).toBe('nope')
+    expect(eventWhenLabelShort({ startDate: 'nope' })).toBe('nope')
+  })
+})
+
+describe('eventEndIso / isPastEvent', () => {
+  it('uses endDate for multi-day runs and startDate otherwise', () => {
+    expect(eventEndIso({ startDate: '2026-04-10' })).toBe('2026-04-10')
+    expect(eventEndIso({ startDate: '2026-04-10', endDate: '2026-04-20' })).toBe('2026-04-20')
+  })
+
+  it('treats an event as past only once its last day is before today', () => {
+    const today = '2026-04-15'
+    expect(isPastEvent({ startDate: '2026-04-14' }, today)).toBe(true)
+    expect(isPastEvent({ startDate: '2026-04-15' }, today)).toBe(false)
+    expect(isPastEvent({ startDate: '2026-04-01', endDate: '2026-04-20' }, today)).toBe(false)
+    expect(isPastEvent({ startDate: '2026-04-01', endDate: '2026-04-14' }, today)).toBe(true)
   })
 })

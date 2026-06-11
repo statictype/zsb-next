@@ -2,9 +2,16 @@
 
 import { RiArrowDownSLine, RiArrowRightUpLine, RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
-import { Fragment, type ReactNode, useEffect, useMemo, useRef, useSyncExternalStore } from 'react'
+import { Fragment, type ReactNode, useEffect, useMemo, useRef } from 'react'
 import { Figure } from '@/components/Figure/Figure'
-import { type DayToken, dayToken, formatShortRange, isMultiDayRun } from '@/lib/edition-dates'
+import {
+  type DayToken,
+  dayToken,
+  formatShortRange,
+  isMultiDayRun,
+  isPastEvent,
+} from '@/lib/edition-dates'
+import { useTodayIso } from '@/lib/use-today-iso'
 import type { CalendarEvent } from '@/types/edition'
 import styles from './Calendar.module.css'
 import { CalendarFilters } from './CalendarFilters'
@@ -17,7 +24,6 @@ import {
   hasActiveFilters,
   hasPastEvents,
   hasUpcomingEvents,
-  isPastEvent,
   matchesFacets,
   resolveShowPast,
 } from './calendar-filters'
@@ -92,23 +98,6 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
     }))
 
   return { onView, days }
-}
-
-// Local "today" as an ISO `YYYY-MM-DD`, resolved on the client only — `null`
-// on the server and during hydration, the real date thereafter. The page is
-// cached, so past/upcoming has to be judged against the visitor's own clock;
-// the null server snapshot keeps the cached HTML and first client render in
-// sync (no hydration mismatch), then React swaps in the client value.
-const subscribeNoop = () => () => {}
-
-function getTodayIso(): string {
-  const d = new Date()
-  const pad = (n: number) => String(n).padStart(2, '0')
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
-}
-
-function useTodayIso(): string | null {
-  return useSyncExternalStore(subscribeNoop, getTodayIso, () => null)
 }
 
 export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {

@@ -1,8 +1,8 @@
 'use client'
 
-import { useSyncExternalStore } from 'react'
+import { isPastEvent } from '@/lib/edition-dates'
+import { useTodayIso } from '@/lib/use-today-iso'
 import type { CalendarEvent } from '@/types/edition'
-import { isPastEvent } from '../Calendar/calendar-filters'
 import { FeaturedEvents } from './FeaturedEvents'
 
 // ZSB-44 owns which events the spotlight shows; FeaturedEvents stays look-only.
@@ -12,18 +12,6 @@ import { FeaturedEvents } from './FeaturedEvents'
 // snapshot) every marked event shows, keeping the cached HTML and first client
 // render in sync; React then drops the past ones. An all-past edition (the
 // off-season case) collapses to nothing, which is intended.
-const subscribeNoop = () => () => {}
-
-function getTodayIso(): string {
-  const d = new Date()
-  const pad = (n: number) => String(n).padStart(2, '0')
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
-}
-
-function useTodayIso(): string | null {
-  return useSyncExternalStore(subscribeNoop, getTodayIso, () => null)
-}
-
 export function FeaturedSpotlight({ year, events }: { year: number; events: CalendarEvent[] }) {
   const todayIso = useTodayIso()
   const visible = todayIso === null ? events : events.filter((e) => !isPastEvent(e, todayIso))

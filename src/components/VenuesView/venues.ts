@@ -1,4 +1,4 @@
-import { dayToken, formatShortRange, isMultiDayRun } from '@/lib/edition-dates'
+import { eventWhenLabelShort } from '@/lib/edition-dates'
 import type { CalendarEvent, EventTypeTag } from '@/types/edition'
 
 // Turns the current edition's flat event list into the venues view's shape:
@@ -55,20 +55,11 @@ function byDateThenName(a: CalendarEvent, b: CalendarEvent): number {
   )
 }
 
-function eventWhen(e: CalendarEvent): string {
-  if (isMultiDayRun(e.startDate, e.endDate)) {
-    return formatShortRange(e.startDate, e.endDate as string) ?? e.startDate
-  }
-  const token = dayToken(e.startDate)
-  const date = token ? `${token.weekday} ${token.day} ${token.month}` : e.startDate
-  return e.startTime ? `${date} · ${e.startTime}` : date
-}
-
 function toVenueEvents(events: CalendarEvent[]): VenueEvent[] {
   return [...events].sort(byDateThenName).map((e) => ({
     key: e.key,
     name: e.name,
-    when: eventWhen(e),
+    when: eventWhenLabelShort(e),
     types: e.types,
   }))
 }

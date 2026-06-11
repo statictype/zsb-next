@@ -4,6 +4,7 @@
 // split run in the browser — the edition page is cached, so "what's past" is
 // judged against the visitor's own clock, never at build time.
 
+import { eventEndIso, isPastEvent } from '@/lib/edition-dates'
 import { slugify } from '@/lib/slugify'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
 
@@ -94,19 +95,9 @@ export function toggleSelection(
 }
 
 // ---- Past / window logic ----
-
-// The last calendar day an event occupies: its end date for a multi-day run,
-// otherwise its start date.
-export function eventEndIso(event: CalendarEvent): string {
-  return event.endDate ?? event.startDate
-}
-
-// An event is past once its last day is before today. Today's events — and a
-// multi-day run still within its window — are never past. ISO `YYYY-MM-DD`
-// strings compare chronologically, so this is a plain string compare.
-export function isPastEvent(event: CalendarEvent, todayIso: string): boolean {
-  return eventEndIso(event) < todayIso
-}
+// Past-ness itself (`isPastEvent` / `eventEndIso`) lives in
+// `@/lib/edition-dates` with the rest of the event-time judgement (ZSB-59);
+// these helpers apply it to the calendar's filter state.
 
 export function hasUpcomingEvents(events: CalendarEvent[], todayIso: string): boolean {
   return events.some((e) => !isPastEvent(e, todayIso))

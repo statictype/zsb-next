@@ -2,7 +2,7 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { Figure } from '@/components/Figure/Figure'
-import { dayToken, formatShortRange, isMultiDayRun } from '@/lib/edition-dates'
+import { dayToken, eventWhenLabelShort } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 import styles from './FeaturedEvents.module.css'
 
@@ -12,17 +12,6 @@ import styles from './FeaturedEvents.module.css'
 // owned by ZSB-44; this component takes the chosen events and renders them. Each
 // card links to the event's route so the detail modal opens over the edition
 // (ADR 0015), exactly like a calendar row.
-
-// Compact "when" line for a card — a short weekday·day·month, plus the time when
-// it matters, or the run span for a multi-day exhibition. Mirrors the modal's.
-function whenLabel(event: CalendarEvent): string {
-  if (isMultiDayRun(event.startDate, event.endDate)) {
-    return formatShortRange(event.startDate, event.endDate as string) ?? event.startDate
-  }
-  const token = dayToken(event.startDate)
-  const date = token ? `${token.weekday} ${token.day} ${token.month}` : event.startDate
-  return event.startTime ? `${date} · ${event.startTime}` : date
-}
 
 interface FeaturedEventsProps {
   year: number
@@ -95,7 +84,7 @@ function FeaturedCard({
         </span>
 
         <div className={styles.caption}>
-          <p className={styles.when}>{whenLabel(event)}</p>
+          <p className={styles.when}>{eventWhenLabelShort(event)}</p>
           <h3 className={styles.name}>
             <Link className={styles.cardLink} href={`/editions/${year}/events/${event.slug}`}>
               {event.name}

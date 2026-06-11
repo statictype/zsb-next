@@ -125,19 +125,51 @@ export function formatShortRange(startIso: string, endIso: string): string | und
   return `${s.d} ${sm} ${s.y} – ${e.d} ${em} ${e.y}`
 }
 
-// The human "when" line for a single event — the run span for a multi-day
-// "Ongoing" event, otherwise the long weekday·day·month plus the time when one
-// is set. Shared by the event detail modal and the share card (ZSB-41) so they
-// phrase it identically. Typed structurally so this stays free of CalendarEvent.
-export function eventWhenLabel(event: {
+// The fields the event-time judgements need. Typed structurally so this module
+// stays free of CalendarEvent.
+export interface EventWhen {
   startDate: string
   startTime?: string
   endDate?: string
-}): string {
+}
+
+function whenLabel(event: EventWhen, register: 'long' | 'short'): string {
   if (isMultiDayRun(event.startDate, event.endDate)) {
     return formatShortRange(event.startDate, event.endDate as string) ?? event.startDate
   }
   const token = dayToken(event.startDate)
-  const date = token ? `${token.weekdayLong} ${token.day} ${token.monthLong}` : event.startDate
+  const date = token
+    ? register === 'long'
+      ? `${token.weekdayLong} ${token.day} ${token.monthLong}`
+      : `${token.weekday} ${token.day} ${token.month}`
+    : event.startDate
   return event.startTime ? `${date} · ${event.startTime}` : date
+}
+
+// The human "when" line for a single event — the run span for a multi-day
+// "Ongoing" event, otherwise weekday·day·month plus the time when one is set.
+// One implementation, two registers, so every surface phrases "when"
+// identically: the long form for the event detail modal and the share card
+// (ZSB-41), the short form for the poster cards and venue rows.
+export function eventWhenLabel(event: EventWhen): string {
+  return whenLabel(event, 'long')
+}
+
+export function eventWhenLabelShort(event: EventWhen): string {
+  return whenLabel(event, 'short')
+}
+
+// ---- Past / upcoming judgement ----
+
+// The last calendar day an event occupies: its end date for a multi-day run,
+// otherwise its start date.
+export function eventEndIso(event: EventWhen): string {
+  return event.endDate ?? event.startDate
+}
+
+// An event is past once its last day is before today. Today's events — and a
+// multi-day run still within its window — are never past. ISO `YYYY-MM-DD`
+// strings compare chronologically, so this is a plain string compare.
+export function isPastEvent(event: EventWhen, todayIso: string): boolean {
+  return eventEndIso(event) < todayIso
 }
