@@ -11,7 +11,7 @@ import { getEdition } from '@/data/editions'
 import { editionBreadcrumbJsonLd, editionEventJsonLd } from '@/lib/seo'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
-import { type AnyEdition, type CalendarEvent, isOnlineEdition } from '@/types/edition'
+import { type AnyEdition, isOnlineEdition } from '@/types/edition'
 import { OnlineEditionLayout } from './online-edition-layout'
 import styles from './page.module.css'
 
@@ -90,12 +90,6 @@ export async function loadEdition(
 ): Promise<AnyEdition | undefined> {
   'use cache'
   return getEdition(year, options)
-}
-
-/** Find one event in an edition by its URL `slug`; null for online editions. */
-export function findEvent(edition: AnyEdition | undefined, slug: string): CalendarEvent | null {
-  if (!edition || isOnlineEdition(edition)) return null
-  return edition.events?.find((e) => e.slug === slug) ?? null
 }
 
 // Site-wide socials (Instagram, then Facebook — same order as the footer),

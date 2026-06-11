@@ -3,8 +3,8 @@ import { RoutedEventModal } from '@/components/Calendar/RoutedEventModal'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { eventMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
-import { isOnlineEdition } from '@/types/edition'
-import { CachedEdition, findEvent, loadEdition } from '../../edition-content'
+import { findEvent, isOnlineEdition } from '@/types/edition'
+import { CachedEdition, loadEdition } from '../../edition-content'
 
 const PUBLISHED: DynamicFetchOptions = { perspective: 'published', stega: false }
 

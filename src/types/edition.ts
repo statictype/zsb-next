@@ -213,6 +213,13 @@ export function isOnlineEdition(e: AnyEdition): e is OnlineEdition {
   return 'kind' in e && e.kind === 'online'
 }
 
+/** Find one event in an edition by its URL `slug` (ADR 0015); null for online
+ *  editions. Shared by the event page, the modal route, and the OG image. */
+export function findEvent(edition: AnyEdition | undefined, slug: string): CalendarEvent | null {
+  if (!edition || isOnlineEdition(edition)) return null
+  return edition.events?.find((e) => e.slug === slug) ?? null
+}
+
 // ---- Visit page ----
 
 // Closed icon set an editor can pick per amenity, mirrored from the amenity

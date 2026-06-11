@@ -62,7 +62,9 @@ function uniqueEventSlugs(bases: string[]): string[] {
   })
 }
 
-function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
+// The three mappers below are exported for the co-located unit tests (an
+// internal seam); pages always go through the cached fetchers.
+export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
   if (!raw?.length) return undefined
   const slugs = uniqueEventSlugs(raw.map((e) => (e.slug ? slugify(e.slug) : deriveEventSlug(e))))
   return raw.map((e, i) => {
@@ -95,7 +97,7 @@ function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
   })
 }
 
-function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
+export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
   const out: CreditEntry[] = []
   if (!rows) return out
   for (const row of rows) {
@@ -128,7 +130,7 @@ function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
 // returns `published` editions where Sanity's conditional validation has
 // enforced them as required. The empty-string / empty-array fallbacks
 // are belt-and-suspenders for an unexpected dataset shape.
-function mapEdition(raw: SanityEdition): Edition {
+export function mapEdition(raw: SanityEdition): Edition {
   const thumb = toImageData(raw.thumbImage)
   const ogImage = toImageData(raw.ogImage)
   const carousel = mapCarousel(raw.carousel)

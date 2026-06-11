@@ -3,7 +3,7 @@ import { getAllEditionYears, getEdition } from '@/data/editions'
 import { eventWhenLabel } from '@/lib/edition-dates'
 import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
-import { type CalendarEvent, isOnlineEdition } from '@/types/edition'
+import { findEvent, isOnlineEdition } from '@/types/edition'
 
 // Per-event share card (ZSB-41). Three cases, in priority order:
 //   1. editor OG override → rendered as-is (they designed it);
@@ -32,10 +32,6 @@ export async function generateStaticParams() {
   return params
 }
 
-function findEvent(events: CalendarEvent[] | undefined, slug: string): CalendarEvent | undefined {
-  return events?.find((e) => e.slug === slug)
-}
-
 export default async function Image({
   params,
 }: {
@@ -43,7 +39,7 @@ export default async function Image({
 }) {
   const { year, slug } = await params
   const edition = await getEdition(Number(year), PUBLISHED)
-  const event = edition && !isOnlineEdition(edition) ? findEvent(edition.events, slug) : undefined
+  const event = findEvent(edition, slug)
 
   // Case 1 + 2: the override (used as-is) or the poster (badge later), filling
   // the frame. The editor's override is the escape hatch when a portrait poster
