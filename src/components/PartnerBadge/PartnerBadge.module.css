@@ -44,12 +44,12 @@
 .textRing {
   position: absolute;
   inset: 0;
-  animation: spin 20s linear infinite;
+  animation: spin 32s linear infinite;
 }
 
 @keyframes spin {
   to {
-    transform: rotate(360deg);
+    transform: rotate(-360deg);
   }
 }
 
