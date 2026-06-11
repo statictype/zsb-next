@@ -4,7 +4,6 @@ import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { Figure } from '@/components/Figure/Figure'
 import shared from '@/components/Shared.module.css'
 import { makePageMetadata } from '@/lib/seo'
-import { imageDataOrPlaceholder } from '@/sanity/lib/image'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { type AboutPage, getAboutPage } from '@/sanity/lib/staticPages'
 import styles from './page.module.css'
@@ -33,7 +32,7 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
   const notFestivalTitle = about?.notFestivalTitle ?? ''
   const notFestivalBody = about?.notFestivalBody ?? []
   const pillars = about?.pillars ?? []
-  const placeImage = imageDataOrPlaceholder(about?.placeImage)
+  const placeImage = about?.placeImage
   const carousel = about?.carousel
   const carouselEyebrow = about?.carouselEyebrow ?? 'Gallery'
   const curatorEyebrow = about?.curatorEyebrow ?? ''
@@ -41,7 +40,7 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
   const curatorName = about?.curatorName ?? ''
   const curatorRole = about?.curatorRole ?? ''
   const curatorLetter = about?.curatorLetter ?? []
-  const curatorPortrait = imageDataOrPlaceholder(about?.curatorPortrait)
+  const curatorPortrait = about?.curatorPortrait
 
   return (
     <main>

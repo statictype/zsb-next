@@ -7,7 +7,6 @@ import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import shared from '@/components/Shared.module.css'
 import { makePageMetadata } from '@/lib/seo'
-import { imageDataOrPlaceholder } from '@/sanity/lib/image'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
 import { getPartnersPage, type PartnersPage } from '@/sanity/lib/staticPages'
@@ -48,10 +47,10 @@ function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
   const heroLead = page?.hero?.lead ?? ''
   const eventTitle = page?.eventTitle ?? ''
   const eventBody = page?.eventBody ?? []
-  const eventImage = imageDataOrPlaceholder(page?.eventImage)
+  const eventImage = page?.eventImage
   const whyEyebrow = page?.whyEyebrow ?? ''
   const whyTitle = page?.whyTitle ?? ''
-  const whyImage = imageDataOrPlaceholder(page?.whyImage)
+  const whyImage = page?.whyImage
   const whyPoints = page?.whyPoints ?? []
   const ctaHeading = page?.ctaHeading ?? ''
   const ctaAccent = page?.ctaHeadingAccent ?? ''

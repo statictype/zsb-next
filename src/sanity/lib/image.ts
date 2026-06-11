@@ -1,5 +1,4 @@
 import { createImageUrlBuilder, type SanityImageSource } from '@sanity/image-url'
-import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import type { ImageData } from '@/types/edition'
 import { dataset, projectId } from '../env'
 
@@ -8,6 +7,20 @@ const builder = createImageUrlBuilder({ projectId, dataset })
 export function urlFor(source: SanityImageSource) {
   return builder.image(source).auto('format').fit('max')
 }
+
+// ---- The image fallback contract (ADR 0011) ----
+//
+// Every authored image resolves by what a missing asset MEANS:
+//
+// - `requireImageData` — the schema requires the image (edition hero, carousel
+//   slides). A missing asset is corrupt data: fail at fetch time, loudly.
+// - `toImageData` — everything else. Absence flows to the consumer as
+//   `undefined`: when it's meaningful, the consumer branches (an event without
+//   a poster renders its date watermark; a missing OG image falls down the
+//   share-card chain); when the layout always renders an image, the missing
+//   value flows into <Figure>, which paints the neutral local placeholder.
+//   Mappers never substitute the placeholder — metadata and share cards must
+//   see the real absence.
 
 /**
  * A raw Sanity image field as it lands in a GROQ result. `lqip` is present
@@ -42,9 +55,4 @@ export function requireImageData(
   const data = toImageData(field)
   if (!data) throw new Error(`Missing asset on ${label}`)
   return data
-}
-
-/** Like {@link toImageData} but falls back to the neutral local placeholder. */
-export function imageDataOrPlaceholder(field: SanityImageField | null | undefined): ImageData {
-  return toImageData(field) ?? PLACEHOLDER_IMAGE
 }

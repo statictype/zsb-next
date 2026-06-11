@@ -8,7 +8,7 @@ import type {
 } from '@/../sanity.types'
 import { SITE_NAME } from '@/lib/constants'
 import type { FaqEntry } from '@/lib/seo'
-import type { Amenity, CarouselSlide, TransportRoute, VisitData } from '@/types/edition'
+import type { Amenity, CarouselSlide, ImageData, TransportRoute, VisitData } from '@/types/edition'
 import { mapCarousel } from './carousel'
 import { toImageData } from './image'
 import { type DynamicFetchOptions, queryData } from './live'
@@ -20,12 +20,19 @@ import {
 } from './queries'
 
 type AboutPageRaw = NonNullable<ABOUT_PAGE_QUERY_RESULT>
-/** The about page with its carousel already reshaped to the runtime slides
- *  (ADR 0013 — raw GROQ shapes don't cross into pages). */
-export type AboutPage = Omit<AboutPageRaw, 'carousel'> & {
+/** The about page with its carousel and images already reshaped to the runtime
+ *  shapes (ADR 0013 — raw GROQ shapes don't cross into pages). */
+export type AboutPage = Omit<AboutPageRaw, 'carousel' | 'placeImage' | 'curatorPortrait'> & {
   carousel: CarouselSlide[] | undefined
+  placeImage: ImageData | undefined
+  curatorPortrait: ImageData | undefined
 }
-export type PartnersPage = NonNullable<PARTNERS_PAGE_QUERY_RESULT>
+type PartnersPageRaw = NonNullable<PARTNERS_PAGE_QUERY_RESULT>
+/** The partners page with its images reshaped to the runtime shape. */
+export type PartnersPage = Omit<PartnersPageRaw, 'eventImage' | 'whyImage'> & {
+  eventImage: ImageData | undefined
+  whyImage: ImageData | undefined
+}
 export type VisitPage = NonNullable<VISIT_PAGE_QUERY_RESULT>
 export type PrivacyPage = NonNullable<PRIVACY_PAGE_QUERY_RESULT>
 
@@ -40,12 +47,23 @@ export async function getAboutPage(options: DynamicFetchOptions): Promise<AboutP
   'use cache'
   const raw = await queryData(ABOUT_PAGE_QUERY, options)
   if (!raw) return null
-  return { ...raw, carousel: mapCarousel(raw.carousel) }
+  return {
+    ...raw,
+    carousel: mapCarousel(raw.carousel),
+    placeImage: toImageData(raw.placeImage),
+    curatorPortrait: toImageData(raw.curatorPortrait),
+  }
 }
 
 export async function getPartnersPage(options: DynamicFetchOptions): Promise<PartnersPage | null> {
   'use cache'
-  return (await queryData(PARTNERS_PAGE_QUERY, options)) ?? null
+  const raw = await queryData(PARTNERS_PAGE_QUERY, options)
+  if (!raw) return null
+  return {
+    ...raw,
+    eventImage: toImageData(raw.eventImage),
+    whyImage: toImageData(raw.whyImage),
+  }
 }
 
 export async function getVisitPage(options: DynamicFetchOptions): Promise<VisitPage | null> {

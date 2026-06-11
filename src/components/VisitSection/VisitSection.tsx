@@ -13,7 +13,6 @@ import {
 import { Figure } from '@/components/Figure/Figure'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import shared from '@/components/Shared.module.css'
-import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import type { IconKey, VisitData } from '@/types/edition'
 import styles from './VisitSection.module.css'
 
@@ -44,7 +43,7 @@ export function VisitSection(props: VisitData = {}) {
   const street = props.street ?? ''
   const city = props.city ?? ''
   const mapsUrl = props.mapsUrl ?? ''
-  const image = props.image ?? PLACEHOLDER_IMAGE
+  const image = props.image
   const hoursLines = props.hoursLines ?? []
   const amenities = props.amenities ?? []
   const transport = props.transport ?? []
