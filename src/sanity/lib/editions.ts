@@ -4,15 +4,9 @@ import type { EDITION_BY_YEAR_QUERY_RESULT } from '@/../sanity.types'
 import type { EditionLead } from '@/lib/derive-editions'
 import { composeDateTape, dayToken } from '@/lib/edition-dates'
 import { slugify } from '@/lib/slugify'
-import type {
-  CalendarEvent,
-  CarouselImage,
-  CarouselLayout,
-  CarouselSlide,
-  CreditEntry,
-  Edition,
-} from '@/types/edition'
-import { requireImageData, type SanityImageField, toImageData } from './image'
+import type { CalendarEvent, CreditEntry, Edition } from '@/types/edition'
+import { mapCarousel } from './carousel'
+import { requireImageData, toImageData } from './image'
 import { type DynamicFetchOptions, queryData } from './live'
 import {
   EDITION_BY_YEAR_QUERY,
@@ -33,42 +27,6 @@ export interface EditionListItem {
 }
 
 type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
-
-const LAYOUT_VALUES: readonly CarouselLayout[] = [
-  'full',
-  'duo',
-  'featured-portrait',
-  'trio',
-  'featured-stack',
-]
-
-function asLayout(value: string | null | undefined): CarouselLayout | undefined {
-  return value && (LAYOUT_VALUES as readonly string[]).includes(value)
-    ? (value as CarouselLayout)
-    : undefined
-}
-
-function mapCarouselImage(item: { caption: string; image: SanityImageField }): CarouselImage {
-  return { image: requireImageData(item.image, 'carousel image'), caption: item.caption }
-}
-
-function mapCarousel(slides: SanityEdition['carousel']): CarouselSlide[] | undefined {
-  if (!slides?.length) return undefined
-  const out: CarouselSlide[] = []
-  for (const slide of slides) {
-    const layout = asLayout(slide.layout)
-    if (!layout) continue
-    const images = (slide.images ?? []).map(mapCarouselImage)
-    if (layout === 'full' && images.length === 1) {
-      out.push({ layout, images: [images[0]!] })
-    } else if ((layout === 'duo' || layout === 'featured-portrait') && images.length === 2) {
-      out.push({ layout, images: [images[0]!, images[1]!] })
-    } else if ((layout === 'trio' || layout === 'featured-stack') && images.length === 3) {
-      out.push({ layout, images: [images[0]!, images[1]!, images[2]!] })
-    }
-  }
-  return out.length ? out : undefined
-}
 
 type SanityEvent = NonNullable<SanityEdition['events']>[number]
 

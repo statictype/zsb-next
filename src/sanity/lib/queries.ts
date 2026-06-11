@@ -56,6 +56,14 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     notFestivalBody,
     pillars,
     placeImage{ ..., "lqip": asset->metadata.lqip },
+    carouselEyebrow,
+    carousel[] {
+      layout,
+      images[] {
+        caption,
+        image{ ..., "lqip": asset->metadata.lqip }
+      }
+    },
     curatorEyebrow,
     curatorHeadline,
     curatorPortrait{ ..., "lqip": asset->metadata.lqip },

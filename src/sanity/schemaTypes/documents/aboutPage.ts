@@ -13,6 +13,7 @@ export const aboutPage = defineType({
     { name: 'hero', title: 'Hero', default: true },
     { name: 'notFestival', title: '"Not a festival"' },
     { name: 'pillars', title: 'Pillars' },
+    { name: 'carousel', title: 'Carousel' },
     { name: 'curator', title: 'Curator letter' },
     { name: 'social', title: 'Social' },
   ],
@@ -59,6 +60,25 @@ export const aboutPage = defineType({
       description: 'Wide image under the pillars (the venue / context shot).',
       group: 'pillars',
       validation: (rule) => rule.required(),
+    }),
+
+    defineField({
+      name: 'carouselEyebrow',
+      title: 'Eyebrow',
+      description: 'Small label beside the carousel arrows, e.g. "Gallery".',
+      type: 'string',
+      group: 'carousel',
+      initialValue: 'Gallery',
+      validation: (rule) => rule.max(40),
+    }),
+    defineField({
+      name: 'carousel',
+      title: 'Carousel',
+      description:
+        'Optional gallery strip between the project section and the pillars. Each slide picks a layout (full / duo / trio / featured) and the matching number of images.',
+      type: 'array',
+      group: 'carousel',
+      of: [defineArrayMember({ type: 'carouselSlide' })],
     }),
 
     defineField({

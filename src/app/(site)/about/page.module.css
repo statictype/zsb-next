@@ -104,6 +104,22 @@
 }
 
 /* =====================================================
+   2b. CAROUSEL — gallery strip on dark, between project & pillars
+   ===================================================== */
+.carouselSection {
+  /* Horizontal content-padding lets the strip viewport bleed to the edge;
+     vertical padding sets the section rhythm. */
+  padding: var(--section-padding-y) var(--content-padding);
+}
+
+/* The carousel's controls carry a top margin meant to separate them from
+   sibling content inside the edition section. Here the section owns the
+   vertical rhythm, so cancel it. */
+.carouselSection > :first-child {
+  margin-top: 0;
+}
+
+/* =====================================================
    3. PILLARS — Why now / Why Bucharest + place image
    ===================================================== */
 .pillarsSection {
@@ -170,7 +186,7 @@
   font-size: var(--text-lg);
   text-transform: uppercase;
   line-height: var(--leading-tight);
-  color: var(--white);
+  color: var(--highlight);
   letter-spacing: var(--tracking-tight);
   margin: 0;
 }

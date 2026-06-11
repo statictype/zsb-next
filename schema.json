@@ -47,7 +47,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "carouselImage.image.media"
+            "name": "media"
           },
           "optional": true
         },
@@ -3120,6 +3120,35 @@
           }
         },
         "optional": false
+      },
+      "carouselEyebrow": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "carousel": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "carouselSlide"
+            }
+          }
+        },
+        "optional": true
       },
       "curatorEyebrow": {
         "type": "objectAttribute",
