@@ -54,7 +54,7 @@
   justify-content: center;
   align-items: center;
   gap: var(--space-md);
-  background: var(--white);
+  background: var(--black-pure);
   opacity: 0;
   visibility: hidden;
   transition:
@@ -73,82 +73,34 @@
   font-size: var(--text-lg);
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--black);
-  background: var(--surface-light);
+  color: var(--surface-light);
   padding: 12px 32px;
-  border: 2px solid var(--black);
-  position: relative;
+  border: var(--border-dark);
   letter-spacing: var(--tracking-label);
-  overflow: hidden;
-  transition: color 0.35s var(--ease-out-quint);
-}
-
-/* Solid fill wipe from left */
-.navLink::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--black);
-  transform: translateX(-101%);
-  transition: transform 0.4s var(--ease-out-quint);
-  pointer-events: none;
-}
-
-/* Corner bracket accent (top-right) */
-.navLink::after {
-  content: "";
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 0;
-  height: 0;
-  border-top: 2px solid var(--action);
-  border-right: 2px solid var(--action);
-  background: transparent;
-  transition: all 0.3s var(--ease-out-quint) 0.08s;
-}
-
-.navLink span {
-  position: relative;
-  z-index: 1;
-}
-
-.navLink:hover::before {
-  transform: translateX(0);
-}
-
-.navLink:hover::after {
-  width: 10px;
-  height: 10px;
+  transition:
+    background-color var(--duration-fast) var(--ease-out-quint),
+    color var(--duration-fast) var(--ease-out-quint);
 }
 
 .navLink:hover {
+  background: var(--action);
   color: var(--white);
 }
 
-/* Active state */
-.active {
-  background: var(--black);
-  color: var(--white);
-  border-color: var(--black);
+.navLink:focus-visible {
+  outline: 2px solid var(--action);
+  outline-offset: 2px;
 }
 
-.active::before {
-  transform: translateX(0);
-}
-
-.active::after {
-  width: 10px;
-  height: 10px;
-  border-top-color: var(--highlight);
-  border-right-color: var(--highlight);
-}
-
+/* Active tab gets the highlight fill; siblings stay outlined. */
+.active,
 .active:hover {
-  color: var(--highlight);
+  background: var(--highlight);
+  color: var(--black);
 }
 
-/* Hamburger Toggle — fixed top-right, white bg, black lines */
+/* Hamburger Toggle — fixed top-right, matches the nav tabs:
+   light fill, thin dark border, black lines */
 .toggle {
   display: flex;
   flex-direction: column;
@@ -160,8 +112,8 @@
   right: var(--content-padding);
   width: 48px;
   height: 48px;
-  background: var(--white);
-  border: 2px solid var(--black);
+  background: var(--surface-light);
+  border: var(--border-dark);
   cursor: pointer;
   z-index: 1002;
   padding: 0;
@@ -207,7 +159,7 @@
   .navLink {
     font-size: var(--text-sm);
     padding: 8px 20px;
-    margin-right: -2px;
+    margin-right: -1px;
     border-radius: 0;
   }
 

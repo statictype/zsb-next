@@ -70,7 +70,7 @@ export function Navigation({ activeId }: Props) {
 
           return (
             <Link key={item.id} href={item.href} className={className} onClick={closeMenu}>
-              <span>{item.label}</span>
+              {item.label}
             </Link>
           )
         })}
