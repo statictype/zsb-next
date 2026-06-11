@@ -48,6 +48,7 @@ export function Credits({ credits }: CreditsProps) {
               )}
             </div>
           ))}
+          <IsdayBadge className={styles.badge} />
         </div>
 
         {/* Partners */}
@@ -68,31 +69,27 @@ export function Credits({ credits }: CreditsProps) {
           </div>
         )}
 
-        {/* Secondary Credits */}
-        {secondary.length > 0 && (
-          <div className={styles.secondary}>
-            {secondary.map((credit, i) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: static list
-              <div key={i} className={styles.inline}>
-                <span className={styles.inlineLabel}>{credit.label}</span>
-                <span className={styles.inlineNames}>
-                  {(() => {
-                    const names = credit.value.split('\n')
-                    return names.map((name, j) => (
-                      // biome-ignore lint/suspicious/noArrayIndexKey: static list
-                      <span key={j}>
-                        {name}
-                        {j < names.length - 1 && <br />}
-                      </span>
-                    ))
-                  })()}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <IsdayBadge />
+        {/* Secondary Credits + ISDay seal in the 4th column */}
+        <div className={styles.secondary}>
+          {secondary.map((credit, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: static list
+            <div key={i} className={styles.inline}>
+              <span className={styles.inlineLabel}>{credit.label}</span>
+              <span className={styles.inlineNames}>
+                {(() => {
+                  const names = credit.value.split('\n')
+                  return names.map((name, j) => (
+                    // biome-ignore lint/suspicious/noArrayIndexKey: static list
+                    <span key={j}>
+                      {name}
+                      {j < names.length - 1 && <br />}
+                    </span>
+                  ))
+                })()}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )

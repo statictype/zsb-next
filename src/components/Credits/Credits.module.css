@@ -2,7 +2,7 @@
    CREDITS
    ===================================================== */
 .section {
-  background: var(--surface-light);
+  background: var(--white);
 }
 
 .container {
@@ -10,18 +10,37 @@
   margin: 0 auto;
 }
 
+/* Shared label treatment across all tiers */
+.label,
+.partnersLabel,
+.inlineLabel {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--muted);
+}
+
+/* Tier dividers — one hairline between each band */
+.partners,
+.secondary {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: var(--border-light);
+}
+
 /* Primary Credits */
 .primary {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xl);
-  padding-bottom: var(--space-2xl);
+  gap: var(--space-lg);
 }
 
 @media (min-width: 768px) {
   .primary {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--space-lg);
+    row-gap: var(--space-xl);
   }
 }
 
@@ -34,14 +53,7 @@
 .block {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-
-.label {
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--muted);
+  gap: var(--space-sm);
 }
 
 .name {
@@ -58,105 +70,96 @@
   font-size: var(--text-sm);
   color: var(--muted);
   line-height: var(--leading-body);
-  margin-bottom: var(--space-sm);
 }
 
-/* Partners */
-.partners {
+/* Partners + Secondary share one 4-column track so their grid lines align */
+.partners,
+.secondary {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xl);
-  padding-bottom: var(--space-xl);
-  margin-bottom: var(--space-xl);
-  border-bottom: var(--border-light);
+  gap: var(--space-lg);
 }
 
 @media (min-width: 768px) {
-  .partners {
+  .partners,
+  .secondary {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: var(--space-lg);
+    row-gap: var(--space-lg);
+  }
+
+  /* Partners take half the row; secondary a quarter from 1024 up */
+  .partnersBlock,
+  .inline {
+    grid-column: span 2;
   }
 }
 
+@media (min-width: 1024px) {
+  .inline {
+    grid-column: span 1;
+  }
+}
+
+/* ISDay badge fills the 4th column of the primary row */
+@media (min-width: 1280px) {
+  .badge {
+    grid-column: 4;
+  }
+}
+
+/* Partners */
 .partnersBlock {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-sm);
 }
 
 .partnersLabel {
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
   color: var(--action);
-  padding-bottom: var(--space-sm);
-  border-bottom: var(--border-light);
 }
 
 .partnersList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: var(--space-xs);
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
   font-size: var(--text-sm);
   color: var(--body-light);
   line-height: var(--leading-tight);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 var(--space-xs);
 }
 
 .partnersList span {
+  display: inline-flex;
+  align-items: center;
   white-space: nowrap;
 }
 
-.partnersList span::after {
-  content: " \00b7 ";
-  color: var(--action);
-  font-size: var(--text-md);
-}
-
-.partnersList span:last-child::after {
+.partnersList span:not(:last-child)::after {
   content: "";
+  flex: none;
+  width: 3px;
+  height: 3px;
+  margin: 0 var(--space-sm);
+  border-radius: 50%;
+  background: var(--action);
 }
 
 /* Secondary Credits */
-.secondary {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xl);
-  padding-bottom: var(--space-xl);
-}
-
-@media (min-width: 768px) {
-  .secondary {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .secondary {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
 .inline {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
 
-.inlineLabel {
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--muted);
-}
-
 .inlineNames {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--muted);
-  line-height: var(--leading-loose);
+  line-height: var(--leading-body);
 }
 
 /* Logo */

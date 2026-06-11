@@ -1,8 +1,8 @@
 import styles from './IsdayBadge.module.css'
 
-export function IsdayBadge() {
+export function IsdayBadge({ className }: { className?: string }) {
   return (
-    <div className={styles.card}>
+    <div className={className ? `${styles.card} ${className}` : styles.card}>
       <div className={styles.inner}>
         <div className={styles.title}>#ISDAY</div>
         <div className={styles.subtitle}>International Sculpture Day</div>
