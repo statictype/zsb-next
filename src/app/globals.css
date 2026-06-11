@@ -40,6 +40,10 @@
   /* Layout */
   --content-padding: 16px;
   --section-padding-y: 60px;
+  /* Double the section rhythm, for sections that need more breathing room than
+     the tightened default (the edition manifesto). Tracks --section-padding-y
+     across breakpoints automatically. */
+  --section-padding-y-double: calc(var(--section-padding-y) * 2);
   --max-width: 1800px;
   --grid-gap: 16px;
 
@@ -228,7 +232,6 @@
     --space-10xl: 576px;
 
     --content-padding: 80px;
-    --section-padding-y: 120px;
     --grid-gap: 48px;
     --nav-height: 84px;
     --carousel-height: 70vh;
@@ -257,8 +260,6 @@
     --space-8xl: 448px;
     --space-9xl: 560px;
     --space-10xl: 672px;
-
-    --section-padding-y: 160px;
     --grid-gap: 60px;
     --nav-height: 100px;
   }
@@ -278,7 +279,7 @@
     --space-10xl: 720px;
 
     --content-padding: 88px;
-    --section-padding-y: 180px;
+    --section-padding-y: 120px;
     --grid-gap: 66px;
     --carousel-height: 72vh;
 
@@ -305,7 +306,6 @@
     --space-10xl: 768px;
 
     --content-padding: 96px;
-    --section-padding-y: 200px;
     --grid-gap: 72px;
     --carousel-height: 75vh;
   }
@@ -330,7 +330,6 @@
     --space-10xl: 800px;
 
     --content-padding: 112px;
-    --section-padding-y: 240px;
     --grid-gap: 84px;
     --carousel-height: 80vh;
     /* --leading-body: 1.7; */

@@ -3,6 +3,11 @@
    ===================================================== */
 .section {
   position: relative;
+  /* The manifesto wants a looser vertical rhythm than the tightened default —
+     re-declare the shared `.section` padding at double the section height.
+     (Overriding --section-padding-y itself would be circular: the -double token
+     is defined in terms of it.) */
+  padding: var(--section-padding-y-double) var(--content-padding);
 }
 
 .container {
@@ -15,7 +20,7 @@
 
 .title {
   font-family: var(--font-display);
-  font-size: var(--text-3xl);
+  font-size: var(--text-2xl);
   line-height: var(--leading-tight);
   color: var(--black);
   text-wrap: pretty;
@@ -80,6 +85,9 @@
 @media (min-width: 1280px) {
   .container {
     grid-template-columns: 1fr 1fr;
+  }
+  .title {
+    font-size: var(--text-3xl);
   }
 }
 

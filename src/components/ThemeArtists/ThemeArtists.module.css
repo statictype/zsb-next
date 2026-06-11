@@ -81,7 +81,7 @@
 /* ---- Tablet (768px+) ---- */
 @media (min-width: 768px) {
   .headline {
-    font-size: var(--text-3xl);
+    font-size: var(--text-2xl);
   }
   .divider {
     margin-bottom: var(--space-xl);
@@ -109,7 +109,7 @@
 
 @media (min-width: 1280px) {
   .headline {
-    font-size: var(--text-4xl);
+    font-size: var(--text-3xl);
   }
   .inner {
     grid-template-columns: 1fr 1fr;
@@ -125,7 +125,7 @@
 
 @media (min-width: 1792px) {
   .headline {
-    font-size: var(--text-5xl);
+    font-size: var(--text-4xl);
   }
   .inner {
     padding-left: var(--space-2xl);
