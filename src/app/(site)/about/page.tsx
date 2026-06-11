@@ -4,7 +4,6 @@ import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { Figure } from '@/components/Figure/Figure'
 import shared from '@/components/Shared.module.css'
 import { makePageMetadata } from '@/lib/seo'
-import { mapCarousel } from '@/sanity/lib/carousel'
 import { imageDataOrPlaceholder } from '@/sanity/lib/image'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { type AboutPage, getAboutPage } from '@/sanity/lib/staticPages'
@@ -35,7 +34,7 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
   const notFestivalBody = about?.notFestivalBody ?? []
   const pillars = about?.pillars ?? []
   const placeImage = imageDataOrPlaceholder(about?.placeImage)
-  const carousel = mapCarousel(about?.carousel)
+  const carousel = about?.carousel
   const carouselEyebrow = about?.carouselEyebrow ?? 'Gallery'
   const curatorEyebrow = about?.curatorEyebrow ?? ''
   const curatorHeadline = about?.curatorHeadline ?? ''

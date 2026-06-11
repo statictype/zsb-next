@@ -8,7 +8,8 @@ import type {
 } from '@/../sanity.types'
 import { SITE_NAME } from '@/lib/constants'
 import type { FaqEntry } from '@/lib/seo'
-import type { Amenity, TransportRoute, VisitData } from '@/types/edition'
+import type { Amenity, CarouselSlide, TransportRoute, VisitData } from '@/types/edition'
+import { mapCarousel } from './carousel'
 import { toImageData } from './image'
 import { type DynamicFetchOptions, queryData } from './live'
 import {
@@ -18,7 +19,12 @@ import {
   VISIT_PAGE_QUERY,
 } from './queries'
 
-export type AboutPage = NonNullable<ABOUT_PAGE_QUERY_RESULT>
+type AboutPageRaw = NonNullable<ABOUT_PAGE_QUERY_RESULT>
+/** The about page with its carousel already reshaped to the runtime slides
+ *  (ADR 0013 — raw GROQ shapes don't cross into pages). */
+export type AboutPage = Omit<AboutPageRaw, 'carousel'> & {
+  carousel: CarouselSlide[] | undefined
+}
 export type PartnersPage = NonNullable<PARTNERS_PAGE_QUERY_RESULT>
 export type VisitPage = NonNullable<VISIT_PAGE_QUERY_RESULT>
 export type PrivacyPage = NonNullable<PRIVACY_PAGE_QUERY_RESULT>
@@ -32,7 +38,9 @@ export type PrivacyPage = NonNullable<PRIVACY_PAGE_QUERY_RESULT>
 
 export async function getAboutPage(options: DynamicFetchOptions): Promise<AboutPage | null> {
   'use cache'
-  return (await queryData(ABOUT_PAGE_QUERY, options)) ?? null
+  const raw = await queryData(ABOUT_PAGE_QUERY, options)
+  if (!raw) return null
+  return { ...raw, carousel: mapCarousel(raw.carousel) }
 }
 
 export async function getPartnersPage(options: DynamicFetchOptions): Promise<PartnersPage | null> {
