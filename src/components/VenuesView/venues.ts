@@ -10,6 +10,8 @@ import type { CalendarEvent, EventTypeTag } from '@/types/edition'
 
 export interface VenueEvent {
   key: string
+  /** Route slug for the event's own URL (`/editions/<year>/events/<slug>`). */
+  slug: string
   name: string
   /** Pre-formatted Bucharest-local date/time, e.g. "Fri 16 May · 18:00". */
   when: string
@@ -58,6 +60,7 @@ function byDateThenName(a: CalendarEvent, b: CalendarEvent): number {
 function toVenueEvents(events: CalendarEvent[]): VenueEvent[] {
   return [...events].sort(byDateThenName).map((e) => ({
     key: e.key,
+    slug: e.slug,
     name: e.name,
     when: eventWhenLabelShort(e),
     types: e.types,

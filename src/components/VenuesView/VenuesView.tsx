@@ -1,4 +1,5 @@
 import { RiArrowDownSLine, RiMapPinLine } from '@remixicon/react'
+import Link from 'next/link'
 import type { CalendarEvent } from '@/types/edition'
 import styles from './VenuesView.module.css'
 import { groupVenuesByType, type TopVenue, type VenueEvent, type VenueNode } from './venues'
@@ -94,9 +95,9 @@ function EventList({ events, year }: { events: VenueEvent[]; year: number }) {
     <ul className={styles.events}>
       {events.map((event) => (
         <li key={event.key} className={styles.event}>
-          <a className={styles.eventName} href={`/editions/${year}?event=${event.key}#program`}>
+          <Link className={styles.eventName} href={`/editions/${year}/events/${event.slug}`}>
             {event.name}
-          </a>
+          </Link>
           <span className={styles.eventWhen}>{event.when}</span>
           {event.types.length > 0 && (
             <ul className={styles.chips}>
