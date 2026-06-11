@@ -22,6 +22,22 @@
   margin: 0 auto;
 }
 
+/* ---- Page hero — dark title block that clears the fixed nav ----
+   Owns its full padding (does NOT compose .section) so the page-top
+   offset is deterministic regardless of CSS-module bundle order. Every
+   top-level page title uses this for a consistent start position. */
+.pageHero {
+  background: var(--black-pure);
+  color: var(--white);
+  padding: calc(var(--nav-height) + 80px) var(--content-padding) var(--space-2xl);
+}
+
+@media (min-width: 768px) {
+  .pageHero {
+    padding: calc(var(--nav-height) + 120px) var(--content-padding) var(--space-3xl);
+  }
+}
+
 /* ---- Typography — Titles ---- */
 .sectionTitle {
   font-family: var(--font-display);

@@ -42,8 +42,8 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
 
   return (
     <main>
-      <section className={styles.hero}>
-        <div className={styles.heroInner}>
+      <section className={shared.pageHero}>
+        <div className={shared.sectionInner}>
           <h1 className={shared.pageTitle}>
             <AccentSplit text={heroTitle} accent={heroAccent} />
           </h1>

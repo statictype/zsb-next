@@ -63,8 +63,8 @@ function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
     <>
       <Navigation activeId={null} />
       <main>
-        <section className={styles.hero}>
-          <div className={styles.heroInner}>
+        <section className={shared.pageHero}>
+          <div className={shared.sectionInner}>
             <h1 className={shared.pageTitle}>
               <AccentSplit text={heroTitle} accent={heroAccent} />
             </h1>
@@ -72,7 +72,7 @@ function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
           </div>
         </section>
 
-        <section className={`${shared.section} ${shared.sectionDark} ${styles.eventSection}`}>
+        <section className={`${shared.sectionDark} ${styles.eventSection}`}>
           <div className={shared.sectionInner}>
             <h2 className={shared.sectionTitle}>{eventTitle}</h2>
             <div className={styles.eventBody}>

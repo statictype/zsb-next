@@ -1,22 +1,8 @@
-.hero {
-  background: var(--black-pure);
-  color: var(--white);
-  padding: calc(var(--nav-height) + 80px) var(--content-padding) var(--space-xl);
-}
+/* Hero uses the shared .pageHero primitive (see Shared.module.css) */
 
-@media (min-width: 768px) {
-  .hero {
-    padding: calc(var(--nav-height) + 120px) var(--content-padding) var(--space-2xl);
-  }
-}
-
-.heroInner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
+/* Owns full padding (no shared.section) so the top override is deterministic */
 .body {
-  padding-top: 0;
+  padding: 0 var(--content-padding) var(--section-padding-y);
 }
 
 .article {

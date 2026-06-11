@@ -2,18 +2,12 @@
    ARTISTS — Header + list (single section)
    ===================================================== */
 
-.main {
-  padding-top: calc(var(--nav-height) + 80px);
-}
+/* Hero uses the shared .pageHero primitive (see Shared.module.css) */
 
-@media (min-width: 768px) {
-  .main {
-    padding-top: calc(var(--nav-height) + 120px);
-  }
-}
-
-.header {
-  margin-bottom: var(--space-2xl);
+/* List section — owns full padding (no shared.section); top is 0 because the
+   pageHero above already provides the gap below the title. */
+.list {
+  padding: 0 var(--content-padding) var(--section-padding-y);
 }
 
 .table {

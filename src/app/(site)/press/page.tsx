@@ -110,8 +110,8 @@ function PressShell({ page, appearances, releases, kit, settings }: PressShellPr
       <Navigation activeId={null} />
       <main className={styles.page}>
         {/* ===== Hero ===== */}
-        <section className={styles.hero}>
-          <div className={styles.heroInner}>
+        <section className={shared.pageHero}>
+          <div className={shared.sectionInner}>
             <h1 className={shared.pageTitle}>
               <AccentSplit text={title} accent={accent} />
             </h1>

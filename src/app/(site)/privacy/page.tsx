@@ -68,8 +68,8 @@ function PrivacyShell({ page }: { page?: PrivacyPage | null } = {}) {
     <>
       <Navigation activeId={null} />
       <main>
-        <section className={styles.hero}>
-          <div className={styles.heroInner}>
+        <section className={shared.pageHero}>
+          <div className={shared.sectionInner}>
             <h1 className={shared.pageTitle}>
               <AccentSplit text={title} accent={accent} />
             </h1>
@@ -77,7 +77,7 @@ function PrivacyShell({ page }: { page?: PrivacyPage | null } = {}) {
           </div>
         </section>
 
-        <section className={`${shared.section} ${shared.sectionDark} ${styles.body}`}>
+        <section className={`${shared.sectionDark} ${styles.body}`}>
           <div className={shared.sectionInner}>
             <article className={styles.article}>
               {body && <PortableText value={body} components={portableTextComponents} />}

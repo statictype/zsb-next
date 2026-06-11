@@ -84,21 +84,22 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
 function EditionsListShell({ children }: { children?: React.ReactNode }) {
   return (
     <main>
-      <section className={`${shared.section} ${shared.sectionDark} ${styles.main}`}>
+      <section className={shared.pageHero}>
         <div className={shared.sectionInner}>
-          <header className={styles.header}>
-            <h1 className={shared.pageTitle}>
-              Edition<span className={shared.accent}>s</span>
-            </h1>
-            <p className={shared.lead}>
-              Five past editions. Five #, each one a curatorial position, not just a title. Together
-              they trace a movement: from the space sculpture inhabits, to the emotional conditions
-              it holds, to the forces it models, to the body it refuses to idealise. Not a plan. A
-              conversation that keeps going.
-            </p>
-          </header>
-          {children}
+          <h1 className={shared.pageTitle}>
+            Edition<span className={shared.accent}>s</span>
+          </h1>
+          <p className={shared.lead}>
+            Five past editions. Five #, each one a curatorial position, not just a title. Together
+            they trace a movement: from the space sculpture inhabits, to the emotional conditions it
+            holds, to the forces it models, to the body it refuses to idealise. Not a plan. A
+            conversation that keeps going.
+          </p>
         </div>
+      </section>
+
+      <section className={`${shared.sectionDark} ${styles.list}`}>
+        <div className={shared.sectionInner}>{children}</div>
       </section>
     </main>
   )

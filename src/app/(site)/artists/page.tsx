@@ -18,18 +18,20 @@ export default async function ArtistsPage() {
 
   return (
     <main>
-      <section className={`${shared.section} ${shared.sectionDark} ${styles.main}`}>
+      <section className={shared.pageHero}>
         <div className={shared.sectionInner}>
-          <header className={styles.header}>
-            <h1 className={shared.pageTitle}>
-              Artist<span className={shared.accent}>s</span>
-            </h1>
-            <p className={shared.lead}>
-              Sculptors and visual artists who have shown work at Bucharest Sculpture Days across
-              all editions.
-            </p>
-          </header>
+          <h1 className={shared.pageTitle}>
+            Artist<span className={shared.accent}>s</span>
+          </h1>
+          <p className={shared.lead}>
+            Sculptors and visual artists who have shown work at Bucharest Sculpture Days across all
+            editions.
+          </p>
+        </div>
+      </section>
 
+      <section className={`${shared.sectionDark} ${styles.list}`}>
+        <div className={shared.sectionInner}>
           <ArtistsTable
             artists={artists}
             className={styles.table}
