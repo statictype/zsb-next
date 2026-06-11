@@ -88,37 +88,39 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
 
       <section className={styles.statement}>
         <div className={styles.statementInner}>
-          <header className={styles.statementHead}>
+          <aside className={styles.statementAside}>
             <div className={shared.eyebrowMuted}>{curatorEyebrow}</div>
 
-            <div className={styles.statementMasthead}>
-              <h2
-                className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.statementHeadline}`}
-              >
-                {curatorHeadline}
-              </h2>
+            <h2
+              className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.statementHeadline}`}
+            >
+              {curatorHeadline}
+            </h2>
 
-              <figure className={styles.statementByline}>
+            <figure className={styles.statementByline}>
+              <div className={styles.authorPhotoFrame}>
                 <div className={styles.authorPhoto}>
                   <Figure
                     image={curatorPortrait}
-                    sizes="(max-width: 767px) 160px, 180px"
+                    sizes="(max-width: 1023px) 240px, 340px"
                     className={styles.authorPhotoImg}
                   />
                 </div>
-                <figcaption className={styles.authorCaption}>
-                  <span className={styles.authorName}>{curatorName}</span>
-                  <span className={styles.authorRole}>{curatorRole}</span>
-                </figcaption>
-              </figure>
-            </div>
-          </header>
+              </div>
+              <figcaption className={styles.authorCaption}>
+                <span className={styles.authorName}>{curatorName}</span>
+                <span className={styles.authorRole}>{curatorRole}</span>
+              </figcaption>
+            </figure>
+          </aside>
 
-          <div className={styles.statementBody}>
-            {curatorLetter.map((para, i) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: positional
-              <p key={i}>{para}</p>
-            ))}
+          <div className={styles.statementLetter}>
+            <div className={styles.letterBody}>
+              {curatorLetter.map((para, i) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: positional
+                <p key={i}>{para}</p>
+              ))}
+            </div>
           </div>
         </div>
       </section>
