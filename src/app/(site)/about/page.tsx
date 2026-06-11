@@ -13,10 +13,6 @@ export const generateMetadata = makePageMetadata(getAboutPage, {
   path: '/about',
 })
 
-function pad(n: number): string {
-  return String(n).padStart(2, '0')
-}
-
 export default function AboutRoute() {
   return (
     <DraftAware cached={(options) => <CachedAbout options={options} />} fallback={<AboutShell />} />
@@ -54,20 +50,14 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
           <p className={shared.lead}>{heroLead}</p>
         </div>
       </section>
-
-      <section className={`${shared.section} ${shared.sectionDark} ${styles.projectSection}`}>
+      <figure className={styles.placeImage}>
+        <Figure image={placeImage} sizes="100vw" className={styles.placeImageImg} />
+      </figure>
+      <section className={`${shared.sectionLight} ${styles.projectSection}`}>
         <div className={shared.sectionInner}>
           <div className={styles.projectGrid}>
             <aside className={styles.projectAside}>
-              <h2 className={`${shared.sectionTitle} ${styles.projectTitle}`}>
-                {notFestivalTitle.split(' ').map((word, i, arr) => (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: positional
-                  <span key={i}>
-                    {word}
-                    {i < arr.length - 1 && <br />}
-                  </span>
-                ))}
-              </h2>
+              <h2 className={`${styles.projectTitle}`}>{notFestivalTitle}</h2>
             </aside>
 
             <div className={styles.projectMain}>
@@ -80,24 +70,19 @@ function AboutShell({ about }: { about?: AboutPage | null } = {}) {
         </div>
       </section>
 
-      <section className={`${shared.section} ${shared.sectionDark} ${styles.pillarsSection}`}>
+      <section className={`${shared.sectionDark} ${styles.pillarsSection}`}>
         <div className={shared.sectionInner}>
           <div className={styles.pillarsGrid}>
             {pillars.map((p, i) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: positional
               <article key={i} className={styles.pillar}>
                 <div className={styles.pillarHead}>
-                  <span className={styles.pillarNum}>{pad(i + 1)}</span>
                   <h2 className={styles.pillarTitle}>{p.label}</h2>
                 </div>
                 <p className={styles.pillarBody}>{p.body}</p>
               </article>
             ))}
           </div>
-
-          <figure className={styles.placeImage}>
-            <Figure image={placeImage} sizes="100vw" className={styles.placeImageImg} />
-          </figure>
         </div>
       </section>
 

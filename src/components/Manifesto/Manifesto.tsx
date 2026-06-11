@@ -10,7 +10,7 @@ export function Manifesto({ manifesto }: ManifestoProps) {
   const titleParts = manifesto.highlight ? manifesto.title.split(manifesto.highlight) : null
 
   return (
-    <section className={`${shared.section} ${shared.sectionLight} ${styles.section}`}>
+    <section className={`${shared.sectionLight} ${styles.section}`}>
       <div className={styles.container}>
         <div className={styles.title}>
           <p>

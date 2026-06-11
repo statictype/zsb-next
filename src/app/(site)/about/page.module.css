@@ -26,24 +26,25 @@
    2. THE PROJECT — Asymmetric editorial split
    ===================================================== */
 .projectSection {
-  padding-top: 0;
-  padding-bottom: var(--space-3xl);
+  /* Match the edition manifesto's looser vertical rhythm */
+  padding: var(--section-padding-y-double) var(--content-padding);
 }
 
 .projectGrid {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-lg);
-  border-top: var(--border-dark);
-  padding-top: var(--space-2xl);
 }
 
 @media (min-width: 1024px) {
   .projectGrid {
-    grid-template-columns: 5fr 7fr;
-    gap: var(--space-3xl);
+    grid-template-columns: 1fr 1fr;
+    /* No gutter: the body column starts exactly at 50%, so its accent bar
+       lands on the pillars' centre divider. The 40px bar→text indent keeps
+       the prose off the line. */
+    column-gap: 0;
+    row-gap: var(--space-lg);
     align-items: start;
-    padding-top: var(--space-3xl);
   }
 }
 
@@ -51,30 +52,73 @@
   position: relative;
 }
 
-@media (min-width: 1024px) {
-  .projectAside {
-    position: sticky;
-    top: calc(var(--nav-height) + var(--space-md));
+/* Same style as the edition manifesto title */
+.projectTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: var(--leading-tight);
+  color: var(--black);
+  text-wrap: pretty;
+  margin: 0;
+  padding-right: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .projectTitle {
+    line-height: var(--leading-display);
   }
 }
 
-.projectTitle {
-  margin-bottom: 0;
-  letter-spacing: var(--tracking-tight);
+@media (min-width: 1280px) {
+  .projectTitle {
+    font-size: var(--text-3xl);
+  }
 }
 
+@media (min-width: 1536px) {
+  .projectTitle {
+    font-size: var(--text-4xl);
+  }
+}
+
+@media (min-width: 1792px) {
+  .projectTitle {
+    font-size: var(--text-4xl);
+    line-height: 1.08;
+  }
+}
+
+/* Body copy with the manifesto's leading accent bar */
 .projectMain {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  max-width: 56ch;
+  padding-left: var(--space-md);
+}
+
+.projectMain::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--action), transparent);
+}
+
+@media (min-width: 768px) {
+  .projectMain {
+    padding-left: 40px;
+  }
 }
 
 .projectMain p {
   font-family: var(--font-body);
-  font-size: var(--text-base);
+  font-size: var(--text-md);
   line-height: var(--leading-body);
-  color: var(--body);
+  font-weight: var(--weight-light);
+  color: var(--body-light);
 }
 
 @media (min-width: 768px) {
@@ -87,7 +131,7 @@
    3. PILLARS — Why now / Why Bucharest + place image
    ===================================================== */
 .pillarsSection {
-  padding-top: 0;
+  padding: 0 var(--content-padding);
 }
 
 .pillarsGrid {
@@ -95,7 +139,6 @@
   grid-template-columns: 1fr;
   border-top: var(--border-dark);
   border-bottom: var(--border-dark);
-  margin-bottom: var(--space-2xl);
 }
 
 @media (min-width: 768px) {
@@ -118,7 +161,7 @@
 
 @media (min-width: 768px) {
   .pillar {
-    padding: var(--space-2xl) var(--space-xl);
+    padding: var(--section-padding-y) var(--space-xl);
     border-bottom: none;
     border-right: var(--border-dark);
   }
@@ -148,18 +191,12 @@
 
 .pillarTitle {
   font-family: var(--font-display);
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   text-transform: uppercase;
   line-height: var(--leading-tight);
   color: var(--white);
   letter-spacing: var(--tracking-tight);
   margin: 0;
-}
-
-@media (min-width: 1280px) {
-  .pillarTitle {
-    font-size: var(--text-2xl);
-  }
 }
 
 .pillarBody {
@@ -182,7 +219,6 @@
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border: var(--border-dark);
-  margin: 0;
 }
 
 .placeImageImg {
@@ -197,21 +233,41 @@
 .statement {
   background: var(--surface-light);
   color: var(--heading-light);
-  padding: var(--section-padding-y) var(--content-padding);
+  /* Match the edition manifesto's looser vertical rhythm */
+  padding: var(--section-padding-y-double) var(--content-padding);
 }
 
 .statementInner {
-  max-width: 880px;
+  max-width: var(--max-width);
   margin: 0 auto;
 }
 
+/* ---- Manifesto-style split: masthead left, letter right ---- */
+@media (min-width: 1024px) {
+  .statementInner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    align-items: start;
+  }
+}
+
+/* On narrow screens the head is a top band; in the split it is the left rail */
 .statementHead {
   border-bottom: var(--border-light);
   padding-bottom: var(--space-xl);
   margin-bottom: var(--space-2xl);
 }
 
-/* ---- Masthead: title (left) + photo + caption (right), baseline-aligned ---- */
+@media (min-width: 1024px) {
+  .statementHead {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* ---- Masthead: headline + author photo/caption ---- */
 .statementMasthead {
   display: grid;
   grid-template-columns: 1fr;
@@ -223,6 +279,14 @@
   .statementMasthead {
     grid-template-columns: 1fr minmax(140px, 180px);
     gap: var(--space-xl);
+  }
+}
+
+/* In the narrow left rail, stack headline over the byline again */
+@media (min-width: 1024px) {
+  .statementMasthead {
+    grid-template-columns: 1fr;
+    align-items: start;
   }
 }
 
@@ -288,10 +352,30 @@
   color: var(--muted);
 }
 
+/* Curator letter — same manifesto accent bar leading into the prose */
 .statementBody {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  /* padding-left: var(--space-md); */
+  max-width: 45ch;
+}
+
+/* .statementBody::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--action), transparent);
+} */
+
+@media (min-width: 768px) {
+  /* .statementBody {
+    padding-left: 40px;
+  } */
 }
 
 .statementBody p {
