@@ -168,11 +168,11 @@ export function editionEventJsonLd(edition: Edition) {
   const end = clean(edition.dateEnd)
 
   // ZSB is multi-site. Emit one schema.org Place per distinct top-level location
-  // across the edition's events — the venue's parent place when it sits inside a
-  // bigger one (a studio inside CFP), else the venue itself. This reflects the
-  // real footprint instead of the single venueLine. Fall back to venueLine, then
+  // across the edition's events — each venue's stamped rolled-up identity, the
+  // same key the calendar filters and the Visit venues view group by (ZSB-65),
+  // so a studio inside CFP counts as CFP. Fall back to venueLine, then
   // "Bucharest", when no events are authored yet (the forthcoming edition).
-  const eventPlaces = (edition.events ?? []).map((e) => clean(e.venue.partOf?.name ?? e.venue.name))
+  const eventPlaces = (edition.events ?? []).map((e) => clean(e.venue.rollUp.name))
   const venueNames = [...new Set(eventPlaces.filter(Boolean))]
   const placeNames = venueNames.length > 0 ? venueNames : [clean(edition.venueLine) || 'Bucharest']
   const places = placeNames.map((name) => ({

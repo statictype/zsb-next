@@ -4,6 +4,7 @@ import type { EDITION_BY_YEAR_QUERY_RESULT } from '@/../sanity.types'
 import type { EditionLead } from '@/lib/derive-editions'
 import { composeDateTape, dayToken } from '@/lib/edition-dates'
 import { slugify } from '@/lib/slugify'
+import { rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, CreditEntry, Edition } from '@/types/edition'
 import { mapCarousel } from './carousel'
 import { requireImageData, toImageData } from './image'
@@ -86,6 +87,7 @@ export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undef
         ...(e.venue.partOf
           ? { partOf: { name: e.venue.partOf.name, type: e.venue.partOf.type } }
           : {}),
+        rollUp: rollUpVenue(e.venue),
       },
       description: e.description,
       ...(image ? { image } : {}),

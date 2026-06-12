@@ -1,12 +1,34 @@
 import { eventWhenLabelShort } from '@/lib/edition-dates'
+import { slugify } from '@/lib/slugify'
 import type { CalendarEvent, EventTypeTag } from '@/types/edition'
+
+// The venue rollup (ZSB-65). A venue may sit `partOf` a bigger place (a studio
+// inside CFP); the schema allows one level of nesting only. Its *rolled-up
+// identity* is the parent when there is one, else the venue itself. This is the
+// single rule both venue-facing surfaces group by — the calendar's `venue=`
+// filter chips and the Visit venues view — so they can never disagree on "which
+// venues exist". It's computed once in the data layer (stamped onto every
+// event's venue in `mapEvents`); nothing recomputes it from `partOf`.
+//
+// `slug` is the calendar filter key, separate from a venue's own URL slug: it's
+// `slugify(rolled-up name)`, lossy but matched slug↔slug so it round-trips.
+export function rollUpVenue(venue: {
+  name: string
+  type: string
+  partOf?: { name: string; type: string } | null
+}): { name: string; slug: string; type: string } {
+  const name = venue.partOf?.name ?? venue.name
+  const type = venue.partOf?.type ?? venue.type
+  return { name, slug: slugify(name), type }
+}
 
 // Turns the current edition's flat event list into the venues view's shape:
 // top-level venues grouped by type, with sub-venues (a studio inside CFP)
-// rolled up under their parent. One level of nesting only — a venue named as
-// someone's parent is always rendered top-level, ignoring its own `partOf`
-// (matches the data and ZSB-32's "studios under CFP"). Pure, so it's cheap to
-// test and the component stays a thin renderer.
+// rolled up under their parent. One level of nesting only — both the parent
+// identity and the child/top split key off each venue's stamped `rollUp`
+// (matches ZSB-32's "studios under CFP"). Pure, so it's cheap to test and runs
+// once in the data layer (`getVisitEdition`); the component stays a thin
+// renderer.
 
 export interface VenueEvent {
   key: string
@@ -45,7 +67,6 @@ interface Builder {
   mapUrl: string | undefined
   /** Parent venue name, or null for a top-level venue. */
   parent: string | null
-  childType: string | null
   events: CalendarEvent[]
 }
 
@@ -68,22 +89,12 @@ function toVenueEvents(events: CalendarEvent[]): VenueEvent[] {
 }
 
 export function groupVenuesByType(events: CalendarEvent[]): VenueTypeSection[] {
-  // Names that are someone's parent — those venues are always top-level.
-  const parentNames = new Set(events.flatMap((e) => (e.venue.partOf ? [e.venue.partOf.name] : [])))
   const nodes = new Map<string, Builder>()
 
   const ensure = (name: string, type: string): Builder => {
     let node = nodes.get(name)
     if (!node) {
-      node = {
-        name,
-        type,
-        address: undefined,
-        mapUrl: undefined,
-        parent: null,
-        childType: null,
-        events: [],
-      }
+      node = { name, type, address: undefined, mapUrl: undefined, parent: null, events: [] }
       nodes.set(name, node)
     } else if (!node.type) {
       node.type = type
@@ -93,16 +104,19 @@ export function groupVenuesByType(events: CalendarEvent[]): VenueTypeSection[] {
 
   for (const e of events) {
     const v = e.venue
+    const top = v.rollUp
+    // A venue whose rolled-up identity is itself is top-level; otherwise it's a
+    // sub-venue and `top` is its parent. Both come from the same stamped field
+    // the calendar filters by, so the two surfaces can't disagree.
     const node = ensure(v.name, v.type)
     // A venue's own facts win over a parent-stub that may have been created first.
     node.address = v.address ?? node.address
     node.mapUrl = v.mapUrl ?? node.mapUrl
-    if (v.partOf && !parentNames.has(v.name)) {
-      node.parent = v.partOf.name
-      node.childType = v.type
-    }
     node.events.push(e)
-    if (v.partOf) ensure(v.partOf.name, v.partOf.type)
+    if (top.name !== v.name) {
+      node.parent = top.name
+      ensure(top.name, top.type)
+    }
   }
 
   const childrenByParent = new Map<string, VenueNode[]>()
@@ -113,7 +127,7 @@ export function groupVenuesByType(events: CalendarEvent[]): VenueTypeSection[] {
     } else {
       const child: VenueNode = {
         name: node.name,
-        type: node.childType ?? node.type,
+        type: node.type,
         ...(node.address ? { address: node.address } : {}),
         ...(node.mapUrl ? { mapUrl: node.mapUrl } : {}),
         events: toVenueEvents(node.events),

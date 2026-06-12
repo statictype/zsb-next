@@ -1,4 +1,5 @@
 import { deriveEditions, resolveLeadEdition } from '@/lib/derive-editions'
+import { groupVenuesByType, type VenueTypeSection } from '@/lib/venues'
 import {
   type EditionListItem,
   getEditionFromSanity,
@@ -8,7 +9,7 @@ import {
   getVisitEditionLeadFromSanity,
 } from '@/sanity/lib/editions'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
-import { type AnyEdition, type CalendarEvent, type Edition, isOnlineEdition } from '@/types/edition'
+import { type AnyEdition, type CalendarEvent, isOnlineEdition } from '@/types/edition'
 import { edition2021 } from './2021'
 
 // 2021 is the only static edition — the online-only year, never migrated
@@ -50,14 +51,24 @@ function todayIso(): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
+/** The Visit page's venues view: the resolved edition's year plus its events
+ *  grouped into venue-type sections, built here (ZSB-65) so the component is a
+ *  pure renderer and shares the calendar's venue rollup. */
+export interface VisitVenues {
+  year: number
+  sections: VenueTypeSection[]
+}
+
 /**
- * The edition shown on the Visit page's venues view (ZSB-46): the Visit switch
+ * The venues view shown on the Visit page (ZSB-46): the Visit switch
  * (latest|upcoming) resolved against the derived editions (ADR 0016), falling
  * back to Latest when the switch is 'upcoming' but nothing is ahead. `undefined`
- * when there are no eligible editions, or the pick is the online-only 2021 (no
- * physical venues to show).
+ * when there are no eligible editions, the pick is the online-only 2021 (no
+ * physical venues to show), or the edition has no events to group.
  */
-export async function getVisitEdition(options: DynamicFetchOptions): Promise<Edition | undefined> {
+export async function getVisitEdition(
+  options: DynamicFetchOptions,
+): Promise<VisitVenues | undefined> {
   const [lead, list] = await Promise.all([
     getVisitEditionLeadFromSanity(options),
     getEditionListItems(options),
@@ -65,7 +76,9 @@ export async function getVisitEdition(options: DynamicFetchOptions): Promise<Edi
   const chosen = resolveLeadEdition(lead, deriveEditions(list, todayIso()))
   if (!chosen) return undefined
   const edition = await getEdition(chosen.year, options)
-  return edition && !isOnlineEdition(edition) ? edition : undefined
+  if (!edition || isOnlineEdition(edition)) return undefined
+  const sections = groupVenuesByType(edition.events ?? [])
+  return sections.length ? { year: edition.year, sections } : undefined
 }
 
 /** The upcoming edition the home hero leads with (ZSB-44), once auto-derived. */

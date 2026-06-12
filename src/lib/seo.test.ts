@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
+import { rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, Edition } from '@/types/edition'
 
 // seo.ts imports the live data layer at module load; defineLive() throws
@@ -30,6 +31,11 @@ function event(venueName: string, parent?: string): CalendarEvent {
       name: venueName,
       type: 'Gallery',
       ...(parent ? { partOf: { name: parent, type: 'Cultural centre' } } : {}),
+      rollUp: rollUpVenue({
+        name: venueName,
+        type: 'Gallery',
+        ...(parent ? { partOf: { name: parent, type: 'Cultural centre' } } : {}),
+      }),
     },
     description: '',
     featured: false,

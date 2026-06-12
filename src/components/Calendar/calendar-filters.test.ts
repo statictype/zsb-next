@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import type { CalendarEvent } from '@/types/edition'
+import { rollUpVenue } from '@/lib/venues'
+import type { CalendarEvent, EventVenue } from '@/types/edition'
 import {
   applyFilters,
   computeFacets,
   DEFAULT_FILTERS,
   editionWindow,
-  filterVenue,
   hasActiveFilters,
   hasPastEvents,
   hasUpcomingEvents,
@@ -16,69 +16,28 @@ import {
   resolveShowPast,
   serializeFilters,
   toggleSelection,
-  venueSlug,
 } from './calendar-filters'
 
 const CFP = 'Combinatul Fondului Plastic'
 
-// Minimal event factory — only the fields the filter logic touches.
+// Minimal event factory — only the fields the filter logic touches. The venue's
+// rolled-up identity is stamped with the real rule so the facet/match tests run
+// against production-shaped data (ZSB-65).
 function ev(
-  partial: Partial<CalendarEvent> & Pick<CalendarEvent, 'key' | 'startDate'>,
+  partial: Partial<Omit<CalendarEvent, 'venue'>> &
+    Pick<CalendarEvent, 'key' | 'startDate'> & { venue?: Omit<EventVenue, 'rollUp'> },
 ): CalendarEvent {
+  const venue = partial.venue ?? { name: CFP, type: 'venue' }
   return {
     name: partial.key,
     slug: partial.key,
     description: '',
     featured: false,
     types: [{ title: 'Exhibition', slug: 'exhibition' }],
-    venue: { name: CFP, type: 'venue' },
     ...partial,
+    venue: { ...venue, rollUp: rollUpVenue(venue) },
   }
 }
-
-describe('venueSlug', () => {
-  it('lowercases, strips diacritics, and dashes non-alphanumerics', () => {
-    expect(venueSlug(CFP)).toBe('combinatul-fondului-plastic')
-    expect(venueSlug('Galeria Posibilă')).toBe('galeria-posibila')
-    expect(venueSlug('Atelier 35 / Studio')).toBe('atelier-35-studio')
-  })
-
-  it('trims leading and trailing separators', () => {
-    expect(venueSlug('  —Studio—  ')).toBe('studio')
-  })
-})
-
-describe('filterVenue', () => {
-  it('rolls a sub-venue up to its parent so studios / UNAgaleria fold into CFP', () => {
-    expect(
-      filterVenue({
-        name: 'UNAgaleria',
-        type: 'venue',
-        partOf: { name: CFP, type: 'Partner venue' },
-      }),
-    ).toEqual({
-      slug: 'combinatul-fondului-plastic',
-      label: CFP,
-    })
-    expect(
-      filterVenue({
-        name: 'Ana Zoe Pop Studio',
-        type: 'venue',
-        partOf: { name: CFP, type: 'Partner venue' },
-      }),
-    ).toEqual({
-      slug: 'combinatul-fondului-plastic',
-      label: CFP,
-    })
-  })
-
-  it('uses the venue itself when it has no parent', () => {
-    expect(filterVenue({ name: 'Galeria Simeza', type: 'venue' })).toEqual({
-      slug: 'galeria-simeza',
-      label: 'Galeria Simeza',
-    })
-  })
-})
 
 describe('hasUpcomingEvents / hasPastEvents / editionWindow', () => {
   const events = [

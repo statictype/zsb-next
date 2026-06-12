@@ -46,6 +46,11 @@ export interface EventVenue {
   /** The bigger place this sits inside (a studio inside CFP). Carries the
    *  parent's own type so the venues view can group + label the roll-up. */
   partOf?: { name: string; type: string }
+  /** The rolled-up facet identity: the parent venue when this is a sub-venue,
+   *  else the venue itself. Stamped once in the data layer (`mapEvents`) so the
+   *  calendar's filter chips and the Visit venues view group by one shared key
+   *  and can't drift (ZSB-65). `slug` is the calendar `venue=` filter key. */
+  rollUp: { name: string; slug: string; type: string }
 }
 
 // One program event, as the calendar reads it. Timing is Bucharest-local:

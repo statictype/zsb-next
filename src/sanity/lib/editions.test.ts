@@ -78,6 +78,36 @@ describe('mapEvents — slug derivation (ADR 0015)', () => {
   })
 })
 
+describe('mapEvents — venue rollup stamp (ZSB-65)', () => {
+  it('stamps the venue itself when it has no parent', () => {
+    const [event] = mapEvents(events(ev({ venue: { name: 'Galeria Simeza', type: 'gallery' } })))!
+    expect(event?.venue.rollUp).toEqual({
+      name: 'Galeria Simeza',
+      slug: 'galeria-simeza',
+      type: 'gallery',
+    })
+  })
+
+  it('stamps the parent identity for a sub-venue so it rolls up to CFP', () => {
+    const [event] = mapEvents(
+      events(
+        ev({
+          venue: {
+            name: 'UNAgaleria',
+            type: 'Partner gallery',
+            partOf: { name: 'Combinatul Fondului Plastic', type: 'Partner venue' },
+          },
+        }),
+      ),
+    )!
+    expect(event?.venue.rollUp).toEqual({
+      name: 'Combinatul Fondului Plastic',
+      slug: 'combinatul-fondului-plastic',
+      type: 'Partner venue',
+    })
+  })
+})
+
 describe('mapCredits — row type dispatch', () => {
   it('maps an organization row, with the logo flattened when present', () => {
     const rows = [

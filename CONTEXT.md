@@ -33,6 +33,8 @@ An event is **individually shareable**: it has its own URL (`/editions/<year>/ev
 
 A place where events happen, saved **once and reused across editions** (a Sanity document, unlike the legacy inline venue entry). A venue has a name, address, Google Maps link, description, and a **venue type**. A venue may be **part of** a parent venue (a studio inside CFP) via a self-reference; the views roll sub-venues up under their parent. An event attaches to the *most specific* venue it happens in. "What's shown at a venue" is no longer typed on the venue — it's simply the events that point to it.
 
+Every event's venue carries a **rolled-up identity** (`rollUp`: the parent venue when it's a sub-venue, else itself) — the single key the three venue-facing surfaces group by: the calendar's `venue=` filter chips, the Visit venues view, and the JSON-LD Places. It's computed once in the data layer (`rollUpVenue` in `src/lib/venues.ts`, stamped in `mapEvents`), so those surfaces can't disagree on which venues exist (ZSB-65). The Visit venues view's sections are likewise built server-side (`groupVenuesByType`, called in `getVisitEdition`); `VenuesView` is a pure renderer.
+
 ### Event type / Venue type
 
 Team-managed taxonomies, each its own Sanity document (`eventType`, `venueType`) so the team can add to them without a developer. Event types (Opening, Talk, Workshop, Film…) drive the calendar's filter chips; venue types (partner gallery, studio…) group the venues view. This supersedes the legacy `ProgramBlockType` enum — see [ADR 0014](./docs/adr/0014-event-venue-content-model.md).

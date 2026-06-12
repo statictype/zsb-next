@@ -5,8 +5,7 @@
 // judged against the visitor's own clock, never at build time.
 
 import { eventEndIso, isPastEvent } from '@/lib/edition-dates'
-import { slugify } from '@/lib/slugify'
-import type { CalendarEvent, EventVenue } from '@/types/edition'
+import type { CalendarEvent } from '@/types/edition'
 
 // URL param names — short so shared links (ZSB-33) stay compact. The open event
 // is a route now (`events/[key]`, ADR 0015), not a query param.
@@ -46,23 +45,12 @@ export interface CalendarFacets {
   types: FacetOption[]
 }
 
-// The filter facet slug for a venue, derived from its (rolled-up) name. This is
-// the calendar's `venue=` filter key, separate from the venue's own URL `slug`
-// field (used in event routes); matching here is always slug↔slug (see
-// `applyFilters`), so it round-trips even though the transform is lossy.
-export function venueSlug(name: string): string {
-  return slugify(name)
-}
-
-// The venue a filter chip represents: a space inside a bigger place rolls up to
-// its parent, so every studio and gallery within CFP — UNAgaleria, the artists'
-// studios — filters under the single "CFP" chip instead of cluttering the bar.
-// Artist studios therefore never appear as their own venue. Events still render
-// their specific venue in the agenda; only the facet rolls up.
-export function filterVenue(venue: EventVenue): { slug: string; label: string } {
-  const label = venue.partOf?.name ?? venue.name
-  return { slug: venueSlug(label), label }
-}
+// The venue a filter chip represents is each event's stamped `rollUp`: a space
+// inside a bigger place rolls up to its parent, so every studio and gallery
+// within CFP — UNAgaleria, the artists' studios — filters under the single
+// "CFP" chip instead of cluttering the bar. The rollup is computed once in the
+// data layer (ZSB-65), so the chips here and the Visit venues view share one
+// key; events still render their specific venue in the agenda.
 
 // ---- Facet selection helpers ----
 
@@ -143,10 +131,10 @@ export function computeFacets(events: CalendarEvent[]): CalendarFacets {
   const venues = new Map<string, FacetOption>()
   const types = new Map<string, FacetOption>()
   for (const e of events) {
-    const v = filterVenue(e.venue)
+    const v = e.venue.rollUp
     const existing = venues.get(v.slug)
     if (existing) existing.count++
-    else venues.set(v.slug, { slug: v.slug, label: v.label, count: 1 })
+    else venues.set(v.slug, { slug: v.slug, label: v.name, count: 1 })
     for (const t of e.types) {
       const et = types.get(t.slug)
       if (et) et.count++
@@ -168,7 +156,7 @@ export function computeFacets(events: CalendarEvent[]): CalendarFacets {
 // headline "X of Y upcoming" count (ZSB-47) and `applyFilters`.
 export function matchesFacets(event: CalendarEvent, filters: CalendarFilters): boolean {
   const { venues, types } = filters
-  if (venues !== null && !venues.includes(filterVenue(event.venue).slug)) return false
+  if (venues !== null && !venues.includes(event.venue.rollUp.slug)) return false
   if (types !== null && !event.types.some((t) => types.includes(t.slug))) return false
   return true
 }

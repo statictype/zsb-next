@@ -1,20 +1,16 @@
 import { RiArrowDownSLine, RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
-import type { CalendarEvent } from '@/types/edition'
+import type { TopVenue, VenueEvent, VenueNode, VenueTypeSection } from '@/lib/venues'
 import styles from './VenuesView.module.css'
-import { groupVenuesByType, type TopVenue, type VenueEvent, type VenueNode } from './venues'
 
 // The Visit edition's programme browsed by place (ZSB-27), on the Visit page
 // below the main-venue block. The edition shown is the one the Visit switch
 // resolves to (latest|upcoming, ZSB-46). Venues that have events, grouped by
-// type, with sub-venues rolled up under their parent. Each venue is a disclosure
-// — its events reveal on tap/click (keyboard-accessible); event names deep-link
-// to the edition calendar's detail modal (reusing ZSB-40). Renders nothing when
-// the resolved edition has no events.
-export function VenuesView({ year, events }: { year: number; events: CalendarEvent[] }) {
-  const sections = groupVenuesByType(events)
-  if (sections.length === 0) return null
-
+// type, with sub-venues rolled up under their parent — the sections are built in
+// the data layer (ZSB-65), so this is a pure renderer. Each venue is a
+// disclosure — its events reveal on tap/click (keyboard-accessible); event names
+// deep-link to the edition calendar's detail modal (reusing ZSB-40).
+export function VenuesView({ year, sections }: { year: number; sections: VenueTypeSection[] }) {
   return (
     <section className={styles.section} aria-labelledby="venues-heading">
       <div className={styles.inner}>

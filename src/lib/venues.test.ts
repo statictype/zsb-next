@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
-import { groupVenuesByType } from './venues'
+import { groupVenuesByType, rollUpVenue } from './venues'
 
 const CFP = { name: 'Combinatul Fondului Plastic', type: 'Partner venue' }
 
 function ev(
   key: string,
-  venue: EventVenue,
+  venue: Omit<EventVenue, 'rollUp'>,
   opts: Partial<Pick<CalendarEvent, 'name' | 'startDate' | 'startTime' | 'endDate' | 'types'>> = {},
 ): CalendarEvent {
   return {
@@ -17,11 +17,29 @@ function ev(
     ...(opts.startTime ? { startTime: opts.startTime } : {}),
     ...(opts.endDate ? { endDate: opts.endDate } : {}),
     types: opts.types ?? [{ title: 'Exhibition', slug: 'exhibition' }],
-    venue,
+    venue: { ...venue, rollUp: rollUpVenue(venue) },
     description: '',
     featured: false,
   }
 }
+
+describe('rollUpVenue', () => {
+  it('rolls a sub-venue up to its parent (name, slug, type)', () => {
+    expect(rollUpVenue({ name: 'UNAgaleria', type: 'Partner gallery', partOf: CFP })).toEqual({
+      name: CFP.name,
+      slug: 'combinatul-fondului-plastic',
+      type: 'Partner venue',
+    })
+  })
+
+  it('uses the venue itself when it has no parent', () => {
+    expect(rollUpVenue({ name: 'Galeria Simeza', type: 'Partner gallery' })).toEqual({
+      name: 'Galeria Simeza',
+      slug: 'galeria-simeza',
+      type: 'Partner gallery',
+    })
+  })
+})
 
 describe('groupVenuesByType', () => {
   it('returns nothing for an empty edition', () => {

@@ -36,8 +36,8 @@ async function CachedVisit({ options }: { options: DynamicFetchOptions }) {
     <>
       <VisitSection {...mapVisit(page)} />
       {/* Venues view only when the resolved edition has a programme to show. */}
-      {visitEdition?.events?.length ? (
-        <VenuesView year={visitEdition.year} events={visitEdition.events} />
+      {visitEdition ? (
+        <VenuesView year={visitEdition.year} sections={visitEdition.sections} />
       ) : null}
       <VisitFaq entries={faq} />
       {faq.length > 0 && <JsonLd data={visitFaqJsonLd(faq)} />}
