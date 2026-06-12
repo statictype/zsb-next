@@ -82,14 +82,20 @@
   }
 }
 
-/* ---- Stage — the 16/9 image area ---- */
+/* ---- Stage — portrait on mobile, 16/9 from tablet up ---- */
 .stage {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   background: var(--black-pure);
   cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .stage {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 .slide {

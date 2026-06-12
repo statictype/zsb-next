@@ -9,7 +9,7 @@
    ===================================================== */
 .projectSection {
   /* Match the edition manifesto's looser vertical rhythm */
-  padding: var(--section-padding-y-double) var(--content-padding);
+  padding: var(--section-padding-y-lg) var(--content-padding);
 }
 
 .projectGrid {
@@ -123,7 +123,9 @@
    3. PILLARS — Why now / Why Bucharest + place image
    ===================================================== */
 .pillarsSection {
-  padding: 0 var(--content-padding);
+  /* Breathing room beneath the stacked pillars; the two-column layout below
+     gets its room from the pillars' own vertical margins instead. */
+  padding: 0 var(--content-padding) var(--space-2xl);
 }
 
 .pillarsGrid {
@@ -134,6 +136,10 @@
 }
 
 @media (min-width: 768px) {
+  .pillarsSection {
+    padding-bottom: 0;
+  }
+
   .pillarsGrid {
     grid-template-columns: 1fr 1fr;
   }
@@ -199,12 +205,18 @@
   }
 }
 
-/* ---- Place image — full-bleed within container ---- */
+/* ---- Place image — portrait on mobile, 16/9 from tablet up ---- */
 .placeImage {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   border: var(--border-dark);
+}
+
+@media (min-width: 768px) {
+  .placeImage {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 .placeImageImg {
@@ -223,7 +235,7 @@
   background: var(--surface-light);
   color: var(--heading-light);
   /* Looser rhythm than a default section — the letter needs to breathe */
-  padding: var(--section-padding-y-double) var(--content-padding);
+  padding: var(--section-padding-y-lg) var(--content-padding);
 }
 
 /* Hairline seam off the dark pillars above */
@@ -364,7 +376,6 @@
 .letterBody p {
   font-family: var(--font-body);
   font-size: var(--text-md);
-  line-height: var(--leading-loose);
   font-weight: var(--weight-light);
   color: var(--body-light);
   text-wrap: pretty;

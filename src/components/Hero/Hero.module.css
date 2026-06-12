@@ -17,14 +17,20 @@
   margin: 0 auto;
 }
 
-/* ---- 16:9 image frame ---- */
+/* ---- Image frame — portrait on mobile, 2:1 from tablet up ---- */
 .frame {
   position: relative;
   width: 100%;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   isolation: isolate;
   box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.7);
+}
+
+@media (min-width: 768px) {
+  .frame {
+    aspect-ratio: 2 / 1;
+  }
 }
 
 .frame::after {
