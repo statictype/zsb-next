@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { editionMetadata } from '@/lib/seo'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
@@ -22,5 +24,12 @@ export async function generateMetadata(props: PageProps<'/editions/[year]'>) {
 // same cached edition with the modal over it (ADR 0015).
 export default async function EditionPage(props: PageProps<'/editions/[year]'>) {
   const [{ year }, options] = await Promise.all([props.params, getDynamicFetchOptions()])
-  return <CachedEdition year={Number(year)} options={options} />
+  return (
+    <>
+      <CachedEdition year={Number(year)} options={options} />
+      <Suspense>
+        <EditionsNav />
+      </Suspense>
+    </>
+  )
 }

@@ -1,6 +1,8 @@
+import { Suspense } from 'react'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { Carousel } from '@/components/Carousel/Carousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
+import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
 import shared from '@/components/Shared.module.css'
 import { makePageMetadata } from '@/lib/seo'
@@ -15,7 +17,15 @@ export const generateMetadata = makePageMetadata(getAboutPage, {
 
 export default function AboutRoute() {
   return (
-    <DraftAware cached={(options) => <CachedAbout options={options} />} fallback={<AboutShell />} />
+    <>
+      <DraftAware
+        cached={(options) => <CachedAbout options={options} />}
+        fallback={<AboutShell />}
+      />
+      <Suspense>
+        <EditionsNav />
+      </Suspense>
+    </>
   )
 }
 

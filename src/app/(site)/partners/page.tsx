@@ -1,6 +1,8 @@
 import { RiArrowRightLine } from '@remixicon/react'
+import { Suspense } from 'react'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
+import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
@@ -23,10 +25,15 @@ function pad(n: number): string {
 
 export default function PartnersRoute() {
   return (
-    <DraftAware
-      cached={(options) => <CachedPartners options={options} />}
-      fallback={<PartnersShell />}
-    />
+    <>
+      <DraftAware
+        cached={(options) => <CachedPartners options={options} />}
+        fallback={<PartnersShell />}
+      />
+      <Suspense>
+        <EditionsNav />
+      </Suspense>
+    </>
   )
 }
 
