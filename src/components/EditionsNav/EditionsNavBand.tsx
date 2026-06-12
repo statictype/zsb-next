@@ -1,9 +1,10 @@
 'use client'
 
-import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { StripControls } from '@/components/StripControls/StripControls'
+import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
 import styles from './EditionsNav.module.css'
 
 export interface EditionEntry {
@@ -13,20 +14,26 @@ export interface EditionEntry {
 }
 
 /**
- * The presentational band: an archival register of editions ruled into a
- * hairline grid. Live plates render server-truthful `<Link>`s (crawlable even
- * before the entrance plays); upcoming editions show as non-clickable "Soon"
- * plates (their route is gated `status != "upcoming"`). A one-shot
- * IntersectionObserver toggles `data-revealed` so the staggered fade-up fires
- * when the band scrolls into view, not on load (it sits below the fold).
+ * The editions strip: a horizontally drag-/scroll-snapping band of compact
+ * cards with the shared StripControls header (eyebrow + prev/next arrows), the
+ * same machinery as the edition carousel and media kit. Pairs with the footer
+ * below it — pure
+ * black, hairline-boxed, no solid fills. Live cards link to their edition
+ * (footer-style pink underline-grow on hover); upcoming editions are
+ * non-clickable "Soon" cards (their route is gated `status != "upcoming"`); the
+ * edition you're viewing keeps a chartreuse underline and is inert. A one-shot
+ * IntersectionObserver toggles `data-revealed` so the cards stagger in when the
+ * strip scrolls into view (it's below the fold).
  */
 export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
   const pathname = usePathname()
-  const ref = useRef<HTMLElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const [revealed, setRevealed] = useState(false)
+  const { trackRef, activeIndex, registerItem, goPrev, goNext, trackProps, guardClick } =
+    useScrollSnapStrip<HTMLElement>({ count: editions.length })
 
   useEffect(() => {
-    const el = ref.current
+    const el = sectionRef.current
     if (!el || typeof IntersectionObserver === 'undefined') {
       setRevealed(true)
       return
@@ -41,64 +48,81 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
           }
         }
       },
-      { rootMargin: '0px 0px -15% 0px', threshold: 0.1 },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
     )
     io.observe(el)
     return () => io.disconnect()
   }, [])
 
   return (
-    <section ref={ref} className={styles.band} data-revealed={revealed} aria-label="ZSB editions">
-      <ul className={styles.grid}>
-        {editions.map((edition, i) => {
-          const href = `/editions/${edition.year}`
-          const isUpcoming = edition.status === 'upcoming'
-          const isCurrent = !isUpcoming && pathname === href
+    <section ref={sectionRef} className={styles.band} data-revealed={revealed}>
+      <StripControls
+        eyebrow="Our journey"
+        activeIndex={activeIndex}
+        count={editions.length}
+        onPrev={goPrev}
+        onNext={goNext}
+        labels={{ prev: 'Previous editions', next: 'Next editions' }}
+      />
+      <div className={styles.viewport}>
+        <div
+          ref={trackRef}
+          className={styles.track}
+          tabIndex={0}
+          role="region"
+          aria-label="ZSB editions"
+          {...trackProps}
+        >
+          {editions.map((edition, i) => {
+            const href = `/editions/${edition.year}`
+            const isUpcoming = edition.status === 'upcoming'
+            const isCurrent = !isUpcoming && pathname === href
+            const style = { ['--i']: i } as React.CSSProperties
 
-          const inner = (
-            <>
-              <span className={styles.plateTop}>
-                {isUpcoming ? (
-                  <span className={styles.soon}>Soon</span>
-                ) : isCurrent ? (
-                  <span className={styles.viewing}>Viewing</span>
-                ) : null}
-                {!isUpcoming && !isCurrent && (
-                  <RiArrowRightUpLine className={styles.arrow} size={18} aria-hidden />
-                )}
-              </span>
+            const inner = (
+              <>
+                <span className={styles.cardTop}>
+                  {isUpcoming ? (
+                    <span className={styles.soon}>Soon</span>
+                  ) : isCurrent ? (
+                    <span className={styles.viewing}>Viewing</span>
+                  ) : null}
+                </span>
+                <span className={styles.meta}>
+                  <span className={styles.year}>ZSB {edition.year}</span>
+                  <span className={styles.theme}>{edition.theme}</span>
+                </span>
+              </>
+            )
 
-              <span className={styles.meta}>
-                <span className={styles.year}>ZSB {edition.year}</span>
-                <span className={styles.theme}>{edition.theme}</span>
-              </span>
-            </>
-          )
-
-          return (
-            <li
-              key={edition.year}
-              className={styles.cell}
-              style={{ ['--i']: i } as React.CSSProperties}
-            >
-              {isUpcoming ? (
-                <div className={styles.plate} data-upcoming>
-                  {inner}
-                </div>
-              ) : (
-                <Link
-                  href={href}
-                  className={styles.plate}
-                  data-current={isCurrent || undefined}
-                  aria-current={isCurrent ? 'page' : undefined}
-                >
-                  {inner}
-                </Link>
-              )}
-            </li>
-          )
-        })}
-      </ul>
+            return isUpcoming ? (
+              <div
+                key={edition.year}
+                ref={registerItem(i)}
+                className={styles.card}
+                style={style}
+                data-upcoming
+              >
+                {inner}
+              </div>
+            ) : (
+              <Link
+                key={edition.year}
+                ref={registerItem(i)}
+                href={href}
+                className={styles.card}
+                style={style}
+                data-current={isCurrent || undefined}
+                aria-current={isCurrent ? 'page' : undefined}
+                draggable={false}
+                onClick={guardClick(() => {})}
+              >
+                {inner}
+              </Link>
+            )
+          })}
+        </div>
+      </div>
     </section>
   )
 }
