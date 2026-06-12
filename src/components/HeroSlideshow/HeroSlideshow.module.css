@@ -1,5 +1,7 @@
 /* =====================================================
-   HERO SLIDESHOW — Controls row above a 16/9 stage, crossfade
+   HERO SLIDESHOW — 16/9 stage (crossfade) with a control bar below:
+   pagination dots (position + jump), prev / play-pause / next, and a
+   per-slide progress line pinned to the stage's bottom edge.
    ===================================================== */
 
 .slideshow {
@@ -10,83 +12,13 @@
   gap: var(--space-md);
 }
 
-/* ---- Controls — in-flow row, right-aligned, sit above the stage ---- */
-.controls {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  order: 1;
-}
-
-.control {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1.5px solid var(--action);
-  background: transparent;
-  color: var(--white);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  overflow: hidden;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s var(--ease-out-expo);
-}
-
-.control::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--action);
-  transform: scale(0);
-  transition: transform 0.4s var(--ease-out-expo);
-  z-index: 0;
-}
-
-.control:hover::before {
-  transform: scale(1);
-}
-
-.control:active {
-  transform: scale(0.94);
-}
-
-.control:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-ring-offset);
-}
-
-.control svg {
-  position: relative;
-  z-index: 1;
-}
-
-@media (min-width: 768px) {
-  .control {
-    width: 44px;
-    height: 44px;
-  }
-}
-@media (min-width: 1280px) {
-  .controls {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    order: initial;
-  }
-}
-
-/* ---- Stage — portrait on mobile, 16/9 from tablet up ---- */
+/* ---- Stage — portrait on mobile, 16/9 from tablet up. Ratio is overridable
+   via --stage-aspect so a host (e.g. the full-bleed homepage hero) can request
+   a different crop without affecting other slideshow placements. ---- */
 .stage {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: var(--stage-aspect, 4 / 5);
   overflow: hidden;
   background: var(--black-pure);
   cursor: pointer;
@@ -94,7 +26,7 @@
 
 @media (min-width: 768px) {
   .stage {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: var(--stage-aspect, 16 / 9);
   }
 }
 
@@ -121,4 +53,147 @@
   z-index: 1;
   pointer-events: none;
   background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+/* ---- Progress — hairline at the stage's bottom edge, fills over one interval.
+   Animated via transform: scaleX (GPU-only); React remounts it (key=active) on
+   every slide change so it restarts cleanly in step with the autoplay timer. ---- */
+.progressTrack {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 2;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+}
+
+.progressFill {
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: var(--action);
+  animation-name: heroProgress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  /* animation-duration is set inline from the `interval` prop */
+}
+
+@keyframes heroProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide {
+    transition: none;
+  }
+  .progressFill {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+
+/* ---- Control bar — dots on the left, nav cluster on the right. ---- */
+.controlBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+/* ---- Dots — slim neutral ticks; the active one elongates and takes the
+   brand accent, echoing the progress line. ---- */
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dot {
+  width: 14px;
+  height: 2px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+  transition:
+    width 0.5s var(--ease-out-expo),
+    background 0.3s ease;
+}
+
+.dot:hover {
+  background: var(--action);
+}
+
+.dotActive {
+  width: 28px;
+  background: var(--highlight);
+}
+
+.dot:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 4px;
+}
+
+/* ---- Nav cluster — bare line icons, no enclosure. Colour resolves from a
+   quiet white toward full white on hover; arrows nudge in their direction. ---- */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    transform 0.4s var(--ease-out-expo);
+}
+
+.control:hover {
+  color: var(--white);
+}
+
+.control:active {
+  transform: scale(0.9);
+}
+
+.control:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.control svg {
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.controlPrev:hover svg {
+  transform: translateX(-2px);
+}
+
+.controlNext:hover svg {
+  transform: translateX(2px);
+}
+
+/* Play/pause — the key a11y control. Held a touch brighter than prev/next so it
+   reads as primary without resorting to an enclosure. */
+.controlToggle {
+  color: rgba(255, 255, 255, 0.85);
+  margin-inline: 2px;
 }

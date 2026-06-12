@@ -125,6 +125,80 @@
 }
 
 /* =====================================================
+   GRADIENT-BORDER (primary modifier) — used by the hero CTA.
+   Rest: dark hairline border + pink text, no fill. Hover: the border becomes
+   an animated pink↔chartreuse gradient ring (masked so only the edge paints).
+   ===================================================== */
+@property --mb-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.primary.gradientBorder {
+  border: var(--border-dark);
+  color: var(--action);
+}
+
+/* Kill the fill-wipe entirely for this variant. */
+.primary.gradientBorder::before {
+  display: none;
+}
+
+/* The animated ring — a conic gradient masked down to a border-width frame. */
+.primary.gradientBorder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* Masked-gradient frames anti-alias on both edges, so a 1px frame reads ~2px.
+     A sub-pixel hairline keeps it visually as thin as the resting border. */
+  padding: 0.5px;
+  /* Pink-dominant: chartreuse only flares briefly at two points. */
+  background: conic-gradient(
+    from var(--mb-angle),
+    var(--pink) 0deg,
+    var(--pink) 35deg,
+    var(--chartreuse) 90deg,
+    var(--pink) 145deg,
+    var(--pink) 215deg,
+    var(--chartreuse) 270deg,
+    var(--pink) 325deg,
+    var(--pink) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.primary.gradientBorder:hover {
+  border-color: transparent;
+  color: var(--action);
+}
+
+.primary.gradientBorder:hover::after {
+  opacity: 1;
+  animation: mb-gradient-spin 4s linear infinite;
+}
+
+@keyframes mb-gradient-spin {
+  to {
+    --mb-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary.gradientBorder:hover::after {
+    animation: none;
+  }
+}
+
+/* =====================================================
    SECONDARY — text link with drawing underline
    Inspired by the edition card CTA style
    ===================================================== */

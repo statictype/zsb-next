@@ -22,6 +22,9 @@ interface MagneticButtonProps {
   textColor?: string
   /** Text color on hover. Defaults to var(--white). */
   hoverTextColor?: string
+  /** Primary only: swap the fill-wipe for a resting dark border + animated
+   * gradient border on hover (used by the hero CTA). */
+  gradientBorder?: boolean
 }
 
 type CSSWithVars = CSSProperties & Record<`--${string}`, string>
@@ -42,6 +45,7 @@ export function MagneticButton({
   color,
   textColor,
   hoverTextColor,
+  gradientBorder,
 }: MagneticButtonProps) {
   const btnRef = useRef<HTMLAnchorElement>(null)
 
@@ -111,6 +115,7 @@ export function MagneticButton({
     styles.btn,
     styles[sizeClass],
     variant === 'primary' ? styles.primary : styles.secondary,
+    variant === 'primary' && gradientBorder ? styles.gradientBorder : null,
     className,
   ]
     .filter(Boolean)

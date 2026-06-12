@@ -98,7 +98,7 @@ function HomeShell({ home, editions, upcoming, featured }: HomeShellProps = {}) 
                   <HeroSlideshow images={slideshow} />
                 </div>
                 {ctaLabel && ctaYear && (
-                  <MagneticButton href={`/editions/${ctaYear}`} size="md">
+                  <MagneticButton href={`/editions/${ctaYear}`} size="md" gradientBorder>
                     {ctaLabel} <RiArrowRightLine size={14} />
                   </MagneticButton>
                 )}
@@ -108,10 +108,6 @@ function HomeShell({ home, editions, upcoming, featured }: HomeShellProps = {}) 
         ) : (
           <section id="home" className={`${styles.panel} ${styles.hero}`}>
             <div className={styles.heroInner}>
-              <div className={styles.heroVisual}>
-                <HeroSlideshow images={slideshow} />
-              </div>
-
               <div className={styles.heroPanel}>
                 <h1 className={`${shared.pageTitle} ${styles.heroTitle}`}>
                   <AccentSplit text={title} accent={accent} lineBreak />
@@ -119,14 +115,19 @@ function HomeShell({ home, editions, upcoming, featured }: HomeShellProps = {}) 
                 <div className={styles.heroText}>
                   <p className={shared.heroLead}>{lead}</p>
                   {ctaLabel && ctaYear && (
-                    <MagneticButton href={`/editions/${ctaYear}`} size="md">
+                    <MagneticButton href={`/editions/${ctaYear}`} size="lg" gradientBorder>
                       {ctaLabel} <RiArrowRightLine size={14} />
                     </MagneticButton>
                   )}
                 </div>
-                <div className={styles.heroBadge}>
-                  <PartnerBadge />
-                </div>
+              </div>
+
+              <div className={styles.heroBadge}>
+                <PartnerBadge />
+              </div>
+
+              <div className={styles.heroVisual}>
+                <HeroSlideshow images={slideshow} />
               </div>
             </div>
           </section>

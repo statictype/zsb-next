@@ -5,7 +5,6 @@
 .footer {
   background: var(--black-pure);
   color: var(--white);
-  border-top: var(--border-dark);
   padding: var(--space-xl) var(--content-padding);
 }
 
@@ -41,13 +40,20 @@
 @media (min-width: 768px) {
   .footer {
     padding: var(--space-2xl) var(--content-padding);
+    border-top: var(--border-dark);
   }
 
+  /* Badge + Connect/Follow group together on the left; the catalogue stamp is
+     pushed out to the right edge. */
   .primary {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: var(--space-xl) var(--space-2xl);
+  }
+
+  .stamp {
+    margin-left: auto;
   }
 
   /* A little bigger than before from tablet up. */

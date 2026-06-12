@@ -30,7 +30,8 @@
   overflow: hidden;
   min-height: 100svh;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 @media (min-width: 768px) {
@@ -49,14 +50,17 @@
   gap: var(--space-lg);
 }
 
-/* ---- Slideshow frame — controls + 16/9 stage stack internally ---- */
+/* ---- Slideshow frame — stage + control bar stack internally. Sits last in
+   the mobile stack (below title/CTA); aligns with the content column. ---- */
 .heroVisual {
+  order: 2;
   position: relative;
   width: 100%;
 }
 
 /* ---- Title + lead + CTA ---- */
 .heroPanel {
+  order: 1;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -80,13 +84,14 @@
 }
 
 /* ---- Partner badge ---- */
-/* Mobile: normal flow, lands below the CTA (DOM order), centered. Tablet+:
-   absolute top-right next to the title. */
+/* Mobile: normal flow, sits at the foot of the hero below the slideshow,
+   centered. Desktop: top-right of the title row (see ≥1024). */
 .heroBadge {
+  order: 3;
   align-self: center;
-  margin-top: var(--space-2xl);
+  margin-top: var(--space-md);
   z-index: 5;
-  --partner-badge-scale: 2.5;
+  --partner-badge-scale: 2.2;
 }
 
 /* =====================================================
@@ -241,94 +246,60 @@
     width: 60px;
   }
 
-  /* Tablet: absolute top-right of heroInner — sits next to the title. */
+  /* Tablet: still stacked, just a calmer badge size. */
   .heroBadge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: 0;
-    --partner-badge-scale: 1.5;
+    --partner-badge-scale: 1.8;
   }
 }
 
-@media (min-width: 1280px) {
+/* Desktop: title + CTA on the left, partner badge top-right, and the slideshow
+   below them as a full-bleed cinematic band. */
+@media (min-width: 1024px) {
   .hero {
     padding-bottom: var(--space-3xl);
   }
 
-  /* heroInner becomes the positioning context for the overlap composition */
   .heroInner {
-    display: block;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    column-gap: var(--space-2xl);
+    row-gap: var(--space-3xl);
   }
 
-  /* Image — right-aligned (flush with the nav), 16/9, capped at 1024px.
-     Pushed down so the carousel starts right below "SCULPTURE" (line 2 of 3)
-     of the overlayed pageTitle. 1.8 = 2 lines × 0.9 line-height. */
-  .heroVisual {
-    margin-left: auto;
-    margin-top: calc(clamp(64px, 14vw, 200px) * 1.8);
-    width: 60%;
-    max-width: 1024px;
-  }
-
-  /* Title + text — absolute, layered over the image's top-left */
   .heroPanel {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    z-index: 2;
-    pointer-events: none;
+    grid-column: 1;
+    grid-row: 1;
   }
 
-  .pageTitle {
-    font-family: var(--font-display);
-    font-size: clamp(40px, 7vw, 150px);
-    line-height: 1;
-    text-transform: uppercase;
-    margin: 0;
-    opacity: 0;
-    animation: fadeSlideUp 1s var(--ease-out-expo) 0.2s forwards;
-  }
-
-  @keyframes fadeSlideUp {
-    from {
-      opacity: 0;
-      transform: translateY(40px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Only interactive children opt back in — keeps the title's box from
-     silently shadowing the carousel controls that sit beneath it. */
-  .heroPanel a,
-  .heroPanel button {
-    pointer-events: auto;
-  }
-
-  /* Top-aligned with the title, anchored to the right edge of heroInner. */
+  /* Badge — top-right of the title row. */
   .heroBadge {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
+    margin-top: 0;
     --partner-badge-scale: 1.65;
+  }
+
+  /* Slideshow — spans both columns but stays within the centred content
+     column (no viewport breakout), so the stage and its control bar line up
+     with the title above. Keeps the default 16/9 stage. */
+  .heroVisual {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+@media (min-width: 1280px) {
+  .heroBadge {
+    --partner-badge-scale: 1.75;
   }
 }
 
 @media (min-width: 1536px) {
   .heroBadge {
     --partner-badge-scale: 1.85;
-  }
-}
-
-@media (min-width: 1792px) {
-  .heroVisual {
-    width: 1024px;
   }
 }
 

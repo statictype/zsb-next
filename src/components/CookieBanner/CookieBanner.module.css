@@ -88,7 +88,7 @@
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   padding: 10px var(--space-md);
-  border-radius: 2px;
+  border-radius: 0;
   cursor: pointer;
   transition: all var(--duration-normal) ease;
   white-space: nowrap;

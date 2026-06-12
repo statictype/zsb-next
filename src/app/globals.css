@@ -39,11 +39,12 @@
 
   /* Layout */
   --content-padding: 16px;
-  --section-padding-y: 60px;
-  /* Double the section rhythm, for sections that need more breathing room than
-     the tightened default (the edition manifesto). Tracks --section-padding-y
-     across breakpoints automatically. */
-  --section-padding-y-double: calc(var(--section-padding-y) * 2);
+  --section-padding-y: 80px;
+  /* A larger section rhythm for sections that need more breathing room than the
+     tightened default (the edition manifesto, About). Decoupled from
+     --section-padding-y so it can run bigger on mobile and flatter on large
+     screens. */
+  --section-padding-y-lg: 100px;
   --max-width: 1800px;
   --grid-gap: 16px;
 
@@ -162,7 +163,7 @@
 
   /* Button — shared */
   --btn-border-width: 2px;
-  --btn-radius: 100px;
+  --btn-radius: 0;
 
   /* Borders — wired through role tokens */
   --border-light: 1px solid var(--divider-light);
@@ -194,6 +195,7 @@
 
     --content-padding: 40px;
     --section-padding-y: 100px;
+    --section-padding-y-lg: 160px;
     --grid-gap: 32px;
     --nav-height: 72px;
     --carousel-height: 60vh;
@@ -280,6 +282,7 @@
 
     --content-padding: 88px;
     --section-padding-y: 120px;
+    --section-padding-y-lg: 180px;
     --grid-gap: 66px;
     --carousel-height: 72vh;
 

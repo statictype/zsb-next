@@ -7,7 +7,7 @@
      re-declare the shared `.section` padding at double the section height.
      (Overriding --section-padding-y itself would be circular: the -double token
      is defined in terms of it.) */
-  padding: var(--section-padding-y-double) var(--content-padding);
+  padding: var(--section-padding-y-lg) var(--content-padding);
 }
 
 .container {

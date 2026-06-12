@@ -271,3 +271,12 @@
     margin-bottom: var(--space-2xl);
   }
 }
+
+@media (min-width: 1440px) {
+  .heroLead {
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    line-height: var(--leading-body);
+    color: var(--gray-200); /* exception: lead emphasis, brighter than --body */
+  }
+}
