@@ -4,12 +4,8 @@ import { Figure } from '@/components/Figure/Figure'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
 import { StripControls } from '@/components/StripControls/StripControls'
 import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
-import type { MediaKitItem } from '@/types/edition'
+import type { MediaKitStripItem } from '@/types/edition'
 import styles from './MediaKitStrip.module.css'
-
-export interface MediaKitStripItem extends MediaKitItem {
-  year: number
-}
 
 interface MediaKitStripProps {
   items: MediaKitStripItem[]

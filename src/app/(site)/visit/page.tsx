@@ -7,7 +7,7 @@ import { VisitSection } from '@/components/VisitSection/VisitSection'
 import { getVisitEdition } from '@/data/editions'
 import { makePageMetadata, visitFaqJsonLd } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
-import { buildFaq, getVisitPage, mapVisit } from '@/sanity/lib/staticPages'
+import { getVisitPage } from '@/sanity/lib/staticPages'
 
 export const generateMetadata = makePageMetadata(getVisitPage, {
   title: 'Visit',
@@ -31,10 +31,10 @@ export default function VisitRoute() {
 async function CachedVisit({ options }: { options: DynamicFetchOptions }) {
   'use cache'
   const [page, visitEdition] = await Promise.all([getVisitPage(options), getVisitEdition(options)])
-  const faq = buildFaq(page)
+  const faq = page?.faq ?? []
   return (
     <>
-      <VisitSection {...mapVisit(page)} />
+      <VisitSection {...(page?.section ?? {})} />
       {/* Venues view only when the resolved edition has a programme to show. */}
       {visitEdition ? (
         <VenuesView year={visitEdition.year} sections={visitEdition.sections} />

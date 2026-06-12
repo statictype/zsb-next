@@ -139,6 +139,13 @@ export interface MediaKitItem {
   image: ImageData
 }
 
+/** A press-kit asset shown in the press page's media strip — a MediaKitItem
+ *  tagged with the edition year it belongs to. Built in the data layer
+ *  (`getEditionsPressKit`) from the raw press-kit query (ZSB-66). */
+export interface MediaKitStripItem extends MediaKitItem {
+  year: number
+}
+
 // ---- External Gallery (for editions whose archive lives off-site) ----
 
 export interface ExternalGalleryData {

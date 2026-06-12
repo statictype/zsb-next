@@ -12,13 +12,12 @@ import { stegaClean } from '@sanity/client/stega'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
-import { MediaKitStrip, type MediaKitStripItem } from '@/components/MediaKitStrip/MediaKitStrip'
+import { MediaKitStrip } from '@/components/MediaKitStrip/MediaKitStrip'
 import { Navigation } from '@/components/Navigation/Navigation'
 import shared from '@/components/Shared.module.css'
 import { makePageMetadata, organizationJsonLd, pressAppearancesJsonLd } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import {
-  type EditionPressKit,
   getEditionsPressKit,
   getPressAppearances,
   getPressPage,
@@ -28,6 +27,7 @@ import {
   type PressRelease,
 } from '@/sanity/lib/press'
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
+import type { MediaKitStripItem } from '@/types/edition'
 import styles from './page.module.css'
 
 export const generateMetadata = makePageMetadata(getPressPage, {
@@ -87,7 +87,7 @@ interface PressShellProps {
   page?: PressPage | null
   appearances?: PressAppearance[]
   releases?: PressRelease[]
-  kit?: EditionPressKit[]
+  kit?: MediaKitStripItem[]
   settings?: SiteSettings | null
 }
 
@@ -95,7 +95,7 @@ function PressShell({ page, appearances, releases, kit, settings }: PressShellPr
   const title = page?.hero?.title ?? ''
   const accent = page?.hero?.titleAccent ?? ''
   const lead = page?.hero?.lead ?? ''
-  const kitItems = kit?.length ? flattenKit(kit) : []
+  const kitItems = kit ?? []
 
   return (
     <>
@@ -225,40 +225,4 @@ function formatBytes(bytes: number | null | undefined): string | null {
   if (!bytes || bytes <= 0) return null
   if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-}
-
-function flattenKit(editions: EditionPressKit[]): MediaKitStripItem[] {
-  const out: MediaKitStripItem[] = []
-  for (const ed of editions) {
-    if (!ed.year) continue
-    if (ed.coverPhoto?.asset?.url) {
-      out.push({
-        year: ed.year,
-        label: 'Photography',
-        name: 'Exhibition Cover',
-        image: {
-          src: ed.coverPhoto.asset.url,
-          alt: ed.coverPhoto.alt ?? `ZSB ${ed.year} cover`,
-          ...(ed.coverPhoto.asset.metadata?.lqip && {
-            blurDataURL: ed.coverPhoto.asset.metadata.lqip,
-          }),
-        },
-      })
-    }
-    if (ed.poster?.asset?.url) {
-      out.push({
-        year: ed.year,
-        label: 'Key Visual',
-        name: 'Official Poster',
-        image: {
-          src: ed.poster.asset.url,
-          alt: ed.poster.alt ?? `ZSB ${ed.year} poster`,
-          ...(ed.poster.asset.metadata?.lqip && {
-            blurDataURL: ed.poster.asset.metadata.lqip,
-          }),
-        },
-      })
-    }
-  }
-  return out
 }

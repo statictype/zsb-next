@@ -34,6 +34,15 @@ export type PartnersPage = Omit<PartnersPageRaw, 'eventImage' | 'whyImage'> & {
   whyImage: ImageData | undefined
 }
 export type VisitPage = NonNullable<VISIT_PAGE_QUERY_RESULT>
+/** The visit page reshaped to what the route renders (ADR 0013): the venue
+ *  section + merged FAQ derived here, with the metadata fields kept top-level so
+ *  the singleton can still back `generateMetadata` (ZSB-66). */
+export interface VisitPageData {
+  metaDescription: VisitPage['metaDescription']
+  ogImage: VisitPage['ogImage']
+  section: VisitData
+  faq: FaqEntry[]
+}
 export type PrivacyPage = NonNullable<PRIVACY_PAGE_QUERY_RESULT>
 
 /**
@@ -66,9 +75,16 @@ export async function getPartnersPage(options: DynamicFetchOptions): Promise<Par
   }
 }
 
-export async function getVisitPage(options: DynamicFetchOptions): Promise<VisitPage | null> {
+export async function getVisitPage(options: DynamicFetchOptions): Promise<VisitPageData | null> {
   'use cache'
-  return (await queryData(VISIT_PAGE_QUERY, options)) ?? null
+  const raw = await queryData(VISIT_PAGE_QUERY, options)
+  if (!raw) return null
+  return {
+    metaDescription: raw.metaDescription,
+    ogImage: raw.ogImage,
+    section: mapVisit(raw),
+    faq: buildFaq(raw),
+  }
 }
 
 export async function getPrivacyPage(options: DynamicFetchOptions): Promise<PrivacyPage | null> {
@@ -77,8 +93,8 @@ export async function getPrivacyPage(options: DynamicFetchOptions): Promise<Priv
 }
 
 // ---- Visit page projections ----
-// getVisitPage returns the raw page (metadata + the FAQ below still read its
-// other fields); these two derive the shapes the view renders from it.
+// Exported for the co-located unit tests (an internal seam); getVisitPage above
+// calls both inside its cache boundary so the page renders the result directly.
 
 /** Project a VisitPage into the runtime shape VisitSection renders. */
 export function mapVisit(page: VisitPage | null): VisitData {
