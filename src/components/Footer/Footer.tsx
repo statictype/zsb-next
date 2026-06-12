@@ -54,26 +54,28 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
             <PartnerBadge />
           </div>
 
-          <nav className={styles.navCol} aria-label="Footer">
-            <h2 className={styles.colTitle}>Connect</h2>
-            {contactHref && <FooterLink href={contactHref}>Contact</FooterLink>}
-            {CONNECT_LINKS.map((link) => (
-              <FooterLink key={link.label} href={link.href}>
-                {link.label}
-              </FooterLink>
-            ))}
-          </nav>
-
-          {socials.length > 0 && (
-            <div className={styles.navCol}>
-              <h2 className={styles.colTitle}>Follow</h2>
-              {socials.map((link) => (
-                <a key={link.label} href={link.href} className={styles.link}>
+          <div className={styles.cols}>
+            <nav className={styles.navCol} aria-label="Footer">
+              <h2 className={styles.colTitle}>Connect</h2>
+              {contactHref && <FooterLink href={contactHref}>Contact</FooterLink>}
+              {CONNECT_LINKS.map((link) => (
+                <FooterLink key={link.label} href={link.href}>
                   {link.label}
-                </a>
+                </FooterLink>
               ))}
-            </div>
-          )}
+            </nav>
+
+            {socials.length > 0 && (
+              <div className={styles.navCol}>
+                <h2 className={styles.colTitle}>Follow</h2>
+                {socials.map((link) => (
+                  <a key={link.label} href={link.href} className={styles.link}>
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
 
           <span className={styles.stamp}>{CATALOG_STAMP}</span>
         </div>
