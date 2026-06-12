@@ -56,6 +56,14 @@
   transform: translateY(0);
 }
 
+/* Mobile: one roomy card with a partial second peeking. Wide enough that the
+   year stays on one line and a long theme just grows the card's height. */
+@media (max-width: 767px) {
+  .card {
+    width: 78vw;
+  }
+}
+
 /* The accent underline — footer-style. Grows to full width on hover (pink),
    sits persistent on the current edition (chartreuse). */
 .card::after {
