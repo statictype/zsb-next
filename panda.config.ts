@@ -59,9 +59,9 @@ const badge = defineRecipe({
       highlight: { bg: 'highlight', color: 'black' },
       outline: {
         color: 'highlight',
-        bg: 'rgb(0 0 0 / 0.35)',
+        bg: 'scrim',
         borderWidth: '1px',
-        borderColor: 'color-mix(in oklch, oklch(87.9% 0.1981 115) 32%, transparent)',
+        borderColor: 'highlightFaint',
       },
       muted: { color: 'muted', borderWidth: '1px', borderColor: 'divider' },
       dark: { bg: 'gray.800', color: 'white' },
@@ -72,7 +72,7 @@ const badge = defineRecipe({
     },
     elevated: {
       true: {
-        boxShadow: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)',
+        boxShadow: 'badge',
         transform: 'rotate(-0.7deg)',
       },
     },
@@ -284,7 +284,7 @@ const iconButton = defineRecipe({
     tone: {
       default: { color: 'heading', _hover: { _enabled: { color: 'action' } } },
       media: {
-        color: 'rgb(255 255 255 / 0.55)',
+        color: 'onMedia',
         _hover: { _enabled: { color: 'white' } },
       },
     },
@@ -325,7 +325,7 @@ const card = defineRecipe({
         background: 'surfaceLight',
         borderWidth: '1px',
         borderColor: 'dividerLight',
-        boxShadow: '0 2px 12px rgb(0 0 0 / 0.03)',
+        boxShadow: 'card',
       },
     },
     interactive: {
@@ -428,6 +428,12 @@ export default defineConfig({
           expo: { value: 'cubic-bezier(0.16, 1, 0.3, 1)' },
           quint: { value: 'cubic-bezier(0.23, 1, 0.32, 1)' },
         },
+        // The two primitive shadows the audit found inlined (ad-hoc opacities):
+        // the Card's faint lift and the Badge's pinned-paper elevation.
+        shadows: {
+          card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
+          badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
+        },
       },
       semanticTokens: {
         colors: {
@@ -442,6 +448,12 @@ export default defineConfig({
           dividerLight: { value: '{colors.gray.200}' },
           action: { value: '{colors.pink}' },
           highlight: { value: '{colors.chartreuse}' },
+          // Translucent overlays — close the audit's "ad-hoc opacity / untokenized
+          // badge tone" gaps. Alpha (not the solid gray ramp) because these layer
+          // over imagery, where the ground must read through.
+          scrim: { value: 'rgb(0 0 0 / 0.35)' }, // backdrop behind chips/badges on media
+          highlightFaint: { value: 'color-mix(in oklch, {colors.chartreuse} 32%, transparent)' }, // chartreuse hairline
+          onMedia: { value: 'rgb(255 255 255 / 0.55)' }, // dimmed control foreground over imagery
         },
         // Stepped-responsive tokens: faithful to the :root media-query overrides.
         fontSizes: {
