@@ -246,6 +246,52 @@ const textLink = defineRecipe({
   defaultVariants: { underline: 'draw' },
 })
 
+/**
+ * IconButton — unified square icon control (ZSB-71).
+ * Collapses the StripControls prev/next, the HeroSlideshow nav (prev/toggle/next),
+ * and the Lightbox close + prev/next into one recipe: `size` (sm | md | lg, the
+ * 40 / 44 / responsive --btn-size scale) × `tone` (default | media). Per-control
+ * icon motion (arrow nudge, close rotate) stays a consumer concern via the shared
+ * `transform` transition in the base — the primitive owns only chrome + states.
+ */
+const iconButton = defineRecipe({
+  className: 'iconbtn',
+  description:
+    'Unified icon control — replaces StripControls / Slideshow / Lightbox arrows + close',
+  base: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '0',
+    background: 'transparent',
+    borderWidth: '0',
+    cursor: 'pointer',
+    transition: 'color {durations.normal} ease, transform {durations.normal} {easings.expo}',
+    _disabled: { opacity: '0.5', cursor: 'not-allowed' },
+    _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
+  },
+  variants: {
+    size: {
+      sm: { width: '40px', height: '40px' },
+      md: { width: '44px', height: '44px' },
+      lg: {
+        width: { base: '48px', md: '56px', lg: '64px' },
+        height: { base: '48px', md: '56px', lg: '64px' },
+      },
+    },
+    /** Resting/hover colour. `default` sits on the canvas; `media` is the dimmed
+     *  translucent-white treatment for controls layered over imagery. */
+    tone: {
+      default: { color: 'heading', _hover: { _enabled: { color: 'action' } } },
+      media: {
+        color: 'rgb(255 255 255 / 0.55)',
+        _hover: { _enabled: { color: 'white' } },
+      },
+    },
+  },
+  defaultVariants: { size: 'md', tone: 'default' },
+})
+
 export default defineConfig({
   // Panda's CSS reset is intentionally OFF — the site keeps its existing global
   // styles during the incremental migration; we don't want a reset mid-flight.
@@ -385,7 +431,7 @@ export default defineConfig({
           },
         },
       },
-      recipes: { badge, eyebrow, button, textLink },
+      recipes: { badge, eyebrow, button, textLink, iconButton },
     },
   },
 })
