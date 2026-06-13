@@ -52,9 +52,12 @@ Two paths. The **primary** one is Sanity: images authored in the Studio are stor
 
 ## Styling
 
-- **CSS Modules only.** No Tailwind, no CSS-in-JS. Co-locate `ComponentName.module.css` next to `ComponentName.tsx`.
-- **Tokens live in `src/app/globals.css`** — that file is the source of truth. Mobile-first; stepped breakpoints at 768 / 1024 / 1280 / 1440 / 1536 / 1792. Nine typography/spacing tokens use `clamp()` across 320→1792.
-- **Use semantic role tokens, not raw grays.** Components should reach for `--canvas`, `--surface-light`, `--heading`, `--heading-light`, `--body`, `--body-light`, `--muted`, `--divider`, `--divider-light`, `--action`, `--highlight`. Raw `--gray-*` is a utility scale for rare exceptions.
+**Mid-migration: Panda CSS is being adopted; CSS Modules are legacy but still everywhere.** New work uses Panda; existing CSS Modules are migrated opportunistically. The two coexist (see [ADR 0017](./docs/adr/0017-panda-css-with-oklch-token-theme.md)). No Tailwind.
+
+- **Panda CSS** (zero-runtime, `panda.config.ts`). Author styles with `css()` / `cx()` from `styled-system/css`; build variant-driven primitives as **recipes** (e.g. `src/components/ui/Badge`). Tokens live in the Panda theme (`panda.config.ts`): colors in **OKLCH** (brand anchors + a gray ramp *generated* from one anchor), plus the spacing/type/easing scales. After config changes run `pnpm exec panda codegen`; `styled-system/` is generated (gitignored), regenerated on `prepare`. `preflight` is off (no reset mid-migration).
+- **CSS Modules (legacy).** Co-located `ComponentName.module.css`; composing via `composes:`. Not deleted — migrate to Panda when you touch a component. `src/app/globals.css` still holds the legacy `--*` token vars for everything not yet migrated; its tokens emit under a different namespace than Panda's `--colors-*` / `--spacing-*`, so the two never collide.
+- **Use semantic role tokens, not raw grays.** In Panda: `canvas`, `surfaceLight`, `heading`, `headingLight`, `body`, `bodyLight`, `muted`, `divider`, `dividerLight`, `action`, `highlight`. Legacy CSS Modules use the matching `--canvas` … `--highlight` vars. Raw gray scale is a utility for rare exceptions. (Enforcement coming in [ZSB-75].)
+- **Breakpoints** are mobile-first and stepped at 768 / 1024 / 1280 / 1440 / 1536 / 1792 in both systems; fluid type/spacing use `clamp()`.
 - **Typography utilities** are in `src/components/Shared.module.css` (compose via `composes:`). The section primitives (`.section`, `.sectionDark`, `.sectionLight`, `.sectionInner`) standardize section layout.
 - **Fonts** are loaded via `next/font/google` in `src/app/layout.tsx`: Dela Gothic One (`--font-display`) and Montserrat (`--font-body`).
 

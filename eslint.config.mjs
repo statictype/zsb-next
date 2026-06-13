@@ -42,6 +42,7 @@ export default [
       'sanity.types.ts',
       'schema.json',
       'node_modules/**',
+      'styled-system/**',
     ],
   },
 ]

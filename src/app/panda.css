@@ -1,0 +1,3 @@
+/* Panda entry — declares cascade-layer order; the Panda PostCSS plugin injects
+   generated tokens/recipes/utilities into these layers. Imported from layout. */
+@layer reset, base, tokens, recipes, utilities;

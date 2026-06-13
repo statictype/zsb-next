@@ -21,7 +21,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "styled-system": ["./styled-system"],
+      "styled-system/*": ["./styled-system/*"]
     }
   },
   "include": [

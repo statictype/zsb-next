@@ -1,22 +1,140 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
-import styles from './not-found.module.css'
+import { css, cx } from 'styled-system/css'
+
+// Migrated off CSS Modules / globals.css tokens onto Panda CSS (ZSB-70 proof
+// of incremental coexistence). Tokens (colors, spacing, type, easings) and the
+// keyframes resolve from panda.config.ts; the rest of the site still uses CSS
+// Modules in parallel.
+
+const EXPO = 'cubic-bezier(0.16, 1, 0.3, 1)'
+
+const page = css({
+  position: 'relative',
+  minH: '100svh',
+  display: 'flex',
+  flexDir: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  bg: 'canvas',
+  overflow: 'hidden',
+  paddingBlock: 'xl',
+  paddingInline: 'content',
+})
+
+const vignette = css({
+  position: 'absolute',
+  inset: '0',
+  background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 1) 100%)',
+  pointerEvents: 'none',
+})
+
+const glow = css({
+  position: 'absolute',
+  w: '600px',
+  h: '600px',
+  borderRadius: 'circle',
+  filter: 'blur(160px)',
+  opacity: '0.12',
+  pointerEvents: 'none',
+  animation: 'glowDrift 12s ease-in-out infinite',
+})
+
+const glowPink = css({ bg: 'action', top: '20%', left: '15%' })
+const glowChartreuse = css({
+  bg: 'highlight',
+  bottom: '10%',
+  right: '10%',
+  animationDelay: '-6s',
+})
+
+const content = css({
+  position: 'relative',
+  zIndex: '10',
+  textAlign: 'center',
+  maxW: '680px',
+})
+
+const code = css({
+  fontFamily: 'display',
+  fontSize: 'clamp(120px, 25vw, 280px)',
+  lineHeight: 'display',
+  color: 'white',
+  letterSpacing: '-6px',
+  opacity: '0',
+  animation: `fadeSlideUp 1s ${EXPO} 0.1s forwards`,
+})
+
+const divider = css({
+  w: '48px',
+  h: '2px',
+  bg: 'highlight',
+  marginTop: 'lg',
+  marginInline: 'auto',
+  marginBottom: 'xl',
+  opacity: '0',
+  animation: `fadeSlideUp 1s ${EXPO} 0.25s forwards`,
+})
+
+const title = css({
+  fontFamily: 'display',
+  fontSize: 'lg',
+  textTransform: 'uppercase',
+  letterSpacing: 'label',
+  color: 'white',
+  marginBottom: 'md',
+  opacity: '0',
+  animation: `fadeSlideUp 1s ${EXPO} 0.35s forwards`,
+})
+
+const subtitle = css({
+  fontFamily: 'body',
+  fontSize: 'sm',
+  color: 'body',
+  textTransform: 'uppercase',
+  letterSpacing: 'label',
+  marginBottom: '2xl',
+  opacity: '0',
+  animation: `fadeSlideUp 1s ${EXPO} 0.45s forwards`,
+})
+
+const cta = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 'sm',
+  fontFamily: 'body',
+  fontSize: '2xs',
+  textTransform: 'uppercase',
+  letterSpacing: 'label',
+  color: 'white',
+  border: '1px solid token(colors.divider)',
+  paddingBlock: '14px',
+  paddingInline: '28px',
+  opacity: '0',
+  animation: `fadeSlideUp 1s ${EXPO} 0.55s forwards`,
+  transition: 'color {durations.normal} ease, border-color {durations.normal} ease',
+  '& svg': { transition: 'transform {durations.normal} ease' },
+  _hover: {
+    borderColor: 'action',
+    color: 'action',
+    '& svg': { transform: 'translateX(4px)' },
+  },
+})
 
 export default function NotFound() {
   return (
-    <div className={styles.page}>
-      <div className={styles.noise} />
-      <div className={styles.vignette} />
-      <div className={`${styles.glow} ${styles.glowPink}`} />
-      <div className={`${styles.glow} ${styles.glowChartreuse}`} />
+    <div className={page}>
+      <div className={vignette} />
+      <div className={cx(glow, glowPink)} />
+      <div className={cx(glow, glowChartreuse)} />
 
-      <div className={styles.content}>
-        <div className={styles.code}>404</div>
-        <div className={styles.divider} />
-        <h1 className={styles.title}>This space is empty</h1>
-        <p className={styles.subtitle}>Like an exhibition between shows</p>
-        <Link href="/" className={styles.cta}>
-          Return Home <RiArrowRightLine size={14} className={styles.ctaArrow} />
+      <div className={content}>
+        <div className={code}>404</div>
+        <div className={divider} />
+        <h1 className={title}>This space is empty</h1>
+        <p className={subtitle}>Like an exhibition between shows</p>
+        <Link href="/" className={cta}>
+          Return Home <RiArrowRightLine size={14} />
         </Link>
       </div>
     </div>
