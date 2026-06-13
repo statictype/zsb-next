@@ -1,7 +1,8 @@
-import Image, { type ImageProps } from 'next/image'
+import { type ImageProps } from 'next/image'
 import shared from '@/components/Shared.module.css'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import type { ImageData } from '@/types/edition'
+import { FallbackImage } from './FallbackImage'
 
 /**
  * The render mirror of {@link toImageData}: takes a runtime `ImageData` and
@@ -15,6 +16,8 @@ import type { ImageData } from '@/types/edition'
  * placeholder. Pass a possibly-missing image only when the placeholder is the
  * intended fallback (optional singleton-page images); when absence means
  * something else (an event poster's date watermark), branch before Figure.
+ * Runtime load failures (a dead CDN asset, optimizer error) fall back to the
+ * same placeholder via {@link FallbackImage}.
  *
  * Contract: render this inside a `position: relative; overflow: hidden` frame.
  * The skeleton sits behind the image (inset:0) and the loaded image paints on
@@ -32,15 +35,12 @@ export function Figure({ image, sizes, ...rest }: FigureProps) {
   return (
     <>
       <span aria-hidden className={shared.skeleton} />
-      <Image
+      <FallbackImage
         src={data.src}
         alt={data.alt}
-        fill
         sizes={sizes}
+        blurDataURL={data.blurDataURL}
         {...rest}
-        {...(data.blurDataURL
-          ? { placeholder: 'blur' as const, blurDataURL: data.blurDataURL }
-          : {})}
       />
     </>
   )
