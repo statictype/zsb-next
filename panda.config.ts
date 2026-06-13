@@ -80,6 +80,50 @@ const badge = defineRecipe({
   defaultVariants: { tone: 'highlight', size: 'md' },
 })
 
+/**
+ * Eyebrow — unified kicker/label above headings (ZSB-71).
+ * Collapses `.eyebrowMuted` (with decorative rule), the StripControls eyebrow
+ * (muted, no rule) and the FeaturedEvents eyebrow (highlight, smaller) into one
+ * recipe: `tone` × `size` × `rule`. The rule inherits the text color.
+ */
+const eyebrow = defineRecipe({
+  className: 'eyebrow',
+  description:
+    'Unified eyebrow/kicker — replaces .eyebrowMuted + StripControls/FeaturedEvents eyebrows',
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '16px',
+    fontFamily: 'body',
+    textTransform: 'uppercase',
+    letterSpacing: 'wide',
+    lineHeight: 'heading',
+    color: 'muted',
+  },
+  variants: {
+    tone: {
+      muted: { color: 'muted' },
+      highlight: { color: 'highlight' },
+    },
+    size: {
+      sm: { fontSize: '2xs' },
+      md: { fontSize: 'xs' },
+    },
+    rule: {
+      true: {
+        _before: {
+          content: '""',
+          width: '40px',
+          height: '2px',
+          background: 'currentColor',
+          flexShrink: '0',
+        },
+      },
+    },
+  },
+  defaultVariants: { tone: 'muted', size: 'md', rule: false },
+})
+
 export default defineConfig({
   // Panda's CSS reset is intentionally OFF — the site keeps its existing global
   // styles during the incremental migration; we don't want a reset mid-flight.
@@ -191,6 +235,7 @@ export default defineConfig({
         // Stepped-responsive tokens: faithful to the :root media-query overrides.
         fontSizes: {
           '2xs': { value: { base: '8px', lg: '9px', '4xl': '10px' } },
+          xs: { value: { base: '10px', lg: '11px' } },
           sm: { value: { base: '12px', '4xl': '13px' } },
         },
         spacing: {
@@ -218,7 +263,7 @@ export default defineConfig({
           },
         },
       },
-      recipes: { badge },
+      recipes: { badge, eyebrow },
     },
   },
 })
