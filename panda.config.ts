@@ -56,14 +56,11 @@ const badge = defineRecipe({
   },
   variants: {
     tone: {
+      // Solid chartreuse fill, chartreuse hairline chip, solid dark fill. The
+      // old `outline` (chartreuse) and `muted` (gray) hairlines were the same
+      // role on different grounds — collapsed to one brand-forward hairline.
       highlight: { bg: 'highlight', color: 'black' },
-      outline: {
-        color: 'highlight',
-        bg: 'scrim',
-        borderWidth: '1px',
-        borderColor: 'highlightFaint',
-      },
-      muted: { color: 'muted', borderWidth: '1px', borderColor: 'divider' },
+      outline: { color: 'highlight', borderWidth: '1px', borderColor: 'highlightFaint' },
       dark: { bg: 'gray.800', color: 'white' },
     },
     size: {
@@ -262,6 +259,10 @@ const iconButton = defineRecipe({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
+    // One size: 44px, the WCAG tap-target floor. The old 40/44/48 spread was
+    // drift, not deliberate — the control reads the same everywhere now.
+    width: '44px',
+    height: '44px',
     padding: '0',
     background: 'transparent',
     borderWidth: '0',
@@ -271,14 +272,6 @@ const iconButton = defineRecipe({
     _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
   },
   variants: {
-    size: {
-      sm: { width: '40px', height: '40px' },
-      md: { width: '44px', height: '44px' },
-      lg: {
-        width: { base: '48px', md: '56px', lg: '64px' },
-        height: { base: '48px', md: '56px', lg: '64px' },
-      },
-    },
     /** Resting/hover colour. `default` sits on the canvas; `media` is the dimmed
      *  translucent-white treatment for controls layered over imagery. */
     tone: {
@@ -289,22 +282,21 @@ const iconButton = defineRecipe({
       },
     },
   },
-  defaultVariants: { size: 'md', tone: 'default' },
+  defaultVariants: { tone: 'default' },
 })
 
 /**
- * Card — base contained-surface shell (ZSB-71).
- * Backs the FeaturedEvents poster frame, the EditionsNav hairline box, and the
- * IsdayBadge surface. Owns only the shared shell: a clipped, relatively-positioned
- * flex column with its own stacking context (so scrims / stamps / stretched links
- * layer predictably). `surface` (bare | dark | light) is the frame treatment;
- * `interactive` flags a hoverable target. Per-consumer hover motion (image zoom,
- * underline-grow) stays a consumer concern — the shell owns chrome, not motion.
+ * Card — the one unified card (ZSB-71).
+ * Every card on the site is the same object: a hairline-bordered surface — ZSB's
+ * signature is that hairline box. `ground` carries the one hairline language onto
+ * black (`onDark`) or white (`onLight`); `interactive` adds the single normalized
+ * hover shared by all cards (the hairline warms to the accent + a small lift).
+ * The shell owns chrome + that hover; title-colour shifts and image zoom stay
+ * consumer concerns. Backs editions / events / editions-nav / gallery cards.
  */
 const card = defineRecipe({
   className: 'card',
-  description:
-    'Base card shell — replaces the FeaturedEvents / EditionsNav / IsdayBadge containers',
+  description: 'Unified hairline card — editions / events / editions-nav / gallery',
   base: {
     position: 'relative',
     display: 'flex',
@@ -313,26 +305,27 @@ const card = defineRecipe({
     isolation: 'isolate',
     color: 'inherit',
     textDecoration: 'none',
+    borderWidth: '1px',
+    borderStyle: 'solid',
   },
   variants: {
-    /** The frame treatment: `bare` lets an image be the frame (FeaturedEvents),
-     *  `dark` is a hairline box on black (EditionsNav), `light` a bordered surface
-     *  with a faint lift on a light ground (IsdayBadge). */
-    surface: {
-      bare: { background: 'transparent' },
-      dark: { background: 'transparent', borderWidth: '1px', borderColor: 'divider' },
-      light: {
-        background: 'surfaceLight',
-        borderWidth: '1px',
-        borderColor: 'dividerLight',
-        boxShadow: 'card',
+    /** The ground the hairline sits on — the same box language on either. */
+    ground: {
+      onDark: { background: 'transparent', borderColor: 'divider' },
+      onLight: { background: 'surfaceLight', borderColor: 'dividerLight', boxShadow: 'card' },
+    },
+    /** The one hover every card shares: hairline → accent + a small lift.
+     *  GPU-safe (border-color + transform only). */
+    interactive: {
+      true: {
+        cursor: 'pointer',
+        transition:
+          'border-color {durations.normal} {easings.expo}, transform {durations.medium} {easings.expo}',
+        _hover: { borderColor: 'action', transform: 'translateY(-2px)' },
       },
     },
-    interactive: {
-      true: { cursor: 'pointer' },
-    },
   },
-  defaultVariants: { surface: 'dark', interactive: false },
+  defaultVariants: { ground: 'onDark', interactive: false },
 })
 
 export default defineConfig({
@@ -374,6 +367,9 @@ export default defineConfig({
           lightPink: { value: 'oklch(91.3% 0.0492 343)' },
           chartreuse: { value: 'oklch(87.9% 0.1981 115)' },
           black: { value: 'oklch(15.6% 0.0115 312)' },
+          // True black. The brand `black` is intentionally magenta-tinted ink;
+          // a few surfaces (the events board) want a pure, un-tinted ground.
+          blackPure: { value: '#000' },
           white: { value: '#fff' },
         },
         fonts: {
@@ -448,10 +444,9 @@ export default defineConfig({
           dividerLight: { value: '{colors.gray.200}' },
           action: { value: '{colors.pink}' },
           highlight: { value: '{colors.chartreuse}' },
-          // Translucent overlays — close the audit's "ad-hoc opacity / untokenized
-          // badge tone" gaps. Alpha (not the solid gray ramp) because these layer
-          // over imagery, where the ground must read through.
-          scrim: { value: 'rgb(0 0 0 / 0.35)' }, // backdrop behind chips/badges on media
+          // Two purposeful translucent roles (the audit's scattered ad-hoc
+          // opacities collapse to these). `highlightFaint` references the
+          // chartreuse anchor so the brand hue stays single-sourced.
           highlightFaint: { value: 'color-mix(in oklch, {colors.chartreuse} 32%, transparent)' }, // chartreuse hairline
           onMedia: { value: 'rgb(255 255 255 / 0.55)' }, // dimmed control foreground over imagery
         },

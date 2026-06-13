@@ -3,12 +3,13 @@ import { cx } from 'styled-system/css'
 import { type CardVariantProps, card } from 'styled-system/recipes'
 
 /**
- * Card — base contained-surface shell (ZSB-71).
+ * Card — the one unified card (ZSB-71).
  *
- * Backs the FeaturedEvents poster frame, the EditionsNav hairline box, and the
- * IsdayBadge surface. `surface` (bare|dark|light) × `interactive` live in the
- * Panda `card` recipe. Pass `as={Link}` (with `href`) for a navigable card;
- * per-consumer hover motion stays on the consumer via `className`.
+ * Every card on the site is a hairline-bordered surface (ZSB's signature).
+ * `ground` (onDark|onLight) × `interactive` live in the Panda `card` recipe;
+ * `interactive` adds the single shared hover (hairline → accent + lift). Pass
+ * `as={Link}` (with `href`) for a navigable card; per-consumer motion
+ * (title-colour, image zoom) stays on the consumer via `className`.
  */
 type CardProps = CardVariantProps &
   HTMLAttributes<HTMLElement> & {
@@ -18,6 +19,6 @@ type CardProps = CardVariantProps &
     href?: string
   }
 
-export function Card({ surface, interactive, className, as: Tag = 'div', ...rest }: CardProps) {
-  return <Tag className={cx(card({ surface, interactive }), className)} {...rest} />
+export function Card({ ground, interactive, className, as: Tag = 'div', ...rest }: CardProps) {
+  return <Tag className={cx(card({ ground, interactive }), className)} {...rest} />
 }
