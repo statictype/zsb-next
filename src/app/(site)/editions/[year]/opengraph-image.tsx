@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 import { getAllEditionYears, getEdition } from '@/data/editions'
-import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
+import { asciiFold, BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
 
 // Per-edition share card. If the editor set a Custom share image it's rendered
 // full-bleed (they designed it); otherwise the hero photo gets a gradient scrim
@@ -37,8 +37,9 @@ export default async function Image({ params }: { params: Promise<{ year: string
   }
 
   const [fonts, logo] = await Promise.all([loadOgFonts(), loadOgLogo(BRAND.heading)])
-  const theme = edition?.theme ?? ''
-  const dates = edition?.dateTape.split(' · ')[0] ?? ''
+  // Fold diacritics — the OG fonts are basic-Latin subsets (see asciiFold).
+  const theme = asciiFold(edition?.theme ?? '')
+  const dates = asciiFold(edition?.dateTape.split(' · ')[0] ?? '')
   const hero = edition?.heroImage.src
 
   return new ImageResponse(

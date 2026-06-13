@@ -21,10 +21,21 @@ export const BRAND = {
 } as const
 
 /**
+ * Fold Romanian (and any) diacritics to ASCII for the OG cards. The embedded
+ * fonts are basic-Latin subsets, so a glyph like `ă` would otherwise trigger
+ * next/og's dynamic Google-font fetch — which rejects during prerender under
+ * `cacheComponents` (HANGING_PROMISE_REJECTION). Cards are share images, so
+ * `Grădina` → `Gradina` is an acceptable trade for a clean, self-contained build.
+ */
+export function asciiFold(text: string): string {
+  // NFD splits accented letters into base + combining mark; drop the marks.
+  return text.normalize('NFD').replace(/[̀-ͯ]/g, '')
+}
+
+/**
  * The site's two typefaces as ImageResponse font descriptors. Dela Gothic One
- * (display) is listed first; Montserrat (weights 600/700) covers body text and
- * acts as the glyph fallback for characters Dela Gothic lacks (e.g. Romanian
- * diacritics in theme strings).
+ * (display) is listed first; Montserrat (weights 600/700) covers body text.
+ * Both are basic-Latin subsets — fold copy through `asciiFold` before rendering.
  */
 export async function loadOgFonts() {
   const [dela, montserrat600, montserrat700] = await Promise.all([
