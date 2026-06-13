@@ -292,6 +292,49 @@ const iconButton = defineRecipe({
   defaultVariants: { size: 'md', tone: 'default' },
 })
 
+/**
+ * Card — base contained-surface shell (ZSB-71).
+ * Backs the FeaturedEvents poster frame, the EditionsNav hairline box, and the
+ * IsdayBadge surface. Owns only the shared shell: a clipped, relatively-positioned
+ * flex column with its own stacking context (so scrims / stamps / stretched links
+ * layer predictably). `surface` (bare | dark | light) is the frame treatment;
+ * `interactive` flags a hoverable target. Per-consumer hover motion (image zoom,
+ * underline-grow) stays a consumer concern — the shell owns chrome, not motion.
+ */
+const card = defineRecipe({
+  className: 'card',
+  description:
+    'Base card shell — replaces the FeaturedEvents / EditionsNav / IsdayBadge containers',
+  base: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    isolation: 'isolate',
+    color: 'inherit',
+    textDecoration: 'none',
+  },
+  variants: {
+    /** The frame treatment: `bare` lets an image be the frame (FeaturedEvents),
+     *  `dark` is a hairline box on black (EditionsNav), `light` a bordered surface
+     *  with a faint lift on a light ground (IsdayBadge). */
+    surface: {
+      bare: { background: 'transparent' },
+      dark: { background: 'transparent', borderWidth: '1px', borderColor: 'divider' },
+      light: {
+        background: 'surfaceLight',
+        borderWidth: '1px',
+        borderColor: 'dividerLight',
+        boxShadow: '0 2px 12px rgb(0 0 0 / 0.03)',
+      },
+    },
+    interactive: {
+      true: { cursor: 'pointer' },
+    },
+  },
+  defaultVariants: { surface: 'dark', interactive: false },
+})
+
 export default defineConfig({
   // Panda's CSS reset is intentionally OFF — the site keeps its existing global
   // styles during the incremental migration; we don't want a reset mid-flight.
@@ -431,7 +474,7 @@ export default defineConfig({
           },
         },
       },
-      recipes: { badge, eyebrow, button, textLink, iconButton },
+      recipes: { badge, eyebrow, button, textLink, iconButton, card },
     },
   },
 })
