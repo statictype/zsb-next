@@ -199,6 +199,53 @@ const button = defineRecipe({
   defaultVariants: { variant: 'solid', size: 'md' },
 })
 
+/**
+ * TextLink — unified inline link primitive (ZSB-71).
+ * Collapses the Footer underline-draw, the FeaturedEvents bottom-border link and
+ * the MagneticButton "secondary" into `underline` (draw | border | quiet).
+ * (The Navigation pill is button-shaped → stays a Button concern.)
+ */
+const textLink = defineRecipe({
+  className: 'textlink',
+  description:
+    'Unified inline text link — replaces Footer / FeaturedEvents / secondary link styles',
+  base: {
+    position: 'relative',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 'sm',
+    color: 'inherit',
+    textDecoration: 'none',
+    cursor: 'pointer',
+    transition: 'color {durations.normal} ease',
+  },
+  variants: {
+    underline: {
+      draw: {
+        _after: {
+          content: '""',
+          position: 'absolute',
+          left: '0',
+          bottom: '-3px',
+          width: '0',
+          height: '1px',
+          background: 'action',
+          transition: 'width {durations.normal} {easings.expo}',
+        },
+        _hover: { color: 'heading', _after: { width: '100%' } },
+      },
+      border: {
+        borderBottomWidth: '1px',
+        borderBottomColor: 'divider',
+        paddingBottom: 'xs',
+        _hover: { color: 'action', borderBottomColor: 'action' },
+      },
+      quiet: { _hover: { color: 'action' } },
+    },
+  },
+  defaultVariants: { underline: 'draw' },
+})
+
 export default defineConfig({
   // Panda's CSS reset is intentionally OFF — the site keeps its existing global
   // styles during the incremental migration; we don't want a reset mid-flight.
@@ -338,7 +385,7 @@ export default defineConfig({
           },
         },
       },
-      recipes: { badge, eyebrow, button },
+      recipes: { badge, eyebrow, button, textLink },
     },
   },
 })
