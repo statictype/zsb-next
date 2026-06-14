@@ -1,5 +1,6 @@
 import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -19,7 +20,7 @@ import { SITE_DESCRIPTION } from '@/lib/constants'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
 import { type EditionListItem } from '@/sanity/lib/editions'
-import { getHomepage, type Homepage } from '@/sanity/lib/homepage'
+import { getHomepage, type HomeView } from '@/sanity/lib/homepage'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import type { CalendarEvent } from '@/types/edition'
 import styles from './page.module.css'
@@ -35,9 +36,7 @@ export async function generateMetadata() {
 }
 
 export default function HomePage() {
-  return (
-    <DraftAware cached={(options) => <CachedHome options={options} />} fallback={<HomeShell />} />
-  )
+  return <DraftAware cached={(options) => <CachedHome options={options} />} fallback={null} />
 }
 
 async function CachedHome({ options }: { options: DynamicFetchOptions }) {
@@ -48,28 +47,31 @@ async function CachedHome({ options }: { options: DynamicFetchOptions }) {
     getHeroUpcoming(options),
     getFeaturedEvents(options),
   ])
-  return <HomeShell home={home} editions={editions} upcoming={upcoming} featured={featured} />
+  if (!home) notFound()
+  return <HomeShell view={home} editions={editions} upcoming={upcoming} featured={featured} />
 }
 
 interface HomeShellProps {
-  home?: Homepage | null
-  editions?: EditionListItem[]
+  view: HomeView
+  editions: EditionListItem[]
   /** Set when the hero switch leads with Upcoming and a next edition exists. */
-  upcoming?: UpcomingHero | null
+  upcoming: UpcomingHero | null
   /** Newest live edition's featured events; past ones hidden client-side. */
-  featured?: { year: number; events: CalendarEvent[] } | undefined
+  featured: { year: number; events: CalendarEvent[] } | undefined
 }
 
-function HomeShell({ home, editions, upcoming, featured }: HomeShellProps = {}) {
-  const title = home?.heroTitle ?? ''
-  const accent = home?.heroTitleAccent ?? ''
-  const lead = home?.heroLead ?? ''
-  const ctaLabel = home?.heroCtaLabel ?? ''
-  const ctaYear = home?.heroCtaEditionYear
-  const editionsIntro = home?.editionsIntro ?? ''
-  const slides = home?.slideshow ?? []
+function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
+  const {
+    heroTitle: title,
+    heroTitleAccent: accent,
+    heroLead: lead,
+    heroCtaLabel: ctaLabel,
+    heroCtaEditionYear: ctaYear,
+    editionsIntro,
+    slideshow: slides,
+  } = view
   const slideshow = slides.length > 0 ? slides : [{ ...PLACEHOLDER_IMAGE, position: 'center' }]
-  const list = editions ?? []
+  const list = editions
 
   return (
     <>

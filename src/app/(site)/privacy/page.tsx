@@ -1,4 +1,5 @@
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
+import { notFound } from 'next/navigation'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -6,7 +7,7 @@ import { Navigation } from '@/components/Navigation/Navigation'
 import shared from '@/components/Shared.module.css'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
-import { getPrivacyPage, type PrivacyPage } from '@/sanity/lib/staticPages'
+import { getPrivacyPage, type PrivacyView } from '@/sanity/lib/staticPages'
 import styles from './page.module.css'
 
 export const generateMetadata = makePageMetadata(getPrivacyPage, {
@@ -43,26 +44,18 @@ const portableTextComponents: PortableTextComponents = {
 }
 
 export default function PrivacyRoute() {
-  return (
-    <DraftAware
-      cached={(options) => <CachedPrivacy options={options} />}
-      fallback={<PrivacyShell />}
-    />
-  )
+  return <DraftAware cached={(options) => <CachedPrivacy options={options} />} fallback={null} />
 }
 
 async function CachedPrivacy({ options }: { options: DynamicFetchOptions }) {
   'use cache'
   const page = await getPrivacyPage(options)
-  return <PrivacyShell page={page} />
+  if (!page) notFound()
+  return <PrivacyShell view={page} />
 }
 
-function PrivacyShell({ page }: { page?: PrivacyPage | null } = {}) {
-  const title = page?.hero?.title ?? ''
-  const accent = page?.hero?.titleAccent ?? ''
-  const lead = page?.hero?.lead ?? ''
-  const body = page?.body ?? null
-  const updatedAt = page?.updatedAt ?? ''
+function PrivacyShell({ view }: { view: PrivacyView }) {
+  const { hero, body, updatedAt } = view
 
   return (
     <>
@@ -71,16 +64,16 @@ function PrivacyShell({ page }: { page?: PrivacyPage | null } = {}) {
         <section className={shared.pageHero}>
           <div className={shared.sectionInner}>
             <h1 className={shared.pageTitle}>
-              <AccentSplit text={title} accent={accent} />
+              <AccentSplit text={hero.title} accent={hero.titleAccent} />
             </h1>
-            <p className={shared.lead}>{lead}</p>
+            <p className={shared.lead}>{hero.lead}</p>
           </div>
         </section>
 
         <section className={`${shared.sectionDark} ${styles.body}`}>
           <div className={shared.sectionInner}>
             <article className={styles.article}>
-              {body && <PortableText value={body} components={portableTextComponents} />}
+              {body.length > 0 && <PortableText value={body} components={portableTextComponents} />}
 
               <h2>Change your mind</h2>
               <p>You can withdraw or update your consent at any time:</p>

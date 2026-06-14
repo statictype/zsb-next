@@ -7,7 +7,14 @@ vi.mock('./live', () => ({
   queryData: async () => null,
 }))
 
-import { buildFaq, mapVisit, normalizeAbout, type VisitPage } from './staticPages'
+import {
+  buildFaq,
+  mapVisit,
+  normalizeAbout,
+  normalizePartners,
+  normalizePrivacy,
+  type VisitPage,
+} from './staticPages'
 
 // buildFaq / mapVisit only read a handful of fields off the page; the cast
 // keeps fixtures small without reconstructing the full generated query type.
@@ -129,5 +136,37 @@ describe('normalizeAbout', () => {
     expect(view.notFestivalTitle).toBe('Not a festival')
     expect(view.pillars).toEqual([{ label: 'A', body: 'b' }])
     expect(view.metaDescription).toBe('desc')
+  })
+})
+
+describe('normalizePartners', () => {
+  const raw = (fields: Record<string, unknown>) =>
+    fields as unknown as Parameters<typeof normalizePartners>[0]
+
+  it('coalesces text/lists and leaves images + SEO absent', () => {
+    const view = normalizePartners(raw({}))
+    expect(view.hero).toEqual({ title: '', titleAccent: '', lead: '' })
+    expect(view.eventBody).toEqual([])
+    expect(view.whyPoints).toEqual([])
+    expect(view.ctaLabel).toBe('')
+    expect('eventImage' in view).toBe(false)
+    expect('ogImage' in view).toBe(false)
+  })
+
+  it('maps whyPoints down to title/text', () => {
+    const view = normalizePartners(raw({ whyPoints: [{ _key: 'k', title: 'T', text: 'x' }] }))
+    expect(view.whyPoints).toEqual([{ title: 'T', text: 'x' }])
+  })
+})
+
+describe('normalizePrivacy', () => {
+  const raw = (fields: Record<string, unknown>) =>
+    fields as unknown as Parameters<typeof normalizePrivacy>[0]
+
+  it('coalesces body to [] and updatedAt to ""', () => {
+    const view = normalizePrivacy(raw({}))
+    expect(view.body).toEqual([])
+    expect(view.updatedAt).toBe('')
+    expect(view.hero).toEqual({ title: '', titleAccent: '', lead: '' })
   })
 })

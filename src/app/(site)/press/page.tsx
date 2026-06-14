@@ -9,6 +9,7 @@ import {
   RiYoutubeLine,
 } from '@remixicon/react'
 import { stegaClean } from '@sanity/client/stega'
+import { notFound } from 'next/navigation'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
@@ -23,7 +24,7 @@ import {
   getPressPage,
   getPressReleases,
   type PressAppearance,
-  type PressPage,
+  type PressPageView,
   type PressRelease,
 } from '@/sanity/lib/press'
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
@@ -58,9 +59,7 @@ function iconForUrl(url: string, medium: Medium): typeof RiYoutubeLine {
 }
 
 export default function PressRoute() {
-  return (
-    <DraftAware cached={(options) => <CachedPress options={options} />} fallback={<PressShell />} />
-  )
+  return <DraftAware cached={(options) => <CachedPress options={options} />} fallback={null} />
 }
 
 async function CachedPress({ options }: { options: DynamicFetchOptions }) {
@@ -72,9 +71,10 @@ async function CachedPress({ options }: { options: DynamicFetchOptions }) {
     getEditionsPressKit(options),
     getSiteSettings(options),
   ])
+  if (!page) notFound()
   return (
     <PressShell
-      page={page}
+      view={page}
       appearances={appearances}
       releases={releases}
       kit={kit}
@@ -84,18 +84,15 @@ async function CachedPress({ options }: { options: DynamicFetchOptions }) {
 }
 
 interface PressShellProps {
-  page?: PressPage | null
-  appearances?: PressAppearance[]
-  releases?: PressRelease[]
-  kit?: MediaKitStripItem[]
-  settings?: SiteSettings | null
+  view: PressPageView
+  appearances: PressAppearance[]
+  releases: PressRelease[]
+  kit: MediaKitStripItem[]
+  settings: SiteSettings | null
 }
 
-function PressShell({ page, appearances, releases, kit, settings }: PressShellProps = {}) {
-  const title = page?.hero?.title ?? ''
-  const accent = page?.hero?.titleAccent ?? ''
-  const lead = page?.hero?.lead ?? ''
-  const kitItems = kit ?? []
+function PressShell({ view, appearances, releases, kit, settings }: PressShellProps) {
+  const { hero } = view
 
   return (
     <>
@@ -104,33 +101,31 @@ function PressShell({ page, appearances, releases, kit, settings }: PressShellPr
           sameAs: [settings?.instagramUrl, settings?.facebookUrl],
         })}
       />
-      {appearances && appearances.length > 0 && (
-        <JsonLd data={pressAppearancesJsonLd(appearances)} />
-      )}
+      {appearances.length > 0 && <JsonLd data={pressAppearancesJsonLd(appearances)} />}
       <Navigation activeId={null} />
       <main className={styles.page}>
         {/* ===== Hero ===== */}
         <section className={shared.pageHero}>
           <div className={shared.sectionInner}>
             <h1 className={shared.pageTitle}>
-              <AccentSplit text={title} accent={accent} />
+              <AccentSplit text={hero.title} accent={hero.titleAccent} />
             </h1>
-            <p className={shared.lead}>{lead}</p>
+            <p className={shared.lead}>{hero.lead}</p>
           </div>
         </section>
 
         {/* ===== Media Kit Strip ===== */}
-        {kitItems.length > 0 && (
+        {kit.length > 0 && (
           <section id="media-kit" className={styles.kitSection}>
             <div className={styles.kitHeader}>
               <h2 className={`${shared.sectionTitle} ${styles.kitTitle}`}>Media kit</h2>
             </div>
-            <MediaKitStrip items={kitItems} />
+            <MediaKitStrip items={kit} />
           </section>
         )}
 
         {/* ===== Appearances ===== */}
-        {appearances && appearances.length > 0 && (
+        {appearances.length > 0 && (
           <section className={styles.appearances}>
             <div className={styles.appearancesInner}>
               <h2 className={shared.sectionTitle}>Press appearances</h2>
@@ -176,7 +171,7 @@ function PressShell({ page, appearances, releases, kit, settings }: PressShellPr
         )}
 
         {/* ===== Releases ===== */}
-        {releases && releases.length > 0 && (
+        {releases.length > 0 && (
           <section className={styles.releases}>
             <div className={styles.releasesInner}>
               <h2 className={shared.sectionTitle}>Press releases</h2>

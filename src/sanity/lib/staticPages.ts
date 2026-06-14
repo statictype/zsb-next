@@ -46,10 +46,22 @@ export interface AboutView {
   metaDescription?: string
 }
 type PartnersPageRaw = NonNullable<PARTNERS_PAGE_QUERY_RESULT>
-/** The partners page with its images reshaped to the runtime shape. */
-export type PartnersPage = Omit<PartnersPageRaw, 'eventImage' | 'whyImage'> & {
-  eventImage: ImageData | undefined
-  whyImage: ImageData | undefined
+/** The Partners page as a total view-model (see `AboutView`). */
+export interface PartnersView {
+  hero: { title: string; titleAccent: string; lead: string }
+  eventTitle: string
+  eventBody: string[]
+  whyEyebrow: string
+  whyTitle: string
+  whyPoints: Array<{ title: string; text: string }>
+  ctaHeading: string
+  ctaHeadingAccent: string
+  ctaBody: string
+  ctaLabel: string
+  eventImage?: ImageData
+  whyImage?: ImageData
+  ogImage?: NonNullable<PartnersPageRaw['ogImage']>
+  metaDescription?: string
 }
 export type VisitPage = NonNullable<VISIT_PAGE_QUERY_RESULT>
 /** The visit page reshaped to what the route renders (ADR 0013): the venue
@@ -61,7 +73,16 @@ export interface VisitPageData {
   section: VisitData
   faq: FaqEntry[]
 }
-export type PrivacyPage = NonNullable<PRIVACY_PAGE_QUERY_RESULT>
+type PrivacyPageRaw = NonNullable<PRIVACY_PAGE_QUERY_RESULT>
+/** The Privacy page as a total view-model (see `AboutView`). `body` is Portable
+ *  Text; an empty doc renders the static "change your mind" block alone. */
+export interface PrivacyView {
+  hero: { title: string; titleAccent: string; lead: string }
+  body: NonNullable<PrivacyPageRaw['body']>
+  updatedAt: string
+  ogImage?: NonNullable<PrivacyPageRaw['ogImage']>
+  metaDescription?: string
+}
 
 /**
  * Each fetcher follows the standard 3-layer pattern: caller resolves
@@ -70,8 +91,10 @@ export type PrivacyPage = NonNullable<PRIVACY_PAGE_QUERY_RESULT>
  * that into `notFound()` (a missing page singleton is a 404, not an empty
  * render). A present singleton is normalized into a *total* view-model here
  * (text → '', lists → [], only genuine optionals left absent) so the page is a
- * pure renderer; see `getAboutPage` / `normalizeAbout` (ADR 0013). The other
- * page getters are being migrated to that shape.
+ * pure renderer; see `getAboutPage` / `normalizeAbout` (ADR 0013). Partners,
+ * Privacy (here), Home and Press follow the same shape; `getVisitPage` keeps its
+ * own venue/FAQ projection (those fields are genuinely optional — the renderer
+ * branches on them — so it stays null-based, not a total view-model).
  */
 
 export async function getAboutPage(options: DynamicFetchOptions): Promise<AboutView | null> {
@@ -111,14 +134,36 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
   }
 }
 
-export async function getPartnersPage(options: DynamicFetchOptions): Promise<PartnersPage | null> {
+export async function getPartnersPage(options: DynamicFetchOptions): Promise<PartnersView | null> {
   'use cache'
   const raw = await queryData(PARTNERS_PAGE_QUERY, options)
-  if (!raw) return null
+  return raw ? normalizePartners(raw) : null
+}
+
+/** Reshape a raw Partners singleton into its total view-model. Exported for the
+ *  co-located unit test (an internal seam). */
+export function normalizePartners(raw: PartnersPageRaw): PartnersView {
   return {
-    ...raw,
-    eventImage: toImageData(raw.eventImage),
-    whyImage: toImageData(raw.whyImage),
+    hero: {
+      title: raw.hero?.title ?? '',
+      titleAccent: raw.hero?.titleAccent ?? '',
+      lead: raw.hero?.lead ?? '',
+    },
+    eventTitle: raw.eventTitle ?? '',
+    eventBody: raw.eventBody ?? [],
+    whyEyebrow: raw.whyEyebrow ?? '',
+    whyTitle: raw.whyTitle ?? '',
+    whyPoints: (raw.whyPoints ?? []).map((p) => ({ title: p.title, text: p.text })),
+    ctaHeading: raw.ctaHeading ?? '',
+    ctaHeadingAccent: raw.ctaHeadingAccent ?? '',
+    ctaBody: raw.ctaBody ?? '',
+    ctaLabel: raw.ctaLabel ?? '',
+    ...definedFields({
+      eventImage: toImageData(raw.eventImage),
+      whyImage: toImageData(raw.whyImage),
+      ogImage: raw.ogImage,
+      metaDescription: raw.metaDescription,
+    }),
   }
 }
 
@@ -134,9 +179,28 @@ export async function getVisitPage(options: DynamicFetchOptions): Promise<VisitP
   }
 }
 
-export async function getPrivacyPage(options: DynamicFetchOptions): Promise<PrivacyPage | null> {
+export async function getPrivacyPage(options: DynamicFetchOptions): Promise<PrivacyView | null> {
   'use cache'
-  return (await queryData(PRIVACY_PAGE_QUERY, options)) ?? null
+  const raw = await queryData(PRIVACY_PAGE_QUERY, options)
+  return raw ? normalizePrivacy(raw) : null
+}
+
+/** Reshape a raw Privacy singleton into its total view-model. Exported for the
+ *  co-located unit test (an internal seam). */
+export function normalizePrivacy(raw: PrivacyPageRaw): PrivacyView {
+  return {
+    hero: {
+      title: raw.hero?.title ?? '',
+      titleAccent: raw.hero?.titleAccent ?? '',
+      lead: raw.hero?.lead ?? '',
+    },
+    body: raw.body ?? [],
+    updatedAt: raw.updatedAt ?? '',
+    ...definedFields({
+      ogImage: raw.ogImage,
+      metaDescription: raw.metaDescription,
+    }),
+  }
 }
 
 // ---- Visit page projections ----

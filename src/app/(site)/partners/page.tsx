@@ -1,4 +1,5 @@
 import { RiArrowRightLine } from '@remixicon/react'
+import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -11,7 +12,7 @@ import shared from '@/components/Shared.module.css'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
-import { getPartnersPage, type PartnersPage } from '@/sanity/lib/staticPages'
+import { getPartnersPage, type PartnersView } from '@/sanity/lib/staticPages'
 import styles from './page.module.css'
 
 export const generateMetadata = makePageMetadata(getPartnersPage, {
@@ -26,10 +27,7 @@ function pad(n: number): string {
 export default function PartnersRoute() {
   return (
     <>
-      <DraftAware
-        cached={(options) => <CachedPartners options={options} />}
-        fallback={<PartnersShell />}
-      />
+      <DraftAware cached={(options) => <CachedPartners options={options} />} fallback={null} />
       <Suspense>
         <EditionsNav />
       </Suspense>
@@ -40,29 +38,31 @@ export default function PartnersRoute() {
 async function CachedPartners({ options }: { options: DynamicFetchOptions }) {
   'use cache'
   const [page, settings] = await Promise.all([getPartnersPage(options), getSiteSettings(options)])
-  return <PartnersShell page={page} contactEmail={settings?.contactEmail ?? null} />
+  if (!page) notFound()
+  return <PartnersShell view={page} contactEmail={settings?.contactEmail ?? null} />
 }
 
-interface PartnersShellProps {
-  page?: PartnersPage | null
+function PartnersShell({
+  view,
+  contactEmail,
+}: {
+  view: PartnersView
   contactEmail?: string | null
-}
-
-function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
-  const heroTitle = page?.hero?.title ?? ''
-  const heroAccent = page?.hero?.titleAccent ?? ''
-  const heroLead = page?.hero?.lead ?? ''
-  const eventTitle = page?.eventTitle ?? ''
-  const eventBody = page?.eventBody ?? []
-  const eventImage = page?.eventImage
-  const whyEyebrow = page?.whyEyebrow ?? ''
-  const whyTitle = page?.whyTitle ?? ''
-  const whyImage = page?.whyImage
-  const whyPoints = page?.whyPoints ?? []
-  const ctaHeading = page?.ctaHeading ?? ''
-  const ctaAccent = page?.ctaHeadingAccent ?? ''
-  const ctaBody = page?.ctaBody ?? ''
-  const ctaLabel = page?.ctaLabel ?? ''
+}) {
+  const {
+    hero,
+    eventTitle,
+    eventBody,
+    eventImage,
+    whyEyebrow,
+    whyTitle,
+    whyImage,
+    whyPoints,
+    ctaHeading,
+    ctaHeadingAccent,
+    ctaBody,
+    ctaLabel,
+  } = view
   const ctaHref = `mailto:${contactEmail ?? ''}`
 
   return (
@@ -72,9 +72,9 @@ function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
         <section className={shared.pageHero}>
           <div className={shared.sectionInner}>
             <h1 className={shared.pageTitle}>
-              <AccentSplit text={heroTitle} accent={heroAccent} />
+              <AccentSplit text={hero.title} accent={hero.titleAccent} />
             </h1>
-            <p className={shared.lead}>{heroLead}</p>
+            <p className={shared.lead}>{hero.lead}</p>
           </div>
         </section>
 
@@ -136,7 +136,7 @@ function PartnersShell({ page, contactEmail }: PartnersShellProps = {}) {
             <h2 className={styles.partnerCtaHeading}>
               <AccentSplit
                 text={ctaHeading}
-                accent={ctaAccent}
+                accent={ctaHeadingAccent}
                 className={styles.partnerCtaAccent}
                 lineBreak
               />

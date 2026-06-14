@@ -16,14 +16,34 @@ import {
   PRESS_RELEASES_QUERY,
 } from './queries'
 
-export type PressPage = NonNullable<PRESS_PAGE_QUERY_RESULT>
+type PressPageRaw = NonNullable<PRESS_PAGE_QUERY_RESULT>
+/** The Press page hero as a total view-model (see `AboutView`). The appearances,
+ *  releases and media kit are separate collections, fetched alongside. */
+export interface PressPageView {
+  hero: { title: string; titleAccent: string; lead: string }
+  ogImage?: NonNullable<PressPageRaw['ogImage']>
+  metaDescription?: string
+}
 export type PressAppearance = PRESS_APPEARANCES_QUERY_RESULT[number]
 export type PressRelease = PRESS_RELEASES_QUERY_RESULT[number]
 type EditionPressKit = EDITIONS_PRESS_KIT_QUERY_RESULT[number]
 
-export async function getPressPage(options: DynamicFetchOptions): Promise<PressPage | null> {
+export async function getPressPage(options: DynamicFetchOptions): Promise<PressPageView | null> {
   'use cache'
-  return (await queryData(PRESS_PAGE_QUERY, options)) ?? null
+  const raw = await queryData(PRESS_PAGE_QUERY, options)
+  return raw ? normalizePressPage(raw) : null
+}
+
+/** Reshape a raw Press singleton into its total view-model. */
+export function normalizePressPage(raw: PressPageRaw): PressPageView {
+  return {
+    hero: {
+      title: raw.hero?.title ?? '',
+      titleAccent: raw.hero?.titleAccent ?? '',
+      lead: raw.hero?.lead ?? '',
+    },
+    ...definedFields({ ogImage: raw.ogImage, metaDescription: raw.metaDescription }),
+  }
 }
 
 export async function getPressAppearances(
