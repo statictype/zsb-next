@@ -1,4 +1,4 @@
-import { deriveEditions, resolveLeadEdition } from '@/lib/derive-editions'
+import { type DerivedEditions, deriveEditions, resolveLeadEdition } from '@/lib/derive-editions'
 import { groupVenuesByType, type VenueTypeSection } from '@/lib/venues'
 import {
   type EditionListItem,
@@ -24,15 +24,30 @@ export async function getEdition(
   return getEditionFromSanity(year, options)
 }
 
-// Local "today" as ISO `YYYY-MM-DD`. Read where `getVisitEdition` runs — inside
-// the Visit page's cache boundary — so the latest/upcoming split is fixed at
-// cache-fill time and refreshes on revalidation (which includes the editor
-// flipping the Visit switch). Visit isn't date-critical to the minute, so this
-// fill-time snapshot is the deliberate, simple choice (ADR 0016).
+// Local "today" as ISO `YYYY-MM-DD`. Read inside `getLatestAndUpcoming` — itself
+// called within a surface's cache boundary — so the latest/upcoming split is
+// fixed at cache-fill time and refreshes on revalidation (which includes the
+// editor flipping a surface switch). The surfaces aren't date-critical to the
+// minute, so this fill-time snapshot is the deliberate, simple choice (ADR 0016).
 function todayIso(): string {
   const d = new Date()
   const pad = (n: number) => String(n).padStart(2, '0')
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
+
+/**
+ * The Latest/Upcoming edition pair for the current request (ADR 0016): the
+ * edition list derived against today's date, read at cache-fill time. The one
+ * place that owns "which editions are latest/upcoming right now" — the Visit and
+ * home-hero surfaces each resolve their own switch against this shared pair, so
+ * they can't drift. Lightweight (list items, not full editions); a caller loads
+ * the one it picks via `getEdition`.
+ */
+export async function getLatestAndUpcoming(
+  options: DynamicFetchOptions,
+): Promise<DerivedEditions<EditionListItem>> {
+  const list = await getEditionListItems(options)
+  return deriveEditions(list, todayIso())
 }
 
 /** The Visit page's venues view: the resolved edition's year plus its events
@@ -53,11 +68,11 @@ export interface VisitVenues {
 export async function getVisitEdition(
   options: DynamicFetchOptions,
 ): Promise<VisitVenues | undefined> {
-  const [lead, list] = await Promise.all([
+  const [lead, pair] = await Promise.all([
     getVisitEditionLeadFromSanity(options),
-    getEditionListItems(options),
+    getLatestAndUpcoming(options),
   ])
-  const chosen = resolveLeadEdition(lead, deriveEditions(list, todayIso()))
+  const chosen = resolveLeadEdition(lead, pair)
   if (!chosen) return undefined
   const edition = await getEdition(chosen.year, options)
   if (!edition) return undefined
@@ -82,13 +97,11 @@ export interface UpcomingHero {
  * its own yet); the kept Latest slideshow + CTA come from the homepage doc.
  */
 export async function getHeroUpcoming(options: DynamicFetchOptions): Promise<UpcomingHero | null> {
-  const [lead, list] = await Promise.all([
+  const [lead, { upcoming }] = await Promise.all([
     getHeroEditionLeadFromSanity(options),
-    getEditionListItems(options),
+    getLatestAndUpcoming(options),
   ])
-  if (lead !== 'upcoming') return null
-  const { upcoming } = deriveEditions(list, todayIso())
-  if (!upcoming) return null
+  if (lead !== 'upcoming' || !upcoming) return null
   const edition = await getEdition(upcoming.year, options)
   if (!edition) return null
   return {
