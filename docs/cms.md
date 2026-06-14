@@ -163,7 +163,7 @@ The single source of truth for which types are singletons is `SINGLETON_TYPES` i
 
 ### First-time setup (fresh dataset)
 
-Singletons don't auto-create — on an empty dataset a missing singleton degrades to empty fields + a local image placeholder. Seed them one of two ways:
+Singletons don't auto-create — on an empty dataset a missing **page** singleton 404s (a missing *image* within a present doc still resolves to a local placeholder). Seed them one of two ways:
 
 - **Automated (recommended):** `pnpm exec tsx scripts/sanity-import-singletons.ts` (idempotent; `--dry` to preview, `--only siteSettings,homepage` to scope; needs `SANITY_API_WRITE_TOKEN`). Downloads referenced images and uploads them as Sanity assets.
 - **Manual:** publish each singleton in Studio.
@@ -387,6 +387,6 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
 
    Variant with `loading.tsx` sibling: skip `<DraftAware>` and call `getDynamicFetchOptions` in the page directly; Next-provided loading state covers the Suspense. See `editions/[year]/page.tsx` for that shape.
 
-9. **Missing-singleton rendering** — don't add `FALLBACK` content blocks. Coalesce nullable fields to empties (`?? ''`, `?? []`) and images to `PLACEHOLDER_IMAGE` (`src/lib/placeholder.ts`). A `null` singleton only happens on an un-seeded dataset; on a seeded one the required fields are always present.
+9. **Missing singleton → 404; normalize in the layer.** A page singleton that isn't published is a 404 — the cached leaf calls `notFound()` on a null fetch (like `CachedEdition`), not a render-with-empties. For a *present* singleton, normalize in the **data layer**: the fetcher returns a **total view-model** — text coalesced to `''`, lists to `[]`, and only genuinely-optional members (images, optional sections, SEO) left absent — so the page Shell is a pure renderer with no `?? ''` / `?? []`. Missing *images* still resolve to `PLACEHOLDER_IMAGE` (`src/lib/placeholder.ts`). See `getAboutPage` / `normalizeAbout` for the pattern (being rolled out across the other page singletons).
 
 10. **Webhook filter** — when adding a new doc type that needs HTML cache invalidation, add it to the GROQ filter on the `/api/revalidate/tag` webhook in [sanity.io/manage](https://sanity.io/manage).

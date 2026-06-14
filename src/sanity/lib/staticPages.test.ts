@@ -7,7 +7,7 @@ vi.mock('./live', () => ({
   queryData: async () => null,
 }))
 
-import { buildFaq, mapVisit, type VisitPage } from './staticPages'
+import { buildFaq, mapVisit, normalizeAbout, type VisitPage } from './staticPages'
 
 // buildFaq / mapVisit only read a handful of fields off the page; the cast
 // keeps fixtures small without reconstructing the full generated query type.
@@ -96,5 +96,38 @@ describe('mapVisit', () => {
     )
     expect(result.image?.src).toContain('cdn.sanity.io')
     expect(result.image?.alt).toBe('Venue')
+  })
+})
+
+describe('normalizeAbout', () => {
+  const raw = (fields: Record<string, unknown>) =>
+    fields as unknown as Parameters<typeof normalizeAbout>[0]
+
+  it('coalesces text to "" and lists to [], leaves genuine optionals absent', () => {
+    const view = normalizeAbout(raw({}))
+    expect(view.hero).toEqual({ title: '', titleAccent: '', lead: '' })
+    expect(view.notFestivalTitle).toBe('')
+    expect(view.notFestivalBody).toEqual([])
+    expect(view.pillars).toEqual([])
+    expect(view.curatorLetter).toEqual([])
+    expect(view.carouselEyebrow).toBe('Gallery') // the real default lives in the layer
+    expect('placeImage' in view).toBe(false)
+    expect('carousel' in view).toBe(false)
+    expect('metaDescription' in view).toBe(false)
+  })
+
+  it('passes present fields through', () => {
+    const view = normalizeAbout(
+      raw({
+        hero: { title: 'About', titleAccent: 'us', lead: 'Lead.' },
+        notFestivalTitle: 'Not a festival',
+        pillars: [{ label: 'A', body: 'b' }],
+        metaDescription: 'desc',
+      }),
+    )
+    expect(view.hero.title).toBe('About')
+    expect(view.notFestivalTitle).toBe('Not a festival')
+    expect(view.pillars).toEqual([{ label: 'A', body: 'b' }])
+    expect(view.metaDescription).toBe('desc')
   })
 })

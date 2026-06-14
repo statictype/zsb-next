@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { Carousel } from '@/components/Carousel/Carousel'
@@ -7,7 +8,7 @@ import { Figure } from '@/components/Figure/Figure'
 import shared from '@/components/Shared.module.css'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
-import { type AboutPage, getAboutPage } from '@/sanity/lib/staticPages'
+import { type AboutView, getAboutPage } from '@/sanity/lib/staticPages'
 import styles from './page.module.css'
 
 export const generateMetadata = makePageMetadata(getAboutPage, {
@@ -18,10 +19,7 @@ export const generateMetadata = makePageMetadata(getAboutPage, {
 export default function AboutRoute() {
   return (
     <>
-      <DraftAware
-        cached={(options) => <CachedAbout options={options} />}
-        fallback={<AboutShell />}
-      />
+      <DraftAware cached={(options) => <CachedAbout options={options} />} fallback={null} />
       <Suspense>
         <EditionsNav />
       </Suspense>
@@ -32,34 +30,35 @@ export default function AboutRoute() {
 async function CachedAbout({ options }: { options: DynamicFetchOptions }) {
   'use cache'
   const about = await getAboutPage(options)
-  return <AboutShell about={about} />
+  if (!about) notFound()
+  return <AboutShell view={about} />
 }
 
-function AboutShell({ about }: { about?: AboutPage | null } = {}) {
-  const heroTitle = about?.hero?.title ?? ''
-  const heroAccent = about?.hero?.titleAccent ?? ''
-  const heroLead = about?.hero?.lead ?? ''
-  const notFestivalTitle = about?.notFestivalTitle ?? ''
-  const notFestivalBody = about?.notFestivalBody ?? []
-  const pillars = about?.pillars ?? []
-  const placeImage = about?.placeImage
-  const carousel = about?.carousel
-  const carouselEyebrow = about?.carouselEyebrow ?? 'Gallery'
-  const curatorEyebrow = about?.curatorEyebrow ?? ''
-  const curatorHeadline = about?.curatorHeadline ?? ''
-  const curatorName = about?.curatorName ?? ''
-  const curatorRole = about?.curatorRole ?? ''
-  const curatorLetter = about?.curatorLetter ?? []
-  const curatorPortrait = about?.curatorPortrait
+function AboutShell({ view }: { view: AboutView }) {
+  const {
+    hero,
+    notFestivalTitle,
+    notFestivalBody,
+    pillars,
+    placeImage,
+    carousel,
+    carouselEyebrow,
+    curatorEyebrow,
+    curatorHeadline,
+    curatorName,
+    curatorRole,
+    curatorLetter,
+    curatorPortrait,
+  } = view
 
   return (
     <main>
       <section className={shared.pageHero}>
         <div className={shared.sectionInner}>
           <h1 className={shared.pageTitle}>
-            <AccentSplit text={heroTitle} accent={heroAccent} />
+            <AccentSplit text={hero.title} accent={hero.titleAccent} />
           </h1>
-          <p className={shared.lead}>{heroLead}</p>
+          <p className={shared.lead}>{hero.lead}</p>
         </div>
       </section>
       <figure className={styles.placeImage}>

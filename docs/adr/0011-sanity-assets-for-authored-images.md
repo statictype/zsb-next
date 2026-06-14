@@ -19,7 +19,7 @@ A missing CMS image (only possible on an un-seeded dataset, since the singleton 
 
 Considered alternatives:
 
-- **Migrate 2021 + fallbacks off Blob too, then remove Blob entirely.** Possible, but 2021's unique online-only shape isn't in Sanity (see [ADR 0008](./0008-derive-edition-listings-from-status.md) context / the static-fallback decision), and the fallback constants are a deliberate safety net for unpublished singletons. Not worth the churn to delete a small, working dependency.
+- **Migrate 2021 + fallbacks off Blob too, then remove Blob entirely.** Since done in part: 2021 was migrated into Sanity ([ADR 0018](./0018-2021-as-normal-edition-optional-program.md)) and the per-page `FALLBACK` constants are gone — a missing *page* singleton now 404s and a missing *image* uses a local placeholder, neither needing Blob. Blob remains only as the `sanity-*` migration upload source; not worth the churn to delete a small, working dependency.
 - **Keep authoring images in Blob and only reference them from Sanity.** Fights the grain of the Studio (image fields want assets), loses hotspot/crop and asset metadata, and gives editors no upload UX. Rejected.
 
 Reversibility: the two paths are isolated behind `urlFor()` (Sanity) and `blobUrl()` (Blob), so either can be swapped or retired independently.

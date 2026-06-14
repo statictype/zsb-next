@@ -7,6 +7,7 @@ import type {
   VISIT_PAGE_QUERY_RESULT,
 } from '@/../sanity.types'
 import { SITE_NAME } from '@/lib/constants'
+import { definedFields } from '@/lib/defined-fields'
 import type { FaqEntry } from '@/lib/seo'
 import type { Amenity, CarouselSlide, ImageData, TransportRoute, VisitData } from '@/types/edition'
 import { mapCarousel } from './carousel'
@@ -20,12 +21,29 @@ import {
 } from './queries'
 
 type AboutPageRaw = NonNullable<ABOUT_PAGE_QUERY_RESULT>
-/** The about page with its carousel and images already reshaped to the runtime
- *  shapes (ADR 0013 — raw GROQ shapes don't cross into pages). */
-export type AboutPage = Omit<AboutPageRaw, 'carousel' | 'placeImage' | 'curatorPortrait'> & {
-  carousel: CarouselSlide[] | undefined
-  placeImage: ImageData | undefined
-  curatorPortrait: ImageData | undefined
+/**
+ * The About page as the route renders it (ADR 0013): a *total* view-model. The
+ * data layer normalizes here so the Shell is a pure renderer — text coalesced to
+ * `''`, lists to `[]`, and only the genuinely-optional members (images, the
+ * carousel section, SEO) left absent. A missing singleton is a 404, not an empty
+ * render, so this never represents "no page".
+ */
+export interface AboutView {
+  hero: { title: string; titleAccent: string; lead: string }
+  notFestivalTitle: string
+  notFestivalBody: string[]
+  pillars: Array<{ label: string; body: string }>
+  carouselEyebrow: string
+  curatorEyebrow: string
+  curatorHeadline: string
+  curatorName: string
+  curatorRole: string
+  curatorLetter: string[]
+  placeImage?: ImageData
+  curatorPortrait?: ImageData
+  carousel?: CarouselSlide[]
+  ogImage?: NonNullable<AboutPageRaw['ogImage']>
+  metaDescription?: string
 }
 type PartnersPageRaw = NonNullable<PARTNERS_PAGE_QUERY_RESULT>
 /** The partners page with its images reshaped to the runtime shape. */
@@ -47,20 +65,49 @@ export type PrivacyPage = NonNullable<PRIVACY_PAGE_QUERY_RESULT>
 
 /**
  * Each fetcher follows the standard 3-layer pattern: caller resolves
- * perspective + stega outside the cache boundary, fetcher caches the
- * mapped result. Returns null when the singleton hasn't been
- * published yet so pages can fall back to defaults.
+ * perspective + stega outside the cache boundary, fetcher caches the mapped
+ * result. A fetcher returns null when its singleton is absent — the route turns
+ * that into `notFound()` (a missing page singleton is a 404, not an empty
+ * render). A present singleton is normalized into a *total* view-model here
+ * (text → '', lists → [], only genuine optionals left absent) so the page is a
+ * pure renderer; see `getAboutPage` / `normalizeAbout` (ADR 0013). The other
+ * page getters are being migrated to that shape.
  */
 
-export async function getAboutPage(options: DynamicFetchOptions): Promise<AboutPage | null> {
+export async function getAboutPage(options: DynamicFetchOptions): Promise<AboutView | null> {
   'use cache'
   const raw = await queryData(ABOUT_PAGE_QUERY, options)
-  if (!raw) return null
+  return raw ? normalizeAbout(raw) : null
+}
+
+/** Reshape a raw About singleton into the total view-model the page renders.
+ *  Exported for the co-located unit test (an internal seam). */
+export function normalizeAbout(raw: AboutPageRaw): AboutView {
   return {
-    ...raw,
-    carousel: mapCarousel(raw.carousel),
-    placeImage: toImageData(raw.placeImage),
-    curatorPortrait: toImageData(raw.curatorPortrait),
+    hero: {
+      title: raw.hero?.title ?? '',
+      titleAccent: raw.hero?.titleAccent ?? '',
+      lead: raw.hero?.lead ?? '',
+    },
+    notFestivalTitle: raw.notFestivalTitle ?? '',
+    notFestivalBody: raw.notFestivalBody ?? [],
+    pillars: (raw.pillars ?? []).map((p) => ({ label: p.label, body: p.body })),
+    carouselEyebrow: raw.carouselEyebrow ?? 'Gallery',
+    curatorEyebrow: raw.curatorEyebrow ?? '',
+    curatorHeadline: raw.curatorHeadline ?? '',
+    curatorName: raw.curatorName ?? '',
+    curatorRole: raw.curatorRole ?? '',
+    curatorLetter: raw.curatorLetter ?? [],
+    // Genuinely-optional members stay absent (definedFields drops the nullish):
+    // images, the whole carousel section, and the SEO fields (which have their
+    // own computed fallbacks in makePageMetadata).
+    ...definedFields({
+      placeImage: toImageData(raw.placeImage),
+      curatorPortrait: toImageData(raw.curatorPortrait),
+      carousel: mapCarousel(raw.carousel),
+      ogImage: raw.ogImage,
+      metaDescription: raw.metaDescription,
+    }),
   }
 }
 
