@@ -1,15 +1,18 @@
-import styles from './IsdayBadge.module.css'
+import { cx } from 'styled-system/css'
+import { Badge } from '@/components/ui/Badge/Badge'
+import { isdayBadge } from './IsdayBadge.recipe'
 
 export function IsdayBadge({ className }: { className?: string | undefined }) {
+  const s = isdayBadge()
   return (
-    <div className={className ? `${styles.card} ${className}` : styles.card}>
-      <div className={styles.inner}>
-        <div className={styles.title}>#ISDAY</div>
-        <div className={styles.subtitle}>International Sculpture Day</div>
-        <div className={styles.pill}>
-          <span className={styles.pillIcon} />
+    <div className={cx(s.card, className)}>
+      <div className={s.inner}>
+        <div className={s.title}>#ISDAY</div>
+        <div className={s.subtitle}>International Sculpture Day</div>
+        <Badge tone="dark" className={cx(s.pill)}>
+          <span className={s.pillDot} />
           <span>Official Participant</span>
-        </div>
+        </Badge>
       </div>
     </div>
   )
