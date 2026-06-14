@@ -1,6 +1,7 @@
 import 'server-only'
 
 import type { EDITION_BY_YEAR_QUERY_RESULT } from '@/../sanity.types'
+import { definedFields } from '@/lib/defined-fields'
 import type { EditionLead } from '@/lib/derive-editions'
 import { composeDateTape, dayToken } from '@/lib/edition-dates'
 import { slugify } from '@/lib/slugify'
@@ -68,35 +69,33 @@ function uniqueEventSlugs(bases: string[]): string[] {
 export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
   if (!raw?.length) return undefined
   const slugs = uniqueEventSlugs(raw.map((e) => (e.slug ? slugify(e.slug) : deriveEventSlug(e))))
-  return raw.map((e, i) => {
-    const image = toImageData(e.image)
-    const ogImage = toImageData(e.ogImage)
-    return {
+  return raw.map((e, i) =>
+    definedFields({
       key: e._key,
       slug: slugs[i]!,
       name: e.name,
       startDate: e.startDate,
-      ...(e.startTime ? { startTime: e.startTime } : {}),
-      ...(e.endDate ? { endDate: e.endDate } : {}),
+      startTime: e.startTime,
+      endDate: e.endDate,
       types: e.types.map((t) => ({ title: t.title, slug: t.slug })),
-      venue: {
+      venue: definedFields({
         name: e.venue.name,
         type: e.venue.type,
-        ...(e.venue.address ? { address: e.venue.address } : {}),
-        ...(e.venue.mapUrl ? { mapUrl: e.venue.mapUrl } : {}),
-        ...(e.venue.partOf
-          ? { partOf: { name: e.venue.partOf.name, type: e.venue.partOf.type } }
-          : {}),
+        address: e.venue.address,
+        mapUrl: e.venue.mapUrl,
+        partOf: e.venue.partOf
+          ? { name: e.venue.partOf.name, type: e.venue.partOf.type }
+          : undefined,
         rollUp: rollUpVenue(e.venue),
-      },
+      }),
       description: e.description,
-      ...(image ? { image } : {}),
-      ...(ogImage ? { ogImage } : {}),
-      ...(e.facebookUrl ? { facebookUrl: e.facebookUrl } : {}),
-      ...(e.ticketUrl ? { ticketUrl: e.ticketUrl } : {}),
+      image: toImageData(e.image),
+      ogImage: toImageData(e.ogImage),
+      facebookUrl: e.facebookUrl,
+      ticketUrl: e.ticketUrl,
       featured: e.featured ?? false,
-    }
-  })
+    }),
+  )
 }
 
 export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
@@ -106,12 +105,12 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
     if (row._type === 'creditOrg' && row.organization) {
       const org = row.organization
       const logo = toImageData(org.logo)
-      const base = {
+      const base = definedFields({
         type: row.type,
         label: row.label,
         value: org.name,
-        ...(row.detail ? { detail: row.detail } : {}),
-      }
+        detail: row.detail,
+      })
       out.push(logo ? { ...base, logo: logo.src, logoAlt: logo.alt } : { ...base })
     } else if (row._type === 'creditOrgList' && row.organizations) {
       out.push({
@@ -133,10 +132,7 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
 // enforced them as required. The empty-string / empty-array fallbacks
 // are belt-and-suspenders for an unexpected dataset shape.
 export function mapEdition(raw: SanityEdition): Edition {
-  const thumb = toImageData(raw.thumbImage)
-  const ogImage = toImageData(raw.ogImage)
-  const carousel = mapCarousel(raw.carousel)
-  return {
+  return definedFields({
     year: raw.year,
     title: raw.title ?? '',
     theme: raw.theme,
@@ -146,9 +142,9 @@ export function mapEdition(raw: SanityEdition): Edition {
     dateEnd: raw.dateEnd ?? '',
     venueLine: raw.venueLine ?? '',
     heroImage: requireImageData(raw.heroImage, 'heroImage'),
-    ...(thumb ? { thumbImage: thumb } : {}),
-    ...(ogImage ? { ogImage } : {}),
-    ...(raw.metaDescription ? { metaDescription: raw.metaDescription } : {}),
+    thumbImage: toImageData(raw.thumbImage),
+    ogImage: toImageData(raw.ogImage),
+    metaDescription: raw.metaDescription,
     manifesto: {
       title: raw.manifesto?.title ?? '',
       highlight: raw.manifesto?.highlight ?? '',
@@ -158,13 +154,10 @@ export function mapEdition(raw: SanityEdition): Edition {
     // Older docs predate the field; a missing value means "has a program" (ADR 0018).
     hasProgram: raw.hasProgram ?? true,
     artists: raw.artists ?? [],
-    ...(() => {
-      const events = mapEvents(raw.events)
-      return events ? { events } : {}
-    })(),
-    ...(carousel ? { carousel } : {}),
+    events: mapEvents(raw.events),
+    carousel: mapCarousel(raw.carousel),
     credits: mapCredits(raw.credits),
-  }
+  })
 }
 
 /**
@@ -240,12 +233,12 @@ export async function getEditionsListFromSanity(
   return (data ?? []).flatMap((entry) => {
     if (!entry.year || !entry.theme) return []
     return [
-      {
+      definedFields({
         year: entry.year,
         theme: entry.theme,
-        status: entry.status === 'upcoming' ? 'upcoming' : 'live',
-        ...(entry.dateStart ? { dateStart: entry.dateStart } : {}),
-      },
+        status: entry.status === 'upcoming' ? ('upcoming' as const) : ('live' as const),
+        dateStart: entry.dateStart,
+      }),
     ]
   })
 }

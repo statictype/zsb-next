@@ -6,6 +6,7 @@ import type {
   PRESS_PAGE_QUERY_RESULT,
   PRESS_RELEASES_QUERY_RESULT,
 } from '@/../sanity.types'
+import { definedFields } from '@/lib/defined-fields'
 import type { MediaKitStripItem } from '@/types/edition'
 import { type DynamicFetchOptions, queryData } from './live'
 import {
@@ -61,13 +62,11 @@ export function flattenKit(editions: EditionPressKit[]): MediaKitStripItem[] {
         year: ed.year,
         label: 'Photography',
         name: 'Exhibition Cover',
-        image: {
+        image: definedFields({
           src: ed.coverPhoto.asset.url,
           alt: ed.coverPhoto.alt ?? `ZSB ${ed.year} cover`,
-          ...(ed.coverPhoto.asset.metadata?.lqip && {
-            blurDataURL: ed.coverPhoto.asset.metadata.lqip,
-          }),
-        },
+          blurDataURL: ed.coverPhoto.asset.metadata?.lqip,
+        }),
       })
     }
     if (ed.poster?.asset?.url) {
@@ -75,13 +74,11 @@ export function flattenKit(editions: EditionPressKit[]): MediaKitStripItem[] {
         year: ed.year,
         label: 'Key Visual',
         name: 'Official Poster',
-        image: {
+        image: definedFields({
           src: ed.poster.asset.url,
           alt: ed.poster.alt ?? `ZSB ${ed.year} poster`,
-          ...(ed.poster.asset.metadata?.lqip && {
-            blurDataURL: ed.poster.asset.metadata.lqip,
-          }),
-        },
+          blurDataURL: ed.poster.asset.metadata?.lqip,
+        }),
       })
     }
   }
