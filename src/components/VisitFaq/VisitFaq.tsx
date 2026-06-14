@@ -1,6 +1,5 @@
-import shared from '@/components/Shared.module.css'
 import type { FaqEntry } from '@/lib/seo'
-import styles from './VisitFaq.module.css'
+import { visitFaq } from './VisitFaq.recipe'
 
 interface VisitFaqProps {
   entries: FaqEntry[]
@@ -15,17 +14,18 @@ interface VisitFaqProps {
  */
 export function VisitFaq({ entries }: VisitFaqProps) {
   if (entries.length === 0) return null
+  const s = visitFaq()
   return (
-    <section className={`${shared.section} ${styles.faq}`} aria-labelledby="visit-faq-title">
-      <div className={shared.sectionInner}>
-        <h2 id="visit-faq-title" className={shared.sectionTitle}>
+    <section className={s.section} aria-labelledby="visit-faq-title">
+      <div className={s.inner}>
+        <h2 id="visit-faq-title" className={s.title}>
           Good to know
         </h2>
-        <div className={styles.list}>
+        <div className={s.list}>
           {entries.map((entry) => (
-            <article key={entry.question} className={styles.item}>
-              <h3 className={styles.question}>{entry.question}</h3>
-              <p className={styles.answer}>{entry.answer}</p>
+            <article key={entry.question} className={s.item}>
+              <h3 className={s.question}>{entry.question}</h3>
+              <p className={s.answer}>{entry.answer}</p>
             </article>
           ))}
         </div>
