@@ -357,6 +357,8 @@ export default defineConfig({
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
           '50%': { transform: 'translate(30px, -20px) scale(1.1)' },
         },
+        // PartnerBadge's continuously-rotating text ring.
+        spin: { to: { transform: 'rotate(-360deg)' } },
       },
       tokens: {
         colors: {

@@ -4,11 +4,12 @@ import { RiEmpathizeFill } from '@remixicon/react'
 import gsap from 'gsap'
 import Link from 'next/link'
 import { useRef } from 'react'
-import styles from './PartnerBadge.module.css'
+import { partnerBadge } from './PartnerBadge.recipe'
 
 export function PartnerBadge({ variant = 'light' }: { variant?: 'light' | 'dark' } = {}) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
+  const s = partnerBadge({ variant })
 
   function handleMouseMove(e: React.MouseEvent) {
     const el = wrapRef.current
@@ -52,16 +53,16 @@ export function PartnerBadge({ variant = 'light' }: { variant?: 'light' | 'dark'
   }
 
   return (
-    <div ref={wrapRef} className={`${styles.wrap} ${variant === 'dark' ? styles.dark : ''}`}>
+    <div ref={wrapRef} className={s.wrap}>
       <Link
         href="/partners"
-        className={styles.link}
+        className={s.link}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleLeave}
         onMouseEnter={handleEnter}
       >
-        <div ref={bodyRef} className={styles.body}>
-          <div className={styles.textRing}>
+        <div ref={bodyRef} className={s.body}>
+          <div className={s.textRing}>
             <svg viewBox="0 0 500 500" aria-hidden="true">
               <defs>
                 <path
@@ -76,8 +77,8 @@ export function PartnerBadge({ variant = 'light' }: { variant?: 'light' | 'dark'
               </text>
             </svg>
           </div>
-          <span className={styles.arrow}>
-            <RiEmpathizeFill className={styles.icon} color="var(--action)" />
+          <span className={s.arrow}>
+            <RiEmpathizeFill className={s.icon} />
           </span>
         </div>
       </Link>
