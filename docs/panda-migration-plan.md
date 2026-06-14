@@ -118,7 +118,10 @@ a component renders on a real route before migrating (styleguide refs ≠ usage)
   an `sva` slot.
 - Per-token teardown: nothing has hit zero refs yet, so `globals.css` is untouched.
 
-**Next candidates (verify usage first):** Credits (184) · VisitSection (211) ·
+Dead-code sweep is COMPLETE — the remaining 36 modules are all on live,
+verified-used components, so just migrate; no need to re-check usage.
+
+**Next candidates:** Credits (184) · VisitSection (211) ·
 CookieBanner + CookieSettingsButton (→ `<Button>`) · Footer · Navigation · Hero.
 Plus fold `strip.module.css` → a shared `strip` recipe when Carousel migrates.
 
