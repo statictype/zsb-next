@@ -1,6 +1,5 @@
-import shared from '@/components/Shared.module.css'
 import type { ManifestoData } from '@/types/edition'
-import styles from './Manifesto.module.css'
+import { manifesto as styles } from './Manifesto.recipe'
 
 interface ManifestoProps {
   manifesto: ManifestoData
@@ -8,16 +7,17 @@ interface ManifestoProps {
 
 export function Manifesto({ manifesto }: ManifestoProps) {
   const titleParts = manifesto.highlight ? manifesto.title.split(manifesto.highlight) : null
+  const s = styles()
 
   return (
-    <section className={`${shared.sectionLight} ${styles.section}`}>
-      <div className={styles.container}>
-        <div className={styles.title}>
+    <section className={s.section}>
+      <div className={s.container}>
+        <div className={s.title}>
           <p>
             {titleParts ? (
               <>
                 {titleParts[0]}
-                <span className={styles.titleHighlight}>{manifesto.highlight}</span>
+                <span className={s.titleHighlight}>{manifesto.highlight}</span>
                 {titleParts[1]}
               </>
             ) : (
@@ -25,8 +25,8 @@ export function Manifesto({ manifesto }: ManifestoProps) {
             )}
           </p>
         </div>
-        <div className={styles.content}>
-          <div className={styles.text}>
+        <div className={s.content}>
+          <div className={s.text}>
             <p>{manifesto.body}</p>
           </div>
         </div>

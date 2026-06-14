@@ -476,6 +476,20 @@ export default defineConfig({
           md: { value: { base: '16px', md: '20px' } },
           // The vertical rhythm of a standard section (`--section-padding-y`).
           sectionY: { value: { base: '80px', md: '100px', '2xl': '120px' } },
+          // Looser section rhythm for breathing-room sections (manifesto, About).
+          sectionYLg: { value: { base: '100px', md: '160px', '2xl': '180px' } },
+          // Shared grid gutter (`--grid-gap`).
+          gridGap: {
+            value: {
+              base: '16px',
+              md: '32px',
+              lg: '48px',
+              xl: '60px',
+              '2xl': '66px',
+              '3xl': '72px',
+              '4xl': '84px',
+            },
+          },
           '3xl': {
             value: {
               base: '64px',
