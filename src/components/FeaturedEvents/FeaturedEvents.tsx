@@ -2,6 +2,7 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { Figure } from '@/components/Figure/Figure'
+import { Card } from '@/components/ui/Card/Card'
 import { dayToken, eventWhenLabelShort } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 import styles from './FeaturedEvents.module.css'
@@ -64,7 +65,12 @@ function FeaturedCard({
     // The stagger delay rides --i; the whole frame is the hit target via the
     // name link's stretched ::after (see .cardLink in the CSS).
     <li className={styles.card} style={{ '--i': index } as CSSProperties}>
-      <article className={`${styles.frame} ${event.image ? styles.hasPoster : styles.noPoster}`}>
+      <Card
+        as="article"
+        ground="onDark"
+        interactive
+        className={`${styles.frame} ${event.image ? styles.hasPoster : styles.noPoster}`}
+      >
         {event.image ? (
           <Figure
             image={event.image}
@@ -106,7 +112,7 @@ function FeaturedCard({
             </ul>
           )}
         </div>
-      </article>
+      </Card>
     </li>
   )
 }

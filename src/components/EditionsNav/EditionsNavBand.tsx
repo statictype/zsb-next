@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { cx } from 'styled-system/css'
+import { card } from 'styled-system/recipes'
 import { StripControls } from '@/components/StripControls/StripControls'
 import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
 import styles from './EditionsNav.module.css'
@@ -18,10 +20,11 @@ export interface EditionEntry {
  * cards with the shared StripControls header (eyebrow + prev/next arrows), the
  * same machinery as the edition carousel and media kit. Pairs with the footer
  * below it — pure
- * black, hairline-boxed, no solid fills. Live cards link to their edition
- * (footer-style pink underline-grow on hover); upcoming editions are
- * non-clickable "Soon" cards (their route is gated `status != "upcoming"`); the
- * edition you're viewing keeps a chartreuse underline and is inert. A one-shot
+ * black, hairline-boxed, no solid fills. Cards are the unified `card` recipe
+ * (ZSB-71): live cards link to their edition and take the shared hover (the
+ * hairline warms to the accent); upcoming editions are non-clickable "Soon"
+ * cards (their route is gated `status != "upcoming"`); the edition you're
+ * viewing keeps a persistent chartreuse hairline and is inert. A one-shot
  * IntersectionObserver toggles `data-revealed` so the cards stagger in when the
  * strip scrolls into view (it's below the fold).
  */
@@ -78,6 +81,13 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
             const isUpcoming = edition.status === 'upcoming'
             const isCurrent = !isUpcoming && pathname === href
             const style = { ['--i']: i } as React.CSSProperties
+            // Unified card recipe + the strip's layout-local class. Only a live,
+            // non-current edition is interactive (hairline → accent on hover);
+            // current and upcoming are inert (current keeps a chartreuse hairline).
+            const cardClass = cx(
+              card({ ground: 'onDark', interactive: !isUpcoming && !isCurrent }),
+              styles.card,
+            )
 
             const inner = (
               <>
@@ -99,7 +109,7 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
               <div
                 key={edition.year}
                 ref={registerItem(i)}
-                className={styles.card}
+                className={cardClass}
                 style={style}
                 data-upcoming
               >
@@ -110,7 +120,7 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
                 key={edition.year}
                 ref={registerItem(i)}
                 href={href}
-                className={styles.card}
+                className={cardClass}
                 style={style}
                 data-current={isCurrent || undefined}
                 aria-current={isCurrent ? 'page' : undefined}

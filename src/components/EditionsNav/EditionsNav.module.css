@@ -2,8 +2,9 @@
    EDITIONS NAV — the editions strip. A full-bleed pure-black band
    that flows into the footer below: hairline-boxed cards, no solid
    fills. A horizontally scroll-snapping row of compact edition cards.
-   Interaction echoes the footer's links — an underline grows on
-   hover (pink); the current edition keeps a chartreuse one.
+   Cards are the unified `card` recipe (ZSB-71): live cards share the
+   one card hover (the hairline warms to the accent); the current
+   edition keeps a persistent chartreuse hairline.
    ===================================================== */
 
 .band {
@@ -27,28 +28,24 @@
   composes: track from "../StripControls/strip.module.css";
 }
 
-/* ---- Card: an outline box on black, defined by its hairline border. Also the
-   scroll-snap item — registered with the strip hook for drag snap-back. ---- */
+/* ---- Card: the unified `card` recipe owns the chrome (hairline border on
+   black, position/overflow/flex). This adds only the strip-local bits: the
+   scroll-snap sizing/registration and the staggered entrance. ---- */
 .card {
-  position: relative;
-  display: flex;
   flex: 0 0 auto;
-  flex-direction: column;
   width: clamp(300px, 34vw, 448px);
   min-height: 208px;
   padding: var(--space-lg);
-  background: transparent;
-  border: var(--border-dark);
-  color: inherit;
-  text-decoration: none;
-  overflow: hidden;
   scroll-snap-align: start;
-  /* Entrance: cards stagger up as the strip scrolls into view. */
+  /* Entrance: cards stagger up as the strip scrolls into view. The border-color
+     leg keeps the recipe's hover smooth (this unlayered transition would
+     otherwise clobber the recipe's own border-color transition). */
   opacity: 0;
   transform: translateY(16px);
   transition:
     opacity var(--duration-reveal) var(--ease-out-expo) calc(var(--i, 0) * 60ms),
-    transform var(--duration-reveal) var(--ease-out-expo) calc(var(--i, 0) * 60ms);
+    transform var(--duration-reveal) var(--ease-out-expo) calc(var(--i, 0) * 60ms),
+    border-color var(--duration-medium) var(--ease-out-expo);
 }
 
 .band[data-revealed="true"] .card {
@@ -62,19 +59,6 @@
   .card {
     width: 78vw;
   }
-}
-
-/* The accent underline — footer-style. Grows to full width on hover (pink),
-   sits persistent on the current edition (chartreuse). */
-.card::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 2px;
-  background: var(--action);
-  transition: width var(--duration-medium) var(--ease-out-expo);
 }
 
 .card:focus-visible {
@@ -143,12 +127,9 @@
   transition: color var(--duration-fast) var(--ease-out-quint);
 }
 
-/* ---- Hover (live, non-current): pink underline grows, type brightens ---- */
+/* ---- Hover (live, non-current): the recipe warms the hairline to the accent;
+   here we brighten the type to match. ---- */
 @media (hover: hover) {
-  .card:not([data-upcoming]):not([data-current="true"]):hover::after {
-    width: 100%;
-  }
-
   .card:not([data-upcoming]):not([data-current="true"]):hover .year {
     color: var(--action);
   }
@@ -158,14 +139,11 @@
   }
 }
 
-/* ---- Current edition: persistent chartreuse underline + chartreuse year ---- */
+/* ---- Current edition: persistent chartreuse hairline + chartreuse year, inert.
+   Overrides the recipe's divider border (unlayered → wins). ---- */
 .card[data-current="true"] {
   cursor: default;
-}
-
-.card[data-current="true"]::after {
-  width: 100%;
-  background: var(--highlight);
+  border-color: var(--highlight);
 }
 
 .card[data-current="true"] .year {
@@ -185,7 +163,7 @@
   color: var(--gray-700);
 }
 
-/* ---- Respect reduced motion: no entrance, no kinetic underline ---- */
+/* ---- Respect reduced motion: no entrance ---- */
 @media (prefers-reduced-motion: reduce) {
   .card {
     opacity: 1;
@@ -193,7 +171,6 @@
   }
 
   .card,
-  .card::after,
   .year,
   .theme {
     transition: none;

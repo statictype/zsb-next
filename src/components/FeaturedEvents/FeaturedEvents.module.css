@@ -92,14 +92,13 @@
 }
 
 /* The poster frame: a portrait stage that the image fills, the scrim darkens,
-   and the caption sits over. Positioned so the name link's ::after can stretch
-   the hit target across the whole card. */
+   and the caption sits over. The unified Card recipe owns the chrome (hairline
+   border, position/overflow/isolation); this only sets the poster's shape + the
+   skeleton base behind a loading image. The name link's ::after stretches the
+   hit target across the whole card. */
 .frame {
-  position: relative;
   aspect-ratio: 4 / 5;
-  overflow: hidden;
   background: var(--skeleton-base);
-  isolation: isolate;
 }
 
 .frame img {

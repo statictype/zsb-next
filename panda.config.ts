@@ -314,14 +314,13 @@ const card = defineRecipe({
       onDark: { background: 'transparent', borderColor: 'divider' },
       onLight: { background: 'surfaceLight', borderColor: 'dividerLight', boxShadow: 'card' },
     },
-    /** The one hover every card shares: hairline → accent + a small lift.
-     *  GPU-safe (border-color + transform only). */
+    /** The one hover every card shares: the hairline warms to the accent.
+     *  GPU-safe (border-color only — no lift). */
     interactive: {
       true: {
         cursor: 'pointer',
-        transition:
-          'border-color {durations.normal} {easings.expo}, transform {durations.medium} {easings.expo}',
-        _hover: { borderColor: 'action', transform: 'translateY(-2px)' },
+        transition: 'border-color {durations.normal} {easings.expo}',
+        _hover: { borderColor: 'action' },
       },
     },
   },
