@@ -27,6 +27,10 @@ describe('dateParts', () => {
 })
 
 describe('formatDateRange', () => {
+  it('collapses a single day (start === end) to one date', () => {
+    expect(formatDateRange('2021-04-24', '2021-04-24')).toBe('24 April 2021')
+  })
+
   it('collapses a same-month range to one month + year', () => {
     expect(formatDateRange('2022-04-16', '2022-04-18')).toBe('16–18 April 2022')
   })

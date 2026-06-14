@@ -2,6 +2,8 @@
 
 Amends [ADR 0005](./0005-vercel-blob-for-image-originals.md).
 
+> **Amended by [ADR 0018](./0018-2021-as-normal-edition-optional-program.md).** 2021 was migrated into Sanity (ZSB-20); its hero is now a Sanity asset, so **no** live page serves Blob in normal operation. Blob remains only the upload source for the `sanity-*` migration scripts. The "permanently-static 2021" notes below are historical.
+
 Images authored in the Studio are stored as **Sanity assets** and served from Sanity's image CDN (`cdn.sanity.io`) via `urlFor()` in `src/sanity/lib/image.ts`. This is the primary image path: every published edition (hero, carousel), the homepage slideshow, and the about/partners/visit images render this way. The runtime shape stays `{ src, alt }`.
 
 This shift happened implicitly during the CMS migration — putting an image field in a Sanity schema means editor uploads land in Sanity's asset store, not in Vercel Blob. ADR 0005 predates that and described Blob as *the* image system; this ADR records the actual current state.

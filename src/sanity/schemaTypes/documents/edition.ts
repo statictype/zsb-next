@@ -39,7 +39,7 @@ export const edition = defineType({
       title: 'Year',
       type: 'number',
       group: 'hero',
-      validation: (rule) => rule.required().integer().min(2022).max(2100),
+      validation: (rule) => rule.required().integer().min(2021).max(2100),
     }),
     defineField({
       name: 'status',
@@ -189,6 +189,20 @@ export const edition = defineType({
       validation: (rule) => rule.custom(requiredWhenLive).unique(),
     }),
 
+    // Whether this edition has a program at all (ADR 0018). The inaugural 2021
+    // online-only year has none; turning this off hides the program fields below
+    // and the page renders no program block. Defaults on for every physical
+    // edition; existing editions were backfilled to `true`.
+    defineField({
+      name: 'hasProgram',
+      title: 'Has a program',
+      description:
+        'Leave on for editions with events. Turn off for editions that have no program at all (e.g. the online-only 2021) — the program fields and the page section are then hidden.',
+      type: 'boolean',
+      group: 'program',
+      initialValue: true,
+    }),
+
     // The new events-and-venues model (ADR 0014). Events are nested here, one
     // list per edition; the calendar, filters, featured and venues view all
     // read from this list.
@@ -199,6 +213,7 @@ export const edition = defineType({
         "This edition's program as a list of events. Order doesn't matter — the calendar sorts by date.",
       type: 'array',
       group: 'program',
+      hidden: ({ document }) => document?.hasProgram === false,
       of: [defineArrayMember({ type: 'event' })],
     }),
 
@@ -211,6 +226,7 @@ export const edition = defineType({
         'Optional edition-level banner above the program — e.g. the "Sculptors for the Future" educational-program callout.',
       type: 'object',
       group: 'program',
+      hidden: ({ document }) => document?.hasProgram === false,
       fields: [
         defineField({
           name: 'tag',

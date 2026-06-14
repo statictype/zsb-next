@@ -28,7 +28,7 @@ gotchas (`server-only` alias, dummy env, `vi.mock` of `live.ts`) and CI.
 
 ## Data model: Editions
 
-Editions live in Sanity as `edition` documents. `getEdition(year, options)` in `src/data/editions/index.ts` is the gateway: it serves 2021 from its static file (`src/data/editions/2021.ts`) and queries Sanity for every other year. 2021 is the only static year — the online-only edition with a unique shape Sanity doesn't model. The 2022–2025 static fallback files were deleted once those editions were fully authored in Sanity. Pages render via the dynamic route `src/app/(site)/editions/[year]/`.
+Editions live in Sanity as `edition` documents — **every** year, with no static files left (the last one, the online-only 2021, was migrated in ZSB-20 / [ADR 0018](./docs/adr/0018-2021-as-normal-edition-optional-program.md)). `getEdition(year, options)` in `src/data/editions/index.ts` is the gateway: a thin pass-through to the Sanity fetch. Pages render via the dynamic route `src/app/(site)/editions/[year]/`. The **program** is an optional section: an edition with `hasProgram` off (2021) renders no calendar/coming-soon block at all; "online-only" is not modelled as a distinct concept, and 2021's off-site photo-gallery link is a small static constant in `edition-content.tsx`, not a field.
 
 To add a new year: create the `edition` document in Studio (Sanity-only — no static file). Set its `status` to `upcoming` while it's a previewable draft, then `live` when the page is ready. (The value is `live`, not `published` — "published" is Sanity's own document lifecycle and is a separate axis; see `CONTEXT.md` → Edition status. The route gate is `status != "upcoming"`.)
 
@@ -46,9 +46,9 @@ Key project conventions:
 
 Two paths. The **primary** one is Sanity: images authored in the Studio are stored as Sanity assets and served from Sanity's image CDN via `urlFor()` (`src/sanity/lib/image.ts`). All current content — the live editions, homepage, the static pages — uses this. The runtime image shape is `{ src, alt }`.
 
-**Vercel Blob is legacy** (`blobUrl(path)` from `src/lib/blob.ts`), now used only by: the permanently-static 2021 edition; and as the origin the `sanity-*` migration scripts uploaded into Sanity assets from. New images go into Sanity, not Blob. A missing CMS image falls back to a neutral **local** placeholder (`src/lib/placeholder.ts` → `public/img/placeholder.jpg`), not Blob. See [ADR 0005](./docs/adr/0005-vercel-blob-for-image-originals.md) + [ADR 0011](./docs/adr/0011-sanity-assets-for-authored-images.md).
+**Vercel Blob is legacy** (`blobUrl(path)` from `src/lib/blob.ts`), now used only as the origin the `sanity-*` migration scripts uploaded into Sanity assets from (including the 2021 hero in ZSB-20). New images go into Sanity, not Blob. A missing CMS image falls back to a neutral **local** placeholder (`src/lib/placeholder.ts` → `public/img/placeholder.jpg`), not Blob. See [ADR 0005](./docs/adr/0005-vercel-blob-for-image-originals.md) + [ADR 0011](./docs/adr/0011-sanity-assets-for-authored-images.md).
 
-- For the legacy Blob path: `NEXT_PUBLIC_BLOB_URL` is the Blob store's public origin; `remotePatterns` in `next.config.ts` whitelists `*.public.blob.vercel-storage.com` (and Sanity's `cdn.sanity.io`); `minimumCacheTTL` is 31 days. `pnpm exec tsx scripts/blob-upload.ts <file>...` still uploads originals (lowercases basenames, resizes over 3840px) for the 2021/fallback images.
+- For the legacy Blob path: `NEXT_PUBLIC_BLOB_URL` is the Blob store's public origin; `remotePatterns` in `next.config.ts` whitelists `*.public.blob.vercel-storage.com` (and Sanity's `cdn.sanity.io`); `minimumCacheTTL` is 31 days. `pnpm exec tsx scripts/blob-upload.ts <file>...` still uploads originals (lowercases basenames, resizes over 3840px) for legacy Blob assets.
 
 ## Styling
 

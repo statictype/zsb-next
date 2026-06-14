@@ -56,6 +56,7 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
     manifesto: { title: 'A title', highlight: 'title', body: 'The manifesto body.' },
     themeSection: { body: 'Theme body.' },
     artists: ['Mircea Roman', 'Ana Rus'],
+    hasProgram: true,
     events: [event('Combinatul Fondului Plastic'), event('Partner Venues')],
     credits: [{ type: 'primary', label: 'Curator', value: 'Reka Csapo Dup' }],
     ...overrides,

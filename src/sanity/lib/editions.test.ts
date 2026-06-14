@@ -197,4 +197,9 @@ describe('mapEdition', () => {
   it('appends the venue line to the date tape when set', () => {
     expect(mapEdition(rawEdition({ venueLine: 'CFP' })).dateTape).toBe('10–20 May 2026 · CFP')
   })
+
+  it('defaults hasProgram to true for docs predating the field, honours an explicit false', () => {
+    expect(mapEdition(rawEdition()).hasProgram).toBe(true)
+    expect(mapEdition(rawEdition({ hasProgram: false })).hasProgram).toBe(false)
+  })
 })

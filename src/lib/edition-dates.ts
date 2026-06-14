@@ -32,6 +32,7 @@ export function formatDateRange(startIso: string, endIso: string): string | unde
   const s = dateParts(startIso)
   const e = dateParts(endIso)
   if (!s || !e) return undefined
+  if (s.y === e.y && s.m === e.m && s.d === e.d) return `${s.d} ${MONTHS[s.m - 1]} ${s.y}`
   if (s.y === e.y && s.m === e.m) return `${s.d}–${e.d} ${MONTHS[s.m - 1]} ${s.y}`
   if (s.y === e.y) return `${s.d} ${MONTHS[s.m - 1]} – ${e.d} ${MONTHS[e.m - 1]} ${e.y}`
   return `${s.d} ${MONTHS[s.m - 1]} ${s.y} – ${e.d} ${MONTHS[e.m - 1]} ${e.y}`

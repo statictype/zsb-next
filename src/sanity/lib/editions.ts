@@ -155,6 +155,8 @@ export function mapEdition(raw: SanityEdition): Edition {
       body: raw.manifesto?.body ?? '',
     },
     themeSection: { body: raw.themeSection?.body ?? '' },
+    // Older docs predate the field; a missing value means "has a program" (ADR 0018).
+    hasProgram: raw.hasProgram ?? true,
     artists: raw.artists ?? [],
     ...(() => {
       const events = mapEvents(raw.events)

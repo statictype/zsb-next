@@ -9,35 +9,19 @@ import {
   getVisitEditionLeadFromSanity,
 } from '@/sanity/lib/editions'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
-import { type AnyEdition, type CalendarEvent, isOnlineEdition } from '@/types/edition'
-import { edition2021 } from './2021'
-
-// 2021 is the only static edition — the online-only year, never migrated
-// to Sanity (unique shape, no editorial value to re-author). Every other
-// year lives in Sanity; the static-fallback files for 2022–2025 were
-// deleted once those editions were fully authored there.
-const staticEditions: Record<number, AnyEdition> = {
-  2021: edition2021,
-}
-
-const STATIC_ONLY_YEARS = new Set([2021])
+import type { CalendarEvent, Edition } from '@/types/edition'
 
 /**
- * 2021 is served from its static file; never lives in Sanity. Every other
- * year is fetched from Sanity.
- *
- * Caller MUST supply `options` (from `getDynamicFetchOptions`) so the
- * fetch can switch between published and draft perspectives. The 2021
- * static path is unaffected.
+ * Every edition lives in Sanity (2021 was migrated in ZSB-20, ADR 0018, retiring
+ * the last static file). Caller MUST supply `options` (from
+ * `getDynamicFetchOptions`) so the fetch can switch between published and draft
+ * perspectives.
  */
 export async function getEdition(
   year: number,
   options: DynamicFetchOptions,
-): Promise<AnyEdition | undefined> {
-  if (STATIC_ONLY_YEARS.has(year)) return staticEditions[year]
-  const fromSanity = await getEditionFromSanity(year, options)
-  if (fromSanity) return fromSanity
-  return staticEditions[year]
+): Promise<Edition | undefined> {
+  return getEditionFromSanity(year, options)
 }
 
 // Local "today" as ISO `YYYY-MM-DD`. Read where `getVisitEdition` runs — inside
@@ -63,8 +47,8 @@ export interface VisitVenues {
  * The venues view shown on the Visit page (ZSB-46): the Visit switch
  * (latest|upcoming) resolved against the derived editions (ADR 0016), falling
  * back to Latest when the switch is 'upcoming' but nothing is ahead. `undefined`
- * when there are no eligible editions, the pick is the online-only 2021 (no
- * physical venues to show), or the edition has no events to group.
+ * when there are no eligible editions or the edition has no events to group (the
+ * online-only 2021 has none, so it naturally yields nothing).
  */
 export async function getVisitEdition(
   options: DynamicFetchOptions,
@@ -76,7 +60,7 @@ export async function getVisitEdition(
   const chosen = resolveLeadEdition(lead, deriveEditions(list, todayIso()))
   if (!chosen) return undefined
   const edition = await getEdition(chosen.year, options)
-  if (!edition || isOnlineEdition(edition)) return undefined
+  if (!edition) return undefined
   const sections = groupVenuesByType(edition.events ?? [])
   return sections.length ? { year: edition.year, sections } : undefined
 }
@@ -106,7 +90,7 @@ export async function getHeroUpcoming(options: DynamicFetchOptions): Promise<Upc
   const { upcoming } = deriveEditions(list, todayIso())
   if (!upcoming) return null
   const edition = await getEdition(upcoming.year, options)
-  if (!edition || isOnlineEdition(edition)) return null
+  if (!edition) return null
   return {
     year: edition.year,
     theme: edition.theme,
@@ -129,34 +113,23 @@ export async function getFeaturedEvents(
   const newestLive = list.find((e) => e.status === 'live')
   if (!newestLive) return undefined
   const edition = await getEdition(newestLive.year, options)
-  if (!edition || isOnlineEdition(edition)) return undefined
+  if (!edition) return undefined
   const featured = edition.events?.filter((e) => e.featured) ?? []
   return featured.length ? { year: edition.year, events: featured } : undefined
 }
 
 export async function getAllEditionYears(): Promise<number[]> {
   'use cache'
-  const sanityYears = await getEditionYearsFromSanity()
-  const merged = new Set<number>([...Object.keys(staticEditions).map(Number), ...sanityYears])
-  return [...merged].sort((a, b) => b - a)
+  return getEditionYearsFromSanity()
 }
 
 /**
- * Merged edition list for the homepage cards. Sanity entries win when
- * both sources have the same year — Sanity is where `status` lives, so
- * an editor flipping an upcoming → live row updates the homepage.
- * Static fallback fills in years not yet authored in Sanity, always as
- * "live" (the page exists).
+ * Edition list for the homepage cards, newest first. `status` (where an editor
+ * flips an upcoming → live row) lives in Sanity, so this is a straight pass of
+ * the Sanity list (already year-desc from the query).
  */
 export async function getEditionListItems(
   options: DynamicFetchOptions,
 ): Promise<EditionListItem[]> {
-  const sanityList = await getEditionsListFromSanity(options)
-  const sanityYears = new Set(sanityList.map((e) => e.year))
-
-  const staticFallback: EditionListItem[] = Object.values(staticEditions)
-    .filter((e) => !sanityYears.has(e.year))
-    .map((e) => ({ year: e.year, theme: e.theme, status: 'live' as const }))
-
-  return [...sanityList, ...staticFallback].sort((a, b) => b.year - a.year)
+  return getEditionsListFromSanity(options)
 }

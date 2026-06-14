@@ -3775,6 +3775,13 @@
         },
         "optional": true
       },
+      "hasProgram": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "boolean"
+        },
+        "optional": true
+      },
       "events": {
         "type": "objectAttribute",
         "value": {

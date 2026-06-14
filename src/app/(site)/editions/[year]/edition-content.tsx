@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import { Calendar } from '@/components/Calendar/Calendar'
 import { ComingSoon, type SocialLink } from '@/components/Calendar/ComingSoon'
 import { Credits } from '@/components/Credits/Credits'
+import { ExternalGallery } from '@/components/ExternalGallery/ExternalGallery'
 import { Hero } from '@/components/Hero/Hero'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Manifesto } from '@/components/Manifesto/Manifesto'
@@ -11,9 +12,24 @@ import { getEdition } from '@/data/editions'
 import { editionBreadcrumbJsonLd, editionEventJsonLd } from '@/lib/seo'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
-import { type AnyEdition, isOnlineEdition } from '@/types/edition'
-import { OnlineEditionLayout } from './online-edition-layout'
+import type { Edition, ExternalGalleryData } from '@/types/edition'
 import styles from './page.module.css'
+
+// The off-site photo galleries a few historical editions link to instead of a
+// program. Static, not editor content (ADR 0018): a closed fact per edition. The
+// inaugural online-only 2021 is the only one — keyed by year so the rare future
+// case is a one-line addition rather than a re-modelling.
+const EXTERNAL_GALLERY_BY_YEAR: Record<number, ExternalGalleryData> = {
+  2021: {
+    tag: 'Online Archive',
+    title: 'Walk the Digital Field',
+    highlight: 'Digital Field',
+    description:
+      'The 2021 exhibition lives where it was born, entirely online. Browse the full archive: ninety sculptors, presented without hierarchy.',
+    linkLabel: 'Open the Archive',
+    href: 'https://filialadesculptura.work/artists',
+  },
+}
 
 // The edition page body, shared by the edition route (`[year]/page.tsx`) and the
 // per-event route (`events/[key]/page.tsx`), which renders this plus the modal
@@ -37,16 +53,14 @@ export async function CachedEdition({
     notFound()
   }
 
-  if (isOnlineEdition(edition)) {
-    return <OnlineEditionLayout edition={edition} />
-  }
-
-  // A live edition with no events yet is — in practice — the forthcoming one, its
-  // programme not announced; it stands in with a "coming soon" block (ZSB-34).
-  // Socials feed both that block's follow CTA and a finished edition's recap
-  // (ZSB-45), so resolve them either way — `ended` is judged client-side.
+  // The program is an optional section (ADR 0018). When present: a live edition
+  // with events shows the calendar; one with none yet is the forthcoming one and
+  // stands in with a "coming soon" block (ZSB-34). When absent (the online-only
+  // 2021), no program block renders at all. Socials feed both the coming-soon
+  // follow CTA and a finished edition's recap (ZSB-45), so resolve them either way.
   const events = edition.events ?? []
-  const hasProgram = events.length > 0
+  const hasEvents = events.length > 0
+  const externalGallery = EXTERNAL_GALLERY_BY_YEAR[edition.year]
   const socials = await socialLinks(options)
 
   return (
@@ -60,17 +74,20 @@ export async function CachedEdition({
 
       <ThemeArtists edition={edition} />
 
-      {hasProgram ? (
-        // The calendar reads `useSearchParams` (filters) on the client; a
-        // Suspense boundary lets the rest of the cached page prerender while
-        // only this subtree client-renders, keeping the route partial-prerender
-        // rather than fully dynamic (ADR 0015).
-        <Suspense fallback={null}>
-          <Calendar year={edition.year} events={events} theme={edition.theme} socials={socials} />
-        </Suspense>
-      ) : (
-        <ComingSoon year={edition.year} socials={socials} />
-      )}
+      {edition.hasProgram &&
+        (hasEvents ? (
+          // The calendar reads `useSearchParams` (filters) on the client; a
+          // Suspense boundary lets the rest of the cached page prerender while
+          // only this subtree client-renders, keeping the route partial-prerender
+          // rather than fully dynamic (ADR 0015).
+          <Suspense fallback={null}>
+            <Calendar year={edition.year} events={events} theme={edition.theme} socials={socials} />
+          </Suspense>
+        ) : (
+          <ComingSoon year={edition.year} socials={socials} />
+        ))}
+
+      {externalGallery && <ExternalGallery gallery={externalGallery} theme={edition.theme} />}
 
       <Credits credits={edition.credits} />
     </main>
@@ -87,7 +104,7 @@ export async function CachedEdition({
 export async function loadEdition(
   year: number,
   options: DynamicFetchOptions,
-): Promise<AnyEdition | undefined> {
+): Promise<Edition | undefined> {
   'use cache'
   return getEdition(year, options)
 }

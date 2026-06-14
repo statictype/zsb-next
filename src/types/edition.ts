@@ -191,6 +191,10 @@ export interface Edition {
   manifesto: ManifestoData
   themeSection: ThemeData
   artists: string[]
+  // Whether this edition has a program section at all (ADR 0018). The online-only
+  // 2021 has none; an edition with `hasProgram` true but no events yet renders the
+  // coming-soon block. Defaults to true in the mapper for older docs.
+  hasProgram: boolean
   // The events-and-venues model (ADR 0014). The calendar, filters, featured and
   // venues view all read from this list; it replaced the old program/venues
   // format (ZSB-38).
@@ -199,37 +203,10 @@ export interface Edition {
   credits: CreditEntry[]
 }
 
-// ---- Online Edition (digital-only year, no physical venues / no carousel) ----
-
-export interface OnlineEdition {
-  kind: 'online'
-  year: number
-  theme: string
-  themeHighlight: string
-  title: string
-  heroImage: ImageData
-  thumbImage?: ImageData
-  ogImage?: ImageData
-  metaDescription?: string
-  dateTape: string
-  manifesto: ManifestoData
-  themeSection: ThemeData
-  artists: string[]
-  externalGallery: ExternalGalleryData
-  credits: CreditEntry[]
-}
-
-export type AnyEdition = Edition | OnlineEdition
-
-export function isOnlineEdition(e: AnyEdition): e is OnlineEdition {
-  return 'kind' in e && e.kind === 'online'
-}
-
-/** Find one event in an edition by its URL `slug` (ADR 0015); null for online
- *  editions. Shared by the event page, the modal route, and the OG image. */
-export function findEvent(edition: AnyEdition | undefined, slug: string): CalendarEvent | null {
-  if (!edition || isOnlineEdition(edition)) return null
-  return edition.events?.find((e) => e.slug === slug) ?? null
+/** Find one event in an edition by its URL `slug` (ADR 0015). Shared by the
+ *  event page, the modal route, and the OG image. */
+export function findEvent(edition: Edition | undefined, slug: string): CalendarEvent | null {
+  return edition?.events?.find((e) => e.slug === slug) ?? null
 }
 
 // ---- Visit page ----

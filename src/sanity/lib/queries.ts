@@ -245,6 +245,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     metaDescription,
     manifesto,
     themeSection,
+    hasProgram,
     "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,
     events[] {
       _key,

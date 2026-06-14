@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
 import { urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
-import type { AnyEdition, CalendarEvent, Edition } from '@/types/edition'
+import type { CalendarEvent, Edition } from '@/types/edition'
 
 // Strings sourced from Sanity carry invisible Visual Editing characters
 // (stega) so the Presentation tool can map rendered text back to fields.
@@ -119,7 +119,7 @@ function truncate(text: string, max: number): string {
   return `${text.slice(0, text.lastIndexOf(' ', max))}…`
 }
 
-export function editionMetadata(edition: AnyEdition): Metadata {
+export function editionMetadata(edition: Edition): Metadata {
   const theme = clean(edition.theme)
   const description = clean(edition.metaDescription) || clean(truncate(edition.manifesto.body, 155))
   const title = `${edition.year} — ${theme}`

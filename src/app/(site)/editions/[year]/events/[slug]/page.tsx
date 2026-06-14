@@ -3,7 +3,7 @@ import { RoutedEventModal } from '@/components/Calendar/RoutedEventModal'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { eventMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
-import { findEvent, isOnlineEdition } from '@/types/edition'
+import { findEvent } from '@/types/edition'
 import { CachedEdition, loadEdition } from '../../edition-content'
 
 const PUBLISHED: DynamicFetchOptions = { perspective: 'published', stega: false }
@@ -30,7 +30,7 @@ export async function generateStaticParams() {
   const params: { year: string; slug: string }[] = []
   for (const year of years) {
     const edition = await getEdition(year, PUBLISHED)
-    if (!edition || isOnlineEdition(edition)) continue
+    if (!edition) continue
     for (const event of edition.events ?? []) {
       params.push({ year: String(year), slug: event.slug })
     }
