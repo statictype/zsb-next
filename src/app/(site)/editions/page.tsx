@@ -27,6 +27,14 @@ export default function EditionsPage() {
   )
 }
 
+// Split a theme on its highlight substring so only that part can be coloured —
+// the same local helper the hero (ThemeTape) and ExternalGallery use.
+function splitOnFirst(a: string, b: string) {
+  const [before, ...rest] = a.split(b)
+  if (!rest.length || !before) return null
+  return [before, rest.join(b)] as [string, string]
+}
+
 async function CachedEditionsList({ options }: { options: DynamicFetchOptions }) {
   'use cache'
   const years = await getAllEditionYears()
@@ -43,6 +51,9 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
           const year = edition.year
           const isFeature = index === 0
           const thumb = edition.thumbImage ?? edition.heroImage
+          const [themeBefore, themeAfter] = edition.themeHighlight
+            ? (splitOnFirst(edition.theme, edition.themeHighlight) ?? [edition.theme, ''])
+            : [edition.theme, '']
 
           return (
             <div
@@ -71,7 +82,17 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
                 </div>
 
                 <div className={styles.meta}>
-                  <h2 className={styles.theme}>{edition.theme}</h2>
+                  <h2 className={styles.theme}>
+                    {edition.themeHighlight ? (
+                      <>
+                        {themeBefore}
+                        <span className={styles.themeHighlight}>{edition.themeHighlight}</span>
+                        {themeAfter}
+                      </>
+                    ) : (
+                      edition.theme
+                    )}
+                  </h2>
                   <div className={styles.metaFoot}>
                     <span className={styles.subline}>
                       <span>{edition.artists.length} artists</span>
