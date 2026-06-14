@@ -1,4 +1,6 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
+import { cx } from 'styled-system/css'
+import { card } from 'styled-system/recipes'
 import sharedStyles from '@/components/Shared.module.css'
 import type { ExternalGalleryData } from '@/types/edition'
 import styles from './ExternalGallery.module.css'
@@ -23,18 +25,15 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
 
   return (
     <section className={`${sharedStyles.section} ${sharedStyles.sectionDark} ${styles.section}`}>
-      <div className={styles.field} aria-hidden>
-        <div className={styles.grid} />
-        <div className={styles.glow} />
-      </div>
-
       <div className={styles.header}>
         <h2 className={sharedStyles.sectionTitle}>Archive</h2>
         <div className={styles.count}>{theme}</div>
       </div>
 
+      {/* The unified hairline Card (ZSB-71) via the recipe directly — a raw
+          external <a> (target/rel) that the <Card> wrapper's props don't cover. */}
       <a
-        className={styles.card}
+        className={cx(card({ ground: 'onDark', interactive: true }), styles.card)}
         href={href}
         target="_blank"
         rel="noopener noreferrer"
@@ -60,24 +59,23 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
 
             <div className={styles.cta}>
               <span className={styles.ctaLabel}>{linkLabel}</span>
-              <span className={styles.ctaIcon}>
-                <RiArrowRightUpLine size={20} />
+              <span className={styles.ctaIcon} aria-hidden>
+                <RiArrowRightUpLine size={18} />
               </span>
               <span className={styles.ctaUrl}>{prettyHost(href)}</span>
             </div>
           </div>
 
+          {/* Quiet edition plate — the old animated monogram, stripped of every
+              gradient and the drifting grid. Solid type on a hairline panel. */}
           <div className={styles.cardRight} aria-hidden>
-            <div className={styles.frame}>
-              <div className={styles.framePattern} />
-              <div className={styles.frameMonogram}>
-                <span>ZSB</span>
-                <span>2021</span>
-              </div>
-              <div className={styles.frameMeta}>
-                <span>EDITION 01</span>
-                <span>DIGITAL</span>
-              </div>
+            <div className={styles.plateMonogram}>
+              <span className={styles.plateZsb}>ZSB</span>
+              <span className={styles.plateYear}>2021</span>
+            </div>
+            <div className={styles.plateMeta}>
+              <span>Edition 01</span>
+              <span>Digital</span>
             </div>
           </div>
         </div>

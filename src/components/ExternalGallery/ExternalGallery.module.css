@@ -1,55 +1,12 @@
 /* =====================================================
-   EXTERNAL GALLERY — Premium archive-link section.
-   Replaces the <Carousel/> slot for editions whose archive
-   lives off-site. Shares the carousel section's visual
-   weight and rhythm so the page sequence is preserved.
+   EXTERNAL GALLERY — archive-link section for editions whose archive
+   lives off-site (the 2021 online edition). Redesigned onto the one
+   unified hairline Card (ZSB-71): no animated gradient border, no
+   drifting grid, no glow — text left, a quiet edition plate right.
    ===================================================== */
 
 .section {
   position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-/* Atmospheric grain (matches Carousel) */
-.section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* ---- Decorative field behind card ---- */
-.field {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse 70% 80% at 70% 40%, black 30%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 70% 40%, black 30%, transparent 80%);
-}
-
-.glow {
-  position: absolute;
-  width: 50vmax;
-  height: 50vmax;
-  right: -15vmax;
-  top: -15vmax;
-  background: radial-gradient(circle, var(--action) 0%, transparent 60%);
-  filter: blur(120px);
-  opacity: 0.18;
 }
 
 /* ---- Header (matches Carousel) ---- */
@@ -59,8 +16,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  position: relative;
-  z-index: 2;
 }
 
 @media (min-width: 768px) {
@@ -89,48 +44,12 @@
   background: var(--divider);
 }
 
-/* ---- Card ---- */
+/* ---- Card: the unified hairline Card recipe owns the chrome (border on black)
+   + the one shared hover (hairline warms to the accent). This adds only the
+   card's max-width + centering. ---- */
 .card {
-  position: relative;
-  display: block;
   max-width: var(--max-width);
   margin: 0 auto;
-  z-index: 2;
-  background: var(--gray-900);
-  border: 1px solid var(--divider);
-  text-decoration: none;
-  color: inherit;
-  overflow: hidden;
-  transition:
-    border-color 0.4s var(--ease-out-expo),
-    transform 0.6s var(--ease-out-expo);
-}
-
-/* Animated gradient hairline border on hover */
-.card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  padding: 1px;
-  background: linear-gradient(120deg, var(--action) 0%, var(--highlight) 50%, var(--action) 100%);
-  background-size: 200% 100%;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s var(--ease-out-expo);
-}
-
-.card:hover::after,
-.card:focus-visible::after {
-  opacity: 1;
-  animation: gradientBorder 2.4s linear infinite;
 }
 
 .card:focus-visible {
@@ -138,19 +57,9 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-@keyframes gradientBorder {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
-
 .cardInner {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0;
 }
 
 @media (min-width: 1024px) {
@@ -237,22 +146,25 @@
   font-weight: var(--weight-semibold);
 }
 
+/* Hairline icon square; on card hover it warms to the accent and nudges,
+   echoing the editions card's CTA arrow. */
 .ctaIcon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 36px;
   height: 36px;
-  background: var(--action);
-  color: var(--white);
+  border: 1px solid var(--divider);
+  color: var(--action);
   transition:
-    transform 0.4s var(--ease-out-expo),
-    background 0.4s var(--ease-out-expo);
+    border-color var(--duration-medium) var(--ease-out-expo),
+    transform var(--duration-medium) var(--ease-out-expo);
 }
 
 .card:hover .ctaIcon,
 .card:focus-visible .ctaIcon {
-  transform: translate(4px, -4px);
+  border-color: var(--action);
+  transform: translate(3px, -3px);
 }
 
 .ctaUrl {
@@ -274,80 +186,49 @@
   }
 }
 
-/* ---- Right (decorative monogram frame) ---- */
+/* ---- Right (quiet edition plate) — solid type on a hairline panel. No
+   gradients, no drifting grid, no animation. Desktop only. ---- */
 .cardRight {
   display: none;
-  position: relative;
-  border-top: 1px solid var(--divider);
 }
 
 @media (min-width: 1024px) {
   .cardRight {
-    display: block;
-    border-top: none;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 420px;
+    padding: var(--space-2xl);
     border-left: 1px solid var(--divider);
+    background: rgb(255 255 255 / 0.015);
   }
 }
 
-.frame {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 420px;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(236, 0, 140, 0.12), transparent 55%),
-    radial-gradient(circle at 70% 80%, rgba(212, 229, 10, 0.08), transparent 55%), var(--black-pure);
-  overflow: hidden;
-}
-
-.framePattern {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
-  mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 35%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 35%, transparent 80%);
-  animation: frameDrift 40s linear infinite;
-}
-
-@keyframes frameDrift {
-  to {
-    background-position: 320px 320px;
-  }
-}
-
-.frameMonogram {
-  position: absolute;
-  inset: 0;
+.plateMonogram {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 4px;
   font-family: var(--font-display);
-  text-transform: uppercase;
-  color: var(--white);
   line-height: 1;
+  text-transform: uppercase;
 }
 
-.frameMonogram span:first-child {
-  font-size: clamp(60px, 8vw, 120px);
+.plateZsb {
+  font-size: clamp(56px, 7vw, 104px);
   letter-spacing: -2px;
-  background: linear-gradient(135deg, var(--white) 0%, var(--gray-300) 50%, var(--white) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--white);
 }
 
-.frameMonogram span:last-child {
-  font-size: clamp(40px, 5vw, 72px);
-  color: var(--action);
+.plateYear {
+  font-size: clamp(36px, 4.5vw, 64px);
   letter-spacing: -1px;
+  color: var(--action);
 }
 
-.frameMeta {
+.plateMeta {
   position: absolute;
   bottom: var(--space-md);
   left: var(--space-md);
