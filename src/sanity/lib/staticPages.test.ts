@@ -137,6 +137,24 @@ describe('normalizeAbout', () => {
     expect(view.pillars).toEqual([{ label: 'A', body: 'b' }])
     expect(view.metaDescription).toBe('desc')
   })
+
+  it('coalesces a partial hero (missing nested fields → "")', () => {
+    const view = normalizeAbout(raw({ hero: { title: 'About' } }))
+    expect(view.hero).toEqual({ title: 'About', titleAccent: '', lead: '' })
+  })
+
+  it('coalesces nullish nested pillar fields to ""', () => {
+    const view = normalizeAbout(raw({ pillars: [{ label: null, body: 'text' }] }))
+    expect(view.pillars).toEqual([{ label: '', body: 'text' }])
+  })
+
+  it('drops null/empty entries from string lists', () => {
+    const view = normalizeAbout(
+      raw({ notFestivalBody: ['a', null, '', 'b'], curatorLetter: [null, 'x'] }),
+    )
+    expect(view.notFestivalBody).toEqual(['a', 'b'])
+    expect(view.curatorLetter).toEqual(['x'])
+  })
 })
 
 describe('normalizePartners', () => {
@@ -153,9 +171,24 @@ describe('normalizePartners', () => {
     expect('ogImage' in view).toBe(false)
   })
 
-  it('maps whyPoints down to title/text', () => {
-    const view = normalizePartners(raw({ whyPoints: [{ _key: 'k', title: 'T', text: 'x' }] }))
-    expect(view.whyPoints).toEqual([{ title: 'T', text: 'x' }])
+  it('maps whyPoints down to title/text, coalescing nullish nested fields', () => {
+    const view = normalizePartners(
+      raw({
+        whyPoints: [
+          { _key: 'k', title: 'T', text: 'x' },
+          { _key: 'k2', title: null, text: 'y' },
+        ],
+      }),
+    )
+    expect(view.whyPoints).toEqual([
+      { title: 'T', text: 'x' },
+      { title: '', text: 'y' },
+    ])
+  })
+
+  it('drops null/empty entries from eventBody', () => {
+    const view = normalizePartners(raw({ eventBody: ['a', null, '', 'b'] }))
+    expect(view.eventBody).toEqual(['a', 'b'])
   })
 })
 

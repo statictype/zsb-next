@@ -113,14 +113,16 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
       lead: raw.hero?.lead ?? '',
     },
     notFestivalTitle: raw.notFestivalTitle ?? '',
-    notFestivalBody: raw.notFestivalBody ?? [],
-    pillars: (raw.pillars ?? []).map((p) => ({ label: p.label, body: p.body })),
+    // Drafts bypass required-field validation, so nested strings can be missing
+    // even where TypeGen marks them non-null — coalesce/filter defensively.
+    notFestivalBody: (raw.notFestivalBody ?? []).filter(Boolean),
+    pillars: (raw.pillars ?? []).map((p) => ({ label: p.label ?? '', body: p.body ?? '' })),
     carouselEyebrow: raw.carouselEyebrow ?? 'Gallery',
     curatorEyebrow: raw.curatorEyebrow ?? '',
     curatorHeadline: raw.curatorHeadline ?? '',
     curatorName: raw.curatorName ?? '',
     curatorRole: raw.curatorRole ?? '',
-    curatorLetter: raw.curatorLetter ?? [],
+    curatorLetter: (raw.curatorLetter ?? []).filter(Boolean),
     // Genuinely-optional members stay absent (definedFields drops the nullish):
     // images, the whole carousel section, and the SEO fields (which have their
     // own computed fallbacks in makePageMetadata).
@@ -150,10 +152,10 @@ export function normalizePartners(raw: PartnersPageRaw): PartnersView {
       lead: raw.hero?.lead ?? '',
     },
     eventTitle: raw.eventTitle ?? '',
-    eventBody: raw.eventBody ?? [],
+    eventBody: (raw.eventBody ?? []).filter(Boolean),
     whyEyebrow: raw.whyEyebrow ?? '',
     whyTitle: raw.whyTitle ?? '',
-    whyPoints: (raw.whyPoints ?? []).map((p) => ({ title: p.title, text: p.text })),
+    whyPoints: (raw.whyPoints ?? []).map((p) => ({ title: p.title ?? '', text: p.text ?? '' })),
     ctaHeading: raw.ctaHeading ?? '',
     ctaHeadingAccent: raw.ctaHeadingAccent ?? '',
     ctaBody: raw.ctaBody ?? '',
