@@ -379,7 +379,13 @@ export default defineConfig({
         // Static + already-fluid (clamp) scales port as plain tokens.
         // Stepped-responsive ones live in semanticTokens below.
         fontSizes: {
+          md: { value: 'clamp(19px, 18.35px + 0.2038vw, 22px)' },
           lg: { value: 'clamp(22px, 21.35px + 0.2038vw, 25px)' },
+          xl: { value: 'clamp(26px, 24.26px + 0.5435vw, 34px)' },
+          '2xl': { value: 'clamp(32px, 28.96px + 0.9511vw, 46px)' },
+          '3xl': { value: 'clamp(40px, 36.52px + 1.087vw, 56px)' },
+          '4xl': { value: 'clamp(48px, 42.35px + 1.766vw, 74px)' },
+          '5xl': { value: 'clamp(58px, 50.61px + 2.31vw, 92px)' },
         },
         spacing: {
           xs: { value: '4px' },
@@ -390,6 +396,10 @@ export default defineConfig({
         radii: {
           pill: { value: '100px' },
           circle: { value: '50%' },
+        },
+        sizes: {
+          // The site content rail (`.sectionInner` max-width).
+          maxWidth: { value: '1800px' },
         },
         lineHeights: {
           display: { value: '1' },
@@ -451,12 +461,30 @@ export default defineConfig({
         },
         // Stepped-responsive tokens: faithful to the :root media-query overrides.
         fontSizes: {
+          base: { value: { base: '16px', lg: '15px', '4xl': '16px' } },
           '2xs': { value: { base: '8px', lg: '9px', '4xl': '10px' } },
           xs: { value: { base: '10px', lg: '11px' } },
           sm: { value: { base: '12px', '4xl': '13px' } },
         },
+        sizes: {
+          // Fixed-nav height — the page-top offset every hero clears.
+          nav: { value: { base: '60px', md: '72px', lg: '84px', xl: '100px' } },
+        },
         spacing: {
           md: { value: { base: '16px', md: '20px' } },
+          // The vertical rhythm of a standard section (`--section-padding-y`).
+          sectionY: { value: { base: '80px', md: '100px', '2xl': '120px' } },
+          '3xl': {
+            value: {
+              base: '64px',
+              md: '80px',
+              lg: '96px',
+              xl: '112px',
+              '2xl': '120px',
+              '3xl': '128px',
+              '4xl': '144px',
+            },
+          },
           content: {
             value: {
               base: '16px',
@@ -479,6 +507,114 @@ export default defineConfig({
             },
           },
         },
+      },
+      // Typography utilities ported from Shared.module.css. Pure type — margins
+      // and max-width that the legacy classes carried move to the call site.
+      // `pill`/`eyebrowMuted` are intentionally NOT here: they are the Badge /
+      // Eyebrow recipes; consumers adopt those instead.
+      textStyles: {
+        sectionTitle: {
+          value: {
+            fontFamily: 'display',
+            fontSize: { base: 'xl', md: '2xl' },
+            lineHeight: 'display',
+            textTransform: 'uppercase',
+          },
+        },
+        sectionHeadline: {
+          value: {
+            fontFamily: 'display',
+            fontSize: 'clamp(40px, 7vw, 96px)',
+            lineHeight: '0.9',
+            textTransform: 'uppercase',
+          },
+        },
+        // textStyles are typography-only — the entrance animation (the legacy
+        // `.pageTitle` `fadeSlideUp`) is applied at the call site via
+        // `css({ animation: 'fadeSlideUp 1s {easings.expo} 0.2s both' })`.
+        pageTitle: {
+          value: {
+            fontFamily: 'display',
+            fontSize: 'clamp(40px, 4.75vw, 100px)',
+            lineHeight: '1',
+            textTransform: 'uppercase',
+          },
+        },
+        subsectionTitle: {
+          value: {
+            fontFamily: 'display',
+            fontSize: { base: 'xl', md: '2xl', '3xl': '3xl' },
+            lineHeight: 'heading',
+            textTransform: 'uppercase',
+          },
+        },
+        cardTitle: {
+          value: {
+            fontFamily: 'display',
+            fontSize: 'xl',
+            lineHeight: 'heading',
+            letterSpacing: 'tight',
+            textTransform: 'uppercase',
+          },
+        },
+        heroLead: {
+          value: {
+            fontFamily: 'body',
+            fontSize: { base: 'base', '2xl': 'md' },
+            lineHeight: 'body',
+            // Exception: lead emphasis, brighter than `body`.
+            color: 'gray.200',
+          },
+        },
+        heroBody: {
+          value: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },
+        },
+        lead: {
+          value: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },
+        },
+        labelText: {
+          value: {
+            fontFamily: 'body',
+            fontSize: '2xs',
+            fontWeight: 'semibold',
+            letterSpacing: 'wide',
+            textTransform: 'uppercase',
+          },
+        },
+        labelSmall: {
+          value: {
+            fontFamily: 'body',
+            fontSize: '2xs',
+            fontWeight: 'semibold',
+            letterSpacing: 'label',
+            textTransform: 'uppercase',
+          },
+        },
+      },
+      // Section / page-shell layout ported from Shared.module.css. Authoring
+      // these as layerStyles dissolves the old section-padding ordering bug —
+      // Panda dedupes at the property level, so a later class can override pad.
+      layerStyles: {
+        section: { value: { paddingBlock: 'sectionY', paddingInline: 'content' } },
+        sectionDark: { value: { background: 'blackPure', color: 'white' } },
+        sectionLight: { value: { background: 'white', color: 'black' } },
+        sectionInner: { value: { maxWidth: 'maxWidth', marginInline: 'auto' } },
+        pageHero: {
+          value: {
+            background: 'blackPure',
+            color: 'white',
+            paddingTop: {
+              base: 'calc(token(sizes.nav) + 80px)',
+              md: 'calc(token(sizes.nav) + 120px)',
+            },
+            paddingBottom: { base: '2xl', md: '3xl' },
+            paddingInline: 'content',
+          },
+        },
+        // NB `sectionHeader` (flex layout) and `skeleton` (positioned + animated)
+        // are NOT layerStyles — Panda layerStyles are surface props only. They
+        // migrate with their first consumer (sectionHeader → inline css; skeleton
+        // → a shared css helper + the pulse keyframe).
       },
       recipes: { badge, eyebrow, button, textLink, iconButton, card },
     },

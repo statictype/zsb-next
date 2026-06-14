@@ -1,33 +1,39 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
+import { css } from 'styled-system/css'
+import { Badge } from '@/components/ui/Badge/Badge'
 import { getAllEditionYears } from '@/data/editions'
 import { getArtistNames } from '@/sanity/lib/artists'
-import styles from './ArtistsBanner.module.css'
+import { artistsBanner } from './ArtistsBanner.recipe'
 
 export async function ArtistsBanner() {
   const [artists, editionYears] = await Promise.all([getArtistNames(), getAllEditionYears()])
   const artistCount = artists.length
   const editionCount = editionYears.length
 
+  const s = artistsBanner()
+
   return (
-    <Link href="/artists" className={styles.banner}>
-      <div className={styles.inner}>
-        <div className={styles.left}>
-          <span className={styles.tag}>Index</span>
-          <h2 className={styles.title}>Artists</h2>
-          <p className={styles.subtext}>
+    <Link href="/artists" className={s.root}>
+      <div className={s.inner}>
+        <div className={s.left}>
+          <Badge className={css({ marginBottom: 'md' })}>Index</Badge>
+          <h2 className={s.title} data-part="title">
+            Artists
+          </h2>
+          <p className={s.subtext}>
             {artistCount} artists. {editionCount} editions. One sustained question: what sculpture
             makes visible that nothing else can.
           </p>
         </div>
-        <div className={styles.cta}>
-          <span className={styles.ctaText}>Explore</span>
-          <span className={styles.arrow}>
+        <div className={s.cta}>
+          <span className={s.ctaText}>Explore</span>
+          <span className={s.arrow} data-part="arrow">
             <RiArrowRightUpLine size={28} />
           </span>
         </div>
       </div>
-      <div className={styles.accent} />
+      <div className={s.accent} data-part="accent" />
     </Link>
   )
 }
