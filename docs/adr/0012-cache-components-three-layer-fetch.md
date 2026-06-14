@@ -83,6 +83,20 @@ cached), so passing the function is safe.
   closure problem, plus it hides the `'use cache'` directive from the file that
   owns it, making the cache boundary invisible at the page. Rejected in favour of
   a component that brokers the *Dynamic* half and leaves the cached leaf visible.
+- **A `defineCachedFetcher(query, mapper)` factory for the data layer.** The
+  recurring temptation when scanning the ~10 near-identical Sanity fetchers
+  (`getEditionFromSanity`, the page-singleton getters, …), each of which repeats
+  `'use cache'` + `queryData(QUERY, options) → map(raw)`. Same closure hazard, one
+  level down: the returned `'use cache'` fetcher closes over `mapper` as an
+  *outer-scope* variable, which Cache Components captures as a **serialized
+  cache-key argument** — and a function is only allowed there *pass-through* (not
+  introspected), whereas we must call it. The current fetchers work only because
+  they reference their mapper as a **module-level** binding (resolved statically,
+  never captured). So the thin lexical fetchers are necessary, not lazy. File-level
+  `'use cache'` is also out: it requires every export to be async, but
+  `editions.ts` exports the sync `mapEdition`/`mapEvents`/`mapCredits` for tests.
+  (Verified against the `use cache` reference, docs v16.2.9 — "Cache keys" +
+  "Serialization → Unsupported types: Functions (except as pass-through)".)
 
 ## Reversibility
 
