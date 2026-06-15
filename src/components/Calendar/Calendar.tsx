@@ -13,7 +13,7 @@ import {
 } from '@/lib/edition-dates'
 import { useTodayIso } from '@/lib/use-today-iso'
 import type { CalendarEvent } from '@/types/edition'
-import styles from './Calendar.module.css'
+import { calendar } from './Calendar.recipe'
 import { CalendarFilters } from './CalendarFilters'
 import { CalendarShare, PROGRAM_SECTION_ID } from './CalendarShare'
 import type { SocialLink } from './ComingSoon'
@@ -28,6 +28,9 @@ import {
   resolveShowPast,
 } from './calendar-filters'
 import { useCalendarFilters } from './useCalendarFilters'
+
+// No variants — one shared instance for the component + its module-level helpers.
+const s = calendar()
 
 interface CalendarProps {
   year: number
@@ -187,15 +190,15 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
         : `${upcomingMatching} of ${upcoming} upcoming events`
 
   const NowMarker = (
-    <li className={styles.now} aria-label="Happening now">
-      <span className={styles.nowDot} aria-hidden />
-      <span className={styles.nowLabel}>Now</span>
+    <li className={s.now} aria-label="Happening now">
+      <span className={s.nowDot} aria-hidden />
+      <span className={s.nowLabel}>Now</span>
       {todayToken && (
-        <span className={styles.nowDate}>
+        <span className={s.nowDate}>
           {todayToken.weekday} {todayToken.day} {todayToken.month}
         </span>
       )}
-      <span className={styles.nowRule} aria-hidden />
+      <span className={s.nowRule} aria-hidden />
     </li>
   )
 
@@ -203,20 +206,20 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
     <section
       id={PROGRAM_SECTION_ID}
       ref={sectionRef}
-      className={styles.section}
+      className={s.section}
       aria-labelledby="calendar-heading"
     >
-      <div className={styles.inner}>
-        <header className={styles.header}>
-          <div className={styles.headerMain}>
-            <h2 id="calendar-heading" className={styles.title}>
+      <div className={s.inner}>
+        <header className={s.header}>
+          <div className={s.headerMain}>
+            <h2 id="calendar-heading" className={s.title}>
               Calendar
             </h2>
-            <p className={styles.meta}>
-              <span className={styles.metaYear}>{year}</span>
+            <p className={s.meta}>
+              <span className={s.metaYear}>{year}</span>
               {windowLabel && (
                 <>
-                  <span className={styles.metaDot} aria-hidden />
+                  <span className={s.metaDot} aria-hidden />
                   <span>{windowLabel}</span>
                 </>
               )}
@@ -225,19 +228,19 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
               // A finished edition leads with a short recap + follow CTAs; its
               // archive agenda collapses below (ZSB-45). Applies to every
               // finished edition, judged client-side like the rest of the board.
-              <div className={styles.recap}>
-                <p className={styles.recapLine}>
-                  That was <strong className={styles.recapMark}>ZSB {year}</strong>
+              <div className={s.recap}>
+                <p className={s.recapLine}>
+                  That was <strong className={s.recapMark}>ZSB {year}</strong>
                   {theme ? ` — ${theme}` : ''}.
                 </p>
                 {socials.length > 0 && (
-                  <div className={styles.recapFollow}>
-                    <span className={styles.recapFollowLabel}>Follow for what&rsquo;s next</span>
-                    <ul className={styles.recapLinks}>
+                  <div className={s.recapFollow}>
+                    <span className={s.recapFollowLabel}>Follow for what&rsquo;s next</span>
+                    <ul className={s.recapLinks}>
                       {socials.map((social) => (
                         <li key={social.label}>
                           <a
-                            className={styles.recapLink}
+                            className={s.recapLink}
                             href={social.href}
                             target="_blank"
                             rel="noreferrer"
@@ -251,14 +254,15 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                 )}
               </div>
             ) : (
-              <div className={styles.counts}>
-                <span className={styles.count} aria-live="polite">
+              <div className={s.counts}>
+                <span className={s.count} aria-live="polite">
                   {countLabel}
                 </span>
                 {showPastControl && (
                   <button
                     type="button"
-                    className={`${styles.pastToggle} ${showPast ? styles.pastToggleOn : ''}`}
+                    className={s.pastToggle}
+                    data-on={showPast}
                     aria-pressed={showPast}
                     onClick={() => setShowPast(!showPast)}
                   >
@@ -288,20 +292,20 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
           )}
 
           {visible.length === 0 ? (
-            <div className={styles.empty} role="status">
-              <p className={styles.emptyText}>No events match these filters.</p>
-              <button type="button" className={styles.emptyClear} onClick={reset}>
+            <div className={s.empty} role="status">
+              <p className={s.emptyText}>No events match these filters.</p>
+              <button type="button" className={s.emptyClear} onClick={reset}>
                 Show all events
               </button>
             </div>
           ) : (
             // Ongoing exhibitions sit on top as a card grid; the one-off events
             // follow below as the day-by-day agenda (ZSB-49).
-            <div className={styles.layout}>
+            <div className={s.layout}>
               {onView.length > 0 && (
-                <section className={styles.band} aria-label="Ongoing throughout the edition">
-                  <h3 className={styles.bandLabel}>Ongoing</h3>
-                  <ul className={styles.runs}>
+                <section className={s.band} aria-label="Ongoing throughout the edition">
+                  <h3 className={s.bandLabel}>Ongoing</h3>
+                  <ul className={s.runs}>
                     {onView.map((run) => {
                       const runEnd = run.endDate ?? run.startDate
                       const status = !live
@@ -318,23 +322,23 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                       return (
                         <li
                           key={run.key}
-                          className={`${styles.run} ${status === 'past' ? styles.isPast : ''} ${
-                            status === 'now' ? styles.isNow : ''
-                          }`}
+                          className={s.run}
+                          data-past={status === 'past'}
+                          data-now={status === 'now'}
                         >
                           {run.image && (
-                            <div className={styles.runMedia}>
+                            <div className={s.runMedia}>
                               <Figure
                                 image={run.image}
                                 sizes="(min-width: 1280px) 360px, (min-width: 768px) 45vw, 90vw"
                               />
                             </div>
                           )}
-                          <div className={styles.runContent}>
+                          <div className={s.runContent}>
                             <TypeChips event={run} />
-                            <h4 className={styles.runName}>
+                            <h4 className={s.runName}>
                               <Link
-                                className={styles.nameButton}
+                                className={s.nameButton}
                                 href={`/editions/${year}/events/${run.slug}`}
                                 scroll={false}
                               >
@@ -342,9 +346,9 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                               </Link>
                             </h4>
                             <VenueLine venue={run.venue} />
-                            <div className={styles.runFoot}>
-                              {status === 'now' && <span className={styles.runNow}>On now</span>}
-                              {runRange && <span className={styles.runRange}>{runRange}</span>}
+                            <div className={s.runFoot}>
+                              {status === 'now' && <span className={s.runNow}>On now</span>}
+                              {runRange && <span className={s.runRange}>{runRange}</span>}
                             </div>
                           </div>
                         </li>
@@ -355,22 +359,20 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
               )}
 
               {days.length > 0 && (
-                <ol className={styles.agenda}>
+                <ol className={s.agenda}>
                   {days.map((day, i) => (
                     <Fragment key={day.iso}>
                       {i === nowIndex && NowMarker}
-                      <li
-                        className={`${styles.day} ${live && day.iso < todayIso! ? styles.isPast : ''}`}
-                      >
-                        <div className={styles.marker}>
-                          <span className={styles.markerNode} aria-hidden />
-                          <span className={styles.markerDay}>{day.token.dayPadded}</span>
-                          <span className={styles.markerMeta}>
-                            <span className={styles.markerMonth}>{day.token.month}</span>
-                            <span className={styles.markerWeekday}>{day.token.weekday}</span>
+                      <li className={s.day} data-past={live && day.iso < todayIso!}>
+                        <div className={s.marker}>
+                          <span className={s.markerNode} aria-hidden />
+                          <span className={s.markerDay}>{day.token.dayPadded}</span>
+                          <span className={s.markerMeta}>
+                            <span className={s.markerMonth}>{day.token.month}</span>
+                            <span className={s.markerWeekday}>{day.token.weekday}</span>
                           </span>
                         </div>
-                        <ul className={styles.events}>
+                        <ul className={s.events}>
                           {day.events.map((event) => (
                             <EventRow key={event.key} event={event} year={year} />
                           ))}
@@ -403,26 +405,26 @@ function ArchiveCollapse({
 }) {
   if (!ended) return <>{children}</>
   return (
-    <details className={styles.archive}>
-      <summary className={styles.archiveSummary}>
+    <details className={s.archive}>
+      <summary className={s.archiveSummary}>
         {/* Native <details> has no open state in JS — swap the label via [open]. */}
-        <span className={styles.archiveShow}>View full programme</span>
-        <span className={styles.archiveHide}>Hide full programme</span>
-        <span className={styles.archiveCount}>
+        <span className={s.archiveShow}>View full programme</span>
+        <span className={s.archiveHide}>Hide full programme</span>
+        <span className={s.archiveCount}>
           {count} {count === 1 ? 'event' : 'events'}
         </span>
-        <RiArrowDownSLine className={styles.archiveChevron} size={20} aria-hidden />
+        <RiArrowDownSLine className={s.archiveChevron} size={20} aria-hidden />
       </summary>
-      <div className={styles.archivePanel}>{children}</div>
+      <div className={s.archivePanel}>{children}</div>
     </details>
   )
 }
 
 function TypeChips({ event }: { event: CalendarEvent }) {
   return (
-    <ul className={styles.chips}>
+    <ul className={s.chips}>
       {event.types.map((t) => (
-        <li key={`${event.key}-${t.slug}`} className={styles.chip}>
+        <li key={`${event.key}-${t.slug}`} className={s.chip}>
           {t.title}
         </li>
       ))}
@@ -432,28 +434,28 @@ function TypeChips({ event }: { event: CalendarEvent }) {
 
 function VenueLine({ venue }: { venue: CalendarEvent['venue'] }) {
   return (
-    <p className={styles.venue}>
-      <span className={styles.venueName}>{venue.name}</span>
-      {venue.partOf && <span className={styles.venueParent}>{venue.partOf.name}</span>}
+    <p className={s.venue}>
+      <span className={s.venueName}>{venue.name}</span>
+      {venue.partOf && <span className={s.venueParent}>{venue.partOf.name}</span>}
     </p>
   )
 }
 
 function EventRow({ event, year }: { event: CalendarEvent; year: number }) {
   return (
-    <li className={`${styles.event} ${event.image ? styles.hasPoster : ''}`}>
-      <div className={styles.eventBody}>
-        <div className={styles.eventTop}>
-          {event.startTime && <span className={styles.eventTime}>{event.startTime}</span>}
+    <li className={s.event} data-poster={!!event.image}>
+      <div className={s.eventBody}>
+        <div className={s.eventTop}>
+          {event.startTime && <span className={s.eventTime}>{event.startTime}</span>}
           <TypeChips event={event} />
-          {event.image && <span className={styles.posterTag}>Poster</span>}
+          {event.image && <span className={s.posterTag}>Poster</span>}
         </div>
         {/* The name links to the event's route (the modal opens over the
             edition); its stretched overlay makes the whole row the hit target
             (see `.nameButton` in the CSS). */}
-        <h4 className={styles.eventName}>
+        <h4 className={s.eventName}>
           <Link
-            className={styles.nameButton}
+            className={s.nameButton}
             href={`/editions/${year}/events/${event.slug}`}
             scroll={false}
           >
@@ -461,10 +463,10 @@ function EventRow({ event, year }: { event: CalendarEvent; year: number }) {
           </Link>
         </h4>
         <VenueLine venue={event.venue} />
-        <p className={styles.eventDesc}>{event.description}</p>
+        <p className={s.eventDesc}>{event.description}</p>
       </div>
       {event.image && (
-        <div className={styles.poster}>
+        <div className={s.poster}>
           <Figure image={event.image} sizes="(min-width: 1280px) 240px, 70vw" />
         </div>
       )}

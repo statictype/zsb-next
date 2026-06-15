@@ -401,6 +401,14 @@ export default defineConfig({
           from: { opacity: 0, transform: 'translateY(12px)' },
           to: { opacity: 1, transform: 'none' },
         },
+        // Calendar "now"/on-now pulsing dot.
+        pulse: {
+          '0%': { boxShadow: '0 0 0 0 color-mix(in srgb, var(--colors-action) 60%, transparent)' },
+          '70%': {
+            boxShadow: '0 0 0 8px color-mix(in srgb, var(--colors-action) 0%, transparent)',
+          },
+          '100%': { boxShadow: '0 0 0 0 color-mix(in srgb, var(--colors-action) 0%, transparent)' },
+        },
       },
       tokens: {
         colors: {
