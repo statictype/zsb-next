@@ -32,6 +32,18 @@ authored in OKLCH. Grays stay **solid** — they're used for text over media
 (scrims, galleries, Hero), where translucency would read through the image; alpha
 is reserved for adaptive solid-surface roles (dividers/overlays) later.
 
+## Update (migration complete) — CSS Modules fully retired
+
+The incremental migration described below is **done**: every `*.module.css` has
+been migrated to Panda (shared primitives + co-located `sva`/`css`) and deleted —
+zero CSS Modules remain. The legacy `globals.css` `:root` token block is gone;
+`globals.css` is now just the cascade-layer declaration, the `--mb-angle`
+`@property`, and the element reset, whose `body` reads Panda's emitted token vars
+(`--colors-*` / `--fonts-*` / …) directly. A hard ESLint `no-restricted-imports`
+rule bans any new `*.module.css` import, so the move can't silently regress. The
+"two layers coexist" section below is retained as the historical record of how the
+migration ran.
+
 ## Migration is incremental; the two layers coexist
 
 Panda and CSS Modules run side by side. Panda's PostCSS plugin processes its

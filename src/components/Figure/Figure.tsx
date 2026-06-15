@@ -1,5 +1,5 @@
 import { type ImageProps } from 'next/image'
-import shared from '@/components/Shared.module.css'
+import { skeleton } from '@/components/skeleton'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import type { ImageData } from '@/types/edition'
 import { FallbackImage } from './FallbackImage'
@@ -34,7 +34,7 @@ export function Figure({ image, sizes, ...rest }: FigureProps) {
   const data = image ?? PLACEHOLDER_IMAGE
   return (
     <>
-      <span aria-hidden className={shared.skeleton} />
+      <span aria-hidden className={skeleton} />
       <FallbackImage
         src={data.src}
         alt={data.alt}

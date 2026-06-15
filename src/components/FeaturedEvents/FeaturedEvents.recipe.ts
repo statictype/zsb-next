@@ -6,8 +6,8 @@ import { sva } from 'styled-system/css'
  * The homepage spotlight (ZSB-31): must-see events pinned up as poster cards on
  * the same dark, image-forward palette as the calendar. The unified Card recipe
  * owns the hairline chrome; `frame` only sets the poster's portrait shape + the
- * skeleton base behind a loading image. `--skeleton-base` / `--gallery-image-*`
- * stay legacy vars (shared with Shared.module.css) until the Group F teardown.
+ * skeleton base behind a loading image. The gallery image filter (desaturate at
+ * rest → full colour on hover) is inlined here.
  * The card-wide hover (image zoom/desaturate + name → accent) drives from the
  * `card` slot targeting `& img` / `& a`; the name link's `::after` stretches the
  * hit target across the whole poster.
@@ -97,7 +97,7 @@ export const featuredEvents = sva({
       animation: 'cardIn {durations.medium} {easings.expo} forwards',
       animationDelay: 'calc(var(--i, 0) * 90ms)',
       _hover: {
-        '& img': { filter: 'var(--gallery-image-filter-hover)', transform: 'scale(1.04)' },
+        '& img': { filter: 'grayscale(0%) contrast(1)', transform: 'scale(1.04)' },
         '& a': { color: 'action' },
       },
       '@media (prefers-reduced-motion: reduce)': {
@@ -111,10 +111,10 @@ export const featuredEvents = sva({
     // (border, position/overflow/isolation); this sets shape + skeleton base.
     frame: {
       aspectRatio: '4 / 5',
-      background: 'var(--skeleton-base)',
+      background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: 'var(--gallery-image-filter)',
+        filter: 'grayscale(100%) contrast(1.1)',
         transition:
           'filter {durations.medium} {easings.quint}, transform {durations.medium} {easings.quint}',
       },

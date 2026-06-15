@@ -85,9 +85,11 @@ The three controls (StripControls, HeroSlideshow, Lightbox) are ordinary leaves
 
 ## Progress (resume point — 2026-06-16)
 
-**Module count: 47 → 1.** All committed to `main`; typecheck + lint clean throughout.
-Only `Shared.module.css` remains (the `skeleton` helper used by `Figure` +
-`Lightbox`) — the Group F teardown.
+**Module count: 47 → 0. ✅ COMPLETE.** Every `.module.css` is migrated and deleted;
+CSS Modules are fully retired. A hard ESLint `*.module.css` import ban is in place,
+the legacy `globals.css` `:root` token block is gone (the `body` reset reads Panda's
+emitted `--colors-*`/`--fonts-*`/… vars), and [ADR 0017](./adr/0017-panda-css-with-oklch-token-theme.md)
+records the retirement. All committed to `main`; typecheck + cssgen + lint clean throughout.
 **Do NOT run `pnpm build`** — verify with `pnpm typecheck` + `pnpm lint` +
 `pnpm exec panda cssgen --outfile /tmp/x.css` (cssgen catches Panda CSS-gen
 errors typecheck misses). The user drives browser verification on their dev
@@ -122,13 +124,16 @@ footer catalogue-stamp precedent**)**. **Next up:**
   `pill`s → `<Badge>`; added a `cardReveal` keyframe; tore out
   `--card-image-filter`. Dropped dead slots (`signature*`, `contact*`,
   `kitDeck`, `editionsLink`, empty `.main`).
-- **Group F — foundation teardown:** delete `Shared.module.css` (migrate its
-  last consumers — the `skeleton` helper used by `Figure` + `Lightbox` → a
-  shared `css` helper + a `skeletonPulse` keyframe + a `--skeleton-base` value;
-  `sectionTitle`/etc. textStyles already exist), prune any now-orphaned
-  `globals.css` `--*` vars, add the hard ESLint `*.module.css` import ban, and
-  amend [ADR 0017](./adr/0017-panda-css-with-oklch-token-theme.md) to record CSS
-  Modules are fully retired.
+- **Group F — foundation teardown (done):** migrated the `skeleton` helper
+  (`Figure` + `Lightbox`) → `src/components/skeleton.ts` (a shared `css()` helper)
+  + a `skeletonPulse` keyframe; inlined the last `--skeleton-base` /
+  `--gallery-image-*` references into `FeaturedEvents.recipe`; **deleted
+  `Shared.module.css`** (last module). Then tore out the **entire** legacy
+  `globals.css` `:root` token block — the `body` reset now reads Panda's emitted
+  token vars (`--colors-black`/`--colors-white`/`--fonts-body`/`--font-sizes-base`/
+  `--line-heights-body`) directly. Added the hard ESLint `no-restricted-imports`
+  ban on `*.module.css`, amended ADR 0017, and flipped `CLAUDE.md` to "fully
+  retired."
 
 ### Conventions proven this round (A–C)
 

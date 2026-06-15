@@ -4,7 +4,7 @@ import { RiArrowLeftLine, RiArrowRightLine, RiCloseLine } from '@remixicon/react
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { cx } from 'styled-system/css'
-import shared from '@/components/Shared.module.css'
+import { skeleton } from '@/components/skeleton'
 import { IconButton } from '@/components/ui/IconButton/IconButton'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import { lightbox as lightboxRecipe } from './Lightbox.recipe'
@@ -189,7 +189,7 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
 
       {/* biome-ignore lint/a11y/noStaticElementInteractions: frame letterbox click closes */}
       <div className={s.frame} style={frameStyle} onClick={onClose}>
-        {!loaded && <span aria-hidden className={shared.skeleton} />}
+        {!loaded && <span aria-hidden className={skeleton} />}
         <Image
           key={current.src}
           src={current.src}

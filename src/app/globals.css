@@ -1,11 +1,16 @@
 /* =====================================================
-   GLOBALS — Tokens + Reset + Font Assignment
+   GLOBALS — cascade-layer order, @property, reset/base.
+
+   All design tokens now live in `panda.config.ts` (OKLCH theme, type/space
+   scales, etc.) and are emitted by Panda as `--colors-*` / `--fonts-*` / …
+   custom properties. The legacy `:root` token block was retired when the last
+   CSS Module was deleted (Panda-only; see ADR 0017).
    ===================================================== */
 
 /* Cascade-layer order — declared here (globals.css is imported before
    panda.css) so Panda's recipes/utilities (later layers) override the element
-   base styles at the bottom of this file. Unlayered rules outrank ALL layers,
-   so the reset must be layered or it beats every Panda padding/margin. */
+   base styles below. Unlayered rules outrank ALL layers, so the reset must be
+   layered or it beats every Panda padding/margin. */
 @layer reset, base, tokens, recipes, utilities;
 
 /* Animatable angle for the MagneticButton gradient-border ring (hero CTA) —
@@ -16,283 +21,10 @@
   inherits: false;
 }
 
-/* ---- Design Tokens ---- */
-:root {
-  /* Typography — Static */
-  --text-2xs: 8px;
-  --text-xs: 10px;
-  --text-sm: 12px;
-  --text-base: 16px;
-
-  /* Typography — Fluid (320px → 1792px) */
-  --text-md: clamp(19px, 18.35px + 0.2038vw, 22px);
-  --text-lg: clamp(22px, 21.35px + 0.2038vw, 25px);
-  --text-xl: clamp(26px, 24.26px + 0.5435vw, 34px);
-  --text-2xl: clamp(32px, 28.96px + 0.9511vw, 46px);
-  --text-3xl: clamp(40px, 36.52px + 1.087vw, 56px);
-  --text-4xl: clamp(48px, 42.35px + 1.766vw, 74px);
-  --text-5xl: clamp(58px, 50.61px + 2.31vw, 92px);
-
-  /* Spacing — Static (8px grid) */
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-2xl: 48px;
-  --space-3xl: 64px;
-  --space-4xl: 96px;
-  --space-5xl: 128px;
-  --space-6xl: 160px;
-  --space-7xl: 192px;
-  --space-8xl: 256px;
-  --space-9xl: 320px;
-  --space-10xl: 384px;
-
-  /* Spacing — Fluid (320px → 1792px) */
-  --space-lg: clamp(24px, 18.78px + 1.6304vw, 48px);
-  --space-xl: clamp(32px, 23.3px + 2.7174vw, 72px);
-
-  /* Layout */
-  --content-padding: 16px;
-  --section-padding-y: 80px;
-  /* A larger section rhythm for sections that need more breathing room than the
-     tightened default (the edition manifesto, About). Decoupled from
-     --section-padding-y so it can run bigger on mobile and flatter on large
-     screens. */
-  --section-padding-y-lg: 100px;
-  --max-width: 1800px;
-  --grid-gap: 16px;
-
-  /* Component Specific */
-  --nav-height: 60px;
-  --card-padding: 16px;
-
-  /* Effects */
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
-  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.2);
-
-  /* Colors — Raw palette */
-  --pink: #ec008c;
-  --light-pink: #fbd6eb;
-  --chartreuse: #d4e50a;
-  /* --black: #18131a; */
-  --black: #0e0b10;
-  --black-pure: #000;
-  --white: #fff;
-  --gray-100: #f1ecef;
-  --gray-200: #ece5e9;
-  --gray-300: #c3bdc0;
-  --gray-350: #a09d9e;
-  --gray-400: #9e9a9c;
-  --gray-500: #8a8589;
-  --gray-600: #6d6b6c;
-  --gray-700: #4e4c4d;
-  --gray-750: #3f3d3e;
-  --gray-800: #2e2c2d;
-  --gray-850: #232223;
-  --gray-900: #121111;
-  /* 2F001C */
-  /* Semantic roles — components should use these, not raw gray-*.
-     Dark is the default; *-light variants for the rare inverted sections.
-     Raw grays (above) are the utility scale — reach for them only when no role fits. */
-  --canvas: var(--black);
-  --surface-light: var(--gray-100);
-
-  --heading: var(--white);
-  --heading-light: var(--black);
-  --body: var(--gray-400);
-  --body-light: var(--gray-700);
-  --muted: var(--gray-600);
-
-  --divider: var(--gray-850);
-  --divider-light: var(--gray-200);
-
-  --skeleton-base: var(--gray-800); /* image-loading pulse, sits behind <Image> */
-
-  --action: var(--pink); /* brand primary: CTA, active, key moments */
-  --highlight: var(--chartreuse); /* sparing accent: tags, stat numbers */
-
-  /* Animation */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
-  --duration-fast: 200ms;
-  --duration-normal: 300ms;
-  --duration-medium: 400ms;
-  --duration-slow: 500ms;
-  --duration-reveal: 600ms;
-
-  /* Typography — Line-Height */
-  --leading-display: 1;
-  --leading-heading: 1.38;
-  --leading-tight: 1.16;
-  --leading-body: 1.56;
-  --leading-loose: 1.9;
-
-  /* Typography — Letter-Spacing */
-  --tracking-tight: -0.02em;
-  --tracking-subtle: 0.6px;
-  --tracking-label: 1.2px;
-  --tracking-wide: 4px;
-
-  /* Typography — Font-Weight */
-  --weight-light: 300;
-  --weight-regular: 400;
-  --weight-medium: 500;
-  --weight-semibold: 600;
-  --weight-bold: 700;
-  --weight-black: 900;
-
-  /* Card / Tile Interaction */
-  --gallery-image-filter: grayscale(100%) contrast(1.1);
-  --gallery-image-filter-hover: grayscale(0%) contrast(1);
-
-  /* Border-Radius — only pill (buttons) and circle. Hard rectangles otherwise. */
-  --radius-pill: 100px;
-  --radius-circle: 50%;
-
-  /* Borders — wired through role tokens */
-  --border-light: 1px solid var(--divider-light);
-  --border-dark: 1px solid var(--divider);
-  --border-accent: 1px solid var(--action);
-
-  /* Focus ring — a11y */
-  --focus-ring: 2px solid var(--action);
-  --focus-ring-offset: 2px;
-
-  /* Fonts — mapped from next/font CSS variables */
-  --font-display: var(--font-dela-gothic), sans-serif;
-  --font-body: var(--font-montserrat), sans-serif;
-}
-
-/* ---- Tablet (768px+) ---- */
-@media (min-width: 768px) {
-  :root {
-    --space-md: 20px;
-    --space-2xl: 56px;
-    --space-3xl: 80px;
-    --space-4xl: 112px;
-    --space-5xl: 160px;
-    --space-6xl: 200px;
-    --space-7xl: 240px;
-    --space-8xl: 320px;
-    --space-9xl: 400px;
-    --space-10xl: 480px;
-
-    --content-padding: 40px;
-    --section-padding-y: 100px;
-    --section-padding-y-lg: 160px;
-    --grid-gap: 32px;
-    --nav-height: 72px;
-    --card-padding: 20px;
-  }
-}
-
-/* ---- Desktop (1024px+) ---- */
-@media (min-width: 1024px) {
-  :root {
-    --text-base: 15px;
-    --text-sm: 12px;
-    --text-xs: 11px;
-    --text-2xs: 9px;
-
-    --space-2xl: 64px;
-    --space-3xl: 96px;
-    --space-4xl: 128px;
-    --space-5xl: 192px;
-    --space-6xl: 240px;
-    --space-7xl: 288px;
-    --space-8xl: 384px;
-    --space-9xl: 480px;
-    --space-10xl: 576px;
-
-    --content-padding: 80px;
-    --grid-gap: 48px;
-    --nav-height: 84px;
-  }
-}
-
-/* ---- Large Desktop (1280px+) ---- */
-@media (min-width: 1280px) {
-  :root {
-    --space-2xl: 80px;
-    --space-3xl: 112px;
-    --space-4xl: 160px;
-    --space-5xl: 224px;
-    --space-6xl: 288px;
-    --space-7xl: 352px;
-    --space-8xl: 448px;
-    --space-9xl: 560px;
-    --space-10xl: 672px;
-    --grid-gap: 60px;
-    --nav-height: 100px;
-  }
-}
-
-/* ---- XL2 Desktop (1440px+) ---- */
-@media (min-width: 1440px) {
-  :root {
-    --space-2xl: 88px;
-    --space-3xl: 120px;
-    --space-4xl: 176px;
-    --space-5xl: 240px;
-    --space-6xl: 304px;
-    --space-7xl: 368px;
-    --space-8xl: 480px;
-    --space-9xl: 600px;
-    --space-10xl: 720px;
-
-    --content-padding: 88px;
-    --section-padding-y: 120px;
-    --section-padding-y-lg: 180px;
-    --grid-gap: 66px;
-    /* --leading-body: 1.64; */
-  }
-}
-
-/* ---- XL Desktop (1536px+) ---- */
-@media (min-width: 1536px) {
-  :root {
-    --space-2xl: 96px;
-    --space-3xl: 128px;
-    --space-4xl: 192px;
-    --space-5xl: 256px;
-    --space-6xl: 320px;
-    --space-7xl: 384px;
-    --space-8xl: 512px;
-    --space-9xl: 640px;
-    --space-10xl: 768px;
-
-    --content-padding: 96px;
-    --grid-gap: 72px;
-  }
-}
-
-/* ---- 2XL Desktop (1792px+) ---- */
-@media (min-width: 1792px) {
-  :root {
-    --text-base: 16px;
-    --text-sm: 13px;
-    --text-xs: 11px;
-    --text-2xs: 10px;
-
-    --space-2xl: 112px;
-    --space-3xl: 144px;
-    --space-4xl: 224px;
-    --space-5xl: 288px;
-    --space-6xl: 352px;
-    --space-7xl: 416px;
-    --space-8xl: 544px;
-    --space-9xl: 672px;
-    --space-10xl: 800px;
-
-    --content-padding: 112px;
-    --grid-gap: 84px;
-    /* --leading-body: 1.7; */
-  }
-}
-
 /* ---- Reset + base element styles ----
-   Wrapped in @layer base so Panda recipes/utilities win over them. (CSS Modules
-   are unlayered classes, so they still override these during the migration.) */
+   Wrapped in @layer base so Panda recipes/utilities win over them. The body
+   reads the Panda token vars directly (the OKLCH brand black/white, body font,
+   responsive base size, body leading). */
 @layer base {
   *,
   *::before,
@@ -307,18 +39,17 @@
   }
 
   body {
-    background-color: var(--black);
-    color: var(--white);
-    font-family: var(--font-body);
-    font-size: var(--text-base);
+    background-color: var(--colors-black);
+    color: var(--colors-white);
+    font-family: var(--fonts-body);
+    font-size: var(--font-sizes-base);
     overflow-x: hidden;
-    line-height: var(--leading-body);
+    line-height: var(--line-heights-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-optical-sizing: auto;
     font-kerning: normal;
     text-rendering: optimizeLegibility;
-    /* font-variant-ligatures: common-ligatures contextual; */
   }
 
   a {

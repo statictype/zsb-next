@@ -421,6 +421,11 @@ export default defineConfig({
         cardReveal: {
           to: { opacity: '1', transform: 'translateY(0)', filter: 'blur(0)' },
         },
+        // Image-loading skeleton pulse (Figure / Lightbox).
+        skeletonPulse: {
+          '0%, 100%': { opacity: '0.45' },
+          '50%': { opacity: '0.85' },
+        },
         // Calendar "now"/on-now pulsing dot.
         pulse: {
           '0%': { boxShadow: '0 0 0 0 color-mix(in srgb, var(--colors-action) 60%, transparent)' },

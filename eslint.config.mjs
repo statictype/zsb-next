@@ -20,6 +20,20 @@ export default [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
+
+      // CSS Modules are fully retired — styling is Panda only (ADR 0017). Block
+      // any new `*.module.css` import so the migration can't silently regress.
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['*.module.css'],
+              message: 'CSS Modules are retired — use Panda CSS (css()/sva/recipes). See ADR 0017.',
+            },
+          ],
+        },
+      ],
     },
   },
   {
