@@ -8,7 +8,9 @@ import { card } from 'styled-system/recipes'
 import { StripControls } from '@/components/StripControls/StripControls'
 import { strip as stripRecipe } from '@/components/StripControls/strip.recipe'
 import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
-import styles from './EditionsNav.module.css'
+import { editionsNav } from './EditionsNav.recipe'
+
+const styles = editionsNav()
 
 export interface EditionEntry {
   year: number

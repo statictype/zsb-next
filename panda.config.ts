@@ -401,6 +401,11 @@ export default defineConfig({
           from: { opacity: 0, transform: 'translateY(12px)' },
           to: { opacity: 1, transform: 'none' },
         },
+        // FeaturedEvents staggered poster-card reveal.
+        cardIn: {
+          from: { opacity: '0', transform: 'translateY(28px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
         // Calendar "now"/on-now pulsing dot.
         pulse: {
           '0%': { boxShadow: '0 0 0 0 color-mix(in srgb, var(--colors-action) 60%, transparent)' },
@@ -570,6 +575,17 @@ export default defineConfig({
               '2xl': '88px',
               '3xl': '96px',
               '4xl': '112px',
+            },
+          },
+          '5xl': {
+            value: {
+              base: '128px',
+              md: '160px',
+              lg: '192px',
+              xl: '224px',
+              '2xl': '240px',
+              '3xl': '256px',
+              '4xl': '288px',
             },
           },
         },

@@ -85,7 +85,7 @@ The three controls (StripControls, HeroSlideshow, Lightbox) are ordinary leaves
 
 ## Progress (resume point — 2026-06-16)
 
-**Module count: 47 → 18.** All committed to `main`; typecheck + lint clean throughout.
+**Module count: 47 → 12.** All committed to `main`; typecheck + lint clean throughout.
 **Do NOT run `pnpm build`** — verify with `pnpm typecheck` + `pnpm lint` +
 `pnpm exec panda cssgen --outfile /tmp/x.css` (cssgen catches Panda CSS-gen
 errors typecheck misses). The user drives browser verification on their dev
@@ -95,12 +95,14 @@ server; after `panda.config` changes, `rm -rf .next` so dev recompiles fresh.
 
 Migrating in logical clusters (~one commit each), not one-module-at-a-time.
 **Done:** A (media/strip controls), B (MagneticButton), C1 (Calendar
-satellites), C2 (Calendar core). **Next up:**
+satellites), C2 (Calendar core), **D (content sections** — FeaturedEvents,
+ArtistsTable, ThemeArtists, VenuesView, ExternalGallery, EditionsNav; added a
+`cardIn` keyframe + a `5xl` stepped spacing token to the foundation; `.tag` pill
+→ `<Badge>`; EditionsNav `soon`/`viewing` kept as bespoke boxed labels per the
+footer catalogue-stamp precedent**)**. **Next up:**
 
-- **Group D — content sections:** FeaturedEvents (308) · ArtistsTable (140) ·
-  ThemeArtists (133) · VenuesView (276) · ExternalGallery (243) · EditionsNav
-  (178, partially done — its viewport/track already use the shared `strip`
-  recipe; only `EditionsNav.module.css`'s own rules remain).
+- **Group D′ — Hero:** `Hero.module.css` (the one remaining `src/components`
+  module; not originally listed under D/E). Migrate alongside the route pages.
 - **Group E — route pages:** `app/(site)` page modules — home (398) · about
   (414) · editions (285) · editions/[year] (3) + loading (157) · partners (205)
   · press (330) · privacy (75) · artists (16) · error (120).

@@ -1,9 +1,11 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
-import { cx } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
 import { card } from 'styled-system/recipes'
-import sharedStyles from '@/components/Shared.module.css'
+import { Badge } from '@/components/ui/Badge/Badge'
 import type { ExternalGalleryData } from '@/types/edition'
-import styles from './ExternalGallery.module.css'
+import { externalGallery } from './ExternalGallery.recipe'
+
+const styles = externalGallery()
 
 interface ExternalGalleryProps {
   gallery: ExternalGalleryData
@@ -24,9 +26,9 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
     : [title, '']
 
   return (
-    <section className={`${sharedStyles.section} ${sharedStyles.sectionDark} ${styles.section}`}>
+    <section className={styles.section}>
       <div className={styles.header}>
-        <h2 className={sharedStyles.sectionTitle}>Archive</h2>
+        <h2 className={css({ textStyle: 'sectionTitle' })}>Archive</h2>
         <div className={styles.count}>{theme}</div>
       </div>
 
@@ -41,7 +43,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
       >
         <div className={styles.cardInner}>
           <div className={styles.cardLeft}>
-            <span className={styles.tag}>{tag}</span>
+            <Badge>{tag}</Badge>
 
             <h3 className={styles.title}>
               {highlight ? (

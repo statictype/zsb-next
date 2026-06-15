@@ -1,8 +1,9 @@
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { Carousel } from '@/components/Carousel/Carousel'
-import shared from '@/components/Shared.module.css'
 import type { Edition } from '@/types/edition'
-import styles from './ThemeArtists.module.css'
+import { themeArtists } from './ThemeArtists.recipe'
+
+const styles = themeArtists()
 
 interface ThemeArtistsProps {
   edition: Pick<Edition, 'year' | 'theme' | 'themeSection' | 'artists'> & {
@@ -14,7 +15,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
   const { year, theme, themeSection, artists, carousel } = edition
 
   return (
-    <section className={`${shared.section} ${shared.sectionDark} ${styles.section}`}>
+    <section className={styles.section}>
       <div className={styles.themeHeader}>
         <h2 className={styles.headline}>{theme}</h2>
       </div>

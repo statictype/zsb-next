@@ -1,5 +1,8 @@
+import { cx } from 'styled-system/css'
 import { padNum, splitInHalf } from '@/lib/format-utils'
-import styles from './ArtistsTable.module.css'
+import { artistsTable } from './ArtistsTable.recipe'
+
+const styles = artistsTable()
 
 interface MetaItem {
   label: string
@@ -23,7 +26,7 @@ export function ArtistsTable({
   const mid = firstHalf.length
 
   return (
-    <div className={className ? `${styles.root} ${className}` : styles.root}>
+    <div className={cx(styles.root, className)}>
       <div className={styles.colHeader}>
         <span className={styles.headerLabel}>{headerLabel}</span>
         <span>001&mdash;{padNum(artists.length, 3)}</span>

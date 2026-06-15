@@ -1,11 +1,14 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
+import { cx } from 'styled-system/css'
 import { Figure } from '@/components/Figure/Figure'
 import { Card } from '@/components/ui/Card/Card'
 import { dayToken, eventWhenLabelShort } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
-import styles from './FeaturedEvents.module.css'
+import { featuredEvents } from './FeaturedEvents.recipe'
+
+const styles = featuredEvents()
 
 // The homepage spotlight (ZSB-31): the few events the team has marked `featured`,
 // pulled off the schedule board (ZSB-28) and pinned up as poster cards. The look
@@ -69,7 +72,7 @@ function FeaturedCard({
         as="article"
         ground="onDark"
         interactive
-        className={`${styles.frame} ${event.image ? styles.hasPoster : styles.noPoster}`}
+        className={cx(styles.frame, !event.image && styles.noPoster)}
       >
         {event.image ? (
           <Figure

@@ -1,7 +1,9 @@
 import { RiArrowDownSLine, RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { TopVenue, VenueEvent, VenueNode, VenueTypeSection } from '@/lib/venues'
-import styles from './VenuesView.module.css'
+import { venuesView } from './VenuesView.recipe'
+
+const styles = venuesView()
 
 // The Visit edition's programme browsed by place (ZSB-27), on the Visit page
 // below the main-venue block. The edition shown is the one the Visit switch
