@@ -1,9 +1,13 @@
 import Link from 'next/link'
+import { cx } from 'styled-system/css'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
+import { TextLink } from '@/components/ui/TextLink/TextLink'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
-import styles from './Footer.module.css'
+import { footer } from './Footer.recipe'
+
+const s = footer()
 
 const CURRENT_YEAR = new Date().getFullYear()
 // Reads like an edition-catalogue stamp — the span the event has run.
@@ -18,17 +22,11 @@ const CONNECT_LINKS = [
 ] as const
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
-  if (href === '#' || href.startsWith('http') || href.startsWith('mailto:')) {
-    return (
-      <a href={href} className={styles.link}>
-        {children}
-      </a>
-    )
-  }
+  const external = href === '#' || href.startsWith('http') || href.startsWith('mailto:')
   return (
-    <Link href={href} className={styles.link}>
+    <TextLink as={external ? 'a' : Link} href={href} className={cx(s.link)}>
       {children}
-    </Link>
+    </TextLink>
   )
 }
 
@@ -47,16 +45,16 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
   const contactHref = settings?.contactEmail ? `mailto:${settings.contactEmail}` : undefined
 
   return (
-    <footer className={styles.footer}>
-      <div className={styles.inner}>
-        <div className={styles.primary}>
-          <div className={styles.badge}>
+    <footer className={s.footer}>
+      <div className={s.inner}>
+        <div className={s.primary}>
+          <div className={s.badge}>
             <PartnerBadge />
           </div>
 
-          <div className={styles.cols}>
-            <nav className={styles.navCol} aria-label="Footer">
-              <h2 className={styles.colTitle}>Connect</h2>
+          <div className={s.cols}>
+            <nav className={s.navCol} aria-label="Footer">
+              <h2 className={s.colTitle}>Connect</h2>
               {contactHref && <FooterLink href={contactHref}>Contact</FooterLink>}
               {CONNECT_LINKS.map((link) => (
                 <FooterLink key={link.label} href={link.href}>
@@ -66,24 +64,26 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
             </nav>
 
             {socials.length > 0 && (
-              <div className={styles.navCol}>
-                <h2 className={styles.colTitle}>Follow</h2>
+              <div className={s.navCol}>
+                <h2 className={s.colTitle}>Follow</h2>
                 {socials.map((link) => (
-                  <a key={link.label} href={link.href} className={styles.link}>
+                  <FooterLink key={link.label} href={link.href}>
                     {link.label}
-                  </a>
+                  </FooterLink>
                 ))}
               </div>
             )}
           </div>
 
-          <span className={styles.stamp}>{CATALOG_STAMP}</span>
+          <span className={s.stamp}>{CATALOG_STAMP}</span>
         </div>
 
-        <div className={styles.baseline}>
-          <div className={styles.copyright}>&copy; {CURRENT_YEAR} Bucharest Sculpture Days</div>
-          <div className={styles.legal}>
-            <Link href="/privacy">Privacy Policy</Link>
+        <div className={s.baseline}>
+          <div className={s.copyright}>&copy; {CURRENT_YEAR} Bucharest Sculpture Days</div>
+          <div className={s.legal}>
+            <TextLink as={Link} href="/privacy" underline="quiet">
+              Privacy Policy
+            </TextLink>
             <CookieSettingsButton />
           </div>
         </div>
