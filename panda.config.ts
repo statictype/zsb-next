@@ -216,6 +216,10 @@ const button = defineRecipe({
     },
   ],
   defaultVariants: { variant: 'solid', size: 'md' },
+  // MagneticButton calls button({ variant, size }) with runtime props, which
+  // Panda can't statically extract — emit every variant×size so those combos
+  // (outline / md / lg) always have CSS.
+  staticCss: ['*'],
 })
 
 /**
