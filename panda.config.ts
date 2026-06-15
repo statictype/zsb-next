@@ -412,6 +412,11 @@ export default defineConfig({
           to: { opacity: '1', transform: 'scale(1)' },
         },
         tapeIn: { to: { opacity: '1', translate: '0 0' } },
+        // Edition loading-skeleton sweep.
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
         // Calendar "now"/on-now pulsing dot.
         pulse: {
           '0%': { boxShadow: '0 0 0 0 color-mix(in srgb, var(--colors-action) 60%, transparent)' },

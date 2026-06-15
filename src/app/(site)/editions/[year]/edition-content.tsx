@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
+import { css } from 'styled-system/css'
 import { Calendar } from '@/components/Calendar/Calendar'
 import { ComingSoon, type SocialLink } from '@/components/Calendar/ComingSoon'
 import { Credits } from '@/components/Credits/Credits'
@@ -13,7 +14,6 @@ import { editionBreadcrumbJsonLd, editionEventJsonLd } from '@/lib/seo'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
 import type { Edition, ExternalGalleryData } from '@/types/edition'
-import styles from './page.module.css'
 
 // The off-site photo galleries a few historical editions link to instead of a
 // program. Static, not editor content (ADR 0018): a closed fact per edition. The
@@ -64,7 +64,7 @@ export async function CachedEdition({
   const socials = await socialLinks(options)
 
   return (
-    <main className={styles.page}>
+    <main className={css({ minHeight: '100vh' })}>
       <JsonLd data={editionEventJsonLd(edition)} />
       <JsonLd data={editionBreadcrumbJsonLd(edition)} />
 

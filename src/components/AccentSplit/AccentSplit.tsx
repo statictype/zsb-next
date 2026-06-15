@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
-import shared from '@/components/Shared.module.css'
+import { css } from 'styled-system/css'
+
+const accentClass = css({ color: 'action' })
 
 interface AccentSplitProps {
   /** The full string, e.g. "Bucharest Sculpture Days". */
@@ -24,7 +26,7 @@ interface AccentSplitProps {
 export function AccentSplit({
   text,
   accent,
-  className = shared.accent,
+  className = accentClass,
   lineBreak = false,
 }: AccentSplitProps): ReactNode {
   const idx = text.indexOf(accent)

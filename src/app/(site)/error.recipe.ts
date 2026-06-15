@@ -1,0 +1,114 @@
+import { sva } from 'styled-system/css'
+
+/**
+ * Error boundary — co-located slot recipe (Panda migration).
+ *
+ * Full-screen centered error state on the brand-black ground, with a faint
+ * SVG-noise wash + a blurred pink glow. The two actions stay bespoke hairline
+ * buttons (white text → accent on hover; the primary adds an accent border + a
+ * faint accent-tinted fill) — they belong to this boundary's chrome, not the
+ * shared Button vocabulary. The legacy `rgba(255,0,153,…)` literals normalize to
+ * `color-mix` over the `action` token.
+ */
+export const errorPage = sva({
+  slots: [
+    'page',
+    'noise',
+    'glow',
+    'content',
+    'icon',
+    'title',
+    'message',
+    'actions',
+    'btn',
+    'btnPrimary',
+  ],
+  base: {
+    page: {
+      position: 'relative',
+      minHeight: '100svh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'black',
+      overflow: 'hidden',
+      paddingBlock: 'xl',
+      paddingInline: 'content',
+    },
+    noise: {
+      position: 'absolute',
+      inset: '0',
+      backgroundImage:
+        "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
+      opacity: '0.04',
+      pointerEvents: 'none',
+      mixBlendMode: 'overlay',
+    },
+    glow: {
+      position: 'absolute',
+      width: '500px',
+      height: '500px',
+      borderRadius: 'circle',
+      background: 'action',
+      filter: 'blur(180px)',
+      opacity: '0.08',
+      top: '30%',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      pointerEvents: 'none',
+    },
+    content: { position: 'relative', zIndex: '10', textAlign: 'center', maxWidth: '520px' },
+    icon: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '56px',
+      height: '56px',
+      border: '1px solid token(colors.divider)',
+      marginBottom: 'xl',
+      color: 'action',
+    },
+    title: {
+      fontFamily: 'display',
+      fontSize: '2xl',
+      textTransform: 'uppercase',
+      letterSpacing: 'label',
+      color: 'white',
+      marginBottom: 'md',
+      lineHeight: 'heading',
+    },
+    message: {
+      fontFamily: 'body',
+      fontSize: 'sm',
+      color: 'body',
+      textTransform: 'uppercase',
+      letterSpacing: 'label',
+      lineHeight: 'loose',
+      marginBottom: '2xl',
+    },
+    actions: { display: 'flex', gap: 'md', justifyContent: 'center', flexWrap: 'wrap' },
+    btn: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 'sm',
+      fontFamily: 'body',
+      fontSize: '2xs',
+      textTransform: 'uppercase',
+      letterSpacing: 'label',
+      color: 'white',
+      background: 'transparent',
+      border: '1px solid token(colors.divider)',
+      paddingBlock: '14px',
+      paddingInline: '28px',
+      cursor: 'pointer',
+      transition: 'all {durations.normal} ease',
+      _hover: { borderColor: 'action', color: 'action' },
+    },
+    btnPrimary: {
+      borderColor: 'action',
+      background: 'color-mix(in srgb, {colors.action} 8%, transparent)',
+      _hover: { background: 'color-mix(in srgb, {colors.action} 15%, transparent)' },
+    },
+  },
+})

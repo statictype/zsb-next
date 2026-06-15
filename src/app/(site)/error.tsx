@@ -2,7 +2,10 @@
 
 import { RiAlertLine, RiArrowRightLine, RiRefreshLine } from '@remixicon/react'
 import Link from 'next/link'
-import styles from './error.module.css'
+import { cx } from 'styled-system/css'
+import { errorPage } from './error.recipe'
+
+const styles = errorPage()
 
 export default function ErrorPage({
   reset,
@@ -26,7 +29,7 @@ export default function ErrorPage({
           Try again or return to the homepage.
         </p>
         <div className={styles.actions}>
-          <button type="button" onClick={reset} className={`${styles.btn} ${styles.btnPrimary}`}>
+          <button type="button" onClick={reset} className={cx(styles.btn, styles.btnPrimary)}>
             <RiRefreshLine size={14} />
             Try Again
           </button>

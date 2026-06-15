@@ -64,7 +64,6 @@
 
   /* Component Specific */
   --nav-height: 60px;
-  --carousel-height: 50vh;
   --card-padding: 16px;
 
   /* Effects */
@@ -185,7 +184,6 @@
     --section-padding-y-lg: 160px;
     --grid-gap: 32px;
     --nav-height: 72px;
-    --carousel-height: 60vh;
     --card-padding: 20px;
   }
 }
@@ -211,7 +209,6 @@
     --content-padding: 80px;
     --grid-gap: 48px;
     --nav-height: 84px;
-    --carousel-height: 70vh;
   }
 }
 
@@ -249,7 +246,6 @@
     --section-padding-y: 120px;
     --section-padding-y-lg: 180px;
     --grid-gap: 66px;
-    --carousel-height: 72vh;
     /* --leading-body: 1.64; */
   }
 }
@@ -269,7 +265,6 @@
 
     --content-padding: 96px;
     --grid-gap: 72px;
-    --carousel-height: 75vh;
   }
 }
 
@@ -293,7 +288,6 @@
 
     --content-padding: 112px;
     --grid-gap: 84px;
-    --carousel-height: 80vh;
     /* --leading-body: 1.7; */
   }
 }
