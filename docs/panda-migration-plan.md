@@ -83,7 +83,71 @@ The three controls (StripControls, HeroSlideshow, Lightbox) are ordinary leaves
   token block, and amend [ADR 0017](./adr/0017-panda-css-with-oklch-token-theme.md)
   to record that CSS Modules are fully retired.
 
-## Progress (resume point — 2026-06-15)
+## Progress (resume point — 2026-06-16)
+
+**Module count: 47 → 18.** All committed to `main`; typecheck + lint clean throughout.
+**Do NOT run `pnpm build`** — verify with `pnpm typecheck` + `pnpm lint` +
+`pnpm exec panda cssgen --outfile /tmp/x.css` (cssgen catches Panda CSS-gen
+errors typecheck misses). The user drives browser verification on their dev
+server; after `panda.config` changes, `rm -rf .next` so dev recompiles fresh.
+
+### Remaining work — grouped into review-sized commits (resume here)
+
+Migrating in logical clusters (~one commit each), not one-module-at-a-time.
+**Done:** A (media/strip controls), B (MagneticButton), C1 (Calendar
+satellites), C2 (Calendar core). **Next up:**
+
+- **Group D — content sections:** FeaturedEvents (308) · ArtistsTable (140) ·
+  ThemeArtists (133) · VenuesView (276) · ExternalGallery (243) · EditionsNav
+  (178, partially done — its viewport/track already use the shared `strip`
+  recipe; only `EditionsNav.module.css`'s own rules remain).
+- **Group E — route pages:** `app/(site)` page modules — home (398) · about
+  (414) · editions (285) · editions/[year] (3) + loading (157) · partners (205)
+  · press (330) · privacy (75) · artists (16) · error (120).
+- **Group F — foundation teardown:** delete `Shared.module.css` (migrate its
+  last consumers — the `skeleton` helper used by `Figure` + `Lightbox` → a
+  shared `css` helper + a `skeletonPulse` keyframe + a `--skeleton-base` value;
+  `sectionTitle`/etc. textStyles already exist), prune any now-orphaned
+  `globals.css` `--*` vars, add the hard ESLint `*.module.css` import ban, and
+  amend [ADR 0017](./adr/0017-panda-css-with-oklch-token-theme.md) to record CSS
+  Modules are fully retired.
+
+### Conventions proven this round (A–C)
+
+- **Dynamic recipe props need `staticCss`.** A config recipe called with runtime
+  props (`button({ variant, size })` in MagneticButton) won't have its combos
+  statically extracted → missing CSS (the hero CTA lost its padding). Fix:
+  `staticCss: ['*']` on that recipe.
+- **State → data attributes**, styled with `'&[data-x=true]'` (e.g. `data-open`,
+  `data-active`, `data-copied`, `data-past`, `data-now`, `data-on`, `data-poster`).
+  React renders `data-x={false}` as the string `"false"`, so `[data-x=true]`
+  won't match it. Avoid `data-*` on the typed `<Button>` (use `cx(base, cond &&
+  extra)` instead); plain intrinsic elements accept `data-*` fine.
+- **Cross-slot interaction** without a shared variant: drive from the parent
+  slot's `_hover` targeting `'& a'` / `'& img'`, or from a child slot via an
+  ancestor selector `'[data-x=true]:hover &'` / `'button:hover > &'`.
+- **Co-located `sva`/`css` land in the `utilities` layer**, so they override the
+  6 config `recipes` cleanly — this is how a leaf adopts a primitive then layers
+  bespoke extras (MagneticButton gradientBorder over `button()`; ghost share
+  pills with a copied accent).
+- **Buttons normalize to `<Button>`** (user directive): generic buttons adopt a
+  `button` variant — added the `link` variant for the footer Cookie Settings;
+  CalendarShare + EventModal Back/Share adopt `ghost`. Genuinely bespoke chrome
+  stays bespoke (Navigation pills/hamburger, the filter chips). MagneticButton is
+  a thin motion wrapper over `button()` (hybrid).
+- **Keyframes register in `panda.config` `theme.extend.keyframes`** (added
+  `gradientBorderShift`, `heroProgress`, `rippleAnim`, `mbGradientSpin`, `fadeIn`,
+  `dialogIn`, `pulse`). `@property` does NOT work via Panda `globalCss` (breaks
+  `generateGlobalCss`) — put it as raw CSS in `globals.css` (see `--mb-angle`).
+- **Gotchas:** non-standard props (`WebkitUserDrag`, `WebkitBoxOrient`) aren't in
+  Panda's types — drop `-webkit-user-drag` (images carry `draggable={false}`) and
+  use the `lineClamp` utility instead of hand-rolled `-webkit-box`. Space-separated
+  `padding: 'md 0'` shorthands don't token-map — split to `paddingBlock`/`paddingInline`.
+  In keyframes, reference colors as `var(--colors-*)` (token() doesn't resolve there).
+- **IconButton** unifies the strip/slideshow/lightbox arrows at 44px (tone
+  `default`/`media`); per-control motion layers via `className`.
+
+### Earlier progress (foundation + first sweep)
 
 **Module count: 47 → 36.** All committed to `main`; typecheck + lint clean throughout.
 
@@ -118,12 +182,11 @@ a component renders on a real route before migrating (styleguide refs ≠ usage)
   an `sva` slot.
 - Per-token teardown: nothing has hit zero refs yet, so `globals.css` is untouched.
 
-Dead-code sweep is COMPLETE — the remaining 36 modules are all on live,
+Dead-code sweep is COMPLETE — the remaining modules are all on live,
 verified-used components, so just migrate; no need to re-check usage.
-
-**Next candidates:** Credits (184) · VisitSection (211) ·
-CookieBanner + CookieSettingsButton (→ `<Button>`) · Footer · Navigation · Hero.
-Plus fold `strip.module.css` → a shared `strip` recipe when Carousel migrates.
+(Since migrated, in this order: Credits · VisitSection · CookieBanner +
+CookieSettingsButton · Footer · Navigation, then groups A–C above. The live
+resume point is the **Remaining work** list at the top of this section.)
 
 ## Out of scope / dropped
 
