@@ -12,9 +12,8 @@ import {
 } from '@remixicon/react'
 import { Figure } from '@/components/Figure/Figure'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
-import shared from '@/components/Shared.module.css'
 import type { IconKey, VisitData } from '@/types/edition'
-import styles from './VisitSection.module.css'
+import { visitSection } from './VisitSection.recipe'
 
 // Fixed icon set mirrored from the amenity schema. Editors pick an
 // icon key; this is the renderer-side mapping.
@@ -28,14 +27,14 @@ const ICONS: Record<IconKey, RemixiconComponentType> = {
 }
 
 const PIXELS = [
-  { top: '-12px', left: '60px', size: 24, color: 'var(--action)' },
-  { top: '40px', right: '-16px', size: 20, color: 'var(--action)' },
-  { bottom: '80px', right: '-20px', size: 16, color: 'var(--highlight)' },
-  { bottom: '-14px', left: '120px', size: 22, color: 'var(--action)' },
-  { top: '50%', left: '-18px', size: 14, color: 'var(--highlight)' },
-  { bottom: '30px', left: '-10px', size: 18, color: 'var(--action)' },
-  { top: '20px', left: '30%', size: 10, color: 'var(--highlight)' },
-  { bottom: '-8px', right: '25%', size: 12, color: 'var(--highlight)' },
+  { top: '-12px', left: '60px', size: 24, color: 'var(--colors-action)' },
+  { top: '40px', right: '-16px', size: 20, color: 'var(--colors-action)' },
+  { bottom: '80px', right: '-20px', size: 16, color: 'var(--colors-highlight)' },
+  { bottom: '-14px', left: '120px', size: 22, color: 'var(--colors-action)' },
+  { top: '50%', left: '-18px', size: 14, color: 'var(--colors-highlight)' },
+  { bottom: '30px', left: '-10px', size: 18, color: 'var(--colors-action)' },
+  { top: '20px', left: '30%', size: 10, color: 'var(--colors-highlight)' },
+  { bottom: '-8px', right: '25%', size: 12, color: 'var(--colors-highlight)' },
 ] as const
 
 export function VisitSection(props: VisitData = {}) {
@@ -48,22 +47,20 @@ export function VisitSection(props: VisitData = {}) {
   const amenities = props.amenities ?? []
   const transport = props.transport ?? []
 
+  const s = visitSection()
+
   return (
-    <div id="visit" className={styles.section}>
-      <div className={styles.inner}>
-        <div className={styles.splitLayout}>
-          <div className={styles.imageBlock}>
-            <div className={styles.imageFrame}>
-              <Figure
-                image={image}
-                sizes="(max-width: 1023px) 100vw, 45vw"
-                className={styles.image}
-              />
+    <div id="visit" className={s.section}>
+      <div className={s.inner}>
+        <div className={s.splitLayout}>
+          <div className={s.imageBlock}>
+            <div className={s.imageFrame}>
+              <Figure image={image} sizes="(max-width: 1023px) 100vw, 45vw" className={s.image} />
             </div>
             {PIXELS.map((px) => (
               <div
                 key={`${px.size}-${px.color}-${'top' in px ? px.top : ''}${'bottom' in px ? px.bottom : ''}`}
-                className={styles.pixel}
+                className={s.pixel}
                 style={{
                   top: 'top' in px ? px.top : undefined,
                   bottom: 'bottom' in px ? px.bottom : undefined,
@@ -77,8 +74,8 @@ export function VisitSection(props: VisitData = {}) {
             ))}
           </div>
 
-          <div className={styles.content}>
-            <h2 className={shared.sectionTitle}>
+          <div className={s.content}>
+            <h2 className={s.title}>
               {venueName.map((line, i, arr) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: positional
                 <span key={i}>
@@ -88,20 +85,20 @@ export function VisitSection(props: VisitData = {}) {
               ))}
             </h2>
 
-            <div className={styles.infoRow}>
-              <div className={styles.infoBlock}>
-                <RiMapPinLine size={18} className={styles.infoIcon} />
-                <span className={styles.infoLabel}>Location</span>
-                <span className={styles.infoValue}>
+            <div className={s.infoRow}>
+              <div className={s.infoBlock}>
+                <RiMapPinLine size={18} className={s.infoIcon} />
+                <span className={s.infoLabel}>Location</span>
+                <span className={s.infoValue}>
                   {street}
                   <br />
                   {city}
                 </span>
               </div>
-              <div className={styles.infoBlock}>
-                <RiTimeLine size={18} className={styles.infoIcon} />
-                <span className={styles.infoLabel}>Opening Hours</span>
-                <span className={styles.infoValue}>
+              <div className={s.infoBlock}>
+                <RiTimeLine size={18} className={s.infoIcon} />
+                <span className={s.infoLabel}>Opening Hours</span>
+                <span className={s.infoValue}>
                   {hoursLines.map((line, i, arr) => (
                     // biome-ignore lint/suspicious/noArrayIndexKey: positional
                     <span key={i}>
@@ -113,38 +110,38 @@ export function VisitSection(props: VisitData = {}) {
               </div>
             </div>
 
-            <div className={styles.practicalStrip}>
+            <div className={s.practicalStrip}>
               {amenities.map((item) => {
                 const Icon = ICONS[item.icon] ?? RiMapPinLine
                 return (
-                  <div key={item.label} className={styles.practicalItem}>
-                    <Icon size={16} className={styles.practicalIcon} />
+                  <div key={item.label} className={s.practicalItem}>
+                    <Icon size={16} className={s.practicalIcon} />
                     <span>{item.label}</span>
                   </div>
                 )
               })}
             </div>
 
-            <div className={styles.transportList}>
+            <div className={s.transportList}>
               {transport.map((route) => (
-                <div key={route.from} className={styles.transportLine}>
-                  <RiBusLine size={14} className={styles.transportIcon} />
-                  <span className={styles.transportFrom}>{route.from}</span>
-                  <span className={styles.transportDot}>&middot;</span>
+                <div key={route.from} className={s.transportLine}>
+                  <RiBusLine size={14} className={s.transportIcon} />
+                  <span className={s.transportFrom}>{route.from}</span>
+                  <span className={s.transportDot}>&middot;</span>
                   <span>{route.lines}</span>
-                  <span className={styles.transportDot}>&middot;</span>
-                  <span className={styles.transportWalk}>{route.walk}</span>
+                  <span className={s.transportDot}>&middot;</span>
+                  <span className={s.transportWalk}>{route.walk}</span>
                 </div>
               ))}
             </div>
 
-            <div className={styles.cta}>
+            <div className={s.cta}>
               <MagneticButton
                 href={mapsUrl}
                 external
                 variant="secondary"
-                color="var(--action)"
-                textColor="var(--action)"
+                color="var(--colors-action)"
+                textColor="var(--colors-action)"
               >
                 <RiMapPinLine size={16} />
                 Get Directions
