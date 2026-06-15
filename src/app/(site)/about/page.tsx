@@ -1,15 +1,19 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
+import { css } from 'styled-system/css'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { Carousel } from '@/components/Carousel/Carousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
-import shared from '@/components/Shared.module.css'
+import { PageHero } from '@/components/PageHero/PageHero'
+import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { type AboutView, getAboutPage } from '@/sanity/lib/staticPages'
-import styles from './page.module.css'
+import { aboutPage } from './page.recipe'
+
+const styles = aboutPage()
 
 export const generateMetadata = makePageMetadata(getAboutPage, {
   title: 'About',
@@ -53,22 +57,18 @@ function AboutShell({ view }: { view: AboutView }) {
 
   return (
     <main>
-      <section className={shared.pageHero}>
-        <div className={shared.sectionInner}>
-          <h1 className={shared.pageTitle}>
-            <AccentSplit text={hero.title} accent={hero.titleAccent} />
-          </h1>
-          <p className={shared.lead}>{hero.lead}</p>
-        </div>
-      </section>
+      <PageHero
+        title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
+        lead={hero.lead}
+      />
       <figure className={styles.placeImage}>
         <Figure image={placeImage} sizes="100vw" className={styles.placeImageImg} />
       </figure>
-      <section className={`${shared.sectionLight} ${styles.projectSection}`}>
-        <div className={shared.sectionInner}>
+      <section className={styles.projectSection}>
+        <div className={styles.inner}>
           <div className={styles.projectGrid}>
             <aside className={styles.projectAside}>
-              <h2 className={`${styles.projectTitle}`}>{notFestivalTitle}</h2>
+              <h2 className={styles.projectTitle}>{notFestivalTitle}</h2>
             </aside>
 
             <div className={styles.projectMain}>
@@ -82,13 +82,13 @@ function AboutShell({ view }: { view: AboutView }) {
       </section>
 
       {carousel && (
-        <section className={`${shared.sectionDark} ${styles.carouselSection}`}>
+        <section className={styles.carouselSection}>
           <Carousel slides={carousel} eyebrow={carouselEyebrow} />
         </section>
       )}
 
-      <section className={`${shared.sectionDark} ${styles.pillarsSection}`}>
-        <div className={shared.sectionInner}>
+      <section className={styles.pillarsSection}>
+        <div className={styles.inner}>
           <div className={styles.pillarsGrid}>
             {pillars.map((p, i) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: positional
@@ -106,13 +106,11 @@ function AboutShell({ view }: { view: AboutView }) {
       <section className={styles.statement}>
         <div className={styles.statementInner}>
           <aside className={styles.statementAside}>
-            <div className={shared.eyebrowMuted}>{curatorEyebrow}</div>
+            <Eyebrow rule className={css({ marginBottom: '32px' })}>
+              {curatorEyebrow}
+            </Eyebrow>
 
-            <h2
-              className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.statementHeadline}`}
-            >
-              {curatorHeadline}
-            </h2>
+            <h2 className={styles.statementHeadline}>{curatorHeadline}</h2>
 
             <figure className={styles.statementByline}>
               <div className={styles.authorPhotoFrame}>

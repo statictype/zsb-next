@@ -417,6 +417,10 @@ export default defineConfig({
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(100%)' },
         },
+        // Editions-list card entrance (blur + rise).
+        cardReveal: {
+          to: { opacity: '1', transform: 'translateY(0)', filter: 'blur(0)' },
+        },
         // Calendar "now"/on-now pulsing dot.
         pulse: {
           '0%': { boxShadow: '0 0 0 0 color-mix(in srgb, var(--colors-action) 60%, transparent)' },

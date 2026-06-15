@@ -1,6 +1,7 @@
 import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { css, cx } from 'styled-system/css'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -9,7 +10,7 @@ import { HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
-import shared from '@/components/Shared.module.css'
+import { Badge } from '@/components/ui/Badge/Badge'
 import {
   getEditionListItems,
   getFeaturedEvents,
@@ -23,7 +24,9 @@ import { type EditionListItem } from '@/sanity/lib/editions'
 import { getHomepage, type HomeView } from '@/sanity/lib/homepage'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import type { CalendarEvent } from '@/types/edition'
-import styles from './page.module.css'
+import { homePage } from './page.recipe'
+
+const styles = homePage()
 
 export async function generateMetadata() {
   const { perspective } = await getDynamicFetchOptions()
@@ -76,16 +79,16 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
   return (
     <>
       <Navigation activeId="home" />
-      <main className={styles.main}>
+      <main>
         {upcoming ? (
           // Hero switch leads with the Upcoming edition (ZSB-44). It has no
           // photography of its own yet, so the last edition's slideshow + CTA are
           // kept as a compact "from the last edition" side card.
-          <section id="home" className={`${styles.panel} ${styles.hero}`}>
+          <section id="home" className={cx(styles.panel, styles.hero)}>
             <div className={styles.upcomingInner}>
               <div className={styles.upcomingLead}>
                 <p className={styles.upcomingEyebrow}>Upcoming · ZSB {upcoming.year}</p>
-                <h1 className={`${shared.pageTitle} ${styles.heroTitle}`}>
+                <h1 className={styles.heroTitle}>
                   <AccentSplit text={upcoming.theme} accent={upcoming.themeHighlight} lineBreak />
                 </h1>
                 <p className={styles.upcomingDates}>{upcoming.dateTape}</p>
@@ -108,14 +111,14 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
             </div>
           </section>
         ) : (
-          <section id="home" className={`${styles.panel} ${styles.hero}`}>
+          <section id="home" className={cx(styles.panel, styles.hero)}>
             <div className={styles.heroInner}>
               <div className={styles.heroPanel}>
-                <h1 className={`${shared.pageTitle} ${styles.heroTitle}`}>
+                <h1 className={styles.heroTitle}>
                   <AccentSplit text={title} accent={accent} lineBreak />
                 </h1>
                 <div className={styles.heroText}>
-                  <p className={shared.heroLead}>{lead}</p>
+                  <p className={css({ textStyle: 'heroLead' })}>{lead}</p>
                   {ctaLabel && ctaYear && (
                     <MagneticButton href={`/editions/${ctaYear}`} size="lg" gradientBorder>
                       {ctaLabel} <RiArrowRightLine size={14} />
@@ -137,9 +140,9 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
 
         {featured && <FeaturedSpotlight year={featured.year} events={featured.events} />}
 
-        <section id="editions" className={`${styles.panel} ${styles.editions}`}>
+        <section id="editions" className={cx(styles.panel, styles.editions)}>
           <div className={styles.editionsHead}>
-            <h2 className={shared.sectionTitle}>EDITIONS</h2>
+            <h2 className={css({ textStyle: 'sectionTitle' })}>EDITIONS</h2>
             <p className={styles.editionsSubtext}>{editionsIntro}</p>
           </div>
           <div className={styles.editionList}>
@@ -148,12 +151,14 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 return (
                   <div
                     key={edition.year}
-                    className={`${styles.editionRow} ${styles.editionRowDisabled}`}
+                    className={cx(styles.editionRow, styles.editionRowDisabled)}
                     aria-disabled="true"
                   >
                     <span className={styles.editionYear}>{edition.year}</span>
                     <span className={styles.editionTheme}>{edition.theme}</span>
-                    <span className={styles.editionBadge}>Coming soon</span>
+                    <Badge size="sm" className={css({ flexShrink: '0' })}>
+                      Coming soon
+                    </Badge>
                   </div>
                 )
               }

@@ -1,16 +1,19 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { type CSSProperties } from 'react'
-import { cx } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { Figure } from '@/components/Figure/Figure'
-import shared from '@/components/Shared.module.css'
+import { PageHero } from '@/components/PageHero/PageHero'
+import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
 import { TextLink } from '@/components/ui/TextLink/TextLink'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
-import styles from './page.module.css'
+import { editionsPage } from './page.recipe'
+
+const styles = editionsPage()
 
 export const metadata = pageMetadata({
   title: 'Editions',
@@ -58,7 +61,8 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
           return (
             <div
               key={year}
-              className={cx(styles.slot, isFeature && styles.feature)}
+              className={styles.slot}
+              data-feature={isFeature || undefined}
               style={{ '--card-index': index } as CSSProperties}
             >
               <Card
@@ -78,7 +82,7 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
                     }
                     className={styles.thumbImg}
                   />
-                  <span className={styles.yearTag}>{year}</span>
+                  <Badge className={cx(styles.yearTag)}>{year}</Badge>
                 </div>
 
                 <div className={styles.meta}>
@@ -117,22 +121,17 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
 function EditionsListShell({ children }: { children?: React.ReactNode }) {
   return (
     <main>
-      <section className={shared.pageHero}>
-        <div className={shared.sectionInner}>
-          <h1 className={shared.pageTitle}>
-            Edition<span className={shared.accent}>s</span>
-          </h1>
-          <p className={shared.lead}>
-            Five past editions. Five #, each one a curatorial position, not just a title. Together
-            they trace a movement: from the space sculpture inhabits, to the emotional conditions it
-            holds, to the forces it models, to the body it refuses to idealise. Not a plan. A
-            conversation that keeps going.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title={
+          <>
+            Edition<span className={css({ color: 'action' })}>s</span>
+          </>
+        }
+        lead="Five past editions. Five #, each one a curatorial position, not just a title. Together they trace a movement: from the space sculpture inhabits, to the emotional conditions it holds, to the forces it models, to the body it refuses to idealise. Not a plan. A conversation that keeps going."
+      />
 
-      <section className={`${shared.sectionDark} ${styles.list}`}>
-        <div className={shared.sectionInner}>{children}</div>
+      <section className={styles.list}>
+        <div className={styles.inner}>{children}</div>
       </section>
     </main>
   )

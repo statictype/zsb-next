@@ -5,19 +5,13 @@ import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { Navigation } from '@/components/Navigation/Navigation'
+import { PageHero } from '@/components/PageHero/PageHero'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getPrivacyPage, type PrivacyView } from '@/sanity/lib/staticPages'
 import { privacyPage } from './page.recipe'
 
 const styles = privacyPage()
-// pageTitle is typography-only; the entrance animation lives at the call site.
-const pageTitle = css({
-  textStyle: 'pageTitle',
-  opacity: 0,
-  animation: 'fadeSlideUp 1s {easings.expo} 0.2s forwards',
-})
-const lead = css({ textStyle: 'lead', maxWidth: '60ch', marginTop: 'xl' })
 
 export const generateMetadata = makePageMetadata(getPrivacyPage, {
   title: 'Privacy & Cookies',
@@ -70,14 +64,10 @@ function PrivacyShell({ view }: { view: PrivacyView }) {
     <>
       <Navigation activeId={null} />
       <main>
-        <section className={css({ layerStyle: 'pageHero' })}>
-          <div className={css({ layerStyle: 'sectionInner' })}>
-            <h1 className={pageTitle}>
-              <AccentSplit text={hero.title} accent={hero.titleAccent} />
-            </h1>
-            <p className={lead}>{hero.lead}</p>
-          </div>
-        </section>
+        <PageHero
+          title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
+          lead={hero.lead}
+        />
 
         <section className={styles.body}>
           <div className={css({ layerStyle: 'sectionInner' })}>

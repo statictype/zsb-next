@@ -85,7 +85,9 @@ The three controls (StripControls, HeroSlideshow, Lightbox) are ordinary leaves
 
 ## Progress (resume point — 2026-06-16)
 
-**Module count: 47 → 6.** All committed to `main`; typecheck + lint clean throughout.
+**Module count: 47 → 1.** All committed to `main`; typecheck + lint clean throughout.
+Only `Shared.module.css` remains (the `skeleton` helper used by `Figure` +
+`Lightbox`) — the Group F teardown.
 **Do NOT run `pnpm build`** — verify with `pnpm typecheck` + `pnpm lint` +
 `pnpm exec panda cssgen --outfile /tmp/x.css` (cssgen catches Panda CSS-gen
 errors typecheck misses). The user drives browser verification on their dev
@@ -112,10 +114,14 @@ footer catalogue-stamp precedent**)**. **Next up:**
   shared `AccentSplit` leaf (default → `css({ color: 'action' })`) and tore out
   `--carousel-height` (loading was its last consumer). The shared page-hero
   header (`pageHero`/`sectionInner`/`pageTitle`/`lead`/`accent`) became inline
-  `css(layerStyle/textStyle)` at the call site. _E2 (next)_ — the large content
-  pages: home (398) · about (414) · editions (285) · partners (205) · press
-  (330). **E2 extracts a `PageHero` component** to absorb the repeated hero
-  header (retrofitting artists + privacy onto it too).
+  `css(layerStyle/textStyle)` at the call site. _E2 done_ — the large content
+  pages: home (sva; unique HeroSlideshow hero, not PageHero), about, editions
+  (feature card via `data-feature`), partners, press. Extracted a **`PageHero`**
+  component (`pageHero`+`sectionInner`+`pageTitle`+entrance+`lead`) and
+  retrofitted artists + privacy onto it; `eyebrowMuted` → `<Eyebrow rule>`; more
+  `pill`s → `<Badge>`; added a `cardReveal` keyframe; tore out
+  `--card-image-filter`. Dropped dead slots (`signature*`, `contact*`,
+  `kitDeck`, `editionsLink`, empty `.main`).
 - **Group F — foundation teardown:** delete `Shared.module.css` (migrate its
   last consumers — the `skeleton` helper used by `Figure` + `Lightbox` → a
   shared `css` helper + a `skeletonPulse` keyframe + a `--skeleton-base` value;

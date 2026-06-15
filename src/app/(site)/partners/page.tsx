@@ -1,19 +1,23 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
+import { css } from 'styled-system/css'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
 import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
+import { PageHero } from '@/components/PageHero/PageHero'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
-import shared from '@/components/Shared.module.css'
+import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
 import { getPartnersPage, type PartnersView } from '@/sanity/lib/staticPages'
-import styles from './page.module.css'
+import { partnersPage } from './page.recipe'
+
+const styles = partnersPage()
 
 export const generateMetadata = makePageMetadata(getPartnersPage, {
   title: 'Partners',
@@ -69,18 +73,14 @@ function PartnersShell({
     <>
       <Navigation activeId={null} />
       <main>
-        <section className={shared.pageHero}>
-          <div className={shared.sectionInner}>
-            <h1 className={shared.pageTitle}>
-              <AccentSplit text={hero.title} accent={hero.titleAccent} />
-            </h1>
-            <p className={shared.lead}>{hero.lead}</p>
-          </div>
-        </section>
+        <PageHero
+          title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
+          lead={hero.lead}
+        />
 
-        <section className={`${shared.sectionDark} ${styles.eventSection}`}>
-          <div className={shared.sectionInner}>
-            <h2 className={shared.sectionTitle}>{eventTitle}</h2>
+        <section className={styles.eventSection}>
+          <div className={styles.inner}>
+            <h2 className={css({ textStyle: 'sectionTitle', marginBottom: 'xl' })}>{eventTitle}</h2>
             <div className={styles.eventBody}>
               {eventBody.map((para, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: positional
@@ -93,16 +93,20 @@ function PartnersShell({
           </div>
         </section>
 
-        <section className={`${shared.section} ${shared.sectionLight}`}>
-          <div className={shared.sectionInner}>
+        <section
+          className={css({
+            layerStyle: 'sectionLight',
+            paddingBlock: 'sectionY',
+            paddingInline: 'content',
+          })}
+        >
+          <div className={styles.inner}>
             <div className={styles.whySculptureTop}>
               <div>
-                <div className={shared.eyebrowMuted}>{whyEyebrow}</div>
-                <h2
-                  className={`${shared.sectionTitle} ${shared.sectionTitleLight} ${styles.whySculptureTitle}`}
-                >
-                  {whyTitle}
-                </h2>
+                <Eyebrow rule className={css({ marginBottom: '32px' })}>
+                  {whyEyebrow}
+                </Eyebrow>
+                <h2 className={styles.whySculptureTitle}>{whyTitle}</h2>
               </div>
               <div className={styles.whySculptureImage}>
                 <Figure
@@ -128,7 +132,7 @@ function PartnersShell({
           </div>
         </section>
 
-        <section className={`${shared.section} ${shared.sectionDark} ${styles.partnerCta}`}>
+        <section className={styles.partnerCta}>
           <div className={styles.partnerCtaInner}>
             <div className={styles.partnerCtaBadge}>
               <PartnerBadge />
