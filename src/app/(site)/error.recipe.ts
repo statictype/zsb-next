@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Error boundary — co-located slot recipe (Panda migration).
+ * Error boundary — co-located slot recipe.
  *
  * Full-screen centered error state on the brand-black ground, with a faint
  * SVG-noise wash + a blurred pink glow. The two actions stay bespoke hairline

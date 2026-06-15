@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Privacy page — co-located slot recipe (Panda migration).
+ * Privacy page — co-located slot recipe.
  *
  * The legible long-form privacy/cookies article on the dark ground. `body` owns
  * its full padding (top 0 — the pageHero above already provides the gap) so the

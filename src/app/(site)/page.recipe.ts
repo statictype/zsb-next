@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Home page — co-located slot recipe (Panda migration).
+ * Home page — co-located slot recipe.
  *
  * Dark hero with the slideshow pinned right and the title crashing over its
  * left edge, an Upcoming-lead variant (next edition's theme + a demoted "from

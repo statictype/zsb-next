@@ -354,8 +354,8 @@ const card = defineRecipe({
 })
 
 export default defineConfig({
-  // Panda's CSS reset is intentionally OFF — the site keeps its existing global
-  // styles during the incremental migration; we don't want a reset mid-flight.
+  // Panda's CSS reset is intentionally OFF — the element reset lives in
+  // globals.css (`@layer base`).
   preflight: false,
   // Utilities only, none of Panda's opinionated default theme/colors.
   presets: ['@pandacss/preset-base'],
@@ -621,10 +621,9 @@ export default defineConfig({
           },
         },
       },
-      // Typography utilities ported from Shared.module.css. Pure type — margins
-      // and max-width that the legacy classes carried move to the call site.
-      // `pill`/`eyebrowMuted` are intentionally NOT here: they are the Badge /
-      // Eyebrow recipes; consumers adopt those instead.
+      // Typography utilities. Pure type — margins / max-width belong at the call
+      // site. Tag/kicker treatments are NOT here: they are the Badge / Eyebrow
+      // recipes.
       textStyles: {
         sectionTitle: {
           value: {
@@ -704,9 +703,8 @@ export default defineConfig({
           },
         },
       },
-      // Section / page-shell layout ported from Shared.module.css. Authoring
-      // these as layerStyles dissolves the old section-padding ordering bug —
-      // Panda dedupes at the property level, so a later class can override pad.
+      // Section / page-shell layout as layerStyles — Panda dedupes at the
+      // property level, so a later class can override the padding.
       layerStyles: {
         section: { value: { paddingBlock: 'sectionY', paddingInline: 'content' } },
         sectionDark: { value: { background: 'blackPure', color: 'white' } },
@@ -724,10 +722,8 @@ export default defineConfig({
             paddingInline: 'content',
           },
         },
-        // NB `sectionHeader` (flex layout) and `skeleton` (positioned + animated)
-        // are NOT layerStyles — Panda layerStyles are surface props only. They
-        // migrate with their first consumer (sectionHeader → inline css; skeleton
-        // → a shared css helper + the pulse keyframe).
+        // NB layerStyles are surface props only — positioned/animated helpers
+        // (e.g. the image skeleton) live in their own `css()` helper, not here.
       },
       recipes: { badge, eyebrow, button, textLink, iconButton, card },
     },

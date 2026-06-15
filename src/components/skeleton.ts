@@ -5,10 +5,8 @@ import { css } from 'styled-system/css'
  * loading `<Image>` (inset: 0) until the image paints over it. Place it as a
  * sibling *before* the image inside a `position: relative; overflow: hidden`
  * frame; the image's own className should set an opaque background so any
- * transparent areas don't reveal the pulse underneath.
- *
- * Successor to the former `Shared.module.css` `.skeleton` (the last shared
- * CSS-Module helper). The base tone is the gray ramp's `gray.800`.
+ * transparent areas don't reveal the pulse underneath. The base tone is the
+ * gray ramp's `gray.800`.
  */
 export const skeleton = css({
   position: 'absolute',

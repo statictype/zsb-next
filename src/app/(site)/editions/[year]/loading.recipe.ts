@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Edition loading skeleton — co-located slot recipe (Panda migration).
+ * Edition loading skeleton — co-located slot recipe.
  *
  * The Suspense fallback for an edition page: pulsing "bone" placeholders laid
  * out roughly like the real hero / manifesto / artists / venues / carousel

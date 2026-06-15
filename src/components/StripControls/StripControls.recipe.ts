@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * StripControls — co-located slot recipe (Panda migration).
+ * StripControls — co-located slot recipe.
  *
  * The header row shared by every scroll-snap strip: an eyebrow + prev/next
  * arrows. The arrows themselves adopt the `<IconButton>` primitive (tone

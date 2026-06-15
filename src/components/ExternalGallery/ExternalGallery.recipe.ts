@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * ExternalGallery — co-located slot recipe (Panda migration).
+ * ExternalGallery — co-located slot recipe.
  *
  * Archive-link section for editions whose archive lives off-site (the 2021
  * online edition), built on the unified hairline Card (the `card()` recipe owns

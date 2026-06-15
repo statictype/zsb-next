@@ -1,10 +1,9 @@
 /* =====================================================
    GLOBALS — cascade-layer order, @property, reset/base.
 
-   All design tokens now live in `panda.config.ts` (OKLCH theme, type/space
-   scales, etc.) and are emitted by Panda as `--colors-*` / `--fonts-*` / …
-   custom properties. The legacy `:root` token block was retired when the last
-   CSS Module was deleted (Panda-only; see ADR 0017).
+   All design tokens live in `panda.config.ts` (OKLCH theme, type/space scales,
+   etc.) and are emitted by Panda as `--colors-*` / `--fonts-*` / … custom
+   properties; the element reset below reads them directly.
    ===================================================== */
 
 /* Cascade-layer order — declared here (globals.css is imported before

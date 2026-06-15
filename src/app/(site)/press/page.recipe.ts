@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Press page — co-located slot recipe (Panda migration).
+ * Press page — co-located slot recipe.
  *
  * Dark page: media-kit strip, then two link registers (appearances, releases)
  * as hairline-separated rows whose title + arrow warm to the accent on hover.

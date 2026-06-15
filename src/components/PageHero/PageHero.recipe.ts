@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * PageHero — co-located slot recipe (Panda migration).
+ * PageHero — co-located slot recipe.
  *
  * The shared dark title block every top-level page opens with: it clears the
  * fixed nav (the `pageHero` layerStyle owns the full padding, so the page-top

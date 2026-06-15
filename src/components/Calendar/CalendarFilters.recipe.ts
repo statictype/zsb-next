@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * CalendarFilters — co-located slot recipe (Panda migration).
+ * CalendarFilters — co-located slot recipe.
  *
  * Venue/type chips (all-on-by-default multi-select) + a Reset control, inside
  * the dark Calendar section. Chips are bespoke board controls (toggle look +

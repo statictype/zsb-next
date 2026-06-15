@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * VisitFaq — co-located slot recipe (Panda migration).
+ * VisitFaq — co-located slot recipe.
  *
  * Reuses the foundation: `section`/`sectionInner` layerStyles and the
  * `sectionTitle` textStyle (margin applied here, since textStyles are

@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * CookieBanner — co-located slot recipe (Panda migration).
+ * CookieBanner — co-located slot recipe.
  *
  * Fixed consent dialog pinned to the bottom rail. The Reject/Accept actions are
  * now the shared `<Button>` primitive (ghost / solid), so only the shell layout

@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * MagneticButton — co-located slot recipe (Panda migration).
+ * MagneticButton — co-located slot recipe.
  *
  * MagneticButton is now a thin motion wrapper over the shared `button` recipe:
  * the variant/size visuals come from `button()`, this adds only the bits the

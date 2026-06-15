@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * HeroSlideshow — co-located slot recipe (Panda migration).
+ * HeroSlideshow — co-located slot recipe.
  *
  * A crossfade stage with a control bar below: pagination dots, prev /
  * play-pause / next, and a per-slide progress hairline. The nav cluster adopts

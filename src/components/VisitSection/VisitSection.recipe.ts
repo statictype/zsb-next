@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * VisitSection — co-located slot recipe (Panda migration).
+ * VisitSection — co-located slot recipe.
  *
  * Dark split layout: framed venue image (with scattered decorative pixels) +
  * an info column (address, hours, amenity strip, transport list, directions

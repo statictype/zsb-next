@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Navigation — co-located slot recipe (Panda migration).
+ * Navigation — co-located slot recipe.
  *
  * Floating logo + pill menu, no top bar. Mobile: a full-screen overlay toggled
  * by the hamburger; desktop (md+): a top-right pill row with the hamburger

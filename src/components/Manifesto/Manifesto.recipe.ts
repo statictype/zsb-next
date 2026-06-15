@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Manifesto — co-located slot recipe (Panda migration).
+ * Manifesto — co-located slot recipe.
  *
  * First consumer of the `sectionLight` layerStyle. Uses the looser `sectionYLg`
  * rhythm token. The title is a single column that becomes a 2-column grid at lg+;

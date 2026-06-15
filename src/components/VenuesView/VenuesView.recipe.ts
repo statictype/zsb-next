@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * VenuesView — co-located slot recipe (Panda migration).
+ * VenuesView — co-located slot recipe.
  *
  * The programme browsed by place (ZSB-27), under the Visit page's main-venue
  * block. No ground of its own — it inherits the page's dark canvas and only

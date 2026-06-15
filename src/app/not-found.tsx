@@ -2,11 +2,6 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import { css, cx } from 'styled-system/css'
 
-// Migrated off CSS Modules / globals.css tokens onto Panda CSS (ZSB-70 proof
-// of incremental coexistence). Tokens (colors, spacing, type, easings) and the
-// keyframes resolve from panda.config.ts; the rest of the site still uses CSS
-// Modules in parallel.
-
 const EXPO = 'cubic-bezier(0.16, 1, 0.3, 1)'
 
 const page = css({

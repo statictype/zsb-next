@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * EditionsNav — co-located slot recipe (Panda migration).
+ * EditionsNav — co-located slot recipe.
  *
  * The full-bleed pure-black editions strip above the footer. Cards are the
  * unified `card` recipe (chrome + accent-warming hover); this adds only the

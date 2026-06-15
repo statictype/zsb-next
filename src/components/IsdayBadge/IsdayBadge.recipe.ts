@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * IsdayBadge — co-located slot recipe (Panda migration).
+ * IsdayBadge — co-located slot recipe.
  *
  * The "Official Participant" pill is now the shared <Badge tone="dark">; this
  * recipe owns the bespoke card surface (pink-tinted gradient, hairline + card

@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Calendar — co-located slot recipe (Panda migration).
+ * Calendar — co-located slot recipe.
  *
  * The date-by-date programme as a dark schedule board: header + counts, an
  * "Ongoing" exhibition card grid, the day-by-day agenda timeline, the NOW

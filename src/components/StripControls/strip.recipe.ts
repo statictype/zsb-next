@@ -1,12 +1,12 @@
 import { sva } from 'styled-system/css'
 
 /**
- * strip — shared scroll-snap-strip layout (Panda migration).
+ * strip — shared scroll-snap-strip layout.
  *
  * The viewport bleeds to the section edge by cancelling the parent's
  * content-padding, so any strip dropped in a padded section reaches the true
- * edge. Shared by Carousel + MediaKitStrip (replaces the old `composes:` from
- * `strip.module.css`); each strip's items stay with their own component.
+ * edge. Shared by Carousel + MediaKitStrip; each strip's items stay with their
+ * own component.
  */
 export const strip = sva({
   slots: ['viewport', 'track'],

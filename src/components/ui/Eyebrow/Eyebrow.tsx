@@ -5,9 +5,8 @@ import { type EyebrowVariantProps, eyebrow } from 'styled-system/recipes'
 /**
  * Eyebrow — unified kicker/label primitive (ZSB-71).
  *
- * Replaces `.eyebrowMuted` (Shared.module.css), the StripControls eyebrow, and
- * the FeaturedEvents eyebrow. Variants (`tone` × `size` × `rule`) live in the
- * Panda `eyebrow` recipe, not in per-component CSS.
+ * The one kicker/label used above section headings. Variants (`tone` × `size` ×
+ * `rule`) live in the Panda `eyebrow` recipe.
  */
 type EyebrowProps = EyebrowVariantProps & {
   children: ReactNode

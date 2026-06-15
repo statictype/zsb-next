@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Hero — co-located slot recipe (Panda migration).
+ * Hero — co-located slot recipe.
  *
  * The edition hero: an image frame (portrait on mobile, 2:1 from `md`) with a
  * stack of sticky-tape labels overlaid. Full-bleed until `lg`, where the hero

@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * About page — co-located slot recipe (Panda migration).
+ * About page — co-located slot recipe.
  *
  * The editorial About spread: an asymmetric "the project" split on light, a
  * dark gallery carousel + pillars band, then the curator letter — a sticky

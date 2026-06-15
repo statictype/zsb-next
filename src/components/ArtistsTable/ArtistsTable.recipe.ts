@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * ArtistsTable — co-located slot recipe (Panda migration).
+ * ArtistsTable — co-located slot recipe.
  *
  * A numbered two-column roster on a chartreuse header/footer, framed by the
  * shared dark hairline (`--border-dark` → divider token). Single column on

@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Editions list page — co-located slot recipe (Panda migration).
+ * Editions list page — co-located slot recipe.
  *
  * A grid of edition cards on the unified `card` recipe (chrome + hover-lift);
  * the latest edition is the full-width "feature" card. The feature treatment is

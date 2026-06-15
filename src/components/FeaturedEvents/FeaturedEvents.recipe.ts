@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * FeaturedEvents — co-located slot recipe (Panda migration).
+ * FeaturedEvents — co-located slot recipe.
  *
  * The homepage spotlight (ZSB-31): must-see events pinned up as poster cards on
  * the same dark, image-forward palette as the calendar. The unified Card recipe

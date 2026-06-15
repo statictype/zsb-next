@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Partners page — co-located slot recipe (Panda migration).
+ * Partners page — co-located slot recipe.
  *
  * Intro prose + full-width event image on dark, a "why sculpture" block on
  * light (eyebrow + title + image, then a 4-pillar grid), and a centered partner

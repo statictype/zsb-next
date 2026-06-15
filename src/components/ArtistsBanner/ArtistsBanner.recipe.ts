@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * ArtistsBanner — co-located slot recipe (Panda migration).
+ * ArtistsBanner — co-located slot recipe.
  *
  * The compound hover (title warms to the accent, arrow nudges, the underline
  * draws, the corner wash fades in) lives in one place: the `root` slot's

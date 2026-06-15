@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * EventModal — co-located slot recipe (Panda migration).
+ * EventModal — co-located slot recipe.
  *
  * Full detail for one event, as a dialog over the schedule board. Back/Share
  * are bespoke board chips (translucent, blurred), kept off the `<Button>`

@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Lightbox — co-located slot recipe (Panda migration).
+ * Lightbox — co-located slot recipe.
  *
  * Full-screen image viewer with swipe/drag. The close + prev/next adopt the
  * `<IconButton>` primitive (tone `default` = white→action); their positioning

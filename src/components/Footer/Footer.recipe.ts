@@ -1,12 +1,11 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Footer — co-located slot recipe (Panda migration).
+ * Footer — co-located slot recipe.
  *
  * Dark editorial footer: partner badge, Connect/Follow link register, catalogue
- * stamp, baseline meta row. Mobile-first — the legacy module mixed a
- * `max-width: 767` block with `min-width: 768` overrides; here `base` is the
- * mobile (centered, stacked) layout and `md` is the spread desktop row.
+ * stamp, baseline meta row. Mobile-first — `base` is the mobile (centered,
+ * stacked) layout and `md` is the spread desktop row.
  *
  * The links themselves adopt the `<TextLink>` primitive (nav links → `draw`,
  * the Privacy Policy link → `quiet`); the `link` slot only carries the footer's

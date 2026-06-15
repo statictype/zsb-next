@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Carousel — co-located slot recipe (Panda migration).
+ * Carousel — co-located slot recipe.
  *
  * Gallery scroll-snap strip. Viewport + track come from the shared `strip`
  * recipe; this owns the slide grid (a `layout` variant per slide shape), the

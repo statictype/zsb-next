@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * ThemeArtists — co-located slot recipe (Panda migration).
+ * ThemeArtists — co-located slot recipe.
  *
  * The edition's theme statement beside its numbered artist roster on the dark
  * ground. A single narrow column on mobile; from `lg` the inner becomes a

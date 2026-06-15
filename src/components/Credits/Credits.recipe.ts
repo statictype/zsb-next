@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Credits — co-located slot recipe (Panda migration).
+ * Credits — co-located slot recipe.
  *
  * Four-tier credit roster (primary grid + partners + secondary) on a white
  * section. Reuses the `section`/`sectionInner` foundation; the tiered grids and

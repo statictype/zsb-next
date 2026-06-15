@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * MediaKitStrip — co-located slot recipe (Panda migration).
+ * MediaKitStrip — co-located slot recipe.
  *
  * Poster scroll-snap strip. Viewport + track come from the shared `strip`
  * recipe; this owns the 3:4 poster card and its image hover-zoom.

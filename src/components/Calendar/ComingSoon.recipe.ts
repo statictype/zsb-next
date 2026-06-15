@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * ComingSoon — co-located slot recipe (Panda migration).
+ * ComingSoon — co-located slot recipe.
  *
  * Stands in for the calendar on a live edition whose events aren't announced
  * yet; shares the schedule board's dark surface. Header mirrors the live

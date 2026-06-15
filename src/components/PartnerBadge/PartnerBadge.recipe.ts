@@ -1,11 +1,10 @@
 import { sva } from 'styled-system/css'
 
 /**
- * PartnerBadge — co-located slot recipe (Panda migration).
+ * PartnerBadge — co-located slot recipe.
  *
  * Size scales off the `--partner-badge-scale` custom prop set by the parent
- * (home / Footer), with a `1` fallback, so the badge keeps reading it while
- * those containers are still CSS Modules. The `variant` axis (light | dark) only
+ * (home / Footer), with a `1` fallback. The `variant` axis (light | dark) only
  * swaps the rotating ring's text fill — the center heart is always the accent.
  * GSAP magnetic/elastic motion stays in the component.
  */
