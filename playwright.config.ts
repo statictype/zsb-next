@@ -12,9 +12,17 @@ export default defineConfig({
   forbidOnly: isCI,
   retries: isCI ? 1 : 0,
   reporter: isCI ? [['github'], ['list']] : 'list',
+  // Each journey is a real client navigation — an RSC payload + a live Sanity
+  // fetch, plus first-hit route compilation on the dev server — so the default
+  // 5s/30s budgets are too tight on a slow connection. Be generous; correctness
+  // failures still surface, they just get room to load first.
+  timeout: 60_000,
+  expect: { timeout: 15_000 },
   use: {
     baseURL,
     trace: 'on-first-retry',
+    navigationTimeout: 30_000,
+    actionTimeout: 15_000,
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   // Run against a production build. Locally we self-build; in CI the workflow

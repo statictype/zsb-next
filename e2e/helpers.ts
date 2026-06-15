@@ -53,6 +53,33 @@ export async function dismissCookies(page: Page): Promise<void> {
 }
 
 /**
+ * The href of the first link to a specific edition *page* (`/editions/{year}`),
+ * ignoring the index (`/editions`) and event sub-routes (`/editions/{year}/
+ * events/...`). Lets navigation tests click a deterministic target instead of a
+ * DOM-order `.first()` that can land on a nav/index link. Null if none present.
+ */
+export async function firstEditionHref(page: Page): Promise<string | null> {
+  return page.locator('a[href]').evaluateAll((els) => {
+    const hit = els
+      .map((el) => el.getAttribute('href'))
+      .find((h): h is string => !!h && /^\/editions\/\d+$/.test(h))
+    return hit ?? null
+  })
+}
+
+/**
+ * Past editions fold their programme — filters *and* the event board — behind a
+ * native <details> ("View full programme", ZSB-45). Open it so the calendar is
+ * interactable. A no-op on live/upcoming editions, which render expanded.
+ */
+export async function openFullProgramme(page: Page): Promise<void> {
+  const toggle = page.getByText(/view full programme/i).first()
+  if (await toggle.isVisible().catch(() => false)) {
+    await toggle.click()
+  }
+}
+
+/**
  * Find an edition whose page renders a calendar of events, by following the
  * `/editions/{year}` → `/editions/{year}/events/{slug}` route contract (ADR
  * 0015) rather than any markup. Returns the edition URL, or null if the dataset

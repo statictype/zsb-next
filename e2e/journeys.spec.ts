@@ -1,5 +1,12 @@
 import { expect, test } from '@playwright/test'
-import { dismissCookies, expectErrorClean, findEditionWithEvents, trackErrors } from './helpers'
+import {
+  dismissCookies,
+  expectErrorClean,
+  findEditionWithEvents,
+  firstEditionHref,
+  openFullProgramme,
+  trackErrors,
+} from './helpers'
 
 // User-journey coverage for the pages reworked in the Panda migration. These are
 // deliberately a black box: assertions go through accessible roles/names, text,
@@ -35,7 +42,9 @@ test.describe('navigation', () => {
   test('the homepage links through to an edition page', async ({ page }) => {
     await page.goto('/')
     await dismissCookies(page)
-    await page.locator('a[href*="/editions/"]').first().click()
+    const href = await firstEditionHref(page)
+    expect(href, 'the homepage should link to an edition').toBeTruthy()
+    await page.locator(`a[href="${href}"]`).first().click()
     await expect(page).toHaveURL(/\/editions\/\d+/)
     await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible()
   })
@@ -43,7 +52,9 @@ test.describe('navigation', () => {
   test('the editions index links through to an edition page', async ({ page }) => {
     await page.goto('/editions')
     await dismissCookies(page)
-    await page.locator('main a[href*="/editions/"]').first().click()
+    const href = await firstEditionHref(page)
+    expect(href, 'the editions index should link to an edition').toBeTruthy()
+    await page.locator(`a[href="${href}"]`).first().click()
     await expect(page).toHaveURL(/\/editions\/\d+/)
     await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible()
   })
@@ -51,9 +62,10 @@ test.describe('navigation', () => {
   test('the footer privacy link opens the privacy page', async ({ page }) => {
     await page.goto('/')
     await dismissCookies(page)
+    // Scope to the footer landmark — the cookie banner also links to /privacy.
     await page
+      .getByRole('contentinfo')
       .getByRole('link', { name: /privacy/i })
-      .first()
       .click()
     await expect(page).toHaveURL(/\/privacy$/)
     await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible()
@@ -91,8 +103,13 @@ test.describe('calendar', () => {
     test.skip(!editionUrl, 'no edition with an announced programme in the dataset')
     await page.goto(editionUrl!)
     await dismissCookies(page)
+    await openFullProgramme(page)
 
-    await page.locator('a[href*="/events/"]').first().click()
+    // The calendar renders responsive layout variants; click the first event
+    // link that's actually visible, not the first in DOM order (may be hidden).
+    const eventLink = page.locator('a[href*="/events/"]:visible').first()
+    await eventLink.scrollIntoViewIfNeeded()
+    await eventLink.click()
     // The routed modal (ADR 0015): a dialog over the edition + the event URL.
     await expect(page).toHaveURL(/\/events\//)
     const back = page.getByRole('button', { name: /back to programme/i })
@@ -107,13 +124,15 @@ test.describe('calendar', () => {
     test.skip(!editionUrl, 'no edition with an announced programme in the dataset')
     await page.goto(editionUrl!)
     await dismissCookies(page)
+    await openFullProgramme(page)
 
     const filters = page.getByRole('group', { name: /filter the programme/i })
     test.skip((await filters.count()) === 0, 'this edition has no multi-option facets to filter by')
 
     const reset = filters.getByRole('button', { name: /^reset$/i })
     const chip = filters.getByRole('button').filter({ hasNotText: /reset/i }).first()
-    const eventCount = () => page.locator('a[href*="/events/"]').count()
+    // Count only visible event links — the calendar renders responsive variants.
+    const eventCount = () => page.locator('a[href*="/events/"]:visible').count()
 
     await expect(reset).toBeDisabled()
     const before = await eventCount()
