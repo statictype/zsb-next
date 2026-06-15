@@ -391,6 +391,12 @@ export default defineConfig({
         // MagneticButton click ripple + gradient-border ring spin (hero CTA).
         rippleAnim: { to: { transform: 'scale(4)', opacity: 0 } },
         mbGradientSpin: { to: { '--mb-angle': '360deg' } },
+        // EventModal entrance: backdrop fade + dialog rise.
+        fadeIn: { from: { opacity: 0 }, to: { opacity: 1 } },
+        dialogIn: {
+          from: { opacity: 0, transform: 'translateY(12px)' },
+          to: { opacity: 1, transform: 'none' },
+        },
       },
       tokens: {
         colors: {

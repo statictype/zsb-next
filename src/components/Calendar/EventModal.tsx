@@ -2,12 +2,33 @@
 
 import { RiArrowLeftLine, RiArrowRightUpLine } from '@remixicon/react'
 import { useEffect, useRef } from 'react'
+import { css, cx } from 'styled-system/css'
 import { Figure } from '@/components/Figure/Figure'
+import { Button } from '@/components/ui/Button/Button'
 import { eventWhenLabel } from '@/lib/edition-dates'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import type { CalendarEvent } from '@/types/edition'
-import styles from './EventModal.module.css'
+import { eventModal } from './EventModal.recipe'
 import { useShareLink } from './useShareLink'
+
+// The Back/Share chips are ghost <Button>s floating over the dialog top; these
+// add only what the ghost variant doesn't model — the translucent blurred
+// ground (legible over the poster) + pointer-events (the bar is click-through).
+const controlChip = css({
+  pointerEvents: 'auto',
+  background: 'color-mix(in srgb, token(colors.blackPure) 55%, transparent)',
+  backdropFilter: 'blur(4px)',
+})
+const shareIcon = css({
+  '& svg': { transition: 'transform {durations.fast} {easings.quint}' },
+  _hover: { '& svg': { transform: 'translateY(-2px)' } },
+  '@media (prefers-reduced-motion: reduce)': { '& svg': { transition: 'none' } },
+})
+const shareCopied = css({
+  color: 'highlight',
+  borderColor: 'highlight',
+  _hover: { color: 'highlight', borderColor: 'highlight' },
+})
 
 // The full picture for a single event, opened from the calendar (ZSB-40). A
 // dialog over the schedule: everything the agenda row summarises — the whole
@@ -71,86 +92,81 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
   }, [onClose])
 
   const titleId = `event-modal-${event.key}`
+  const s = eventModal()
 
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: click-outside dismiss; Escape + Back button cover the keyboard
     <div
-      className={styles.backdrop}
+      className={s.backdrop}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
     >
       <div
         ref={dialogRef}
-        className={styles.dialog}
+        className={s.dialog}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
       >
-        <div className={styles.controls}>
+        <div className={s.controls}>
           {/* Dismiss returns to the programme (router back / link up); ✕ was a
               generic close that no longer fits the route model (ZSB-50). */}
-          <button type="button" className={styles.back} onClick={onClose}>
+          <Button variant="ghost" size="sm" className={controlChip} onClick={onClose}>
             <RiArrowLeftLine size={16} aria-hidden />
             Back to programme
-          </button>
-          <button
-            type="button"
-            className={`${styles.share} ${copied ? styles.copied : ''}`}
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cx(controlChip, shareIcon, copied && shareCopied)}
             onClick={share}
             aria-live="polite"
           >
             <ShareIcon size={15} aria-hidden />
             {shareLabel}
-          </button>
+          </Button>
         </div>
 
         {event.image && (
-          <div className={styles.poster}>
+          <div className={s.poster}>
             <Figure image={event.image} sizes="(min-width: 768px) 340px, 100vw" />
           </div>
         )}
 
-        <div className={styles.body}>
-          <p className={styles.when}>{eventWhenLabel(event)}</p>
-          <h2 id={titleId} className={styles.name}>
+        <div className={s.body}>
+          <p className={s.when}>{eventWhenLabel(event)}</p>
+          <h2 id={titleId} className={s.name}>
             {event.name}
           </h2>
 
           {event.types.length > 0 && (
-            <ul className={styles.types}>
+            <ul className={s.types}>
               {event.types.map((t) => (
-                <li key={t.slug} className={styles.type}>
+                <li key={t.slug} className={s.type}>
                   {t.title}
                 </li>
               ))}
             </ul>
           )}
 
-          <p className={styles.venue}>
-            <span className={styles.venueName}>{event.venue.name}</span>
-            {event.venue.partOf && (
-              <span className={styles.venueParent}>{event.venue.partOf.name}</span>
-            )}
+          <p className={s.venue}>
+            <span className={s.venueName}>{event.venue.name}</span>
+            {event.venue.partOf && <span className={s.venueParent}>{event.venue.partOf.name}</span>}
           </p>
 
-          {event.description && <p className={styles.description}>{event.description}</p>}
+          {event.description && <p className={s.description}>{event.description}</p>}
 
           {(event.ticketUrl || event.facebookUrl) && (
-            <div className={styles.links}>
+            <div className={s.links}>
               {event.ticketUrl && (
-                <a className={styles.link} href={event.ticketUrl} target="_blank" rel="noreferrer">
+                <a className={s.link} href={event.ticketUrl} target="_blank" rel="noreferrer">
                   Tickets <RiArrowRightUpLine size={15} aria-hidden />
                 </a>
               )}
               {event.facebookUrl && (
-                <a
-                  className={styles.link}
-                  href={event.facebookUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a className={s.link} href={event.facebookUrl} target="_blank" rel="noreferrer">
                   Facebook event <RiArrowRightUpLine size={15} aria-hidden />
                 </a>
               )}

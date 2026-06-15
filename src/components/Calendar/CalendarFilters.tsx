@@ -1,7 +1,7 @@
 'use client'
 
 import { RiCheckLine, RiResetLeftLine } from '@remixicon/react'
-import styles from './CalendarFilters.module.css'
+import { calendarFilters } from './CalendarFilters.recipe'
 import {
   type CalendarFacets,
   type FacetOption,
@@ -33,27 +33,29 @@ function FacetChips({
   selection: FacetSelection
   onToggle: (slug: string) => void
 }) {
+  const s = calendarFilters()
   return (
-    <div className={styles.facet}>
-      <span className={styles.facetLabel} id={labelId}>
+    <div className={s.facet}>
+      <span className={s.facetLabel} id={labelId}>
         {label}
       </span>
-      <ul className={styles.chips} aria-labelledby={labelId}>
+      <ul className={s.chips} aria-labelledby={labelId}>
         {options.map((option) => {
           const active = isSelected(selection, option.slug)
           return (
             <li key={option.slug}>
               <button
                 type="button"
-                className={`${styles.chip} ${active ? styles.chipActive : ''}`}
+                className={s.chip}
+                data-active={active}
                 aria-pressed={active}
                 onClick={() => onToggle(option.slug)}
               >
-                <span className={styles.box} aria-hidden>
+                <span className={s.box} aria-hidden>
                   {active && <RiCheckLine size={12} />}
                 </span>
                 {option.label}
-                <span className={styles.count}>{option.count}</span>
+                <span className={s.count}>{option.count}</span>
               </button>
             </li>
           )
@@ -71,10 +73,11 @@ export function CalendarFilters({
   onToggleType,
   onReset,
 }: CalendarFiltersProps) {
+  const s = calendarFilters()
   return (
-    <div className={styles.filters} role="group" aria-label="Filter the programme">
-      <div className={styles.bar}>
-        <button type="button" className={styles.reset} onClick={onReset} disabled={!canReset}>
+    <div className={s.filters} role="group" aria-label="Filter the programme">
+      <div className={s.bar}>
+        <button type="button" className={s.reset} onClick={onReset} disabled={!canReset}>
           <RiResetLeftLine size={14} aria-hidden />
           Reset
         </button>

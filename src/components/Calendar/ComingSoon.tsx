@@ -1,5 +1,5 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
-import styles from './ComingSoon.module.css'
+import { comingSoon } from './ComingSoon.recipe'
 
 export interface SocialLink {
   label: string
@@ -13,34 +13,35 @@ export interface SocialLink {
 // "watch this space" with a way to follow along. Newsletter signup arrives as
 // a follow-up once the footer rework (ZSB-11) lands.
 export function ComingSoon({ year, socials }: { year: number; socials: SocialLink[] }) {
+  const s = comingSoon()
   return (
-    <section className={styles.section} aria-labelledby="calendar-heading">
-      <div className={styles.inner}>
-        <header className={styles.header}>
-          <h2 id="calendar-heading" className={styles.title}>
+    <section className={s.section} aria-labelledby="calendar-heading">
+      <div className={s.inner}>
+        <header className={s.header}>
+          <h2 id="calendar-heading" className={s.title}>
             Calendar
           </h2>
-          <p className={styles.meta}>
-            <span className={styles.metaYear}>{year}</span>
-            <span className={styles.metaDot} aria-hidden />
-            <span className={styles.metaSoon}>Coming soon</span>
+          <p className={s.meta}>
+            <span className={s.metaYear}>{year}</span>
+            <span className={s.metaDot} aria-hidden />
+            <span className={s.metaSoon}>Coming soon</span>
           </p>
         </header>
 
-        <div className={styles.notice}>
-          <p className={styles.headline}>The programme is taking shape.</p>
-          <p className={styles.body}>
+        <div className={s.notice}>
+          <p className={s.headline}>The programme is taking shape.</p>
+          <p className={s.body}>
             Talks, openings, exhibitions and workshops across the city are being finalised. The full
             calendar lands here soon.
           </p>
 
           {socials.length > 0 && (
-            <div className={styles.follow}>
-              <span className={styles.followLabel}>Follow for updates</span>
-              <ul className={styles.links}>
+            <div className={s.follow}>
+              <span className={s.followLabel}>Follow for updates</span>
+              <ul className={s.links}>
                 {socials.map((social) => (
                   <li key={social.label}>
-                    <a className={styles.link} href={social.href} target="_blank" rel="noreferrer">
+                    <a className={s.link} href={social.href} target="_blank" rel="noreferrer">
                       {social.label} <RiArrowRightUpLine size={15} aria-hidden />
                     </a>
                   </li>
