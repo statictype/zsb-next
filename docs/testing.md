@@ -24,7 +24,7 @@ or the network (the data layer is mocked); exhaustive snapshots or a coverage %.
 
 - **Co-located** next to the source — `format-utils.test.ts` beside
   `format-utils.ts`, `Venues.test.tsx` beside `Venues.tsx`. Same convention as
-  the co-located `.module.css`.
+  the co-located `Component.recipe.ts`.
 - File extension picks the environment:
   - `*.test.ts` → **unit**, node environment.
   - `*.test.tsx` → **component**, jsdom + RTL (`vitest.setup.ts`).
