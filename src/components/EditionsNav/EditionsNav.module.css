@@ -14,19 +14,8 @@
   overflow: clip;
 }
 
-/* ---- Viewport: bleeds the track out to the true edge (cancels the band's
-   content-padding), so the strip reaches the screen edges while the
-   StripControls header stays aligned to the content. Shared with the other
-   strips via strip.module.css. ---- */
-.viewport {
-  composes: viewport from "../StripControls/strip.module.css";
-}
-
-/* ---- Scroll track: drag-/scroll-snap behaviour shared with the carousel and
-   media kit (grab cursor, snap, hidden scrollbar, edge inset). ---- */
-.track {
-  composes: track from "../StripControls/strip.module.css";
-}
+/* Viewport + scroll track (edge bleed, drag/scroll-snap) come from the shared
+   `strip` recipe, applied directly in EditionsNavBand. */
 
 /* ---- Card: the unified `card` recipe owns the chrome (hairline border on
    black, position/overflow/flex). This adds only the strip-local bits: the

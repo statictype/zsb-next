@@ -58,7 +58,6 @@
   --nav-height: 60px;
   --carousel-height: 50vh;
   --card-padding: 16px;
-  --btn-size: 48px;
 
   /* Effects */
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -206,7 +205,6 @@
     --nav-height: 72px;
     --carousel-height: 60vh;
     --card-padding: 20px;
-    --btn-size: 56px;
 
     --btn-sm-py: 8px;
     --btn-sm-px: 20px;
@@ -243,7 +241,6 @@
     --grid-gap: 48px;
     --nav-height: 84px;
     --carousel-height: 70vh;
-    --btn-size: 64px;
 
     --btn-md-py: 14px;
     --btn-md-px: 32px;

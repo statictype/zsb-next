@@ -1,7 +1,9 @@
 'use client'
 
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
-import styles from './StripControls.module.css'
+import { cx } from 'styled-system/css'
+import { IconButton } from '@/components/ui/IconButton/IconButton'
+import { stripControls } from './StripControls.recipe'
 
 interface StripControlsProps {
   /** Left-aligned label (e.g. the edition theme, or "Media"). */
@@ -32,28 +34,17 @@ export function StripControls({
   labels,
   className,
 }: StripControlsProps) {
+  const s = stripControls()
   return (
-    <div className={className ? `${styles.controls} ${className}` : styles.controls}>
-      <div className={styles.eyebrow}>{eyebrow}</div>
-      <div className={styles.arrows}>
-        <button
-          type="button"
-          className={styles.arrow}
-          onClick={onPrev}
-          disabled={activeIndex === 0}
-          aria-label={labels.prev}
-        >
+    <div className={cx(s.controls, className)}>
+      <div className={s.eyebrow}>{eyebrow}</div>
+      <div className={s.arrows}>
+        <IconButton onClick={onPrev} disabled={activeIndex === 0} aria-label={labels.prev}>
           <RiArrowLeftLine size={20} />
-        </button>
-        <button
-          type="button"
-          className={styles.arrow}
-          onClick={onNext}
-          disabled={activeIndex === count - 1}
-          aria-label={labels.next}
-        >
+        </IconButton>
+        <IconButton onClick={onNext} disabled={activeIndex === count - 1} aria-label={labels.next}>
           <RiArrowRightLine size={20} />
-        </button>
+        </IconButton>
       </div>
     </div>
   )

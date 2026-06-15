@@ -3,9 +3,11 @@
 import { RiArrowLeftLine, RiArrowRightLine, RiCloseLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { cx } from 'styled-system/css'
 import shared from '@/components/Shared.module.css'
+import { IconButton } from '@/components/ui/IconButton/IconButton'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
-import styles from './Lightbox.module.css'
+import { lightbox as lightboxRecipe } from './Lightbox.recipe'
 
 export interface LightboxImage {
   src: string
@@ -159,7 +161,7 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
   const backdropAlpha = 0.95 * (1 - verticalProgress * 0.5)
   const frameStyle = {
     transform: `translate3d(${drag.x}px, ${drag.y}px, 0)`,
-    transition: isDragging ? 'none' : 'transform 0.3s var(--ease-out-expo), opacity 0.3s ease',
+    transition: isDragging ? 'none' : 'transform 0.3s var(--easings-expo), opacity 0.3s ease',
     opacity: 1 - verticalProgress * 0.4,
   }
 
@@ -167,10 +169,13 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
     e.stopPropagation()
   }
 
+  const s = lightboxRecipe()
+
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: backdrop dismiss pattern
     <div
-      className={`${styles.lightbox} ${isOpen ? styles.isActive : ''}`}
+      className={s.lightbox}
+      data-active={isOpen}
       onClick={onClose}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
@@ -178,12 +183,12 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
       onPointerCancel={endDrag}
       style={{ backgroundColor: `rgba(0, 0, 0, ${backdropAlpha})` }}
     >
-      <button type="button" className={styles.close} onClick={onClose} aria-label="Close lightbox">
+      <IconButton className={cx(s.close)} onClick={onClose} aria-label="Close lightbox">
         <RiCloseLine size={28} />
-      </button>
+      </IconButton>
 
       {/* biome-ignore lint/a11y/noStaticElementInteractions: frame letterbox click closes */}
-      <div className={styles.frame} style={frameStyle} onClick={onClose}>
+      <div className={s.frame} style={frameStyle} onClick={onClose}>
         {!loaded && <span aria-hidden className={shared.skeleton} />}
         <Image
           key={current.src}
@@ -191,7 +196,7 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
           alt={current.caption}
           fill
           sizes={SIZES}
-          className={styles.image}
+          className={s.image}
           style={{ opacity: loaded ? 1 : 0 }}
           onLoad={() => setLoadedSrc(current.src)}
           onClick={stop}
@@ -201,16 +206,15 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
 
       {current.caption && (
         // biome-ignore lint/a11y/noStaticElementInteractions: caption click is a no-op
-        <div className={styles.caption} onClick={stop}>
+        <div className={s.caption} onClick={stop}>
           {current.caption}
         </div>
       )}
 
       {images.length > 1 && (
         <>
-          <button
-            type="button"
-            className={`${styles.nav} ${styles.navPrev}`}
+          <IconButton
+            className={cx(s.navPrev)}
             onClick={(e) => {
               e.stopPropagation()
               onPrev()
@@ -218,10 +222,9 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
             aria-label="Previous image"
           >
             <RiArrowLeftLine size={20} />
-          </button>
-          <button
-            type="button"
-            className={`${styles.nav} ${styles.navNext}`}
+          </IconButton>
+          <IconButton
+            className={cx(s.navNext)}
             onClick={(e) => {
               e.stopPropagation()
               onNext()
@@ -229,14 +232,14 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
             aria-label="Next image"
           >
             <RiArrowRightLine size={20} />
-          </button>
+          </IconButton>
         </>
       )}
 
       {isOpen && preloadSrcs.length > 0 && (
-        <div className={styles.preload} aria-hidden>
+        <div className={s.preload} aria-hidden>
           {preloadSrcs.map((src) => (
-            <div key={src} className={styles.preloadFrame}>
+            <div key={src} className={s.preloadFrame}>
               <Image src={src} alt="" fill sizes={SIZES} />
             </div>
           ))}

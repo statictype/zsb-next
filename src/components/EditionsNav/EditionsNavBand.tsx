@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { cx } from 'styled-system/css'
 import { card } from 'styled-system/recipes'
 import { StripControls } from '@/components/StripControls/StripControls'
+import { strip as stripRecipe } from '@/components/StripControls/strip.recipe'
 import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
 import styles from './EditionsNav.module.css'
 
@@ -57,6 +58,8 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
     return () => io.disconnect()
   }, [])
 
+  const strip = stripRecipe()
+
   return (
     <section ref={sectionRef} className={styles.band} data-revealed={revealed}>
       <StripControls
@@ -67,10 +70,10 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
         onNext={goNext}
         labels={{ prev: 'Previous editions', next: 'Next editions' }}
       />
-      <div className={styles.viewport}>
+      <div className={strip.viewport}>
         <div
           ref={trackRef}
-          className={styles.track}
+          className={strip.track}
           tabIndex={0}
           role="region"
           aria-label="ZSB editions"

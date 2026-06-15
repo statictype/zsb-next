@@ -381,6 +381,13 @@ export default defineConfig({
         },
         // PartnerBadge's continuously-rotating text ring.
         spin: { to: { transform: 'rotate(-360deg)' } },
+        // Carousel item's animated gradient hover border.
+        gradientBorderShift: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '100%': { backgroundPosition: '200% 50%' },
+        },
+        // HeroSlideshow per-slide progress line (scaleX, GPU-only).
+        heroProgress: { from: { transform: 'scaleX(0)' }, to: { transform: 'scaleX(1)' } },
       },
       tokens: {
         colors: {

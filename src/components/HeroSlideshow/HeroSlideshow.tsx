@@ -2,11 +2,13 @@
 
 import { RiArrowLeftLine, RiArrowRightLine, RiPauseLine, RiPlayLine } from '@remixicon/react'
 import { useState } from 'react'
+import { cx } from 'styled-system/css'
 import { Figure } from '@/components/Figure/Figure'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
+import { IconButton } from '@/components/ui/IconButton/IconButton'
 import { useSlideshow } from '@/lib/use-slideshow'
 import type { HeroImage } from '@/types/edition'
-import styles from './HeroSlideshow.module.css'
+import { heroSlideshow } from './HeroSlideshow.recipe'
 
 interface HeroSlideshowProps {
   images: HeroImage[]
@@ -29,11 +31,12 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
     autoplay: playing ? interval : false,
   })
   const lightbox = useLightbox(images.map((img) => ({ src: img.src, caption: '' })))
+  const s = heroSlideshow()
 
   return (
-    <div className={styles.slideshow}>
+    <div className={s.slideshow}>
       <div
-        className={styles.stage}
+        className={s.stage}
         role="button"
         tabIndex={0}
         aria-label="Open image in lightbox"
@@ -46,10 +49,7 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
         }}
       >
         {images.map((img, i) => (
-          <div
-            key={img.src}
-            className={`${styles.slide} ${i === active ? styles.slideActive : ''}`}
-          >
+          <div key={img.src} className={s.slide} data-active={i === active}>
             <Figure
               image={img}
               sizes="(min-width: 1792px) 1024px, (min-width: 1280px) 60vw, 100vw"
@@ -58,16 +58,16 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
             />
           </div>
         ))}
-        <div className={styles.vignette} />
+        <div className={s.vignette} />
 
         {/* Progress — only while auto-advancing; restarts per slide so it stays
             in lock-step with the hook's timer. Hidden when paused, where there
             is no "next advance" to count down to. */}
         {multi && playing && (
-          <div className={styles.progressTrack} aria-hidden="true">
+          <div className={s.progressTrack} aria-hidden="true">
             <div
               key={active}
-              className={styles.progressFill}
+              className={s.progressFill}
               style={{ animationDuration: `${interval}ms` }}
             />
           </div>
@@ -75,13 +75,13 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
       </div>
 
       {multi && (
-        <div className={styles.controlBar}>
-          <div className={styles.dots} aria-label="Choose slide">
+        <div className={s.controlBar}>
+          <div className={s.dots} aria-label="Choose slide">
             {images.map((img, i) => (
               <button
                 key={img.src}
                 type="button"
-                className={`${styles.dot} ${i === active ? styles.dotActive : ''}`}
+                className={s.dot}
                 aria-label={`Go to slide ${i + 1} of ${count}`}
                 aria-current={i === active ? true : undefined}
                 onClick={() => goTo(i)}
@@ -89,32 +89,32 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
             ))}
           </div>
 
-          <div className={styles.nav}>
-            <button
-              type="button"
-              className={`${styles.control} ${styles.controlPrev}`}
+          <div className={s.nav}>
+            <IconButton
+              tone="media"
+              className={cx(s.control, s.controlPrev)}
               onClick={prev}
               aria-label="Previous slide"
             >
               <RiArrowLeftLine size={20} />
-            </button>
-            <button
-              type="button"
-              className={`${styles.control} ${styles.controlToggle}`}
+            </IconButton>
+            <IconButton
+              tone="media"
+              className={cx(s.control, s.controlToggle)}
               onClick={() => setPlaying((p) => !p)}
               aria-label={playing ? 'Pause slideshow' : 'Play slideshow'}
               aria-pressed={!playing}
             >
               {playing ? <RiPauseLine size={20} /> : <RiPlayLine size={20} />}
-            </button>
-            <button
-              type="button"
-              className={`${styles.control} ${styles.controlNext}`}
+            </IconButton>
+            <IconButton
+              tone="media"
+              className={cx(s.control, s.controlNext)}
               onClick={next}
               aria-label="Next slide"
             >
               <RiArrowRightLine size={20} />
-            </button>
+            </IconButton>
           </div>
         </div>
       )}

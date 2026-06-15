@@ -3,21 +3,14 @@
 import { Figure } from '@/components/Figure/Figure'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
 import { StripControls } from '@/components/StripControls/StripControls'
+import { strip as stripRecipe } from '@/components/StripControls/strip.recipe'
 import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
 import type { CarouselLayout, CarouselSlide } from '@/types/edition'
-import styles from './Carousel.module.css'
+import { carousel } from './Carousel.recipe'
 
 interface CarouselProps {
   slides: CarouselSlide[]
   eyebrow: string
-}
-
-const LAYOUT_MAP: Record<CarouselLayout, string | undefined> = {
-  trio: styles.layoutTrio,
-  duo: styles.layoutDuo,
-  'featured-portrait': styles.layoutFeaturedPortrait,
-  'featured-stack': styles.layoutFeaturedStack,
-  full: styles.layoutFull,
 }
 
 function sizesFor(layout: CarouselLayout, imgIndex: number): string {
@@ -47,10 +40,13 @@ export function Carousel({ slides, eyebrow }: CarouselProps) {
   const { trackRef, activeIndex, registerItem, goPrev, goNext, trackProps, guardClick } =
     useScrollSnapStrip<HTMLDivElement>({ count: slides.length })
 
+  const s = carousel()
+  const strip = stripRecipe()
+
   return (
     <>
       <StripControls
-        className={styles.controlsSpacing}
+        className={s.controlsSpacing}
         eyebrow={eyebrow}
         activeIndex={activeIndex}
         count={slides.length}
@@ -59,10 +55,10 @@ export function Carousel({ slides, eyebrow }: CarouselProps) {
         labels={{ prev: 'Previous slide', next: 'Next slide' }}
       />
 
-      <div className={styles.viewport}>
+      <div className={strip.viewport}>
         <div
           ref={trackRef}
-          className={styles.track}
+          className={strip.track}
           tabIndex={0}
           role="region"
           aria-label="Edition photo carousel"
@@ -72,14 +68,14 @@ export function Carousel({ slides, eyebrow }: CarouselProps) {
             <div
               key={slideIndex}
               ref={registerItem(slideIndex)}
-              className={`${styles.slide} ${LAYOUT_MAP[slide.layout] || ''}`}
+              className={carousel({ layout: slide.layout }).slide}
             >
               {slide.images.map((img, imgIndex) => {
                 const flatIndex = flatIndices[slideIndex]?.[imgIndex] ?? 0
                 return (
                   <div
                     key={imgIndex}
-                    className={styles.item}
+                    className={s.item}
                     role="button"
                     tabIndex={0}
                     onClick={guardClick(() => lightbox.open(flatIndex))}
@@ -93,7 +89,7 @@ export function Carousel({ slides, eyebrow }: CarouselProps) {
                     <Figure
                       image={img.image}
                       sizes={sizesFor(slide.layout, imgIndex)}
-                      className={styles.itemImage}
+                      className={s.itemImage}
                       draggable={false}
                     />
                   </div>

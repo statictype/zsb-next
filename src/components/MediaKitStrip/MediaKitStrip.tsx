@@ -3,9 +3,10 @@
 import { Figure } from '@/components/Figure/Figure'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
 import { StripControls } from '@/components/StripControls/StripControls'
+import { strip as stripRecipe } from '@/components/StripControls/strip.recipe'
 import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
 import type { MediaKitStripItem } from '@/types/edition'
-import styles from './MediaKitStrip.module.css'
+import { mediaKitStrip } from './MediaKitStrip.recipe'
 
 interface MediaKitStripProps {
   items: MediaKitStripItem[]
@@ -21,6 +22,9 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
   const { trackRef, activeIndex, registerItem, goPrev, goNext, trackProps, guardClick } =
     useScrollSnapStrip<HTMLButtonElement>({ count: items.length })
 
+  const s = mediaKitStrip()
+  const strip = stripRecipe()
+
   return (
     <>
       <StripControls
@@ -32,10 +36,10 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
         labels={{ prev: 'Previous poster', next: 'Next poster' }}
       />
 
-      <div className={styles.viewport}>
+      <div className={strip.viewport}>
         <div
           ref={trackRef}
-          className={styles.track}
+          className={strip.track}
           tabIndex={0}
           role="region"
           aria-label="Media kit posters"
@@ -46,14 +50,14 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
               key={`${item.year}-${i}`}
               ref={registerItem(i)}
               type="button"
-              className={styles.card}
+              className={s.card}
               onClick={guardClick(() => lightbox.open(i))}
               aria-label={`Open ${item.year} ${item.name}`}
             >
               <Figure
                 image={item.image}
                 sizes="(max-width: 767px) 70vw, (max-width: 1280px) 38vw, 28vw"
-                className={styles.image}
+                className={s.image}
                 draggable={false}
               />
             </button>
