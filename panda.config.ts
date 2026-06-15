@@ -388,6 +388,9 @@ export default defineConfig({
         },
         // HeroSlideshow per-slide progress line (scaleX, GPU-only).
         heroProgress: { from: { transform: 'scaleX(0)' }, to: { transform: 'scaleX(1)' } },
+        // MagneticButton click ripple + gradient-border ring spin (hero CTA).
+        rippleAnim: { to: { transform: 'scale(4)', opacity: 0 } },
+        mbGradientSpin: { to: { '--mb-angle': '360deg' } },
       },
       tokens: {
         colors: {

@@ -10,10 +10,23 @@ import {
   RiTimeLine,
   RiWheelchairLine,
 } from '@remixicon/react'
+import { css } from 'styled-system/css'
 import { Figure } from '@/components/Figure/Figure'
-import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
+import { TextLink } from '@/components/ui/TextLink/TextLink'
 import type { IconKey, VisitData } from '@/types/edition'
 import { visitSection } from './VisitSection.recipe'
+
+// "Get Directions" is an accent CTA rendered as a drawing-underline TextLink:
+// keep the button-style typography + accent, including on hover.
+const directionsLink = css({
+  color: 'action',
+  fontFamily: 'body',
+  fontSize: 'sm',
+  fontWeight: 'medium',
+  textTransform: 'uppercase',
+  letterSpacing: '2px',
+  _hover: { color: 'action' },
+})
 
 // Fixed icon set mirrored from the amenity schema. Editors pick an
 // icon key; this is the renderer-side mapping.
@@ -136,16 +149,16 @@ export function VisitSection(props: VisitData = {}) {
             </div>
 
             <div className={s.cta}>
-              <MagneticButton
+              <TextLink
                 href={mapsUrl}
-                external
-                variant="secondary"
-                color="var(--colors-action)"
-                textColor="var(--colors-action)"
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="draw"
+                className={directionsLink}
               >
                 <RiMapPinLine size={16} />
                 Get Directions
-              </MagneticButton>
+              </TextLink>
             </div>
           </div>
         </div>

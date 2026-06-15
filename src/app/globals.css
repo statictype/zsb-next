@@ -8,6 +8,14 @@
    so the reset must be layered or it beats every Panda padding/margin. */
 @layer reset, base, tokens, recipes, utilities;
 
+/* Animatable angle for the MagneticButton gradient-border ring (hero CTA) —
+   a top-level registration so the conic-gradient angle can animate. */
+@property --mb-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 /* ---- Design Tokens ---- */
 :root {
   /* Typography — Static */
@@ -145,31 +153,6 @@
   --radius-pill: 100px;
   --radius-circle: 50%;
 
-  /* Button Sizes — sm */
-  --btn-sm-py: 6px;
-  --btn-sm-px: 16px;
-  --btn-sm-fs: 9px;
-  --btn-sm-gap: 5px;
-  --btn-sm-ls: 1.5px;
-
-  /* Button Sizes — md */
-  --btn-md-py: 10px;
-  --btn-md-px: 24px;
-  --btn-md-fs: 10px;
-  --btn-md-gap: 8px;
-  --btn-md-ls: 2px;
-
-  /* Button Sizes — lg */
-  --btn-lg-py: 12px;
-  --btn-lg-px: 28px;
-  --btn-lg-fs: 11px;
-  --btn-lg-gap: 10px;
-  --btn-lg-ls: 2px;
-
-  /* Button — shared */
-  --btn-border-width: 2px;
-  --btn-radius: 0;
-
   /* Borders — wired through role tokens */
   --border-light: 1px solid var(--divider-light);
   --border-dark: 1px solid var(--divider);
@@ -205,17 +188,6 @@
     --nav-height: 72px;
     --carousel-height: 60vh;
     --card-padding: 20px;
-
-    --btn-sm-py: 8px;
-    --btn-sm-px: 20px;
-    --btn-sm-fs: 10px;
-    --btn-md-py: 12px;
-    --btn-md-px: 28px;
-    --btn-md-gap: 10px;
-    --btn-lg-py: 16px;
-    --btn-lg-px: 36px;
-    --btn-lg-fs: 12px;
-    --btn-lg-gap: 12px;
   }
 }
 
@@ -241,15 +213,6 @@
     --grid-gap: 48px;
     --nav-height: 84px;
     --carousel-height: 70vh;
-
-    --btn-md-py: 14px;
-    --btn-md-px: 32px;
-    --btn-md-fs: 11px;
-    --btn-lg-py: 20px;
-    --btn-lg-px: 44px;
-    /* --btn-lg-fs: 14px; */
-    --btn-lg-gap: 14px;
-    --btn-lg-ls: 2.5px;
   }
 }
 
@@ -288,12 +251,6 @@
     --section-padding-y-lg: 180px;
     --grid-gap: 66px;
     --carousel-height: 72vh;
-
-    --btn-md-py: 16px;
-    --btn-md-px: 36px;
-    --btn-lg-py: 24px;
-    --btn-lg-px: 52px;
-    --btn-lg-fs: 13px;
     /* --leading-body: 1.64; */
   }
 }
