@@ -1,8 +1,7 @@
 import Image from 'next/image'
 import { IsdayBadge } from '@/components/IsdayBadge/IsdayBadge'
-import shared from '@/components/Shared.module.css'
 import type { CreditEntry } from '@/types/edition'
-import styles from './Credits.module.css'
+import { credits as creditsRecipe } from './Credits.recipe'
 
 interface CreditsProps {
   credits: CreditEntry[]
@@ -12,19 +11,20 @@ export function Credits({ credits }: CreditsProps) {
   const primary = credits.filter((c) => c.type === 'primary')
   const partners = credits.filter((c) => c.type === 'partner')
   const secondary = credits.filter((c) => c.type === 'secondary')
+  const s = creditsRecipe()
 
   return (
-    <section className={`${shared.section} ${styles.section}`}>
-      <div className={styles.container}>
+    <section className={s.section}>
+      <div className={s.container}>
         {/* Primary Credits */}
-        <div className={styles.primary}>
+        <div className={s.primary}>
           {primary.map((credit, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: static list
-            <div key={i} className={styles.block}>
-              <span className={styles.label}>{credit.label}</span>
-              <span className={styles.name}>{credit.value}</span>
+            <div key={i} className={s.block}>
+              <span className={s.label}>{credit.label}</span>
+              <span className={s.name}>{credit.value}</span>
               {credit.detail && (
-                <span className={styles.detail}>
+                <span className={s.detail}>
                   {credit.detail.split('\n').map((line, j, arr) => (
                     // biome-ignore lint/suspicious/noArrayIndexKey: static list
                     <span key={j}>
@@ -39,7 +39,7 @@ export function Credits({ credits }: CreditsProps) {
                   <Image
                     src={credit.logo}
                     alt={credit.logoAlt}
-                    className={styles.logo}
+                    className={s.logo}
                     width={120}
                     height={40}
                     unoptimized
@@ -48,17 +48,17 @@ export function Credits({ credits }: CreditsProps) {
               )}
             </div>
           ))}
-          <IsdayBadge className={styles.badge} />
+          <IsdayBadge className={s.badge} />
         </div>
 
         {/* Partners */}
         {partners.length > 0 && (
-          <div className={styles.partners}>
+          <div className={s.partners}>
             {partners.map((credit, i) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: static list
-              <div key={i} className={styles.partnersBlock}>
-                <span className={styles.partnersLabel}>{credit.label}</span>
-                <div className={styles.partnersList}>
+              <div key={i} className={s.partnersBlock}>
+                <span className={s.partnersLabel}>{credit.label}</span>
+                <div className={s.partnersList}>
                   {credit.value.split('\n').map((name, j) => (
                     // biome-ignore lint/suspicious/noArrayIndexKey: static list
                     <span key={j}>{name}</span>
@@ -70,12 +70,12 @@ export function Credits({ credits }: CreditsProps) {
         )}
 
         {/* Secondary Credits + ISDay seal in the 4th column */}
-        <div className={styles.secondary}>
+        <div className={s.secondary}>
           {secondary.map((credit, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: static list
-            <div key={i} className={styles.inline}>
-              <span className={styles.inlineLabel}>{credit.label}</span>
-              <span className={styles.inlineNames}>
+            <div key={i} className={s.inline}>
+              <span className={s.inlineLabel}>{credit.label}</span>
+              <span className={s.inlineNames}>
                 {(() => {
                   const names = credit.value.split('\n')
                   return names.map((name, j) => (
