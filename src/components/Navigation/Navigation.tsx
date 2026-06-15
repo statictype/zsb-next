@@ -4,7 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
-import styles from './Navigation.module.css'
+import { navigation } from './Navigation.recipe'
+
+const s = navigation()
 
 export type NavActiveId = 'home' | 'about' | 'editions' | 'artists' | null
 
@@ -41,7 +43,7 @@ export function Navigation({ activeId }: Props) {
       alt="ZSB Logo"
       width={60}
       height={60}
-      className={styles.logoImg}
+      className={s.logoImg}
       unoptimized
       preload
     />
@@ -49,11 +51,11 @@ export function Navigation({ activeId }: Props) {
 
   return (
     <>
-      <div className={styles.logo}>{showLogoLink ? <Link href="/">{logoImg}</Link> : logoImg}</div>
+      <div className={s.logo}>{showLogoLink ? <Link href="/">{logoImg}</Link> : logoImg}</div>
 
       <button
         type="button"
-        className={styles.toggle}
+        className={s.toggle}
         aria-label="Toggle navigation"
         aria-expanded={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
@@ -63,13 +65,17 @@ export function Navigation({ activeId }: Props) {
         <span />
       </button>
 
-      <nav className={`${styles.nav} ${isOpen ? styles.isOpen : ''}`}>
+      <nav className={s.nav} data-open={isOpen}>
         {NAV_ITEMS.map((item) => {
           const isActive = item.id === activeId
-          const className = isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
-
           return (
-            <Link key={item.id} href={item.href} className={className} onClick={closeMenu}>
+            <Link
+              key={item.id}
+              href={item.href}
+              className={s.navLink}
+              aria-current={isActive ? 'page' : undefined}
+              onClick={closeMenu}
+            >
               {item.label}
             </Link>
           )
