@@ -168,6 +168,21 @@ const button = defineRecipe({
         borderColor: 'divider',
         _hover: { color: 'heading', borderColor: 'heading' },
       },
+      // Borderless text control that blends into the surrounding copy
+      // (inherits font/size/case/tracking from context) — e.g. the footer
+      // "Cookie Settings" sitting beside the Privacy Policy link.
+      link: {
+        display: 'inline',
+        fontFamily: 'inherit',
+        fontSize: 'inherit',
+        fontWeight: 'inherit',
+        textTransform: 'inherit',
+        letterSpacing: 'inherit',
+        borderWidth: '0',
+        bg: 'transparent',
+        color: 'muted',
+        _hover: { color: 'action' },
+      },
     },
     size: {
       sm: {
@@ -193,6 +208,13 @@ const button = defineRecipe({
       },
     },
   },
+  // The `link` variant is sizeless — neutralize the default size's padding/gap.
+  compoundVariants: [
+    {
+      variant: 'link',
+      css: { paddingBlock: '0', paddingInline: '0', gap: '0' },
+    },
+  ],
   defaultVariants: { variant: 'solid', size: 'md' },
 })
 

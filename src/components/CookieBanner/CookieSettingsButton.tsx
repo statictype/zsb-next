@@ -1,7 +1,7 @@
 'use client'
 
+import { Button } from '@/components/ui/Button/Button'
 import { CONSENT_COOKIE, CONSENT_REOPEN_EVENT } from '@/lib/constants'
-import styles from './CookieSettingsButton.module.css'
 
 export function CookieSettingsButton() {
   const reopen = () => {
@@ -10,8 +10,8 @@ export function CookieSettingsButton() {
   }
 
   return (
-    <button type="button" onClick={reopen} className={styles.button}>
+    <Button variant="link" onClick={reopen}>
       Cookie Settings
-    </button>
+    </Button>
   )
 }

@@ -4,8 +4,9 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 import Link from 'next/link'
 import { useSyncExternalStore } from 'react'
 import { createPortal } from 'react-dom'
+import { Button } from '@/components/ui/Button/Button'
 import { CONSENT_COOKIE, CONSENT_REOPEN_EVENT, GA_MEASUREMENT_ID } from '@/lib/constants'
-import styles from './CookieBanner.module.css'
+import { cookieBanner } from './CookieBanner.recipe'
 
 type Consent = 'granted' | 'denied' | 'unset'
 
@@ -53,37 +54,33 @@ export function CookieBanner() {
 
   const showBanner = consent === 'unset'
   const loadAnalytics = consent === 'granted' && GA_MEASUREMENT_ID !== ''
+  const s = cookieBanner()
 
   return (
     <>
       {loadAnalytics ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
       {showBanner
         ? createPortal(
-            <div
-              role="dialog"
-              aria-live="polite"
-              aria-label="Cookie consent"
-              className={styles.banner}
-            >
-              <div className={styles.inner}>
-                <div className={styles.copy}>
-                  <p className={styles.title}>We use cookies</p>
-                  <p className={styles.text}>
+            <div role="dialog" aria-live="polite" aria-label="Cookie consent" className={s.banner}>
+              <div className={s.inner}>
+                <div className={s.copy}>
+                  <p className={s.title}>We use cookies</p>
+                  <p className={s.text}>
                     We use Google Analytics to understand how visitors use this site. No ads, no
                     tracking across other sites.{' '}
-                    <Link href="/privacy" className={styles.link}>
+                    <Link href="/privacy" className={s.link}>
                       Read our privacy policy
                     </Link>
                     .
                   </p>
                 </div>
-                <div className={styles.actions}>
-                  <button type="button" onClick={reject} className={styles.buttonGhost}>
+                <div className={s.actions}>
+                  <Button variant="ghost" size="sm" onClick={reject}>
                     Reject
-                  </button>
-                  <button type="button" onClick={accept} className={styles.buttonSolid}>
+                  </Button>
+                  <Button variant="solid" size="sm" onClick={accept}>
                     Accept
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>,
