@@ -406,6 +406,12 @@ export default defineConfig({
           from: { opacity: '0', transform: 'translateY(28px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
+        // Hero image scale-in + tape labels sliding into place.
+        imageReveal: {
+          from: { opacity: '0', transform: 'scale(1.06)' },
+          to: { opacity: '1', transform: 'scale(1)' },
+        },
+        tapeIn: { to: { opacity: '1', translate: '0 0' } },
         // Calendar "now"/on-now pulsing dot.
         pulse: {
           '0%': { boxShadow: '0 0 0 0 color-mix(in srgb, var(--colors-action) 60%, transparent)' },
@@ -575,6 +581,17 @@ export default defineConfig({
               '2xl': '88px',
               '3xl': '96px',
               '4xl': '112px',
+            },
+          },
+          '4xl': {
+            value: {
+              base: '96px',
+              md: '112px',
+              lg: '128px',
+              xl: '160px',
+              '2xl': '176px',
+              '3xl': '192px',
+              '4xl': '224px',
             },
           },
           '5xl': {

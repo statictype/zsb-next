@@ -1,6 +1,8 @@
 import { Figure } from '@/components/Figure/Figure'
 import type { Edition } from '@/types/edition'
-import styles from './Hero.module.css'
+import { hero } from './Hero.recipe'
+
+const styles = hero()
 
 interface HeroProps {
   edition: Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'heroImage' | 'dateTape'>

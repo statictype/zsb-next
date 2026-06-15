@@ -85,7 +85,7 @@ The three controls (StripControls, HeroSlideshow, Lightbox) are ordinary leaves
 
 ## Progress (resume point — 2026-06-16)
 
-**Module count: 47 → 12.** All committed to `main`; typecheck + lint clean throughout.
+**Module count: 47 → 11.** All committed to `main`; typecheck + lint clean throughout.
 **Do NOT run `pnpm build`** — verify with `pnpm typecheck` + `pnpm lint` +
 `pnpm exec panda cssgen --outfile /tmp/x.css` (cssgen catches Panda CSS-gen
 errors typecheck misses). The user drives browser verification on their dev
@@ -101,8 +101,11 @@ ArtistsTable, ThemeArtists, VenuesView, ExternalGallery, EditionsNav; added a
 → `<Badge>`; EditionsNav `soon`/`viewing` kept as bespoke boxed labels per the
 footer catalogue-stamp precedent**)**. **Next up:**
 
-- **Group D′ — Hero:** `Hero.module.css` (the one remaining `src/components`
-  module; not originally listed under D/E). Migrate alongside the route pages.
+- **Group D′ — Hero (done):** `Hero.module.css` → co-located `sva`. Top offset
+  uses `token(sizes.nav)` (the legacy `--nav-height` matched it exactly); dropped
+  the unused `--hero-bg` override hook (→ `gray.900`); added a `4xl` stepped
+  spacing token + `imageReveal`/`tapeIn` keyframes to the foundation. Last
+  `src/components` module gone.
 - **Group E — route pages:** `app/(site)` page modules — home (398) · about
   (414) · editions (285) · editions/[year] (3) + loading (157) · partners (205)
   · press (330) · privacy (75) · artists (16) · error (120).
