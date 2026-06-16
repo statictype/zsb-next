@@ -28,7 +28,6 @@ export const aboutPage = sva({
     'statement',
     'statementInner',
     'statementAside',
-    'statementHeadline',
     'statementByline',
     'authorPhotoFrame',
     'authorPhoto',
@@ -189,13 +188,6 @@ export const aboutPage = sva({
         top: 'calc(token(sizes.nav) + token(spacing.xl))',
         marginBottom: '0',
       },
-    },
-    statementHeadline: {
-      textStyle: 'sectionTitle',
-      color: 'headingLight',
-      marginTop: '0',
-      marginBottom: 'xl',
-      textWrap: 'balance',
     },
     statementByline: {
       display: 'flex',

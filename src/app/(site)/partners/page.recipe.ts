@@ -16,7 +16,6 @@ export const partnersPage = sva({
     'eventBody',
     'eventImage',
     'eventImageImg',
-    'whySculptureTitle',
     'whySculptureTop',
     'whySculptureImage',
     'whySculptureImg',
@@ -62,12 +61,6 @@ export const partnersPage = sva({
       filter: 'grayscale(100%) contrast(1.05)',
     },
 
-    whySculptureTitle: {
-      textStyle: 'sectionTitle',
-      color: 'headingLight',
-      maxWidth: '700px',
-      marginBottom: '0',
-    },
     whySculptureTop: {
       display: 'grid',
       gridTemplateColumns: '1fr',

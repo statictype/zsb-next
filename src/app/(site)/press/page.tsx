@@ -19,6 +19,7 @@ import { MediaKitStrip } from '@/components/MediaKitStrip/MediaKitStrip'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata, organizationJsonLd, pressAppearancesJsonLd } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import {
@@ -120,7 +121,7 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
         {kit.length > 0 && (
           <section id="media-kit" className={section()}>
             <div className={styles.kitHeader}>
-              <h2 className={styles.kitTitle}>Media kit</h2>
+              <SectionHeading flush>Media kit</SectionHeading>
             </div>
             <MediaKitStrip items={kit} />
           </section>
@@ -130,9 +131,7 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
         {appearances.length > 0 && (
           <section className={section()}>
             <div className={styles.appearancesInner}>
-              <h2 className={css({ textStyle: 'sectionTitle', marginBottom: 'xl' })}>
-                Press appearances
-              </h2>
+              <SectionHeading>Press appearances</SectionHeading>
 
               <ul className={styles.appList}>
                 {appearances.map((item) => {
@@ -178,9 +177,7 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
         {releases.length > 0 && (
           <section className={section()}>
             <div className={styles.releasesInner}>
-              <h2 className={css({ textStyle: 'sectionTitle', marginBottom: 'xl' })}>
-                Press releases
-              </h2>
+              <SectionHeading>Press releases</SectionHeading>
 
               <ul className={styles.releaseList}>
                 {releases.map((release, i) => (

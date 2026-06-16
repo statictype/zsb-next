@@ -18,7 +18,6 @@ export const featuredEvents = sva({
     'header',
     'headerMain',
     'eyebrow',
-    'title',
     'calendarLink',
     'grid',
     'card',
@@ -57,7 +56,6 @@ export const featuredEvents = sva({
       color: 'highlight',
       marginBottom: 'sm',
     },
-    title: { textStyle: 'sectionTitle', marginBottom: 0 },
     calendarLink: {
       display: 'inline-flex',
       alignItems: 'center',

@@ -1,5 +1,6 @@
 import { section } from 'styled-system/recipes'
 import { Disclosure } from '@/components/ui/Disclosure/Disclosure'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { FaqEntry } from '@/lib/seo'
 import { visitFaq } from './VisitFaq.recipe'
 
@@ -22,9 +23,7 @@ export function VisitFaq({ entries }: VisitFaqProps) {
   return (
     <section className={section({ ground: 'dark' })} aria-labelledby="visit-faq-title">
       <div className={s.inner}>
-        <h2 id="visit-faq-title" className={s.title}>
-          Good to know
-        </h2>
+        <SectionHeading id="visit-faq-title">Good to know</SectionHeading>
         <div className={s.list}>
           {entries.map((entry) => (
             <Disclosure

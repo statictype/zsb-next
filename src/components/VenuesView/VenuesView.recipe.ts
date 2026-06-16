@@ -14,7 +14,6 @@ export const venuesView = sva({
     'section',
     'inner',
     'header',
-    'title',
     'lede',
     'group',
     'groupTitle',
@@ -45,7 +44,6 @@ export const venuesView = sva({
     inner: { layerStyle: 'sectionInner' },
 
     header: { marginBottom: 'xl' },
-    title: { textStyle: 'sectionTitle', marginBottom: '0' },
     lede: {
       marginTop: 'md',
       fontFamily: 'body',

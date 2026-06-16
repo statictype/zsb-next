@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { Disclosure } from '@/components/ui/Disclosure/Disclosure'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { TopVenue, VenueEvent, VenueNode, VenueTypeSection } from '@/lib/venues'
 import { venuesView } from './VenuesView.recipe'
 
@@ -20,9 +21,9 @@ export function VenuesView({ year, sections }: { year: number; sections: VenueTy
     <section className={cx(section(), styles.section)} aria-labelledby="venues-heading">
       <div className={styles.inner}>
         <header className={styles.header}>
-          <h2 id="venues-heading" className={styles.title}>
+          <SectionHeading id="venues-heading" flush>
             Where it happens
-          </h2>
+          </SectionHeading>
           <p className={styles.lede}>The {year} programme, venue by venue.</p>
         </header>
 

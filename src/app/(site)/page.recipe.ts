@@ -132,7 +132,6 @@ export const homePage = sva({
       marginBottom: '2xl',
       paddingInline: 'gutter',
       width: '100%',
-      '& h2': { marginBottom: '0' },
     },
     editionsSubtext: {
       fontFamily: 'body',

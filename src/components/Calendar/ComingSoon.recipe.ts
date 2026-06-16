@@ -12,7 +12,6 @@ export const comingSoon = sva({
   slots: [
     'inner',
     'header',
-    'title',
     'meta',
     'metaYear',
     'metaDot',
@@ -29,7 +28,6 @@ export const comingSoon = sva({
     inner: { layerStyle: 'sectionInner' },
 
     header: { marginBottom: 'xl' },
-    title: { textStyle: 'sectionTitle', marginBottom: 0 },
     meta: {
       display: 'flex',
       alignItems: 'center',

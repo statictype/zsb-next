@@ -23,7 +23,6 @@ export const visitSection = sva({
     'image',
     'pixel',
     'content',
-    'title',
     'infoRow',
     'infoBlock',
     'infoIcon',
@@ -68,7 +67,6 @@ export const visitSection = sva({
     pixel: { position: 'absolute', pointerEvents: 'none' },
 
     content: { display: 'flex', flexDirection: 'column', gap: 'lg' },
-    title: { textStyle: 'sectionTitle' },
 
     infoRow: {
       display: 'flex',

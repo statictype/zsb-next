@@ -19,7 +19,6 @@ export const calendar = sva({
     'layout',
     'header',
     'headerMain',
-    'title',
     'meta',
     'metaYear',
     'metaDot',
@@ -105,7 +104,6 @@ export const calendar = sva({
       marginBottom: 'xl',
     },
     headerMain: { minWidth: 0 },
-    title: { textStyle: 'sectionTitle', marginBottom: 0 },
     meta: {
       display: 'flex',
       alignItems: 'center',

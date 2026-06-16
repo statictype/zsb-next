@@ -11,6 +11,7 @@ import { Navigation } from '@/components/Navigation/Navigation'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
@@ -81,7 +82,7 @@ function PartnersShell({
 
         <section className={section({ ground: 'dark' })}>
           <div className={styles.inner}>
-            <h2 className={css({ textStyle: 'sectionTitle', marginBottom: 'xl' })}>{eventTitle}</h2>
+            <SectionHeading>{eventTitle}</SectionHeading>
             <div className={styles.eventBody}>
               {eventBody.map((para, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: positional
@@ -101,7 +102,9 @@ function PartnersShell({
                 <Eyebrow rule className={css({ marginBottom: '32px' })}>
                   {whyEyebrow}
                 </Eyebrow>
-                <h2 className={styles.whySculptureTitle}>{whyTitle}</h2>
+                <SectionHeading flush className={css({ maxWidth: '700px' })}>
+                  {whyTitle}
+                </SectionHeading>
               </div>
               <div className={styles.whySculptureImage}>
                 <Figure

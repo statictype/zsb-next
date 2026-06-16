@@ -19,7 +19,6 @@ export const externalGallery = sva({
     'card',
     'cardInner',
     'cardLeft',
-    'title',
     'titleHighlight',
     'description',
     'cta',
@@ -79,11 +78,6 @@ export const externalGallery = sva({
       paddingInline: 'lg',
       md: { padding: '2xl' },
       lg: { paddingBlock: '3xl', paddingInline: '2xl', gap: 'lg' },
-    },
-    title: {
-      textStyle: 'sectionTitle',
-      color: 'white',
-      margin: '0',
     },
     titleHighlight: { color: 'highlight' },
     description: {

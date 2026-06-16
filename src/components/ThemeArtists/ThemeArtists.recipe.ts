@@ -11,7 +11,7 @@ import { sva } from 'styled-system/css'
  * stage. `inner` is the content rail, so it owns the horizontal gutter.
  */
 export const themeArtists = sva({
-  slots: ['section', 'inner', 'themeHeader', 'headline', 'body', 'artistsTable'],
+  slots: ['section', 'inner', 'themeHeader', 'body', 'artistsTable'],
   base: {
     section: {
       position: 'relative',
@@ -41,13 +41,6 @@ export const themeArtists = sva({
       paddingInline: 'gutter',
       marginBottom: '3xl',
     },
-    headline: {
-      textStyle: 'sectionTitle',
-      // Sentence-case headline, not the uppercase default.
-      textTransform: 'none',
-      color: 'white',
-    },
-
     body: {
       marginBottom: '2xl',
       lg: { gridColumn: '1', alignSelf: 'start' },

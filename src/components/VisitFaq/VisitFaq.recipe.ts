@@ -8,10 +8,9 @@ import { sva } from 'styled-system/css'
  * typography-only). The list itself is the bespoke part.
  */
 export const visitFaq = sva({
-  slots: ['inner', 'title', 'list', 'item', 'question', 'answer'],
+  slots: ['inner', 'list', 'item', 'question', 'answer'],
   base: {
     inner: { layerStyle: 'sectionInner' },
-    title: { textStyle: 'sectionTitle', marginBottom: 'xl' },
     list: { maxWidth: '760px' },
     // The `<Disclosure>` root: a hairline divider between entries. Its summary
     // row + panel own the vertical padding.

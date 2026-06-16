@@ -2,6 +2,7 @@ import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { Carousel } from '@/components/Carousel/Carousel'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { Edition } from '@/types/edition'
 import { themeArtists } from './ThemeArtists.recipe'
 
@@ -19,7 +20,9 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
       <div className={styles.themeHeader}>
-        <h2 className={styles.headline}>{theme}</h2>
+        <SectionHeading case="sentence" flush>
+          {theme}
+        </SectionHeading>
       </div>
       <div className={styles.inner}>
         <div className={styles.body}>

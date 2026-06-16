@@ -6,6 +6,7 @@ import { section } from 'styled-system/recipes'
 import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
 import { Card } from '@/components/ui/Card/Card'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { dayToken, eventWhenLabelShort } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 import { featuredEvents } from './FeaturedEvents.recipe'
@@ -35,9 +36,9 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
         <header className={styles.header}>
           <div className={styles.headerMain}>
             <p className={styles.eyebrow}>Don&rsquo;t miss</p>
-            <h2 id="featured-heading" className={styles.title}>
+            <SectionHeading id="featured-heading" flush>
               Featured
-            </h2>
+            </SectionHeading>
           </div>
           <Link className={styles.calendarLink} href={`/editions/${year}#program`}>
             Full calendar <RiArrowRightLine size={15} aria-hidden />

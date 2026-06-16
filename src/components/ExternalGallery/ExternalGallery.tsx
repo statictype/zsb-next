@@ -1,7 +1,8 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
-import { css, cx } from 'styled-system/css'
+import { cx } from 'styled-system/css'
 import { card, section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { ExternalGalleryData } from '@/types/edition'
 import { externalGallery } from './ExternalGallery.recipe'
 
@@ -29,7 +30,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
       <div className={styles.inner}>
         <div className={styles.header}>
-          <h2 className={css({ textStyle: 'sectionTitle' })}>Archive</h2>
+          <SectionHeading flush>Archive</SectionHeading>
           <div className={styles.count}>{theme}</div>
         </div>
 
@@ -46,7 +47,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
             <div className={styles.cardLeft}>
               <Badge>{tag}</Badge>
 
-              <h3 className={styles.title}>
+              <SectionHeading as="h3" flush>
                 {highlight ? (
                   <>
                     {firstPart}
@@ -56,7 +57,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
                 ) : (
                   title
                 )}
-              </h3>
+              </SectionHeading>
 
               <p className={styles.description}>{description}</p>
 

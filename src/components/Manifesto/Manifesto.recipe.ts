@@ -8,7 +8,7 @@ import { sva } from 'styled-system/css'
  * the body sits behind an accent gradient rule.
  */
 export const manifesto = sva({
-  slots: ['section', 'container', 'title', 'titleHighlight', 'content', 'text'],
+  slots: ['section', 'container', 'titleHighlight', 'content', 'text'],
   base: {
     section: {
       // ground (light) + rhythm (lg) come from `section()` in the component;
@@ -29,13 +29,6 @@ export const manifesto = sva({
         alignItems: 'start',
       },
       xl: { gridTemplateColumns: '1fr 1fr' },
-    },
-    title: {
-      textStyle: 'sectionTitle',
-      // Manifesto headline is sentence-case, not the uppercase default.
-      textTransform: 'none',
-      color: 'headingLight',
-      textWrap: 'pretty',
     },
     // The highlighted substring inside the headline — kept as its own slot.
     titleHighlight: { display: 'inline', color: 'action' },

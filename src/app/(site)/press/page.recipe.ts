@@ -13,7 +13,6 @@ export const pressPage = sva({
   slots: [
     'page',
     'kitHeader',
-    'kitTitle',
     'appearancesInner',
     'appList',
     'appRow',
@@ -44,7 +43,6 @@ export const pressPage = sva({
     // inherit the page's dark ground); the inner wrappers are the rails. The
     // media-kit strip itself is the full-bleed band below its header.
     kitHeader: { layerStyle: 'sectionInner', marginBottom: '2xl' },
-    kitTitle: { textStyle: 'sectionTitle', marginBottom: 'md' },
 
     appearancesInner: { layerStyle: 'sectionInner' },
     appList: { listStyle: 'none', padding: '0', margin: '0' },

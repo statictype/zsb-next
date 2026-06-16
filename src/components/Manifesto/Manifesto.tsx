@@ -1,5 +1,6 @@
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { ManifestoData } from '@/types/edition'
 import { manifesto as styles } from './Manifesto.recipe'
 
@@ -14,19 +15,17 @@ export function Manifesto({ manifesto }: ManifestoProps) {
   return (
     <section className={cx(section({ ground: 'light', rhythm: 'lg' }), s.section)}>
       <div className={s.container}>
-        <div className={s.title}>
-          <p>
-            {titleParts ? (
-              <>
-                {titleParts[0]}
-                <span className={s.titleHighlight}>{manifesto.highlight}</span>
-                {titleParts[1]}
-              </>
-            ) : (
-              manifesto.title
-            )}
-          </p>
-        </div>
+        <SectionHeading case="sentence" flush>
+          {titleParts ? (
+            <>
+              {titleParts[0]}
+              <span className={s.titleHighlight}>{manifesto.highlight}</span>
+              {titleParts[1]}
+            </>
+          ) : (
+            manifesto.title
+          )}
+        </SectionHeading>
         <div className={s.content}>
           <div className={s.text}>
             <p>{manifesto.body}</p>

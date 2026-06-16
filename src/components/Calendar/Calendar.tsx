@@ -6,6 +6,7 @@ import { Fragment, type ReactNode, useEffect, useMemo, useRef } from 'react'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import {
   type DayToken,
   dayToken,
@@ -214,9 +215,9 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
       <div className={s.inner}>
         <header className={s.header}>
           <div className={s.headerMain}>
-            <h2 id="calendar-heading" className={s.title}>
+            <SectionHeading id="calendar-heading" flush>
               Calendar
-            </h2>
+            </SectionHeading>
             <p className={s.meta}>
               <span className={s.metaYear}>{year}</span>
               {windowLabel && (

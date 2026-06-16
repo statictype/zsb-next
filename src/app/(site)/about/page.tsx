@@ -9,6 +9,7 @@ import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { type AboutView, getAboutPage } from '@/sanity/lib/staticPages'
@@ -111,7 +112,7 @@ function AboutShell({ view }: { view: AboutView }) {
               {curatorEyebrow}
             </Eyebrow>
 
-            <h2 className={styles.statementHeadline}>{curatorHeadline}</h2>
+            <SectionHeading>{curatorHeadline}</SectionHeading>
 
             <figure className={styles.statementByline}>
               <div className={styles.authorPhotoFrame}>

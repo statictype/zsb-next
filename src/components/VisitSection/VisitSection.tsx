@@ -13,6 +13,7 @@ import {
 import { css, cx } from 'styled-system/css'
 import { button } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { IconKey, VisitData } from '@/types/edition'
 import { visitSection } from './VisitSection.recipe'
 
@@ -92,7 +93,7 @@ export function VisitSection(props: VisitData = {}) {
           </div>
 
           <div className={s.content}>
-            <h2 className={s.title}>
+            <SectionHeading flush>
               {venueName.map((line, i, arr) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: positional
                 <span key={i}>
@@ -100,7 +101,7 @@ export function VisitSection(props: VisitData = {}) {
                   {i < arr.length - 1 && <br />}
                 </span>
               ))}
-            </h2>
+            </SectionHeading>
 
             <div className={s.infoRow}>
               <div className={s.infoBlock}>

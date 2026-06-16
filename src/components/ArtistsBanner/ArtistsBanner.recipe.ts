@@ -3,14 +3,15 @@ import { sva } from 'styled-system/css'
 /**
  * ArtistsBanner — co-located slot recipe.
  *
- * The compound hover (title warms to the accent, arrow nudges, the underline
- * draws, the corner wash fades in) lives in one place: the `root` slot's
- * `_hover`, targeting the children by `data-part`. The brand-tinted corner wash
+ * The compound hover (arrow nudges, the underline draws, the corner wash fades
+ * in) lives in one place: the `root` slot's `_hover`, targeting the children by
+ * `data-part`. The title is the shared `<SectionHeading>` (no hover color). The
+ * brand-tinted corner wash
  * and accent gradient reference the pink/chartreuse anchors via `color-mix`
  * rather than the old hardcoded `rgba()` literals.
  */
 export const artistsBanner = sva({
-  slots: ['root', 'inner', 'left', 'title', 'subtext', 'cta', 'ctaText', 'arrow', 'accent'],
+  slots: ['root', 'inner', 'left', 'subtext', 'cta', 'ctaText', 'arrow', 'accent'],
   base: {
     root: {
       position: 'relative',
@@ -36,7 +37,6 @@ export const artistsBanner = sva({
       },
       _hover: {
         _before: { opacity: '1' },
-        '& [data-part=title]': { color: 'highlight' },
         '& [data-part=arrow]': { transform: 'translate(8px, -8px)' },
         '& [data-part=accent]': { transform: 'scaleX(1)' },
       },
@@ -54,12 +54,6 @@ export const artistsBanner = sva({
       gap: 'lg',
     },
     left: { display: 'flex', flexDirection: 'column', gap: 'sm' },
-    title: {
-      textStyle: 'sectionTitle',
-      color: 'white',
-      marginBottom: 'sm',
-      transition: 'color {durations.medium} {easings.expo}',
-    },
     subtext: {
       fontFamily: 'body',
       fontSize: 'sm',

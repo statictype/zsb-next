@@ -12,6 +12,7 @@ import { HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import {
   getEditionListItems,
   getFeaturedEvents,
@@ -149,7 +150,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
 
         <section id="editions" className={cx(styles.panel, section({ ground: 'dark' }))}>
           <div className={styles.editionsHead}>
-            <h2 className={css({ textStyle: 'sectionTitle' })}>EDITIONS</h2>
+            <SectionHeading flush>Editions</SectionHeading>
             <p className={styles.editionsSubtext}>{editionsIntro}</p>
           </div>
           <div className={styles.editionList}>

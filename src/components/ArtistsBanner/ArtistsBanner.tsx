@@ -2,6 +2,7 @@ import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { css } from 'styled-system/css'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { getAllEditionYears } from '@/data/editions'
 import { getArtistNames } from '@/sanity/lib/artists'
 import { artistsBanner } from './ArtistsBanner.recipe'
@@ -18,9 +19,9 @@ export async function ArtistsBanner() {
       <div className={s.inner}>
         <div className={s.left}>
           <Badge className={css({ marginBottom: 'md' })}>Index</Badge>
-          <h2 className={s.title} data-part="title">
+          <SectionHeading as="h2" flush>
             Artists
-          </h2>
+          </SectionHeading>
           <p className={s.subtext}>
             {artistCount} artists. {editionCount} editions. One sustained question: what sculpture
             makes visible that nothing else can.
