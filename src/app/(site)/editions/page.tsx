@@ -3,7 +3,7 @@ import { type CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
 import { button, section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
-import { enter } from '@/components/enter'
+import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -30,13 +30,9 @@ export default function EditionsPage() {
   )
 }
 
-// Split a theme on its highlight substring so only that part can be coloured —
-// the same local helper the hero (ThemeTape) and ExternalGallery use.
-function splitOnFirst(a: string, b: string) {
-  const [before, ...rest] = a.split(b)
-  if (!rest.length || !before) return null
-  return [before, rest.join(b)] as [string, string]
-}
+// The per-card stagger for the theme tape's entrance (reads `--card-index` off
+// the slot). The tape's `tapeIn` is the card's reveal motion.
+const THEME_STAGGER = 'calc(var(--card-index, 0) * 120ms + 120ms)'
 
 async function CachedEditionsList({ options }: { options: DynamicFetchOptions }) {
   'use cache'
@@ -54,14 +50,11 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
           const year = edition.year
           const isFeature = index === 0
           const thumb = edition.thumbImage ?? edition.heroImage
-          const [themeBefore, themeAfter] = edition.themeHighlight
-            ? (splitOnFirst(edition.theme, edition.themeHighlight) ?? [edition.theme, ''])
-            : [edition.theme, '']
 
           return (
             <div
               key={year}
-              className={cx(styles.slot, enter({ soft: true }))}
+              className={styles.slot}
               data-feature={isFeature || undefined}
               style={{ '--card-index': index } as CSSProperties}
             >
@@ -86,17 +79,14 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
                 </div>
 
                 <div className={styles.meta}>
-                  <h2 className={styles.theme}>
-                    {edition.themeHighlight ? (
-                      <>
-                        {themeBefore}
-                        <span className={styles.themeHighlight}>{edition.themeHighlight}</span>
-                        {themeAfter}
-                      </>
-                    ) : (
-                      edition.theme
-                    )}
-                  </h2>
+                  <EditionTheme
+                    as="h2"
+                    size={isFeature ? 'large' : 'normal'}
+                    interactive
+                    theme={edition.theme}
+                    themeHighlight={edition.themeHighlight}
+                    delay={THEME_STAGGER}
+                  />
                   <div className={styles.metaFoot}>
                     <span className={styles.subline}>
                       <span>{edition.artists.length} artists</span>
