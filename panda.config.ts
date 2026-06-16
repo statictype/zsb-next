@@ -633,14 +633,6 @@ export default defineConfig({
             textTransform: 'uppercase',
           },
         },
-        sectionHeadline: {
-          value: {
-            fontFamily: 'display',
-            fontSize: 'clamp(40px, 7vw, 96px)',
-            lineHeight: '0.9',
-            textTransform: 'uppercase',
-          },
-        },
         // textStyles are typography-only — the entrance animation (the legacy
         // `.pageTitle` `fadeSlideUp`) is applied at the call site via
         // `css({ animation: 'fadeSlideUp 1s {easings.expo} 0.2s both' })`.
@@ -649,14 +641,6 @@ export default defineConfig({
             fontFamily: 'display',
             fontSize: 'clamp(40px, 4.75vw, 100px)',
             lineHeight: '1',
-            textTransform: 'uppercase',
-          },
-        },
-        subsectionTitle: {
-          value: {
-            fontFamily: 'display',
-            fontSize: { base: 'xl', md: '2xl', '3xl': '3xl' },
-            lineHeight: 'heading',
             textTransform: 'uppercase',
           },
         },
@@ -678,29 +662,8 @@ export default defineConfig({
             color: 'gray.200',
           },
         },
-        heroBody: {
-          value: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },
-        },
         lead: {
           value: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },
-        },
-        labelText: {
-          value: {
-            fontFamily: 'body',
-            fontSize: '2xs',
-            fontWeight: 'semibold',
-            letterSpacing: 'wide',
-            textTransform: 'uppercase',
-          },
-        },
-        labelSmall: {
-          value: {
-            fontFamily: 'body',
-            fontSize: '2xs',
-            fontWeight: 'semibold',
-            letterSpacing: 'label',
-            textTransform: 'uppercase',
-          },
         },
       },
       // Section / page-shell layout as layerStyles — Panda dedupes at the

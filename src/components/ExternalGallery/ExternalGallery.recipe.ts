@@ -81,10 +81,7 @@ export const externalGallery = sva({
       lg: { paddingBlock: '3xl', paddingInline: '2xl', gap: 'lg' },
     },
     title: {
-      fontFamily: 'display',
-      fontSize: { base: '2xl', lg: '3xl', '3xl': '4xl' },
-      lineHeight: '1',
-      textTransform: 'uppercase',
+      textStyle: 'sectionTitle',
       color: 'white',
       margin: '0',
     },

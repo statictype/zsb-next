@@ -176,9 +176,9 @@ export const featuredEvents = sva({
       color: 'highlight',
     },
     name: {
-      fontFamily: 'display',
-      fontSize: { base: 'lg', md: 'xl' },
-      lineHeight: 'tight',
+      textStyle: 'cardTitle',
+      // Event names are sentence-case, not the uppercase default.
+      textTransform: 'none',
       color: 'white',
     },
     // Links to the event route; inherits the heading type. Its ::after stretches

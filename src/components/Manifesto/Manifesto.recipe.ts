@@ -31,12 +31,13 @@ export const manifesto = sva({
       xl: { gridTemplateColumns: '1fr 1fr' },
     },
     title: {
-      fontFamily: 'display',
-      fontSize: { base: '2xl', xl: '3xl', '3xl': '4xl' },
-      lineHeight: { base: 'tight', md: 'display', '4xl': '1.08' },
+      textStyle: 'sectionTitle',
+      // Manifesto headline is sentence-case, not the uppercase default.
+      textTransform: 'none',
       color: 'black',
       textWrap: 'pretty',
     },
+    // The highlighted substring inside the headline — kept as its own slot.
     titleHighlight: { display: 'inline', color: 'action' },
     content: { paddingTop: { base: '0', lg: '20px' } },
     text: {

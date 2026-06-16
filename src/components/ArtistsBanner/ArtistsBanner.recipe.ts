@@ -55,11 +55,7 @@ export const artistsBanner = sva({
     },
     left: { display: 'flex', flexDirection: 'column', gap: 'sm' },
     title: {
-      fontFamily: 'display',
-      fontSize: '2xl',
-      lineHeight: 'display',
-      letterSpacing: 'tight',
-      textTransform: 'uppercase',
+      textStyle: 'sectionTitle',
       color: 'white',
       marginBottom: 'sm',
       transition: 'color {durations.medium} {easings.expo}',

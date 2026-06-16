@@ -211,9 +211,6 @@ export const aboutPage = sva({
       color: 'headingLight',
       marginTop: '0',
       marginBottom: 'xl',
-      fontSize: 'clamp(34px, 4.4vw, 60px)',
-      lineHeight: '0.96',
-      letterSpacing: 'tight',
       textWrap: 'balance',
     },
     statementByline: {

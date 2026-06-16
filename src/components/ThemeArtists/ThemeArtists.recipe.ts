@@ -43,9 +43,9 @@ export const themeArtists = sva({
       marginBottom: '3xl',
     },
     headline: {
-      fontFamily: 'display',
-      fontSize: { base: 'xl', md: '2xl', xl: '3xl', '3xl': '4xl' },
-      lineHeight: 'heading',
+      textStyle: 'sectionTitle',
+      // Sentence-case headline, not the uppercase default.
+      textTransform: 'none',
       color: 'white',
     },
 
