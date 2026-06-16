@@ -12,13 +12,14 @@ export const visitFaq = sva({
   base: {
     inner: { layerStyle: 'sectionInner' },
     title: { textStyle: 'sectionTitle', marginBottom: 'xl' },
-    list: { display: 'grid', gap: 'lg', maxWidth: '760px' },
+    list: { maxWidth: '760px' },
+    // The `<Disclosure>` root: a hairline divider between entries. Its summary
+    // row + panel own the vertical padding.
     item: {
-      paddingBottom: 'lg',
       borderBottomWidth: '1px',
       borderBottomStyle: 'solid',
       borderBottomColor: 'borderDark',
-      _last: { paddingBottom: '0', borderBottomWidth: '0' },
+      _last: { borderBottomWidth: '0' },
     },
     question: {
       fontFamily: 'body',
@@ -26,7 +27,6 @@ export const visitFaq = sva({
       fontWeight: 'bold',
       lineHeight: 'tight',
       color: 'heading',
-      marginBottom: 'sm',
     },
     answer: {
       fontFamily: 'body',

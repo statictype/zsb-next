@@ -1,4 +1,5 @@
 import { section } from 'styled-system/recipes'
+import { Disclosure } from '@/components/ui/Disclosure/Disclosure'
 import type { FaqEntry } from '@/lib/seo'
 import { visitFaq } from './VisitFaq.recipe'
 
@@ -10,8 +11,10 @@ interface VisitFaqProps {
  * Visible Visit-page FAQ. Renders the SAME merged list (derived hours/location
  * + editorial entries) that feeds the `FAQPage` JSON-LD — Google requires the
  * structured Q&A to be present on the page, so there is one source, two
- * renderings. Questions are real headings so AI answer engines and search can
- * parse them. Renders nothing when there are no entries.
+ * renderings. Each entry is a shared `<Disclosure>` (collapsed by default): the
+ * question stays a real `<h3>` inside the summary so AI/search can parse it, and
+ * native `<details>` keeps every answer in the DOM (crawlable) even when
+ * visually collapsed. Renders nothing when there are no entries.
  */
 export function VisitFaq({ entries }: VisitFaqProps) {
   if (entries.length === 0) return null
@@ -24,10 +27,13 @@ export function VisitFaq({ entries }: VisitFaqProps) {
         </h2>
         <div className={s.list}>
           {entries.map((entry) => (
-            <article key={entry.question} className={s.item}>
-              <h3 className={s.question}>{entry.question}</h3>
+            <Disclosure
+              key={entry.question}
+              className={s.item}
+              summary={<h3 className={s.question}>{entry.question}</h3>}
+            >
               <p className={s.answer}>{entry.answer}</p>
-            </article>
+            </Disclosure>
           ))}
         </div>
       </div>

@@ -5,9 +5,9 @@ import { sva } from 'styled-system/css'
  *
  * The programme browsed by place (ZSB-27), under the Visit page's main-venue
  * block. No ground of its own — it inherits the page's dark canvas and only
- * draws a top hairline; each venue is a `<details>` disclosure whose chevron
- * rotates on `[open]` and whose name warms to the accent on hover. The chip
- * border collapses to the shared `highlightFaint` (chartreuse 32%).
+ * draws a top hairline; each venue is a shared `<Disclosure>` (the summary
+ * chrome + chevron live there) whose name warms to the accent on hover. The
+ * chip border collapses to the shared `highlightFaint` (chartreuse 32%).
  */
 export const venuesView = sva({
   slots: [
@@ -20,12 +20,8 @@ export const venuesView = sva({
     'groupTitle',
     'venues',
     'venue',
-    'summary',
     'venueName',
-    'summaryMeta',
     'count',
-    'chevron',
-    'panel',
     'place',
     'mapLink',
     'events',
@@ -81,19 +77,8 @@ export const venuesView = sva({
       borderTopColor: 'borderDark',
       '&:first-of-type': { borderTopWidth: '0' },
     },
-    summary: {
-      display: 'flex',
-      alignItems: 'baseline',
-      justifyContent: 'space-between',
-      gap: 'md',
-      paddingBlock: 'md',
-      cursor: 'pointer',
-      listStyle: 'none',
-      transition: 'color {durations.fast} {easings.quint}',
-      '&::-webkit-details-marker': { display: 'none' },
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '3px' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
-    },
+    // The venue name is the `<Disclosure summary>`; it warms to the accent on
+    // hover via the disclosure's own `<summary>`.
     venueName: {
       fontFamily: 'display',
       fontSize: { base: 'lg', md: 'xl' },
@@ -103,7 +88,6 @@ export const venuesView = sva({
       'summary:hover &': { color: 'action' },
       '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
     },
-    summaryMeta: { display: 'flex', alignItems: 'center', gap: '10px', flexShrink: '0' },
     count: {
       fontFamily: 'body',
       fontSize: '2xs',
@@ -111,19 +95,6 @@ export const venuesView = sva({
       letterSpacing: 'label',
       fontWeight: 'semibold',
       color: 'muted',
-    },
-    chevron: {
-      color: 'muted',
-      transition: 'transform {durations.fast} {easings.quint}',
-      'details[open] &': { transform: 'rotate(180deg)' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
-    },
-
-    panel: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'lg',
-      paddingBottom: 'lg',
     },
     place: {
       display: 'flex',

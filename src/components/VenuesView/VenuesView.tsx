@@ -1,7 +1,8 @@
-import { RiArrowDownSLine, RiMapPinLine } from '@remixicon/react'
+import { RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
+import { Disclosure } from '@/components/ui/Disclosure/Disclosure'
 import type { TopVenue, VenueEvent, VenueNode, VenueTypeSection } from '@/lib/venues'
 import { venuesView } from './VenuesView.recipe'
 
@@ -44,33 +45,29 @@ export function VenuesView({ year, sections }: { year: number; sections: VenueTy
 
 function VenueCard({ venue, year }: { venue: TopVenue; year: number }) {
   return (
-    <details className={styles.venue}>
-      <summary className={styles.summary}>
-        <span className={styles.venueName}>{venue.name}</span>
-        <span className={styles.summaryMeta}>
-          <span className={styles.count}>
-            {venue.totalEvents} {venue.totalEvents === 1 ? 'event' : 'events'}
-          </span>
-          <RiArrowDownSLine size={20} className={styles.chevron} aria-hidden />
+    <Disclosure
+      className={styles.venue}
+      summary={<span className={styles.venueName}>{venue.name}</span>}
+      meta={
+        <span className={styles.count}>
+          {venue.totalEvents} {venue.totalEvents === 1 ? 'event' : 'events'}
         </span>
-      </summary>
+      }
+    >
+      <VenuePlace venue={venue} />
+      {venue.events.length > 0 && <EventList events={venue.events} year={year} />}
 
-      <div className={styles.panel}>
-        <VenuePlace venue={venue} />
-        {venue.events.length > 0 && <EventList events={venue.events} year={year} />}
-
-        {venue.children.map((child) => (
-          <div key={child.name} className={styles.child}>
-            <p className={styles.childHead}>
-              <span className={styles.childName}>{child.name}</span>
-              <span className={styles.childType}>{child.type}</span>
-            </p>
-            <VenuePlace venue={child} />
-            <EventList events={child.events} year={year} />
-          </div>
-        ))}
-      </div>
-    </details>
+      {venue.children.map((child) => (
+        <div key={child.name} className={styles.child}>
+          <p className={styles.childHead}>
+            <span className={styles.childName}>{child.name}</span>
+            <span className={styles.childType}>{child.type}</span>
+          </p>
+          <VenuePlace venue={child} />
+          <EventList events={child.events} year={year} />
+        </div>
+      ))}
+    </Disclosure>
   )
 }
 
