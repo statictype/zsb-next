@@ -28,7 +28,7 @@ export const themeArtists = sva({
       lg: {
         display: 'grid',
         gridTemplateColumns: '0.8fr 1.2fr',
-        gap: '{spacing.lg} {spacing.5xl}',
+        gap: '{spacing.lg} {spacing.4xl}',
         maxWidth: 'maxWidth',
       },
       xl: { gridTemplateColumns: '1fr 1fr' },

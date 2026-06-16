@@ -614,17 +614,6 @@ export default defineConfig({
               '4xl': '224px',
             },
           },
-          '5xl': {
-            value: {
-              base: '128px',
-              md: '160px',
-              lg: '192px',
-              xl: '224px',
-              '2xl': '240px',
-              '3xl': '256px',
-              '4xl': '288px',
-            },
-          },
         },
       },
       // Typography utilities. Pure type — margins / max-width belong at the call

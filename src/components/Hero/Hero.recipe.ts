@@ -36,7 +36,7 @@ export const hero = sva({
       paddingInline: '0',
       paddingBottom: '3xl',
       md: { paddingTop: 'calc(token(sizes.nav) + 120px)', paddingBottom: '4xl' },
-      lg: { paddingInline: 'content', paddingBottom: '5xl' },
+      lg: { paddingInline: 'content', paddingBottom: '4xl' },
     },
     stage: {
       position: 'relative',
