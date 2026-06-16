@@ -43,7 +43,7 @@ export const editionLoading = sva({
         inset: '0',
         background:
           'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
-        animation: 'shimmer 1.8s ease-in-out infinite',
+        animation: 'shimmer {durations.sweep} ease-in-out infinite',
       },
     },
 

@@ -503,6 +503,11 @@ export default defineConfig({
           medium: { value: '400ms' },
           slow: { value: '500ms' },
           reveal: { value: '600ms' },
+          // Slow entrances/reveals (the fadeSlideUp / tape / image-reveal family)
+          // and the skeleton sweep — collapsed off the scattered 0.8–1.3s / 1.6–1.8s
+          // literals. Continuous loops (spin/glow/etc.) keep their own literal speed.
+          entrance: { value: '900ms' },
+          sweep: { value: '1600ms' },
         },
         easings: {
           expo: { value: 'cubic-bezier(0.16, 1, 0.3, 1)' },

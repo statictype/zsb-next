@@ -18,7 +18,7 @@ export const pageHero = sva({
     title: {
       textStyle: 'pageTitle',
       opacity: '0',
-      animation: 'fadeSlideUp 1s {easings.expo} 0.2s forwards',
+      animation: 'fadeSlideUp {durations.entrance} {easings.expo} 0.2s forwards',
     },
     lead: { textStyle: 'lead', maxWidth: '60ch', marginTop: 'xl' },
   },

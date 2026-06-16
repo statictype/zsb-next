@@ -12,7 +12,7 @@ export const skeleton = css({
   position: 'absolute',
   inset: '0',
   background: 'gray.800',
-  animation: 'skeletonPulse 1.6s ease-in-out infinite',
+  animation: 'skeletonPulse {durations.sweep} ease-in-out infinite',
   pointerEvents: 'none',
   zIndex: '0',
   '@media (prefers-reduced-motion: reduce)': { animation: 'none', opacity: '0.6' },

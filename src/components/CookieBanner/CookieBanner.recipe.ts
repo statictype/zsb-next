@@ -26,7 +26,7 @@ export const cookieBanner = sva({
       boxShadow: 'modal',
       fontFamily: 'body',
       animationName: 'fadeSlideUp',
-      animationDuration: '280ms',
+      animationDuration: '{durations.normal}',
       animationTimingFunction: 'expo',
     },
     inner: {

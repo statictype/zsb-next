@@ -219,7 +219,7 @@ export const calendar = sva({
         opacity: 0,
         zIndex: 2,
         pointerEvents: 'none',
-        transition: 'opacity {durations.normal} ease',
+        transition: 'opacity {durations.normal} {easings.quint}',
       },
       _hover: {
         '&::before': { opacity: 1, animation: 'gradientBorderShift 2s linear infinite' },

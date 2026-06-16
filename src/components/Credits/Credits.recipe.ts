@@ -76,7 +76,7 @@ export const credits = sva({
       objectFit: 'contain',
       filter: 'grayscale(100%)',
       opacity: 0.8,
-      transition: 'all 0.4s ease',
+      transition: 'all {durations.medium} {easings.quint}',
       md: { height: '60px' },
       _hover: { filter: 'grayscale(0%)', opacity: 1 },
     },

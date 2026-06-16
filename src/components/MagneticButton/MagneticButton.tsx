@@ -26,7 +26,7 @@ const rippleClass = css({
   borderRadius: '50%',
   background: 'rgba(255, 255, 255, 0.2)',
   transform: 'scale(0)',
-  animation: 'rippleAnim 0.6s {easings.expo} forwards',
+  animation: 'rippleAnim {durations.reveal} {easings.expo} forwards',
   pointerEvents: 'none',
 })
 

@@ -27,7 +27,10 @@ export const magneticButton = sva({
       display: 'inline-flex',
       alignItems: 'center',
       gap: '10px',
-      '& svg': { transition: 'transform 0.4s {easings.expo}, color 0.3s ease' },
+      '& svg': {
+        transition:
+          'transform {durations.medium} {easings.expo}, color {durations.normal} {easings.quint}',
+      },
     },
   },
   variants: {
@@ -52,7 +55,7 @@ export const magneticButton = sva({
             WebkitMaskComposite: 'xor',
             maskComposite: 'exclude',
             opacity: 0,
-            transition: 'opacity 0.4s ease',
+            transition: 'opacity {durations.medium} {easings.quint}',
             pointerEvents: 'none',
           },
           _hover: {

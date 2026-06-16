@@ -52,7 +52,7 @@ export const heroSlideshow = sva({
       position: 'absolute',
       inset: 0,
       opacity: 0,
-      transition: 'opacity 1.2s ease-in-out',
+      transition: 'opacity {durations.entrance} {easings.quint}',
       '& img': { objectFit: 'cover', background: 'gray.900' },
       '&[data-active=true]': { opacity: 1 },
       '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
@@ -104,7 +104,8 @@ export const heroSlideshow = sva({
       borderRadius: 0,
       background: 'rgba(255, 255, 255, 0.28)',
       cursor: 'pointer',
-      transition: 'width 0.5s {easings.expo}, background 0.3s ease',
+      transition:
+        'width {durations.slow} {easings.expo}, background {durations.normal} {easings.quint}',
       _hover: { background: 'action' },
       _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '4px' },
       '&[aria-current=true]': { width: '28px', background: 'highlight' },
@@ -115,7 +116,7 @@ export const heroSlideshow = sva({
     // Shared nav-control motion layered onto IconButton (tone="media").
     control: {
       _active: { transform: 'scale(0.9)' },
-      '& svg': { transition: 'transform 0.4s {easings.expo}' },
+      '& svg': { transition: 'transform {durations.medium} {easings.expo}' },
     },
     controlPrev: { _hover: { '& svg': { transform: 'translateX(-2px)' } } },
     controlNext: { _hover: { '& svg': { transform: 'translateX(2px)' } } },

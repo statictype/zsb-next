@@ -95,7 +95,7 @@ export const pressPage = sva({
       fontSize: { base: 'md', md: 'xl' },
       lineHeight: 'heading',
       color: 'white',
-      transition: 'color {durations.normal} ease',
+      transition: 'color {durations.normal} {easings.quint}',
       'a:hover &': { color: 'action' },
     },
     appExcerpt: {
@@ -120,7 +120,8 @@ export const pressPage = sva({
       flexShrink: '0',
       color: 'muted',
       display: 'inline-flex',
-      transition: 'color {durations.normal} ease, transform {durations.normal} {easings.expo}',
+      transition:
+        'color {durations.normal} {easings.quint}, transform {durations.normal} {easings.expo}',
       'a:hover &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
 
@@ -146,7 +147,7 @@ export const pressPage = sva({
       lineHeight: 'heading',
       textTransform: 'uppercase',
       color: 'white',
-      transition: 'color {durations.normal} ease',
+      transition: 'color {durations.normal} {easings.quint}',
       'a:hover &': { color: 'action' },
     },
     releaseMeta: {

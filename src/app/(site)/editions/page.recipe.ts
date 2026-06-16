@@ -51,7 +51,7 @@ export const editionsPage = sva({
       opacity: '0',
       transform: 'translateY(32px)',
       filter: 'blur(6px)',
-      animation: 'cardReveal 900ms {easings.expo} forwards',
+      animation: 'cardReveal {durations.entrance} {easings.expo} forwards',
       animationDelay: 'calc(var(--card-index, 0) * 120ms + 120ms)',
       lg: { '&[data-feature]': { gridColumn: '1 / -1' } },
       '@media (prefers-reduced-motion: reduce)': {
@@ -90,7 +90,8 @@ export const editionsPage = sva({
       background: 'gray.900',
       filter: 'grayscale(100%) brightness(0.7)',
       transform: 'scale(1.01)',
-      transition: 'filter 600ms {easings.expo}, transform 900ms {easings.expo}',
+      transition:
+        'filter {durations.reveal} {easings.expo}, transform {durations.entrance} {easings.expo}',
       willChange: 'transform, filter',
       'a:hover &, a:focus-visible &': {
         filter: 'grayscale(30%) brightness(1)',

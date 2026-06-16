@@ -44,7 +44,8 @@ export const navigation = sva({
       background: 'black',
       opacity: 0,
       visibility: 'hidden',
-      transition: 'opacity 0.3s ease, visibility 0.3s ease',
+      transition:
+        'opacity {durations.normal} {easings.quint}, visibility {durations.normal} {easings.quint}',
       '&[data-open=true]': { opacity: 1, visibility: 'visible' },
       // Desktop: a top-right pill row that scrolls away with the page.
       md: {

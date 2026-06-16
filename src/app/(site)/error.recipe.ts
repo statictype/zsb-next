@@ -102,7 +102,7 @@ export const errorPage = sva({
       paddingBlock: '14px',
       paddingInline: '28px',
       cursor: 'pointer',
-      transition: 'all {durations.normal} ease',
+      transition: 'all {durations.normal} {easings.quint}',
       _hover: { borderColor: 'action', color: 'action' },
     },
     btnPrimary: {

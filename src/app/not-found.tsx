@@ -2,8 +2,6 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import { css, cx } from 'styled-system/css'
 
-const EXPO = 'cubic-bezier(0.16, 1, 0.3, 1)'
-
 const page = css({
   position: 'relative',
   minH: '100svh',
@@ -57,7 +55,7 @@ const code = css({
   color: 'white',
   letterSpacing: '-6px',
   opacity: '0',
-  animation: `fadeSlideUp 1s ${EXPO} 0.1s forwards`,
+  animation: 'fadeSlideUp {durations.entrance} {easings.expo} 0.1s forwards',
 })
 
 const divider = css({
@@ -68,7 +66,7 @@ const divider = css({
   marginInline: 'auto',
   marginBottom: 'xl',
   opacity: '0',
-  animation: `fadeSlideUp 1s ${EXPO} 0.25s forwards`,
+  animation: 'fadeSlideUp {durations.entrance} {easings.expo} 0.25s forwards',
 })
 
 const title = css({
@@ -79,7 +77,7 @@ const title = css({
   color: 'white',
   marginBottom: 'md',
   opacity: '0',
-  animation: `fadeSlideUp 1s ${EXPO} 0.35s forwards`,
+  animation: 'fadeSlideUp {durations.entrance} {easings.expo} 0.35s forwards',
 })
 
 const subtitle = css({
@@ -90,7 +88,7 @@ const subtitle = css({
   letterSpacing: 'label',
   marginBottom: '2xl',
   opacity: '0',
-  animation: `fadeSlideUp 1s ${EXPO} 0.45s forwards`,
+  animation: 'fadeSlideUp {durations.entrance} {easings.expo} 0.45s forwards',
 })
 
 const cta = css({
@@ -106,9 +104,10 @@ const cta = css({
   paddingBlock: '14px',
   paddingInline: '28px',
   opacity: '0',
-  animation: `fadeSlideUp 1s ${EXPO} 0.55s forwards`,
-  transition: 'color {durations.normal} ease, border-color {durations.normal} ease',
-  '& svg': { transition: 'transform {durations.normal} ease' },
+  animation: 'fadeSlideUp {durations.entrance} {easings.expo} 0.55s forwards',
+  transition:
+    'color {durations.normal} {easings.quint}, border-color {durations.normal} {easings.quint}',
+  '& svg': { transition: 'transform {durations.normal} {easings.quint}' },
   _hover: {
     borderColor: 'action',
     color: 'action',

@@ -33,7 +33,8 @@ export const lightbox = sva({
       justifyContent: 'center',
       opacity: 0,
       visibility: 'hidden',
-      transition: 'opacity 0.4s ease, visibility 0.4s ease',
+      transition:
+        'opacity {durations.medium} {easings.quint}, visibility {durations.medium} {easings.quint}',
       cursor: 'zoom-out',
       touchAction: 'none',
       overscrollBehavior: 'contain',
@@ -47,7 +48,11 @@ export const lightbox = sva({
       md: { width: 'calc(100vw - 160px)', height: '90vh' },
     },
     // Drag prevention comes from the Image's `draggable={false}` attribute.
-    image: { objectFit: 'contain', transition: 'opacity 0.3s ease', userSelect: 'none' },
+    image: {
+      objectFit: 'contain',
+      transition: 'opacity {durations.normal} {easings.quint}',
+      userSelect: 'none',
+    },
 
     // Positioned over the dark backdrop; IconButton supplies size + white→action.
     close: {

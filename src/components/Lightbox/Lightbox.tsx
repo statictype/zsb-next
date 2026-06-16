@@ -161,7 +161,9 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
   const backdropAlpha = 0.95 * (1 - verticalProgress * 0.5)
   const frameStyle = {
     transform: `translate3d(${drag.x}px, ${drag.y}px, 0)`,
-    transition: isDragging ? 'none' : 'transform 0.3s var(--easings-expo), opacity 0.3s ease',
+    transition: isDragging
+      ? 'none'
+      : 'transform var(--durations-normal) var(--easings-expo), opacity var(--durations-normal) var(--easings-quint)',
     opacity: 1 - verticalProgress * 0.4,
   }
 

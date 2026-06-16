@@ -93,7 +93,7 @@ export const homePage = sva({
     heroTitle: {
       textStyle: 'pageTitle',
       opacity: '0',
-      animation: 'fadeSlideUp 1s {easings.expo} 0.2s forwards',
+      animation: 'fadeSlideUp {durations.entrance} {easings.expo} 0.2s forwards',
       width: 'min-content',
     },
     heroText: {
@@ -154,7 +154,7 @@ export const homePage = sva({
       borderTop: '1px solid token(colors.borderDark)',
       textDecoration: 'none',
       color: 'inherit',
-      transition: 'padding-left 0.4s {easings.expo}',
+      transition: 'padding-left {durations.medium} {easings.expo}',
       _hover: { paddingLeft: '12px' },
     },
     editionYear: {
@@ -174,14 +174,15 @@ export const homePage = sva({
       lineHeight: 'heading',
       color: 'white',
       flex: '1',
-      transition: 'color 0.3s ease',
+      transition: 'color {durations.normal} {easings.quint}',
       'a:hover &': { color: 'action' },
     },
     editionArrow: {
       flexShrink: '0',
       color: 'muted',
       display: 'flex',
-      transition: 'color 0.3s ease, transform 0.4s {easings.expo}',
+      transition:
+        'color {durations.normal} {easings.quint}, transform {durations.medium} {easings.expo}',
       'a:hover &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
     // Upcoming rows are non-navigable <div>s — kill the row's hover shift.

@@ -38,7 +38,8 @@ export const carousel = sva({
       // exception: image placeholder fallback, raised-dark surface
       background: 'gray.900',
       '& img': {
-        transition: 'transform 1.2s {easings.expo}, filter 0.6s ease',
+        transition:
+          'transform {durations.entrance} {easings.expo}, filter {durations.reveal} {easings.quint}',
         filter: 'brightness(0.9) contrast(1)',
       },
       _hover: {
@@ -61,7 +62,7 @@ export const carousel = sva({
         opacity: 0,
         zIndex: 2,
         pointerEvents: 'none',
-        transition: 'opacity 0.4s ease',
+        transition: 'opacity {durations.medium} {easings.quint}',
       },
     },
     // Drag prevention comes from the Figure's `draggable={false}` attribute.

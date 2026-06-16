@@ -29,7 +29,7 @@ export const mediaKitStrip = sva({
     image: {
       objectFit: 'cover',
       background: 'gray.900',
-      transition: 'transform 0.8s {easings.expo}',
+      transition: 'transform {durations.entrance} {easings.expo}',
       pointerEvents: 'none',
     },
   },
