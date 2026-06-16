@@ -44,21 +44,14 @@ export const editionsPage = sva({
       lg: { gridTemplateColumns: 'repeat(2, 1fr)', columnGap: 'gridGap', rowGap: '2xl' },
     },
 
-    // Entrance wrapper — the reveal lives here so it never fights the Card's own
-    // hover-lift transform. `data-feature` promotes the latest edition card.
+    // Entrance wrapper — the reveal is composed here (`enter()` on the element)
+    // so it never fights the Card's own hover-lift transform. `data-feature`
+    // promotes the latest edition card.
     slot: {
-      opacity: '0',
-      transform: 'translateY(32px)',
-      filter: 'blur(6px)',
-      animation: 'cardReveal {durations.entrance} {easings.expo} forwards',
+      // The blur+rise reveal is the shared `enter({ soft: true })` (composed on
+      // the element); only the per-card stagger delay stays here.
       animationDelay: 'calc(var(--card-index, 0) * 120ms + 120ms)',
       lg: { '&[data-feature]': { gridColumn: '1 / -1' } },
-      '@media (prefers-reduced-motion: reduce)': {
-        animation: 'none',
-        opacity: '1',
-        transform: 'none',
-        filter: 'none',
-      },
     },
     card: {
       height: '100%',

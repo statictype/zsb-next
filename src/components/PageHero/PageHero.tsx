@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react'
+import { cx } from 'styled-system/css'
+import { enter } from '@/components/enter'
 import { pageHero } from './PageHero.recipe'
 
 interface PageHeroProps {
@@ -22,7 +24,7 @@ export function PageHero({ title, lead, flush }: PageHeroProps) {
   return (
     <section className={styles.hero}>
       <div className={styles.inner}>
-        <h1 className={styles.title}>{title}</h1>
+        <h1 className={cx(styles.title, enter())}>{title}</h1>
         {lead != null && <p className={styles.lead}>{lead}</p>}
       </div>
     </section>

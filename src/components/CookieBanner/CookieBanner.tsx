@@ -4,6 +4,8 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 import Link from 'next/link'
 import { useSyncExternalStore } from 'react'
 import { createPortal } from 'react-dom'
+import { cx } from 'styled-system/css'
+import { enter } from '@/components/enter'
 import { Button } from '@/components/ui/Button/Button'
 import { CONSENT_COOKIE, CONSENT_REOPEN_EVENT, GA_MEASUREMENT_ID } from '@/lib/constants'
 import { cookieBanner } from './CookieBanner.recipe'
@@ -61,7 +63,12 @@ export function CookieBanner() {
       {loadAnalytics ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
       {showBanner
         ? createPortal(
-            <div role="dialog" aria-live="polite" aria-label="Cookie consent" className={s.banner}>
+            <div
+              role="dialog"
+              aria-live="polite"
+              aria-label="Cookie consent"
+              className={cx(s.banner, enter({ speed: 'normal' }))}
+            >
               <div className={s.inner}>
                 <div className={s.copy}>
                   <p className={s.title}>We use cookies</p>

@@ -3,6 +3,7 @@ import { type CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
 import { button } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
+import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -60,7 +61,7 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
           return (
             <div
               key={year}
-              className={styles.slot}
+              className={cx(styles.slot, enter({ soft: true }))}
               data-feature={isFeature || undefined}
               style={{ '--card-index': index } as CSSProperties}
             >

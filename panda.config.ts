@@ -327,14 +327,24 @@ export default defineConfig({
         '4xl': '1792px',
       },
       keyframes: {
-        fadeSlideUp: {
-          from: { opacity: '0', transform: 'translateY(30px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
+        // The one entrance reveal. Parameterized by CSS vars (`--enter-y` /
+        // `--enter-scale` / `--enter-blur`) set by the `enter()` cva; built
+        // from→to with `animation-fill-mode: both` so the element rests in its
+        // visible final state and reduced-motion is just `animation: none`.
+        // Folds in the former fadeSlideUp / fadeIn / dialogIn / cardIn /
+        // imageReveal / cardReveal.
+        enter: {
+          from: {
+            opacity: '0',
+            translate: '0 var(--enter-y, 0px)',
+            scale: 'var(--enter-scale, 1)',
+            filter: 'blur(var(--enter-blur, 0px))',
+          },
+          to: { opacity: '1', translate: '0 0', scale: '1', filter: 'blur(0px)' },
         },
-        glowDrift: {
-          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(30px, -20px) scale(1.1)' },
-        },
+        // The diagonal sticky-tape entrance (translate x+y beneath a static
+        // rotate). Kept distinct from `enter` — Hero/EditionTheme tapes need it.
+        tapeIn: { to: { opacity: '1', translate: '0 0' } },
         // PartnerBadge's continuously-rotating text ring.
         spin: { to: { transform: 'rotate(-360deg)' } },
         // Carousel item's animated gradient hover border.
@@ -344,36 +354,10 @@ export default defineConfig({
         },
         // HeroSlideshow per-slide progress line (scaleX, GPU-only).
         heroProgress: { from: { transform: 'scaleX(0)' }, to: { transform: 'scaleX(1)' } },
-        // EventModal entrance: backdrop fade + dialog rise.
-        fadeIn: { from: { opacity: 0 }, to: { opacity: 1 } },
-        dialogIn: {
-          from: { opacity: 0, transform: 'translateY(12px)' },
-          to: { opacity: 1, transform: 'none' },
-        },
-        // FeaturedEvents staggered poster-card reveal.
-        cardIn: {
-          from: { opacity: '0', transform: 'translateY(28px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
-        },
-        // Hero image scale-in + tape labels sliding into place.
-        imageReveal: {
-          from: { opacity: '0', transform: 'scale(1.06)' },
-          to: { opacity: '1', transform: 'scale(1)' },
-        },
-        tapeIn: { to: { opacity: '1', translate: '0 0' } },
-        // Edition loading-skeleton sweep.
+        // Loading-skeleton sweep (edition loading bones + the shared skeleton).
         shimmer: {
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(100%)' },
-        },
-        // Editions-list card entrance (blur + rise).
-        cardReveal: {
-          to: { opacity: '1', transform: 'translateY(0)', filter: 'blur(0)' },
-        },
-        // Image-loading skeleton pulse (Figure / Lightbox).
-        skeletonPulse: {
-          '0%, 100%': { opacity: '0.45' },
-          '50%': { opacity: '0.85' },
         },
         // Calendar "now"/on-now pulsing dot.
         pulse: {

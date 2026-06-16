@@ -6,6 +6,7 @@ import { button } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
+import { enter } from '@/components/enter'
 import { FeaturedSpotlight } from '@/components/FeaturedEvents/FeaturedSpotlight'
 import { HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
 import { Navigation } from '@/components/Navigation/Navigation'
@@ -88,7 +89,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
             <div className={styles.upcomingInner}>
               <div className={styles.upcomingLead}>
                 <p className={styles.upcomingEyebrow}>Upcoming · ZSB {upcoming.year}</p>
-                <h1 className={styles.heroTitle}>
+                <h1 className={cx(styles.heroTitle, enter())}>
                   <AccentSplit text={upcoming.theme} accent={upcoming.themeHighlight} lineBreak />
                 </h1>
                 <p className={styles.upcomingDates}>{upcoming.dateTape}</p>
@@ -117,7 +118,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
           <section id="home" className={cx(styles.panel, styles.hero)}>
             <div className={styles.heroInner}>
               <div className={styles.heroPanel}>
-                <h1 className={styles.heroTitle}>
+                <h1 className={cx(styles.heroTitle, enter())}>
                   <AccentSplit text={title} accent={accent} lineBreak />
                 </h1>
                 <div className={styles.heroText}>

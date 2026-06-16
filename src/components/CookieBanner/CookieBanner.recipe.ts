@@ -5,8 +5,8 @@ import { sva } from 'styled-system/css'
  *
  * Fixed consent dialog pinned to the bottom rail. The Reject/Accept actions are
  * now the shared `<Button>` primitive (ghost / solid), so only the shell layout
- * lives here. The bespoke entrance reuses the shared `fadeSlideUp` keyframe
- * rather than porting the near-identical legacy `slideUp`.
+ * lives here. The entrance composes the shared `enter()` cva (at `normal` speed)
+ * on the banner element.
  */
 export const cookieBanner = sva({
   slots: ['banner', 'inner', 'copy', 'title', 'text', 'link', 'actions'],
@@ -25,9 +25,6 @@ export const cookieBanner = sva({
       borderRadius: '2px',
       boxShadow: 'modal',
       fontFamily: 'body',
-      animationName: 'fadeSlideUp',
-      animationDuration: '{durations.normal}',
-      animationTimingFunction: 'expo',
     },
     inner: {
       display: 'flex',

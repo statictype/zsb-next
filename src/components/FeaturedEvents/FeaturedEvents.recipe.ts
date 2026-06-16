@@ -92,17 +92,14 @@ export const featuredEvents = sva({
     },
 
     card: {
-      opacity: '0',
-      // staggered reveal — each card waits a beat longer than the last (--i)
-      animation: 'cardIn {durations.medium} {easings.expo} forwards',
+      // staggered reveal (shared `enter()` on the element) — each card waits a
+      // beat longer than the last (--i); the reveal contract lives in `enter()`.
       animationDelay: 'calc(var(--i, 0) * 90ms)',
       _hover: {
         '& img': { filter: 'grayscale(0%) contrast(1)', transform: 'scale(1.04)' },
         '& a': { color: 'action' },
       },
       '@media (prefers-reduced-motion: reduce)': {
-        opacity: '1',
-        animation: 'none',
         '& img': { transition: 'none', transform: 'none' },
       },
     },

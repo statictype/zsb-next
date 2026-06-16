@@ -37,8 +37,6 @@ export const eventModal = sva({
       padding: 'lg',
       background: 'scrim',
       overflowY: 'auto',
-      animation: 'fadeIn {durations.normal} {easings.quint}',
-      '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
     },
     dialog: {
       position: 'relative',
@@ -53,9 +51,7 @@ export const eventModal = sva({
       borderColor: 'borderDark',
       boxShadow: 'modal',
       overflow: 'hidden',
-      animation: 'dialogIn {durations.normal} {easings.expo}',
       md: { flexDirection: 'row', maxWidth: '760px' },
-      '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
     },
 
     // Floating bar over the dialog top: Back (left) + Share (right). The bar is

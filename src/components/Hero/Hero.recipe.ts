@@ -8,8 +8,9 @@ import { sva } from 'styled-system/css'
  * gains horizontal padding and the tapes hang off the frame's left edge. The
  * top offset mirrors the shared `pageHero` layerStyle (`token(sizes.nav)` + 80/
  * 120px) so the frame starts at the same y as the title on every other page.
- * Entrance animations (`imageReveal`, `fadeIn`, `tapeIn`) register in the Panda
- * keyframes; the unused legacy `--hero-bg` override hook is dropped (gray.900).
+ * The image/vignette reveals compose the shared `enter()` cva (image = zoom,
+ * vignette = fade); the tapes keep the distinct `tapeIn` keyframe. The frame
+ * (not the image) owns the `grayscale(0.3)` so it survives `enter`'s `filter`.
  */
 export const hero = sva({
   slots: [
@@ -54,6 +55,7 @@ export const hero = sva({
       aspectRatio: '4 / 5',
       overflow: 'hidden',
       isolation: 'isolate',
+      filter: 'grayscale(0.3)',
       boxShadow: '0 30px 80px -30px rgba(0, 0, 0, 0.7)',
       md: { aspectRatio: '2 / 1' },
       _after: {
@@ -72,9 +74,7 @@ export const hero = sva({
       objectFit: 'cover',
       objectPosition: 'center right',
       background: 'gray.900',
-      animation: 'imageReveal {durations.entrance} {easings.expo} both',
       zIndex: '0',
-      filter: 'grayscale(0.3)',
     },
     vignette: {
       position: 'absolute',
@@ -84,8 +84,7 @@ export const hero = sva({
         'linear-gradient(115deg, rgba(14, 11, 16, 0.55) 0%, rgba(14, 11, 16, 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgba(14, 11, 16, 0.5) 100%)',
       mixBlendMode: 'multiply',
       zIndex: '1',
-      opacity: '0',
-      animation: 'fadeIn {durations.entrance} {easings.expo} 0.3s forwards',
+      animationDelay: '0.3s',
     },
 
     tapes: {

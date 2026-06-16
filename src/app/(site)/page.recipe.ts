@@ -92,8 +92,8 @@ export const homePage = sva({
     // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
     heroTitle: {
       textStyle: 'pageTitle',
-      opacity: '0',
-      animation: 'fadeSlideUp {durations.entrance} {easings.expo} 0.2s forwards',
+      // Reveal contract is the shared `enter()` on the element; delay only here.
+      animationDelay: '0.2s',
       width: 'min-content',
     },
     heroText: {

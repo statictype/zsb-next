@@ -1,3 +1,5 @@
+import { cx } from 'styled-system/css'
+import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
 import type { Edition } from '@/types/edition'
 import { hero } from './Hero.recipe'
@@ -43,9 +45,9 @@ export function Hero({ edition }: HeroProps) {
             image={heroImage}
             sizes="(min-width: 1024px) calc(100vw - 200px), 100vw"
             priority
-            className={styles.image}
+            className={cx(styles.image, enter({ rise: 'none', zoom: true }))}
           />
-          <div className={styles.vignette} aria-hidden="true" />
+          <div className={cx(styles.vignette, enter({ rise: 'none' }))} aria-hidden="true" />
         </div>
 
         <div className={styles.tapes}>

@@ -3,6 +3,7 @@
 import { RiArrowLeftLine, RiArrowRightUpLine } from '@remixicon/react'
 import { useEffect, useRef } from 'react'
 import { css, cx } from 'styled-system/css'
+import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { eventWhenLabel } from '@/lib/edition-dates'
@@ -92,14 +93,14 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: click-outside dismiss; Escape + Back button cover the keyboard
     <div
-      className={s.backdrop}
+      className={cx(s.backdrop, enter({ rise: 'none', speed: 'normal' }))}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
     >
       <div
         ref={dialogRef}
-        className={s.dialog}
+        className={cx(s.dialog, enter({ rise: 'sm', speed: 'normal' }))}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
