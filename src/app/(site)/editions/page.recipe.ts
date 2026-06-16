@@ -123,7 +123,7 @@ export const editionsPage = sva({
       lineHeight: '1',
       letterSpacing: 'tight',
       color: 'white',
-      background: 'blackPure',
+      background: 'black',
       paddingTop: '10px',
       paddingInline: '16px',
       paddingBottom: '12px',

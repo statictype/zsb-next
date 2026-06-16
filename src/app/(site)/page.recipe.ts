@@ -46,7 +46,7 @@ export const homePage = sva({
     hero: {
       position: 'relative',
       width: '100%',
-      background: 'blackPure',
+      background: 'black',
       paddingTop: 'calc(token(sizes.nav) + 80px)',
       paddingInline: 'content',
       paddingBottom: '2xl',
@@ -121,7 +121,7 @@ export const homePage = sva({
       '3xl': { '--partner-badge-scale': '1.85' },
     },
 
-    editions: { paddingBlock: 'sectionY', paddingInline: 'content', background: 'blackPure' },
+    editions: { paddingBlock: 'sectionY', paddingInline: 'content', background: 'black' },
     editionsHead: {
       display: 'flex',
       flexDirection: 'column',

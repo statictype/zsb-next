@@ -28,7 +28,7 @@ export const footer = sva({
   ],
   base: {
     footer: {
-      background: 'blackPure',
+      background: 'black',
       color: 'white',
       paddingBlock: 'xl',
       paddingInline: 'content',

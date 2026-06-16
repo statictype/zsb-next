@@ -16,7 +16,7 @@ import { useShareLink } from './useShareLink'
 // ground (legible over the poster) + pointer-events (the bar is click-through).
 const controlChip = css({
   pointerEvents: 'auto',
-  background: 'color-mix(in srgb, token(colors.blackPure) 55%, transparent)',
+  background: 'color-mix(in srgb, token(colors.black) 55%, transparent)',
   backdropFilter: 'blur(4px)',
 })
 const shareIcon = css({

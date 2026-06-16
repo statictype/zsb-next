@@ -29,7 +29,7 @@ export const hero = sva({
   base: {
     hero: {
       position: 'relative',
-      background: 'blackPure',
+      background: 'black',
       overflow: 'hidden',
       // Matches the shared pageHero top offset.
       paddingTop: 'calc(token(sizes.nav) + 80px)',
@@ -189,7 +189,7 @@ export const hero = sva({
       lineHeight: '1',
       letterSpacing: '-0.025em',
       color: 'white',
-      background: 'blackPure',
+      background: 'black',
       paddingTop: '12px',
       paddingInline: '18px',
       paddingBottom: '14px',

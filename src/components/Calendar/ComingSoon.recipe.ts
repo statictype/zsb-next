@@ -27,7 +27,7 @@ export const comingSoon = sva({
     'link',
   ],
   base: {
-    section: { layerStyle: 'section', background: 'blackPure', color: 'white' },
+    section: { layerStyle: 'section', background: 'black', color: 'white' },
     inner: { layerStyle: 'sectionInner' },
 
     header: { marginBottom: 'xl' },

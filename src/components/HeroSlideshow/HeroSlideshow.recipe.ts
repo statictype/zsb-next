@@ -44,7 +44,7 @@ export const heroSlideshow = sva({
       width: '100%',
       aspectRatio: 'var(--stage-aspect, 4 / 5)',
       overflow: 'hidden',
-      background: 'blackPure',
+      background: 'black',
       cursor: 'pointer',
       md: { aspectRatio: 'var(--stage-aspect, 16 / 9)' },
     },

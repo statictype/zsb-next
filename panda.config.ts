@@ -440,12 +440,10 @@ export default defineConfig({
           gray: grayRamp,
           // Brand anchors, authored in OKLCH (measured from the legacy hexes).
           pink: { value: 'oklch(61.6% 0.2527 355)' },
-          lightPink: { value: 'oklch(91.3% 0.0492 343)' },
           chartreuse: { value: 'oklch(87.9% 0.1981 115)' },
-          black: { value: 'oklch(15.6% 0.0115 312)' },
-          // True black. The brand `black` is intentionally magenta-tinted ink;
-          // a few surfaces (the events board) want a pure, un-tinted ground.
-          blackPure: { value: '#000' },
+          // One true black. The former magenta-tinted `black` and the pure
+          // `black` are merged here — every dark ground is the same `#000`.
+          black: { value: 'oklch(0% 0 0)' },
           white: { value: '#fff' },
         },
         fonts: {
@@ -670,12 +668,12 @@ export default defineConfig({
       // property level, so a later class can override the padding.
       layerStyles: {
         section: { value: { paddingBlock: 'sectionY', paddingInline: 'content' } },
-        sectionDark: { value: { background: 'blackPure', color: 'white' } },
+        sectionDark: { value: { background: 'black', color: 'white' } },
         sectionLight: { value: { background: 'white', color: 'black' } },
         sectionInner: { value: { maxWidth: 'maxWidth', marginInline: 'auto' } },
         pageHero: {
           value: {
-            background: 'blackPure',
+            background: 'black',
             color: 'white',
             paddingTop: {
               base: 'calc(token(sizes.nav) + 80px)',

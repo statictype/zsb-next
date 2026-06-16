@@ -85,7 +85,7 @@ export const calendar = sva({
   base: {
     section: {
       layerStyle: 'section',
-      background: 'blackPure',
+      background: 'black',
       color: 'white',
       // Shared links land on #program; offset past the tall top padding.
       scrollMarginTop: 'calc(token(spacing.lg) - token(spacing.sectionY))',
@@ -165,10 +165,10 @@ export const calendar = sva({
       _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '2px' },
       // On → the chartreuse "active" fill.
       '&[data-on=true]': {
-        color: 'blackPure',
+        color: 'black',
         background: 'highlight',
         borderColor: 'highlight',
-        _hover: { color: 'blackPure', background: 'highlight', borderColor: 'highlight' },
+        _hover: { color: 'black', background: 'highlight', borderColor: 'highlight' },
       },
       '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
     },

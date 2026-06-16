@@ -41,7 +41,7 @@ export const pressPage = sva({
     'releaseAction',
   ],
   base: {
-    page: { background: 'blackPure', color: 'white' },
+    page: { background: 'black', color: 'white' },
 
     kitSection: { paddingTop: '3xl', paddingInline: 'content', paddingBottom: '4xl' },
     kitHeader: { maxWidth: 'maxWidth', marginInline: 'auto', marginBottom: '2xl' },

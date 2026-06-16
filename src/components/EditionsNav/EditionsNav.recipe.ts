@@ -17,7 +17,7 @@ export const editionsNav = sva({
   slots: ['band', 'card', 'cardTop', 'soon', 'viewing', 'meta', 'year', 'theme'],
   base: {
     band: {
-      background: 'blackPure',
+      background: 'black',
       color: 'white',
       paddingBlock: 'xl',
       paddingInline: 'content',

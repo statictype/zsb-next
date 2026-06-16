@@ -39,7 +39,7 @@ export const featuredEvents = sva({
     'chip',
   ],
   base: {
-    section: { layerStyle: 'section', background: 'blackPure', color: 'white' },
+    section: { layerStyle: 'section', background: 'black', color: 'white' },
     inner: { layerStyle: 'sectionInner' },
 
     header: {
@@ -121,7 +121,7 @@ export const featuredEvents = sva({
     },
     // Image-less card: a tonal stage for the vast faded day numeral.
     noPoster: {
-      background: 'linear-gradient(150deg, {colors.gray.900}, {colors.blackPure} 70%)',
+      background: 'linear-gradient(150deg, {colors.gray.900}, {colors.black} 70%)',
     },
 
     watermark: {
@@ -142,7 +142,7 @@ export const featuredEvents = sva({
       inset: '0',
       zIndex: '1',
       background:
-        'linear-gradient(to top, {colors.blackPure} 2%, color-mix(in srgb, {colors.blackPure} 72%, transparent) 26%, transparent 58%)',
+        'linear-gradient(to top, {colors.black} 2%, color-mix(in srgb, {colors.black} 72%, transparent) 26%, transparent 58%)',
       pointerEvents: 'none',
     },
     stamp: {
@@ -237,7 +237,7 @@ export const featuredEvents = sva({
       paddingInline: '9px',
       lineHeight: '1.4',
       // a touch of backdrop so chips hold up over a bright patch of poster
-      background: 'color-mix(in srgb, {colors.blackPure} 35%, transparent)',
+      background: 'color-mix(in srgb, {colors.black} 35%, transparent)',
     },
   },
 })

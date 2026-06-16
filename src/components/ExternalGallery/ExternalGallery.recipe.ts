@@ -34,7 +34,7 @@ export const externalGallery = sva({
   base: {
     section: {
       layerStyle: 'section',
-      background: 'blackPure',
+      background: 'black',
       color: 'white',
       position: 'relative',
     },

@@ -44,6 +44,17 @@ rule bans any new `*.module.css` import, so the move can't silently regress. The
 "two layers coexist" section below is retained as the historical record of how the
 migration ran.
 
+## Superseded in part (design-system refactor) — one true black
+
+The palette section above describes the brand **ink** as a magenta-tinted near-black
+(`black` = `oklch(15.6% 0.0115 312)`), kept distinct from a pure `blackPure` = `#000`
+used on a few surfaces. The design-system integrity audit found this split was drift,
+not signal: every dark ground wanted the same value, and the tint contradicted itself
+wherever a neutral black was the actual intent. **`black` is now a single true `#000`
+(`oklch(0% 0 0)`) and `blackPure` is merged into it** — one black anchor, no tinted
+variant. The gray ramp keeps its warm 345° hue. `lightPink` (zero adoption) is dropped
+at the same time.
+
 ## Migration is incremental; the two layers coexist
 
 Panda and CSS Modules run side by side. Panda's PostCSS plugin processes its

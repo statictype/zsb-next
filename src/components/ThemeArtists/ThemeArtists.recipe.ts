@@ -14,7 +14,7 @@ export const themeArtists = sva({
   base: {
     section: {
       layerStyle: 'section',
-      background: 'blackPure',
+      background: 'black',
       color: 'white',
       position: 'relative',
       overflow: 'hidden',
