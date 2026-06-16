@@ -31,9 +31,9 @@ in a later stage is needed by an earlier one, so the commits land in order.
 
 ## Status (updated 2026-06-16)
 
-- ✅ **Done:** A1 · A2 · A3 · A4 · A5 · A6 · A7 · B2 · B3 · B4
-- 🔄 **In progress:** —
-- ⬜ **To do:** B1 · B5 (section recipe) · B6 · B7 · B8 · B9 · C1–C9
+- ✅ **Done:** A1 · A2 · A3 · A4 · A5 · A6 · A7 · B1 · B2 · B3 · B4 · B5
+- 🔄 **In progress:** B6
+- ⬜ **To do:** B6 · B7 · B8 · B9 · C1–C9
 - ⏸ **Deferred (own epics):** Calendar structural split · EditionsNav refactor · fontSizes ladder 11→7
 
 ---
@@ -103,7 +103,7 @@ Each task builds the new/reworked piece **and migrates its consumers together** 
 half-built primitives) — typically one commit per task. The whole stage lands as
 one PR.
 
-### ⬜ B1 · Keyframes 16 → 6 reusable roles
+### ✅ B1 · Keyframes 16 → 6 reusable roles
 - **What:** Introduce parameterized `enter`; keep `tapeIn`, `gradientBorderShift`,
   `spin`, `heroProgress`; standardize the skeleton on `shimmer`. Delete `glowDrift`,
   `skeletonPulse`, and the six reveal keyframes that fold into `enter`. (`rippleAnim`
@@ -163,7 +163,7 @@ one PR.
   interaction wholesale and choose a deliberate behaviour later. See Deviations log.
 - **Depends-on:** B2  **Visual:** review  **Source:** R5 (superseded in part)
 
-### ⬜ B5 · Restore `section` recipe + normalize section padding (reopened)
+### ✅ B5 · Restore `section` recipe + normalize section padding (reopened)
 - **What:** Add a Panda `section` recipe for the outer section shell:
   `ground: dark|light` × `rhythm: normal|lg`. The recipe owns **`paddingBlock`**
   (`sectionY`/`sectionYLg`) **+ ground bg/color only** — keyed off the **semantic
@@ -459,9 +459,9 @@ into per-surface commits if the diff gets large.
 
 ## Remaining order
 
-Foundation (A1–A7) and B2/B3/B4 are done. Remaining commit sequence on the one
-branch: **B1 · B5** (unblock B7/B9) → **B6 · B7 · B8 · B9** → **C1–C9** (with C4 +
-the B2 `asChild` amendment before C5/C7, and C6 last in Calendar).
+Foundation (A1–A7), B1–B5 are done. Remaining commit sequence on the one branch:
+**B6 · B7 · B8 · B9** → **C1–C9** (with C4 + the B2 `asChild` amendment before
+C5/C7, and C6 last in Calendar).
 
 ## ADR deliverables
 - **ADR 0019** — action-primitive consolidation. **Landed early** with the audit
@@ -476,6 +476,26 @@ the B2 `asChild` amendment before C5/C7, and C6 last in Calendar).
 
 Recorded as the refactor runs (owner-directed unless noted). Most recent first.
 
+- **B5 — `surfaceLight` redefined to white; full-bleed carousels** (2026-06-16).
+  The `section` recipe's `ground: 'light'` needed a semantic bg role, but none
+  was white. Owner: **make `surfaceLight` *be* white** (was `gray.100`) and use it
+  as the single light-surface role everywhere (light grounds, card `onLight`,
+  About `statement`). `ground` is **optional** on the recipe (rhythm-only sections
+  like the press strips + VenuesView inherit the page ground). Two carousels
+  (ThemeArtists, About) become **full-bleed bands** — the decision's "constrained
+  heading + full-bleed band" case — rather than re-padding them; flagged for review
+  (easy to re-gutter via a rail wrapper). ExternalGallery's archive card is now in
+  a `sectionInner` rail (capped at maxWidth on ultra-wide; was uncapped).
+- **B1 — `enter()` is a `cva`, applied via `cx`** (2026-06-16). Panda only resolves
+  *local* object spreads, so the anti-drift reveal helper couldn't be a plain
+  imported style object spread into recipes — it's a co-located `cva`
+  (`src/components/enter.ts`) composed at the render site (`cx(slot, enter({…}))`),
+  same shape as the section-recipe adoption. Recipe slots keep only the per-site
+  `animationDelay`. Distances normalized (dialog 12→`sm` 16px; fadeSlideUp/cardIn/
+  cardReveal → `md` 30px); modal + cookie banner keep `normal` speed via a `speed`
+  variant (overlay responsiveness, not drift). Hero image's `grayscale(0.3)` moved
+  image→frame so it survives `enter`'s animated `filter`. 404 `glowDrift` blobs are
+  now static; skeleton switched from `skeletonPulse` to the `shimmer` sweep.
 - **B2/C4 — iconButton folded into `button`** (2026-06-16). The standalone
   `iconButton` recipe + `<IconButton>` component contradicted ADR 0019's "one action
   primitive." Folded into `button` as `variant: 'icon'` (44px square, borderless,
