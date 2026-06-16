@@ -10,15 +10,19 @@ import {
   RiTimeLine,
   RiWheelchairLine,
 } from '@remixicon/react'
-import { css } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
+import { button } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
-import { TextLink } from '@/components/ui/TextLink/TextLink'
 import type { IconKey, VisitData } from '@/types/edition'
 import { visitSection } from './VisitSection.recipe'
 
-// "Get Directions" is an accent CTA rendered as a drawing-underline TextLink:
-// keep the button-style typography + accent, including on hover.
+// "Get Directions" — an accent CTA on the `button` text variant. Keeps its
+// button-style typography + accent (action colour, on hover too) and the
+// leading map-pin layout (the text variant is otherwise sizeless/inline).
 const directionsLink = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '8px',
   color: 'action',
   fontFamily: 'body',
   fontSize: 'sm',
@@ -149,16 +153,15 @@ export function VisitSection(props: VisitData = {}) {
             </div>
 
             <div className={s.cta}>
-              <TextLink
+              <a
                 href={mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                underline="draw"
-                className={directionsLink}
+                className={cx(button({ variant: 'text' }), directionsLink)}
               >
                 <RiMapPinLine size={16} />
                 Get Directions
-              </TextLink>
+              </a>
             </div>
           </div>
         </div>

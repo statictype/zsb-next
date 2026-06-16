@@ -7,9 +7,8 @@ import { sva } from 'styled-system/css'
  * stamp, baseline meta row. Mobile-first — `base` is the mobile (centered,
  * stacked) layout and `md` is the spread desktop row.
  *
- * The links themselves adopt the `<TextLink>` primitive (nav links → `draw`,
- * the Privacy Policy link → `quiet`); the `link` slot only carries the footer's
- * typographic treatment layered on top of the draw variant.
+ * The links adopt the `button` text variant; the `link` slot only carries the
+ * footer's typographic treatment layered on top.
  */
 export const footer = sva({
   slots: [
@@ -107,7 +106,7 @@ export const footer = sva({
       color: 'muted',
       md: { marginBottom: 'xs', flexBasis: 'auto', textAlign: 'left' },
     },
-    // Footer-link typography layered onto the TextLink `draw` variant.
+    // Footer-link typography layered onto button.text.
     link: {
       width: 'fit-content',
       fontFamily: 'body',

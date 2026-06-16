@@ -3,12 +3,9 @@ import { cx } from 'styled-system/css'
 import { type ButtonVariantProps, button } from 'styled-system/recipes'
 
 /**
- * Button — unified action primitive (ZSB-71).
- *
- * Replaces MagneticButton's filled/outlined variants and CookieBanner's
- * solid/ghost buttons. Visual variants (`variant` × `size`) live in the Panda
- * `button` recipe. Magnetic/ripple behaviour (ZSB-74) and the text-link
- * "secondary" (→ TextLink) are deliberately out of scope.
+ * Button — the one action primitive (ADR 0019): primary | secondary | ghost |
+ * text × size. The `text` variant absorbs the retired `textLink`; the
+ * `magnetic` modifier (retired MagneticButton) is wired in B4.
  */
 type ButtonProps = ButtonVariantProps & ButtonHTMLAttributes<HTMLButtonElement>
 

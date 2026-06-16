@@ -191,8 +191,6 @@ export const editionsPage = sva({
       fontWeight: 'semibold',
       textTransform: 'uppercase',
       letterSpacing: 'wide',
-      '& svg': { transition: 'transform {durations.medium} {easings.expo}' },
-      'a:hover &': { '& svg': { transform: 'translate(3px, -3px)' } },
     },
   },
 })

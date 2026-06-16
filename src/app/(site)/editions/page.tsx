@@ -1,13 +1,12 @@
-import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { type CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
+import { button } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { Figure } from '@/components/Figure/Figure'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
-import { TextLink } from '@/components/ui/TextLink/TextLink'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
@@ -103,10 +102,7 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
                       <span className={styles.sublineDot} aria-hidden />
                       <span>{edition.dateTape}</span>
                     </span>
-                    <TextLink as="span" underline="quiet" className={styles.cta}>
-                      Explore
-                      <RiArrowRightUpLine size={16} />
-                    </TextLink>
+                    <span className={cx(button({ variant: 'text' }), styles.cta)}>Explore</span>
                   </div>
                 </div>
               </Card>

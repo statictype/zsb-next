@@ -223,53 +223,6 @@ const button = defineRecipe({
 })
 
 /**
- * TextLink — unified inline link primitive (ZSB-71).
- * Collapses the Footer underline-draw, the FeaturedEvents bottom-border link and
- * the MagneticButton "secondary" into `underline` (draw | border | quiet).
- * (The Navigation pill is button-shaped → stays a Button concern.)
- */
-const textLink = defineRecipe({
-  className: 'textlink',
-  description:
-    'Unified inline text link — replaces Footer / FeaturedEvents / secondary link styles',
-  base: {
-    position: 'relative',
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: 'sm',
-    color: 'inherit',
-    textDecoration: 'none',
-    cursor: 'pointer',
-    transition: 'color {durations.normal} ease',
-  },
-  variants: {
-    underline: {
-      draw: {
-        _after: {
-          content: '""',
-          position: 'absolute',
-          left: '0',
-          bottom: '-3px',
-          width: '0',
-          height: '1px',
-          background: 'action',
-          transition: 'width {durations.normal} {easings.expo}',
-        },
-        _hover: { color: 'heading', _after: { width: '100%' } },
-      },
-      border: {
-        borderBottomWidth: '1px',
-        borderBottomColor: 'borderDark',
-        paddingBottom: 'xs',
-        _hover: { color: 'action', borderBottomColor: 'action' },
-      },
-      quiet: { _hover: { color: 'action' } },
-    },
-  },
-  defaultVariants: { underline: 'draw' },
-})
-
-/**
  * IconButton — unified square icon control (ZSB-71).
  * Collapses the StripControls prev/next, the HeroSlideshow nav (prev/toggle/next),
  * and the Lightbox close + prev/next into one recipe: `size` (sm | md | lg, the
@@ -683,7 +636,7 @@ export default defineConfig({
         // NB layerStyles are surface props only — positioned/animated helpers
         // (e.g. the image skeleton) live in their own `css()` helper, not here.
       },
-      recipes: { badge, eyebrow, button, textLink, iconButton, card },
+      recipes: { badge, eyebrow, button, iconButton, card },
     },
   },
 })
