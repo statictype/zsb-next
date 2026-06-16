@@ -21,7 +21,7 @@ export const cookieBanner = sva({
       color: 'heading',
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'divider',
+      borderColor: 'borderDark',
       borderRadius: '2px',
       boxShadow: '0 20px 60px rgba(0, 0, 0, 0.45)',
       fontFamily: 'body',

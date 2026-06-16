@@ -71,7 +71,7 @@ export const navigation = sva({
       padding: '12px 32px',
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'divider',
+      borderColor: 'borderDark',
       letterSpacing: 'label',
       transition:
         'background-color {durations.fast} {easings.quint}, color {durations.fast} {easings.quint}',
@@ -117,7 +117,7 @@ export const navigation = sva({
         background: 'black',
         borderWidth: '1px',
         borderStyle: 'solid',
-        borderColor: 'divider',
+        borderColor: 'borderDark',
         transition: 'border-color {durations.fast} {easings.quint}',
       },
       '& span': {

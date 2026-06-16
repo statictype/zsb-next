@@ -102,7 +102,7 @@ export const visitSection = sva({
       paddingTop: 'sm',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
       md: { display: 'flex', flexWrap: 'wrap' },
     },
     practicalItem: {

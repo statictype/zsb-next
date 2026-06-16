@@ -57,7 +57,7 @@ export const externalGallery = sva({
       color: 'muted',
       textTransform: 'uppercase',
       letterSpacing: 'label',
-      _before: { content: '""', width: '40px', height: '1px', background: 'divider' },
+      _before: { content: '""', width: '40px', height: '1px', background: 'borderDark' },
     },
 
     card: {
@@ -103,7 +103,7 @@ export const externalGallery = sva({
       paddingTop: 'lg',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
     },
     ctaLabel: {
       fontFamily: 'body',
@@ -122,7 +122,7 @@ export const externalGallery = sva({
       height: '36px',
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'divider',
+      borderColor: 'borderDark',
       color: 'action',
       transition:
         'border-color {durations.medium} {easings.expo}, transform {durations.medium} {easings.expo}',
@@ -158,7 +158,7 @@ export const externalGallery = sva({
         padding: '2xl',
         borderLeftWidth: '1px',
         borderLeftStyle: 'solid',
-        borderLeftColor: 'divider',
+        borderLeftColor: 'borderDark',
         background: 'rgb(255 255 255 / 0.015)',
       },
     },

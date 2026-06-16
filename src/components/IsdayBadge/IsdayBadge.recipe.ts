@@ -26,7 +26,7 @@ export const isdayBadge = sva({
         'linear-gradient(135deg, color-mix(in oklch, {colors.pink} 5%, transparent) 0%, color-mix(in oklch, white 90%, transparent) 40%, {colors.surfaceLight} 100%)',
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'dividerLight',
+      borderColor: 'borderLight',
       boxShadow: 'card',
     },
     title: {

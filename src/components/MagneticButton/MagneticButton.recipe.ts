@@ -37,7 +37,7 @@ export const magneticButton = sva({
         // pink↔chartreuse conic ring (masked to the edge); the recipe's fill is
         // suppressed.
         root: {
-          borderColor: 'divider',
+          borderColor: 'borderDark',
           color: 'action',
           _after: {
             content: '""',

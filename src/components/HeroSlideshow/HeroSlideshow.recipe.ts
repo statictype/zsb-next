@@ -71,7 +71,7 @@ export const heroSlideshow = sva({
       inset: '0 0 auto 0',
       zIndex: 2,
       height: '1px',
-      background: 'rgba(255, 255, 255, 0.18)',
+      background: 'borderLight',
       pointerEvents: 'none',
     },
     progressFill: {

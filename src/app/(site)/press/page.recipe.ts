@@ -50,7 +50,7 @@ export const pressPage = sva({
     appearances: { paddingTop: '3xl', paddingInline: 'content', paddingBottom: '4xl' },
     appearancesInner: { maxWidth: 'maxWidth', marginInline: 'auto' },
     appList: { listStyle: 'none', padding: '0', margin: '0' },
-    appRow: { '& + &': { borderTop: '1px solid token(colors.divider)' } },
+    appRow: { '& + &': { borderTop: '1px solid token(colors.borderDark)' } },
     appLink: {
       display: 'grid',
       gridTemplateColumns: '1fr auto',
@@ -127,7 +127,7 @@ export const pressPage = sva({
     releases: { paddingTop: '3xl', paddingInline: 'content', paddingBottom: '4xl' },
     releasesInner: { maxWidth: 'maxWidth', marginInline: 'auto' },
     releaseList: { listStyle: 'none', padding: '0', margin: '0' },
-    releaseRow: { '& + &': { borderTop: '1px solid token(colors.divider)' } },
+    releaseRow: { '& + &': { borderTop: '1px solid token(colors.borderDark)' } },
     releaseLink: {
       display: 'grid',
       gridTemplateColumns: 'auto auto 1fr auto',

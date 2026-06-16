@@ -10,7 +10,7 @@ import { sva } from 'styled-system/css'
  * per-state colour shifts keyed off `data-current` / `data-upcoming`. The
  * viewport/track come from the shared `strip` recipe. Co-located slots land in
  * the `utilities` layer, so `&[data-current=true]` cleanly overrides the card
- * recipe's divider border. `soon`/`viewing` stay bespoke boxed labels (matching
+ * recipe's borderDark hairline. `soon`/`viewing` stay bespoke boxed labels (matching
  * the footer's catalogue-stamp precedent).
  */
 export const editionsNav = sva({

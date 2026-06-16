@@ -102,7 +102,7 @@ const cta = css({
   textTransform: 'uppercase',
   letterSpacing: 'label',
   color: 'white',
-  border: '1px solid token(colors.divider)',
+  border: '1px solid token(colors.borderDark)',
   paddingBlock: '14px',
   paddingInline: '28px',
   opacity: '0',

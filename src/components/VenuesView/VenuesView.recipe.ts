@@ -44,7 +44,7 @@ export const venuesView = sva({
       layerStyle: 'section',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
     },
     inner: { layerStyle: 'sectionInner' },
 
@@ -71,14 +71,14 @@ export const venuesView = sva({
       paddingBottom: 'sm',
       borderBottomWidth: '1px',
       borderBottomStyle: 'solid',
-      borderBottomColor: 'divider',
+      borderBottomColor: 'borderDark',
     },
     venues: { listStyle: 'none' },
 
     venue: {
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
       '&:first-of-type': { borderTopWidth: '0' },
     },
     summary: {
@@ -161,7 +161,7 @@ export const venuesView = sva({
       paddingBlock: 'sm',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
       '&:first-child': { borderTopWidth: '0' },
     },
     eventName: {
@@ -206,7 +206,7 @@ export const venuesView = sva({
       paddingLeft: 'md',
       borderLeftWidth: '1px',
       borderLeftStyle: 'solid',
-      borderLeftColor: 'divider',
+      borderLeftColor: 'borderDark',
     },
     childHead: { display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', gap: '10px' },
     childName: {

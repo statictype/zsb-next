@@ -143,7 +143,7 @@ export const homePage = sva({
     editionList: {
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      borderBottom: '1px solid token(colors.divider)',
+      borderBottom: '1px solid token(colors.borderDark)',
       width: '100%',
     },
     editionRow: {
@@ -151,7 +151,7 @@ export const homePage = sva({
       alignItems: 'anchor-center',
       gap: 'sm',
       paddingBlock: '28px',
-      borderTop: '1px solid token(colors.divider)',
+      borderTop: '1px solid token(colors.borderDark)',
       textDecoration: 'none',
       color: 'inherit',
       transition: 'padding-left 0.4s {easings.expo}',
@@ -234,7 +234,7 @@ export const homePage = sva({
       width: '100%',
       maxWidth: '520px',
       paddingTop: 'lg',
-      borderTop: '1px solid token(colors.divider)',
+      borderTop: '1px solid token(colors.borderDark)',
       lg: { flex: '0 0 42%', maxWidth: '460px', paddingTop: '0', borderTopWidth: '0' },
     },
     lastEditionLabel: {

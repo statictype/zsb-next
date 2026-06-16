@@ -48,7 +48,7 @@ export const aboutPage = sva({
       position: 'relative',
       aspectRatio: '4 / 5',
       overflow: 'hidden',
-      border: '1px solid token(colors.divider)',
+      border: '1px solid token(colors.borderDark)',
       md: { aspectRatio: '16 / 9' },
     },
     placeImageImg: {
@@ -130,8 +130,8 @@ export const aboutPage = sva({
     pillarsGrid: {
       display: 'grid',
       gridTemplateColumns: '1fr',
-      borderTop: '1px solid token(colors.divider)',
-      borderBottom: '1px solid token(colors.divider)',
+      borderTop: '1px solid token(colors.borderDark)',
+      borderBottom: '1px solid token(colors.borderDark)',
       md: { gridTemplateColumns: '1fr 1fr' },
     },
     pillar: {
@@ -139,13 +139,13 @@ export const aboutPage = sva({
       flexDirection: 'column',
       gap: 'md',
       paddingBlock: 'xl',
-      borderBottom: '1px solid token(colors.divider)',
+      borderBottom: '1px solid token(colors.borderDark)',
       '&:last-child': { borderBottomWidth: '0' },
       md: {
         paddingBlock: 'xl',
         paddingInline: 'xl',
         borderBottomWidth: '0',
-        borderRight: '1px solid token(colors.divider)',
+        borderRight: '1px solid token(colors.borderDark)',
         marginBlock: '4xl',
         '&:first-child': { paddingLeft: '0' },
         '&:last-child': { paddingRight: '0', borderRightWidth: '0' },
@@ -181,7 +181,7 @@ export const aboutPage = sva({
         position: 'absolute',
         inset: '0 0 auto',
         height: '1px',
-        background: 'dividerLight',
+        background: 'borderLight',
       },
     },
     statementInner: {
@@ -223,7 +223,7 @@ export const aboutPage = sva({
     authorPhotoFrame: {
       padding: '6px',
       background: 'white',
-      border: '1px solid token(colors.dividerLight)',
+      border: '1px solid token(colors.borderLight)',
       _hover: { '& img': { filter: 'grayscale(0%)', transform: 'scale(1.03)' } },
       '@media (prefers-reduced-motion: reduce)': { '& img': { transform: 'none' } },
     },

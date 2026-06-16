@@ -20,7 +20,7 @@ export const calendarFilters = sva({
       paddingTop: 'lg',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
     },
 
     bar: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' },

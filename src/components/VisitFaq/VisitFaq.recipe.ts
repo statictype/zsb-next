@@ -18,7 +18,7 @@ export const visitFaq = sva({
       paddingBottom: 'lg',
       borderBottomWidth: '1px',
       borderBottomStyle: 'solid',
-      borderBottomColor: 'divider',
+      borderBottomColor: 'borderDark',
       _last: { paddingBottom: '0', borderBottomWidth: '0' },
     },
     question: {

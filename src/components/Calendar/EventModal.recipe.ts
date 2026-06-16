@@ -51,7 +51,7 @@ export const eventModal = sva({
       background: 'black',
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'divider',
+      borderColor: 'borderDark',
       boxShadow: '0 30px 80px rgba(0, 0, 0, 0.5)',
       overflow: 'hidden',
       animation: 'dialogIn {durations.normal} {easings.expo}',

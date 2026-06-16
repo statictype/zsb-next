@@ -165,7 +165,7 @@ const button = defineRecipe({
       ghost: {
         bg: 'transparent',
         color: 'muted',
-        borderColor: 'divider',
+        borderColor: 'borderDark',
         _hover: { color: 'heading', borderColor: 'heading' },
       },
       // Borderless text control that blends into the surrounding copy
@@ -259,7 +259,7 @@ const textLink = defineRecipe({
       },
       border: {
         borderBottomWidth: '1px',
-        borderBottomColor: 'divider',
+        borderBottomColor: 'borderDark',
         paddingBottom: 'xs',
         _hover: { color: 'action', borderBottomColor: 'action' },
       },
@@ -337,8 +337,8 @@ const card = defineRecipe({
   variants: {
     /** The ground the hairline sits on — the same box language on either. */
     ground: {
-      onDark: { background: 'transparent', borderColor: 'divider' },
-      onLight: { background: 'surfaceLight', borderColor: 'dividerLight', boxShadow: 'card' },
+      onDark: { background: 'transparent', borderColor: 'borderDark' },
+      onLight: { background: 'surfaceLight', borderColor: 'borderLight', boxShadow: 'card' },
     },
     /** The one hover every card shares: the hairline warms to the accent.
      *  GPU-safe (border-color only — no lift). */
@@ -524,8 +524,8 @@ export default defineConfig({
           body: { value: '{colors.gray.400}' },
           bodyLight: { value: '{colors.gray.700}' },
           muted: { value: '{colors.gray.600}' },
-          divider: { value: '{colors.gray.900}' },
-          dividerLight: { value: '{colors.gray.200}' },
+          borderDark: { value: '{colors.gray.900}' },
+          borderLight: { value: '{colors.gray.200}' },
           action: { value: '{colors.pink}' },
           highlight: { value: '{colors.chartreuse}' },
           // Two purposeful translucent roles (the audit's scattered ad-hoc

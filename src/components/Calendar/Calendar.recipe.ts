@@ -179,7 +179,7 @@ export const calendar = sva({
       paddingTop: 'lg',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
     },
     bandLabel: {
       fontFamily: 'body',
@@ -202,7 +202,7 @@ export const calendar = sva({
       background: 'black',
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'divider',
+      borderColor: 'borderDark',
       position: 'relative',
       // Gradient hover ring (masked to the 1px edge).
       _before: {
@@ -313,7 +313,7 @@ export const calendar = sva({
       paddingBlock: '2xl',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
     },
     emptyText: {
       fontFamily: 'display',
@@ -354,7 +354,7 @@ export const calendar = sva({
           bottom: '8px',
           left: 'var(--marker-col)',
           width: '1px',
-          background: 'divider',
+          background: 'borderDark',
         },
       },
     },
@@ -365,7 +365,7 @@ export const calendar = sva({
       paddingBlock: 'lg',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
       _first: { borderTopWidth: 0, paddingTop: 0 },
       '&[data-past=true]': {
         opacity: 0.42,
@@ -444,7 +444,7 @@ export const calendar = sva({
       paddingBlock: 'md',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
       position: 'relative',
       _first: { borderTopWidth: 0 },
       _hover: {
@@ -677,7 +677,7 @@ export const calendar = sva({
     },
 
     // ---- Finished-edition archive disclosure ----
-    archive: { borderTopWidth: '1px', borderTopStyle: 'solid', borderTopColor: 'divider' },
+    archive: { borderTopWidth: '1px', borderTopStyle: 'solid', borderTopColor: 'borderDark' },
     archiveSummary: {
       display: 'flex',
       alignItems: 'center',

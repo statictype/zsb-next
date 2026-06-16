@@ -53,7 +53,7 @@ export const comingSoon = sva({
       paddingTop: 'xl',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
     },
     headline: {
       fontFamily: 'display',

@@ -61,7 +61,7 @@ export const hero = sva({
         position: 'absolute',
         inset: '0',
         pointerEvents: 'none',
-        outline: '1px solid rgba(255, 255, 255, 0.04)',
+        outline: '1px solid token(colors.borderLight)',
         outlineOffset: '-1px',
         zIndex: '2',
       },

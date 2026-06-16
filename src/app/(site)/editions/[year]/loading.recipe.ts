@@ -89,7 +89,7 @@ export const editionLoading = sva({
     artistCard: { aspectRatio: '3 / 4' },
 
     venueRow: { display: 'flex', flexDirection: 'column', gap: 'md' },
-    venueItem: { height: '80px', borderBottom: '1px solid token(colors.divider)' },
+    venueItem: { height: '80px', borderBottom: '1px solid token(colors.borderDark)' },
 
     carousel: {
       height: { base: '50vh', md: '60vh', lg: '70vh', xl: '72vh', '2xl': '75vh', '4xl': '80vh' },
