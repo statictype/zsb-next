@@ -124,11 +124,17 @@ one PR.
   interaction wholesale and choose a deliberate behaviour later. See Deviations log.
 - **Depends-on:** B2  **Visual:** review  **Source:** R5 (superseded in part)
 
-### B5 · `section` recipe + convert padding sites
-- **What:** New `section` recipe — `ground: dark|light` × `rhythm: normal|lg`
-  (exactly `sectionY` / `sectionYLg`, **no third token**). Convert the 6 inline
-  padding sites; **press normalizes to `rhythm:'normal'`** (its asymmetry is drift).
-- **Depends-on:** —  **Visual:** low  **Source:** F12 / R13
+### B5 · Normalize section padding-y (no recipe) (revised)
+- **What (as executed):** **No `section` recipe** — owner dropped the ground/rhythm
+  classification. Just normalize hand-rolled section vertical padding to
+  `paddingBlock: 'sectionY'`: press (was `3xl`/`4xl`), the after-hero `paddingTop:0`
+  sections (editions/artists/privacy/partners), and the about carousel/pillars band.
+  **`sectionYLg` is kept** (Manifesto + about project/statement) — not collapsed.
+  The hero→section double gap is fixed with a **`flush` variant on `PageHero`**
+  (drops its bottom padding so the section's `sectionY` top is the single gap);
+  applied to editions/artists/press/partners. about keeps the default (its hero is
+  followed by a `<figure>`, not a section).
+- **Depends-on:** —  **Visual:** low  **Source:** F12 / R13 (recipe part superseded)
 
 ### B6 · `Disclosure` component
 - **What:** Build a shared `<Disclosure>` (rotating-chevron `<details>`); adopt in
@@ -233,6 +239,12 @@ B7/B9 in the next stage.
 
 Recorded as the refactor runs (owner-directed unless noted). Most recent first.
 
+- **B5 — no `section` recipe; padding-token normalization + `PageHero flush`**
+  (2026-06-16). Owner: skip the ground×rhythm recipe and the classification. Just
+  set `paddingBlock: 'sectionY'` on hand-rolled section padding (press `3xl`/`4xl`,
+  after-hero `paddingTop:0` sections, about carousel/pillars). `sectionYLg` retained
+  (Manifesto + about). The hero→section double gap is solved by a `flush` variant on
+  PageHero (zero hero bottom padding; section owns the gap), not per-section overrides.
 - **B4 — magnetic dropped entirely** (2026-06-16). Plan was to fold MagneticButton
   into a `button({magnetic})` modifier. Owner chose to **remove all magnetic
   behaviour** instead: deleted the component + the modifier + ripple/gradient-glow/
