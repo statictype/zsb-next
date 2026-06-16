@@ -6,12 +6,13 @@ import { sva } from 'styled-system/css'
  * Gallery scroll-snap strip. Viewport + track come from the shared `strip`
  * recipe; this owns the slide grid (a `layout` variant per slide shape), the
  * gallery item, and its gradient-border hover. `controlsSpacing` is the
- * placement override handed to <StripControls>.
+ * placement override handed to <StripControls> — it carries the gutter so the
+ * eyebrow + arrows stay inset while the slide track runs full-bleed.
  */
 export const carousel = sva({
   slots: ['controlsSpacing', 'slide', 'item', 'itemImage'],
   base: {
-    controlsSpacing: { marginTop: '3xl' },
+    controlsSpacing: { marginTop: '3xl', paddingInline: 'gutter' },
 
     slide: {
       flex: '0 0 auto',
