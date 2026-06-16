@@ -31,9 +31,9 @@ in a later stage is needed by an earlier one, so the commits land in order.
 
 ## Status (updated 2026-06-16)
 
-- ✅ **Done:** A1 · A2 · A3 · A4 · A5 · A6 · A7 · B1 · B2 · B3 · B4 · B5
-- 🔄 **In progress:** B6
-- ⬜ **To do:** B6 · B7 · B8 · B9 · C1–C9
+- ✅ **Done:** A1–A7 · B1–B9
+- 🔄 **In progress:** C1
+- ⬜ **To do:** C1–C9
 - ⏸ **Deferred (own epics):** Calendar structural split · EditionsNav refactor · fontSizes ladder 11→7
 
 ---
@@ -191,7 +191,7 @@ one PR.
   misunderstanding, not the intended endpoint.
 - **Depends-on:** —  **Visual:** low  **Source:** F12 / R13
 
-### ⬜ B6 · Disclosure component (native `<details>`)
+### ✅ B6 · Disclosure component (native `<details>`)
 - **What:** Build one shared **presentational disclosure primitive** that stays
   **native `<details>/<summary>`** (the established house style — VenuesView +
   Calendar archive, zero JS). It standardizes chrome only: summary row, count/meta
@@ -218,7 +218,7 @@ one PR.
   metadata, and archive event rows remain caller content inside the shared panel.
 - **Depends-on:** —  **Visual:** low  **Source:** F25
 
-### ⬜ B7 · `SectionHeading` component
+### ✅ B7 · `SectionHeading` component
 - **What:** Build one `<SectionHeading>` and adopt it at **every** `sectionTitle`
   site (the ~18 loose-inline + recipe-slot titles) for full consistency — kills the
   `css({textStyle:'sectionTitle', marginBottom})` idiom and the per-site title
@@ -240,7 +240,7 @@ one PR.
   removed**.
 - **Depends-on:** A6, B5  **Visual:** none  **Source:** F13
 
-### ⬜ B8 · `Checkbox` component
+### ✅ B8 · `Checkbox` component
 - **What:** Build a `<Checkbox>` that **owns its full styling** — the selectable
   chip appearance (box + check + label + states) lives in the primitive, plus an
   optional trailing **`meta`/`count` slot**. Replace the hand-rolled
@@ -256,7 +256,7 @@ one PR.
 - **Depends-on:** —  **Visual:** review (label-click / Space / focus-ring a11y
   shift)  **Source:** R2 / F01
 
-### ⬜ B9 · `EditionTheme` component
+### ✅ B9 · `EditionTheme` component
 - **What:** Build `<EditionTheme>` — owns the split-on-highlight logic + markup
   (kills the duplicated `splitOnFirst` + `<h><span>` in `Hero.tsx` and
   `editions/page.tsx`) and the canonical "theme tape" style. Props: `theme`,
@@ -459,9 +459,9 @@ into per-surface commits if the diff gets large.
 
 ## Remaining order
 
-Foundation (A1–A7), B1–B5 are done. Remaining commit sequence on the one branch:
-**B6 · B7 · B8 · B9** → **C1–C9** (with C4 + the B2 `asChild` amendment before
-C5/C7, and C6 last in Calendar).
+Foundation (A1–A7) and all of Stage B (B1–B9) are done. Remaining commit sequence
+on the one branch: **C1–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
+and C6 last in Calendar).
 
 ## ADR deliverables
 - **ADR 0019** — action-primitive consolidation. **Landed early** with the audit
@@ -476,6 +476,24 @@ C5/C7, and C6 last in Calendar).
 
 Recorded as the refactor runs (owner-directed unless noted). Most recent first.
 
+- **B9 — `size` is named variants; `delay` is a prop; editions reveal reworked**
+  (2026-06-16). A runtime responsive `size` can't go through `css()` (Panda static
+  extraction), so `size` is named variants (`huge`/`large`/`normal`) — same reason
+  as `enter`/`section`. The tape's entrance **delay is a typed `delay` prop** (owner
+  ask — keep call-site `className` to *positioning only*); the editions cards now
+  pass **no** className. The editions list card reveal is the tape's own `tapeIn`
+  (the B1 slot `enter()` is removed — no double-animation). Cards normalize onto the
+  hero tape: float drop-shadow, `tight` letter-spacing, −0.45°, em-padding.
+- **B8 — Checkbox is a native `<input>`** (2026-06-16). Facets upgraded from
+  `<button aria-pressed>` to a real checkbox group (`:has()`-driven chip states);
+  the two genuine action toggles stay `aria-pressed`. Scope held to CalendarFilters.
+- **B7 — SectionHeading color is ground-inherited** (2026-06-16). `color: inherit`
+  (no per-site white/headingLight fork); margin normalized to `xl`|`flush`;
+  ArtistsBanner title hover-color dropped; sentence-case kept for Manifesto +
+  ThemeArtists. Adopted at all 18 `sectionTitle` sites.
+- **B6 — Disclosure stays native/uncontrolled** (2026-06-16). Shared
+  `<details>/<summary>` chrome; VisitFaq now collapses (question stays an `<h3>`,
+  answers stay in the DOM + JSON-LD). VenuesView adopts; Calendar archive later.
 - **B5 — `surfaceLight` redefined to white; full-bleed carousels** (2026-06-16).
   The `section` recipe's `ground: 'light'` needed a semantic bg role, but none
   was white. Owner: **make `surfaceLight` *be* white** (was `gray.100`) and use it
