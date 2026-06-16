@@ -35,8 +35,7 @@ export const eventModal = sva({
       alignItems: 'center',
       justifyContent: 'center',
       padding: 'lg',
-      background: 'color-mix(in srgb, token(colors.black) 82%, transparent)',
-      backdropFilter: 'blur(4px)',
+      background: 'scrim',
       overflowY: 'auto',
       animation: 'fadeIn {durations.normal} {easings.quint}',
       '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
@@ -52,7 +51,7 @@ export const eventModal = sva({
       borderWidth: '1px',
       borderStyle: 'solid',
       borderColor: 'borderDark',
-      boxShadow: '0 30px 80px rgba(0, 0, 0, 0.5)',
+      boxShadow: 'modal',
       overflow: 'hidden',
       animation: 'dialogIn {durations.normal} {easings.expo}',
       md: { flexDirection: 'row', maxWidth: '760px' },
@@ -60,7 +59,7 @@ export const eventModal = sva({
     },
 
     // Floating bar over the dialog top: Back (left) + Share (right). The bar is
-    // click-through; only the chips take pointer events.
+    // click-through; only the buttons themselves take pointer events.
     controls: {
       position: 'absolute',
       top: 'sm',
@@ -72,6 +71,7 @@ export const eventModal = sva({
       justifyContent: 'space-between',
       gap: 'sm',
       pointerEvents: 'none',
+      '& > *': { pointerEvents: 'auto' },
     },
 
     poster: {

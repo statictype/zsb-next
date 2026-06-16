@@ -23,7 +23,7 @@ export const cookieBanner = sva({
       borderStyle: 'solid',
       borderColor: 'borderDark',
       borderRadius: '2px',
-      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.45)',
+      boxShadow: 'modal',
       fontFamily: 'body',
       animationName: 'fadeSlideUp',
       animationDuration: '280ms',

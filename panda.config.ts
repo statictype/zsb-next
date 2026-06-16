@@ -508,11 +508,13 @@ export default defineConfig({
           expo: { value: 'cubic-bezier(0.16, 1, 0.3, 1)' },
           quint: { value: 'cubic-bezier(0.23, 1, 0.32, 1)' },
         },
-        // The two primitive shadows the audit found inlined (ad-hoc opacities):
-        // the Card's faint lift and the Badge's pinned-paper elevation.
+        // Primitive shadows the audit found inlined (ad-hoc opacities): the
+        // Card's faint lift, the Badge's pinned-paper elevation, and the one
+        // floating-panel lift shared by the modal dialog + cookie banner.
         shadows: {
           card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
           badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
+          modal: { value: '0 30px 80px rgb(0 0 0 / 0.5)' },
         },
       },
       semanticTokens: {
@@ -533,6 +535,7 @@ export default defineConfig({
           // chartreuse anchor so the brand hue stays single-sourced.
           highlightFaint: { value: 'color-mix(in oklch, {colors.chartreuse} 32%, transparent)' }, // chartreuse hairline
           onMedia: { value: 'rgb(255 255 255 / 0.55)' }, // dimmed control foreground over imagery
+          scrim: { value: 'rgb(0 0 0 / 0.95)' }, // dark backdrop behind modals / lightbox
         },
         // Stepped-responsive tokens: faithful to the :root media-query overrides.
         fontSizes: {

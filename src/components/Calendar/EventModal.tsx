@@ -11,14 +11,9 @@ import type { CalendarEvent } from '@/types/edition'
 import { eventModal } from './EventModal.recipe'
 import { useShareLink } from './useShareLink'
 
-// The Back/Share chips are ghost <Button>s floating over the dialog top; these
-// add only what the ghost variant doesn't model — the translucent blurred
-// ground (legible over the poster) + pointer-events (the bar is click-through).
-const controlChip = css({
-  pointerEvents: 'auto',
-  background: 'color-mix(in srgb, token(colors.black) 55%, transparent)',
-  backdropFilter: 'blur(4px)',
-})
+// The Back/Share controls are plain ghost <Button>s floating over the dialog
+// top; the click-through bar (`controls` slot) re-enables pointer-events on its
+// buttons, so nothing is layered on top of the ghost variant here.
 const shareIcon = css({
   '& svg': { transition: 'transform {durations.fast} {easings.quint}' },
   _hover: { '& svg': { transform: 'translateY(-2px)' } },
@@ -113,14 +108,14 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
         <div className={s.controls}>
           {/* Dismiss returns to the programme (router back / link up); ✕ was a
               generic close that no longer fits the route model (ZSB-50). */}
-          <Button variant="ghost" size="sm" className={controlChip} onClick={onClose}>
+          <Button variant="ghost" size="sm" onClick={onClose}>
             <RiArrowLeftLine size={16} aria-hidden />
             Back to programme
           </Button>
           <Button
             variant="ghost"
             size="sm"
-            className={cx(controlChip, shareIcon, copied && shareCopied)}
+            className={cx(shareIcon, copied && shareCopied)}
             onClick={share}
             aria-live="polite"
           >

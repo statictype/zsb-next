@@ -26,7 +26,7 @@ export const lightbox = sva({
     lightbox: {
       position: 'fixed',
       inset: 0,
-      background: 'rgba(0, 0, 0, 0.95)',
+      background: 'scrim',
       zIndex: 9999,
       display: 'flex',
       alignItems: 'center',
