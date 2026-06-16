@@ -34,7 +34,7 @@ export const manifesto = sva({
       textStyle: 'sectionTitle',
       // Manifesto headline is sentence-case, not the uppercase default.
       textTransform: 'none',
-      color: 'black',
+      color: 'headingLight',
       textWrap: 'pretty',
     },
     // The highlighted substring inside the headline — kept as its own slot.

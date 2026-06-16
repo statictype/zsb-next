@@ -39,7 +39,7 @@ export const featuredEvents = sva({
     'chip',
   ],
   base: {
-    section: { layerStyle: 'section', background: 'black', color: 'white' },
+    section: { layerStyle: 'section', background: 'canvas', color: 'heading' },
     inner: { layerStyle: 'sectionInner' },
 
     header: {
@@ -70,7 +70,7 @@ export const featuredEvents = sva({
       textTransform: 'uppercase',
       letterSpacing: 'label',
       fontWeight: 'semibold',
-      color: 'white',
+      color: 'heading',
       textDecoration: 'none',
       paddingBottom: '4px',
       borderBottomWidth: '1px',
@@ -121,7 +121,7 @@ export const featuredEvents = sva({
     },
     // Image-less card: a tonal stage for the vast faded day numeral.
     noPoster: {
-      background: 'linear-gradient(150deg, {colors.gray.900}, {colors.black} 70%)',
+      background: 'linear-gradient(150deg, {colors.gray.900}, {colors.canvas} 70%)',
     },
 
     watermark: {
@@ -131,7 +131,7 @@ export const featuredEvents = sva({
       fontFamily: 'display',
       fontSize: 'clamp(120px, 32vw, 260px)',
       lineHeight: '1',
-      color: 'white',
+      color: 'heading',
       opacity: '0.05',
       fontVariantNumeric: 'tabular-nums',
       pointerEvents: 'none',
@@ -142,7 +142,7 @@ export const featuredEvents = sva({
       inset: '0',
       zIndex: '1',
       background:
-        'linear-gradient(to top, {colors.black} 2%, color-mix(in srgb, {colors.black} 72%, transparent) 26%, transparent 58%)',
+        'linear-gradient(to top, {colors.canvas} 2%, color-mix(in srgb, {colors.canvas} 72%, transparent) 26%, transparent 58%)',
       pointerEvents: 'none',
     },
     stamp: {
@@ -152,7 +152,7 @@ export const featuredEvents = sva({
       zIndex: '2',
       fontFamily: 'display',
       fontSize: 'sm',
-      color: 'white',
+      color: 'heading',
       fontVariantNumeric: 'tabular-nums',
       opacity: '0.85',
       textShadow: '0 1px 8px rgba(0, 0, 0, 0.55)',
@@ -179,7 +179,7 @@ export const featuredEvents = sva({
       textStyle: 'cardTitle',
       // Event names are sentence-case, not the uppercase default.
       textTransform: 'none',
-      color: 'white',
+      color: 'heading',
     },
     // Links to the event route; inherits the heading type. Its ::after stretches
     // the hit target over the whole frame.
@@ -237,7 +237,7 @@ export const featuredEvents = sva({
       paddingInline: '9px',
       lineHeight: '1.4',
       // a touch of backdrop so chips hold up over a bright patch of poster
-      background: 'color-mix(in srgb, {colors.black} 35%, transparent)',
+      background: 'color-mix(in srgb, {colors.canvas} 35%, transparent)',
     },
   },
 })

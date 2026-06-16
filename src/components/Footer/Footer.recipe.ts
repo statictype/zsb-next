@@ -28,8 +28,8 @@ export const footer = sva({
   ],
   base: {
     footer: {
-      background: 'black',
-      color: 'white',
+      background: 'canvas',
+      color: 'heading',
       paddingBlock: 'xl',
       paddingInline: 'content',
       md: {
@@ -125,7 +125,7 @@ export const footer = sva({
       fontWeight: 'semibold',
       textTransform: 'uppercase',
       letterSpacing: 'wide',
-      color: 'gray.500',
+      color: 'muted',
       borderWidth: '1px',
       borderStyle: 'solid',
       borderColor: 'borderDark',
