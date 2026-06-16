@@ -43,11 +43,11 @@ export const pressPage = sva({
   base: {
     page: { background: 'black', color: 'white' },
 
-    kitSection: { paddingTop: '3xl', paddingInline: 'content', paddingBottom: '4xl' },
+    kitSection: { paddingBlock: 'sectionY', paddingInline: 'content' },
     kitHeader: { maxWidth: 'maxWidth', marginInline: 'auto', marginBottom: '2xl' },
     kitTitle: { textStyle: 'sectionTitle', marginBottom: 'md' },
 
-    appearances: { paddingTop: '3xl', paddingInline: 'content', paddingBottom: '4xl' },
+    appearances: { paddingBlock: 'sectionY', paddingInline: 'content' },
     appearancesInner: { maxWidth: 'maxWidth', marginInline: 'auto' },
     appList: { listStyle: 'none', padding: '0', margin: '0' },
     appRow: { '& + &': { borderTop: '1px solid token(colors.borderDark)' } },
@@ -125,7 +125,7 @@ export const pressPage = sva({
       'a:hover &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
 
-    releases: { paddingTop: '3xl', paddingInline: 'content', paddingBottom: '4xl' },
+    releases: { paddingBlock: 'sectionY', paddingInline: 'content' },
     releasesInner: { maxWidth: 'maxWidth', marginInline: 'auto' },
     releaseList: { listStyle: 'none', padding: '0', margin: '0' },
     releaseRow: { '& + &': { borderTop: '1px solid token(colors.borderDark)' } },

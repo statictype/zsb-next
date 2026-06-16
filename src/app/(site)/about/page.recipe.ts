@@ -113,19 +113,16 @@ export const aboutPage = sva({
 
     carouselSection: {
       layerStyle: 'sectionDark',
-      paddingTop: 'sectionY',
+      paddingBlock: 'sectionY',
       paddingInline: 'content',
-      paddingBottom: '0',
       // Cancel the carousel controls' top margin — the section owns the rhythm.
       '& > :first-child': { marginTop: '0' },
     },
 
     pillarsSection: {
       layerStyle: 'sectionDark',
-      paddingTop: '0',
+      paddingBlock: 'sectionY',
       paddingInline: 'content',
-      paddingBottom: '2xl',
-      md: { paddingBottom: '0' },
     },
     pillarsGrid: {
       display: 'grid',

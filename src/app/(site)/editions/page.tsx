@@ -118,6 +118,7 @@ function EditionsListShell({ children }: { children?: React.ReactNode }) {
   return (
     <main>
       <PageHero
+        flush
         title={
           <>
             Edition<span className={css({ color: 'action' })}>s</span>

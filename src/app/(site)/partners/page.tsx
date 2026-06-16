@@ -74,6 +74,7 @@ function PartnersShell({
       <Navigation activeId={null} />
       <main>
         <PageHero
+          flush
           title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
           lead={hero.lead}
         />

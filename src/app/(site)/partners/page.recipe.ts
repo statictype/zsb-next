@@ -39,9 +39,8 @@ export const partnersPage = sva({
 
     eventSection: {
       layerStyle: 'sectionDark',
-      paddingTop: '0',
+      paddingBlock: 'sectionY',
       paddingInline: 'content',
-      paddingBottom: 'sectionY',
     },
     eventBody: {
       display: 'flex',

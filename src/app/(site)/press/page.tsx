@@ -110,6 +110,7 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
       <main className={styles.page}>
         {/* ===== Hero ===== */}
         <PageHero
+          flush
           title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
           lead={hero.lead}
         />

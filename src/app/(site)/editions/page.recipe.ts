@@ -33,9 +33,8 @@ export const editionsPage = sva({
     inner: { layerStyle: 'sectionInner' },
     list: {
       layerStyle: 'sectionDark',
-      paddingTop: '0',
+      paddingBlock: 'sectionY',
       paddingInline: 'content',
-      paddingBottom: 'sectionY',
     },
     grid: {
       display: 'grid',

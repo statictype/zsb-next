@@ -1,13 +1,14 @@
 import type { ReactNode } from 'react'
 import { pageHero } from './PageHero.recipe'
 
-const styles = pageHero()
-
 interface PageHeroProps {
   /** The page title. Usually an <AccentSplit>, but any node is accepted. */
   title: ReactNode
   /** Optional standfirst below the title. */
   lead?: ReactNode
+  /** Drop the hero's bottom padding when a section follows directly (the
+   *  section's `sectionY` top becomes the single gap). */
+  flush?: boolean
 }
 
 /**
@@ -16,7 +17,8 @@ interface PageHeroProps {
  * `shared.pageHero` + `sectionInner` + `pageTitle` + `lead` markup that every
  * static page (about, partners, press, privacy, artists) repeated by hand.
  */
-export function PageHero({ title, lead }: PageHeroProps) {
+export function PageHero({ title, lead, flush }: PageHeroProps) {
+  const styles = pageHero({ flush })
   return (
     <section className={styles.hero}>
       <div className={styles.inner}>

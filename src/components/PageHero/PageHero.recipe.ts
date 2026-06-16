@@ -22,4 +22,12 @@ export const pageHero = sva({
     },
     lead: { textStyle: 'lead', maxWidth: '60ch', marginTop: 'xl' },
   },
+  variants: {
+    // Drop the hero's bottom padding when a section follows directly — the
+    // section owns the gap (its `sectionY` top), so the two don't double up.
+    flush: {
+      true: { hero: { paddingBottom: '0' } },
+    },
+  },
+  defaultVariants: { flush: false },
 })

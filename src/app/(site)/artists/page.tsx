@@ -19,6 +19,7 @@ export default async function ArtistsPage() {
   return (
     <main>
       <PageHero
+        flush
         title={
           <>
             Artist<span className={css({ color: 'action' })}>s</span>
@@ -30,9 +31,8 @@ export default async function ArtistsPage() {
       <section
         className={css({
           layerStyle: 'sectionDark',
-          paddingTop: '0',
+          paddingBlock: 'sectionY',
           paddingInline: 'content',
-          paddingBottom: 'sectionY',
         })}
       >
         <div className={css({ layerStyle: 'sectionInner' })}>
