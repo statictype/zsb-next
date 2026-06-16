@@ -2,12 +2,12 @@ import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
+import { button } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { FeaturedSpotlight } from '@/components/FeaturedEvents/FeaturedSpotlight'
 import { HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
-import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -103,9 +103,12 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                   <HeroSlideshow images={slideshow} />
                 </div>
                 {ctaLabel && ctaYear && (
-                  <MagneticButton href={`/editions/${ctaYear}`} size="md" gradientBorder>
+                  <Link
+                    href={`/editions/${ctaYear}`}
+                    className={button({ variant: 'secondary', size: 'md' })}
+                  >
                     {ctaLabel} <RiArrowRightLine size={14} />
-                  </MagneticButton>
+                  </Link>
                 )}
               </aside>
             </div>
@@ -120,9 +123,12 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 <div className={styles.heroText}>
                   <p className={css({ textStyle: 'heroLead' })}>{lead}</p>
                   {ctaLabel && ctaYear && (
-                    <MagneticButton href={`/editions/${ctaYear}`} size="lg" gradientBorder>
+                    <Link
+                      href={`/editions/${ctaYear}`}
+                      className={button({ variant: 'secondary', size: 'lg' })}
+                    >
                       {ctaLabel} <RiArrowRightLine size={14} />
-                    </MagneticButton>
+                    </Link>
                   )}
                 </div>
               </div>

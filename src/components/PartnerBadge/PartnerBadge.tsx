@@ -7,26 +7,8 @@ import { useRef } from 'react'
 import { partnerBadge } from './PartnerBadge.recipe'
 
 export function PartnerBadge({ variant = 'light' }: { variant?: 'light' | 'dark' } = {}) {
-  const wrapRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
   const s = partnerBadge({ variant })
-
-  function handleMouseMove(e: React.MouseEvent) {
-    const el = wrapRef.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    const cx = rect.left + rect.width / 2
-    const cy = rect.top + rect.height / 2
-    const dx = e.clientX - cx
-    const dy = e.clientY - cy
-
-    gsap.to(el, {
-      x: dx * 0.3,
-      y: dy * 0.3,
-      duration: 0.4,
-      ease: 'power2.out',
-    })
-  }
 
   function handleEnter() {
     if (!bodyRef.current) return
@@ -38,13 +20,7 @@ export function PartnerBadge({ variant = 'light' }: { variant?: 'light' | 'dark'
   }
 
   function handleLeave() {
-    if (!wrapRef.current || !bodyRef.current) return
-    gsap.to(wrapRef.current, {
-      x: 0,
-      y: 0,
-      duration: 0.7,
-      ease: 'elastic.out(1, 0.35)',
-    })
+    if (!bodyRef.current) return
     gsap.to(bodyRef.current, {
       scale: 1,
       duration: 0.6,
@@ -53,11 +29,10 @@ export function PartnerBadge({ variant = 'light' }: { variant?: 'light' | 'dark'
   }
 
   return (
-    <div ref={wrapRef} className={s.wrap}>
+    <div className={s.wrap}>
       <Link
         href="/partners"
         className={s.link}
-        onMouseMove={handleMouseMove}
         onMouseLeave={handleLeave}
         onMouseEnter={handleEnter}
       >

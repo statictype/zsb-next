@@ -4,8 +4,9 @@ import { type ButtonVariantProps, button } from 'styled-system/recipes'
 
 /**
  * Button — the one action primitive (ADR 0019): primary | secondary | ghost |
- * text × size. The `text` variant absorbs the retired `textLink`; the
- * `magnetic` modifier (retired MagneticButton) is wired in B4.
+ * text × size. The `text` variant absorbs the retired `textLink`. Renders a
+ * `<button>`; link-shaped buttons apply `button({...})` to an `<a>`/`<Link>`
+ * directly.
  */
 type ButtonProps = ButtonVariantProps & ButtonHTMLAttributes<HTMLButtonElement>
 

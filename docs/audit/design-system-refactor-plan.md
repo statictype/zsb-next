@@ -8,10 +8,11 @@ needed by an earlier one, so the stage PRs land in order.
 
 ## Working agreements
 
-- **One branch + PR per stage/milestone** (Foundation, Primitives, Adoption) — the
-  PR closes all the stage's task-issues — and **one PR per deferred epic**. No
-  direct pushes to `main`. `gh` CLI isn't installed yet — the PR is opened manually
-  until it is.
+- **One PR for the whole refactor** on `refactor/ds-foundation` (revised 2026-06-16 —
+  see Deviations log). Foundation + Primitives + Adoption + the audit docs all land
+  on this one branch, committed task-by-task. (Originally one PR per stage; that was
+  dropped because per-stage branches off `main` collided and off-branch gave no
+  clean diffs.) No direct pushes to `main`.
 - **Order within a stage PR:** do the tasks in dependency order (e.g. Foundation
   leads with A6, then A1/A2 before A7). Keep the commits task-by-task inside the
   branch so the PR is reviewable as a sequence.
@@ -112,11 +113,16 @@ one PR.
   `textLink`; delete the recipe. **Drop the trailing arrow** (R3).
 - **Depends-on:** B2  **Visual:** review  **Source:** R5 / R3 / F02
 
-### B4 · Retire `MagneticButton` → `button({magnetic})`
-- **What:** Fold the GSAP magnet into the modifier; delete the component. **Drop
-  the click ripple + any glow/nudge.** Delete `rippleAnim` / `mbGradientSpin` if
-  unused.
-- **Depends-on:** B2, B1  **Visual:** review  **Source:** R5
+### B4 · Retire `MagneticButton` — **magnetic dropped entirely** (revised)
+- **What (as executed):** Delete the `MagneticButton` component **and the magnetic
+  behaviour altogether** — no `button({magnetic})` modifier. Drop the click ripple,
+  the gradient-border glow, the arrow nudge; delete `rippleAnim` / `mbGradientSpin`
+  + the `--mb-angle` `@property`. The CTAs become plain `button`-styled `<Link>`/`<a>`
+  (`variant: secondary`). Also strip the matching cursor-magnet from `PartnerBadge`
+  (its elastic hover-scale stays). `gsap` is retained (still used by PartnerBadge).
+- **Why the change:** owner decision (2026-06-16) to scrap the AI-chosen magnetic
+  interaction wholesale and choose a deliberate behaviour later. See Deviations log.
+- **Depends-on:** B2  **Visual:** review  **Source:** R5 (superseded in part)
 
 ### B5 · `section` recipe + convert padding sites
 - **What:** New `section` recipe — `ground: dark|light` × `rhythm: normal|lg`
@@ -217,5 +223,33 @@ mechanical, near visually-neutral, closes the biggest integrity gap, and unblock
 B7/B9 in the next stage.
 
 ## ADR deliverables
-- **ADR 0019** — action-primitive consolidation (lands in the **Primitives** PR, with B2).
-- **ADR 0017** — append true-black supersede note (lands in the **Foundation** PR, with A1).
+- **ADR 0019** — action-primitive consolidation. **Landed early** with the audit
+  docs on `refactor/ds-foundation` (not the Primitives PR — see Deviations).
+- **ADR 0017** — true-black supersede note, added with A1.
+
+---
+
+## Deviations log (as executed)
+
+Recorded as the refactor runs (owner-directed unless noted). Most recent first.
+
+- **B4 — magnetic dropped entirely** (2026-06-16). Plan was to fold MagneticButton
+  into a `button({magnetic})` modifier. Owner chose to **remove all magnetic
+  behaviour** instead: deleted the component + the modifier + ripple/gradient-glow/
+  nudge + the `rippleAnim`/`mbGradientSpin` keyframes + `--mb-angle`; CTAs are now
+  plain `button`-styled links (`secondary`); PartnerBadge's cursor-magnet removed
+  too (elastic hover-scale kept). `gsap` retained for future deliberate motion.
+- **B3 — VisitSection directions kept as `text`** (2026-06-16). R10 suggested a
+  bolder "button variant"; executed as `button.text` (least visual jump), leading
+  map-pin preserved. Open to upgrade to `secondary` later.
+- **A3 — scope widened, audit line-refs stale** (2026-06-16). Added: EventModal
+  backdrop → `scrim` + its controls → plain ghost buttons (owner-directed: don't
+  assume the 82%/blur was deliberate). Two F14-listed sites were stale/owned
+  elsewhere — the now-dot pulse (C6) and the magnetic ripple (B4).
+- **A5 — `radii.pill` kept** (2026-06-16). Audit's "0-use" was stale; DisableDraftMode
+  uses it and `circle` can't substitute a stadium radius. Only `spacing.5xl` folded.
+- **A2 — only 2 real media hairlines mapped** (2026-06-16). The audit's "~11 white-alpha
+  hairlines" were mostly shadows/fills/foreground, not borders; left for later
+  shadow/overlay-token work. Two genuine hairlines → `borderLight`.
+- **Process — one PR, not per-stage** (2026-06-16). Whole refactor + audit docs +
+  ADR 0019 ship on `refactor/ds-foundation`. See Working agreements.

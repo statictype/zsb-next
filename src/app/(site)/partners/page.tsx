@@ -2,11 +2,11 @@ import { RiArrowRightLine } from '@remixicon/react'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { css } from 'styled-system/css'
+import { button } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
-import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
@@ -146,9 +146,13 @@ function PartnersShell({
               />
             </h2>
             <p className={styles.partnerCtaBody}>{ctaBody}</p>
-            <MagneticButton href={ctaHref}>
+            <a
+              href={ctaHref}
+              className={button({ variant: 'secondary' })}
+              {...(ctaHref.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}
+            >
               {ctaLabel} <RiArrowRightLine size={14} />
-            </MagneticButton>
+            </a>
           </div>
         </section>
       </main>

@@ -12,14 +12,6 @@
    layered or it beats every Panda padding/margin. */
 @layer reset, base, tokens, recipes, utilities;
 
-/* Animatable angle for the MagneticButton gradient-border ring (hero CTA) —
-   a top-level registration so the conic-gradient angle can animate. */
-@property --mb-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
 /* ---- Reset + base element styles ----
    Wrapped in @layer base so Panda recipes/utilities win over them. The body
    reads the Panda token vars directly (the OKLCH brand black/white, body font,

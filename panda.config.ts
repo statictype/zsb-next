@@ -123,10 +123,9 @@ const eyebrow = defineRecipe({
 
 /**
  * Button — the one action primitive (ADR 0019).
- * `variant` (primary | secondary | ghost | text) × `size` (sm | md | lg). The
- * `text` variant is the retired `textLink` recipe (borderless inline link); the
- * `magnetic` modifier (the retired MagneticButton's GSAP magnet) is wired onto
- * the component in B4. `primary`/`secondary` are the former solid/outline.
+ * `variant` (primary | secondary | ghost | text) × `size` (sm | md | lg).
+ * `primary`/`secondary` are the former solid/outline; `text` is the retired
+ * `textLink` recipe (borderless inline link, e.g. footer links).
  */
 const button = defineRecipe({
   className: 'btn',
@@ -216,9 +215,9 @@ const button = defineRecipe({
     },
   ],
   defaultVariants: { variant: 'primary', size: 'md' },
-  // MagneticButton calls button({ variant, size }) with runtime props, which
-  // Panda can't statically extract — emit every variant×size so those combos
-  // (secondary / md / lg) always have CSS.
+  // The Button component calls button({ variant, size }) with runtime props,
+  // which Panda can't statically extract — emit every variant×size so all
+  // combos always have CSS.
   staticCss: ['*'],
 })
 
@@ -345,9 +344,6 @@ export default defineConfig({
         },
         // HeroSlideshow per-slide progress line (scaleX, GPU-only).
         heroProgress: { from: { transform: 'scaleX(0)' }, to: { transform: 'scaleX(1)' } },
-        // MagneticButton click ripple + gradient-border ring spin (hero CTA).
-        rippleAnim: { to: { transform: 'scale(4)', opacity: 0 } },
-        mbGradientSpin: { to: { '--mb-angle': '360deg' } },
         // EventModal entrance: backdrop fade + dialog rise.
         fadeIn: { from: { opacity: 0 }, to: { opacity: 1 } },
         dialogIn: {

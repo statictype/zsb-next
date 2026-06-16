@@ -6,7 +6,7 @@ import { sva } from 'styled-system/css'
  * Size scales off the `--partner-badge-scale` custom prop set by the parent
  * (home / Footer), with a `1` fallback. The `variant` axis (light | dark) only
  * swaps the rotating ring's text fill — the center heart is always the accent.
- * GSAP magnetic/elastic motion stays in the component.
+ * The GSAP elastic hover-scale stays in the component.
  */
 export const partnerBadge = sva({
   slots: ['wrap', 'link', 'body', 'textRing', 'arrow', 'icon'],
