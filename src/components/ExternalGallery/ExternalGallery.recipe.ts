@@ -13,6 +13,7 @@ import { sva } from 'styled-system/css'
 export const externalGallery = sva({
   slots: [
     'section',
+    'inner',
     'header',
     'count',
     'card',
@@ -33,11 +34,10 @@ export const externalGallery = sva({
   ],
   base: {
     section: {
-      layerStyle: 'section',
-      background: 'black',
-      color: 'white',
+      // ground + rhythm come from `section({ ground: 'dark' })` in the component.
       position: 'relative',
     },
+    inner: { layerStyle: 'sectionInner' },
 
     header: {
       maxWidth: 'maxWidth',

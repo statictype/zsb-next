@@ -2,6 +2,7 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { cx } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
 import { Card } from '@/components/ui/Card/Card'
@@ -29,7 +30,7 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
   if (events.length === 0) return null
 
   return (
-    <section className={styles.section} aria-labelledby="featured-heading">
+    <section className={section({ ground: 'dark' })} aria-labelledby="featured-heading">
       <div className={styles.inner}>
         <header className={styles.header}>
           <div className={styles.headerMain}>

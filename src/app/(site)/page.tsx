@@ -2,7 +2,7 @@ import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
-import { button } from 'styled-system/recipes'
+import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -147,7 +147,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
 
         {featured && <FeaturedSpotlight year={featured.year} events={featured.events} />}
 
-        <section id="editions" className={cx(styles.panel, styles.editions)}>
+        <section id="editions" className={cx(styles.panel, section({ ground: 'dark' }))}>
           <div className={styles.editionsHead}>
             <h2 className={css({ textStyle: 'sectionTitle' })}>EDITIONS</h2>
             <p className={styles.editionsSubtext}>{editionsIntro}</p>

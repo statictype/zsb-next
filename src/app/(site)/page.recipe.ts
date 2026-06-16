@@ -22,7 +22,6 @@ export const homePage = sva({
     'heroTitle',
     'heroText',
     'heroBadge',
-    'editions',
     'editionsHead',
     'editionsSubtext',
     'editionList',
@@ -48,7 +47,7 @@ export const homePage = sva({
       width: '100%',
       background: 'black',
       paddingTop: 'calc(token(sizes.nav) + 80px)',
-      paddingInline: 'content',
+      paddingInline: 'gutter',
       paddingBottom: '2xl',
       overflow: 'hidden',
       minHeight: '100svh',
@@ -121,7 +120,9 @@ export const homePage = sva({
       '3xl': { '--partner-badge-scale': '1.85' },
     },
 
-    editions: { paddingBlock: 'sectionY', paddingInline: 'content', background: 'black' },
+    // The editions section shell is `section({ ground: 'dark' })` (composed with
+    // the `panel` slot in the component); `editionsHead` + `editionList` are the
+    // rails, so they own the gutter.
     editionsHead: {
       display: 'flex',
       flexDirection: 'column',
@@ -129,6 +130,7 @@ export const homePage = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       marginBottom: '2xl',
+      paddingInline: 'gutter',
       width: '100%',
       '& h2': { marginBottom: '0' },
     },
@@ -143,6 +145,7 @@ export const homePage = sva({
     editionList: {
       maxWidth: 'maxWidth',
       marginInline: 'auto',
+      paddingInline: 'gutter',
       borderBottom: '1px solid token(colors.borderDark)',
       width: '100%',
     },

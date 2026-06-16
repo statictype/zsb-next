@@ -13,7 +13,6 @@ import { sva } from 'styled-system/css'
 export const partnersPage = sva({
   slots: [
     'inner',
-    'eventSection',
     'eventBody',
     'eventImage',
     'eventImageImg',
@@ -37,11 +36,6 @@ export const partnersPage = sva({
   base: {
     inner: { layerStyle: 'sectionInner' },
 
-    eventSection: {
-      layerStyle: 'sectionDark',
-      paddingBlock: 'sectionY',
-      paddingInline: 'content',
-    },
     eventBody: {
       display: 'flex',
       flexDirection: 'column',
@@ -134,14 +128,14 @@ export const partnersPage = sva({
       maxWidth: '50ch',
     },
 
+    // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
+    // `partnerCtaInner` is the rail.
     partnerCta: {
-      layerStyle: 'sectionDark',
-      paddingBlock: 'sectionY',
-      paddingInline: 'content',
       borderTop: '1px solid token(colors.borderDark)',
     },
     partnerCtaInner: {
       maxWidth: 'maxWidth',
+      paddingInline: 'gutter',
       marginInline: 'auto',
       display: 'flex',
       flexDirection: 'column',

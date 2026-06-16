@@ -305,6 +305,28 @@ const card = defineRecipe({
   defaultVariants: { ground: 'onDark', interactive: false },
 })
 
+const section = defineRecipe({
+  className: 'section',
+  description: 'Section shell — vertical rhythm + optional ground (bg/color)',
+  base: {},
+  variants: {
+    /** The section ground. Omit for a rhythm-only section that inherits the
+     *  page's own background (e.g. the press strips). Keyed off the semantic
+     *  role tokens, never raw black/white. */
+    ground: {
+      dark: { background: 'canvas', color: 'heading' },
+      light: { background: 'surfaceLight', color: 'headingLight' },
+    },
+    /** Vertical rhythm — the standard cadence vs the looser breathing-room one
+     *  (manifesto, About editorial spreads). */
+    rhythm: {
+      normal: { paddingBlock: 'sectionY' },
+      lg: { paddingBlock: 'sectionYLg' },
+    },
+  },
+  defaultVariants: { rhythm: 'normal' },
+})
+
 export default defineConfig({
   // Panda's CSS reset is intentionally OFF — the element reset lives in
   // globals.css (`@layer base`).
@@ -458,7 +480,9 @@ export default defineConfig({
       semanticTokens: {
         colors: {
           canvas: { value: '{colors.black}' },
-          surfaceLight: { value: '{colors.gray.100}' },
+          // The one light-surface role — white. Every light ground (sections,
+          // onLight cards) keys off this, so light-surface drift can't recur.
+          surfaceLight: { value: '{colors.white}' },
           heading: { value: '{colors.white}' },
           headingLight: { value: '{colors.black}' },
           body: { value: '{colors.gray.400}' },
@@ -515,7 +539,9 @@ export default defineConfig({
               '4xl': '144px',
             },
           },
-          content: {
+          // The horizontal section gutter. Lives on the rail (`sectionInner`),
+          // not the section shell, so full-bleed children can escape it.
+          gutter: {
             value: {
               base: '16px',
               md: '40px',
@@ -594,13 +620,15 @@ export default defineConfig({
           value: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },
         },
       },
-      // Section / page-shell layout as layerStyles — Panda dedupes at the
-      // property level, so a later class can override the padding.
+      // Page-shell layout as layerStyles. The section *shell* (vertical rhythm
+      // + ground) is now the `section` recipe; `sectionInner` is the content
+      // rail — it owns the horizontal gutter, so full-bleed children placed
+      // outside the rail span the shell. `pageHero` defers its gutter to the
+      // rail too (its inner is a `sectionInner`).
       layerStyles: {
-        section: { value: { paddingBlock: 'sectionY', paddingInline: 'content' } },
-        sectionDark: { value: { background: 'black', color: 'white' } },
-        sectionLight: { value: { background: 'white', color: 'black' } },
-        sectionInner: { value: { maxWidth: 'maxWidth', marginInline: 'auto' } },
+        sectionInner: {
+          value: { maxWidth: 'maxWidth', marginInline: 'auto', paddingInline: 'gutter' },
+        },
         pageHero: {
           value: {
             background: 'black',
@@ -610,13 +638,12 @@ export default defineConfig({
               md: 'calc(token(sizes.nav) + 120px)',
             },
             paddingBottom: { base: '2xl', md: '3xl' },
-            paddingInline: 'content',
           },
         },
         // NB layerStyles are surface props only — positioned/animated helpers
         // (e.g. the image skeleton) live in their own `css()` helper, not here.
       },
-      recipes: { badge, eyebrow, button, iconButton, card },
+      recipes: { badge, eyebrow, button, iconButton, card, section },
     },
   },
 })

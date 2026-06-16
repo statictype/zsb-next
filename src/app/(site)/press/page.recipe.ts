@@ -12,10 +12,8 @@ import { sva } from 'styled-system/css'
 export const pressPage = sva({
   slots: [
     'page',
-    'kitSection',
     'kitHeader',
     'kitTitle',
-    'appearances',
     'appearancesInner',
     'appList',
     'appRow',
@@ -28,7 +26,6 @@ export const pressPage = sva({
     'appExcerpt',
     'appDate',
     'appArrow',
-    'releases',
     'releasesInner',
     'releaseList',
     'releaseRow',
@@ -43,12 +40,13 @@ export const pressPage = sva({
   base: {
     page: { background: 'black', color: 'white' },
 
-    kitSection: { paddingBlock: 'sectionY', paddingInline: 'content' },
-    kitHeader: { maxWidth: 'maxWidth', marginInline: 'auto', marginBottom: '2xl' },
+    // The three strips are ground-less `section()` shells (rhythm only — they
+    // inherit the page's dark ground); the inner wrappers are the rails. The
+    // media-kit strip itself is the full-bleed band below its header.
+    kitHeader: { layerStyle: 'sectionInner', marginBottom: '2xl' },
     kitTitle: { textStyle: 'sectionTitle', marginBottom: 'md' },
 
-    appearances: { paddingBlock: 'sectionY', paddingInline: 'content' },
-    appearancesInner: { maxWidth: 'maxWidth', marginInline: 'auto' },
+    appearancesInner: { layerStyle: 'sectionInner' },
     appList: { listStyle: 'none', padding: '0', margin: '0' },
     appRow: { '& + &': { borderTop: '1px solid token(colors.borderDark)' } },
     appLink: {
@@ -125,8 +123,7 @@ export const pressPage = sva({
       'a:hover &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
 
-    releases: { paddingBlock: 'sectionY', paddingInline: 'content' },
-    releasesInner: { maxWidth: 'maxWidth', marginInline: 'auto' },
+    releasesInner: { layerStyle: 'sectionInner' },
     releaseList: { listStyle: 'none', padding: '0', margin: '0' },
     releaseRow: { '& + &': { borderTop: '1px solid token(colors.borderDark)' } },
     releaseLink: {

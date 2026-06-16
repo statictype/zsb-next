@@ -11,10 +11,9 @@ export const manifesto = sva({
   slots: ['section', 'container', 'title', 'titleHighlight', 'content', 'text'],
   base: {
     section: {
-      layerStyle: 'sectionLight',
+      // ground (light) + rhythm (lg) come from `section()` in the component;
+      // `container` is the rail, so it owns the gutter.
       position: 'relative',
-      paddingBlock: 'sectionYLg',
-      paddingInline: 'content',
     },
     container: {
       display: 'flex',
@@ -22,6 +21,7 @@ export const manifesto = sva({
       gap: '2xl',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
+      paddingInline: 'gutter',
       lg: {
         display: 'grid',
         gridTemplateColumns: '0.8fr 1.2fr',

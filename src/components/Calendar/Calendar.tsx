@@ -3,6 +3,8 @@
 import { RiArrowDownSLine, RiArrowRightUpLine, RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import { Fragment, type ReactNode, useEffect, useMemo, useRef } from 'react'
+import { cx } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import {
   type DayToken,
@@ -206,7 +208,7 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
     <section
       id={PROGRAM_SECTION_ID}
       ref={sectionRef}
-      className={s.section}
+      className={cx(section({ ground: 'dark' }), s.section)}
       aria-labelledby="calendar-heading"
     >
       <div className={s.inner}>

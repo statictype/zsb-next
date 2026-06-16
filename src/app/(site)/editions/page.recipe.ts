@@ -14,7 +14,6 @@ import { sva } from 'styled-system/css'
 export const editionsPage = sva({
   slots: [
     'inner',
-    'list',
     'grid',
     'slot',
     'card',
@@ -31,11 +30,6 @@ export const editionsPage = sva({
   ],
   base: {
     inner: { layerStyle: 'sectionInner' },
-    list: {
-      layerStyle: 'sectionDark',
-      paddingBlock: 'sectionY',
-      paddingInline: 'content',
-    },
     grid: {
       display: 'grid',
       gridTemplateColumns: '1fr',

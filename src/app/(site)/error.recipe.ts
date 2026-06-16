@@ -34,7 +34,7 @@ export const errorPage = sva({
       background: 'black',
       overflow: 'hidden',
       paddingBlock: 'xl',
-      paddingInline: 'content',
+      paddingInline: 'gutter',
     },
     noise: {
       position: 'absolute',

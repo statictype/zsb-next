@@ -14,7 +14,6 @@ import { sva } from 'styled-system/css'
  */
 export const featuredEvents = sva({
   slots: [
-    'section',
     'inner',
     'header',
     'headerMain',
@@ -39,7 +38,6 @@ export const featuredEvents = sva({
     'chip',
   ],
   base: {
-    section: { layerStyle: 'section', background: 'canvas', color: 'heading' },
     inner: { layerStyle: 'sectionInner' },
 
     header: {

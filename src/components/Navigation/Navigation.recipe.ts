@@ -19,7 +19,7 @@ export const navigation = sva({
     logo: {
       position: 'absolute',
       top: 'md',
-      left: 'content',
+      left: 'gutter',
       width: '40px',
       height: '40px',
       zIndex: 1001,
@@ -51,7 +51,7 @@ export const navigation = sva({
       md: {
         position: 'absolute',
         top: '32px',
-        right: 'content',
+        right: 'gutter',
         bottom: 'auto',
         left: 'auto',
         flexDirection: 'row',
@@ -101,7 +101,7 @@ export const navigation = sva({
       gap: '5px',
       position: 'fixed',
       top: 'md',
-      right: 'content',
+      right: 'gutter',
       width: '48px',
       height: '48px',
       background: 'transparent',

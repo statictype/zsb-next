@@ -41,7 +41,7 @@ export const venuesView = sva({
   ],
   base: {
     section: {
-      layerStyle: 'section',
+      // rhythm from `section()` in the component; ground inherits the parent.
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
       borderTopColor: 'borderDark',

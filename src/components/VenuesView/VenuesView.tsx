@@ -1,5 +1,7 @@
 import { RiArrowDownSLine, RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
+import { cx } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import type { TopVenue, VenueEvent, VenueNode, VenueTypeSection } from '@/lib/venues'
 import { venuesView } from './VenuesView.recipe'
 
@@ -14,7 +16,7 @@ const styles = venuesView()
 // deep-link to the edition calendar's detail modal (reusing ZSB-40).
 export function VenuesView({ year, sections }: { year: number; sections: VenueTypeSection[] }) {
   return (
-    <section className={styles.section} aria-labelledby="venues-heading">
+    <section className={cx(section(), styles.section)} aria-labelledby="venues-heading">
       <div className={styles.inner}>
         <header className={styles.header}>
           <h2 id="venues-heading" className={styles.title}>

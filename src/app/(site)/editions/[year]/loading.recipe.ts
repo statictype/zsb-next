@@ -55,7 +55,7 @@ export const editionLoading = sva({
       alignItems: 'center',
       justifyContent: 'center',
       gap: 'lg',
-      paddingInline: 'content',
+      paddingInline: 'gutter',
     },
     heroEyebrow: { width: '200px', height: '28px' },
     heroYear: { width: '320px', height: '100px', md: { width: '440px', height: '140px' } },
@@ -65,7 +65,7 @@ export const editionLoading = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       paddingBlock: 'sectionY',
-      paddingInline: 'content',
+      paddingInline: 'gutter',
     },
     sectionTitle: { width: '180px', height: '28px', marginBottom: 'xl' },
 

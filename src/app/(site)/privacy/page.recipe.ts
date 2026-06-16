@@ -10,13 +10,8 @@ import { sva } from 'styled-system/css'
  * `css(layerStyle/textStyle)` at the call site.
  */
 export const privacyPage = sva({
-  slots: ['body', 'article', 'settingsRow', 'updated'],
+  slots: ['article', 'settingsRow', 'updated'],
   base: {
-    body: {
-      layerStyle: 'sectionDark',
-      paddingBlock: 'sectionY',
-      paddingInline: 'content',
-    },
     article: {
       maxWidth: '70ch',
       display: 'flex',

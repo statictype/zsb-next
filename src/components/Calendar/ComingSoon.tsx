@@ -1,4 +1,5 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
+import { section } from 'styled-system/recipes'
 import { comingSoon } from './ComingSoon.recipe'
 
 export interface SocialLink {
@@ -15,7 +16,7 @@ export interface SocialLink {
 export function ComingSoon({ year, socials }: { year: number; socials: SocialLink[] }) {
   const s = comingSoon()
   return (
-    <section className={s.section} aria-labelledby="calendar-heading">
+    <section className={section({ ground: 'dark' })} aria-labelledby="calendar-heading">
       <div className={s.inner}>
         <header className={s.header}>
           <h2 id="calendar-heading" className={s.title}>

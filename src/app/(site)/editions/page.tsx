@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { type CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
-import { button } from 'styled-system/recipes'
+import { button, section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
@@ -128,7 +128,7 @@ function EditionsListShell({ children }: { children?: React.ReactNode }) {
         lead="Five past editions. Five #, each one a curatorial position, not just a title. Together they trace a movement: from the space sculpture inhabits, to the emotional conditions it holds, to the forces it models, to the body it refuses to idealise. Not a plan. A conversation that keeps going."
       />
 
-      <section className={styles.list}>
+      <section className={section({ ground: 'dark' })}>
         <div className={styles.inner}>{children}</div>
       </section>
     </main>

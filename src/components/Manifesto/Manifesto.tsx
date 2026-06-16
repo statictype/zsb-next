@@ -1,3 +1,5 @@
+import { cx } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import type { ManifestoData } from '@/types/edition'
 import { manifesto as styles } from './Manifesto.recipe'
 
@@ -10,7 +12,7 @@ export function Manifesto({ manifesto }: ManifestoProps) {
   const s = styles()
 
   return (
-    <section className={s.section}>
+    <section className={cx(section({ ground: 'light', rhythm: 'lg' }), s.section)}>
       <div className={s.container}>
         <div className={s.title}>
           <p>

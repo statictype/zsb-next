@@ -1,8 +1,8 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import { css } from 'styled-system/css'
-import { button } from 'styled-system/recipes'
+import { css, cx } from 'styled-system/css'
+import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
@@ -79,7 +79,7 @@ function PartnersShell({
           lead={hero.lead}
         />
 
-        <section className={styles.eventSection}>
+        <section className={section({ ground: 'dark' })}>
           <div className={styles.inner}>
             <h2 className={css({ textStyle: 'sectionTitle', marginBottom: 'xl' })}>{eventTitle}</h2>
             <div className={styles.eventBody}>
@@ -94,13 +94,7 @@ function PartnersShell({
           </div>
         </section>
 
-        <section
-          className={css({
-            layerStyle: 'sectionLight',
-            paddingBlock: 'sectionY',
-            paddingInline: 'content',
-          })}
-        >
+        <section className={section({ ground: 'light' })}>
           <div className={styles.inner}>
             <div className={styles.whySculptureTop}>
               <div>
@@ -133,7 +127,7 @@ function PartnersShell({
           </div>
         </section>
 
-        <section className={styles.partnerCta}>
+        <section className={cx(section({ ground: 'dark' }), styles.partnerCta)}>
           <div className={styles.partnerCtaInner}>
             <div className={styles.partnerCtaBadge}>
               <PartnerBadge />

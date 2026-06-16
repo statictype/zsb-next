@@ -18,7 +18,6 @@ const labelBase = {
 
 export const credits = sva({
   slots: [
-    'section',
     'container',
     'primary',
     'block',
@@ -37,7 +36,6 @@ export const credits = sva({
     'inlineNames',
   ],
   base: {
-    section: { layerStyle: 'section', background: 'white' },
     container: { layerStyle: 'sectionInner' },
 
     label: labelBase,

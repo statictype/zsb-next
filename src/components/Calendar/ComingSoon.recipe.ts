@@ -10,7 +10,6 @@ import { sva } from 'styled-system/css'
  */
 export const comingSoon = sva({
   slots: [
-    'section',
     'inner',
     'header',
     'title',
@@ -27,7 +26,6 @@ export const comingSoon = sva({
     'link',
   ],
   base: {
-    section: { layerStyle: 'section', background: 'black', color: 'white' },
     inner: { layerStyle: 'sectionInner' },
 
     header: { marginBottom: 'xl' },

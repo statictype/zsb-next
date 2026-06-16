@@ -13,8 +13,8 @@ export const cookieBanner = sva({
   base: {
     banner: {
       position: 'fixed',
-      left: 'content',
-      right: 'content',
+      left: 'gutter',
+      right: 'gutter',
       bottom: 'md',
       zIndex: 100,
       background: 'canvas',

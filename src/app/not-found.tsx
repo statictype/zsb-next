@@ -13,7 +13,7 @@ const page = css({
   bg: 'canvas',
   overflow: 'hidden',
   paddingBlock: 'xl',
-  paddingInline: 'content',
+  paddingInline: 'gutter',
 })
 
 const vignette = css({

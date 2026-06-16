@@ -30,7 +30,7 @@ export const footer = sva({
       background: 'canvas',
       color: 'heading',
       paddingBlock: 'xl',
-      paddingInline: 'content',
+      paddingInline: 'gutter',
       md: {
         paddingBlock: '2xl',
         borderTopWidth: '1px',

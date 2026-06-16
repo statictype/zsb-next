@@ -20,7 +20,7 @@ export const editionsNav = sva({
       background: 'black',
       color: 'white',
       paddingBlock: 'xl',
-      paddingInline: 'content',
+      paddingInline: 'gutter',
       overflow: 'clip',
     },
 

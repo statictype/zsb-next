@@ -21,7 +21,7 @@ export const artistsBanner = sva({
       textDecoration: 'none',
       overflow: 'hidden',
       paddingBlock: { base: 'xl', md: '2xl' },
-      paddingInline: 'content',
+      paddingInline: 'gutter',
       scrollMarginTop: 'token(sizes.nav)',
       transition: 'all {durations.slow} {easings.expo}',
       // Brand corner wash — fades in on hover.

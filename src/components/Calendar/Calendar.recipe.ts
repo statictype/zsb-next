@@ -84,9 +84,7 @@ export const calendar = sva({
   ],
   base: {
     section: {
-      layerStyle: 'section',
-      background: 'black',
-      color: 'white',
+      // ground + rhythm come from `section({ ground: 'dark' })` in the component.
       // Shared links land on #program; offset past the tall top padding.
       scrollMarginTop: 'calc(token(spacing.lg) - token(spacing.sectionY))',
       // Agenda date-marker column width; scales up with the type.

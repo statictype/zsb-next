@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import { css } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { Carousel } from '@/components/Carousel/Carousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -64,7 +65,7 @@ function AboutShell({ view }: { view: AboutView }) {
       <figure className={styles.placeImage}>
         <Figure image={placeImage} sizes="100vw" className={styles.placeImageImg} />
       </figure>
-      <section className={styles.projectSection}>
+      <section className={section({ ground: 'light', rhythm: 'lg' })}>
         <div className={styles.inner}>
           <div className={styles.projectGrid}>
             <aside className={styles.projectAside}>
@@ -82,12 +83,12 @@ function AboutShell({ view }: { view: AboutView }) {
       </section>
 
       {carousel && (
-        <section className={styles.carouselSection}>
+        <section className={cx(section({ ground: 'dark' }), styles.carouselSection)}>
           <Carousel slides={carousel} eyebrow={carouselEyebrow} />
         </section>
       )}
 
-      <section className={styles.pillarsSection}>
+      <section className={section({ ground: 'dark' })}>
         <div className={styles.inner}>
           <div className={styles.pillarsGrid}>
             {pillars.map((p, i) => (
@@ -103,7 +104,7 @@ function AboutShell({ view }: { view: AboutView }) {
         </div>
       </section>
 
-      <section className={styles.statement}>
+      <section className={cx(section({ ground: 'light', rhythm: 'lg' }), styles.statement)}>
         <div className={styles.statementInner}>
           <aside className={styles.statementAside}>
             <Eyebrow rule className={css({ marginBottom: '32px' })}>

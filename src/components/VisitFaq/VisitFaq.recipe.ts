@@ -8,9 +8,8 @@ import { sva } from 'styled-system/css'
  * typography-only). The list itself is the bespoke part.
  */
 export const visitFaq = sva({
-  slots: ['section', 'inner', 'title', 'list', 'item', 'question', 'answer'],
+  slots: ['inner', 'title', 'list', 'item', 'question', 'answer'],
   base: {
-    section: { layerStyle: 'section', background: 'canvas' },
     inner: { layerStyle: 'sectionInner' },
     title: { textStyle: 'sectionTitle', marginBottom: 'xl' },
     list: { display: 'grid', gap: 'lg', maxWidth: '760px' },

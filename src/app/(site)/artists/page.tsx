@@ -1,4 +1,5 @@
 import { css } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { getAllEditionYears } from '@/data/editions'
@@ -28,13 +29,7 @@ export default async function ArtistsPage() {
         lead="Sculptors and visual artists who have shown work at Bucharest Sculpture Days across all editions."
       />
 
-      <section
-        className={css({
-          layerStyle: 'sectionDark',
-          paddingBlock: 'sectionY',
-          paddingInline: 'content',
-        })}
-      >
+      <section className={section({ ground: 'dark' })}>
         <div className={css({ layerStyle: 'sectionInner' })}>
           <ArtistsTable
             artists={artists}

@@ -15,13 +15,11 @@ export const aboutPage = sva({
     'inner',
     'placeImage',
     'placeImageImg',
-    'projectSection',
     'projectGrid',
     'projectAside',
     'projectTitle',
     'projectMain',
     'carouselSection',
-    'pillarsSection',
     'pillarsGrid',
     'pillar',
     'pillarHead',
@@ -57,12 +55,9 @@ export const aboutPage = sva({
       filter: 'grayscale(100%) contrast(1.05)',
     },
 
-    // The project — asymmetric editorial split on light.
-    projectSection: {
-      layerStyle: 'sectionLight',
-      paddingBlock: 'sectionYLg',
-      paddingInline: 'content',
-    },
+    // The project — asymmetric editorial split on light. The shell is
+    // `section({ ground: 'light', rhythm: 'lg' })` in the component; `inner` is
+    // the rail.
     projectGrid: {
       display: 'grid',
       gridTemplateColumns: '1fr',
@@ -111,19 +106,13 @@ export const aboutPage = sva({
       },
     },
 
+    // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
+    // the carousel is the full-bleed band (no rail), so it spans the shell.
     carouselSection: {
-      layerStyle: 'sectionDark',
-      paddingBlock: 'sectionY',
-      paddingInline: 'content',
       // Cancel the carousel controls' top margin — the section owns the rhythm.
       '& > :first-child': { marginTop: '0' },
     },
 
-    pillarsSection: {
-      layerStyle: 'sectionDark',
-      paddingBlock: 'sectionY',
-      paddingInline: 'content',
-    },
     pillarsGrid: {
       display: 'grid',
       gridTemplateColumns: '1fr',
@@ -166,13 +155,10 @@ export const aboutPage = sva({
       maxWidth: '50ch',
     },
 
-    // Curator letter — signed editorial spread on light.
+    // Curator letter — signed editorial spread on light. Ground (light) +
+    // rhythm (lg) from `section()` in the component; `statementInner` is the rail.
     statement: {
       position: 'relative',
-      background: 'surfaceLight',
-      color: 'headingLight',
-      paddingBlock: 'sectionYLg',
-      paddingInline: 'content',
       _before: {
         content: '""',
         position: 'absolute',
@@ -184,6 +170,7 @@ export const aboutPage = sva({
     statementInner: {
       maxWidth: 'maxWidth',
       marginInline: 'auto',
+      paddingInline: 'gutter',
       lg: {
         display: 'grid',
         gridTemplateColumns: 'minmax(260px, 340px) minmax(0, 1fr)',

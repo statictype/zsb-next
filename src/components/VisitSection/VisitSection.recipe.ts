@@ -42,7 +42,7 @@ export const visitSection = sva({
   ],
   base: {
     section: { width: '100%', paddingBlock: 'sectionY' },
-    inner: { layerStyle: 'sectionInner', paddingInline: 'content' },
+    inner: { layerStyle: 'sectionInner' },
 
     splitLayout: {
       display: 'grid',

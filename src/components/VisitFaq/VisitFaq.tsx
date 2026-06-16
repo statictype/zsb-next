@@ -1,3 +1,4 @@
+import { section } from 'styled-system/recipes'
 import type { FaqEntry } from '@/lib/seo'
 import { visitFaq } from './VisitFaq.recipe'
 
@@ -16,7 +17,7 @@ export function VisitFaq({ entries }: VisitFaqProps) {
   if (entries.length === 0) return null
   const s = visitFaq()
   return (
-    <section className={s.section} aria-labelledby="visit-faq-title">
+    <section className={section({ ground: 'dark' })} aria-labelledby="visit-faq-title">
       <div className={s.inner}>
         <h2 id="visit-faq-title" className={s.title}>
           Good to know

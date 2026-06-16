@@ -1,3 +1,5 @@
+import { cx } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { Carousel } from '@/components/Carousel/Carousel'
 import type { Edition } from '@/types/edition'
@@ -15,7 +17,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
   const { year, theme, themeSection, artists, carousel } = edition
 
   return (
-    <section className={styles.section}>
+    <section className={cx(section({ ground: 'dark' }), styles.section)}>
       <div className={styles.themeHeader}>
         <h2 className={styles.headline}>{theme}</h2>
       </div>
