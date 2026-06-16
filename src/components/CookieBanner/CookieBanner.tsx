@@ -78,7 +78,7 @@ export function CookieBanner() {
                   <Button variant="ghost" size="sm" onClick={reject}>
                     Reject
                   </Button>
-                  <Button variant="solid" size="sm" onClick={accept}>
+                  <Button variant="primary" size="sm" onClick={accept}>
                     Accept
                   </Button>
                 </div>

@@ -12,7 +12,7 @@ interface MagneticButtonProps {
   children: React.ReactNode
   className?: string
   external?: boolean
-  /** Shared button visual — defaults to the outlined variant. */
+  /** Shared button visual — defaults to the secondary variant. */
   variant?: ButtonVariantProps['variant']
   size?: ButtonVariantProps['size']
   /** Swap the resting fill for a dark hairline + animated gradient border on
@@ -35,7 +35,7 @@ export function MagneticButton({
   children,
   className,
   external,
-  variant = 'outline',
+  variant = 'secondary',
   size = 'md',
   gradientBorder,
 }: MagneticButtonProps) {

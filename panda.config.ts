@@ -122,15 +122,15 @@ const eyebrow = defineRecipe({
 })
 
 /**
- * Button — unified action primitive (ZSB-71).
- * Collapses MagneticButton's filled/outlined looks + CookieBanner's solid/ghost
- * into `variant` (solid | outline | ghost) × `size` (sm | md | lg), sizing ported
- * from the legacy --btn-* tokens. The magnetic/ripple GSAP behaviour and the
- * text-link "secondary" are out of scope here (behaviour → ZSB-74; link → TextLink).
+ * Button — the one action primitive (ADR 0019).
+ * `variant` (primary | secondary | ghost | text) × `size` (sm | md | lg). The
+ * `text` variant is the retired `textLink` recipe (borderless inline link); the
+ * `magnetic` modifier (the retired MagneticButton's GSAP magnet) is wired onto
+ * the component in B4. `primary`/`secondary` are the former solid/outline.
  */
 const button = defineRecipe({
   className: 'btn',
-  description: 'Unified button — replaces MagneticButton variants + CookieBanner buttons',
+  description: 'The one action primitive — primary | secondary | ghost | text (ADR 0019)',
   base: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -150,13 +150,13 @@ const button = defineRecipe({
   },
   variants: {
     variant: {
-      solid: {
+      primary: {
         bg: 'action',
         color: 'white',
         borderColor: 'action',
         _hover: { filter: 'brightness(1.1)' },
       },
-      outline: {
+      secondary: {
         bg: 'transparent',
         color: 'action',
         borderColor: 'action',
@@ -168,10 +168,10 @@ const button = defineRecipe({
         borderColor: 'borderDark',
         _hover: { color: 'heading', borderColor: 'heading' },
       },
-      // Borderless text control that blends into the surrounding copy
-      // (inherits font/size/case/tracking from context) — e.g. the footer
-      // "Cookie Settings" sitting beside the Privacy Policy link.
-      link: {
+      // Borderless inline text link (the retired `textLink` recipe). Blends into
+      // the surrounding copy — inherits font/size/case/tracking from context —
+      // e.g. the footer "Cookie Settings" beside the Privacy Policy link.
+      text: {
         display: 'inline',
         fontFamily: 'inherit',
         fontSize: 'inherit',
@@ -208,17 +208,17 @@ const button = defineRecipe({
       },
     },
   },
-  // The `link` variant is sizeless — neutralize the default size's padding/gap.
+  // The `text` variant is sizeless — neutralize the default size's padding/gap.
   compoundVariants: [
     {
-      variant: 'link',
+      variant: 'text',
       css: { paddingBlock: '0', paddingInline: '0', gap: '0' },
     },
   ],
-  defaultVariants: { variant: 'solid', size: 'md' },
+  defaultVariants: { variant: 'primary', size: 'md' },
   // MagneticButton calls button({ variant, size }) with runtime props, which
   // Panda can't statically extract — emit every variant×size so those combos
-  // (outline / md / lg) always have CSS.
+  // (secondary / md / lg) always have CSS.
   staticCss: ['*'],
 })
 

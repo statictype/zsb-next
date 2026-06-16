@@ -10,7 +10,7 @@ export function CookieSettingsButton() {
   }
 
   return (
-    <Button variant="link" onClick={reopen}>
+    <Button variant="text" onClick={reopen}>
       Cookie Settings
     </Button>
   )
