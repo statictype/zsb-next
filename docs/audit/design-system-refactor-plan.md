@@ -31,8 +31,8 @@ in a later stage is needed by an earlier one, so the commits land in order.
 
 ## Status (updated 2026-06-18)
 
-- ✅ **Done:** A1–A7 · B1–B9 · C1–C2
-- ⬜ **To do:** C3–C9
+- ✅ **Done:** A1–A7 · B1–B9 · C1–C3
+- ⬜ **To do:** C4–C9
 - ⏸ **Deferred (own epics):** Calendar structural split · EditionsNav refactor · fontSizes ladder 11→7
 
 ---
@@ -331,14 +331,14 @@ into per-surface commits if the diff gets large.
   drift (applies to C1 chips, this eyebrow, and any future FeaturedEvents touch).
 - **Depends-on:** —  **Visual:** low  **Source:** F05
 
-### ⬜ C3 · Card-hover normalization
+### ✅ C3 · Card-hover normalization
 - **What:** Normalize the genuine card surfaces onto the `card` recipe; the
   `gradientBorderShift` accent-border motion stays available for featured/editorial
   interactive cards.
 - **Decision — IsdayBadge is not interactive.** It's a static seal (no Link/onClick)
-  → `card({ ground: 'onLight' })` **without** `interactive` (its surface already =
-  onLight). The pink gradient seal becomes a one-line `css()` overlay on the card
-  surface.
+  → `<Card ground="onLight">` **without** `interactive` (its surface already =
+  onLight). The pink gradient is dropped so the shared light card surface remains
+  the only ground treatment.
 - **Decision — Calendar agenda rows stay list-rows (option b).** The dense agenda
   `event` (recipe :440) is a hairline-separated list row (`borderTop` only; hover =
   link→action + img zoom), **not** a bordered box. Forcing it into
@@ -457,8 +457,8 @@ into per-surface commits if the diff gets large.
 
 ## Remaining order
 
-Foundation (A1–A7), Stage B (B1–B9), and C1–C2 are done. Remaining commit sequence
-on the one branch: **C3–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
+Foundation (A1–A7), Stage B (B1–B9), and C1–C3 are done. Remaining commit sequence
+on the one branch: **C4–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
 and C6 last in Calendar).
 
 ## ADR deliverables
