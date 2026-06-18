@@ -23,7 +23,6 @@ export const eventModal = sva({
     'venueParent',
     'description',
     'links',
-    'link',
   ],
   base: {
     backdrop: {
@@ -139,32 +138,5 @@ export const eventModal = sva({
     },
 
     links: { display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: 'lg' },
-    link: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '6px',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'white',
-      paddingBottom: '3px',
-      borderBottomWidth: '1px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: 'gray.700',
-      transition:
-        'color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}',
-      _hover: {
-        color: 'action',
-        borderColor: 'action',
-        '& svg': { transform: 'translate(2px, -2px)' },
-      },
-      '& svg': { transition: 'transform {durations.fast} {easings.quint}' },
-      '@media (prefers-reduced-motion: reduce)': {
-        transition: 'none',
-        '& svg': { transition: 'none' },
-      },
-    },
   },
 })

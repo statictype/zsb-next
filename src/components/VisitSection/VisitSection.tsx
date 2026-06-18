@@ -10,28 +10,11 @@ import {
   RiTimeLine,
   RiWheelchairLine,
 } from '@remixicon/react'
-import { css, cx } from 'styled-system/css'
-import { button } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
+import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { IconKey, VisitData } from '@/types/edition'
 import { visitSection } from './VisitSection.recipe'
-
-// "Get Directions" — an accent CTA on the `button` text variant. Keeps its
-// button-style typography + accent (action colour, on hover too) and the
-// leading map-pin layout (the text variant is otherwise sizeless/inline).
-const directionsLink = css({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '8px',
-  color: 'action',
-  fontFamily: 'body',
-  fontSize: 'sm',
-  fontWeight: 'medium',
-  textTransform: 'uppercase',
-  letterSpacing: '2px',
-  _hover: { color: 'action' },
-})
 
 // Fixed icon set mirrored from the amenity schema. Editors pick an
 // icon key; this is the renderer-side mapping.
@@ -154,15 +137,12 @@ export function VisitSection(props: VisitData = {}) {
             </div>
 
             <div className={s.cta}>
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cx(button({ variant: 'text' }), directionsLink)}
-              >
-                <RiMapPinLine size={16} />
-                Get Directions
-              </a>
+              <Button asChild variant="text">
+                <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
+                  <RiMapPinLine size={16} />
+                  Get Directions
+                </a>
+              </Button>
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { Button } from '@/components/ui/Button/Button'
 import { Disclosure } from '@/components/ui/Disclosure/Disclosure'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { TopVenue, VenueEvent, VenueNode, VenueTypeSection } from '@/lib/venues'
@@ -81,9 +82,11 @@ function VenuePlace({ venue }: { venue: VenueNode }) {
     <p className={styles.place}>
       {venue.address && <span>{venue.address}</span>}
       {venue.mapUrl && (
-        <a className={styles.mapLink} href={venue.mapUrl} target="_blank" rel="noreferrer">
-          <RiMapPinLine size={14} aria-hidden /> Map
-        </a>
+        <Button asChild variant="text">
+          <a href={venue.mapUrl} target="_blank" rel="noreferrer">
+            <RiMapPinLine size={14} aria-hidden /> Map
+          </a>
+        </Button>
       )}
     </p>
   )

@@ -18,7 +18,6 @@ export const featuredEvents = sva({
     'header',
     'headerMain',
     'eyebrow',
-    'calendarLink',
     'grid',
     'card',
     'frame',
@@ -48,27 +47,6 @@ export const featuredEvents = sva({
     headerMain: { minWidth: '0' },
     eyebrow: {
       marginBottom: 'sm',
-    },
-    calendarLink: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '8px',
-      flexShrink: '0',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'heading',
-      textDecoration: 'none',
-      paddingBottom: '4px',
-      borderBottomWidth: '1px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: 'gray.700',
-      transition:
-        'color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}, gap {durations.normal} {easings.expo}',
-      _hover: { color: 'action', borderColor: 'action', gap: '14px' },
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '3px' },
     },
 
     grid: {

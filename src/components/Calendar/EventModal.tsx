@@ -1,6 +1,6 @@
 'use client'
 
-import { RiArrowLeftLine, RiArrowRightUpLine } from '@remixicon/react'
+import { RiArrowLeftLine } from '@remixicon/react'
 import { useEffect, useRef } from 'react'
 import { css, cx } from 'styled-system/css'
 import { enter } from '@/components/enter'
@@ -160,14 +160,18 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
           {(event.ticketUrl || event.facebookUrl) && (
             <div className={s.links}>
               {event.ticketUrl && (
-                <a className={s.link} href={event.ticketUrl} target="_blank" rel="noreferrer">
-                  Tickets <RiArrowRightUpLine size={15} aria-hidden />
-                </a>
+                <Button asChild variant="text">
+                  <a href={event.ticketUrl} target="_blank" rel="noreferrer">
+                    Tickets
+                  </a>
+                </Button>
               )}
               {event.facebookUrl && (
-                <a className={s.link} href={event.facebookUrl} target="_blank" rel="noreferrer">
-                  Facebook event <RiArrowRightUpLine size={15} aria-hidden />
-                </a>
+                <Button asChild variant="text">
+                  <a href={event.facebookUrl} target="_blank" rel="noreferrer">
+                    Facebook event
+                  </a>
+                </Button>
               )}
             </div>
           )}

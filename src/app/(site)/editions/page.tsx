@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import { type CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
-import { button, section } from 'styled-system/recipes'
+import { section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { Button } from '@/components/ui/Button/Button'
 import { Card } from '@/components/ui/Card/Card'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
@@ -93,7 +94,9 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
                       <span className={styles.sublineDot} aria-hidden />
                       <span>{edition.dateTape}</span>
                     </span>
-                    <span className={cx(button({ variant: 'text' }), styles.cta)}>Explore</span>
+                    <Button asChild variant="text">
+                      <span className={styles.cta}>Explore</span>
+                    </Button>
                   </div>
                 </div>
               </Card>

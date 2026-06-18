@@ -31,8 +31,8 @@ in a later stage is needed by an earlier one, so the commits land in order.
 
 ## Status (updated 2026-06-18)
 
-- ✅ **Done:** A1–A7 · B1–B9 · C1–C4
-- ⬜ **To do:** C5–C9
+- ✅ **Done:** A1–A7 · B1–B9 · C1–C5
+- ⬜ **To do:** C6–C9
 - ⏸ **Deferred (own epics):** Calendar structural split · EditionsNav refactor · fontSizes ladder 11→7
 
 ---
@@ -365,7 +365,7 @@ into per-surface commits if the diff gets large.
 - **Depends-on:** B2  **Visual:** low  **Source:** F04 / §B3-overengineered
 - **Amends:** ADR 0019 / B2 (icon folded in; was a separate recipe).
 
-### ⬜ C5 · `button.text` link sweep
+### ✅ C5 · `button.text` link sweep
 - **What:** Hand-rolled arrow-links → the **literal `<Button asChild variant="text">`**
   (Calendar recap, ComingSoon, EventModal, VenuesView mapLink, FeaturedEvents
   calendarLink). **No arrows.**
@@ -457,8 +457,8 @@ into per-surface commits if the diff gets large.
 
 ## Remaining order
 
-Foundation (A1–A7), Stage B (B1–B9), and C1–C4 are done. Remaining commit sequence
-on the one branch: **C5–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
+Foundation (A1–A7), Stage B (B1–B9), and C1–C5 are done. Remaining commit sequence
+on the one branch: **C6–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
 and C6 last in Calendar).
 
 ## ADR deliverables

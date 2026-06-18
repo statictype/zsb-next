@@ -1,5 +1,5 @@
-import { RiArrowRightUpLine } from '@remixicon/react'
 import { section } from 'styled-system/recipes'
+import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { comingSoon } from './ComingSoon.recipe'
 
@@ -43,9 +43,11 @@ export function ComingSoon({ year, socials }: { year: number; socials: SocialLin
               <ul className={s.links}>
                 {socials.map((social) => (
                   <li key={social.label}>
-                    <a className={s.link} href={social.href} target="_blank" rel="noreferrer">
-                      {social.label} <RiArrowRightUpLine size={15} aria-hidden />
-                    </a>
+                    <Button asChild variant="text">
+                      <a href={social.href} target="_blank" rel="noreferrer">
+                        {social.label}
+                      </a>
+                    </Button>
                   </li>
                 ))}
               </ul>

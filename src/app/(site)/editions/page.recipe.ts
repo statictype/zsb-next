@@ -127,15 +127,6 @@ export const editionsPage = sva({
       display: 'inline-block',
       opacity: '0.6',
     },
-    // Resting-pink text link; the arrow nudges on card hover.
-    cta: {
-      flexShrink: '0',
-      color: 'action',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      fontWeight: 'semibold',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-    },
+    cta: { flexShrink: '0' },
   },
 })

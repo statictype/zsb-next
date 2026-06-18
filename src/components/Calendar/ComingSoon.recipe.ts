@@ -22,7 +22,6 @@ export const comingSoon = sva({
     'follow',
     'followLabel',
     'links',
-    'link',
   ],
   base: {
     inner: { layerStyle: 'sectionInner' },
@@ -77,33 +76,5 @@ export const comingSoon = sva({
       color: 'muted',
     },
     links: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '20px' },
-    link: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '6px',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'white',
-      paddingBottom: '3px',
-      borderBottomWidth: '1px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: 'gray.700',
-      transition:
-        'color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}',
-      _hover: {
-        color: 'action',
-        borderColor: 'action',
-        '& svg': { transform: 'translate(2px, -2px)' },
-      },
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '2px' },
-      '& svg': { transition: 'transform {durations.fast} {easings.quint}' },
-      '@media (prefers-reduced-motion: reduce)': {
-        transition: 'none',
-        '& svg': { transition: 'none' },
-      },
-    },
   },
 })

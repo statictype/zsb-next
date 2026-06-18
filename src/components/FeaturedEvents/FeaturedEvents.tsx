@@ -1,4 +1,3 @@
-import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { cx } from 'styled-system/css'
@@ -6,6 +5,7 @@ import { section } from 'styled-system/recipes'
 import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { Button } from '@/components/ui/Button/Button'
 import { Card } from '@/components/ui/Card/Card'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -44,9 +44,9 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
               Featured
             </SectionHeading>
           </div>
-          <Link className={styles.calendarLink} href={`/editions/${year}#program`}>
-            Full calendar <RiArrowRightLine size={15} aria-hidden />
-          </Link>
+          <Button asChild variant="text">
+            <Link href={`/editions/${year}#program`}>Full calendar</Link>
+          </Button>
         </header>
 
         <ul className={styles.grid}>

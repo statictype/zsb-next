@@ -1,12 +1,13 @@
 'use client'
 
-import { RiArrowDownSLine, RiArrowRightUpLine, RiHistoryLine } from '@remixicon/react'
+import { RiArrowDownSLine, RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import { Fragment, type ReactNode, useEffect, useMemo, useRef } from 'react'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import {
   type DayToken,
@@ -243,14 +244,11 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                     <ul className={s.recapLinks}>
                       {socials.map((social) => (
                         <li key={social.label}>
-                          <a
-                            className={s.recapLink}
-                            href={social.href}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {social.label} <RiArrowRightUpLine size={14} aria-hidden />
-                          </a>
+                          <Button asChild variant="text">
+                            <a href={social.href} target="_blank" rel="noreferrer">
+                              {social.label}
+                            </a>
+                          </Button>
                         </li>
                       ))}
                     </ul>
