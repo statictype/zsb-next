@@ -31,8 +31,7 @@ in a later stage is needed by an earlier one, so the commits land in order.
 
 ## Status (updated 2026-06-18)
 
-- ✅ **Done:** A1–A7 · B1–B9 · C1–C8
-- ⬜ **To do:** C9
+- ✅ **Done:** A1–A7 · B1–B9 · C1–C9
 - ⏸ **Deferred (own epics):** Calendar structural split · EditionsNav refactor · fontSizes ladder 11→7
 
 ---
@@ -428,7 +427,7 @@ into per-surface commits if the diff gets large.
   SectionHeading (stale here).
 - **Depends-on:** A6  **Visual:** low  **Source:** F11 / F18 / F25-prose / R9
 
-### ⬜ C9 · `metaLabel` textStyle (promote `posterTag`)
+### ✅ C9 · `metaLabel` textStyle (promote `posterTag`)
 - **What:** Add a `metaLabel` textStyle — the inline uppercase micro-label role:
   `{ fontFamily: body, fontSize: '2xs', textTransform: uppercase, letterSpacing:
   'label', fontWeight: semibold, color: muted }`. Rebuild Calendar's `posterTag`
@@ -457,8 +456,7 @@ into per-surface commits if the diff gets large.
 
 ## Remaining order
 
-Foundation (A1–A7), Stage B (B1–B9), and C1–C8 are done. Remaining commit sequence
-on the one branch: **C9**.
+Foundation (A1–A7), Stage B (B1–B9), and Stage C (C1–C9) are complete.
 
 ## ADR deliverables
 - **ADR 0019** — action-primitive consolidation. **Landed early** with the audit

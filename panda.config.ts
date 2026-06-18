@@ -573,6 +573,16 @@ export default defineConfig({
             textTransform: 'uppercase',
           },
         },
+        metaLabel: {
+          value: {
+            fontFamily: 'body',
+            fontSize: '2xs',
+            textTransform: 'uppercase',
+            letterSpacing: 'label',
+            fontWeight: 'semibold',
+            color: 'muted',
+          },
+        },
         lead: {
           value: {
             fontFamily: 'body',

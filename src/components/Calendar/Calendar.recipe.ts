@@ -507,15 +507,10 @@ export const calendar = sva({
         },
     },
     posterTag: {
+      textStyle: 'metaLabel',
       display: 'none',
       alignItems: 'center',
       gap: '6px',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'muted',
       transition: 'color {durations.fast} {easings.quint}',
       _before: { content: '""', width: '7px', height: '9px', background: 'currentColor' },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
