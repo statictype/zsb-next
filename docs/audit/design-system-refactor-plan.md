@@ -31,8 +31,8 @@ in a later stage is needed by an earlier one, so the commits land in order.
 
 ## Status (updated 2026-06-18)
 
-- ✅ **Done:** A1–A7 · B1–B9 · C1–C6
-- ⬜ **To do:** C7–C9
+- ✅ **Done:** A1–A7 · B1–B9 · C1–C7
+- ⬜ **To do:** C8–C9
 - ⏸ **Deferred (own epics):** Calendar structural split · EditionsNav refactor · fontSizes ladder 11→7
 
 ---
@@ -393,7 +393,7 @@ into per-surface commits if the diff gets large.
 - **Depends-on:** B1, C1, C3, C5  **Visual:** review (removes a live-edition
   feature)  **Source:** motion ruling / F23
 
-### ⬜ C7 · error page → `button`
+### ✅ C7 · error page → `button`
 - **What:** Fold error `btn`/`btnPrimary` into `button` — **dependency-safe, so
   fold** (no keep+document branch). `(site)/error.tsx` is a route-group client
   `error.tsx` (not `global-error`), already imports `styled-system`, runs in the
@@ -457,8 +457,8 @@ into per-surface commits if the diff gets large.
 
 ## Remaining order
 
-Foundation (A1–A7), Stage B (B1–B9), and C1–C6 are done. Remaining commit sequence
-on the one branch: **C7–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
+Foundation (A1–A7), Stage B (B1–B9), and C1–C7 are done. Remaining commit sequence
+on the one branch: **C8–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
 and C6 last in Calendar).
 
 ## ADR deliverables
