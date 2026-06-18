@@ -22,6 +22,7 @@
     "prepare": "git config core.hooksPath .githooks && panda codegen"
   },
   "dependencies": {
+    "@ark-ui/react": "^5.37.2",
     "@next/third-parties": "^16.2.4",
     "@portabletext/react": "^6.2.0",
     "@remixicon/react": "^4.9.0",

@@ -2,10 +2,11 @@ import { RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
+import { Accordion } from '@/components/ui/Accordion/Accordion'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
-import { Disclosure } from '@/components/ui/Disclosure/Disclosure'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
+import { slugify } from '@/lib/slugify'
 import type { TopVenue, VenueEvent, VenueNode, VenueTypeSection } from '@/lib/venues'
 import { venuesView } from './VenuesView.recipe'
 
@@ -32,13 +33,17 @@ export function VenuesView({ year, sections }: { year: number; sections: VenueTy
         {sections.map((section) => (
           <div key={section.type} className={styles.group}>
             <h3 className={styles.groupTitle}>{section.type}</h3>
-            <ul className={styles.venues}>
-              {section.venues.map((venue) => (
-                <li key={venue.name}>
-                  <VenueCard venue={venue} year={year} />
-                </li>
-              ))}
-            </ul>
+            <Accordion
+              id={`venues-${slugify(section.type)}`}
+              className={styles.venues}
+              triggerTypography="display"
+              items={section.venues.map((venue) => ({
+                id: slugify(venue.name),
+                trigger: <h4>{venue.name}</h4>,
+                meta: `${venue.totalEvents} ${venue.totalEvents === 1 ? 'event' : 'events'}`,
+                content: <VenueDetails venue={venue} year={year} />,
+              }))}
+            />
           </div>
         ))}
       </div>
@@ -46,17 +51,9 @@ export function VenuesView({ year, sections }: { year: number; sections: VenueTy
   )
 }
 
-function VenueCard({ venue, year }: { venue: TopVenue; year: number }) {
+function VenueDetails({ venue, year }: { venue: TopVenue; year: number }) {
   return (
-    <Disclosure
-      className={styles.venue}
-      summary={<span className={styles.venueName}>{venue.name}</span>}
-      meta={
-        <span className={styles.count}>
-          {venue.totalEvents} {venue.totalEvents === 1 ? 'event' : 'events'}
-        </span>
-      }
-    >
+    <>
       <VenuePlace venue={venue} />
       {venue.events.length > 0 && <EventList events={venue.events} year={year} />}
 
@@ -70,7 +67,7 @@ function VenueCard({ venue, year }: { venue: TopVenue; year: number }) {
           <EventList events={child.events} year={year} />
         </div>
       ))}
-    </Disclosure>
+    </>
   )
 }
 

@@ -5,9 +5,7 @@ import { sva } from 'styled-system/css'
  *
  * The programme browsed by place (ZSB-27), under the Visit page's main-venue
  * block. No ground of its own — it inherits the page's dark canvas and only
- * draws a top hairline; each venue is a shared `<Disclosure>` (the summary
- * chrome + chevron live there) whose name warms to the accent on hover. The
- * chip border collapses to the shared `highlightFaint` (chartreuse 32%).
+ * draws a top hairline; the shared Accordion owns disclosure chrome and state.
  */
 export const venuesView = sva({
   slots: [
@@ -18,9 +16,6 @@ export const venuesView = sva({
     'group',
     'groupTitle',
     'venues',
-    'venue',
-    'venueName',
-    'count',
     'place',
     'events',
     'event',
@@ -65,33 +60,7 @@ export const venuesView = sva({
       borderBottomStyle: 'solid',
       borderBottomColor: 'borderDark',
     },
-    venues: { listStyle: 'none' },
-
-    venue: {
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderDark',
-      '&:first-of-type': { borderTopWidth: '0' },
-    },
-    // The venue name is the `<Disclosure summary>`; it warms to the accent on
-    // hover via the disclosure's own `<summary>`.
-    venueName: {
-      fontFamily: 'display',
-      fontSize: { base: 'lg', md: 'xl' },
-      lineHeight: 'tight',
-      color: 'white',
-      transition: 'color {durations.fast} {easings.quint}',
-      'summary:hover &': { color: 'action' },
-      _motionReduce: { transition: 'none' },
-    },
-    count: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'muted',
-    },
+    venues: { width: '100%' },
     place: {
       display: 'flex',
       alignItems: 'center',
