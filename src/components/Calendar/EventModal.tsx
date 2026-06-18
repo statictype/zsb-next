@@ -141,9 +141,11 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
           {event.types.length > 0 && (
             <ul className={s.types}>
               {event.types.map((t) => (
-                <Badge key={t.slug} as="li" tone="outline" size="sm">
-                  {t.title}
-                </Badge>
+                <li key={t.slug}>
+                  <Badge tone="outline" size="sm">
+                    {t.title}
+                  </Badge>
+                </li>
               ))}
             </ul>
           )}

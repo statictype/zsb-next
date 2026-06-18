@@ -10,7 +10,7 @@ import { sva } from 'styled-system/css'
  * the `className` prop.
  */
 export const stripControls = sva({
-  slots: ['controls', 'eyebrow', 'arrows'],
+  slots: ['controls', 'arrows'],
   base: {
     controls: {
       display: 'flex',
@@ -20,13 +20,6 @@ export const stripControls = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       marginBottom: 'lg',
-    },
-    eyebrow: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      color: 'muted',
     },
     arrows: { display: 'flex', gap: 'sm' },
   },

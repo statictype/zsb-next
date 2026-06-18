@@ -7,6 +7,7 @@ import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
+import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { dayToken, eventWhenLabelShort } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
@@ -36,7 +37,9 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
       <div className={styles.inner}>
         <header className={styles.header}>
           <div className={styles.headerMain}>
-            <p className={styles.eyebrow}>Don&rsquo;t miss</p>
+            <Eyebrow tone="highlight" size="sm" className={styles.eyebrow}>
+              Don&rsquo;t miss
+            </Eyebrow>
             <SectionHeading id="featured-heading" flush>
               Featured
             </SectionHeading>
@@ -112,9 +115,9 @@ function FeaturedCard({
           {event.types.length > 0 && (
             <ul className={styles.chips}>
               {event.types.slice(0, 2).map((t) => (
-                <Badge key={t.slug} as="li" size="sm">
-                  {t.title}
-                </Badge>
+                <li key={t.slug}>
+                  <Badge size="sm">{t.title}</Badge>
+                </li>
               ))}
             </ul>
           )}

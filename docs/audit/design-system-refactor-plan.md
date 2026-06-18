@@ -29,11 +29,10 @@ in a later stage is needed by an earlier one, so the commits land in order.
 - **Out of scope this round** (own epics, see appendix): the fontSizes ladder
   reduction, the Calendar structural split, the EditionsNav refactor.
 
-## Status (updated 2026-06-16)
+## Status (updated 2026-06-18)
 
-- ✅ **Done:** A1–A7 · B1–B9
-- 🔄 **In progress:** C1
-- ⬜ **To do:** C1–C9
+- ✅ **Done:** A1–A7 · B1–B9 · C1–C2
+- ⬜ **To do:** C3–C9
 - ⏸ **Deferred (own epics):** Calendar structural split · EditionsNav refactor · fontSizes ladder 11→7
 
 ---
@@ -295,7 +294,7 @@ These reuse primitives that already exist; the oversized recipes collapse as a
 side-effect (no separate reslot tasks). The whole stage is one PR; split a sweep
 into per-surface commits if the diff gets large.
 
-### ⬜ C1 · Badge sweep
+### ✅ C1 · Badge sweep
 - **What:** Hand-rolled chips → `<Badge>` (Calendar, EventModal, VenuesView,
   FeaturedEvents); Hero tapes → `<Badge elevated>`.
 - **Decision — ArtistsBanner CTA is a button, not a Badge.** `ctaText` is a
@@ -318,10 +317,9 @@ into per-surface commits if the diff gets large.
   here.
 - **Depends-on:** —  **Visual:** low  **Source:** F01 / F05(tapes) / R6 / R10
 
-### ⬜ C2 · Eyebrow sweep
-- **What:** Hand-rolled kickers → `eyebrow`: StripControls → `eyebrow({ tone:
-  'muted', size: 'md' })`; FeaturedEvents → `eyebrow({ tone: 'highlight', size:
-  'sm' })`.
+### ✅ C2 · Eyebrow sweep
+- **What:** Hand-rolled kickers → `<Eyebrow>`: StripControls → `<Eyebrow tone=
+  "muted" size="md">`; FeaturedEvents → `<Eyebrow tone="highlight" size="sm">`.
 - **Decision — drop Hero.** Hero has no eyebrow; its only labels are the tapes (C1
   badges) and `tapeTheme` (B9). The audit's "Hero" target is stale.
 - **Decision — no weight in eyebrows.** No `fontWeight` variant, **no semibold** —
@@ -459,8 +457,8 @@ into per-surface commits if the diff gets large.
 
 ## Remaining order
 
-Foundation (A1–A7) and all of Stage B (B1–B9) are done. Remaining commit sequence
-on the one branch: **C1–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
+Foundation (A1–A7), Stage B (B1–B9), and C1–C2 are done. Remaining commit sequence
+on the one branch: **C3–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
 and C6 last in Calendar).
 
 ## ADR deliverables

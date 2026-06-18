@@ -101,9 +101,11 @@ function EventList({ events, year }: { events: VenueEvent[]; year: number }) {
           {event.types.length > 0 && (
             <ul className={styles.chips}>
               {event.types.map((t) => (
-                <Badge key={t.slug} as="li" tone="outline" size="sm">
-                  {t.title}
-                </Badge>
+                <li key={t.slug}>
+                  <Badge tone="outline" size="sm">
+                    {t.title}
+                  </Badge>
+                </li>
               ))}
             </ul>
           )}

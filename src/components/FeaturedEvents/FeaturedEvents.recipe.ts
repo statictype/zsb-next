@@ -47,12 +47,6 @@ export const featuredEvents = sva({
     },
     headerMain: { minWidth: '0' },
     eyebrow: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      fontWeight: 'semibold',
-      color: 'highlight',
       marginBottom: 'sm',
     },
     calendarLink: {

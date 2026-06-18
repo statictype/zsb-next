@@ -428,9 +428,11 @@ function TypeChips({ event }: { event: CalendarEvent }) {
   return (
     <ul className={s.chips}>
       {event.types.map((t) => (
-        <Badge key={`${event.key}-${t.slug}`} as="li" tone="outline" size="sm">
-          {t.title}
-        </Badge>
+        <li key={`${event.key}-${t.slug}`}>
+          <Badge tone="outline" size="sm">
+            {t.title}
+          </Badge>
+        </li>
       ))}
     </ul>
   )
