@@ -74,8 +74,22 @@ export async function firstEditionHref(page: Page): Promise<string | null> {
  */
 export async function openFullProgramme(page: Page): Promise<void> {
   const toggle = page.getByText(/view full programme/i).first()
+  const eventLink = page.locator('a[href*="/events/"]:visible').first()
+
+  // Cache Components can stream the Calendar after the document's load event.
+  // Wait for either an already-expanded programme or its archive toggle instead
+  // of treating an immediate `isVisible() === false` as proof that no toggle exists.
+  await expect
+    .poll(async () => {
+      if (await eventLink.isVisible().catch(() => false)) return 'expanded'
+      if (await toggle.isVisible().catch(() => false)) return 'archive'
+      return 'loading'
+    })
+    .not.toBe('loading')
+
   if (await toggle.isVisible().catch(() => false)) {
     await toggle.click()
+    await expect(eventLink).toBeVisible()
   }
 }
 
