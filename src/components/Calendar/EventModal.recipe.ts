@@ -3,15 +3,11 @@ import { sva } from 'styled-system/css'
 /**
  * EventModal — co-located slot recipe.
  *
- * Full detail for one event, as a dialog over the schedule board. Back/Share
- * are bespoke board chips (translucent, blurred), kept off the `<Button>`
- * primitive; Share carries the chartreuse copied state (`data-copied`). Raw
- * grays are the documented dark-board exceptions.
+ * Product content inside the shared panel Dialog. Dialog owns the modal shell;
+ * this recipe keeps event layout, typography, poster, and floating controls.
  */
 export const eventModal = sva({
   slots: [
-    'backdrop',
-    'dialog',
     'controls',
     'poster',
     'body',
@@ -25,33 +21,6 @@ export const eventModal = sva({
     'links',
   ],
   base: {
-    backdrop: {
-      position: 'fixed',
-      inset: 0,
-      zIndex: 1100,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 'lg',
-      background: 'scrim',
-      overflowY: 'auto',
-    },
-    dialog: {
-      position: 'relative',
-      width: '100%',
-      maxWidth: '540px',
-      maxHeight: 'calc(100dvh - 2 * token(spacing.lg))',
-      display: 'flex',
-      flexDirection: 'column',
-      background: 'black',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'borderDark',
-      boxShadow: 'modal',
-      overflow: 'hidden',
-      md: { flexDirection: 'row', maxWidth: '760px' },
-    },
-
     // Floating bar over the dialog top: Back (left) + Share (right). The bar is
     // click-through; only the buttons themselves take pointer events.
     controls: {

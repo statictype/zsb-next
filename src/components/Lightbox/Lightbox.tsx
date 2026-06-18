@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { cx } from 'styled-system/css'
 import { skeleton } from '@/components/skeleton'
 import { Button } from '@/components/ui/Button/Button'
-import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
+import { Dialog } from '@/components/ui/Dialog/Dialog'
 import { lightbox as lightboxRecipe } from './Lightbox.recipe'
 
 export interface LightboxImage {
@@ -73,20 +73,17 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
   const [isDragging, setIsDragging] = useState(false)
   const dragRef = useRef<DragState | null>(null)
 
-  useBodyScrollLock(isOpen)
-
   useEffect(() => {
     if (!isOpen) return
 
     const handleKeydown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
       if (e.key === 'ArrowLeft') onPrev()
       if (e.key === 'ArrowRight') onNext()
     }
 
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  }, [isOpen, onClose, onNext, onPrev])
+  }, [isOpen, onNext, onPrev])
 
   if (!images.length) return null
 
@@ -174,81 +171,93 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
   const s = lightboxRecipe()
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: backdrop dismiss pattern
-    <div
-      className={s.lightbox}
-      data-active={isOpen}
-      onClick={onClose}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={endDrag}
-      onPointerCancel={endDrag}
-      style={{ backgroundColor: `rgba(0, 0, 0, ${backdropAlpha})` }}
+    <Dialog
+      id="gallery-lightbox"
+      open={isOpen}
+      onClose={onClose}
+      ariaLabel="Image lightbox"
+      presentation="fullscreen"
     >
-      <Button variant="icon" className={cx(s.close)} onClick={onClose} aria-label="Close lightbox">
-        <RiCloseLine size={28} />
-      </Button>
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: lightbox click and drag are product gestures */}
+      <div
+        className={s.lightbox}
+        onClick={onClose}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        style={{ backgroundColor: `rgba(0, 0, 0, ${backdropAlpha})` }}
+      >
+        <Button
+          variant="icon"
+          className={cx(s.close)}
+          onClick={onClose}
+          aria-label="Close lightbox"
+        >
+          <RiCloseLine size={28} />
+        </Button>
 
-      {/* biome-ignore lint/a11y/noStaticElementInteractions: frame letterbox click closes */}
-      <div className={s.frame} style={frameStyle} onClick={onClose}>
-        {!loaded && <span aria-hidden className={skeleton} />}
-        <Image
-          key={current.src}
-          src={current.src}
-          alt={current.caption}
-          fill
-          sizes={SIZES}
-          className={s.image}
-          style={{ opacity: loaded ? 1 : 0 }}
-          onLoad={() => setLoadedSrc(current.src)}
-          onClick={stop}
-          draggable={false}
-        />
+        {/* biome-ignore lint/a11y/noStaticElementInteractions: frame letterbox click closes */}
+        <div className={s.frame} style={frameStyle} onClick={onClose}>
+          {!loaded && <span aria-hidden className={skeleton} />}
+          <Image
+            key={current.src}
+            src={current.src}
+            alt={current.caption}
+            fill
+            sizes={SIZES}
+            className={s.image}
+            style={{ opacity: loaded ? 1 : 0 }}
+            onLoad={() => setLoadedSrc(current.src)}
+            onClick={stop}
+            draggable={false}
+          />
+        </div>
+
+        {current.caption && (
+          // biome-ignore lint/a11y/noStaticElementInteractions: caption click is a no-op
+          <div className={s.caption} onClick={stop}>
+            {current.caption}
+          </div>
+        )}
+
+        {images.length > 1 && (
+          <>
+            <Button
+              variant="icon"
+              className={cx(s.navPrev)}
+              onClick={(e) => {
+                e.stopPropagation()
+                onPrev()
+              }}
+              aria-label="Previous image"
+            >
+              <RiArrowLeftLine size={20} />
+            </Button>
+            <Button
+              variant="icon"
+              className={cx(s.navNext)}
+              onClick={(e) => {
+                e.stopPropagation()
+                onNext()
+              }}
+              aria-label="Next image"
+            >
+              <RiArrowRightLine size={20} />
+            </Button>
+          </>
+        )}
+
+        {isOpen && preloadSrcs.length > 0 && (
+          <div className={s.preload} aria-hidden>
+            {preloadSrcs.map((src) => (
+              <div key={src} className={s.preloadFrame}>
+                <Image src={src} alt="" fill sizes={SIZES} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-
-      {current.caption && (
-        // biome-ignore lint/a11y/noStaticElementInteractions: caption click is a no-op
-        <div className={s.caption} onClick={stop}>
-          {current.caption}
-        </div>
-      )}
-
-      {images.length > 1 && (
-        <>
-          <Button
-            variant="icon"
-            className={cx(s.navPrev)}
-            onClick={(e) => {
-              e.stopPropagation()
-              onPrev()
-            }}
-            aria-label="Previous image"
-          >
-            <RiArrowLeftLine size={20} />
-          </Button>
-          <Button
-            variant="icon"
-            className={cx(s.navNext)}
-            onClick={(e) => {
-              e.stopPropagation()
-              onNext()
-            }}
-            aria-label="Next image"
-          >
-            <RiArrowRightLine size={20} />
-          </Button>
-        </>
-      )}
-
-      {isOpen && preloadSrcs.length > 0 && (
-        <div className={s.preload} aria-hidden>
-          {preloadSrcs.map((src) => (
-            <div key={src} className={s.preloadFrame}>
-              <Image src={src} alt="" fill sizes={SIZES} />
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+    </Dialog>
   )
 }

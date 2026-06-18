@@ -8,7 +8,8 @@ import { sva } from 'styled-system/css'
  * and per-control motion (close rotates, arrows nudge) layer on via the slot
  * classes. The backdrop alpha + drag transform stay inline (request-driven).
  *
- * Open state → `data-active` on the backdrop.
+ * Dialog owns modal state and the full-screen shell; this recipe owns only the
+ * image-viewer layout, controls, and gesture feedback.
  */
 export const lightbox = sva({
   slots: [
@@ -24,21 +25,16 @@ export const lightbox = sva({
   ],
   base: {
     lightbox: {
-      position: 'fixed',
-      inset: 0,
+      position: 'relative',
+      width: '100%',
+      height: '100%',
       background: 'scrim',
-      zIndex: 9999,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      opacity: 0,
-      visibility: 'hidden',
-      transition:
-        'opacity {durations.medium} {easings.quint}, visibility {durations.medium} {easings.quint}',
       cursor: 'zoom-out',
       touchAction: 'none',
       overscrollBehavior: 'contain',
-      '&[data-active=true]': { opacity: 1, visibility: 'visible' },
     },
     frame: {
       position: 'relative',

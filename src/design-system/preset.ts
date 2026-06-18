@@ -500,6 +500,71 @@ const checkbox = defineSlotRecipe({
   },
 })
 
+const dialog = defineSlotRecipe({
+  className: 'dialog',
+  jsx: ['Dialog'],
+  description: 'Modal shell with panel and fullscreen spatial presentations',
+  slots: ['trigger', 'backdrop', 'positioner', 'content', 'title', 'description', 'closeTrigger'],
+  base: {
+    backdrop: {
+      position: 'fixed',
+      inset: 0,
+      background: 'scrim',
+    },
+    positioner: {
+      position: 'fixed',
+      inset: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    content: {
+      position: 'relative',
+      width: '100%',
+      minWidth: 0,
+      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '-2px' },
+    },
+    title: {
+      position: 'absolute',
+      width: '1px',
+      height: '1px',
+      padding: 0,
+      margin: '-1px',
+      overflow: 'hidden',
+      clip: 'rect(0 0 0 0)',
+      whiteSpace: 'nowrap',
+      borderWidth: 0,
+    },
+  },
+  variants: {
+    presentation: {
+      panel: {
+        backdrop: { zIndex: 1100 },
+        positioner: { zIndex: 1101, padding: 'lg', overflowY: 'auto' },
+        content: {
+          maxWidth: '540px',
+          maxHeight: 'calc(100dvh - 2 * token(spacing.lg))',
+          display: 'flex',
+          flexDirection: 'column',
+          background: 'black',
+          borderWidth: '1px',
+          borderStyle: 'solid',
+          borderColor: 'borderDark',
+          boxShadow: 'modal',
+          overflow: 'hidden',
+          md: { flexDirection: 'row', maxWidth: '760px' },
+        },
+      },
+      fullscreen: {
+        backdrop: { zIndex: 9998, background: 'transparent' },
+        positioner: { zIndex: 9999 },
+        content: { width: '100vw', height: '100dvh', overflow: 'hidden' },
+      },
+    },
+  },
+  defaultVariants: { presentation: 'panel' },
+})
+
 const editorialSplit = definePattern({
   description: 'Editorial two-column relationship shared by Manifesto and ThemeArtists',
   transform(props) {
@@ -837,7 +902,7 @@ export const designSystemPreset = definePreset({
         // NB layerStyles are surface props only — positioned/animated helpers
         // (e.g. the image skeleton) live in their own `css()` helper, not here.
       },
-      recipes: { badge, eyebrow, button, card, section, accordion, collapsible, checkbox },
+      recipes: { badge, eyebrow, button, card, section, accordion, collapsible, checkbox, dialog },
     },
   },
 })
