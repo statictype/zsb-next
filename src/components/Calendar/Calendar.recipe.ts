@@ -4,11 +4,11 @@ import { sva } from 'styled-system/css'
  * Calendar — co-located slot recipe.
  *
  * The date-by-date programme as a dark schedule board: header + counts, an
- * "Ongoing" exhibition card grid, the day-by-day agenda timeline, the NOW
- * marker, finished-edition recap + archive disclosure. Raw grays are the
+ * "Ongoing" exhibition card grid, the day-by-day agenda timeline, finished-edition
+ * recap + archive disclosure. Raw grays are the
  * documented dark-board exceptions; the card/gallery image filters are inlined
  * (were legacy `--card-*`/`--gallery-*` vars). State lives on data attributes:
- * `data-past`/`data-now` (runs/days), `data-on` (past toggle), `data-poster`
+ * `data-past` (runs/days), `data-on` (past toggle), `data-poster`
  * (event rows). The agenda's marker column is the `--marker-col` custom prop,
  * set responsively on the section.
  */
@@ -33,7 +33,6 @@ export const calendar = sva({
     'runContent',
     'runName',
     'runFoot',
-    'runNow',
     'runRange',
     'empty',
     'emptyText',
@@ -60,11 +59,6 @@ export const calendar = sva({
     'venueName',
     'venueParent',
     'chips',
-    'now',
-    'nowDot',
-    'nowLabel',
-    'nowDate',
-    'nowRule',
     'recap',
     'recapLine',
     'recapMark',
@@ -221,9 +215,6 @@ export const calendar = sva({
         '& a': { color: 'white' },
       },
       '& a:focus-visible': { color: 'white' },
-      // On-now exhibition — pink border lifts it out of the grid.
-      '&[data-now=true]': { borderColor: 'action' },
-      '&[data-now=true]:hover': { borderColor: 'action' },
       // Past de-emphasis (live edition only).
       '&[data-past=true]': {
         opacity: 0.42,
@@ -269,26 +260,6 @@ export const calendar = sva({
       gap: '12px',
       marginTop: 'auto',
       paddingTop: 'sm',
-    },
-    runNow: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'action',
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '7px',
-      _before: {
-        content: '""',
-        width: '7px',
-        height: '7px',
-        borderRadius: 'circle',
-        background: 'action',
-        animation: 'pulse 2s {easings.quint} infinite',
-      },
-      '@media (prefers-reduced-motion: reduce)': { _before: { animation: 'none' } },
     },
     runRange: {
       fontFamily: 'body',
@@ -576,45 +547,6 @@ export const calendar = sva({
       _before: { content: '"↳ "' },
     },
     chips: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '6px' },
-
-    // ---- NOW marker ----
-    now: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '12px',
-      paddingBlock: 'md',
-      listStyle: 'none',
-      md: { marginLeft: 'var(--marker-col)', paddingLeft: 'lg' },
-    },
-    nowDot: {
-      width: '9px',
-      height: '9px',
-      borderRadius: 'circle',
-      background: 'action',
-      boxShadow: '0 0 0 0 color-mix(in srgb, var(--colors-action) 70%, transparent)',
-      animation: 'pulse 2s {easings.quint} infinite',
-      flexShrink: 0,
-      '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
-    },
-    nowLabel: {
-      fontFamily: 'display',
-      fontSize: 'sm',
-      textTransform: 'uppercase',
-      letterSpacing: 'subtle',
-      color: 'action',
-    },
-    nowDate: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      color: 'muted',
-    },
-    nowRule: {
-      flex: 1,
-      height: '1px',
-      background: 'linear-gradient(to right, token(colors.action), transparent)',
-    },
 
     // ---- Finished-edition recap ----
     recap: {

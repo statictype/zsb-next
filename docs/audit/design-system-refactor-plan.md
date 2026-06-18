@@ -31,8 +31,8 @@ in a later stage is needed by an earlier one, so the commits land in order.
 
 ## Status (updated 2026-06-18)
 
-- ✅ **Done:** A1–A7 · B1–B9 · C1–C5
-- ⬜ **To do:** C6–C9
+- ✅ **Done:** A1–A7 · B1–B9 · C1–C6
+- ⬜ **To do:** C7–C9
 - ⏸ **Deferred (own epics):** Calendar structural split · EditionsNav refactor · fontSizes ladder 11→7
 
 ---
@@ -376,7 +376,7 @@ into per-surface commits if the diff gets large.
   shrinks) and VisitSection `directionsLink`. See Deviations (B2 asChild).
 - **Depends-on:** B2, B3  **Visual:** review  **Source:** F02 / R3
 
-### ⬜ C6 · Calendar adoption tidy + remove the now-marker
+### ✅ C6 · Calendar adoption tidy + remove the now-marker
 - **What:** **Remove the now-marker UI entirely** — not just the pulse. The "now"
   state is a dormant live-edition feature, but the owner has decided against any
   real-time "now" markers in the UI.
@@ -457,8 +457,8 @@ into per-surface commits if the diff gets large.
 
 ## Remaining order
 
-Foundation (A1–A7), Stage B (B1–B9), and C1–C5 are done. Remaining commit sequence
-on the one branch: **C6–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
+Foundation (A1–A7), Stage B (B1–B9), and C1–C6 are done. Remaining commit sequence
+on the one branch: **C7–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
 and C6 last in Calendar).
 
 ## ADR deliverables
