@@ -1,39 +1,41 @@
+'use client'
+
+import { Checkbox as ArkCheckbox } from '@ark-ui/react/checkbox'
 import { RiCheckLine } from '@remixicon/react'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
-import { checkbox } from './Checkbox.recipe'
+import { checkbox } from 'styled-system/recipes'
 
 interface CheckboxProps {
-  /** The chip label. */
+  id: string
   label: ReactNode
   checked: boolean
-  /** Called with the next checked state on toggle (click / Space / label). */
-  onChange: (checked: boolean) => void
-  /** Optional trailing count. */
+  onCheckedChange: (checked: boolean) => void
   count?: number | undefined
   className?: string | undefined
 }
 
 /**
- * Selectable facet chip — a real checkbox with the chip styling baked in. The
- * caller passes only `label` / `count` / `checked` / `onChange`; see
- * `Checkbox.recipe.ts` for the chrome and selected/hover/focus states.
+ * Controlled site checkbox. Ark's value object and anatomy stay private; the
+ * public callback receives only the next boolean state.
  */
-export function Checkbox({ label, checked, onChange, count, className }: CheckboxProps) {
+export function Checkbox({ id, label, checked, onCheckedChange, count, className }: CheckboxProps) {
   const styles = checkbox()
   return (
-    <label className={cx(styles.root, className)}>
-      <input
-        type="checkbox"
-        className={styles.input}
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-      />
-      <span className={styles.box} aria-hidden>
-        {checked && <RiCheckLine size={12} />}
-      </span>
-      {label}
-      {count != null && <span className={styles.count}>{count}</span>}
-    </label>
+    <ArkCheckbox.Root
+      id={id}
+      checked={checked}
+      onCheckedChange={(details) => onCheckedChange(details.checked === true)}
+      className={cx(styles.root, className)}
+    >
+      <ArkCheckbox.HiddenInput />
+      <ArkCheckbox.Control className={styles.control}>
+        <ArkCheckbox.Indicator className={styles.indicator}>
+          <RiCheckLine size={12} />
+        </ArkCheckbox.Indicator>
+      </ArkCheckbox.Control>
+      <ArkCheckbox.Label className={styles.label}>{label}</ArkCheckbox.Label>
+      {count != null && <span data-checkbox-count>{count}</span>}
+    </ArkCheckbox.Root>
   )
 }

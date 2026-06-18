@@ -44,10 +44,11 @@ function FacetChips({
         {options.map((option) => (
           <li key={option.slug}>
             <Checkbox
+              id={`${labelId}-${option.slug}`}
               label={option.label}
               count={option.count}
               checked={isSelected(selection, option.slug)}
-              onChange={() => onToggle(option.slug)}
+              onCheckedChange={() => onToggle(option.slug)}
             />
           </li>
         ))}

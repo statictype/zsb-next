@@ -432,6 +432,74 @@ const collapsible = defineSlotRecipe({
   },
 })
 
+const checkbox = defineSlotRecipe({
+  className: 'checkbox',
+  jsx: ['Checkbox'],
+  description: 'Controlled facet checkbox with Ark-owned interaction and site chip styling',
+  slots: ['root', 'control', 'indicator', 'label'],
+  base: {
+    root: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '9px',
+      minHeight: '36px',
+      padding: '8px 14px',
+      fontFamily: 'body',
+      fontSize: 'xs',
+      textTransform: 'uppercase',
+      letterSpacing: 'label',
+      fontWeight: 'semibold',
+      color: 'gray.300',
+      background: 'transparent',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: 'gray.700',
+      cursor: 'pointer',
+      transition:
+        'color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}, background {durations.fast} {easings.quint}',
+      '&[data-hover]': { color: 'white', borderColor: 'white' },
+      '&[data-state=checked]': {
+        color: 'white',
+        background: 'action',
+        borderColor: 'action',
+      },
+      '&[data-focus-visible]': {
+        outline: '2px solid token(colors.highlight)',
+        outlineOffset: '2px',
+      },
+      '& [data-checkbox-count]': {
+        fontSize: '2xs',
+        fontVariantNumeric: 'tabular-nums',
+        opacity: 0.6,
+      },
+      _motionReduce: { transition: 'none' },
+    },
+    control: {
+      width: '14px',
+      height: '14px',
+      flexShrink: 0,
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: 'currentColor',
+      opacity: 0.5,
+      transition: 'opacity {durations.fast} {easings.quint}',
+      '&[data-hover]': { opacity: 0.8 },
+      '&[data-state=checked]': {
+        opacity: 1,
+        background: 'white',
+        color: 'action',
+        borderColor: 'white',
+      },
+      _motionReduce: { transition: 'none' },
+    },
+    indicator: { display: 'inline-flex' },
+    label: { cursor: 'inherit' },
+  },
+})
+
 const editorialSplit = definePattern({
   description: 'Editorial two-column relationship shared by Manifesto and ThemeArtists',
   transform(props) {
@@ -769,7 +837,7 @@ export const designSystemPreset = definePreset({
         // NB layerStyles are surface props only — positioned/animated helpers
         // (e.g. the image skeleton) live in their own `css()` helper, not here.
       },
-      recipes: { badge, eyebrow, button, card, section, accordion, collapsible },
+      recipes: { badge, eyebrow, button, card, section, accordion, collapsible, checkbox },
     },
   },
 })
