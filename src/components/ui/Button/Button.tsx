@@ -4,7 +4,8 @@ import { type ButtonVariantProps, button } from 'styled-system/recipes'
 
 /**
  * Button — the one action primitive (ADR 0019): primary | secondary | ghost |
- * text × size. The `text` variant absorbs the retired `textLink`.
+ * text | icon × size. The `text` variant absorbs the retired `textLink`; `icon`
+ * absorbs the retired `IconButton`.
  *
  * Renders a `<button>` by default. With **`asChild`** it renders *as* its single
  * child instead — merging the button className onto the call site's own

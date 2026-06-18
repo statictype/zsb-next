@@ -4,7 +4,7 @@ import { sva } from 'styled-system/css'
  * Lightbox — co-located slot recipe.
  *
  * Full-screen image viewer with swipe/drag. The close + prev/next adopt the
- * `<IconButton>` primitive (tone `default` = white→action); their positioning
+ * `<Button variant="icon">` (white→action); their positioning
  * and per-control motion (close rotates, arrows nudge) layer on via the slot
  * classes. The backdrop alpha + drag transform stay inline (request-driven).
  *
@@ -54,7 +54,7 @@ export const lightbox = sva({
       userSelect: 'none',
     },
 
-    // Positioned over the dark backdrop; IconButton supplies size + white→action.
+    // Positioned over the dark backdrop; Button supplies size + white→action.
     close: {
       position: 'absolute',
       top: 'md',

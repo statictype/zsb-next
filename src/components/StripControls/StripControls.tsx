@@ -2,8 +2,8 @@
 
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
+import { Button } from '@/components/ui/Button/Button'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
-import { IconButton } from '@/components/ui/IconButton/IconButton'
 import { stripControls } from './StripControls.recipe'
 
 interface StripControlsProps {
@@ -42,12 +42,22 @@ export function StripControls({
         {eyebrow}
       </Eyebrow>
       <div className={s.arrows}>
-        <IconButton onClick={onPrev} disabled={activeIndex === 0} aria-label={labels.prev}>
+        <Button
+          variant="icon"
+          onClick={onPrev}
+          disabled={activeIndex === 0}
+          aria-label={labels.prev}
+        >
           <RiArrowLeftLine size={20} />
-        </IconButton>
-        <IconButton onClick={onNext} disabled={activeIndex === count - 1} aria-label={labels.next}>
+        </Button>
+        <Button
+          variant="icon"
+          onClick={onNext}
+          disabled={activeIndex === count - 1}
+          aria-label={labels.next}
+        >
           <RiArrowRightLine size={20} />
-        </IconButton>
+        </Button>
       </div>
     </div>
   )

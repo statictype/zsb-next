@@ -5,7 +5,7 @@ import { sva } from 'styled-system/css'
  *
  * A crossfade stage with a control bar below: pagination dots, prev /
  * play-pause / next, and a per-slide progress hairline. The nav cluster adopts
- * the `<IconButton tone="media">` primitive (dimmed-white → white); the
+ * `<Button variant="icon">` (white→action); the
  * per-control icon motion (arrow nudge, toggle emphasis, press-scale) layers on
  * via the `control*` slots. Everything else (stage, dots, progress) is bespoke.
  *
@@ -113,7 +113,7 @@ export const heroSlideshow = sva({
 
     nav: { display: 'flex', alignItems: 'center', gap: '2px' },
 
-    // Shared nav-control motion layered onto IconButton (tone="media").
+    // Shared nav-control motion layered onto Button variant="icon".
     control: {
       _active: { transform: 'scale(0.9)' },
       '& svg': { transition: 'transform {durations.medium} {easings.expo}' },

@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { cx } from 'styled-system/css'
 import { Figure } from '@/components/Figure/Figure'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
-import { IconButton } from '@/components/ui/IconButton/IconButton'
+import { Button } from '@/components/ui/Button/Button'
 import { useSlideshow } from '@/lib/use-slideshow'
 import type { HeroImage } from '@/types/edition'
 import { heroSlideshow } from './HeroSlideshow.recipe'
@@ -90,31 +90,31 @@ export function HeroSlideshow({ images, interval = 5000 }: HeroSlideshowProps) {
           </div>
 
           <div className={s.nav}>
-            <IconButton
-              tone="media"
+            <Button
+              variant="icon"
               className={cx(s.control, s.controlPrev)}
               onClick={prev}
               aria-label="Previous slide"
             >
               <RiArrowLeftLine size={20} />
-            </IconButton>
-            <IconButton
-              tone="media"
+            </Button>
+            <Button
+              variant="icon"
               className={cx(s.control, s.controlToggle)}
               onClick={() => setPlaying((p) => !p)}
               aria-label={playing ? 'Pause slideshow' : 'Play slideshow'}
               aria-pressed={!playing}
             >
               {playing ? <RiPauseLine size={20} /> : <RiPlayLine size={20} />}
-            </IconButton>
-            <IconButton
-              tone="media"
+            </Button>
+            <Button
+              variant="icon"
               className={cx(s.control, s.controlNext)}
               onClick={next}
               aria-label="Next slide"
             >
               <RiArrowRightLine size={20} />
-            </IconButton>
+            </Button>
           </div>
         </div>
       )}

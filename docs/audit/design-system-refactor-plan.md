@@ -31,8 +31,8 @@ in a later stage is needed by an earlier one, so the commits land in order.
 
 ## Status (updated 2026-06-18)
 
-- ✅ **Done:** A1–A7 · B1–B9 · C1–C3
-- ⬜ **To do:** C4–C9
+- ✅ **Done:** A1–A7 · B1–B9 · C1–C4
+- ⬜ **To do:** C5–C9
 - ⏸ **Deferred (own epics):** Calendar structural split · EditionsNav refactor · fontSizes ladder 11→7
 
 ---
@@ -348,7 +348,7 @@ into per-surface commits if the diff gets large.
   `gradientBorderShift` stays on the ongoing/run poster cards.
 - **Depends-on:** —  **Visual:** review  **Source:** F03 / R4
 
-### ⬜ C4 · Fold iconButton into `button`; icon adoption
+### ✅ C4 · Fold iconButton into `button`; icon adoption
 - **What:** **Fold `iconButton` into `button` as `variant: 'icon'`** and **delete
   the standalone `iconButton` recipe + the `<IconButton>` component** (makes ADR
   0019's "one action primitive" literally true). `variant: 'icon'` = 44px square,
@@ -457,8 +457,8 @@ into per-surface commits if the diff gets large.
 
 ## Remaining order
 
-Foundation (A1–A7), Stage B (B1–B9), and C1–C3 are done. Remaining commit sequence
-on the one branch: **C4–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
+Foundation (A1–A7), Stage B (B1–B9), and C1–C4 are done. Remaining commit sequence
+on the one branch: **C5–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
 and C6 last in Calendar).
 
 ## ADR deliverables

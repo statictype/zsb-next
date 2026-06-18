@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { cx } from 'styled-system/css'
 import { skeleton } from '@/components/skeleton'
-import { IconButton } from '@/components/ui/IconButton/IconButton'
+import { Button } from '@/components/ui/Button/Button'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
 import { lightbox as lightboxRecipe } from './Lightbox.recipe'
 
@@ -185,9 +185,9 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
       onPointerCancel={endDrag}
       style={{ backgroundColor: `rgba(0, 0, 0, ${backdropAlpha})` }}
     >
-      <IconButton className={cx(s.close)} onClick={onClose} aria-label="Close lightbox">
+      <Button variant="icon" className={cx(s.close)} onClick={onClose} aria-label="Close lightbox">
         <RiCloseLine size={28} />
-      </IconButton>
+      </Button>
 
       {/* biome-ignore lint/a11y/noStaticElementInteractions: frame letterbox click closes */}
       <div className={s.frame} style={frameStyle} onClick={onClose}>
@@ -215,7 +215,8 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
 
       {images.length > 1 && (
         <>
-          <IconButton
+          <Button
+            variant="icon"
             className={cx(s.navPrev)}
             onClick={(e) => {
               e.stopPropagation()
@@ -224,8 +225,9 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
             aria-label="Previous image"
           >
             <RiArrowLeftLine size={20} />
-          </IconButton>
-          <IconButton
+          </Button>
+          <Button
+            variant="icon"
             className={cx(s.navNext)}
             onClick={(e) => {
               e.stopPropagation()
@@ -234,7 +236,7 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
             aria-label="Next image"
           >
             <RiArrowRightLine size={20} />
-          </IconButton>
+          </Button>
         </>
       )}
 

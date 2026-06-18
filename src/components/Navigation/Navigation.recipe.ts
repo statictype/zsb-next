@@ -6,7 +6,7 @@ import { sva } from 'styled-system/css'
  * Floating logo + pill menu, no top bar. Mobile: a full-screen overlay toggled
  * by the hamburger; desktop (md+): a top-right pill row with the hamburger
  * hidden. The nav-pill links and the 3-bar hamburger are bespoke nav chrome —
- * deliberately NOT folded into the Button/IconButton primitives (the
+ * deliberately NOT folded into the Button primitive (the
  * pill carries an active-fill state + connected-row overlap; the toggle has its
  * own X animation).
  *

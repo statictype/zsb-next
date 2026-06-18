@@ -125,13 +125,13 @@ const eyebrow = defineRecipe({
 
 /**
  * Button — the one action primitive (ADR 0019).
- * `variant` (primary | secondary | ghost | text) × `size` (sm | md | lg).
+ * `variant` (primary | secondary | ghost | text | icon) × `size` (sm | md | lg).
  * `primary`/`secondary` are the former solid/outline; `text` is the retired
  * `textLink` recipe (borderless inline link, e.g. footer links).
  */
 const button = defineRecipe({
   className: 'btn',
-  description: 'The one action primitive — primary | secondary | ghost | text (ADR 0019)',
+  description: 'The one action primitive — primary | secondary | ghost | text | icon (ADR 0019)',
   base: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -184,6 +184,16 @@ const button = defineRecipe({
         color: 'muted',
         _hover: { color: 'action' },
       },
+      icon: {
+        width: '44px',
+        height: '44px',
+        padding: '0',
+        background: 'transparent',
+        borderWidth: '0',
+        color: 'heading',
+        transition: 'color {durations.normal} ease, transform {durations.normal} {easings.expo}',
+        _hover: { _enabled: { color: 'action' } },
+      },
     },
     size: {
       sm: {
@@ -209,11 +219,15 @@ const button = defineRecipe({
       },
     },
   },
-  // The `text` variant is sizeless — neutralize the default size's padding/gap.
+  // The `text` and `icon` variants are sizeless — neutralize the default size.
   compoundVariants: [
     {
       variant: 'text',
       css: { paddingBlock: '0', paddingInline: '0', gap: '0' },
+    },
+    {
+      variant: 'icon',
+      css: { padding: '0', gap: '0' },
     },
   ],
   defaultVariants: { variant: 'primary', size: 'md' },
@@ -221,48 +235,6 @@ const button = defineRecipe({
   // which Panda can't statically extract — emit every variant×size so all
   // combos always have CSS.
   staticCss: ['*'],
-})
-
-/**
- * IconButton — unified square icon control (ZSB-71).
- * Collapses the StripControls prev/next, the HeroSlideshow nav (prev/toggle/next),
- * and the Lightbox close + prev/next into one recipe: `size` (sm | md | lg, the
- * 40 / 44 / responsive --btn-size scale) × `tone` (default | media). Per-control
- * icon motion (arrow nudge, close rotate) stays a consumer concern via the shared
- * `transform` transition in the base — the primitive owns only chrome + states.
- */
-const iconButton = defineRecipe({
-  className: 'iconbtn',
-  description:
-    'Unified icon control — replaces StripControls / Slideshow / Lightbox arrows + close',
-  base: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // One size: 44px, the WCAG tap-target floor. The old 40/44/48 spread was
-    // drift, not deliberate — the control reads the same everywhere now.
-    width: '44px',
-    height: '44px',
-    padding: '0',
-    background: 'transparent',
-    borderWidth: '0',
-    cursor: 'pointer',
-    transition: 'color {durations.normal} ease, transform {durations.normal} {easings.expo}',
-    _disabled: { opacity: '0.5', cursor: 'not-allowed' },
-    _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
-  },
-  variants: {
-    /** Resting/hover colour. `default` sits on the canvas; `media` is the dimmed
-     *  translucent-white treatment for controls layered over imagery. */
-    tone: {
-      default: { color: 'heading', _hover: { _enabled: { color: 'action' } } },
-      media: {
-        color: 'onMedia',
-        _hover: { _enabled: { color: 'white' } },
-      },
-    },
-  },
-  defaultVariants: { tone: 'default' },
 })
 
 /**
@@ -645,7 +617,7 @@ export default defineConfig({
         // NB layerStyles are surface props only — positioned/animated helpers
         // (e.g. the image skeleton) live in their own `css()` helper, not here.
       },
-      recipes: { badge, eyebrow, button, iconButton, card, section },
+      recipes: { badge, eyebrow, button, card, section },
     },
   },
 })

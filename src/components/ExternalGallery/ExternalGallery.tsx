@@ -2,6 +2,7 @@ import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
 import { card, section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { ExternalGalleryData } from '@/types/edition'
 import { externalGallery } from './ExternalGallery.recipe'
@@ -63,9 +64,11 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
 
               <div className={styles.cta}>
                 <span className={styles.ctaLabel}>{linkLabel}</span>
-                <span className={styles.ctaIcon} aria-hidden>
-                  <RiArrowRightUpLine size={18} />
-                </span>
+                <Button asChild variant="icon">
+                  <span aria-hidden>
+                    <RiArrowRightUpLine size={18} />
+                  </span>
+                </Button>
                 <span className={styles.ctaUrl}>{prettyHost(href)}</span>
               </div>
             </div>
@@ -73,13 +76,15 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
             {/* Quiet edition plate — the old animated monogram, stripped of every
               gradient and the drifting grid. Solid type on a hairline panel. */}
             <div className={styles.cardRight} aria-hidden>
-              <div className={styles.plateMonogram}>
-                <span className={styles.plateZsb}>ZSB</span>
-                <span className={styles.plateYear}>2021</span>
-              </div>
-              <div className={styles.plateMeta}>
-                <span>Edition 01</span>
-                <span>Digital</span>
+              <div className={styles.plate}>
+                <div data-part="monogram">
+                  <span data-part="zsb">ZSB</span>
+                  <span data-part="year">2021</span>
+                </div>
+                <div data-part="meta">
+                  <span>Edition 01</span>
+                  <span>Digital</span>
+                </div>
               </div>
             </div>
           </div>
