@@ -1,6 +1,6 @@
 'use client'
 
-import { RiArrowDownSLine, RiHistoryLine } from '@remixicon/react'
+import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import { type ReactNode, useEffect, useMemo, useRef } from 'react'
 import { cx } from 'styled-system/css'
@@ -8,6 +8,7 @@ import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
+import { Collapsible } from '@/components/ui/Collapsible/Collapsible'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import {
   type DayToken,
@@ -355,8 +356,8 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
 }
 
 // On a finished edition the full board is kept as the historical record but
-// folded behind a disclosure so the recap leads (ZSB-45); live/upcoming editions
-// render the board as-is. Native <details> — house style (VenuesView), no JS.
+// folded behind a Collapsible so the recap leads (ZSB-45); live/upcoming editions
+// render the board directly without mounting a redundant disclosure control.
 function ArchiveCollapse({
   ended,
   count,
@@ -368,18 +369,14 @@ function ArchiveCollapse({
 }) {
   if (!ended) return <>{children}</>
   return (
-    <details className={s.archive}>
-      <summary className={s.archiveSummary}>
-        {/* Native <details> has no open state in JS — swap the label via [open]. */}
-        <span className={s.archiveShow}>View full programme</span>
-        <span className={s.archiveHide}>Hide full programme</span>
-        <span className={s.archiveCount}>
-          {count} {count === 1 ? 'event' : 'events'}
-        </span>
-        <RiArrowDownSLine className={s.archiveChevron} size={20} aria-hidden />
-      </summary>
-      <div className={s.archivePanel}>{children}</div>
-    </details>
+    <Collapsible
+      id="calendar-archive"
+      closedLabel="View full programme"
+      openLabel="Hide full programme"
+      meta={`${count} ${count === 1 ? 'event' : 'events'}`}
+    >
+      {children}
+    </Collapsible>
   )
 }
 

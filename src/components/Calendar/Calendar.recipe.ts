@@ -5,7 +5,7 @@ import { sva } from 'styled-system/css'
  *
  * The date-by-date programme as a dark schedule board: header + counts, an
  * "Ongoing" exhibition card grid, the day-by-day agenda timeline, finished-edition
- * recap + archive disclosure. Raw grays are the
+ * recap + shared archive Collapsible. Raw grays are the
  * documented dark-board exceptions; the card/gallery image filters are inlined
  * (were legacy `--card-*`/`--gallery-*` vars). State lives on data attributes:
  * `data-past` (runs/days), `data-on` (past toggle), `data-poster`
@@ -65,13 +65,6 @@ export const calendar = sva({
     'recapFollow',
     'recapFollowLabel',
     'recapLinks',
-    'archive',
-    'archiveSummary',
-    'archiveShow',
-    'archiveHide',
-    'archiveCount',
-    'archiveChevron',
-    'archivePanel',
   ],
   base: {
     section: {
@@ -563,43 +556,5 @@ export const calendar = sva({
       color: 'muted',
     },
     recapLinks: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'md' },
-
-    // ---- Finished-edition archive disclosure ----
-    archive: { borderTopWidth: '1px', borderTopStyle: 'solid', borderTopColor: 'borderDark' },
-    archiveSummary: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'md',
-      paddingBlock: 'lg',
-      cursor: 'pointer',
-      listStyle: 'none',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'action',
-      '&::-webkit-details-marker': { display: 'none' },
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '2px' },
-    },
-    // Underline just the label on hover (the count stays plain).
-    archiveShow: {
-      'summary:hover &': { textDecoration: 'underline', textUnderlineOffset: '3px' },
-      '[open] &': { display: 'none' },
-    },
-    archiveHide: {
-      display: 'none',
-      'summary:hover &': { textDecoration: 'underline', textUnderlineOffset: '3px' },
-      '[open] &': { display: 'inline' },
-    },
-    archiveCount: { color: 'muted', fontVariantNumeric: 'tabular-nums' },
-    archiveChevron: {
-      marginLeft: 'auto',
-      color: 'inherit',
-      transition: 'transform {durations.normal} {easings.quint}',
-      '[open] &': { transform: 'rotate(180deg)' },
-      _motionReduce: { transition: 'none' },
-    },
-    archivePanel: { paddingTop: 'md', paddingBottom: 'lg' },
   },
 })

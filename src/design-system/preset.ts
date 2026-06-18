@@ -379,6 +379,59 @@ const accordion = defineSlotRecipe({
   defaultVariants: { triggerTypography: 'standard' },
 })
 
+const collapsible = defineSlotRecipe({
+  className: 'collapsible',
+  jsx: ['Collapsible'],
+  description: 'Independent disclosure with Ark-owned state and site archive styling',
+  slots: ['root', 'trigger', 'content', 'indicator'],
+  base: {
+    root: {
+      width: '100%',
+      borderTopWidth: '1px',
+      borderTopStyle: 'solid',
+      borderTopColor: 'borderDark',
+    },
+    trigger: {
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'md',
+      paddingBlock: 'lg',
+      paddingInline: '0',
+      border: '0',
+      background: 'transparent',
+      cursor: 'pointer',
+      textAlign: 'left',
+      fontFamily: 'body',
+      fontSize: '2xs',
+      textTransform: 'uppercase',
+      letterSpacing: 'label',
+      fontWeight: 'semibold',
+      color: 'action',
+      _hover: {
+        '& [data-collapsible-label]': { textDecoration: 'underline', textUnderlineOffset: '3px' },
+      },
+      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '2px' },
+      '& [data-collapsible-label=open]': { display: 'none' },
+      '&[data-state=open] [data-collapsible-label=closed]': { display: 'none' },
+      '&[data-state=open] [data-collapsible-label=open]': { display: 'inline' },
+      '& [data-collapsible-meta]': {
+        color: 'muted',
+        fontVariantNumeric: 'tabular-nums',
+      },
+    },
+    content: { paddingTop: 'md', paddingBottom: 'lg' },
+    indicator: {
+      display: 'inline-flex',
+      marginLeft: 'auto',
+      color: 'inherit',
+      transition: 'transform {durations.normal} {easings.quint}',
+      '&[data-state=open]': { transform: 'rotate(180deg)' },
+      _motionReduce: { transition: 'none' },
+    },
+  },
+})
+
 const editorialSplit = definePattern({
   description: 'Editorial two-column relationship shared by Manifesto and ThemeArtists',
   transform(props) {
@@ -716,7 +769,7 @@ export const designSystemPreset = definePreset({
         // NB layerStyles are surface props only — positioned/animated helpers
         // (e.g. the image skeleton) live in their own `css()` helper, not here.
       },
-      recipes: { badge, eyebrow, button, card, section, accordion },
+      recipes: { badge, eyebrow, button, card, section, accordion, collapsible },
     },
   },
 })
