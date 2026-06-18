@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import { css, cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
-import { Carousel } from '@/components/Carousel/Carousel'
+import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
@@ -85,7 +85,7 @@ function AboutShell({ view }: { view: AboutView }) {
 
       {carousel && (
         <section className={cx(section({ ground: 'dark' }), styles.carouselSection)}>
-          <Carousel slides={carousel} eyebrow={carouselEyebrow} />
+          <GalleryCarousel slides={carousel} eyebrow={carouselEyebrow} />
         </section>
       )}
 

@@ -1,10 +1,8 @@
 'use client'
 
+import { Carousel } from '@/components/Carousel/Carousel'
 import { Figure } from '@/components/Figure/Figure'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
-import { StripControls } from '@/components/StripControls/StripControls'
-import { strip as stripRecipe } from '@/components/StripControls/strip.recipe'
-import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
 import type { MediaKitStripItem } from '@/types/edition'
 import { mediaKitStrip } from './MediaKitStrip.recipe'
 
@@ -19,39 +17,24 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
       caption: `${item.year} · ${item.name}`,
     })),
   )
-  const { trackRef, activeIndex, registerItem, goPrev, goNext, trackProps, guardClick } =
-    useScrollSnapStrip<HTMLButtonElement>({ count: items.length })
-
   const s = mediaKitStrip()
-  const strip = stripRecipe()
 
   return (
     <>
-      <StripControls
+      <Carousel
+        id="media-kit-posters"
+        label="Media kit posters"
+        mode="rail"
+        autoplay={false}
+        loop={false}
         eyebrow="Media"
-        activeIndex={activeIndex}
-        count={items.length}
-        onPrev={goPrev}
-        onNext={goNext}
-        labels={{ prev: 'Previous poster', next: 'Next poster' }}
-      />
-
-      <div className={strip.viewport}>
-        <div
-          ref={trackRef}
-          className={strip.track}
-          tabIndex={0}
-          role="region"
-          aria-label="Media kit posters"
-          {...trackProps}
-        >
-          {items.map((item, i) => (
+        slides={items.map((item, index) => ({
+          id: `media-kit-${index}`,
+          content: (
             <button
-              key={`${item.year}-${i}`}
-              ref={registerItem(i)}
               type="button"
               className={s.card}
-              onClick={guardClick(() => lightbox.open(i))}
+              onClick={() => lightbox.open(index)}
               aria-label={`Open ${item.year} ${item.name}`}
             >
               <Figure
@@ -61,9 +44,9 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
                 draggable={false}
               />
             </button>
-          ))}
-        </div>
-      </div>
+          ),
+        }))}
+      />
 
       {lightbox.element}
     </>

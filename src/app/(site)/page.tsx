@@ -5,10 +5,10 @@ import { cx } from 'styled-system/css'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
+import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { enter } from '@/components/enter'
 import { FeaturedSpotlight } from '@/components/FeaturedEvents/FeaturedSpotlight'
-import { HeroSlideshow } from '@/components/HeroSlideshow/HeroSlideshow'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -102,7 +102,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
               <aside className={styles.lastEdition}>
                 <p className={styles.lastEditionLabel}>From the last edition</p>
                 <div className={styles.lastEditionMedia}>
-                  <HeroSlideshow images={slideshow} />
+                  <HomepageCarousel images={slideshow} />
                 </div>
                 {ctaLabel && ctaYear && (
                   <Link
@@ -140,7 +140,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
               </div>
 
               <div className={styles.heroVisual}>
-                <HeroSlideshow images={slideshow} />
+                <HomepageCarousel images={slideshow} />
               </div>
             </div>
           </section>

@@ -1,28 +1,21 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Carousel — co-located slot recipe.
+ * GalleryCarousel — product slide content inside the shared rail Carousel.
  *
- * Gallery scroll-snap strip. Viewport + track come from the shared `strip`
- * recipe; this owns the slide grid (a `layout` variant per slide shape), the
- * gallery item, and its gradient-border hover. `controlsSpacing` is the
- * placement override handed to <StripControls> — it carries the gutter so the
- * eyebrow + arrows stay inset while the slide track runs full-bleed.
+ * The shared Carousel owns interaction and controls; this recipe owns only the
+ * authored image-grid layouts and lightbox-trigger presentation.
  */
-export const carousel = sva({
-  slots: ['controlsSpacing', 'slide', 'item', 'itemImage'],
+export const galleryCarousel = sva({
+  slots: ['slide', 'item', 'itemImage'],
   base: {
-    controlsSpacing: { marginTop: '3xl', paddingInline: 'gutter' },
-
     slide: {
-      flex: '0 0 auto',
       width: 'clamp(360px, 92vw, 540px)',
       height: '28vh',
       display: 'grid',
       gap: 'sm',
       boxSizing: 'border-box',
       gridTemplateRows: '1fr',
-      scrollSnapAlign: 'start',
       // Landscape phones get a much taller strip.
       '@media (max-width: 767px) and (orientation: landscape)': { height: '73vh' },
       md: { width: 'clamp(600px, 81vw, 990px)', height: '35vh', gap: 'md' },
@@ -67,7 +60,7 @@ export const carousel = sva({
       },
     },
     // Drag prevention comes from the Figure's `draggable={false}` attribute.
-    itemImage: { objectFit: 'cover', background: 'gray.900', pointerEvents: 'none' },
+    itemImage: { objectFit: 'cover', background: 'gray.900' },
   },
   variants: {
     layout: {

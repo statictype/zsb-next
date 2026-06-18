@@ -3,18 +3,16 @@ import { sva } from 'styled-system/css'
 /**
  * MediaKitStrip — co-located slot recipe.
  *
- * Poster scroll-snap strip. Viewport + track come from the shared `strip`
- * recipe; this owns the 3:4 poster card and its image hover-zoom.
+ * Poster content for the shared rail Carousel. Carousel owns the viewport,
+ * drag interaction, and controls; this owns the 3:4 card and image hover-zoom.
  */
 export const mediaKitStrip = sva({
   slots: ['card', 'image'],
   base: {
     card: {
-      flex: '0 0 auto',
       position: 'relative',
       width: 'clamp(240px, 70vw, 320px)',
       aspectRatio: '3 / 4',
-      scrollSnapAlign: 'start',
       // exception: image placeholder, raised-dark surface
       background: 'gray.900',
       border: 'none',
@@ -30,7 +28,6 @@ export const mediaKitStrip = sva({
       objectFit: 'cover',
       background: 'gray.900',
       transition: 'transform {durations.entrance} {easings.expo}',
-      pointerEvents: 'none',
     },
   },
 })

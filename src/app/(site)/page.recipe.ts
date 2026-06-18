@@ -3,11 +3,11 @@ import { sva } from 'styled-system/css'
 /**
  * Home page — co-located slot recipe.
  *
- * Dark hero with the slideshow pinned right and the title crashing over its
+ * Dark hero with the stage Carousel pinned right and the title crashing over its
  * left edge, an Upcoming-lead variant (next edition's theme + a demoted "from
  * the last edition" card), then the past-editions register. The hero title uses
  * the `pageTitle` textStyle + entrance directly (it's not the standard PageHero
- * block — slideshow layout, min-content title). The `.editionBadge` pill →
+ * block — Carousel layout, min-content title). The `.editionBadge` pill →
  * `<Badge>`. Row hovers drive from the `<a>` via `a:hover &` (disabled rows are
  * `<div>`, so they never trigger the colour/arrow shift). Unused `editionsLink`
  * + the empty `.main` are dropped. `--partner-badge-scale` is set per breakpoint.

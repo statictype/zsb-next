@@ -2,7 +2,7 @@ import { cx } from 'styled-system/css'
 import { editorialSplit } from 'styled-system/patterns'
 import { section } from 'styled-system/recipes'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
-import { Carousel } from '@/components/Carousel/Carousel'
+import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { Edition } from '@/types/edition'
 import { themeArtists } from './ThemeArtists.recipe'
@@ -40,7 +40,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
         />
       </div>
 
-      {carousel && <Carousel slides={carousel} eyebrow={theme} />}
+      {carousel && <GalleryCarousel slides={carousel} eyebrow={theme} />}
     </section>
   )
 }

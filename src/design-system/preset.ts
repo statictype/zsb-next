@@ -82,15 +82,14 @@ const badge = defineRecipe({
 
 /**
  * Eyebrow — unified kicker/label above headings (ZSB-71).
- * Collapses `.eyebrowMuted` (with decorative rule), the StripControls eyebrow
+ * Collapses `.eyebrowMuted` (with decorative rule), the carousel-control eyebrow
  * (muted, no rule) and the FeaturedEvents eyebrow (highlight, smaller) into one
  * recipe: `tone` × `size` × `rule`. The rule inherits the text color.
  */
 const eyebrow = defineRecipe({
   jsx: ['Eyebrow'],
   className: 'eyebrow',
-  description:
-    'Unified eyebrow/kicker — replaces .eyebrowMuted + StripControls/FeaturedEvents eyebrows',
+  description: 'Unified eyebrow/kicker — replaces legacy carousel and FeaturedEvents eyebrows',
   base: {
     display: 'flex',
     alignItems: 'center',
@@ -565,6 +564,126 @@ const dialog = defineSlotRecipe({
   defaultVariants: { presentation: 'panel' },
 })
 
+const carousel = defineSlotRecipe({
+  className: 'carousel',
+  jsx: ['Carousel'],
+  description: 'Ark-backed stage and rail carousel contract',
+  slots: [
+    'root',
+    'itemGroup',
+    'item',
+    'control',
+    'nextTrigger',
+    'prevTrigger',
+    'indicatorGroup',
+    'indicator',
+    'autoplayTrigger',
+    'progressText',
+    'autoplayIndicator',
+  ],
+  base: {
+    root: { position: 'relative', width: '100%', minWidth: 0 },
+    itemGroup: {
+      scrollbarWidth: 'none',
+      scrollBehavior: 'smooth',
+      '&::-webkit-scrollbar': { display: 'none' },
+      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
+      '&[data-dragging]': { cursor: 'grabbing' },
+    },
+    item: { minWidth: 0 },
+    control: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 'md',
+      maxWidth: 'maxWidth',
+      marginInline: 'auto',
+      '& [data-carousel-arrows]': { display: 'flex', alignItems: 'center', gap: 'sm' },
+    },
+    prevTrigger: {
+      width: '44px',
+      height: '44px',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      border: 0,
+      background: 'transparent',
+      color: 'heading',
+      cursor: 'pointer',
+      _hover: { color: 'action' },
+      _disabled: { opacity: 0.5, cursor: 'not-allowed' },
+      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
+    },
+    nextTrigger: {
+      width: '44px',
+      height: '44px',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      border: 0,
+      background: 'transparent',
+      color: 'heading',
+      cursor: 'pointer',
+      _hover: { color: 'action' },
+      _disabled: { opacity: 0.5, cursor: 'not-allowed' },
+      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
+    },
+    progressText: {
+      textStyle: 'metaLabel',
+      color: 'muted',
+      fontVariantNumeric: 'tabular-nums',
+      marginLeft: 'auto',
+    },
+    indicatorGroup: { display: 'flex', alignItems: 'center', gap: '10px' },
+    indicator: {
+      width: '14px',
+      height: '2px',
+      padding: 0,
+      border: 0,
+      background: 'onMedia',
+      cursor: 'pointer',
+      '&[data-current]': { width: '28px', background: 'highlight' },
+      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '4px' },
+    },
+    autoplayTrigger: {
+      width: '44px',
+      height: '44px',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      border: 0,
+      background: 'transparent',
+      color: 'heading',
+      cursor: 'pointer',
+      _hover: { color: 'action' },
+      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
+    },
+  },
+  variants: {
+    mode: {
+      stage: {
+        root: { display: 'flex', flexDirection: 'column', gap: 'md' },
+        itemGroup: {
+          width: '100%',
+          aspectRatio: { base: '4 / 5', md: '16 / 9' },
+          background: 'black',
+        },
+        item: {
+          width: '100%',
+          height: '100%',
+          '& > [data-carousel-slide-content]': { width: '100%', height: '100%' },
+        },
+      },
+      rail: {
+        itemGroup: { cursor: 'grab', touchAction: 'pan-x' },
+        control: { paddingInline: 'gutter', marginBottom: 'lg' },
+        item: { '& > [data-carousel-slide-content]': { height: '100%' } },
+      },
+    },
+  },
+  defaultVariants: { mode: 'rail' },
+})
+
 const editorialSplit = definePattern({
   description: 'Editorial two-column relationship shared by Manifesto and ThemeArtists',
   transform(props) {
@@ -631,8 +750,6 @@ export const designSystemPreset = definePreset({
           '0%': { backgroundPosition: '0% 50%' },
           '100%': { backgroundPosition: '200% 50%' },
         },
-        // HeroSlideshow per-slide progress line (scaleX, GPU-only).
-        heroProgress: { from: { transform: 'scaleX(0)' }, to: { transform: 'scaleX(1)' } },
         // Loading-skeleton sweep (edition loading bones + the shared skeleton).
         shimmer: {
           '0%': { transform: 'translateX(-100%)' },
@@ -902,7 +1019,18 @@ export const designSystemPreset = definePreset({
         // NB layerStyles are surface props only — positioned/animated helpers
         // (e.g. the image skeleton) live in their own `css()` helper, not here.
       },
-      recipes: { badge, eyebrow, button, card, section, accordion, collapsible, checkbox, dialog },
+      recipes: {
+        badge,
+        eyebrow,
+        button,
+        card,
+        section,
+        accordion,
+        collapsible,
+        checkbox,
+        dialog,
+        carousel,
+      },
     },
   },
 })

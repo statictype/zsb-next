@@ -5,13 +5,13 @@ import { sva } from 'styled-system/css'
  *
  * The full-bleed pure-black editions strip above the footer. Cards are the
  * unified `card` recipe (chrome + accent-warming hover); this adds only the
- * strip-local bits — scroll-snap sizing/registration, the staggered entrance
- * (driven by the band's `data-revealed` + per-card `--i` delay), and the
- * per-state colour shifts keyed off `data-current` / `data-upcoming`. The
- * viewport/track come from the shared `strip` recipe. Co-located slots land in
- * the `utilities` layer, so `&[data-current=true]` cleanly overrides the card
- * recipe's borderDark hairline. `soon`/`viewing` stay bespoke boxed labels (matching
- * the footer's catalogue-stamp precedent).
+ * rail-local bits — card sizing, the staggered entrance (driven by the band's
+ * `data-revealed` + per-card `--i` delay), and the per-state colour shifts keyed
+ * off `data-current` / `data-upcoming`. The shared Carousel owns the viewport,
+ * drag interaction, and controls. Co-located slots land in the `utilities`
+ * layer, so `&[data-current=true]` cleanly overrides the card recipe's
+ * borderDark hairline. `soon`/`viewing` stay bespoke boxed labels (matching the
+ * footer's catalogue-stamp precedent).
  */
 export const editionsNav = sva({
   slots: ['band', 'card', 'cardTop', 'soon', 'viewing', 'meta', 'year', 'theme'],
@@ -20,7 +20,6 @@ export const editionsNav = sva({
       background: 'black',
       color: 'white',
       paddingBlock: 'xl',
-      paddingInline: 'gutter',
       overflow: 'clip',
     },
 
@@ -28,11 +27,9 @@ export const editionsNav = sva({
     // entrance. The border-color leg keeps the recipe's hairline-warming hover
     // smooth (this unlayered transition would otherwise clobber it).
     card: {
-      flex: '0 0 auto',
       width: '78vw',
       minHeight: '208px',
       padding: 'lg',
-      scrollSnapAlign: 'start',
       opacity: '0',
       transform: 'translateY(16px)',
       transition:

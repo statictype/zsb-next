@@ -5,9 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { cx } from 'styled-system/css'
 import { card } from 'styled-system/recipes'
-import { StripControls } from '@/components/StripControls/StripControls'
-import { strip as stripRecipe } from '@/components/StripControls/strip.recipe'
-import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
+import { Carousel } from '@/components/Carousel/Carousel'
 import { editionsNav } from './EditionsNav.recipe'
 
 const styles = editionsNav()
@@ -19,11 +17,9 @@ export interface EditionEntry {
 }
 
 /**
- * The editions strip: a horizontally drag-/scroll-snapping band of compact
- * cards with the shared StripControls header (eyebrow + prev/next arrows), the
- * same machinery as the edition carousel and media kit. Pairs with the footer
- * below it — pure
- * black, hairline-boxed, no solid fills. Cards are the unified `card` recipe
+ * The editions rail: a horizontally draggable band of compact cards inside
+ * the shared Carousel. It pairs with the footer below it — pure black,
+ * hairline-boxed, no solid fills. Cards are the unified `card` recipe
  * (ZSB-71): live cards link to their edition and take the shared hover (the
  * hairline warms to the accent); upcoming editions are non-clickable "Soon"
  * cards (their route is gated `status != "upcoming"`); the edition you're
@@ -35,8 +31,6 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
   const pathname = usePathname()
   const sectionRef = useRef<HTMLElement>(null)
   const [revealed, setRevealed] = useState(false)
-  const { trackRef, activeIndex, registerItem, goPrev, goNext, trackProps, guardClick } =
-    useScrollSnapStrip<HTMLElement>({ count: editions.length })
 
   useEffect(() => {
     const el = sectionRef.current
@@ -60,84 +54,63 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
     return () => io.disconnect()
   }, [])
 
-  const strip = stripRecipe()
-
   return (
     <section ref={sectionRef} className={styles.band} data-revealed={revealed}>
-      <StripControls
+      <Carousel
+        id="editions-navigation"
+        label="ZSB editions"
+        mode="rail"
+        autoplay={false}
+        loop={false}
         eyebrow="Our journey"
-        activeIndex={activeIndex}
-        count={editions.length}
-        onPrev={goPrev}
-        onNext={goNext}
-        labels={{ prev: 'Previous editions', next: 'Next editions' }}
+        slides={editions.map((edition, i) => {
+          const href = `/editions/${edition.year}`
+          const isUpcoming = edition.status === 'upcoming'
+          const isCurrent = !isUpcoming && pathname === href
+          const style = { ['--i']: i } as React.CSSProperties
+          // Unified card recipe + the strip's layout-local class. Only a live,
+          // non-current edition is interactive (hairline → accent on hover);
+          // current and upcoming are inert (current keeps a chartreuse hairline).
+          const cardClass = cx(
+            card({ ground: 'onDark', interactive: !isUpcoming && !isCurrent }),
+            styles.card,
+          )
+
+          const inner = (
+            <>
+              <span className={styles.cardTop}>
+                {isUpcoming ? (
+                  <span className={styles.soon}>Soon</span>
+                ) : isCurrent ? (
+                  <span className={styles.viewing}>Viewing</span>
+                ) : null}
+              </span>
+              <span className={styles.meta}>
+                <span className={styles.year}>ZSB {edition.year}</span>
+                <span className={styles.theme}>{edition.theme}</span>
+              </span>
+            </>
+          )
+
+          const content = isUpcoming ? (
+            <div className={cardClass} style={style} data-upcoming>
+              {inner}
+            </div>
+          ) : (
+            <Link
+              href={href}
+              className={cardClass}
+              style={style}
+              data-current={isCurrent || undefined}
+              aria-current={isCurrent ? 'page' : undefined}
+              draggable={false}
+            >
+              {inner}
+            </Link>
+          )
+          return { id: String(edition.year), content }
+        })}
       />
-      <div className={strip.viewport}>
-        <div
-          ref={trackRef}
-          className={strip.track}
-          tabIndex={0}
-          role="region"
-          aria-label="ZSB editions"
-          {...trackProps}
-        >
-          {editions.map((edition, i) => {
-            const href = `/editions/${edition.year}`
-            const isUpcoming = edition.status === 'upcoming'
-            const isCurrent = !isUpcoming && pathname === href
-            const style = { ['--i']: i } as React.CSSProperties
-            // Unified card recipe + the strip's layout-local class. Only a live,
-            // non-current edition is interactive (hairline → accent on hover);
-            // current and upcoming are inert (current keeps a chartreuse hairline).
-            const cardClass = cx(
-              card({ ground: 'onDark', interactive: !isUpcoming && !isCurrent }),
-              styles.card,
-            )
-
-            const inner = (
-              <>
-                <span className={styles.cardTop}>
-                  {isUpcoming ? (
-                    <span className={styles.soon}>Soon</span>
-                  ) : isCurrent ? (
-                    <span className={styles.viewing}>Viewing</span>
-                  ) : null}
-                </span>
-                <span className={styles.meta}>
-                  <span className={styles.year}>ZSB {edition.year}</span>
-                  <span className={styles.theme}>{edition.theme}</span>
-                </span>
-              </>
-            )
-
-            return isUpcoming ? (
-              <div
-                key={edition.year}
-                ref={registerItem(i)}
-                className={cardClass}
-                style={style}
-                data-upcoming
-              >
-                {inner}
-              </div>
-            ) : (
-              <Link
-                key={edition.year}
-                ref={registerItem(i)}
-                href={href}
-                className={cardClass}
-                style={style}
-                data-current={isCurrent || undefined}
-                aria-current={isCurrent ? 'page' : undefined}
-                draggable={false}
-                onClick={guardClick(() => {})}
-              >
-                {inner}
-              </Link>
-            )
-          })}
-        </div>
-      </div>
     </section>
   )
 }

@@ -1,106 +1,217 @@
 'use client'
 
-import { Figure } from '@/components/Figure/Figure'
-import { useLightbox } from '@/components/Lightbox/Lightbox'
-import { StripControls } from '@/components/StripControls/StripControls'
-import { strip as stripRecipe } from '@/components/StripControls/strip.recipe'
-import { useScrollSnapStrip } from '@/lib/use-scroll-snap-strip'
-import type { CarouselLayout, CarouselSlide } from '@/types/edition'
-import { carousel } from './Carousel.recipe'
+import { Carousel as ArkCarousel } from '@ark-ui/react/carousel'
+import { RiArrowLeftLine, RiArrowRightLine, RiPauseLine, RiPlayLine } from '@remixicon/react'
+import { type ReactNode, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
+import { cx } from 'styled-system/css'
+import { carousel } from 'styled-system/recipes'
+import { token } from 'styled-system/tokens'
+import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
+
+export interface CarouselSlide {
+  id: string
+  content: ReactNode
+}
 
 interface CarouselProps {
+  id?: string | undefined
   slides: CarouselSlide[]
-  eyebrow: string
+  label: string
+  mode: 'stage' | 'rail'
+  autoplay?: false | number
+  loop: boolean
+  eyebrow?: ReactNode
+  className?: string | undefined
 }
 
-function sizesFor(layout: CarouselLayout, imgIndex: number): string {
-  if (layout === 'full') return '(max-width: 767px) 92vw, 65vw'
-  const isFeaturedLarge =
-    (layout === 'featured-portrait' || layout === 'featured-stack') && imgIndex === 0
-  if (isFeaturedLarge) return '(max-width: 767px) 61vw, 43vw'
-  if (layout === 'duo') return '(max-width: 767px) 46vw, 33vw'
-  return '(max-width: 767px) 30vw, 22vw'
+const safeId = (value: string) => value.replace(/[^a-zA-Z0-9_-]+/g, '-')
+const reducedMotionQuery = '(prefers-reduced-motion: reduce)'
+
+function subscribeToReducedMotion(callback: () => void) {
+  const media = window.matchMedia(reducedMotionQuery)
+  media.addEventListener('change', callback)
+  return () => media.removeEventListener('change', callback)
 }
 
-export function Carousel({ slides, eyebrow }: CarouselProps) {
-  // Flatten all slide images into a single lightbox sequence and remember
-  // each item's flat index so clicks open the right one.
-  const lightboxImages: { src: string; caption: string }[] = []
-  const flatIndices: number[][] = []
-  for (const slide of slides) {
-    const indices: number[] = []
-    for (const img of slide.images) {
-      indices.push(lightboxImages.length)
-      lightboxImages.push({ src: img.image.src, caption: img.caption })
-    }
-    flatIndices.push(indices)
-  }
-  const lightbox = useLightbox(lightboxImages)
+function getReducedMotion() {
+  return window.matchMedia(reducedMotionQuery).matches
+}
 
-  const { trackRef, activeIndex, registerItem, goPrev, goNext, trackProps, guardClick } =
-    useScrollSnapStrip<HTMLDivElement>({ count: slides.length })
+function getServerReducedMotion() {
+  return true
+}
 
-  const s = carousel()
-  const strip = stripRecipe()
+export function Carousel({
+  id,
+  slides,
+  label,
+  mode,
+  autoplay = false,
+  loop,
+  eyebrow,
+  className,
+}: CarouselProps) {
+  const generatedId = useId()
+  const rootId = safeId(id ?? `carousel-${generatedId}`)
+  const reducedMotion = useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotion,
+    getServerReducedMotion,
+  )
+  const [playbackChoice, setPlaybackChoice] = useState<'auto' | 'paused' | 'playing'>('auto')
+  const [hovered, setHovered] = useState(false)
+  const [focusWithin, setFocusWithin] = useState(false)
+  const suppressClick = useRef(false)
+  const suppressTimer = useRef<number | undefined>(undefined)
+  const styles = carousel({ mode })
+  const explicitlyPaused =
+    playbackChoice === 'paused' || (playbackChoice === 'auto' && reducedMotion)
+  const temporarilyPaused = hovered || focusWithin
+  const autoplayEnabled =
+    autoplay !== false && !explicitlyPaused && !temporarilyPaused && slides.length > 1
+
+  useEffect(() => () => window.clearTimeout(suppressTimer.current), [])
+
+  if (slides.length === 0) return null
 
   return (
-    <>
-      <StripControls
-        className={s.controlsSpacing}
-        eyebrow={eyebrow}
-        activeIndex={activeIndex}
-        count={slides.length}
-        onPrev={goPrev}
-        onNext={goNext}
-        labels={{ prev: 'Previous slide', next: 'Next slide' }}
-      />
-
-      <div className={strip.viewport}>
-        <div
-          ref={trackRef}
-          className={strip.track}
-          tabIndex={0}
-          role="region"
-          aria-label="Edition photo carousel"
-          {...trackProps}
-        >
-          {slides.map((slide, slideIndex) => (
-            <div
-              key={slideIndex}
-              ref={registerItem(slideIndex)}
-              className={carousel({ layout: slide.layout }).slide}
-            >
-              {slide.images.map((img, imgIndex) => {
-                const flatIndex = flatIndices[slideIndex]?.[imgIndex] ?? 0
-                return (
-                  <div
-                    key={imgIndex}
-                    className={s.item}
-                    role="button"
-                    tabIndex={0}
-                    onClick={guardClick(() => lightbox.open(flatIndex))}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault()
-                        lightbox.open(flatIndex)
-                      }
+    <ArkCarousel.Root
+      id={rootId}
+      ids={{ item: (index) => `${rootId}-slide-${safeId(slides[index]?.id ?? String(index))}` }}
+      className={cx(styles.root, className)}
+      aria-label={label}
+      slideCount={slides.length}
+      slidesPerPage={1}
+      slidesPerMove={1}
+      autoSize={mode === 'rail'}
+      allowMouseDrag
+      loop={loop}
+      autoplay={autoplayEnabled ? { delay: autoplay } : false}
+      spacing={mode === 'rail' ? token('spacing.md') : '0px'}
+      padding={mode === 'rail' ? token('spacing.gutter') : '0px'}
+      translations={{
+        nextTrigger: `Next ${label.toLowerCase()} slide`,
+        prevTrigger: `Previous ${label.toLowerCase()} slide`,
+        indicator: (index) => `Go to slide ${index + 1} of ${slides.length}`,
+        item: (index, count) => `${index + 1} of ${count}`,
+        autoplayStart: `Play ${label.toLowerCase()}`,
+        autoplayStop: `Pause ${label.toLowerCase()}`,
+        progressText: ({ page, totalPages }) => `${page} / ${totalPages}`,
+      }}
+      onDragStatusChange={(details) => {
+        if (details.type !== 'dragging.end') return
+        suppressClick.current = true
+        window.clearTimeout(suppressTimer.current)
+        suppressTimer.current = window.setTimeout(() => {
+          suppressClick.current = false
+        }, 0)
+      }}
+      onClickCapture={(event) => {
+        if (!suppressClick.current) return
+        event.preventDefault()
+        event.stopPropagation()
+        suppressClick.current = false
+      }}
+    >
+      <ArkCarousel.Context>
+        {(api) => {
+          const resume = () => {
+            if (autoplay !== false && !explicitlyPaused && !temporarilyPaused) {
+              api.play()
+            }
+          }
+          const resetAutoplay = () => {
+            if (autoplay === false || explicitlyPaused || temporarilyPaused) return
+            window.setTimeout(() => {
+              api.pause()
+              api.play()
+            }, 0)
+          }
+          const controls = (
+            <ArkCarousel.Control className={styles.control}>
+              {mode === 'rail' && eyebrow !== undefined && (
+                <Eyebrow tone="muted" size="md">
+                  {eyebrow}
+                </Eyebrow>
+              )}
+              {mode === 'rail' && <ArkCarousel.ProgressText className={styles.progressText} />}
+              {mode === 'stage' && slides.length > 1 && (
+                <ArkCarousel.IndicatorGroup className={styles.indicatorGroup}>
+                  {slides.map((slide, index) => (
+                    <ArkCarousel.Indicator
+                      key={slide.id}
+                      index={index}
+                      className={styles.indicator}
+                      onClick={resetAutoplay}
+                    />
+                  ))}
+                </ArkCarousel.IndicatorGroup>
+              )}
+              <span data-carousel-arrows>
+                <ArkCarousel.PrevTrigger className={styles.prevTrigger} onClick={resetAutoplay}>
+                  <RiArrowLeftLine size={20} />
+                </ArkCarousel.PrevTrigger>
+                {mode === 'stage' && autoplay !== false && slides.length > 1 && (
+                  <ArkCarousel.AutoplayTrigger
+                    className={styles.autoplayTrigger}
+                    aria-label={
+                      explicitlyPaused
+                        ? `Play ${label.toLowerCase()}`
+                        : `Pause ${label.toLowerCase()}`
+                    }
+                    onClickCapture={(event) => {
+                      event.preventDefault()
+                      const paused = !explicitlyPaused
+                      setPlaybackChoice(paused ? 'paused' : 'playing')
+                      if (paused) api.pause()
+                      else resume()
                     }}
                   >
-                    <Figure
-                      image={img.image}
-                      sizes={sizesFor(slide.layout, imgIndex)}
-                      className={s.itemImage}
-                      draggable={false}
-                    />
-                  </div>
-                )
-              })}
-            </div>
-          ))}
-        </div>
-      </div>
+                    {explicitlyPaused ? <RiPlayLine size={20} /> : <RiPauseLine size={20} />}
+                  </ArkCarousel.AutoplayTrigger>
+                )}
+                <ArkCarousel.NextTrigger className={styles.nextTrigger} onClick={resetAutoplay}>
+                  <RiArrowRightLine size={20} />
+                </ArkCarousel.NextTrigger>
+              </span>
+            </ArkCarousel.Control>
+          )
 
-      {lightbox.element}
-    </>
+          return (
+            <div
+              onPointerEnter={(event) => {
+                if (event.pointerType === 'touch') return
+                setHovered(true)
+                api.pause()
+              }}
+              onPointerLeave={(event) => {
+                if (event.pointerType === 'touch') return
+                setHovered(false)
+                resume()
+              }}
+              onFocusCapture={() => {
+                setFocusWithin(true)
+                api.pause()
+              }}
+              onBlurCapture={(event) => {
+                if (event.currentTarget.contains(event.relatedTarget)) return
+                setFocusWithin(false)
+                resume()
+              }}
+            >
+              {mode === 'rail' && controls}
+              <ArkCarousel.ItemGroup className={styles.itemGroup}>
+                {slides.map((slide, index) => (
+                  <ArkCarousel.Item key={slide.id} index={index} className={styles.item}>
+                    <div data-carousel-slide-content>{slide.content}</div>
+                  </ArkCarousel.Item>
+                ))}
+              </ArkCarousel.ItemGroup>
+              {mode === 'stage' && controls}
+            </div>
+          )
+        }}
+      </ArkCarousel.Context>
+    </ArkCarousel.Root>
   )
 }
