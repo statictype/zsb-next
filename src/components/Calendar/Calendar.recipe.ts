@@ -60,7 +60,6 @@ export const calendar = sva({
     'venueName',
     'venueParent',
     'chips',
-    'chip',
     'now',
     'nowDot',
     'nowLabel',
@@ -578,19 +577,6 @@ export const calendar = sva({
       _before: { content: '"↳ "' },
     },
     chips: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '6px' },
-    chip: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'highlight',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'highlightFaint',
-      padding: '3px 9px',
-      lineHeight: '1.4',
-    },
 
     // ---- NOW marker ----
     now: {

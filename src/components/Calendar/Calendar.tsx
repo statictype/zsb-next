@@ -6,6 +6,7 @@ import { Fragment, type ReactNode, useEffect, useMemo, useRef } from 'react'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
+import { Badge } from '@/components/ui/Badge/Badge'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import {
   type DayToken,
@@ -427,9 +428,9 @@ function TypeChips({ event }: { event: CalendarEvent }) {
   return (
     <ul className={s.chips}>
       {event.types.map((t) => (
-        <li key={`${event.key}-${t.slug}`} className={s.chip}>
+        <Badge key={`${event.key}-${t.slug}`} as="li" tone="outline" size="sm">
           {t.title}
-        </li>
+        </Badge>
       ))}
     </ul>
   )

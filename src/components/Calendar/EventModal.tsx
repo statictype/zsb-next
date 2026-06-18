@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react'
 import { css, cx } from 'styled-system/css'
 import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
+import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
 import { eventWhenLabel } from '@/lib/edition-dates'
 import { useBodyScrollLock } from '@/lib/use-body-scroll-lock'
@@ -140,9 +141,9 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
           {event.types.length > 0 && (
             <ul className={s.types}>
               {event.types.map((t) => (
-                <li key={t.slug} className={s.type}>
+                <Badge key={t.slug} as="li" tone="outline" size="sm">
                   {t.title}
-                </li>
+                </Badge>
               ))}
             </ul>
           )}

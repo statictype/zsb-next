@@ -2,6 +2,7 @@ import { RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
+import { Badge } from '@/components/ui/Badge/Badge'
 import { Disclosure } from '@/components/ui/Disclosure/Disclosure'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { TopVenue, VenueEvent, VenueNode, VenueTypeSection } from '@/lib/venues'
@@ -100,9 +101,9 @@ function EventList({ events, year }: { events: VenueEvent[]; year: number }) {
           {event.types.length > 0 && (
             <ul className={styles.chips}>
               {event.types.map((t) => (
-                <li key={t.slug} className={styles.chip}>
+                <Badge key={t.slug} as="li" tone="outline" size="sm">
                   {t.title}
-                </li>
+                </Badge>
               ))}
             </ul>
           )}

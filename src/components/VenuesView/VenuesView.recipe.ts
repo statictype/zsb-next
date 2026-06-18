@@ -28,7 +28,6 @@ export const venuesView = sva({
     'eventName',
     'eventWhen',
     'chips',
-    'chip',
     'child',
     'childHead',
     'childName',
@@ -153,20 +152,6 @@ export const venuesView = sva({
       fontVariantNumeric: 'tabular-nums',
     },
     chips: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '6px' },
-    chip: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'highlight',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'highlightFaint',
-      paddingBlock: '2px',
-      paddingInline: '8px',
-      lineHeight: '1.4',
-    },
 
     child: {
       display: 'flex',

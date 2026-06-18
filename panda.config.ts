@@ -64,7 +64,9 @@ const badge = defineRecipe({
       dark: { bg: 'gray.800', color: 'white' },
     },
     size: {
-      sm: { fontSize: '8px', paddingInline: '8px', paddingBlock: '3px' },
+      // `sm` rides the responsive `2xs` token (8→9→10px) so the chip sweep is
+      // lossless across the hand-rolled chips it replaces.
+      sm: { fontSize: '2xs', paddingInline: '8px', paddingBlock: '3px' },
       md: { fontSize: '10px', paddingInline: '12px', paddingBlock: '6px' },
     },
     elevated: {

@@ -5,6 +5,7 @@ import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
+import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { dayToken, eventWhenLabelShort } from '@/lib/edition-dates'
@@ -111,9 +112,9 @@ function FeaturedCard({
           {event.types.length > 0 && (
             <ul className={styles.chips}>
               {event.types.slice(0, 2).map((t) => (
-                <li key={t.slug} className={styles.chip}>
+                <Badge key={t.slug} as="li" size="sm">
                   {t.title}
-                </li>
+                </Badge>
               ))}
             </ul>
           )}

@@ -18,7 +18,6 @@ export const eventModal = sva({
     'when',
     'name',
     'types',
-    'type',
     'venue',
     'venueName',
     'venueParent',
@@ -106,19 +105,6 @@ export const eventModal = sva({
     name: { fontFamily: 'display', fontSize: '2xl', lineHeight: 'tight', color: 'white' },
 
     types: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: 'sm' },
-    type: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'highlight',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'highlightFaint',
-      padding: '3px 9px',
-      lineHeight: '1.4',
-    },
 
     venue: {
       display: 'flex',

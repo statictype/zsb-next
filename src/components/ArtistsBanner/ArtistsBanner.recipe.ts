@@ -3,15 +3,14 @@ import { sva } from 'styled-system/css'
 /**
  * ArtistsBanner — co-located slot recipe.
  *
- * The compound hover (arrow nudges, the underline draws, the corner wash fades
- * in) lives in one place: the `root` slot's `_hover`, targeting the children by
- * `data-part`. The title is the shared `<SectionHeading>` (no hover color). The
- * brand-tinted corner wash
- * and accent gradient reference the pink/chartreuse anchors via `color-mix`
- * rather than the old hardcoded `rgba()` literals.
+ * The compound hover (the accent bar draws, the corner wash fades in) lives in
+ * one place: the `root` slot's `_hover`, targeting children by `data-part`. The
+ * title is the shared `<SectionHeading>` and the CTA is a `<Button asChild
+ * variant="secondary">` (no arrow). The brand-tinted corner wash and accent
+ * gradient reference the pink/chartreuse anchors via `color-mix`.
  */
 export const artistsBanner = sva({
-  slots: ['root', 'inner', 'left', 'subtext', 'cta', 'ctaText', 'arrow', 'accent'],
+  slots: ['root', 'inner', 'left', 'subtext', 'accent'],
   base: {
     root: {
       position: 'relative',
@@ -37,7 +36,6 @@ export const artistsBanner = sva({
       },
       _hover: {
         _before: { opacity: '1' },
-        '& [data-part=arrow]': { transform: 'translate(8px, -8px)' },
         '& [data-part=accent]': { transform: 'scaleX(1)' },
       },
     },
@@ -60,20 +58,6 @@ export const artistsBanner = sva({
       lineHeight: 'body',
       color: 'body',
       maxWidth: { md: '500px' },
-    },
-    cta: { display: 'flex', alignItems: 'center', gap: 'sm' },
-    ctaText: {
-      fontFamily: 'display',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      color: 'action',
-    },
-    arrow: {
-      display: 'inline-flex',
-      flexShrink: '0',
-      color: 'action',
-      transition: 'transform {durations.medium} {easings.expo}',
     },
     accent: {
       position: 'absolute',

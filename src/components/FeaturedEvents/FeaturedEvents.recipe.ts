@@ -34,7 +34,6 @@ export const featuredEvents = sva({
     'venueName',
     'venueParent',
     'chips',
-    'chip',
   ],
   base: {
     inner: { layerStyle: 'sectionInner' },
@@ -215,22 +214,6 @@ export const featuredEvents = sva({
       flexWrap: 'wrap',
       gap: '6px',
       marginTop: '2px',
-    },
-    chip: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'highlight',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'highlightFaint',
-      paddingBlock: '3px',
-      paddingInline: '9px',
-      lineHeight: '1.4',
-      // a touch of backdrop so chips hold up over a bright patch of poster
-      background: 'color-mix(in srgb, {colors.canvas} 35%, transparent)',
     },
   },
 })
