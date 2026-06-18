@@ -82,7 +82,7 @@ export const venuesView = sva({
       color: 'white',
       transition: 'color {durations.fast} {easings.quint}',
       'summary:hover &': { color: 'action' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
     count: {
       fontFamily: 'body',
@@ -122,7 +122,7 @@ export const venuesView = sva({
       transition: 'color {durations.fast} {easings.quint}',
       _hover: { color: 'action' },
       _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '2px' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
     eventWhen: {
       fontFamily: 'body',

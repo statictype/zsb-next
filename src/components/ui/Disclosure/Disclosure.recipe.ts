@@ -30,7 +30,7 @@ export const disclosure = sva({
       flexShrink: '0',
       transition: 'transform {durations.fast} {easings.quint}',
       'details[open] &': { transform: 'rotate(180deg)' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
     // Sensible vertical stack for panel content; callers supply the content.
     panel: { display: 'flex', flexDirection: 'column', gap: 'lg', paddingBottom: 'lg' },

@@ -24,5 +24,5 @@ export const skeleton = css({
       'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%)',
     animation: 'shimmer {durations.sweep} ease-in-out infinite',
   },
-  '@media (prefers-reduced-motion: reduce)': { _after: { animation: 'none' } },
+  _motionReduce: { _after: { animation: 'none' } },
 })

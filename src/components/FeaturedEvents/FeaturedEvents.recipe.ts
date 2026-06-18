@@ -66,7 +66,7 @@ export const featuredEvents = sva({
         '& img': { filter: 'grayscale(0%) contrast(1)', transform: 'scale(1.04)' },
         '& a': { color: 'action' },
       },
-      '@media (prefers-reduced-motion: reduce)': {
+      _motionReduce: {
         '& img': { transition: 'none', transform: 'none' },
       },
     },

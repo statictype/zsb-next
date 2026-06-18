@@ -21,16 +21,11 @@ export const themeArtists = sva({
       position: 'relative',
       zIndex: '1',
       paddingInline: 'gutter',
-      display: 'flex',
-      flexDirection: 'column',
       maxWidth: '525px',
       lg: {
-        display: 'grid',
-        gridTemplateColumns: '0.8fr 1.2fr',
         gap: '{spacing.lg} {spacing.4xl}',
         maxWidth: 'maxWidth',
       },
-      xl: { gridTemplateColumns: '1fr 1fr' },
       '4xl': { paddingLeft: '2xl' },
     },
 

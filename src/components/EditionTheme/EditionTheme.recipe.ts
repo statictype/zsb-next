@@ -49,7 +49,7 @@ export const editionTheme = sva({
         background: 'highlight',
         opacity: '0.85',
       },
-      '@media (prefers-reduced-motion: reduce)': {
+      _motionReduce: {
         animation: 'none',
         opacity: '1',
         translate: '0 0',

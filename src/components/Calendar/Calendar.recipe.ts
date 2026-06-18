@@ -158,7 +158,7 @@ export const calendar = sva({
         borderColor: 'highlight',
         _hover: { color: 'black', background: 'highlight', borderColor: 'highlight' },
       },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
 
     // ---- Ongoing band — exhibition card grid ----
@@ -221,7 +221,7 @@ export const calendar = sva({
         transition: 'opacity {durations.normal} {easings.quint}',
       },
       '&[data-past=true]:hover': { opacity: 1 },
-      '@media (prefers-reduced-motion: reduce)': {
+      _motionReduce: {
         '&:hover::before': { animation: 'none' },
       },
     },
@@ -460,7 +460,7 @@ export const calendar = sva({
         outline: '2px solid token(colors.highlight)',
         outlineOffset: '3px',
       },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
     eventDesc: {
       fontFamily: 'body',
@@ -598,7 +598,7 @@ export const calendar = sva({
       color: 'inherit',
       transition: 'transform {durations.normal} {easings.quint}',
       '[open] &': { transform: 'rotate(180deg)' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
     archivePanel: { paddingTop: 'md', paddingBottom: 'lg' },
   },

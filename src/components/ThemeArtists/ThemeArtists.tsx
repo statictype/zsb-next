@@ -1,4 +1,5 @@
 import { cx } from 'styled-system/css'
+import { editorialSplit } from 'styled-system/patterns'
 import { section } from 'styled-system/recipes'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { Carousel } from '@/components/Carousel/Carousel'
@@ -24,7 +25,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
           {theme}
         </SectionHeading>
       </div>
-      <div className={styles.inner}>
+      <div className={cx(editorialSplit(), styles.inner)}>
         <div className={styles.body}>
           <p>{themeSection.body}</p>
         </div>

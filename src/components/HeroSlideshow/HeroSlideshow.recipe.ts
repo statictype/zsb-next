@@ -55,7 +55,7 @@ export const heroSlideshow = sva({
       transition: 'opacity {durations.entrance} {easings.quint}',
       '& img': { objectFit: 'cover', background: 'gray.900' },
       '&[data-active=true]': { opacity: 1 },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
     vignette: {
       position: 'absolute',
@@ -84,7 +84,7 @@ export const heroSlideshow = sva({
       animationTimingFunction: 'linear',
       animationFillMode: 'forwards',
       // animation-duration is set inline from the `interval` prop.
-      '@media (prefers-reduced-motion: reduce)': { animation: 'none', transform: 'scaleX(1)' },
+      _motionReduce: { animation: 'none', transform: 'scaleX(1)' },
     },
 
     controlBar: {

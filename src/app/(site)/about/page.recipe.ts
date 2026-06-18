@@ -195,7 +195,7 @@ export const aboutPage = sva({
       background: 'white',
       border: '1px solid token(colors.borderLight)',
       _hover: { '& img': { filter: 'grayscale(0%)', transform: 'scale(1.03)' } },
-      '@media (prefers-reduced-motion: reduce)': { '& img': { transform: 'none' } },
+      _motionReduce: { '& img': { transform: 'none' } },
     },
     authorPhoto: {
       position: 'relative',
@@ -209,7 +209,7 @@ export const aboutPage = sva({
       filter: 'grayscale(100%) contrast(1.02)',
       transition:
         'filter {durations.slow} {easings.expo}, transform {durations.slow} {easings.expo}',
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
     authorCaption: {
       display: 'flex',

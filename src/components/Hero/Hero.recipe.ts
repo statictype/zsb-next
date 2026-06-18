@@ -131,7 +131,7 @@ export const hero = sva({
       md: { fontSize: 'xs', paddingBlock: '10px', paddingInline: '16px', marginLeft: '28px' },
       lg: { paddingBlock: '12px', paddingInline: '20px', marginLeft: '-22px' },
       xl: { marginLeft: '-16px' },
-      '@media (prefers-reduced-motion: reduce)': {
+      _motionReduce: {
         animation: 'none',
         opacity: '1',
         translate: '0 0',
@@ -163,7 +163,7 @@ export const hero = sva({
       marginLeft: '28px',
       md: { fontSize: 'xs', paddingBlock: '10px', paddingInline: '16px', marginLeft: '40px' },
       lg: { paddingBlock: '12px', paddingInline: '20px' },
-      '@media (prefers-reduced-motion: reduce)': {
+      _motionReduce: {
         animation: 'none',
         opacity: '1',
         translate: '0 0',

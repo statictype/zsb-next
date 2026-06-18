@@ -1,4 +1,5 @@
 import { cx } from 'styled-system/css'
+import { editorialSplit } from 'styled-system/patterns'
 import { section } from 'styled-system/recipes'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { ManifestoData } from '@/types/edition'
@@ -14,7 +15,7 @@ export function Manifesto({ manifesto }: ManifestoProps) {
 
   return (
     <section className={cx(section({ ground: 'light', rhythm: 'lg' }), s.section)}>
-      <div className={s.container}>
+      <div className={cx(editorialSplit(), s.container)}>
         <SectionHeading case="sentence" flush>
           {titleParts ? (
             <>

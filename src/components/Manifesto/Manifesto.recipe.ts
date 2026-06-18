@@ -16,19 +16,14 @@ export const manifesto = sva({
       position: 'relative',
     },
     container: {
-      display: 'flex',
-      flexDirection: 'column',
       gap: '2xl',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       paddingInline: 'gutter',
       lg: {
-        display: 'grid',
-        gridTemplateColumns: '0.8fr 1.2fr',
         gap: 'gridGap',
         alignItems: 'start',
       },
-      xl: { gridTemplateColumns: '1fr 1fr' },
     },
     // The highlighted substring inside the headline — kept as its own slot.
     titleHighlight: { display: 'inline', color: 'action' },

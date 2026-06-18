@@ -18,7 +18,7 @@ export const enter = cva({
     animationName: 'enter',
     animationTimingFunction: '{easings.expo}',
     animationFillMode: 'both',
-    '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
+    _motionReduce: { animation: 'none' },
   },
   variants: {
     // Vertical rise distance (the dominant reveal). `none` = pure fade.

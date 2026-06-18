@@ -43,7 +43,7 @@ export const editionsNav = sva({
       // Current edition: persistent chartreuse hairline, inert.
       '&[data-current=true]': { cursor: 'default', borderColor: 'highlight' },
       '&[data-upcoming]': { cursor: 'default' },
-      '@media (prefers-reduced-motion: reduce)': {
+      _motionReduce: {
         opacity: '1',
         transform: 'none',
         transition: 'none',
@@ -102,7 +102,7 @@ export const editionsNav = sva({
       '@media (hover: hover)': {
         'a:not([data-current=true]):hover &': { color: 'action' },
       },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
     theme: {
       fontFamily: 'body',
@@ -117,7 +117,7 @@ export const editionsNav = sva({
       '@media (hover: hover)': {
         'a:not([data-current=true]):hover &': { color: 'gray.100' },
       },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
   },
 })
