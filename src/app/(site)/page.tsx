@@ -1,7 +1,7 @@
 import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { css, cx } from 'styled-system/css'
+import { cx } from 'styled-system/css'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
@@ -123,7 +123,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                   <AccentSplit text={title} accent={accent} lineBreak />
                 </h1>
                 <div className={styles.heroText}>
-                  <p className={css({ textStyle: 'heroLead' })}>{lead}</p>
+                  <p className={styles.heroLead}>{lead}</p>
                   {ctaLabel && ctaYear && (
                     <Link
                       href={`/editions/${ctaYear}`}
@@ -164,7 +164,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                   >
                     <span className={styles.editionYear}>{edition.year}</span>
                     <span className={styles.editionTheme}>{edition.theme}</span>
-                    <Badge size="sm" className={css({ flexShrink: '0' })}>
+                    <Badge size="sm" className={styles.editionBadge}>
                       Coming soon
                     </Badge>
                   </div>

@@ -146,7 +146,7 @@ export const partnersPage = sva({
     },
     partnerCtaAccent: { color: 'action' },
     partnerCtaBody: {
-      fontSize: '15px',
+      fontSize: 'base',
       lineHeight: 'body',
       fontWeight: 'light',
       color: 'body',

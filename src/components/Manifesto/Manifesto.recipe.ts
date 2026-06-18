@@ -46,12 +46,8 @@ export const manifesto = sva({
         background: 'linear-gradient(to bottom, {colors.action}, transparent)',
       },
       '& p': {
-        fontFamily: 'body',
-        fontSize: { base: 'base', '3xl': 'md' },
-        fontWeight: { '3xl': 'light' },
-        lineHeight: 'body',
+        textStyle: 'lead',
         color: 'bodyLight',
-        textWrap: 'pretty',
       },
     },
   },

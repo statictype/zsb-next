@@ -573,16 +573,16 @@ export default defineConfig({
             textTransform: 'uppercase',
           },
         },
-        heroLead: {
+        lead: {
           value: {
             fontFamily: 'body',
-            fontSize: { base: 'base', '2xl': 'md' },
+            fontSize: { base: 'base', '3xl': 'md' },
+            fontWeight: { '3xl': 'light' },
             lineHeight: 'body',
-            // Exception: lead emphasis, brighter than `body`.
-            color: 'gray.200',
+            textWrap: 'pretty',
           },
         },
-        lead: {
+        prose: {
           value: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },
         },
       },

@@ -21,7 +21,7 @@ export const pageHero = sva({
       // stays here.
       animationDelay: '0.2s',
     },
-    lead: { textStyle: 'lead', maxWidth: '60ch', marginTop: 'xl' },
+    lead: { textStyle: 'lead', color: 'body', maxWidth: '60ch', marginTop: 'xl' },
   },
   variants: {
     // Drop the hero's bottom padding when a section follows directly — the

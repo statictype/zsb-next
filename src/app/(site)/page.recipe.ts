@@ -21,6 +21,7 @@ export const homePage = sva({
     'heroPanel',
     'heroTitle',
     'heroText',
+    'heroLead',
     'heroBadge',
     'editionsHead',
     'editionsSubtext',
@@ -28,6 +29,7 @@ export const homePage = sva({
     'editionRow',
     'editionYear',
     'editionTheme',
+    'editionBadge',
     'editionArrow',
     'editionRowDisabled',
     'upcomingInner',
@@ -101,6 +103,7 @@ export const homePage = sva({
       alignItems: 'flex-start',
       gap: 'lg',
     },
+    heroLead: { textStyle: 'lead', color: 'body' },
     heroBadge: {
       order: '3',
       alignSelf: 'center',
@@ -179,6 +182,7 @@ export const homePage = sva({
       transition: 'color {durations.normal} {easings.quint}',
       'a:hover &': { color: 'action' },
     },
+    editionBadge: { flexShrink: '0' },
     editionArrow: {
       flexShrink: '0',
       color: 'muted',

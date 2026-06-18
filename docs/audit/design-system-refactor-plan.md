@@ -31,8 +31,8 @@ in a later stage is needed by an earlier one, so the commits land in order.
 
 ## Status (updated 2026-06-18)
 
-- ✅ **Done:** A1–A7 · B1–B9 · C1–C7
-- ⬜ **To do:** C8–C9
+- ✅ **Done:** A1–A7 · B1–B9 · C1–C8
+- ⬜ **To do:** C9
 - ⏸ **Deferred (own epics):** Calendar structural split · EditionsNav refactor · fontSizes ladder 11→7
 
 ---
@@ -405,7 +405,7 @@ into per-surface commits if the diff gets large.
   dropped** (R3). Delete the `btn`/`btnPrimary` slots from `error.recipe.ts`.
 - **Depends-on:** B2  **Visual:** low  **Source:** F06
 
-### ⬜ C8 · Prose & misc token adoption
+### ✅ C8 · Prose & misc token adoption
 - **What:** Two prose textStyles, cleanly named, adopted across the hand-rolled
   prose; plus two token cleanups.
 - **Decision — two prose roles.**
@@ -457,9 +457,8 @@ into per-surface commits if the diff gets large.
 
 ## Remaining order
 
-Foundation (A1–A7), Stage B (B1–B9), and C1–C7 are done. Remaining commit sequence
-on the one branch: **C8–C9** (with C4 + the B2 `asChild` amendment before C5/C7,
-and C6 last in Calendar).
+Foundation (A1–A7), Stage B (B1–B9), and C1–C8 are done. Remaining commit sequence
+on the one branch: **C9**.
 
 ## ADR deliverables
 - **ADR 0019** — action-primitive consolidation. **Landed early** with the audit

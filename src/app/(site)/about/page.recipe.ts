@@ -97,10 +97,7 @@ export const aboutPage = sva({
         background: 'linear-gradient(to bottom, {colors.action}, transparent)',
       },
       '& p': {
-        fontFamily: 'body',
-        fontSize: 'md',
-        lineHeight: 'body',
-        fontWeight: 'light',
+        textStyle: 'lead',
         color: 'bodyLight',
       },
     },
@@ -147,10 +144,7 @@ export const aboutPage = sva({
       margin: '0',
     },
     pillarBody: {
-      fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: { base: 'body', md: 'loose' },
-      color: 'body',
+      textStyle: 'prose',
       maxWidth: '50ch',
     },
 
@@ -245,11 +239,8 @@ export const aboutPage = sva({
       flexDirection: 'column',
       gap: 'md',
       '& p': {
-        fontFamily: 'body',
-        fontSize: 'md',
-        fontWeight: 'light',
+        textStyle: 'lead',
         color: 'bodyLight',
-        textWrap: 'pretty',
       },
     },
   },
