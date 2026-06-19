@@ -103,7 +103,7 @@ export const homePage = sva({
       alignItems: 'flex-start',
       gap: 'lg',
     },
-    heroLead: { textStyle: 'lead', color: 'body' },
+    heroLead: { textStyle: 'leadLarge', color: 'body' },
     heroBadge: {
       order: '3',
       alignSelf: 'center',

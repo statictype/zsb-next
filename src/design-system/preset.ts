@@ -986,8 +986,18 @@ export const designSystemPreset = definePreset({
         lead: {
           value: {
             fontFamily: 'body',
-            fontSize: { base: 'base', '3xl': 'md' },
-            fontWeight: { '3xl': 'light' },
+            fontSize: 'base',
+            lineHeight: 'body',
+            textWrap: 'pretty',
+          },
+        },
+        // The homepage hero's larger, lighter intro — the one place a lead is
+        // emphasised over the canonical `lead` role.
+        leadLarge: {
+          value: {
+            fontFamily: 'body',
+            fontSize: 'md',
+            fontWeight: 'light',
             lineHeight: 'body',
             textWrap: 'pretty',
           },
