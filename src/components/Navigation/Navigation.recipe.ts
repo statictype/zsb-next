@@ -42,6 +42,10 @@ export const navigation = sva({
         top: '32px',
         right: 'gutter',
         gap: 0,
+        // Match the logo's z-index so the menu paints above positioned hero
+        // content (home/edition heroes are `position: relative`; without this
+        // they paint over the z-auto nav and hide the links).
+        zIndex: 1001,
       },
       lg: { top: '40px' },
     },
