@@ -4,6 +4,7 @@ import { card, section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
+import { splitFirstMatch } from '@/lib/split-first-match'
 import type { ExternalGalleryData } from '@/types/edition'
 import { externalGallery } from './ExternalGallery.recipe'
 
@@ -14,18 +15,9 @@ interface ExternalGalleryProps {
   theme: string
 }
 
-function splitOnFirst(a: string, b: string) {
-  const [before, ...rest] = a.split(b)
-  if (!rest.length || !before) return null
-  return [before, rest.join(b)] as [string, string]
-}
-
 export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
   const { tag, title, highlight, description, linkLabel, href } = gallery
-
-  const [firstPart, secondPart] = highlight
-    ? (splitOnFirst(title, highlight) ?? [title, ''])
-    : [title, '']
+  const titleParts = highlight ? splitFirstMatch(title, highlight) : null
 
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
@@ -49,11 +41,11 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
               <Badge>{tag}</Badge>
 
               <SectionHeading as="h3" flush>
-                {highlight ? (
+                {titleParts ? (
                   <>
-                    {firstPart}
-                    <span className={styles.titleHighlight}>{highlight}</span>
-                    {secondPart}
+                    {titleParts.before}
+                    <span className={styles.titleHighlight}>{titleParts.match}</span>
+                    {titleParts.after}
                   </>
                 ) : (
                   title

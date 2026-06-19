@@ -5,7 +5,7 @@ import { Figure } from '@/components/Figure/Figure'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
 import type { CarouselLayout, CarouselSlide as GallerySlide } from '@/types/edition'
 import { Carousel } from './Carousel'
-import { galleryCarousel } from './Carousel.recipe'
+import { galleryCarousel } from './GalleryCarousel.recipe'
 
 const placement = css({ marginTop: '3xl' })
 

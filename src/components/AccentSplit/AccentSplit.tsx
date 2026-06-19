@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { css } from 'styled-system/css'
+import { splitFirstMatch } from '@/lib/split-first-match'
 
 const accentClass = css({ color: 'action' })
 
@@ -29,24 +30,26 @@ export function AccentSplit({
   className = accentClass,
   lineBreak = false,
 }: AccentSplitProps): ReactNode {
-  const idx = text.indexOf(accent)
-  if (idx === -1) return <>{text}</>
+  const parts = splitFirstMatch(text, accent)
+  if (!parts) return <>{text}</>
 
   if (lineBreak) {
-    const before = text.slice(0, idx).trimEnd()
+    const before = parts.before.trimEnd()
     return (
       <>
         {before}
         {before && <br />}
-        <span className={className}>{accent}</span>
+        <span className={className}>{parts.match}</span>
+        {parts.after}
       </>
     )
   }
 
   return (
     <>
-      {text.slice(0, idx)}
-      <span className={className}>{accent}</span>
+      {parts.before}
+      <span className={className}>{parts.match}</span>
+      {parts.after}
     </>
   )
 }

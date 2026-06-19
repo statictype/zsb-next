@@ -3,10 +3,10 @@ import { sva } from 'styled-system/css'
 /**
  * CookieBanner — co-located slot recipe.
  *
- * Fixed consent dialog pinned to the bottom rail. The Reject/Accept actions are
- * now the shared `<Button>` primitive (ghost / solid), so only the shell layout
- * lives here. The entrance composes the shared `enter()` cva (at `normal` speed)
- * on the banner element.
+ * Fixed, non-modal consent region pinned to the bottom rail. Visitors can keep
+ * navigating while it is present. The Reject/Accept actions use the shared
+ * `<Button>` primitive, so only the shell layout lives here. The entrance
+ * composes the shared `enter()` cva on the banner element.
  */
 export const cookieBanner = sva({
   slots: ['banner', 'inner', 'copy', 'title', 'text', 'link', 'actions'],

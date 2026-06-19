@@ -64,14 +64,16 @@ export function CookieBanner() {
       {showBanner
         ? createPortal(
             <div
-              role="dialog"
+              role="region"
               aria-live="polite"
-              aria-label="Cookie consent"
+              aria-labelledby="cookie-consent-title"
               className={cx(s.banner, enter({ speed: 'normal' }))}
             >
               <div className={s.inner}>
                 <div className={s.copy}>
-                  <p className={s.title}>We use cookies</p>
+                  <p id="cookie-consent-title" className={s.title}>
+                    We use cookies
+                  </p>
                   <p className={s.text}>
                     We use Google Analytics to understand how visitors use this site. No ads, no
                     tracking across other sites.{' '}

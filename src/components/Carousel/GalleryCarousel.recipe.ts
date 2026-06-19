@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 /**
- * GalleryCarousel — product slide content inside the shared rail Carousel.
+ * GalleryCarousel — authored slide content inside the shared rail Carousel.
  *
  * The shared Carousel owns interaction and controls; this recipe owns only the
  * authored image-grid layouts and lightbox-trigger presentation.

@@ -16,9 +16,9 @@ const styles = venuesView()
 // below the main-venue block. The edition shown is the one the Visit switch
 // resolves to (latest|upcoming, ZSB-46). Venues that have events, grouped by
 // type, with sub-venues rolled up under their parent — the sections are built in
-// the data layer (ZSB-65), so this is a pure renderer. Each venue is a
-// disclosure — its events reveal on tap/click (keyboard-accessible); event names
-// deep-link to the edition calendar's detail modal (reusing ZSB-40).
+// the data layer (ZSB-65), so this is a pure renderer. Each venue is an item in
+// the shared Accordion; event names deep-link to the edition calendar's detail
+// modal (reusing ZSB-40).
 export function VenuesView({ year, sections }: { year: number; sections: VenueTypeSection[] }) {
   return (
     <section className={cx(section(), styles.section)} aria-labelledby="venues-heading">

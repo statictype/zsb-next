@@ -2,6 +2,7 @@ import { cx } from 'styled-system/css'
 import { editorialSplit } from 'styled-system/patterns'
 import { section } from 'styled-system/recipes'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
+import { splitFirstMatch } from '@/lib/split-first-match'
 import type { ManifestoData } from '@/types/edition'
 import { manifesto as styles } from './Manifesto.recipe'
 
@@ -10,7 +11,9 @@ interface ManifestoProps {
 }
 
 export function Manifesto({ manifesto }: ManifestoProps) {
-  const titleParts = manifesto.highlight ? manifesto.title.split(manifesto.highlight) : null
+  const titleParts = manifesto.highlight
+    ? splitFirstMatch(manifesto.title, manifesto.highlight)
+    : null
   const s = styles()
 
   return (
@@ -19,9 +22,9 @@ export function Manifesto({ manifesto }: ManifestoProps) {
         <SectionHeading case="sentence" flush>
           {titleParts ? (
             <>
-              {titleParts[0]}
-              <span className={s.titleHighlight}>{manifesto.highlight}</span>
-              {titleParts[1]}
+              {titleParts.before}
+              <span className={s.titleHighlight}>{titleParts.match}</span>
+              {titleParts.after}
             </>
           ) : (
             manifesto.title

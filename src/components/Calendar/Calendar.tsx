@@ -257,7 +257,7 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
         </header>
 
         {/* On a finished edition the filters and the board fold into the archive
-            disclosure together (ZSB-45), so filtering still works once expanded;
+            Collapsible together (ZSB-45), so filtering still works once expanded;
             a live edition renders them inline. */}
         <ArchiveCollapse ended={ended} count={events.length}>
           {showFilterBar && (
@@ -357,7 +357,7 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
 
 // On a finished edition the full board is kept as the historical record but
 // folded behind a Collapsible so the recap leads (ZSB-45); live/upcoming editions
-// render the board directly without mounting a redundant disclosure control.
+// render the board directly without mounting a redundant Collapsible.
 function ArchiveCollapse({
   ended,
   count,

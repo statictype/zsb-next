@@ -579,7 +579,6 @@ const carousel = defineSlotRecipe({
     'indicator',
     'autoplayTrigger',
     'progressText',
-    'autoplayIndicator',
   ],
   base: {
     root: { position: 'relative', width: '100%', minWidth: 0 },

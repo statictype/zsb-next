@@ -1,4 +1,5 @@
 import { cx } from 'styled-system/css'
+import { splitFirstMatch } from '@/lib/split-first-match'
 import { editionTheme } from './EditionTheme.recipe'
 
 interface EditionThemeProps {
@@ -22,13 +23,6 @@ interface EditionThemeProps {
   className?: string | undefined
 }
 
-/** Split `a` on the first occurrence of `b` → `[before, after]`, or null. */
-function splitOnFirst(a: string, b: string): [string, string] | null {
-  const [before, ...rest] = a.split(b)
-  if (!rest.length || !before) return null
-  return [before, rest.join(b)]
-}
-
 /**
  * The shared edition "theme tape" — owns the split-on-highlight markup and the
  * canonical tape style. See `EditionTheme.recipe.ts` for the chrome.
@@ -43,7 +37,7 @@ export function EditionTheme({
   className,
 }: EditionThemeProps) {
   const styles = editionTheme({ size, interactive })
-  const parts = themeHighlight ? splitOnFirst(theme, themeHighlight) : null
+  const parts = themeHighlight ? splitFirstMatch(theme, themeHighlight) : null
   return (
     <Tag
       className={cx(styles.root, className)}
@@ -51,9 +45,9 @@ export function EditionTheme({
     >
       {parts ? (
         <>
-          {parts[0]}
-          <span className={styles.highlight}>{themeHighlight}</span>
-          {parts[1]}
+          {parts.before}
+          <span className={styles.highlight}>{parts.match}</span>
+          {parts.after}
         </>
       ) : (
         theme
