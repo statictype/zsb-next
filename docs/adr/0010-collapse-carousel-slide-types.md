@@ -18,6 +18,6 @@ Considered alternatives:
 - **Keep five types but extract a shared `slideBody` object reused across them.** Reduces duplication slightly, leaves the editor-side "five identical options" problem unsolved. Skipped — fixes the wrong half.
 - **Polymorphic union with `_type` discriminator.** Identical structurally to the current five-type design, just named differently. No editor improvement. Skipped.
 
-Migration: write one `defineMigration` script that walks every `edition.carousel[]` item, derives the new `layout` from `_type`, renames `_type` to `carouselSlide`, leaves `images` untouched. Dry-run first, verify, then apply. Static fallback data in `src/data/editions/*.ts` doesn't need to change — those files use a different in-memory shape that's already mapped through `src/sanity/lib/editions.ts`.
+Migration: write one `defineMigration` script that walks every `edition.carousel[]` item, derives the new `layout` from `_type`, renames `_type` to `carouselSlide`, leaves `images` untouched. Dry-run first, verify, then apply.
 
 Reversibility: moderate. The collapsed shape is the more general one; expanding back to five types would be a second migration but trivially mechanical. The runtime `CarouselSlide` union doesn't change either way.

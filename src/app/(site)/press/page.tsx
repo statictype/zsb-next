@@ -11,6 +11,7 @@ import {
 import { stegaClean } from '@sanity/client/stega'
 import { notFound } from 'next/navigation'
 import { css } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
@@ -18,6 +19,7 @@ import { MediaKitStrip } from '@/components/MediaKitStrip/MediaKitStrip'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata, organizationJsonLd, pressAppearancesJsonLd } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import {
@@ -110,15 +112,16 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
       <main className={styles.page}>
         {/* ===== Hero ===== */}
         <PageHero
+          flush
           title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
           lead={hero.lead}
         />
 
         {/* ===== Media Kit Strip ===== */}
         {kit.length > 0 && (
-          <section id="media-kit" className={styles.kitSection}>
+          <section id="media-kit" className={section()}>
             <div className={styles.kitHeader}>
-              <h2 className={styles.kitTitle}>Media kit</h2>
+              <SectionHeading flush>Media kit</SectionHeading>
             </div>
             <MediaKitStrip items={kit} />
           </section>
@@ -126,11 +129,9 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
 
         {/* ===== Appearances ===== */}
         {appearances.length > 0 && (
-          <section className={styles.appearances}>
+          <section className={section()}>
             <div className={styles.appearancesInner}>
-              <h2 className={css({ textStyle: 'sectionTitle', marginBottom: 'xl' })}>
-                Press appearances
-              </h2>
+              <SectionHeading>Press appearances</SectionHeading>
 
               <ul className={styles.appList}>
                 {appearances.map((item) => {
@@ -174,11 +175,9 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
 
         {/* ===== Releases ===== */}
         {releases.length > 0 && (
-          <section className={styles.releases}>
+          <section className={section()}>
             <div className={styles.releasesInner}>
-              <h2 className={css({ textStyle: 'sectionTitle', marginBottom: 'xl' })}>
-                Press releases
-              </h2>
+              <SectionHeading>Press releases</SectionHeading>
 
               <ul className={styles.releaseList}>
                 {releases.map((release, i) => (

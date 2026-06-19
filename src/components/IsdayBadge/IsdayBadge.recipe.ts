@@ -4,9 +4,8 @@ import { sva } from 'styled-system/css'
  * IsdayBadge — co-located slot recipe.
  *
  * The "Official Participant" pill is now the shared <Badge tone="dark">; this
- * recipe owns the bespoke card surface (pink-tinted gradient, hairline + card
- * shadow) and the title block. The gradient's stray hardcoded pink is normalized
- * to the brand `pink` anchor; the surface border/shadow reuse the role tokens.
+ * recipe owns the seal layout and title block. The shared <Card ground="onLight">
+ * owns the surface chrome and ground.
  */
 export const isdayBadge = sva({
   slots: ['card', 'inner', 'title', 'subtitle', 'pill', 'pillDot'],
@@ -22,12 +21,6 @@ export const isdayBadge = sva({
       height: '100%',
       paddingBlock: 'lg',
       paddingInline: 'md',
-      background:
-        'linear-gradient(135deg, color-mix(in oklch, {colors.pink} 5%, transparent) 0%, color-mix(in oklch, white 90%, transparent) 40%, {colors.surfaceLight} 100%)',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'dividerLight',
-      boxShadow: 'card',
     },
     title: {
       fontFamily: 'body',

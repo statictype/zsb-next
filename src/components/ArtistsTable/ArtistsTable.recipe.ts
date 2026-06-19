@@ -4,9 +4,9 @@ import { sva } from 'styled-system/css'
  * ArtistsTable — co-located slot recipe.
  *
  * A numbered two-column roster on a chartreuse header/footer, framed by the
- * shared dark hairline (`--border-dark` → divider token). Single column on
+ * shared dark hairline (`--border-dark` → borderDark token). Single column on
  * mobile (stacked entries), a real 2-col grid from `md` where the inter-column
- * divider flips from a bottom border to a right border.
+ * the hairline flips from a bottom border to a right border.
  */
 export const artistsTable = sva({
   slots: [
@@ -37,7 +37,7 @@ export const artistsTable = sva({
       textTransform: 'uppercase',
       fontWeight: 'semibold',
       letterSpacing: 'label',
-      color: 'black',
+      color: 'headingLight',
       '& span:last-child': { lineHeight: 'heading' },
     },
     headerLabel: { fontFamily: 'body', fontSize: '2xs' },
@@ -48,18 +48,18 @@ export const artistsTable = sva({
       width: '100%',
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'divider',
+      borderColor: 'borderDark',
       md: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' },
     },
     column: {
       borderBottomWidth: '1px',
       borderBottomStyle: 'solid',
-      borderBottomColor: 'divider',
+      borderBottomColor: 'borderDark',
       md: {
         borderBottomWidth: '0',
         borderRightWidth: '1px',
         borderRightStyle: 'solid',
-        borderRightColor: 'divider',
+        borderRightColor: 'borderDark',
         paddingBlock: 'sm',
         paddingInline: '0',
         '&:last-child': { borderRightWidth: '0' },
@@ -73,7 +73,7 @@ export const artistsTable = sva({
       paddingInline: 'md',
       borderBottomWidth: '1px',
       borderBottomStyle: 'solid',
-      borderBottomColor: 'divider',
+      borderBottomColor: 'borderDark',
       '&:last-child': { borderBottomWidth: '0' },
     },
     num: {
@@ -102,7 +102,7 @@ export const artistsTable = sva({
       gap: 'sm',
       padding: 'sm',
       background: 'highlight',
-      color: 'black',
+      color: 'headingLight',
       md: { paddingInline: 'md' },
     },
     meta: {
@@ -115,9 +115,9 @@ export const artistsTable = sva({
       fontSize: '2xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
-      color: 'black',
+      color: 'headingLight',
       fontWeight: 'semibold',
-      '& span': { color: 'black', marginLeft: '8px', fontWeight: 'regular' },
+      '& span': { color: 'headingLight', marginLeft: '8px', fontWeight: 'regular' },
     },
     barcode: {
       justifySelf: 'flex-end',

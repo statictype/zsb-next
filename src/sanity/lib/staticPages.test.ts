@@ -113,8 +113,8 @@ describe('normalizeAbout', () => {
   it('coalesces text to "" and lists to [], leaves genuine optionals absent', () => {
     const view = normalizeAbout(raw({}))
     expect(view.hero).toEqual({ title: '', titleAccent: '', lead: '' })
-    expect(view.notFestivalTitle).toBe('')
-    expect(view.notFestivalBody).toEqual([])
+    expect(view.manifestoTitle).toBe('')
+    expect(view.manifestoBody).toBe('')
     expect(view.pillars).toEqual([])
     expect(view.curatorLetter).toEqual([])
     expect(view.carouselEyebrow).toBe('Gallery') // the real default lives in the layer
@@ -127,13 +127,15 @@ describe('normalizeAbout', () => {
     const view = normalizeAbout(
       raw({
         hero: { title: 'About', titleAccent: 'us', lead: 'Lead.' },
-        notFestivalTitle: 'Not a festival',
+        manifestoTitle: 'Not a festival',
+        manifestoBody: 'One paragraph.',
         pillars: [{ label: 'A', body: 'b' }],
         metaDescription: 'desc',
       }),
     )
     expect(view.hero.title).toBe('About')
-    expect(view.notFestivalTitle).toBe('Not a festival')
+    expect(view.manifestoTitle).toBe('Not a festival')
+    expect(view.manifestoBody).toBe('One paragraph.')
     expect(view.pillars).toEqual([{ label: 'A', body: 'b' }])
     expect(view.metaDescription).toBe('desc')
   })
@@ -149,10 +151,7 @@ describe('normalizeAbout', () => {
   })
 
   it('drops null/empty entries from string lists', () => {
-    const view = normalizeAbout(
-      raw({ notFestivalBody: ['a', null, '', 'b'], curatorLetter: [null, 'x'] }),
-    )
-    expect(view.notFestivalBody).toEqual(['a', 'b'])
+    const view = normalizeAbout(raw({ curatorLetter: [null, 'x'] }))
     expect(view.curatorLetter).toEqual(['x'])
   })
 })

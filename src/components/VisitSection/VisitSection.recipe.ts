@@ -23,7 +23,6 @@ export const visitSection = sva({
     'image',
     'pixel',
     'content',
-    'title',
     'infoRow',
     'infoBlock',
     'infoIcon',
@@ -42,7 +41,7 @@ export const visitSection = sva({
   ],
   base: {
     section: { width: '100%', paddingBlock: 'sectionY' },
-    inner: { layerStyle: 'sectionInner', paddingInline: 'content' },
+    inner: { layerStyle: 'sectionInner' },
 
     splitLayout: {
       display: 'grid',
@@ -68,7 +67,6 @@ export const visitSection = sva({
     pixel: { position: 'absolute', pointerEvents: 'none' },
 
     content: { display: 'flex', flexDirection: 'column', gap: 'lg' },
-    title: { textStyle: 'sectionTitle' },
 
     infoRow: {
       display: 'flex',
@@ -83,7 +81,7 @@ export const visitSection = sva({
       fontFamily: 'body',
       fontSize: 'xs',
       textTransform: 'uppercase',
-      letterSpacing: '0.15em',
+      letterSpacing: 'wide',
       color: 'muted',
       fontWeight: 'semibold',
     },
@@ -102,7 +100,7 @@ export const visitSection = sva({
       paddingTop: 'sm',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
       md: { display: 'flex', flexWrap: 'wrap' },
     },
     practicalItem: {
@@ -113,7 +111,7 @@ export const visitSection = sva({
       fontSize: 'xs',
       color: 'body',
       textTransform: 'uppercase',
-      letterSpacing: '0.1em',
+      letterSpacing: 'wide',
       lg: { fontSize: '2xs' },
     },
     practicalIcon: { color: 'muted' },

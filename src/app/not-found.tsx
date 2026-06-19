@@ -1,8 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import { css, cx } from 'styled-system/css'
-
-const EXPO = 'cubic-bezier(0.16, 1, 0.3, 1)'
+import { enter } from '@/components/enter'
 
 const page = css({
   position: 'relative',
@@ -14,7 +13,7 @@ const page = css({
   bg: 'canvas',
   overflow: 'hidden',
   paddingBlock: 'xl',
-  paddingInline: 'content',
+  paddingInline: 'gutter',
 })
 
 const vignette = css({
@@ -32,16 +31,10 @@ const glow = css({
   filter: 'blur(160px)',
   opacity: '0.12',
   pointerEvents: 'none',
-  animation: 'glowDrift 12s ease-in-out infinite',
 })
 
 const glowPink = css({ bg: 'action', top: '20%', left: '15%' })
-const glowChartreuse = css({
-  bg: 'highlight',
-  bottom: '10%',
-  right: '10%',
-  animationDelay: '-6s',
-})
+const glowChartreuse = css({ bg: 'highlight', bottom: '10%', right: '10%' })
 
 const content = css({
   position: 'relative',
@@ -56,8 +49,7 @@ const code = css({
   lineHeight: 'display',
   color: 'white',
   letterSpacing: '-6px',
-  opacity: '0',
-  animation: `fadeSlideUp 1s ${EXPO} 0.1s forwards`,
+  animationDelay: '0.1s',
 })
 
 const divider = css({
@@ -67,8 +59,7 @@ const divider = css({
   marginTop: 'lg',
   marginInline: 'auto',
   marginBottom: 'xl',
-  opacity: '0',
-  animation: `fadeSlideUp 1s ${EXPO} 0.25s forwards`,
+  animationDelay: '0.25s',
 })
 
 const title = css({
@@ -78,8 +69,7 @@ const title = css({
   letterSpacing: 'label',
   color: 'white',
   marginBottom: 'md',
-  opacity: '0',
-  animation: `fadeSlideUp 1s ${EXPO} 0.35s forwards`,
+  animationDelay: '0.35s',
 })
 
 const subtitle = css({
@@ -89,8 +79,7 @@ const subtitle = css({
   textTransform: 'uppercase',
   letterSpacing: 'label',
   marginBottom: '2xl',
-  opacity: '0',
-  animation: `fadeSlideUp 1s ${EXPO} 0.45s forwards`,
+  animationDelay: '0.45s',
 })
 
 const cta = css({
@@ -102,13 +91,13 @@ const cta = css({
   textTransform: 'uppercase',
   letterSpacing: 'label',
   color: 'white',
-  border: '1px solid token(colors.divider)',
+  border: '1px solid token(colors.borderDark)',
   paddingBlock: '14px',
   paddingInline: '28px',
-  opacity: '0',
-  animation: `fadeSlideUp 1s ${EXPO} 0.55s forwards`,
-  transition: 'color {durations.normal} ease, border-color {durations.normal} ease',
-  '& svg': { transition: 'transform {durations.normal} ease' },
+  animationDelay: '0.55s',
+  transition:
+    'color {durations.normal} {easings.quint}, border-color {durations.normal} {easings.quint}',
+  '& svg': { transition: 'transform {durations.normal} {easings.quint}' },
   _hover: {
     borderColor: 'action',
     color: 'action',
@@ -124,11 +113,11 @@ export default function NotFound() {
       <div className={cx(glow, glowChartreuse)} />
 
       <div className={content}>
-        <div className={code}>404</div>
-        <div className={divider} />
-        <h1 className={title}>This space is empty</h1>
-        <p className={subtitle}>Like an exhibition between shows</p>
-        <Link href="/" className={cta}>
+        <div className={cx(code, enter())}>404</div>
+        <div className={cx(divider, enter())} />
+        <h1 className={cx(title, enter())}>This space is empty</h1>
+        <p className={cx(subtitle, enter())}>Like an exhibition between shows</p>
+        <Link href="/" className={cx(cta, enter())}>
           Return Home <RiArrowRightLine size={14} />
         </Link>
       </div>

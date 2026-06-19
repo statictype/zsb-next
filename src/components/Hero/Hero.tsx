@@ -1,34 +1,20 @@
+import { css, cx } from 'styled-system/css'
+import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
+import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
 import type { Edition } from '@/types/edition'
 import { hero } from './Hero.recipe'
 
 const styles = hero()
 
+// Container positioning only — tuck the theme tape under the nav, mirroring the
+// per-tape left offsets of the date/edition tapes. (Entrance delay is a prop.)
+const tapeTheme = css({
+  marginLeft: { base: '10px', md: '18px', lg: '-36px', xl: '-40px' },
+})
+
 interface HeroProps {
   edition: Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'heroImage' | 'dateTape'>
-}
-
-function splitOnFirst(a: string, b: string) {
-  const [before, ...rest] = a.split(b)
-  if (!rest.length || !before) return null
-  return [before, rest.join(b)] as [string, string]
-}
-
-function ThemeTape({ theme, themeHighlight = '' }: { theme: string; themeHighlight: string }) {
-  const [firstPart, secondPart] = splitOnFirst(theme, themeHighlight) ?? [theme, '']
-  return (
-    <h1 className={styles.tapeTheme}>
-      {themeHighlight ? (
-        <>
-          <span>{firstPart}</span>
-          <span className={styles.themeHighlight}>{themeHighlight}</span>
-          <span>{secondPart}</span>
-        </>
-      ) : (
-        theme
-      )}
-    </h1>
-  )
 }
 
 export function Hero({ edition }: HeroProps) {
@@ -43,14 +29,21 @@ export function Hero({ edition }: HeroProps) {
             image={heroImage}
             sizes="(min-width: 1024px) calc(100vw - 200px), 100vw"
             priority
-            className={styles.image}
+            className={cx(styles.image, enter({ rise: 'none', zoom: true }))}
           />
-          <div className={styles.vignette} aria-hidden="true" />
+          <div className={cx(styles.vignette, enter({ rise: 'none' }))} aria-hidden="true" />
         </div>
 
         <div className={styles.tapes}>
           <span className={styles.tapeDate}>{dateTape}</span>
-          <ThemeTape theme={theme} themeHighlight={themeHighlight} />
+          <EditionTheme
+            as="h1"
+            size="huge"
+            theme={theme}
+            themeHighlight={themeHighlight}
+            delay="0.55s"
+            className={tapeTheme}
+          />
           <span className={styles.tapeEdition}>
             Bucharest Sculpture Days <span className={styles.editionSep}>/</span> ZSB {year}
           </span>

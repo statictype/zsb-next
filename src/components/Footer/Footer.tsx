@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
+import { button } from 'styled-system/recipes'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
-import { TextLink } from '@/components/ui/TextLink/TextLink'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 import { footer } from './Footer.recipe'
@@ -23,10 +23,15 @@ const CONNECT_LINKS = [
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   const external = href === '#' || href.startsWith('http') || href.startsWith('mailto:')
-  return (
-    <TextLink as={external ? 'a' : Link} href={href} className={cx(s.link)}>
+  const cls = cx(button({ variant: 'text' }), s.link)
+  return external ? (
+    <a href={href} className={cls}>
       {children}
-    </TextLink>
+    </a>
+  ) : (
+    <Link href={href} className={cls}>
+      {children}
+    </Link>
   )
 }
 
@@ -81,10 +86,10 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
         <div className={s.baseline}>
           <div className={s.copyright}>&copy; {CURRENT_YEAR} Bucharest Sculpture Days</div>
           <div className={s.legal}>
-            <TextLink as={Link} href="/privacy" underline="quiet">
+            <Link href="/privacy" className={cx(button({ variant: 'text' }), s.legalLink)}>
               Privacy Policy
-            </TextLink>
-            <CookieSettingsButton />
+            </Link>
+            <CookieSettingsButton className={s.legalLink} />
           </div>
         </div>
       </div>

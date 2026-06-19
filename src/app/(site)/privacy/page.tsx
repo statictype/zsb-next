@@ -1,6 +1,7 @@
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
 import { notFound } from 'next/navigation'
 import { css } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -69,7 +70,7 @@ function PrivacyShell({ view }: { view: PrivacyView }) {
           lead={hero.lead}
         />
 
-        <section className={styles.body}>
+        <section className={section({ ground: 'dark' })}>
           <div className={css({ layerStyle: 'sectionInner' })}>
             <article className={styles.article}>
               {body.length > 0 && <PortableText value={body} components={portableTextComponents} />}

@@ -1,13 +1,13 @@
-import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { type CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
+import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
-import { TextLink } from '@/components/ui/TextLink/TextLink'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
@@ -30,13 +30,9 @@ export default function EditionsPage() {
   )
 }
 
-// Split a theme on its highlight substring so only that part can be coloured —
-// the same local helper the hero (ThemeTape) and ExternalGallery use.
-function splitOnFirst(a: string, b: string) {
-  const [before, ...rest] = a.split(b)
-  if (!rest.length || !before) return null
-  return [before, rest.join(b)] as [string, string]
-}
+// The per-card stagger for the theme tape's entrance (reads `--card-index` off
+// the slot). The tape's `tapeIn` is the card's reveal motion.
+const THEME_STAGGER = 'calc(var(--card-index, 0) * 120ms + 120ms)'
 
 async function CachedEditionsList({ options }: { options: DynamicFetchOptions }) {
   'use cache'
@@ -54,9 +50,6 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
           const year = edition.year
           const isFeature = index === 0
           const thumb = edition.thumbImage ?? edition.heroImage
-          const [themeBefore, themeAfter] = edition.themeHighlight
-            ? (splitOnFirst(edition.theme, edition.themeHighlight) ?? [edition.theme, ''])
-            : [edition.theme, '']
 
           return (
             <div
@@ -86,27 +79,21 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
                 </div>
 
                 <div className={styles.meta}>
-                  <h2 className={styles.theme}>
-                    {edition.themeHighlight ? (
-                      <>
-                        {themeBefore}
-                        <span className={styles.themeHighlight}>{edition.themeHighlight}</span>
-                        {themeAfter}
-                      </>
-                    ) : (
-                      edition.theme
-                    )}
-                  </h2>
+                  <EditionTheme
+                    as="h2"
+                    size={isFeature ? 'large' : 'normal'}
+                    interactive
+                    theme={edition.theme}
+                    themeHighlight={edition.themeHighlight}
+                    delay={THEME_STAGGER}
+                  />
                   <div className={styles.metaFoot}>
                     <span className={styles.subline}>
                       <span>{edition.artists.length} artists</span>
                       <span className={styles.sublineDot} aria-hidden />
                       <span>{edition.dateTape}</span>
                     </span>
-                    <TextLink as="span" underline="quiet" className={styles.cta}>
-                      Explore
-                      <RiArrowRightUpLine size={16} />
-                    </TextLink>
+                    <span className={styles.cta}>Explore</span>
                   </div>
                 </div>
               </Card>
@@ -122,6 +109,7 @@ function EditionsListShell({ children }: { children?: React.ReactNode }) {
   return (
     <main>
       <PageHero
+        flush
         title={
           <>
             Edition<span className={css({ color: 'action' })}>s</span>
@@ -130,7 +118,7 @@ function EditionsListShell({ children }: { children?: React.ReactNode }) {
         lead="Five past editions. Five #, each one a curatorial position, not just a title. Together they trace a movement: from the space sculpture inhabits, to the emotional conditions it holds, to the forces it models, to the body it refuses to idealise. Not a plan. A conversation that keeps going."
       />
 
-      <section className={styles.list}>
+      <section className={section({ ground: 'dark' })}>
         <div className={styles.inner}>{children}</div>
       </section>
     </main>

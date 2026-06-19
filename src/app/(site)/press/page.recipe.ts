@@ -12,10 +12,7 @@ import { sva } from 'styled-system/css'
 export const pressPage = sva({
   slots: [
     'page',
-    'kitSection',
     'kitHeader',
-    'kitTitle',
-    'appearances',
     'appearancesInner',
     'appList',
     'appRow',
@@ -28,7 +25,6 @@ export const pressPage = sva({
     'appExcerpt',
     'appDate',
     'appArrow',
-    'releases',
     'releasesInner',
     'releaseList',
     'releaseRow',
@@ -41,16 +37,16 @@ export const pressPage = sva({
     'releaseAction',
   ],
   base: {
-    page: { background: 'blackPure', color: 'white' },
+    page: { background: 'black', color: 'white' },
 
-    kitSection: { paddingTop: '3xl', paddingInline: 'content', paddingBottom: '4xl' },
-    kitHeader: { maxWidth: 'maxWidth', marginInline: 'auto', marginBottom: '2xl' },
-    kitTitle: { textStyle: 'sectionTitle', marginBottom: 'md' },
+    // The three strips are ground-less `section()` shells (rhythm only — they
+    // inherit the page's dark ground); the inner wrappers are the rails. The
+    // media-kit strip itself is the full-bleed band below its header.
+    kitHeader: { layerStyle: 'sectionInner', marginBottom: '2xl' },
 
-    appearances: { paddingTop: '3xl', paddingInline: 'content', paddingBottom: '4xl' },
-    appearancesInner: { maxWidth: 'maxWidth', marginInline: 'auto' },
+    appearancesInner: { layerStyle: 'sectionInner' },
     appList: { listStyle: 'none', padding: '0', margin: '0' },
-    appRow: { '& + &': { borderTop: '1px solid token(colors.divider)' } },
+    appRow: { '& + &': { borderTop: '1px solid token(colors.borderDark)' } },
     appLink: {
       display: 'grid',
       gridTemplateColumns: '1fr auto',
@@ -95,7 +91,7 @@ export const pressPage = sva({
       fontSize: { base: 'md', md: 'xl' },
       lineHeight: 'heading',
       color: 'white',
-      transition: 'color {durations.normal} ease',
+      transition: 'color {durations.normal} {easings.quint}',
       'a:hover &': { color: 'action' },
     },
     appExcerpt: {
@@ -120,14 +116,14 @@ export const pressPage = sva({
       flexShrink: '0',
       color: 'muted',
       display: 'inline-flex',
-      transition: 'color {durations.normal} ease, transform {durations.normal} {easings.expo}',
+      transition:
+        'color {durations.normal} {easings.quint}, transform {durations.normal} {easings.expo}',
       'a:hover &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
 
-    releases: { paddingTop: '3xl', paddingInline: 'content', paddingBottom: '4xl' },
-    releasesInner: { maxWidth: 'maxWidth', marginInline: 'auto' },
+    releasesInner: { layerStyle: 'sectionInner' },
     releaseList: { listStyle: 'none', padding: '0', margin: '0' },
-    releaseRow: { '& + &': { borderTop: '1px solid token(colors.divider)' } },
+    releaseRow: { '& + &': { borderTop: '1px solid token(colors.borderDark)' } },
     releaseLink: {
       display: 'grid',
       gridTemplateColumns: 'auto auto 1fr auto',
@@ -146,7 +142,7 @@ export const pressPage = sva({
       lineHeight: 'heading',
       textTransform: 'uppercase',
       color: 'white',
-      transition: 'color {durations.normal} ease',
+      transition: 'color {durations.normal} {easings.quint}',
       'a:hover &': { color: 'action' },
     },
     releaseMeta: {

@@ -13,7 +13,7 @@ export const PROGRAM_SECTION_ID = 'program'
 const shareIcon = css({
   '& svg': { transition: 'transform {durations.fast} {easings.quint}' },
   _hover: { '& svg': { transform: 'translateY(-2px)' } },
-  '@media (prefers-reduced-motion: reduce)': { '& svg': { transition: 'none' } },
+  _motionReduce: { '& svg': { transition: 'none' } },
 })
 // Copied — settle into the chartreuse "confirmed" accent used across the board.
 const shareCopied = css({

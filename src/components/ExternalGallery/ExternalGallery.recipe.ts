@@ -7,37 +7,31 @@ import { sva } from 'styled-system/css'
  * online edition), built on the unified hairline Card (the `card()` recipe owns
  * the chrome + accent-warming hover; this adds the card's max-width/centering
  * and the inner grid). Text left, a quiet edition plate right on `lg`. The CTA
- * icon warms + nudges on card hover/focus via an ancestor selector. The `.tag`
- * pill is adopted as `<Badge>` in the component.
+ * icon is decorative; the `.tag` pill uses `<Badge>`.
  */
 export const externalGallery = sva({
   slots: [
     'section',
+    'inner',
     'header',
     'count',
     'card',
     'cardInner',
     'cardLeft',
-    'title',
     'titleHighlight',
     'description',
     'cta',
     'ctaLabel',
-    'ctaIcon',
     'ctaUrl',
     'cardRight',
-    'plateMonogram',
-    'plateZsb',
-    'plateYear',
-    'plateMeta',
+    'plate',
   ],
   base: {
     section: {
-      layerStyle: 'section',
-      background: 'blackPure',
-      color: 'white',
+      // ground + rhythm come from `section({ ground: 'dark' })` in the component.
       position: 'relative',
     },
+    inner: { layerStyle: 'sectionInner' },
 
     header: {
       maxWidth: 'maxWidth',
@@ -57,7 +51,7 @@ export const externalGallery = sva({
       color: 'muted',
       textTransform: 'uppercase',
       letterSpacing: 'label',
-      _before: { content: '""', width: '40px', height: '1px', background: 'divider' },
+      _before: { content: '""', width: '40px', height: '1px', background: 'borderDark' },
     },
 
     card: {
@@ -80,14 +74,6 @@ export const externalGallery = sva({
       md: { padding: '2xl' },
       lg: { paddingBlock: '3xl', paddingInline: '2xl', gap: 'lg' },
     },
-    title: {
-      fontFamily: 'display',
-      fontSize: { base: '2xl', lg: '3xl', '3xl': '4xl' },
-      lineHeight: '1',
-      textTransform: 'uppercase',
-      color: 'white',
-      margin: '0',
-    },
     titleHighlight: { color: 'highlight' },
     description: {
       fontFamily: 'body',
@@ -106,7 +92,7 @@ export const externalGallery = sva({
       paddingTop: 'lg',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
     },
     ctaLabel: {
       fontFamily: 'body',
@@ -115,24 +101,6 @@ export const externalGallery = sva({
       letterSpacing: 'wide',
       color: 'white',
       fontWeight: 'semibold',
-    },
-    // Hairline icon square; on card hover/focus it warms to the accent + nudges.
-    ctaIcon: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '36px',
-      height: '36px',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'divider',
-      color: 'action',
-      transition:
-        'border-color {durations.medium} {easings.expo}, transform {durations.medium} {easings.expo}',
-      'a:hover &, a:focus-visible &': {
-        borderColor: 'action',
-        transform: 'translate(3px, -3px)',
-      },
     },
     ctaUrl: {
       marginLeft: 'auto',
@@ -161,33 +129,48 @@ export const externalGallery = sva({
         padding: '2xl',
         borderLeftWidth: '1px',
         borderLeftStyle: 'solid',
-        borderLeftColor: 'divider',
+        borderLeftColor: 'borderDark',
         background: 'rgb(255 255 255 / 0.015)',
       },
     },
-    plateMonogram: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '4px',
-      fontFamily: 'display',
-      lineHeight: '1',
-      textTransform: 'uppercase',
-    },
-    plateZsb: { fontSize: 'clamp(56px, 7vw, 104px)', letterSpacing: '-2px', color: 'white' },
-    plateYear: { fontSize: 'clamp(36px, 4.5vw, 64px)', letterSpacing: '-1px', color: 'action' },
-    plateMeta: {
+    plate: {
       position: 'absolute',
-      bottom: 'md',
-      left: 'md',
-      right: 'md',
+      inset: '0',
       display: 'flex',
-      justifyContent: 'space-between',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      color: 'muted',
+      alignItems: 'center',
+      justifyContent: 'center',
+      '& [data-part="monogram"]': {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '4px',
+        fontFamily: 'display',
+        lineHeight: '1',
+        textTransform: 'uppercase',
+      },
+      '& [data-part="zsb"]': {
+        fontSize: 'clamp(56px, 7vw, 104px)',
+        letterSpacing: '-2px',
+        color: 'white',
+      },
+      '& [data-part="year"]': {
+        fontSize: 'clamp(36px, 4.5vw, 64px)',
+        letterSpacing: '-1px',
+        color: 'action',
+      },
+      '& [data-part="meta"]': {
+        position: 'absolute',
+        bottom: 'md',
+        left: 'md',
+        right: 'md',
+        display: 'flex',
+        justifyContent: 'space-between',
+        fontFamily: 'body',
+        fontSize: '2xs',
+        textTransform: 'uppercase',
+        letterSpacing: 'wide',
+        color: 'muted',
+      },
     },
   },
 })

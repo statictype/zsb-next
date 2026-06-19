@@ -1,9 +1,15 @@
 'use client'
 
-import { RiArrowDownSLine, RiArrowRightUpLine, RiHistoryLine } from '@remixicon/react'
+import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
-import { Fragment, type ReactNode, useEffect, useMemo, useRef } from 'react'
+import { type ReactNode, useEffect, useMemo, useRef } from 'react'
+import { cx } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
+import { Badge } from '@/components/ui/Badge/Badge'
+import { Button } from '@/components/ui/Button/Button'
+import { Collapsible } from '@/components/ui/Collapsible/Collapsible'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import {
   type DayToken,
   dayToken,
@@ -133,15 +139,6 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
   const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
   const live = todayIso !== null && !ended
 
-  // Where "now" falls in the agenda: the first day on or after today. When every
-  // single-day event is behind us but the edition is still running (only multi-day
-  // runs remain), the marker sits at the end.
-  const nowIndex = useMemo(() => {
-    if (!live || todayIso === null) return -1
-    const idx = days.findIndex((d) => d.iso >= todayIso)
-    return idx === -1 ? days.length : idx
-  }, [days, live, todayIso])
-
   // Filter affordances. The past toggle only appears when it would actually
   // change the view (the edition has both past and upcoming events); Reset
   // lights up once the filters deviate from the all-selected default.
@@ -153,7 +150,6 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
   const showFilterBar = facets.venues.length > 1 || facets.types.length > 1
   const canReset = hasActiveFilters(filters)
 
-  const todayToken = todayIso ? dayToken(todayIso) : undefined
   const windowLabel =
     editionStart && editionEnd ? formatShortRange(editionStart, editionEnd) : undefined
 
@@ -189,32 +185,19 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
         ? `${upcoming} upcoming ${upcoming === 1 ? 'event' : 'events'}`
         : `${upcomingMatching} of ${upcoming} upcoming events`
 
-  const NowMarker = (
-    <li className={s.now} aria-label="Happening now">
-      <span className={s.nowDot} aria-hidden />
-      <span className={s.nowLabel}>Now</span>
-      {todayToken && (
-        <span className={s.nowDate}>
-          {todayToken.weekday} {todayToken.day} {todayToken.month}
-        </span>
-      )}
-      <span className={s.nowRule} aria-hidden />
-    </li>
-  )
-
   return (
     <section
       id={PROGRAM_SECTION_ID}
       ref={sectionRef}
-      className={s.section}
+      className={cx(section({ ground: 'dark' }), s.section)}
       aria-labelledby="calendar-heading"
     >
       <div className={s.inner}>
         <header className={s.header}>
           <div className={s.headerMain}>
-            <h2 id="calendar-heading" className={s.title}>
+            <SectionHeading id="calendar-heading" flush>
               Calendar
-            </h2>
+            </SectionHeading>
             <p className={s.meta}>
               <span className={s.metaYear}>{year}</span>
               {windowLabel && (
@@ -239,14 +222,11 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                     <ul className={s.recapLinks}>
                       {socials.map((social) => (
                         <li key={social.label}>
-                          <a
-                            className={s.recapLink}
-                            href={social.href}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {social.label} <RiArrowRightUpLine size={14} aria-hidden />
-                          </a>
+                          <Button asChild variant="text">
+                            <a href={social.href} target="_blank" rel="noreferrer">
+                              {social.label}
+                            </a>
+                          </Button>
                         </li>
                       ))}
                     </ul>
@@ -277,7 +257,7 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
         </header>
 
         {/* On a finished edition the filters and the board fold into the archive
-            disclosure together (ZSB-45), so filtering still works once expanded;
+            Collapsible together (ZSB-45), so filtering still works once expanded;
             a live edition renders them inline. */}
         <ArchiveCollapse ended={ended} count={events.length}>
           {showFilterBar && (
@@ -308,24 +288,13 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                   <ul className={s.runs}>
                     {onView.map((run) => {
                       const runEnd = run.endDate ?? run.startDate
-                      const status = !live
-                        ? 'archive'
-                        : runEnd < todayIso!
-                          ? 'past'
-                          : run.startDate <= todayIso!
-                            ? 'now'
-                            : 'upcoming'
+                      const past = live && runEnd < todayIso!
                       // Every run carries its own span — runs cover different
                       // stretches of the edition, so a shared band range read as
                       // "everything runs these dates" (ZSB-48).
                       const runRange = formatShortRange(run.startDate, runEnd)
                       return (
-                        <li
-                          key={run.key}
-                          className={s.run}
-                          data-past={status === 'past'}
-                          data-now={status === 'now'}
-                        >
+                        <li key={run.key} className={s.run} data-past={past}>
                           {run.image && (
                             <div className={s.runMedia}>
                               <Figure
@@ -347,7 +316,6 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                             </h4>
                             <VenueLine venue={run.venue} />
                             <div className={s.runFoot}>
-                              {status === 'now' && <span className={s.runNow}>On now</span>}
                               {runRange && <span className={s.runRange}>{runRange}</span>}
                             </div>
                           </div>
@@ -360,27 +328,23 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
 
               {days.length > 0 && (
                 <ol className={s.agenda}>
-                  {days.map((day, i) => (
-                    <Fragment key={day.iso}>
-                      {i === nowIndex && NowMarker}
-                      <li className={s.day} data-past={live && day.iso < todayIso!}>
-                        <div className={s.marker}>
-                          <span className={s.markerNode} aria-hidden />
-                          <span className={s.markerDay}>{day.token.dayPadded}</span>
-                          <span className={s.markerMeta}>
-                            <span className={s.markerMonth}>{day.token.month}</span>
-                            <span className={s.markerWeekday}>{day.token.weekday}</span>
-                          </span>
-                        </div>
-                        <ul className={s.events}>
-                          {day.events.map((event) => (
-                            <EventRow key={event.key} event={event} year={year} />
-                          ))}
-                        </ul>
-                      </li>
-                    </Fragment>
+                  {days.map((day) => (
+                    <li key={day.iso} className={s.day} data-past={live && day.iso < todayIso!}>
+                      <div className={s.marker}>
+                        <span className={s.markerNode} aria-hidden />
+                        <span className={s.markerDay}>{day.token.dayPadded}</span>
+                        <span className={s.markerMeta}>
+                          <span className={s.markerMonth}>{day.token.month}</span>
+                          <span className={s.markerWeekday}>{day.token.weekday}</span>
+                        </span>
+                      </div>
+                      <ul className={s.events}>
+                        {day.events.map((event) => (
+                          <EventRow key={event.key} event={event} year={year} />
+                        ))}
+                      </ul>
+                    </li>
                   ))}
-                  {nowIndex === days.length && NowMarker}
                 </ol>
               )}
             </div>
@@ -392,8 +356,8 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
 }
 
 // On a finished edition the full board is kept as the historical record but
-// folded behind a disclosure so the recap leads (ZSB-45); live/upcoming editions
-// render the board as-is. Native <details> — house style (VenuesView), no JS.
+// folded behind a Collapsible so the recap leads (ZSB-45); live/upcoming editions
+// render the board directly without mounting a redundant Collapsible.
 function ArchiveCollapse({
   ended,
   count,
@@ -405,18 +369,14 @@ function ArchiveCollapse({
 }) {
   if (!ended) return <>{children}</>
   return (
-    <details className={s.archive}>
-      <summary className={s.archiveSummary}>
-        {/* Native <details> has no open state in JS — swap the label via [open]. */}
-        <span className={s.archiveShow}>View full programme</span>
-        <span className={s.archiveHide}>Hide full programme</span>
-        <span className={s.archiveCount}>
-          {count} {count === 1 ? 'event' : 'events'}
-        </span>
-        <RiArrowDownSLine className={s.archiveChevron} size={20} aria-hidden />
-      </summary>
-      <div className={s.archivePanel}>{children}</div>
-    </details>
+    <Collapsible
+      id="calendar-archive"
+      closedLabel="View full programme"
+      openLabel="Hide full programme"
+      meta={`${count} ${count === 1 ? 'event' : 'events'}`}
+    >
+      {children}
+    </Collapsible>
   )
 }
 
@@ -424,8 +384,10 @@ function TypeChips({ event }: { event: CalendarEvent }) {
   return (
     <ul className={s.chips}>
       {event.types.map((t) => (
-        <li key={`${event.key}-${t.slug}`} className={s.chip}>
-          {t.title}
+        <li key={`${event.key}-${t.slug}`}>
+          <Badge tone="outline" size="sm">
+            {t.title}
+          </Badge>
         </li>
       ))}
     </ul>

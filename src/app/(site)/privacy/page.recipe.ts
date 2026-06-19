@@ -6,27 +6,17 @@ import { sva } from 'styled-system/css'
  * The legible long-form privacy/cookies article on the dark ground. `body` owns
  * its full padding (top 0 — the pageHero above already provides the gap) so the
  * offset is deterministic. The `article` styles its Portable-Text descendants
- * (h2/a/strong/ul/li) via element selectors. The shared hero header uses inline
- * `css(layerStyle/textStyle)` at the call site.
+ * (h2/a/strong/ul/li) via element selectors. The shared PageHero owns the header.
  */
 export const privacyPage = sva({
-  slots: ['body', 'article', 'settingsRow', 'updated'],
+  slots: ['article', 'settingsRow', 'updated'],
   base: {
-    body: {
-      layerStyle: 'sectionDark',
-      paddingTop: '0',
-      paddingInline: 'content',
-      paddingBottom: 'sectionY',
-    },
     article: {
       maxWidth: '70ch',
       display: 'flex',
       flexDirection: 'column',
       gap: 'md',
-      fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: 'body',
-      color: 'body',
+      textStyle: 'prose',
       '& h2': {
         fontFamily: 'display',
         fontSize: 'xl',
@@ -51,14 +41,14 @@ export const privacyPage = sva({
         flexDirection: 'column',
         gap: 'sm',
       },
-      '& li': { paddingLeft: 'md', borderLeft: '2px solid token(colors.divider)' },
+      '& li': { paddingLeft: 'md', borderLeft: '2px solid token(colors.borderDark)' },
     },
     settingsRow: {
       marginTop: 'xs',
       padding: 'md',
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'divider',
+      borderColor: 'borderDark',
       borderRadius: '2px',
       display: 'inline-flex',
     },

@@ -8,16 +8,14 @@ import { sva } from 'styled-system/css'
  * CTA. Shared hero header → `PageHero`; the why-eyebrow → `<Eyebrow>`. Sections
  * that combined `shared.section` with a ground fold the padding straight in
  * (`layerStyle` carries only the ground; `section` was just padding). `border-
- * light`/`border-dark` → dividerLight/divider hairlines.
+ * light`/`border-dark` → borderLight/borderDark hairlines.
  */
 export const partnersPage = sva({
   slots: [
     'inner',
-    'eventSection',
     'eventBody',
     'eventImage',
     'eventImageImg',
-    'whySculptureTitle',
     'whySculptureTop',
     'whySculptureImage',
     'whySculptureImg',
@@ -37,12 +35,6 @@ export const partnersPage = sva({
   base: {
     inner: { layerStyle: 'sectionInner' },
 
-    eventSection: {
-      layerStyle: 'sectionDark',
-      paddingTop: '0',
-      paddingInline: 'content',
-      paddingBottom: 'sectionY',
-    },
     eventBody: {
       display: 'flex',
       flexDirection: 'column',
@@ -60,7 +52,7 @@ export const partnersPage = sva({
       position: 'relative',
       overflow: 'hidden',
       aspectRatio: '16 / 9',
-      border: '1px solid token(colors.divider)',
+      border: '1px solid token(colors.borderDark)',
       margin: '0',
     },
     eventImageImg: {
@@ -69,12 +61,6 @@ export const partnersPage = sva({
       filter: 'grayscale(100%) contrast(1.05)',
     },
 
-    whySculptureTitle: {
-      textStyle: 'sectionTitle',
-      color: 'headingLight',
-      maxWidth: '700px',
-      marginBottom: '0',
-    },
     whySculptureTop: {
       display: 'grid',
       gridTemplateColumns: '1fr',
@@ -86,14 +72,14 @@ export const partnersPage = sva({
       position: 'relative',
       overflow: 'hidden',
       aspectRatio: '16 / 10',
-      border: '1px solid token(colors.dividerLight)',
+      border: '1px solid token(colors.borderLight)',
     },
     whySculptureImg: { objectFit: 'cover', background: 'gray.200', filter: 'grayscale(100%)' },
 
     whyGrid: {
       display: 'grid',
       gridTemplateColumns: '1fr',
-      borderTop: '1px solid token(colors.dividerLight)',
+      borderTop: '1px solid token(colors.borderLight)',
       md: { gridTemplateColumns: '1fr 1fr' },
     },
     whyPillar: {
@@ -101,12 +87,12 @@ export const partnersPage = sva({
       flexDirection: 'column',
       gap: 'md',
       paddingBlock: 'xl',
-      borderBottom: '1px solid token(colors.dividerLight)',
+      borderBottom: '1px solid token(colors.borderLight)',
       md: {
         padding: 'xl',
         '&:nth-child(odd)': {
           paddingLeft: '0',
-          borderRight: '1px solid token(colors.dividerLight)',
+          borderRight: '1px solid token(colors.borderLight)',
         },
         '&:nth-child(even)': { paddingRight: '0' },
       },
@@ -135,14 +121,14 @@ export const partnersPage = sva({
       maxWidth: '50ch',
     },
 
+    // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
+    // `partnerCtaInner` is the rail.
     partnerCta: {
-      layerStyle: 'sectionDark',
-      paddingBlock: 'sectionY',
-      paddingInline: 'content',
-      borderTop: '1px solid token(colors.divider)',
+      borderTop: '1px solid token(colors.borderDark)',
     },
     partnerCtaInner: {
       maxWidth: 'maxWidth',
+      paddingInline: 'gutter',
       marginInline: 'auto',
       display: 'flex',
       flexDirection: 'column',
@@ -160,7 +146,7 @@ export const partnersPage = sva({
     },
     partnerCtaAccent: { color: 'action' },
     partnerCtaBody: {
-      fontSize: '15px',
+      fontSize: 'base',
       lineHeight: 'body',
       fontWeight: 'light',
       color: 'body',

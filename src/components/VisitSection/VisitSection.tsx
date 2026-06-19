@@ -10,23 +10,11 @@ import {
   RiTimeLine,
   RiWheelchairLine,
 } from '@remixicon/react'
-import { css } from 'styled-system/css'
 import { Figure } from '@/components/Figure/Figure'
-import { TextLink } from '@/components/ui/TextLink/TextLink'
+import { Button } from '@/components/ui/Button/Button'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { IconKey, VisitData } from '@/types/edition'
 import { visitSection } from './VisitSection.recipe'
-
-// "Get Directions" is an accent CTA rendered as a drawing-underline TextLink:
-// keep the button-style typography + accent, including on hover.
-const directionsLink = css({
-  color: 'action',
-  fontFamily: 'body',
-  fontSize: 'sm',
-  fontWeight: 'medium',
-  textTransform: 'uppercase',
-  letterSpacing: '2px',
-  _hover: { color: 'action' },
-})
 
 // Fixed icon set mirrored from the amenity schema. Editors pick an
 // icon key; this is the renderer-side mapping.
@@ -88,7 +76,7 @@ export function VisitSection(props: VisitData = {}) {
           </div>
 
           <div className={s.content}>
-            <h2 className={s.title}>
+            <SectionHeading flush>
               {venueName.map((line, i, arr) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: positional
                 <span key={i}>
@@ -96,7 +84,7 @@ export function VisitSection(props: VisitData = {}) {
                   {i < arr.length - 1 && <br />}
                 </span>
               ))}
-            </h2>
+            </SectionHeading>
 
             <div className={s.infoRow}>
               <div className={s.infoBlock}>
@@ -149,16 +137,12 @@ export function VisitSection(props: VisitData = {}) {
             </div>
 
             <div className={s.cta}>
-              <TextLink
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                underline="draw"
-                className={directionsLink}
-              >
-                <RiMapPinLine size={16} />
-                Get Directions
-              </TextLink>
+              <Button asChild variant="text">
+                <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
+                  <RiMapPinLine size={16} />
+                  Get Directions
+                </a>
+              </Button>
             </div>
           </div>
         </div>

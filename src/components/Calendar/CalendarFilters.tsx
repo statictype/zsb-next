@@ -1,6 +1,7 @@
 'use client'
 
-import { RiCheckLine, RiResetLeftLine } from '@remixicon/react'
+import { RiResetLeftLine } from '@remixicon/react'
+import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 import { calendarFilters } from './CalendarFilters.recipe'
 import {
   type CalendarFacets,
@@ -40,26 +41,17 @@ function FacetChips({
         {label}
       </span>
       <ul className={s.chips} aria-labelledby={labelId}>
-        {options.map((option) => {
-          const active = isSelected(selection, option.slug)
-          return (
-            <li key={option.slug}>
-              <button
-                type="button"
-                className={s.chip}
-                data-active={active}
-                aria-pressed={active}
-                onClick={() => onToggle(option.slug)}
-              >
-                <span className={s.box} aria-hidden>
-                  {active && <RiCheckLine size={12} />}
-                </span>
-                {option.label}
-                <span className={s.count}>{option.count}</span>
-              </button>
-            </li>
-          )
-        })}
+        {options.map((option) => (
+          <li key={option.slug}>
+            <Checkbox
+              id={`${labelId}-${option.slug}`}
+              label={option.label}
+              count={option.count}
+              checked={isSelected(selection, option.slug)}
+              onCheckedChange={() => onToggle(option.slug)}
+            />
+          </li>
+        ))}
       </ul>
     </div>
   )

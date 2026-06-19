@@ -4,25 +4,11 @@ import { sva } from 'styled-system/css'
  * Error boundary — co-located slot recipe.
  *
  * Full-screen centered error state on the brand-black ground, with a faint
- * SVG-noise wash + a blurred pink glow. The two actions stay bespoke hairline
- * buttons (white text → accent on hover; the primary adds an accent border + a
- * faint accent-tinted fill) — they belong to this boundary's chrome, not the
- * shared Button vocabulary. The legacy `rgba(255,0,153,…)` literals normalize to
- * `color-mix` over the `action` token.
+ * SVG-noise wash + a blurred pink glow. The shared Button primitive owns both
+ * actions; this recipe only owns the boundary layout and decorative chrome.
  */
 export const errorPage = sva({
-  slots: [
-    'page',
-    'noise',
-    'glow',
-    'content',
-    'icon',
-    'title',
-    'message',
-    'actions',
-    'btn',
-    'btnPrimary',
-  ],
+  slots: ['page', 'noise', 'glow', 'content', 'icon', 'title', 'message', 'actions'],
   base: {
     page: {
       position: 'relative',
@@ -34,7 +20,7 @@ export const errorPage = sva({
       background: 'black',
       overflow: 'hidden',
       paddingBlock: 'xl',
-      paddingInline: 'content',
+      paddingInline: 'gutter',
     },
     noise: {
       position: 'absolute',
@@ -65,7 +51,7 @@ export const errorPage = sva({
       justifyContent: 'center',
       width: '56px',
       height: '56px',
-      border: '1px solid token(colors.divider)',
+      border: '1px solid token(colors.borderDark)',
       marginBottom: 'xl',
       color: 'action',
     },
@@ -88,27 +74,5 @@ export const errorPage = sva({
       marginBottom: '2xl',
     },
     actions: { display: 'flex', gap: 'md', justifyContent: 'center', flexWrap: 'wrap' },
-    btn: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 'sm',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      color: 'white',
-      background: 'transparent',
-      border: '1px solid token(colors.divider)',
-      paddingBlock: '14px',
-      paddingInline: '28px',
-      cursor: 'pointer',
-      transition: 'all {durations.normal} ease',
-      _hover: { borderColor: 'action', color: 'action' },
-    },
-    btnPrimary: {
-      borderColor: 'action',
-      background: 'color-mix(in srgb, {colors.action} 8%, transparent)',
-      _hover: { background: 'color-mix(in srgb, {colors.action} 15%, transparent)' },
-    },
   },
 })

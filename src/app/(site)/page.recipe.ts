@@ -3,11 +3,11 @@ import { sva } from 'styled-system/css'
 /**
  * Home page — co-located slot recipe.
  *
- * Dark hero with the slideshow pinned right and the title crashing over its
+ * Dark hero with the stage Carousel pinned right and the title crashing over its
  * left edge, an Upcoming-lead variant (next edition's theme + a demoted "from
  * the last edition" card), then the past-editions register. The hero title uses
  * the `pageTitle` textStyle + entrance directly (it's not the standard PageHero
- * block — slideshow layout, min-content title). The `.editionBadge` pill →
+ * block — Carousel layout, min-content title). The `.editionBadge` pill →
  * `<Badge>`. Row hovers drive from the `<a>` via `a:hover &` (disabled rows are
  * `<div>`, so they never trigger the colour/arrow shift). Unused `editionsLink`
  * + the empty `.main` are dropped. `--partner-badge-scale` is set per breakpoint.
@@ -21,14 +21,15 @@ export const homePage = sva({
     'heroPanel',
     'heroTitle',
     'heroText',
+    'heroLead',
     'heroBadge',
-    'editions',
     'editionsHead',
     'editionsSubtext',
     'editionList',
     'editionRow',
     'editionYear',
     'editionTheme',
+    'editionBadge',
     'editionArrow',
     'editionRowDisabled',
     'upcomingInner',
@@ -46,9 +47,9 @@ export const homePage = sva({
     hero: {
       position: 'relative',
       width: '100%',
-      background: 'blackPure',
+      background: 'black',
       paddingTop: 'calc(token(sizes.nav) + 80px)',
-      paddingInline: 'content',
+      paddingInline: 'gutter',
       paddingBottom: '2xl',
       overflow: 'hidden',
       minHeight: '100svh',
@@ -92,8 +93,8 @@ export const homePage = sva({
     // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
     heroTitle: {
       textStyle: 'pageTitle',
-      opacity: '0',
-      animation: 'fadeSlideUp 1s {easings.expo} 0.2s forwards',
+      // Reveal contract is the shared `enter()` on the element; delay only here.
+      animationDelay: '0.2s',
       width: 'min-content',
     },
     heroText: {
@@ -102,6 +103,7 @@ export const homePage = sva({
       alignItems: 'flex-start',
       gap: 'lg',
     },
+    heroLead: { textStyle: 'leadLarge', color: 'body' },
     heroBadge: {
       order: '3',
       alignSelf: 'center',
@@ -121,7 +123,9 @@ export const homePage = sva({
       '3xl': { '--partner-badge-scale': '1.85' },
     },
 
-    editions: { paddingBlock: 'sectionY', paddingInline: 'content', background: 'blackPure' },
+    // The editions section shell is `section({ ground: 'dark' })` (composed with
+    // the `panel` slot in the component); `editionsHead` + `editionList` are the
+    // rails, so they own the gutter.
     editionsHead: {
       display: 'flex',
       flexDirection: 'column',
@@ -129,8 +133,8 @@ export const homePage = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       marginBottom: '2xl',
+      paddingInline: 'gutter',
       width: '100%',
-      '& h2': { marginBottom: '0' },
     },
     editionsSubtext: {
       fontFamily: 'body',
@@ -143,18 +147,19 @@ export const homePage = sva({
     editionList: {
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      borderBottom: '1px solid token(colors.divider)',
+      paddingInline: 'gutter',
+      borderBottom: '1px solid token(colors.borderDark)',
       width: '100%',
     },
     editionRow: {
       display: 'flex',
-      alignItems: 'anchor-center',
+      alignItems: 'center',
       gap: 'sm',
       paddingBlock: '28px',
-      borderTop: '1px solid token(colors.divider)',
+      borderTop: '1px solid token(colors.borderDark)',
       textDecoration: 'none',
       color: 'inherit',
-      transition: 'padding-left 0.4s {easings.expo}',
+      transition: 'padding-left {durations.medium} {easings.expo}',
       _hover: { paddingLeft: '12px' },
     },
     editionYear: {
@@ -174,14 +179,16 @@ export const homePage = sva({
       lineHeight: 'heading',
       color: 'white',
       flex: '1',
-      transition: 'color 0.3s ease',
+      transition: 'color {durations.normal} {easings.quint}',
       'a:hover &': { color: 'action' },
     },
+    editionBadge: { flexShrink: '0' },
     editionArrow: {
       flexShrink: '0',
       color: 'muted',
       display: 'flex',
-      transition: 'color 0.3s ease, transform 0.4s {easings.expo}',
+      transition:
+        'color {durations.normal} {easings.quint}, transform {durations.medium} {easings.expo}',
       'a:hover &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
     // Upcoming rows are non-navigable <div>s — kill the row's hover shift.
@@ -234,7 +241,7 @@ export const homePage = sva({
       width: '100%',
       maxWidth: '520px',
       paddingTop: 'lg',
-      borderTop: '1px solid token(colors.divider)',
+      borderTop: '1px solid token(colors.borderDark)',
       lg: { flex: '0 0 42%', maxWidth: '460px', paddingTop: '0', borderTopWidth: '0' },
     },
     lastEditionLabel: {

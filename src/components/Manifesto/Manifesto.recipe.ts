@@ -11,32 +11,31 @@ export const manifesto = sva({
   slots: ['section', 'container', 'title', 'titleHighlight', 'content', 'text'],
   base: {
     section: {
-      layerStyle: 'sectionLight',
+      // ground (light) + rhythm (lg) come from `section()` in the component;
+      // `container` is the rail, so it owns the gutter.
       position: 'relative',
-      paddingBlock: 'sectionYLg',
-      paddingInline: 'content',
     },
     container: {
-      display: 'flex',
-      flexDirection: 'column',
       gap: '2xl',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
+      paddingInline: 'gutter',
       lg: {
-        display: 'grid',
-        gridTemplateColumns: '0.8fr 1.2fr',
         gap: 'gridGap',
         alignItems: 'start',
       },
-      xl: { gridTemplateColumns: '1fr 1fr' },
     },
+    // The manifesto headline owns its own display treatment — deliberately not
+    // the `sectionTitle` / `SectionHeading` role (which is smaller + uppercase).
     title: {
       fontFamily: 'display',
       fontSize: { base: '2xl', xl: '3xl', '3xl': '4xl' },
       lineHeight: { base: 'tight', md: 'display', '4xl': '1.08' },
       color: 'black',
       textWrap: 'pretty',
+      margin: '0',
     },
+    // The highlighted substring inside the headline (the optional accent).
     titleHighlight: { display: 'inline', color: 'action' },
     content: { paddingTop: { base: '0', lg: '20px' } },
     text: {
@@ -52,12 +51,8 @@ export const manifesto = sva({
         background: 'linear-gradient(to bottom, {colors.action}, transparent)',
       },
       '& p': {
-        fontFamily: 'body',
-        fontSize: { base: 'base', '3xl': 'md' },
-        fontWeight: { '3xl': 'light' },
-        lineHeight: 'body',
+        textStyle: 'leadLarge',
         color: 'bodyLight',
-        textWrap: 'pretty',
       },
     },
   },

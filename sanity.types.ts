@@ -505,8 +505,8 @@ export type AboutPage = {
   _updatedAt: string
   _rev: string
   hero: PageHero
-  notFestivalTitle: string
-  notFestivalBody: Array<string>
+  manifestoTitle: string
+  manifestoBody: string
   pillars: Array<
     {
       _key: string
@@ -964,12 +964,12 @@ export type EDITIONS_LIST_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ABOUT_PAGE_QUERY
-// Query: *[_id == "aboutPage"][0]{    hero,    notFestivalTitle,    notFestivalBody,    pillars,    placeImage{ ..., "lqip": asset->metadata.lqip },    carouselEyebrow,    carousel[] {      layout,      images[] {        caption,        image{ ..., "lqip": asset->metadata.lqip }      }    },    curatorEyebrow,    curatorHeadline,    curatorPortrait{ ..., "lqip": asset->metadata.lqip },    curatorName,    curatorRole,    curatorLetter,    ogImage,    metaDescription  }
+// Query: *[_id == "aboutPage"][0]{    hero,    manifestoTitle,    manifestoBody,    pillars,    placeImage{ ..., "lqip": asset->metadata.lqip },    carouselEyebrow,    carousel[] {      layout,      images[] {        caption,        image{ ..., "lqip": asset->metadata.lqip }      }    },    curatorEyebrow,    curatorHeadline,    curatorPortrait{ ..., "lqip": asset->metadata.lqip },    curatorName,    curatorRole,    curatorLetter,    ogImage,    metaDescription  }
 export type ABOUT_PAGE_QUERY_RESULT =
   | {
       hero: PageHero
-      notFestivalTitle: null
-      notFestivalBody: null
+      manifestoTitle: null
+      manifestoBody: null
       pillars: null
       placeImage: null
       carouselEyebrow: null
@@ -992,8 +992,8 @@ export type ABOUT_PAGE_QUERY_RESULT =
     }
   | {
       hero: null
-      notFestivalTitle: null
-      notFestivalBody: null
+      manifestoTitle: null
+      manifestoBody: null
       pillars: null
       placeImage: null
       carouselEyebrow: null
@@ -1009,8 +1009,8 @@ export type ABOUT_PAGE_QUERY_RESULT =
     }
   | {
       hero: null
-      notFestivalTitle: null
-      notFestivalBody: null
+      manifestoTitle: null
+      manifestoBody: null
       pillars: null
       placeImage: null
       carouselEyebrow: null
@@ -1033,8 +1033,8 @@ export type ABOUT_PAGE_QUERY_RESULT =
     }
   | {
       hero: null
-      notFestivalTitle: null
-      notFestivalBody: null
+      manifestoTitle: null
+      manifestoBody: null
       pillars: null
       placeImage: null
       carouselEyebrow: null
@@ -1071,8 +1071,8 @@ export type ABOUT_PAGE_QUERY_RESULT =
     }
   | {
       hero: PageHero
-      notFestivalTitle: string
-      notFestivalBody: Array<string>
+      manifestoTitle: string
+      manifestoBody: string
       pillars: Array<
         {
           _key: string
@@ -1830,7 +1830,7 @@ declare module '@sanity/client' {
     '\n  *[_id == "siteSettings"][0].heroEdition\n': HERO_EDITION_QUERY_RESULT
     '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    status,\n    dateStart\n  }\n': EDITIONS_LIST_QUERY_RESULT
-    '\n  *[_id == "aboutPage"][0]{\n    hero,\n    notFestivalTitle,\n    notFestivalBody,\n    pillars,\n    placeImage{ ..., "lqip": asset->metadata.lqip },\n    carouselEyebrow,\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait{ ..., "lqip": asset->metadata.lqip },\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT
+    '\n  *[_id == "aboutPage"][0]{\n    hero,\n    manifestoTitle,\n    manifestoBody,\n    pillars,\n    placeImage{ ..., "lqip": asset->metadata.lqip },\n    carouselEyebrow,\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait{ ..., "lqip": asset->metadata.lqip },\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT
     '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage{ ..., "lqip": asset->metadata.lqip },\n    whyEyebrow,\n    whyTitle,\n    whyImage{ ..., "lqip": asset->metadata.lqip },\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel,\n    ogImage,\n    metaDescription\n  }\n': PARTNERS_PAGE_QUERY_RESULT
     '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image{ ..., "lqip": asset->metadata.lqip },\n    hoursLines,\n    amenities,\n    transport,\n    faq[]{ question, answer },\n    ogImage,\n    metaDescription\n  }\n': VISIT_PAGE_QUERY_RESULT
     '\n  *[_id == "privacyPage"][0]{\n    hero,\n    body,\n    updatedAt,\n    ogImage,\n    metaDescription\n  }\n': PRIVACY_PAGE_QUERY_RESULT

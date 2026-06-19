@@ -5,35 +5,23 @@ import { sva } from 'styled-system/css'
  *
  * The programme browsed by place (ZSB-27), under the Visit page's main-venue
  * block. No ground of its own — it inherits the page's dark canvas and only
- * draws a top hairline; each venue is a `<details>` disclosure whose chevron
- * rotates on `[open]` and whose name warms to the accent on hover. The chip
- * border collapses to the shared `highlightFaint` (chartreuse 32%).
+ * draws a top hairline; the shared Accordion owns disclosure chrome and state.
  */
 export const venuesView = sva({
   slots: [
     'section',
     'inner',
     'header',
-    'title',
     'lede',
     'group',
     'groupTitle',
     'venues',
-    'venue',
-    'summary',
-    'venueName',
-    'summaryMeta',
-    'count',
-    'chevron',
-    'panel',
     'place',
-    'mapLink',
     'events',
     'event',
     'eventName',
     'eventWhen',
     'chips',
-    'chip',
     'child',
     'childHead',
     'childName',
@@ -41,15 +29,14 @@ export const venuesView = sva({
   ],
   base: {
     section: {
-      layerStyle: 'section',
+      // rhythm from `section()` in the component; ground inherits the parent.
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
     },
     inner: { layerStyle: 'sectionInner' },
 
     header: { marginBottom: 'xl' },
-    title: { textStyle: 'sectionTitle', marginBottom: '0' },
     lede: {
       marginTop: 'md',
       fontFamily: 'body',
@@ -71,60 +58,9 @@ export const venuesView = sva({
       paddingBottom: 'sm',
       borderBottomWidth: '1px',
       borderBottomStyle: 'solid',
-      borderBottomColor: 'divider',
+      borderBottomColor: 'borderDark',
     },
-    venues: { listStyle: 'none' },
-
-    venue: {
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'divider',
-      '&:first-of-type': { borderTopWidth: '0' },
-    },
-    summary: {
-      display: 'flex',
-      alignItems: 'baseline',
-      justifyContent: 'space-between',
-      gap: 'md',
-      paddingBlock: 'md',
-      cursor: 'pointer',
-      listStyle: 'none',
-      transition: 'color {durations.fast} {easings.quint}',
-      '&::-webkit-details-marker': { display: 'none' },
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '3px' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
-    },
-    venueName: {
-      fontFamily: 'display',
-      fontSize: { base: 'lg', md: 'xl' },
-      lineHeight: 'tight',
-      color: 'white',
-      transition: 'color {durations.fast} {easings.quint}',
-      'summary:hover &': { color: 'action' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
-    },
-    summaryMeta: { display: 'flex', alignItems: 'center', gap: '10px', flexShrink: '0' },
-    count: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'muted',
-    },
-    chevron: {
-      color: 'muted',
-      transition: 'transform {durations.fast} {easings.quint}',
-      'details[open] &': { transform: 'rotate(180deg)' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
-    },
-
-    panel: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'lg',
-      paddingBottom: 'lg',
-    },
+    venues: { width: '100%' },
     place: {
       display: 'flex',
       alignItems: 'center',
@@ -133,24 +69,6 @@ export const venuesView = sva({
       fontFamily: 'body',
       fontSize: 'sm',
       color: 'muted',
-    },
-    mapLink: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '5px',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontSize: '2xs',
-      fontWeight: 'semibold',
-      color: 'white',
-      paddingBottom: '2px',
-      borderBottomWidth: '1px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: 'gray.700',
-      transition:
-        'color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}',
-      _hover: { color: 'action', borderColor: 'action' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
     },
 
     events: { listStyle: 'none', display: 'flex', flexDirection: 'column' },
@@ -161,7 +79,7 @@ export const venuesView = sva({
       paddingBlock: 'sm',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
       '&:first-child': { borderTopWidth: '0' },
     },
     eventName: {
@@ -173,7 +91,7 @@ export const venuesView = sva({
       transition: 'color {durations.fast} {easings.quint}',
       _hover: { color: 'action' },
       _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '2px' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
     eventWhen: {
       fontFamily: 'body',
@@ -184,20 +102,6 @@ export const venuesView = sva({
       fontVariantNumeric: 'tabular-nums',
     },
     chips: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '6px' },
-    chip: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'highlight',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'highlightFaint',
-      paddingBlock: '2px',
-      paddingInline: '8px',
-      lineHeight: '1.4',
-    },
 
     child: {
       display: 'flex',
@@ -206,7 +110,7 @@ export const venuesView = sva({
       paddingLeft: 'md',
       borderLeftWidth: '1px',
       borderLeftStyle: 'solid',
-      borderLeftColor: 'divider',
+      borderLeftColor: 'borderDark',
     },
     childHead: { display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', gap: '10px' },
     childName: {

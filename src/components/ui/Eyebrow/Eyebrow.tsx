@@ -1,4 +1,4 @@
-import type { ElementType, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { type EyebrowVariantProps, eyebrow } from 'styled-system/recipes'
 
@@ -10,11 +10,9 @@ import { type EyebrowVariantProps, eyebrow } from 'styled-system/recipes'
  */
 type EyebrowProps = EyebrowVariantProps & {
   children: ReactNode
-  className?: string
-  /** Render element — defaults to a paragraph. */
-  as?: ElementType
+  className?: string | undefined
 }
 
-export function Eyebrow({ children, className, as: Tag = 'p', ...variants }: EyebrowProps) {
-  return <Tag className={cx(eyebrow(variants), className)}>{children}</Tag>
+export function Eyebrow({ children, className, ...variants }: EyebrowProps) {
+  return <p className={cx(eyebrow(variants), className)}>{children}</p>
 }

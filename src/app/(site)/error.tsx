@@ -1,8 +1,8 @@
 'use client'
 
-import { RiAlertLine, RiArrowRightLine, RiRefreshLine } from '@remixicon/react'
+import { RiAlertLine, RiRefreshLine } from '@remixicon/react'
 import Link from 'next/link'
-import { cx } from 'styled-system/css'
+import { Button } from '@/components/ui/Button/Button'
 import { errorPage } from './error.recipe'
 
 const styles = errorPage()
@@ -29,13 +29,13 @@ export default function ErrorPage({
           Try again or return to the homepage.
         </p>
         <div className={styles.actions}>
-          <button type="button" onClick={reset} className={cx(styles.btn, styles.btnPrimary)}>
+          <Button variant="secondary" onClick={reset}>
             <RiRefreshLine size={14} />
             Try Again
-          </button>
-          <Link href="/" className={styles.btn}>
-            Return Home <RiArrowRightLine size={14} />
-          </Link>
+          </Button>
+          <Button asChild variant="ghost">
+            <Link href="/">Return Home</Link>
+          </Button>
         </div>
       </div>
     </div>

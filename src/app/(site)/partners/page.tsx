@@ -1,16 +1,17 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import { css } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
+import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
-import { MagneticButton } from '@/components/MagneticButton/MagneticButton'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
@@ -74,13 +75,14 @@ function PartnersShell({
       <Navigation activeId={null} />
       <main>
         <PageHero
+          flush
           title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
           lead={hero.lead}
         />
 
-        <section className={styles.eventSection}>
+        <section className={section({ ground: 'dark' })}>
           <div className={styles.inner}>
-            <h2 className={css({ textStyle: 'sectionTitle', marginBottom: 'xl' })}>{eventTitle}</h2>
+            <SectionHeading>{eventTitle}</SectionHeading>
             <div className={styles.eventBody}>
               {eventBody.map((para, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: positional
@@ -93,20 +95,16 @@ function PartnersShell({
           </div>
         </section>
 
-        <section
-          className={css({
-            layerStyle: 'sectionLight',
-            paddingBlock: 'sectionY',
-            paddingInline: 'content',
-          })}
-        >
+        <section className={section({ ground: 'light' })}>
           <div className={styles.inner}>
             <div className={styles.whySculptureTop}>
               <div>
                 <Eyebrow rule className={css({ marginBottom: '32px' })}>
                   {whyEyebrow}
                 </Eyebrow>
-                <h2 className={styles.whySculptureTitle}>{whyTitle}</h2>
+                <SectionHeading flush className={css({ maxWidth: '700px' })}>
+                  {whyTitle}
+                </SectionHeading>
               </div>
               <div className={styles.whySculptureImage}>
                 <Figure
@@ -132,7 +130,7 @@ function PartnersShell({
           </div>
         </section>
 
-        <section className={styles.partnerCta}>
+        <section className={cx(section({ ground: 'dark' }), styles.partnerCta)}>
           <div className={styles.partnerCtaInner}>
             <div className={styles.partnerCtaBadge}>
               <PartnerBadge />
@@ -146,9 +144,13 @@ function PartnersShell({
               />
             </h2>
             <p className={styles.partnerCtaBody}>{ctaBody}</p>
-            <MagneticButton href={ctaHref}>
+            <a
+              href={ctaHref}
+              className={button({ variant: 'secondary' })}
+              {...(ctaHref.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}
+            >
               {ctaLabel} <RiArrowRightLine size={14} />
-            </MagneticButton>
+            </a>
           </div>
         </section>
       </main>

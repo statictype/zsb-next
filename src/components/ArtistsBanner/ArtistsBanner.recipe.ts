@@ -3,14 +3,13 @@ import { sva } from 'styled-system/css'
 /**
  * ArtistsBanner — co-located slot recipe.
  *
- * The compound hover (title warms to the accent, arrow nudges, the underline
- * draws, the corner wash fades in) lives in one place: the `root` slot's
- * `_hover`, targeting the children by `data-part`. The brand-tinted corner wash
- * and accent gradient reference the pink/chartreuse anchors via `color-mix`
- * rather than the old hardcoded `rgba()` literals.
+ * The compound hover (the accent bar draws, the corner wash fades in) lives in
+ * one place: the `root` slot's `_hover`, targeting children by `data-part`. The
+ * title is the shared `<SectionHeading>`. The brand-tinted corner wash and
+ * accent gradient reference the pink/chartreuse anchors via `color-mix`.
  */
 export const artistsBanner = sva({
-  slots: ['root', 'inner', 'left', 'title', 'subtext', 'cta', 'ctaText', 'arrow', 'accent'],
+  slots: ['root', 'inner', 'left', 'subtext', 'accent'],
   base: {
     root: {
       position: 'relative',
@@ -21,7 +20,7 @@ export const artistsBanner = sva({
       textDecoration: 'none',
       overflow: 'hidden',
       paddingBlock: { base: 'xl', md: '2xl' },
-      paddingInline: 'content',
+      paddingInline: 'gutter',
       scrollMarginTop: 'token(sizes.nav)',
       transition: 'all {durations.slow} {easings.expo}',
       // Brand corner wash — fades in on hover.
@@ -36,8 +35,6 @@ export const artistsBanner = sva({
       },
       _hover: {
         _before: { opacity: '1' },
-        '& [data-part=title]': { color: 'highlight' },
-        '& [data-part=arrow]': { transform: 'translate(8px, -8px)' },
         '& [data-part=accent]': { transform: 'scaleX(1)' },
       },
     },
@@ -54,36 +51,12 @@ export const artistsBanner = sva({
       gap: 'lg',
     },
     left: { display: 'flex', flexDirection: 'column', gap: 'sm' },
-    title: {
-      fontFamily: 'display',
-      fontSize: '2xl',
-      lineHeight: 'display',
-      letterSpacing: 'tight',
-      textTransform: 'uppercase',
-      color: 'white',
-      marginBottom: 'sm',
-      transition: 'color {durations.medium} {easings.expo}',
-    },
     subtext: {
       fontFamily: 'body',
       fontSize: 'sm',
       lineHeight: 'body',
       color: 'body',
       maxWidth: { md: '500px' },
-    },
-    cta: { display: 'flex', alignItems: 'center', gap: 'sm' },
-    ctaText: {
-      fontFamily: 'display',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      color: 'action',
-    },
-    arrow: {
-      display: 'inline-flex',
-      flexShrink: '0',
-      color: 'action',
-      transition: 'transform {durations.medium} {easings.expo}',
     },
     accent: {
       position: 'absolute',

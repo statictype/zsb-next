@@ -3028,20 +3028,17 @@
         },
         "optional": false
       },
-      "notFestivalTitle": {
+      "manifestoTitle": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
         "optional": false
       },
-      "notFestivalBody": {
+      "manifestoBody": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "string"
-          }
+          "type": "string"
         },
         "optional": false
       },

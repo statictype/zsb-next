@@ -1,33 +1,38 @@
-import type { ManifestoData } from '@/types/edition'
+import { cx } from 'styled-system/css'
+import { editorialSplit } from 'styled-system/patterns'
+import { section } from 'styled-system/recipes'
+import { splitFirstMatch } from '@/lib/split-first-match'
 import { manifesto as styles } from './Manifesto.recipe'
 
 interface ManifestoProps {
-  manifesto: ManifestoData
+  title: string
+  /** Single intro paragraph. */
+  body: string
+  /** Optional highlighted substring of the title (the accent). Omit for none. */
+  accent?: string | undefined
 }
 
-export function Manifesto({ manifesto }: ManifestoProps) {
-  const titleParts = manifesto.highlight ? manifesto.title.split(manifesto.highlight) : null
+export function Manifesto({ title, body, accent }: ManifestoProps) {
+  const titleParts = accent ? splitFirstMatch(title, accent) : null
   const s = styles()
 
   return (
-    <section className={s.section}>
-      <div className={s.container}>
-        <div className={s.title}>
-          <p>
-            {titleParts ? (
-              <>
-                {titleParts[0]}
-                <span className={s.titleHighlight}>{manifesto.highlight}</span>
-                {titleParts[1]}
-              </>
-            ) : (
-              manifesto.title
-            )}
-          </p>
-        </div>
+    <section className={cx(section({ ground: 'light', rhythm: 'lg' }), s.section)}>
+      <div className={cx(editorialSplit(), s.container)}>
+        <h2 className={s.title}>
+          {titleParts ? (
+            <>
+              {titleParts.before}
+              <span className={s.titleHighlight}>{titleParts.match}</span>
+              {titleParts.after}
+            </>
+          ) : (
+            title
+          )}
+        </h2>
         <div className={s.content}>
           <div className={s.text}>
-            <p>{manifesto.body}</p>
+            <p>{body}</p>
           </div>
         </div>
       </div>

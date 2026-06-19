@@ -1,4 +1,6 @@
-import { RiArrowRightUpLine } from '@remixicon/react'
+import { section } from 'styled-system/recipes'
+import { Button } from '@/components/ui/Button/Button'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { comingSoon } from './ComingSoon.recipe'
 
 export interface SocialLink {
@@ -15,12 +17,12 @@ export interface SocialLink {
 export function ComingSoon({ year, socials }: { year: number; socials: SocialLink[] }) {
   const s = comingSoon()
   return (
-    <section className={s.section} aria-labelledby="calendar-heading">
+    <section className={section({ ground: 'dark' })} aria-labelledby="calendar-heading">
       <div className={s.inner}>
         <header className={s.header}>
-          <h2 id="calendar-heading" className={s.title}>
+          <SectionHeading id="calendar-heading" flush>
             Calendar
-          </h2>
+          </SectionHeading>
           <p className={s.meta}>
             <span className={s.metaYear}>{year}</span>
             <span className={s.metaDot} aria-hidden />
@@ -41,9 +43,11 @@ export function ComingSoon({ year, socials }: { year: number; socials: SocialLin
               <ul className={s.links}>
                 {socials.map((social) => (
                   <li key={social.label}>
-                    <a className={s.link} href={social.href} target="_blank" rel="noreferrer">
-                      {social.label} <RiArrowRightUpLine size={15} aria-hidden />
-                    </a>
+                    <Button asChild variant="text">
+                      <a href={social.href} target="_blank" rel="noreferrer">
+                        {social.label}
+                      </a>
+                    </Button>
                   </li>
                 ))}
               </ul>

@@ -4,11 +4,11 @@ import { sva } from 'styled-system/css'
  * Calendar — co-located slot recipe.
  *
  * The date-by-date programme as a dark schedule board: header + counts, an
- * "Ongoing" exhibition card grid, the day-by-day agenda timeline, the NOW
- * marker, finished-edition recap + archive disclosure. Raw grays are the
+ * "Ongoing" exhibition card grid, the day-by-day agenda timeline, finished-edition
+ * recap + shared archive Collapsible. Raw grays are the
  * documented dark-board exceptions; the card/gallery image filters are inlined
  * (were legacy `--card-*`/`--gallery-*` vars). State lives on data attributes:
- * `data-past`/`data-now` (runs/days), `data-on` (past toggle), `data-poster`
+ * `data-past` (runs/days), `data-on` (past toggle), `data-poster`
  * (event rows). The agenda's marker column is the `--marker-col` custom prop,
  * set responsively on the section.
  */
@@ -19,7 +19,6 @@ export const calendar = sva({
     'layout',
     'header',
     'headerMain',
-    'title',
     'meta',
     'metaYear',
     'metaDot',
@@ -34,7 +33,6 @@ export const calendar = sva({
     'runContent',
     'runName',
     'runFoot',
-    'runNow',
     'runRange',
     'empty',
     'emptyText',
@@ -61,32 +59,16 @@ export const calendar = sva({
     'venueName',
     'venueParent',
     'chips',
-    'chip',
-    'now',
-    'nowDot',
-    'nowLabel',
-    'nowDate',
-    'nowRule',
     'recap',
     'recapLine',
     'recapMark',
     'recapFollow',
     'recapFollowLabel',
     'recapLinks',
-    'recapLink',
-    'archive',
-    'archiveSummary',
-    'archiveShow',
-    'archiveHide',
-    'archiveCount',
-    'archiveChevron',
-    'archivePanel',
   ],
   base: {
     section: {
-      layerStyle: 'section',
-      background: 'blackPure',
-      color: 'white',
+      // ground + rhythm come from `section({ ground: 'dark' })` in the component.
       // Shared links land on #program; offset past the tall top padding.
       scrollMarginTop: 'calc(token(spacing.lg) - token(spacing.sectionY))',
       // Agenda date-marker column width; scales up with the type.
@@ -107,7 +89,6 @@ export const calendar = sva({
       marginBottom: 'xl',
     },
     headerMain: { minWidth: 0 },
-    title: { textStyle: 'sectionTitle', marginBottom: 0 },
     meta: {
       display: 'flex',
       alignItems: 'center',
@@ -165,12 +146,12 @@ export const calendar = sva({
       _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '2px' },
       // On → the chartreuse "active" fill.
       '&[data-on=true]': {
-        color: 'blackPure',
+        color: 'black',
         background: 'highlight',
         borderColor: 'highlight',
-        _hover: { color: 'blackPure', background: 'highlight', borderColor: 'highlight' },
+        _hover: { color: 'black', background: 'highlight', borderColor: 'highlight' },
       },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
 
     // ---- Ongoing band — exhibition card grid ----
@@ -179,7 +160,7 @@ export const calendar = sva({
       paddingTop: 'lg',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
     },
     bandLabel: {
       fontFamily: 'body',
@@ -202,7 +183,7 @@ export const calendar = sva({
       background: 'black',
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'divider',
+      borderColor: 'borderDark',
       position: 'relative',
       // Gradient hover ring (masked to the 1px edge).
       _before: {
@@ -219,7 +200,7 @@ export const calendar = sva({
         opacity: 0,
         zIndex: 2,
         pointerEvents: 'none',
-        transition: 'opacity {durations.normal} ease',
+        transition: 'opacity {durations.normal} {easings.quint}',
       },
       _hover: {
         '&::before': { opacity: 1, animation: 'gradientBorderShift 2s linear infinite' },
@@ -227,16 +208,13 @@ export const calendar = sva({
         '& a': { color: 'white' },
       },
       '& a:focus-visible': { color: 'white' },
-      // On-now exhibition — pink border lifts it out of the grid.
-      '&[data-now=true]': { borderColor: 'action' },
-      '&[data-now=true]:hover': { borderColor: 'action' },
       // Past de-emphasis (live edition only).
       '&[data-past=true]': {
         opacity: 0.42,
         transition: 'opacity {durations.normal} {easings.quint}',
       },
       '&[data-past=true]:hover': { opacity: 1 },
-      '@media (prefers-reduced-motion: reduce)': {
+      _motionReduce: {
         '&:hover::before': { animation: 'none' },
       },
     },
@@ -276,26 +254,6 @@ export const calendar = sva({
       marginTop: 'auto',
       paddingTop: 'sm',
     },
-    runNow: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'action',
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '7px',
-      _before: {
-        content: '""',
-        width: '7px',
-        height: '7px',
-        borderRadius: 'circle',
-        background: 'action',
-        animation: 'pulse 2s {easings.quint} infinite',
-      },
-      '@media (prefers-reduced-motion: reduce)': { _before: { animation: 'none' } },
-    },
     runRange: {
       fontFamily: 'body',
       fontSize: '2xs',
@@ -313,7 +271,7 @@ export const calendar = sva({
       paddingBlock: '2xl',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
     },
     emptyText: {
       fontFamily: 'display',
@@ -354,7 +312,7 @@ export const calendar = sva({
           bottom: '8px',
           left: 'var(--marker-col)',
           width: '1px',
-          background: 'divider',
+          background: 'borderDark',
         },
       },
     },
@@ -365,7 +323,7 @@ export const calendar = sva({
       paddingBlock: 'lg',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
       _first: { borderTopWidth: 0, paddingTop: 0 },
       '&[data-past=true]': {
         opacity: 0.42,
@@ -444,7 +402,7 @@ export const calendar = sva({
       paddingBlock: 'md',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'divider',
+      borderTopColor: 'borderDark',
       position: 'relative',
       _first: { borderTopWidth: 0 },
       _hover: {
@@ -495,7 +453,7 @@ export const calendar = sva({
         outline: '2px solid token(colors.highlight)',
         outlineOffset: '3px',
       },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
     eventDesc: {
       fontFamily: 'body',
@@ -534,23 +492,19 @@ export const calendar = sva({
         zIndex: 3,
         '[data-poster=true]:hover &': { opacity: 1, transform: 'translateX(0)' },
       },
-      '@media (hover: hover) and (pointer: fine) and (min-width: 1280px) and (prefers-reduced-motion: reduce)':
-        {
+      _motionReduce: {
+        '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
           transition: 'opacity {durations.normal} {easings.quint}',
           transform: 'none',
           '[data-poster=true]:hover &': { transform: 'none' },
         },
+      },
     },
     posterTag: {
+      textStyle: 'metaLabel',
       display: 'none',
       alignItems: 'center',
       gap: '6px',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'muted',
       transition: 'color {durations.fast} {easings.quint}',
       _before: { content: '""', width: '7px', height: '9px', background: 'currentColor' },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
@@ -582,58 +536,6 @@ export const calendar = sva({
       _before: { content: '"↳ "' },
     },
     chips: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '6px' },
-    chip: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'highlight',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'highlightFaint',
-      padding: '3px 9px',
-      lineHeight: '1.4',
-    },
-
-    // ---- NOW marker ----
-    now: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '12px',
-      paddingBlock: 'md',
-      listStyle: 'none',
-      md: { marginLeft: 'var(--marker-col)', paddingLeft: 'lg' },
-    },
-    nowDot: {
-      width: '9px',
-      height: '9px',
-      borderRadius: 'circle',
-      background: 'action',
-      boxShadow: '0 0 0 0 color-mix(in srgb, var(--colors-action) 70%, transparent)',
-      animation: 'pulse 2s {easings.quint} infinite',
-      flexShrink: 0,
-      '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
-    },
-    nowLabel: {
-      fontFamily: 'display',
-      fontSize: 'sm',
-      textTransform: 'uppercase',
-      letterSpacing: 'subtle',
-      color: 'action',
-    },
-    nowDate: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      color: 'muted',
-    },
-    nowRule: {
-      flex: 1,
-      height: '1px',
-      background: 'linear-gradient(to right, token(colors.action), transparent)',
-    },
 
     // ---- Finished-edition recap ----
     recap: {
@@ -655,63 +557,5 @@ export const calendar = sva({
       color: 'muted',
     },
     recapLinks: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'md' },
-    recapLink: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '6px',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'white',
-      textDecoration: 'none',
-      paddingBottom: '2px',
-      borderBottomWidth: '1px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: 'gray.700',
-      transition:
-        'color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}',
-      _hover: { color: 'action', borderColor: 'action' },
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '2px' },
-    },
-
-    // ---- Finished-edition archive disclosure ----
-    archive: { borderTopWidth: '1px', borderTopStyle: 'solid', borderTopColor: 'divider' },
-    archiveSummary: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'md',
-      paddingBlock: 'lg',
-      cursor: 'pointer',
-      listStyle: 'none',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'action',
-      '&::-webkit-details-marker': { display: 'none' },
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '2px' },
-    },
-    // Underline just the label on hover (the count stays plain).
-    archiveShow: {
-      'summary:hover &': { textDecoration: 'underline', textUnderlineOffset: '3px' },
-      '[open] &': { display: 'none' },
-    },
-    archiveHide: {
-      display: 'none',
-      'summary:hover &': { textDecoration: 'underline', textUnderlineOffset: '3px' },
-      '[open] &': { display: 'inline' },
-    },
-    archiveCount: { color: 'muted', fontVariantNumeric: 'tabular-nums' },
-    archiveChevron: {
-      marginLeft: 'auto',
-      color: 'inherit',
-      transition: 'transform {durations.normal} {easings.quint}',
-      '[open] &': { transform: 'rotate(180deg)' },
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
-    },
-    archivePanel: { paddingTop: 'md', paddingBottom: 'lg' },
   },
 })

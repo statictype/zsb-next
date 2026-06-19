@@ -18,7 +18,6 @@ const labelBase = {
 
 export const credits = sva({
   slots: [
-    'section',
     'container',
     'primary',
     'block',
@@ -37,7 +36,6 @@ export const credits = sva({
     'inlineNames',
   ],
   base: {
-    section: { layerStyle: 'section', background: 'white' },
     container: { layerStyle: 'sectionInner' },
 
     label: labelBase,
@@ -76,7 +74,7 @@ export const credits = sva({
       objectFit: 'contain',
       filter: 'grayscale(100%)',
       opacity: 0.8,
-      transition: 'all 0.4s ease',
+      transition: 'all {durations.medium} {easings.quint}',
       md: { height: '60px' },
       _hover: { filter: 'grayscale(0%)', opacity: 1 },
     },
@@ -90,7 +88,7 @@ export const credits = sva({
       paddingTop: 'lg',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'dividerLight',
+      borderTopColor: 'borderLight',
       display: 'flex',
       flexDirection: 'column',
       gap: 'lg',
@@ -106,7 +104,7 @@ export const credits = sva({
       paddingTop: 'lg',
       borderTopWidth: '1px',
       borderTopStyle: 'solid',
-      borderTopColor: 'dividerLight',
+      borderTopColor: 'borderLight',
       display: 'flex',
       flexDirection: 'column',
       gap: 'lg',

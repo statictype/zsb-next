@@ -1,9 +1,14 @@
-import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { cx } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
+import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
+import { Badge } from '@/components/ui/Badge/Badge'
+import { Button } from '@/components/ui/Button/Button'
 import { Card } from '@/components/ui/Card/Card'
+import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { dayToken, eventWhenLabelShort } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 import { featuredEvents } from './FeaturedEvents.recipe'
@@ -28,18 +33,20 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
   if (events.length === 0) return null
 
   return (
-    <section className={styles.section} aria-labelledby="featured-heading">
+    <section className={section({ ground: 'dark' })} aria-labelledby="featured-heading">
       <div className={styles.inner}>
         <header className={styles.header}>
           <div className={styles.headerMain}>
-            <p className={styles.eyebrow}>Don&rsquo;t miss</p>
-            <h2 id="featured-heading" className={styles.title}>
+            <Eyebrow tone="highlight" size="sm" className={styles.eyebrow}>
+              Don&rsquo;t miss
+            </Eyebrow>
+            <SectionHeading id="featured-heading" flush>
               Featured
-            </h2>
+            </SectionHeading>
           </div>
-          <Link className={styles.calendarLink} href={`/editions/${year}#program`}>
-            Full calendar <RiArrowRightLine size={15} aria-hidden />
-          </Link>
+          <Button asChild variant="text">
+            <Link href={`/editions/${year}#program`}>Full calendar</Link>
+          </Button>
         </header>
 
         <ul className={styles.grid}>
@@ -67,7 +74,7 @@ function FeaturedCard({
   return (
     // The stagger delay rides --i; the whole frame is the hit target via the
     // name link's stretched ::after (see .cardLink in the CSS).
-    <li className={styles.card} style={{ '--i': index } as CSSProperties}>
+    <li className={cx(styles.card, enter())} style={{ '--i': index } as CSSProperties}>
       <Card
         as="article"
         ground="onDark"
@@ -108,8 +115,8 @@ function FeaturedCard({
           {event.types.length > 0 && (
             <ul className={styles.chips}>
               {event.types.slice(0, 2).map((t) => (
-                <li key={t.slug} className={styles.chip}>
-                  {t.title}
+                <li key={t.slug}>
+                  <Badge size="sm">{t.title}</Badge>
                 </li>
               ))}
             </ul>

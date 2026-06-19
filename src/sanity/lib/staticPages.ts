@@ -30,8 +30,8 @@ type AboutPageRaw = NonNullable<ABOUT_PAGE_QUERY_RESULT>
  */
 export interface AboutView {
   hero: { title: string; titleAccent: string; lead: string }
-  notFestivalTitle: string
-  notFestivalBody: string[]
+  manifestoTitle: string
+  manifestoBody: string
   pillars: Array<{ label: string; body: string }>
   carouselEyebrow: string
   curatorEyebrow: string
@@ -112,10 +112,10 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
       titleAccent: raw.hero?.titleAccent ?? '',
       lead: raw.hero?.lead ?? '',
     },
-    notFestivalTitle: raw.notFestivalTitle ?? '',
-    // Drafts bypass required-field validation, so nested strings can be missing
-    // even where TypeGen marks them non-null — coalesce/filter defensively.
-    notFestivalBody: (raw.notFestivalBody ?? []).filter(Boolean),
+    manifestoTitle: raw.manifestoTitle ?? '',
+    // Drafts bypass required-field validation, so strings can be missing even
+    // where TypeGen marks them non-null — coalesce defensively.
+    manifestoBody: raw.manifestoBody ?? '',
     pillars: (raw.pillars ?? []).map((p) => ({ label: p.label ?? '', body: p.body ?? '' })),
     carouselEyebrow: raw.carouselEyebrow ?? 'Gallery',
     curatorEyebrow: raw.curatorEyebrow ?? '',

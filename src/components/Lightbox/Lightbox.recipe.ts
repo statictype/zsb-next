@@ -4,11 +4,12 @@ import { sva } from 'styled-system/css'
  * Lightbox — co-located slot recipe.
  *
  * Full-screen image viewer with swipe/drag. The close + prev/next adopt the
- * `<IconButton>` primitive (tone `default` = white→action); their positioning
+ * `<Button variant="icon">` (white→action); their positioning
  * and per-control motion (close rotates, arrows nudge) layer on via the slot
  * classes. The backdrop alpha + drag transform stay inline (request-driven).
  *
- * Open state → `data-active` on the backdrop.
+ * Dialog owns modal state and the full-screen shell; this recipe owns only the
+ * image-viewer layout, controls, and gesture feedback.
  */
 export const lightbox = sva({
   slots: [
@@ -24,20 +25,16 @@ export const lightbox = sva({
   ],
   base: {
     lightbox: {
-      position: 'fixed',
-      inset: 0,
-      background: 'rgba(0, 0, 0, 0.95)',
-      zIndex: 9999,
+      position: 'relative',
+      width: '100%',
+      height: '100%',
+      background: 'scrim',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      opacity: 0,
-      visibility: 'hidden',
-      transition: 'opacity 0.4s ease, visibility 0.4s ease',
       cursor: 'zoom-out',
       touchAction: 'none',
       overscrollBehavior: 'contain',
-      '&[data-active=true]': { opacity: 1, visibility: 'visible' },
     },
     frame: {
       position: 'relative',
@@ -47,9 +44,13 @@ export const lightbox = sva({
       md: { width: 'calc(100vw - 160px)', height: '90vh' },
     },
     // Drag prevention comes from the Image's `draggable={false}` attribute.
-    image: { objectFit: 'contain', transition: 'opacity 0.3s ease', userSelect: 'none' },
+    image: {
+      objectFit: 'contain',
+      transition: 'opacity {durations.normal} {easings.quint}',
+      userSelect: 'none',
+    },
 
-    // Positioned over the dark backdrop; IconButton supplies size + white→action.
+    // Positioned over the dark backdrop; Button supplies size + white→action.
     close: {
       position: 'absolute',
       top: 'md',

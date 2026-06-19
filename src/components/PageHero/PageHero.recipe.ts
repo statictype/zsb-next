@@ -17,9 +17,18 @@ export const pageHero = sva({
     inner: { layerStyle: 'sectionInner' },
     title: {
       textStyle: 'pageTitle',
-      opacity: '0',
-      animation: 'fadeSlideUp 1s {easings.expo} 0.2s forwards',
+      // Reveal contract is the shared `enter()` on the element; only the delay
+      // stays here.
+      animationDelay: '0.2s',
     },
-    lead: { textStyle: 'lead', maxWidth: '60ch', marginTop: 'xl' },
+    lead: { textStyle: 'lead', color: 'body', maxWidth: '60ch', marginTop: 'xl' },
   },
+  variants: {
+    // Drop the hero's bottom padding when a section follows directly — the
+    // section owns the gap (its `sectionY` top), so the two don't double up.
+    flush: {
+      true: { hero: { paddingBottom: '0' } },
+    },
+  },
+  defaultVariants: { flush: false },
 })

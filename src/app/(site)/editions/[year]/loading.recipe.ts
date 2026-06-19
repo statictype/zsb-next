@@ -43,7 +43,7 @@ export const editionLoading = sva({
         inset: '0',
         background:
           'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
-        animation: 'shimmer 1.8s ease-in-out infinite',
+        animation: 'shimmer {durations.sweep} ease-in-out infinite',
       },
     },
 
@@ -55,7 +55,7 @@ export const editionLoading = sva({
       alignItems: 'center',
       justifyContent: 'center',
       gap: 'lg',
-      paddingInline: 'content',
+      paddingInline: 'gutter',
     },
     heroEyebrow: { width: '200px', height: '28px' },
     heroYear: { width: '320px', height: '100px', md: { width: '440px', height: '140px' } },
@@ -65,7 +65,7 @@ export const editionLoading = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       paddingBlock: 'sectionY',
-      paddingInline: 'content',
+      paddingInline: 'gutter',
     },
     sectionTitle: { width: '180px', height: '28px', marginBottom: 'xl' },
 
@@ -89,7 +89,7 @@ export const editionLoading = sva({
     artistCard: { aspectRatio: '3 / 4' },
 
     venueRow: { display: 'flex', flexDirection: 'column', gap: 'md' },
-    venueItem: { height: '80px', borderBottom: '1px solid token(colors.divider)' },
+    venueItem: { height: '80px', borderBottom: '1px solid token(colors.borderDark)' },
 
     carousel: {
       height: { base: '50vh', md: '60vh', lg: '70vh', xl: '72vh', '2xl': '75vh', '4xl': '80vh' },

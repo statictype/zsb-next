@@ -52,8 +52,8 @@ export const EDITIONS_LIST_QUERY = defineQuery(`
 export const ABOUT_PAGE_QUERY = defineQuery(`
   *[_id == "aboutPage"][0]{
     hero,
-    notFestivalTitle,
-    notFestivalBody,
+    manifestoTitle,
+    manifestoBody,
     pillars,
     placeImage{ ..., "lqip": asset->metadata.lqip },
     carouselEyebrow,

@@ -3,64 +3,26 @@ import { sva } from 'styled-system/css'
 /**
  * EventModal — co-located slot recipe.
  *
- * Full detail for one event, as a dialog over the schedule board. Back/Share
- * are bespoke board chips (translucent, blurred), kept off the `<Button>`
- * primitive; Share carries the chartreuse copied state (`data-copied`). Raw
- * grays are the documented dark-board exceptions.
+ * Product content inside the shared panel Dialog. Dialog owns the modal shell;
+ * this recipe keeps event layout, typography, poster, and floating controls.
  */
 export const eventModal = sva({
   slots: [
-    'backdrop',
-    'dialog',
     'controls',
     'poster',
     'body',
     'when',
     'name',
     'types',
-    'type',
     'venue',
     'venueName',
     'venueParent',
     'description',
     'links',
-    'link',
   ],
   base: {
-    backdrop: {
-      position: 'fixed',
-      inset: 0,
-      zIndex: 1100,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 'lg',
-      background: 'color-mix(in srgb, token(colors.blackPure) 82%, transparent)',
-      backdropFilter: 'blur(4px)',
-      overflowY: 'auto',
-      animation: 'fadeIn {durations.normal} {easings.quint}',
-      '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
-    },
-    dialog: {
-      position: 'relative',
-      width: '100%',
-      maxWidth: '540px',
-      maxHeight: 'calc(100dvh - 2 * token(spacing.lg))',
-      display: 'flex',
-      flexDirection: 'column',
-      background: 'blackPure',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'divider',
-      boxShadow: '0 30px 80px rgba(0, 0, 0, 0.5)',
-      overflow: 'hidden',
-      animation: 'dialogIn {durations.normal} {easings.expo}',
-      md: { flexDirection: 'row', maxWidth: '760px' },
-      '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
-    },
-
     // Floating bar over the dialog top: Back (left) + Share (right). The bar is
-    // click-through; only the chips take pointer events.
+    // click-through; only the buttons themselves take pointer events.
     controls: {
       position: 'absolute',
       top: 'sm',
@@ -72,6 +34,7 @@ export const eventModal = sva({
       justifyContent: 'space-between',
       gap: 'sm',
       pointerEvents: 'none',
+      '& > *': { pointerEvents: 'auto' },
     },
 
     poster: {
@@ -110,19 +73,6 @@ export const eventModal = sva({
     name: { fontFamily: 'display', fontSize: '2xl', lineHeight: 'tight', color: 'white' },
 
     types: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: 'sm' },
-    type: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'highlight',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'highlightFaint',
-      padding: '3px 9px',
-      lineHeight: '1.4',
-    },
 
     venue: {
       display: 'flex',
@@ -157,32 +107,5 @@ export const eventModal = sva({
     },
 
     links: { display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: 'lg' },
-    link: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '6px',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'white',
-      paddingBottom: '3px',
-      borderBottomWidth: '1px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: 'gray.700',
-      transition:
-        'color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}',
-      _hover: {
-        color: 'action',
-        borderColor: 'action',
-        '& svg': { transform: 'translate(2px, -2px)' },
-      },
-      '& svg': { transition: 'transform {durations.fast} {easings.quint}' },
-      '@media (prefers-reduced-motion: reduce)': {
-        transition: 'none',
-        '& svg': { transition: 'none' },
-      },
-    },
   },
 })

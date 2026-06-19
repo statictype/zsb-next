@@ -6,32 +6,26 @@ import { sva } from 'styled-system/css'
  * The edition's theme statement beside its numbered artist roster on the dark
  * ground. A single narrow column on mobile; from `lg` the inner becomes a
  * two-column grid (theme copy left, table right) that evens to 1fr/1fr at `xl`.
- * `section` folds the shared `section` + `sectionDark` layerStyles in (the old
- * `shared.section shared.sectionDark` pair) and adds the relative/overflow stage.
+ * The dark ground + rhythm come from the shared `section({ ground: 'dark' })`
+ * recipe (composed in the component); this slot keeps only the relative/overflow
+ * stage. `inner` is the content rail, so it owns the horizontal gutter.
  */
 export const themeArtists = sva({
-  slots: ['section', 'inner', 'themeHeader', 'headline', 'body', 'artistsTable'],
+  slots: ['section', 'inner', 'themeHeader', 'body', 'artistsTable'],
   base: {
     section: {
-      layerStyle: 'section',
-      background: 'blackPure',
-      color: 'white',
       position: 'relative',
       overflow: 'hidden',
     },
     inner: {
       position: 'relative',
       zIndex: '1',
-      display: 'flex',
-      flexDirection: 'column',
+      paddingInline: 'gutter',
       maxWidth: '525px',
       lg: {
-        display: 'grid',
-        gridTemplateColumns: '0.8fr 1.2fr',
-        gap: '{spacing.lg} {spacing.5xl}',
+        gap: '{spacing.lg} {spacing.4xl}',
         maxWidth: 'maxWidth',
       },
-      xl: { gridTemplateColumns: '1fr 1fr' },
       '4xl': { paddingLeft: '2xl' },
     },
 
@@ -39,16 +33,9 @@ export const themeArtists = sva({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
-      marginInline: 'auto',
+      paddingInline: 'gutter',
       marginBottom: '3xl',
     },
-    headline: {
-      fontFamily: 'display',
-      fontSize: { base: 'xl', md: '2xl', xl: '3xl', '3xl': '4xl' },
-      lineHeight: 'heading',
-      color: 'white',
-    },
-
     body: {
       marginBottom: '2xl',
       lg: { gridColumn: '1', alignSelf: 'start' },

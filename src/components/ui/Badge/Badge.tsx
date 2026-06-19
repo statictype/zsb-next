@@ -1,4 +1,4 @@
-import type { ElementType, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { type BadgeVariantProps, badge } from 'styled-system/recipes'
 
@@ -11,11 +11,9 @@ import { type BadgeVariantProps, badge } from 'styled-system/recipes'
  */
 type BadgeProps = BadgeVariantProps & {
   children: ReactNode
-  className?: string
-  /** Render element — defaults to a span. */
-  as?: ElementType
+  className?: string | undefined
 }
 
-export function Badge({ children, className, as: Tag = 'span', ...variants }: BadgeProps) {
-  return <Tag className={cx(badge(variants), className)}>{children}</Tag>
+export function Badge({ children, className, ...variants }: BadgeProps) {
+  return <span className={cx(badge(variants), className)}>{children}</span>
 }

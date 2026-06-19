@@ -1,13 +1,16 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import { css } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
+import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
-import { Carousel } from '@/components/Carousel/Carousel'
+import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
+import { Manifesto } from '@/components/Manifesto/Manifesto'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { type AboutView, getAboutPage } from '@/sanity/lib/staticPages'
@@ -41,8 +44,8 @@ async function CachedAbout({ options }: { options: DynamicFetchOptions }) {
 function AboutShell({ view }: { view: AboutView }) {
   const {
     hero,
-    notFestivalTitle,
-    notFestivalBody,
+    manifestoTitle,
+    manifestoBody,
     pillars,
     placeImage,
     carousel,
@@ -64,30 +67,15 @@ function AboutShell({ view }: { view: AboutView }) {
       <figure className={styles.placeImage}>
         <Figure image={placeImage} sizes="100vw" className={styles.placeImageImg} />
       </figure>
-      <section className={styles.projectSection}>
-        <div className={styles.inner}>
-          <div className={styles.projectGrid}>
-            <aside className={styles.projectAside}>
-              <h2 className={styles.projectTitle}>{notFestivalTitle}</h2>
-            </aside>
-
-            <div className={styles.projectMain}>
-              {notFestivalBody.map((para, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: positional
-                <p key={i}>{para}</p>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <Manifesto title={manifestoTitle} body={manifestoBody} />
 
       {carousel && (
-        <section className={styles.carouselSection}>
-          <Carousel slides={carousel} eyebrow={carouselEyebrow} />
+        <section className={cx(section({ ground: 'dark' }), styles.carouselSection)}>
+          <GalleryCarousel slides={carousel} eyebrow={carouselEyebrow} />
         </section>
       )}
 
-      <section className={styles.pillarsSection}>
+      <section className={section({ ground: 'dark' })}>
         <div className={styles.inner}>
           <div className={styles.pillarsGrid}>
             {pillars.map((p, i) => (
@@ -103,14 +91,14 @@ function AboutShell({ view }: { view: AboutView }) {
         </div>
       </section>
 
-      <section className={styles.statement}>
+      <section className={cx(section({ ground: 'light', rhythm: 'lg' }), styles.statement)}>
         <div className={styles.statementInner}>
           <aside className={styles.statementAside}>
             <Eyebrow rule className={css({ marginBottom: '32px' })}>
               {curatorEyebrow}
             </Eyebrow>
 
-            <h2 className={styles.statementHeadline}>{curatorHeadline}</h2>
+            <SectionHeading>{curatorHeadline}</SectionHeading>
 
             <figure className={styles.statementByline}>
               <div className={styles.authorPhotoFrame}>

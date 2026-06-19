@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { section } from 'styled-system/recipes'
 import { IsdayBadge } from '@/components/IsdayBadge/IsdayBadge'
 import type { CreditEntry } from '@/types/edition'
 import { credits as creditsRecipe } from './Credits.recipe'
@@ -14,7 +15,7 @@ export function Credits({ credits }: CreditsProps) {
   const s = creditsRecipe()
 
   return (
-    <section className={s.section}>
+    <section className={section({ ground: 'light' })}>
       <div className={s.container}>
         {/* Primary Credits */}
         <div className={s.primary}>

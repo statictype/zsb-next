@@ -14,7 +14,6 @@ import { sva } from 'styled-system/css'
 export const editionsPage = sva({
   slots: [
     'inner',
-    'list',
     'grid',
     'slot',
     'card',
@@ -22,8 +21,6 @@ export const editionsPage = sva({
     'thumbImg',
     'yearTag',
     'meta',
-    'theme',
-    'themeHighlight',
     'metaFoot',
     'subline',
     'sublineDot',
@@ -31,12 +28,6 @@ export const editionsPage = sva({
   ],
   base: {
     inner: { layerStyle: 'sectionInner' },
-    list: {
-      layerStyle: 'sectionDark',
-      paddingTop: '0',
-      paddingInline: 'content',
-      paddingBottom: 'sectionY',
-    },
     grid: {
       display: 'grid',
       gridTemplateColumns: '1fr',
@@ -45,21 +36,13 @@ export const editionsPage = sva({
       lg: { gridTemplateColumns: 'repeat(2, 1fr)', columnGap: 'gridGap', rowGap: '2xl' },
     },
 
-    // Entrance wrapper — the reveal lives here so it never fights the Card's own
-    // hover-lift transform. `data-feature` promotes the latest edition card.
+    // Entrance wrapper — the reveal is composed here (`enter()` on the element)
+    // so it never fights the Card's own hover-lift transform. `data-feature`
+    // promotes the latest edition card.
     slot: {
-      opacity: '0',
-      transform: 'translateY(32px)',
-      filter: 'blur(6px)',
-      animation: 'cardReveal 900ms {easings.expo} forwards',
-      animationDelay: 'calc(var(--card-index, 0) * 120ms + 120ms)',
+      // Grid placement only — the card's reveal motion is the EditionTheme
+      // tape's own `tapeIn` (staggered via `--card-index`, read here).
       lg: { '&[data-feature]': { gridColumn: '1 / -1' } },
-      '@media (prefers-reduced-motion: reduce)': {
-        animation: 'none',
-        opacity: '1',
-        transform: 'none',
-        filter: 'none',
-      },
     },
     card: {
       height: '100%',
@@ -90,7 +73,8 @@ export const editionsPage = sva({
       background: 'gray.900',
       filter: 'grayscale(100%) brightness(0.7)',
       transform: 'scale(1.01)',
-      transition: 'filter 600ms {easings.expo}, transform 900ms {easings.expo}',
+      transition:
+        'filter {durations.reveal} {easings.expo}, transform {durations.entrance} {easings.expo}',
       willChange: 'transform, filter',
       'a:hover &, a:focus-visible &': {
         filter: 'grayscale(30%) brightness(1)',
@@ -113,44 +97,6 @@ export const editionsPage = sva({
       paddingBottom: 'lg',
       paddingLeft: 'md',
     },
-    // The hero "theme tape" ported in: black tape, chartreuse top rule.
-    theme: {
-      position: 'relative',
-      alignSelf: 'flex-start',
-      maxWidth: '100%',
-      fontFamily: 'display',
-      fontSize: { base: 'xl', md: '3xl', lg: 'xl', xl: '2xl', '4xl': '3xl' },
-      lineHeight: '1',
-      letterSpacing: 'tight',
-      color: 'white',
-      background: 'blackPure',
-      paddingTop: '10px',
-      paddingInline: '16px',
-      paddingBottom: '12px',
-      rotate: '-0.4deg',
-      transformOrigin: 'top left',
-      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.08)',
-      textTransform: 'lowercase',
-      _before: {
-        content: '""',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        height: '3px',
-        background: 'highlight',
-        opacity: '0.85',
-      },
-      lg: { '[data-feature] &': { fontSize: '3xl' } },
-      xl: { '[data-feature] &': { fontSize: '4xl' } },
-    },
-    // Only the highlight substring warms to pink on card hover (white at rest).
-    themeHighlight: {
-      color: 'inherit',
-      transition: 'color {durations.medium} {easings.expo}',
-      'a:hover &': { color: 'action' },
-    },
-
     metaFoot: {
       display: 'flex',
       alignItems: 'center',
@@ -181,17 +127,6 @@ export const editionsPage = sva({
       display: 'inline-block',
       opacity: '0.6',
     },
-    // Resting-pink text link; the arrow nudges on card hover.
-    cta: {
-      flexShrink: '0',
-      color: 'action',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      fontWeight: 'semibold',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      '& svg': { transition: 'transform {durations.medium} {easings.expo}' },
-      'a:hover &': { '& svg': { transform: 'translate(3px, -3px)' } },
-    },
+    cta: { flexShrink: '0' },
   },
 })

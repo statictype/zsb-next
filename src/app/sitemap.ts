@@ -3,11 +3,6 @@ import { getAllEditionYears } from '@/data/editions'
 import { SITE_URL } from '@/lib/constants'
 import { getSitemapMetadataFromSanity } from '@/sanity/lib/editions'
 
-// 2021 is the static, frozen edition — it has no Sanity `_updatedAt`. This
-// is the last time its source file was edited; bump it if that content ever
-// changes. (`git log -1 -- src/data/editions/2021.ts`)
-const STATIC_EDITION_LASTMOD = new Date('2026-05-26')
-
 function lastMod(iso: string | null | undefined): Date | undefined {
   return iso ? new Date(iso) : undefined
 }
@@ -43,17 +38,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const updatedAt = (id: string) => lastMod(pageUpdatedById.get(id))
 
   const editionEntries = years.map((year) =>
-    entry(
-      `/editions/${year}`,
-      lastMod(editionUpdatedByYear.get(year)) ?? STATIC_EDITION_LASTMOD,
-      'yearly',
-      0.8,
-    ),
+    entry(`/editions/${year}`, lastMod(editionUpdatedByYear.get(year)), 'yearly', 0.8),
   )
 
   // The two index pages date themselves by their freshest member.
-  const editionsListLastMod =
-    newest(meta?.editions.map((e) => e._updatedAt) ?? []) ?? STATIC_EDITION_LASTMOD
+  const editionsListLastMod = newest(meta?.editions.map((e) => e._updatedAt) ?? [])
   const artistsLastMod = lastMod(meta?.lastArtistUpdate)
 
   return [

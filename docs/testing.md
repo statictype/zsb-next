@@ -23,7 +23,7 @@ or the network (the data layer is mocked); exhaustive snapshots or a coverage %.
 ## Where tests live
 
 - **Co-located** next to the source — `format-utils.test.ts` beside
-  `format-utils.ts`, `Venues.test.tsx` beside `Venues.tsx`. Same convention as
+  `format-utils.ts`, `Carousel.test.tsx` beside `Carousel.tsx`. Same convention as
   the co-located `Component.recipe.ts`.
 - File extension picks the environment:
   - `*.test.ts` → **unit**, node environment.
@@ -73,22 +73,20 @@ pieces, each there for a reason:
 | `src/lib/edition-dates.test.ts` | date-range formatting + date-tape composition |
 | `src/lib/seo.test.ts` | Event / breadcrumb / FAQ / org / press JSON-LD, edition metadata |
 | `src/sanity/lib/staticPages.test.ts` | `buildFaq`, `mapVisit` (Sanity → render shape) |
-| `src/components/Venues/Venues.test.tsx` | accordion toggle, grouping, continuous numbering |
-| `src/components/ReadMore/ReadMore.test.tsx` | expand/collapse label + `aria-expanded` |
-
-> The interactive calendar / event-filter / share components (ZSB-28) aren't
-> built yet. Their component tests land **alongside** those features, following
-> the Venues / ReadMore pattern.
+| `src/components/ui/Accordion/Accordion.test.tsx` | single/multiple behavior + mounted content |
+| `src/components/ui/Checkbox/Checkbox.test.tsx` | controlled boolean interaction |
+| `src/components/ui/Collapsible/Collapsible.test.tsx` | labels, mounted content, closed default |
+| `src/components/ui/Dialog/Dialog.test.tsx` | labeling, Escape dismissal, focus restoration |
+| `src/components/Carousel/Carousel.test.tsx` | stage/rail controls, autoplay policy, reduced motion |
 
 ## E2E smoke (`playwright.config.ts`, `e2e/smoke.spec.ts`)
 
 - Runs against a **production build**. Locally the config self-builds
   (`pnpm build && pnpm start`) or reuses a dev server already on `:3000`; in CI it
   only `pnpm start`s (the workflow builds first). Override the port with `PORT`.
-- **`/editions/2021` is the deterministic anchor** — the static, online-only
-  edition renders with no Sanity dependency, so it's stable in CI regardless of
-  content changes. The other specs (homepage, visit, studio, 404) assert "renders
-  + correct status" loosely.
+- **`smoke.spec.ts`** keeps route rendering broad. **`journeys.spec.ts`** covers
+  route-aware event dismissal, mobile-navigation focus behavior, filtering,
+  cookie consent, and Carousel drag-versus-click through accessible public UI.
 - **Error guard:** uncaught `pageerror`s always fail; `console.error`s fail too,
   minus a small ignore list. Notably, `<SanityLive>` opens a live-content SSE that
   the browser CORS-blocks on any origin not in the Studio's allowlist (CI, preview

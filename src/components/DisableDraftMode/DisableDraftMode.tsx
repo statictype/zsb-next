@@ -31,7 +31,7 @@ export function DisableDraftMode() {
         textDecoration: 'none',
         borderRadius: 'pill',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
-        transition: 'transform {durations.fast} ease-out',
+        transition: 'transform {durations.fast} {easings.expo}',
         _hover: { transform: 'translateY(-1px)' },
       })}
     >

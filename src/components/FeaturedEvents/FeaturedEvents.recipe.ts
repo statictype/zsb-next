@@ -14,13 +14,10 @@ import { sva } from 'styled-system/css'
  */
 export const featuredEvents = sva({
   slots: [
-    'section',
     'inner',
     'header',
     'headerMain',
     'eyebrow',
-    'title',
-    'calendarLink',
     'grid',
     'card',
     'frame',
@@ -36,10 +33,8 @@ export const featuredEvents = sva({
     'venueName',
     'venueParent',
     'chips',
-    'chip',
   ],
   base: {
-    section: { layerStyle: 'section', background: 'blackPure', color: 'white' },
     inner: { layerStyle: 'sectionInner' },
 
     header: {
@@ -51,35 +46,7 @@ export const featuredEvents = sva({
     },
     headerMain: { minWidth: '0' },
     eyebrow: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      fontWeight: 'semibold',
-      color: 'highlight',
       marginBottom: 'sm',
-    },
-    title: { textStyle: 'sectionTitle', marginBottom: 0 },
-    calendarLink: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: '8px',
-      flexShrink: '0',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'white',
-      textDecoration: 'none',
-      paddingBottom: '4px',
-      borderBottomWidth: '1px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: 'gray.700',
-      transition:
-        'color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}, gap {durations.normal} {easings.expo}',
-      _hover: { color: 'action', borderColor: 'action', gap: '14px' },
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '3px' },
     },
 
     grid: {
@@ -92,17 +59,14 @@ export const featuredEvents = sva({
     },
 
     card: {
-      opacity: '0',
-      // staggered reveal — each card waits a beat longer than the last (--i)
-      animation: 'cardIn {durations.medium} {easings.expo} forwards',
+      // staggered reveal (shared `enter()` on the element) — each card waits a
+      // beat longer than the last (--i); the reveal contract lives in `enter()`.
       animationDelay: 'calc(var(--i, 0) * 90ms)',
       _hover: {
         '& img': { filter: 'grayscale(0%) contrast(1)', transform: 'scale(1.04)' },
         '& a': { color: 'action' },
       },
-      '@media (prefers-reduced-motion: reduce)': {
-        opacity: '1',
-        animation: 'none',
+      _motionReduce: {
         '& img': { transition: 'none', transform: 'none' },
       },
     },
@@ -121,7 +85,7 @@ export const featuredEvents = sva({
     },
     // Image-less card: a tonal stage for the vast faded day numeral.
     noPoster: {
-      background: 'linear-gradient(150deg, {colors.gray.900}, {colors.blackPure} 70%)',
+      background: 'linear-gradient(150deg, {colors.gray.900}, {colors.canvas} 70%)',
     },
 
     watermark: {
@@ -131,7 +95,7 @@ export const featuredEvents = sva({
       fontFamily: 'display',
       fontSize: 'clamp(120px, 32vw, 260px)',
       lineHeight: '1',
-      color: 'white',
+      color: 'heading',
       opacity: '0.05',
       fontVariantNumeric: 'tabular-nums',
       pointerEvents: 'none',
@@ -142,7 +106,7 @@ export const featuredEvents = sva({
       inset: '0',
       zIndex: '1',
       background:
-        'linear-gradient(to top, {colors.blackPure} 2%, color-mix(in srgb, {colors.blackPure} 72%, transparent) 26%, transparent 58%)',
+        'linear-gradient(to top, {colors.canvas} 2%, color-mix(in srgb, {colors.canvas} 72%, transparent) 26%, transparent 58%)',
       pointerEvents: 'none',
     },
     stamp: {
@@ -152,7 +116,7 @@ export const featuredEvents = sva({
       zIndex: '2',
       fontFamily: 'display',
       fontSize: 'sm',
-      color: 'white',
+      color: 'heading',
       fontVariantNumeric: 'tabular-nums',
       opacity: '0.85',
       textShadow: '0 1px 8px rgba(0, 0, 0, 0.55)',
@@ -176,10 +140,10 @@ export const featuredEvents = sva({
       color: 'highlight',
     },
     name: {
-      fontFamily: 'display',
-      fontSize: { base: 'lg', md: 'xl' },
-      lineHeight: 'tight',
-      color: 'white',
+      textStyle: 'cardTitle',
+      // Event names are sentence-case, not the uppercase default.
+      textTransform: 'none',
+      color: 'heading',
     },
     // Links to the event route; inherits the heading type. Its ::after stretches
     // the hit target over the whole frame.
@@ -222,22 +186,6 @@ export const featuredEvents = sva({
       flexWrap: 'wrap',
       gap: '6px',
       marginTop: '2px',
-    },
-    chip: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'highlight',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'highlightFaint',
-      paddingBlock: '3px',
-      paddingInline: '9px',
-      lineHeight: '1.4',
-      // a touch of backdrop so chips hold up over a bright patch of poster
-      background: 'color-mix(in srgb, {colors.blackPure} 35%, transparent)',
     },
   },
 })

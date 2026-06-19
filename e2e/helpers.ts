@@ -44,7 +44,7 @@ export function expectErrorClean(errors: string[]): void {
  */
 export async function dismissCookies(page: Page): Promise<void> {
   const accept = page
-    .getByRole('dialog', { name: /cookie consent/i })
+    .getByRole('region', { name: /we use cookies/i })
     .getByRole('button', { name: /accept/i })
   if (await accept.isVisible().catch(() => false)) {
     await accept.click()
@@ -69,13 +69,27 @@ export async function firstEditionHref(page: Page): Promise<string | null> {
 
 /**
  * Past editions fold their programme — filters *and* the event board — behind a
- * native <details> ("View full programme", ZSB-45). Open it so the calendar is
- * interactable. A no-op on live/upcoming editions, which render expanded.
+ * shared Collapsible ("View full programme", ZSB-45). Open it so the calendar
+ * is interactable. A no-op on live/upcoming editions, which render expanded.
  */
 export async function openFullProgramme(page: Page): Promise<void> {
   const toggle = page.getByText(/view full programme/i).first()
+  const eventLink = page.locator('a[href*="/events/"]:visible').first()
+
+  // Cache Components can stream the Calendar after the document's load event.
+  // Wait for either an already-expanded programme or its archive toggle instead
+  // of treating an immediate `isVisible() === false` as proof that no toggle exists.
+  await expect
+    .poll(async () => {
+      if (await eventLink.isVisible().catch(() => false)) return 'expanded'
+      if (await toggle.isVisible().catch(() => false)) return 'archive'
+      return 'loading'
+    })
+    .not.toBe('loading')
+
   if (await toggle.isVisible().catch(() => false)) {
     await toggle.click()
+    await expect(eventLink).toBeVisible()
   }
 }
 

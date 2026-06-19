@@ -3,23 +3,28 @@ import { sva } from 'styled-system/css'
 /**
  * Navigation — co-located slot recipe.
  *
- * Floating logo + pill menu, no top bar. Mobile: a full-screen overlay toggled
- * by the hamburger; desktop (md+): a top-right pill row with the hamburger
- * hidden. The nav-pill links and the 3-bar hamburger are bespoke nav chrome —
- * deliberately NOT folded into the Button/TextLink/IconButton primitives (the
- * pill carries an active-fill state + connected-row overlap; the toggle has its
- * own X animation).
- *
- * Open/active live on attributes rather than variants: `data-open` on the nav,
- * `aria-current="page"` on the active link (the latter also improves a11y).
+ * Floating logo + pill menu, no top bar. Desktop navigation is a plain nav;
+ * mobile placement lives inside the shared fullscreen Dialog. Active state is
+ * semantic `aria-current="page"`; the private Ark Swap icon is styled below.
  */
 export const navigation = sva({
-  slots: ['logo', 'logoImg', 'toggle', 'nav', 'navLink'],
+  slots: [
+    'logo',
+    'logoImg',
+    'toggle',
+    'dialogLogo',
+    'dialogToggle',
+    'desktopNav',
+    'desktopNavLink',
+    'mobileShell',
+    'mobileNav',
+    'navLink',
+  ],
   base: {
     logo: {
       position: 'absolute',
       top: 'md',
-      left: 'content',
+      left: 'gutter',
       width: '40px',
       height: '40px',
       zIndex: 1001,
@@ -29,37 +34,35 @@ export const navigation = sva({
     },
     logoImg: { width: '100%', height: '100%', objectFit: 'contain', display: 'block' },
 
-    nav: {
-      position: 'fixed',
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-      zIndex: 1000,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: 'md',
-      background: 'blackPure',
-      opacity: 0,
-      visibility: 'hidden',
-      transition: 'opacity 0.3s ease, visibility 0.3s ease',
-      '&[data-open=true]': { opacity: 1, visibility: 'visible' },
-      // Desktop: a top-right pill row that scrolls away with the page.
+    desktopNav: {
+      display: 'none',
       md: {
+        display: 'flex',
         position: 'absolute',
         top: '32px',
-        right: 'content',
-        bottom: 'auto',
-        left: 'auto',
-        flexDirection: 'row',
+        right: 'gutter',
         gap: 0,
-        background: 'transparent',
-        opacity: 1,
-        visibility: 'visible',
+        // Match the logo's z-index so the menu paints above positioned hero
+        // content (home/edition heroes are `position: relative`; without this
+        // they paint over the z-auto nav and hide the links).
+        zIndex: 1001,
       },
       lg: { top: '40px' },
+    },
+    mobileShell: {
+      position: 'relative',
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'black',
+    },
+    mobileNav: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: 'md',
     },
     navLink: {
       display: 'block',
@@ -71,7 +74,7 @@ export const navigation = sva({
       padding: '12px 32px',
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'divider',
+      borderColor: 'borderDark',
       letterSpacing: 'label',
       transition:
         'background-color {durations.fast} {easings.quint}, color {durations.fast} {easings.quint}',
@@ -80,13 +83,13 @@ export const navigation = sva({
       // Active tab gets the highlight fill; siblings stay outlined.
       '&[aria-current=page]': { background: 'highlight', color: 'black' },
       '&[aria-current=page]:hover': { background: 'highlight', color: 'black' },
-      md: {
-        fontSize: 'sm',
-        padding: '8px 20px',
-        marginRight: '-1px',
-        borderRadius: '0',
-        '&:last-child': { marginRight: '0' },
-      },
+    },
+    desktopNavLink: {
+      fontSize: 'sm',
+      padding: '8px 20px',
+      marginRight: '-1px',
+      borderRadius: '0',
+      '&:last-child': { marginRight: '0' },
     },
 
     // Hamburger — the <button> is the full 48px touch surface (transparent); the
@@ -100,7 +103,7 @@ export const navigation = sva({
       gap: '5px',
       position: 'fixed',
       top: 'md',
-      right: 'content',
+      right: 'gutter',
       width: '48px',
       height: '48px',
       background: 'transparent',
@@ -114,31 +117,59 @@ export const navigation = sva({
         position: 'absolute',
         inset: '6px',
         zIndex: -1,
-        background: 'blackPure',
+        background: 'black',
         borderWidth: '1px',
         borderStyle: 'solid',
-        borderColor: 'divider',
+        borderColor: 'borderDark',
         transition: 'border-color {durations.fast} {easings.quint}',
       },
-      '& span': {
-        display: 'block',
-        width: '18px',
-        height: '2px',
-        background: 'white',
-        transition:
-          'transform 0.3s {easings.quint}, opacity 0.2s ease, background-color {durations.fast} {easings.quint}',
-      },
-      _hover: { '& span': { background: 'action' } },
+      color: 'white',
+      _hover: { color: 'action' },
       '&:focus-visible::before': {
         outline: '2px solid token(colors.action)',
         outlineOffset: '2px',
       },
-      // Open: bars converge into a centered X and switch to chartreuse.
-      '&[aria-expanded=true] span': { background: 'highlight' },
-      '&[aria-expanded=true] span:nth-child(1)': { transform: 'translateY(7px) rotate(45deg)' },
-      '&[aria-expanded=true] span:nth-child(2)': { opacity: 0 },
-      '&[aria-expanded=true] span:nth-child(3)': { transform: 'translateY(-7px) rotate(-45deg)' },
+      '&[aria-expanded=true]': { color: 'highlight' },
       md: { display: 'none' },
+    },
+    dialogLogo: { zIndex: 1 },
+    dialogToggle: { zIndex: 1, md: { display: 'flex' } },
+  },
+})
+
+/** Private Ark Swap anatomy for the hamburger/close glyph transition. */
+export const navigationSwap = sva({
+  slots: ['root', 'indicator'],
+  base: {
+    root: {
+      width: '24px',
+      height: '24px',
+      placeItems: 'center',
+      '& [data-type]': {
+        opacity: 0,
+      },
+      '&[data-swap=off] [data-type=off], &[data-swap=on] [data-type=on]': {
+        opacity: 1,
+      },
+    },
+    indicator: {
+      width: '24px',
+      height: '24px',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: 'currentColor',
+      transition: 'opacity',
+      transitionDuration: 'fast',
+      transitionTimingFunction: 'quint',
+      '&[hidden]': { display: 'inline-flex!' },
+      '&[data-type=off]': { flexDirection: 'column', gap: '4px' },
+      '&[data-type=off] > span': {
+        display: 'block',
+        width: '18px',
+        height: '2px',
+        background: 'currentColor',
+      },
+      _motionReduce: { transitionDuration: '0ms' },
     },
   },
 })

@@ -15,13 +15,7 @@ export const aboutPage = sva({
     'inner',
     'placeImage',
     'placeImageImg',
-    'projectSection',
-    'projectGrid',
-    'projectAside',
-    'projectTitle',
-    'projectMain',
     'carouselSection',
-    'pillarsSection',
     'pillarsGrid',
     'pillar',
     'pillarHead',
@@ -30,7 +24,6 @@ export const aboutPage = sva({
     'statement',
     'statementInner',
     'statementAside',
-    'statementHeadline',
     'statementByline',
     'authorPhotoFrame',
     'authorPhoto',
@@ -48,7 +41,7 @@ export const aboutPage = sva({
       position: 'relative',
       aspectRatio: '4 / 5',
       overflow: 'hidden',
-      border: '1px solid token(colors.divider)',
+      border: '1px solid token(colors.borderDark)',
       md: { aspectRatio: '16 / 9' },
     },
     placeImageImg: {
@@ -57,81 +50,18 @@ export const aboutPage = sva({
       filter: 'grayscale(100%) contrast(1.05)',
     },
 
-    // The project — asymmetric editorial split on light.
-    projectSection: {
-      layerStyle: 'sectionLight',
-      paddingBlock: 'sectionYLg',
-      paddingInline: 'content',
-    },
-    projectGrid: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      gap: 'lg',
-      lg: {
-        gridTemplateColumns: '1fr 1fr',
-        // No gutter: the body column starts exactly at 50% so its accent bar
-        // lands on the pillars' centre divider.
-        columnGap: '0',
-        rowGap: 'lg',
-        alignItems: 'start',
-      },
-    },
-    projectAside: { position: 'relative' },
-    projectTitle: {
-      fontFamily: 'display',
-      fontSize: { base: '2xl', xl: '3xl', '3xl': '4xl' },
-      lineHeight: { base: 'tight', md: 'display', '4xl': '1.08' },
-      color: 'black',
-      textWrap: 'pretty',
-      margin: '0',
-      paddingRight: 'md',
-    },
-    projectMain: {
-      position: 'relative',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
-      paddingLeft: 'md',
-      md: { paddingLeft: '40px' },
-      _before: {
-        content: '""',
-        position: 'absolute',
-        left: '0',
-        top: '0',
-        bottom: '0',
-        width: '2px',
-        background: 'linear-gradient(to bottom, {colors.action}, transparent)',
-      },
-      '& p': {
-        fontFamily: 'body',
-        fontSize: 'md',
-        lineHeight: 'body',
-        fontWeight: 'light',
-        color: 'bodyLight',
-      },
-    },
-
+    // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
+    // the carousel is the full-bleed band (no rail), so it spans the shell.
     carouselSection: {
-      layerStyle: 'sectionDark',
-      paddingTop: 'sectionY',
-      paddingInline: 'content',
-      paddingBottom: '0',
       // Cancel the carousel controls' top margin — the section owns the rhythm.
       '& > :first-child': { marginTop: '0' },
     },
 
-    pillarsSection: {
-      layerStyle: 'sectionDark',
-      paddingTop: '0',
-      paddingInline: 'content',
-      paddingBottom: '2xl',
-      md: { paddingBottom: '0' },
-    },
     pillarsGrid: {
       display: 'grid',
       gridTemplateColumns: '1fr',
-      borderTop: '1px solid token(colors.divider)',
-      borderBottom: '1px solid token(colors.divider)',
+      borderTop: '1px solid token(colors.borderDark)',
+      borderBottom: '1px solid token(colors.borderDark)',
       md: { gridTemplateColumns: '1fr 1fr' },
     },
     pillar: {
@@ -139,13 +69,13 @@ export const aboutPage = sva({
       flexDirection: 'column',
       gap: 'md',
       paddingBlock: 'xl',
-      borderBottom: '1px solid token(colors.divider)',
+      borderBottom: '1px solid token(colors.borderDark)',
       '&:last-child': { borderBottomWidth: '0' },
       md: {
         paddingBlock: 'xl',
         paddingInline: 'xl',
         borderBottomWidth: '0',
-        borderRight: '1px solid token(colors.divider)',
+        borderRight: '1px solid token(colors.borderDark)',
         marginBlock: '4xl',
         '&:first-child': { paddingLeft: '0' },
         '&:last-child': { paddingRight: '0', borderRightWidth: '0' },
@@ -162,31 +92,26 @@ export const aboutPage = sva({
       margin: '0',
     },
     pillarBody: {
-      fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: { base: 'body', md: 'loose' },
-      color: 'body',
+      textStyle: 'prose',
       maxWidth: '50ch',
     },
 
-    // Curator letter — signed editorial spread on light.
+    // Curator letter — signed editorial spread on light. Ground (light) +
+    // rhythm (lg) from `section()` in the component; `statementInner` is the rail.
     statement: {
       position: 'relative',
-      background: 'surfaceLight',
-      color: 'headingLight',
-      paddingBlock: 'sectionYLg',
-      paddingInline: 'content',
       _before: {
         content: '""',
         position: 'absolute',
         inset: '0 0 auto',
         height: '1px',
-        background: 'dividerLight',
+        background: 'borderLight',
       },
     },
     statementInner: {
       maxWidth: 'maxWidth',
       marginInline: 'auto',
+      paddingInline: 'gutter',
       lg: {
         display: 'grid',
         gridTemplateColumns: 'minmax(260px, 340px) minmax(0, 1fr)',
@@ -206,16 +131,6 @@ export const aboutPage = sva({
         marginBottom: '0',
       },
     },
-    statementHeadline: {
-      textStyle: 'sectionTitle',
-      color: 'headingLight',
-      marginTop: '0',
-      marginBottom: 'xl',
-      fontSize: 'clamp(34px, 4.4vw, 60px)',
-      lineHeight: '0.96',
-      letterSpacing: 'tight',
-      textWrap: 'balance',
-    },
     statementByline: {
       display: 'flex',
       flexDirection: 'column',
@@ -226,9 +141,9 @@ export const aboutPage = sva({
     authorPhotoFrame: {
       padding: '6px',
       background: 'white',
-      border: '1px solid token(colors.dividerLight)',
+      border: '1px solid token(colors.borderLight)',
       _hover: { '& img': { filter: 'grayscale(0%)', transform: 'scale(1.03)' } },
-      '@media (prefers-reduced-motion: reduce)': { '& img': { transform: 'none' } },
+      _motionReduce: { '& img': { transform: 'none' } },
     },
     authorPhoto: {
       position: 'relative',
@@ -242,7 +157,7 @@ export const aboutPage = sva({
       filter: 'grayscale(100%) contrast(1.02)',
       transition:
         'filter {durations.slow} {easings.expo}, transform {durations.slow} {easings.expo}',
-      '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
+      _motionReduce: { transition: 'none' },
     },
     authorCaption: {
       display: 'flex',
@@ -272,11 +187,8 @@ export const aboutPage = sva({
       flexDirection: 'column',
       gap: 'md',
       '& p': {
-        fontFamily: 'body',
-        fontSize: 'md',
-        fontWeight: 'light',
+        textStyle: 'leadLarge',
         color: 'bodyLight',
-        textWrap: 'pretty',
       },
     },
   },

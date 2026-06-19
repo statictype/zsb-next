@@ -77,14 +77,40 @@ test.describe('navigation', () => {
 test.describe('cookie consent', () => {
   test('the banner dismisses on Accept and stays dismissed after reload', async ({ page }) => {
     await page.goto('/')
-    const banner = page.getByRole('dialog', { name: /cookie consent/i })
+    const banner = page.getByRole('region', { name: /we use cookies/i })
     await expect(banner).toBeVisible()
 
     await banner.getByRole('button', { name: /accept/i }).click()
     await expect(banner).toBeHidden()
 
     await page.reload()
-    await expect(page.getByRole('dialog', { name: /cookie consent/i })).toHaveCount(0)
+    await expect(page.getByRole('region', { name: /we use cookies/i })).toHaveCount(0)
+  })
+})
+
+test.describe('mobile navigation', () => {
+  test.use({ viewport: { width: 390, height: 844 } })
+
+  test('contains focus, closes on Escape, and restores the menu trigger', async ({ page }) => {
+    await page.goto('/')
+    await dismissCookies(page)
+
+    const opener = page.getByRole('button', { name: 'Open navigation' })
+    await opener.click()
+    const dialog = page.getByRole('dialog', { name: 'Site navigation' })
+    await expect(dialog).toBeVisible()
+    await expect
+      .poll(() => dialog.evaluate((element) => element.contains(document.activeElement)))
+      .toBe(true)
+
+    await page.keyboard.press('Tab')
+    await expect
+      .poll(() => dialog.evaluate((element) => element.contains(document.activeElement)))
+      .toBe(true)
+
+    await page.keyboard.press('Escape')
+    await expect(dialog).toBeHidden()
+    await expect(opener).toBeFocused()
   })
 })
 
@@ -120,6 +146,27 @@ test.describe('calendar', () => {
     await expect(page).not.toHaveURL(/\/events\//)
   })
 
+  test('a cold event URL dismisses up to its edition', async ({ page }) => {
+    test.skip(!editionUrl, 'no edition with an announced programme in the dataset')
+    await page.goto(editionUrl!)
+    await dismissCookies(page)
+    await openFullProgramme(page)
+
+    const eventHref = await page.locator('a[href*="/events/"]').first().getAttribute('href')
+    expect(eventHref).toBeTruthy()
+    await page.goto(eventHref!)
+    await dismissCookies(page)
+    const dialog = page.getByRole('dialog')
+    await expect(dialog).toBeVisible()
+    await expect
+      .poll(() => dialog.evaluate((element) => element.contains(document.activeElement)))
+      .toBe(true)
+
+    await page.keyboard.press('Escape')
+    await expect(page).toHaveURL(new RegExp(`${editionUrl!}/?$`))
+    await expect(dialog).toBeHidden()
+  })
+
   test('filtering the programme toggles state and Reset restores it', async ({ page }) => {
     test.skip(!editionUrl, 'no edition with an announced programme in the dataset')
     await page.goto(editionUrl!)
@@ -130,15 +177,15 @@ test.describe('calendar', () => {
     test.skip((await filters.count()) === 0, 'this edition has no multi-option facets to filter by')
 
     const reset = filters.getByRole('button', { name: /^reset$/i })
-    const chip = filters.getByRole('button').filter({ hasNotText: /reset/i }).first()
+    const chip = filters.getByRole('checkbox').first()
     // Count only visible event links — the calendar renders responsive variants.
     const eventCount = () => page.locator('a[href*="/events/"]:visible').count()
 
     await expect(reset).toBeDisabled()
     const before = await eventCount()
 
-    await chip.click()
-    await expect(chip).toHaveAttribute('aria-pressed', 'true')
+    await chip.press('Space')
+    await expect(chip).not.toBeChecked()
     await expect(reset).toBeEnabled()
     // A single facet never *adds* events to the programme.
     await expect.poll(eventCount).toBeLessThanOrEqual(before)
@@ -146,5 +193,28 @@ test.describe('calendar', () => {
     await reset.click()
     await expect(reset).toBeDisabled()
     await expect.poll(eventCount).toBe(before)
+  })
+})
+
+test.describe('carousel', () => {
+  test('dragging an interactive rail slide does not open its lightbox', async ({ page }) => {
+    await page.goto('/press')
+    await dismissCookies(page)
+
+    const carousel = page.getByRole('region', { name: 'Media kit posters' })
+    test.skip((await carousel.count()) === 0, 'the dataset has no media-kit carousel')
+    const poster = carousel.getByRole('button', { name: /^open /i }).first()
+    const box = await poster.boundingBox()
+    test.skip(!box, 'the first media-kit poster is not visible')
+
+    const start = { x: box!.x + box!.width / 2, y: box!.y + box!.height / 2 }
+    await page.mouse.move(start.x, start.y)
+    await page.mouse.down()
+    await page.mouse.move(start.x - Math.min(140, box!.width / 2), start.y, { steps: 8 })
+    await page.mouse.up()
+    await expect(page.getByRole('dialog', { name: 'Image lightbox' })).toHaveCount(0)
+
+    await poster.click()
+    await expect(page.getByRole('dialog', { name: 'Image lightbox' })).toBeVisible()
   })
 })
