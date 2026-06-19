@@ -9,11 +9,23 @@ import { type ButtonVariantProps, button } from 'styled-system/recipes'
  *
  * Renders a `<button>` by default. With **`asChild`** it renders *as* its single
  * child instead — merging the button className onto the call site's own
- * `<a>`/`<Link>`/`<span>` (no wrapper, no nested-interactive). Use it for
- * link/span CTAs so they carry the real element's native props + types.
+ * `<a>`/`<Link>` (no wrapper, no nested-interactive). Element-specific props
+ * belong on that child so its own native types remain authoritative.
  */
-type ButtonProps = ButtonVariantProps &
-  ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean | undefined }
+type ButtonOwnProps = ButtonVariantProps & { className?: string | undefined }
+
+type NativeButtonProps = ButtonOwnProps &
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> & {
+    asChild?: false | undefined
+  }
+
+type ButtonAsChildProps = ButtonOwnProps & {
+  asChild: true
+  children: ReactElement<{ className?: string | undefined }>
+  type?: never
+}
+
+type ButtonProps = NativeButtonProps | ButtonAsChildProps
 
 export function Button({
   variant,

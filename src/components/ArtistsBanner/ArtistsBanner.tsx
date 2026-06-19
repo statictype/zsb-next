@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { css } from 'styled-system/css'
 import { Badge } from '@/components/ui/Badge/Badge'
-import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { getAllEditionYears } from '@/data/editions'
 import { getArtistNames } from '@/sanity/lib/artists'
@@ -27,9 +26,7 @@ export async function ArtistsBanner() {
             makes visible that nothing else can.
           </p>
         </div>
-        <Button asChild variant="secondary">
-          <span>Explore</span>
-        </Button>
+        <span>Explore</span>
       </div>
       <div className={s.accent} data-part="accent" />
     </Link>

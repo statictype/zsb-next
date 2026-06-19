@@ -7,7 +7,6 @@ import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Badge } from '@/components/ui/Badge/Badge'
-import { Button } from '@/components/ui/Button/Button'
 import { Card } from '@/components/ui/Card/Card'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
@@ -94,9 +93,7 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
                       <span className={styles.sublineDot} aria-hidden />
                       <span>{edition.dateTape}</span>
                     </span>
-                    <Button asChild variant="text">
-                      <span className={styles.cta}>Explore</span>
-                    </Button>
+                    <span className={styles.cta}>Explore</span>
                   </div>
                 </div>
               </Card>

@@ -2,7 +2,6 @@ import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
 import { card, section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
-import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { splitFirstMatch } from '@/lib/split-first-match'
 import type { ExternalGalleryData } from '@/types/edition'
@@ -56,11 +55,9 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
 
               <div className={styles.cta}>
                 <span className={styles.ctaLabel}>{linkLabel}</span>
-                <Button asChild variant="icon">
-                  <span aria-hidden>
-                    <RiArrowRightUpLine size={18} />
-                  </span>
-                </Button>
+                <span aria-hidden>
+                  <RiArrowRightUpLine size={18} />
+                </span>
                 <span className={styles.ctaUrl}>{prettyHost(href)}</span>
               </div>
             </div>
