@@ -24,6 +24,7 @@ export const footer = sva({
     'baseline',
     'copyright',
     'legal',
+    'legalLink',
   ],
   base: {
     footer: {
@@ -157,5 +158,9 @@ export const footer = sva({
     },
     copyright: { color: 'muted' },
     legal: { display: 'flex', gap: 'lg' },
+    // The text-variant button defaults to `size: md`, whose fontSize/tracking
+    // would override the inherited baseline meta scale — re-assert it so the
+    // legal links read at the same size as the copyright beside them.
+    legalLink: { fontSize: '2xs', letterSpacing: 'label' },
   },
 })

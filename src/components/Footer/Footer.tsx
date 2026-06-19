@@ -86,10 +86,10 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
         <div className={s.baseline}>
           <div className={s.copyright}>&copy; {CURRENT_YEAR} Bucharest Sculpture Days</div>
           <div className={s.legal}>
-            <Link href="/privacy" className={button({ variant: 'text' })}>
+            <Link href="/privacy" className={cx(button({ variant: 'text' }), s.legalLink)}>
               Privacy Policy
             </Link>
-            <CookieSettingsButton />
+            <CookieSettingsButton className={s.legalLink} />
           </div>
         </div>
       </div>
