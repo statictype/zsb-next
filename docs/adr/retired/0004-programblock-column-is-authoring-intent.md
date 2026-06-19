@@ -1,6 +1,6 @@
 # `ProgramBlock.column` is authoring intent, not a layout artifact
 
-> **Status: superseded by [ADR 0014](./0014-event-venue-content-model.md).** The
+> **Status: superseded by [ADR 0014](../0014-event-venue-content-model.md).** The
 > Program & Calendar project replaces the two-column `ProgramBlock` model with a
 > date-ordered event calendar; `type` becomes an editorial taxonomy document, not
 > a renderer-level column/section category. The old two-column format has since

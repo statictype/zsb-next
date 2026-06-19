@@ -108,7 +108,7 @@ async function importAppearances(client: SanityClient, dryRun: boolean): Promise
 
 async function importReleases(_client: SanityClient, _dryRun: boolean): Promise<void> {
   console.log(
-    '\nSkipping releases: no PDF source configured. Add PDFs (local path or Blob URL) and a builder here.',
+    '\nSkipping releases: no PDF source configured. Add PDFs (local path or Sanity asset) and a builder here.',
   )
 }
 
@@ -129,8 +129,7 @@ async function main() {
 
   const dryRun = process.argv.includes('--dry')
   const onlyIdx = process.argv.indexOf('--only')
-  const only =
-    onlyIdx >= 0 && process.argv[onlyIdx + 1] ? process.argv[onlyIdx + 1] : undefined
+  const only = onlyIdx >= 0 && process.argv[onlyIdx + 1] ? process.argv[onlyIdx + 1] : undefined
 
   const client = createClient({ projectId, dataset, apiVersion, token, useCdn: false })
 

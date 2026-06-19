@@ -106,7 +106,7 @@ See also: [ADR 0004] (superseded — the two-column `ProgramBlock` model),
 one), [ADR 0012] (the cache split the calendar renders inside),
 [ADR 0013] (where the mappers that reshape this content live).
 
-[ADR 0004]: ./0004-programblock-column-is-authoring-intent.md
+[ADR 0004]: ./retired/0004-programblock-column-is-authoring-intent.md
 [ADR 0008]: ./0008-derive-edition-listings-from-status.md
 [ADR 0009]: ./0009-singleton-pattern.md
 [ADR 0012]: ./0012-cache-components-three-layer-fetch.md

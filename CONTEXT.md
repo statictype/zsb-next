@@ -8,7 +8,7 @@ Canonical domain terms used across data, types, and components. When you introdu
 
 A single year of the event, modelled as one `Edition` shape in `src/types/edition.ts`. An edition has a hero, manifesto, theme + artists, credits, and an **optional program** (events → calendar). The **program** is gated by `hasProgram`: a physical edition has one; the inaugural online-only **2021** does not, so its page renders no program block — just a static link to its off-site photo gallery (`EXTERNAL_GALLERY_BY_YEAR` in `edition-content.tsx`). "Online-only" is deliberately *not* a separate type or Sanity concept (ADR 0018).
 
-Every edition lives in Sanity as an `edition` document — there are no static editions (2021, the last one, was migrated in ZSB-20, retiring `src/data/editions/2021.ts` and the `OnlineEdition` type). `src/data/editions/index.ts` (`getEdition`) is the gateway, a thin pass to the Sanity fetch; the dynamic route `src/app/(site)/editions/[year]/` renders what it returns.
+Every edition lives in Sanity as an `edition` document — there are no static editions. `src/data/editions/index.ts` (`getEdition`) is the gateway, a thin pass to the Sanity fetch; the dynamic route `src/app/(site)/editions/[year]/` renders what it returns.
 
 ### Edition status
 

@@ -2,7 +2,7 @@
 
 How content authoring works in this project. Read this first when adding a schema, debugging an editor experience issue, or wiring a new page to Sanity.
 
-For the rollout that built this system, see [`cms-rollout-plan.archived.md`](./cms-rollout-plan.archived.md) (archived — the rollout is complete and this doc captures the final state). For decision rationale, see [`adr/`](./adr/).
+For the rollout that built this system, see [`cms-rollout-plan.archived.md`](./plans/completed/cms-rollout-plan.archived.md) (archived — the rollout is complete and this doc captures the final state). For decision rationale, see [`adr/`](./adr/).
 
 ## Overview
 
@@ -12,8 +12,7 @@ What's authored in Sanity, what's static:
 
 | Surface | Authored where |
 |---|---|
-| Editions (year pages) | Sanity (`edition` doc). 2022+ fully authored there; the static fallback files were deleted |
-| Edition 2021 (online-only) | Static `src/data/editions/2021.ts` — never migrated to Sanity (one-off shape, no editorial value to re-author) |
+| Editions (year pages) | Sanity (`edition` doc) — every year, including the online-only 2021 |
 | Artists | Sanity (`artist` doc) — the `/artists` index and homepage banner read names from Sanity (surname-ordered via `sortName`); standalone artist detail routes pending |
 | Organizations | Sanity (`organization` doc) — referenced from edition credits |
 | Homepage | Sanity singleton `homepage` (shipped) — copy, CTA, slideshow, editions intro |
@@ -67,7 +66,7 @@ src/
       settings.ts                 # getSiteSettings — siteSettings fetcher
       homepage.ts                 # getHomepage — homepage fetcher
       staticPages.ts              # getAboutPage / getPartnersPage / getVisitPage / getPrivacyPage
-  data/editions/                  # 2021.ts (static online edition) + index.ts gateway
+  data/editions/                  # index.ts gateway (every edition lives in Sanity)
   types/edition.ts                # Runtime edition shape (Sanity is mapped to this)
   components/
     DisableDraftMode/             # Floating "Exit preview" button in draft mode
@@ -174,7 +173,7 @@ Either way, the order that matters is **Site settings first** — the footer and
 2. **Homepage** — hero, CTA target, slideshow, editions intro.
 3. **About** · 4. **Partners** · 5. **Visit** · 6. **Press** · 7. **Privacy** — the static pages, in any order.
 
-Then create the **edition** document(s): set `status` to **Upcoming** while it's a previewable draft, **Live** once the page is ready (the public route gates on `status != "upcoming"` — see [`CONTEXT.md` → Edition status](../CONTEXT.md)). No static file is needed for any year except 2021.
+Then create the **edition** document(s): set `status` to **Upcoming** while it's a previewable draft, **Live** once the page is ready (the public route gates on `status != "upcoming"` — see [`CONTEXT.md` → Edition status](../CONTEXT.md)). Every year lives in Sanity; no static file is needed.
 
 ## Editor UX principles
 
@@ -267,11 +266,9 @@ For HTML cache invalidation (visitors hitting a deeply cached response, not just
 
 `<SanityLive />` handles freshness for open tabs; the webhook handles freshness for cached HTML. This webhook is **configured and live** (set up 2026-06-02) — if a publish doesn't reach prod, check its delivery log in sanity.io/manage first (a 401 means the secret no longer matches Vercel's `SANITY_REVALIDATE_SECRET`).
 
-## Editions: Sanity, with 2021 static
+## Editions: all in Sanity
 
-`src/data/editions/index.ts` is the gateway. `getEdition(year)` serves 2021 (the only static year) from `src/data/editions/2021.ts` and queries Sanity for every other year. `getAllEditionYears()` merges the 2021 entry with the Sanity years.
-
-The 2022–2025 static fallback files were deleted once those editions were fully authored in Sanity (the one-year-at-a-time migration is done). Only 2021 stays in code — the online-only edition with a unique shape, no editorial value to re-author. To add a brand-new year, author it in Sanity; no static file is needed.
+`src/data/editions/index.ts` is the gateway. `getEdition(year, options)` is a thin pass-through to the Sanity fetch; `getAllEditionYears()` reads the years from Sanity. Every year — including 2021, the online-only edition migrated in ZSB-20 ([ADR 0018](adr/retired/0018-2021-as-normal-edition-optional-program.md)) — is an `edition` document. To add a brand-new year, author it in Sanity; there are no static edition files.
 
 ## Environment variables
 
@@ -280,7 +277,7 @@ NEXT_PUBLIC_SANITY_PROJECT_ID
 NEXT_PUBLIC_SANITY_DATASET
 NEXT_PUBLIC_SANITY_API_VERSION
 SANITY_API_READ_TOKEN     # viewer-access token for draft mode
-SANITY_API_WRITE_TOKEN    # for the blob upload + migration scripts (not used at runtime)
+SANITY_API_WRITE_TOKEN    # for the migration/seed scripts (not used at runtime)
 SANITY_REVALIDATE_SECRET  # webhook signature shared with sanity.io/manage
 ```
 

@@ -28,13 +28,13 @@ gotchas (`server-only` alias, dummy env, `vi.mock` of `live.ts`) and CI.
 
 ## Data model: Editions
 
-Editions live in Sanity as `edition` documents — **every** year, with no static files left (the last one, the online-only 2021, was migrated in ZSB-20 / [ADR 0018](./docs/adr/0018-2021-as-normal-edition-optional-program.md)). `getEdition(year, options)` in `src/data/editions/index.ts` is the gateway: a thin pass-through to the Sanity fetch. Pages render via the dynamic route `src/app/(site)/editions/[year]/`. The **program** is an optional section: an edition with `hasProgram` off (2021) renders no calendar/coming-soon block at all; "online-only" is not modelled as a distinct concept, and 2021's off-site photo-gallery link is a small static constant in `edition-content.tsx`, not a field.
+Editions live in Sanity as `edition` documents — **every** year, with no static files left (the last one, the online-only 2021, was migrated in ZSB-20 / [ADR 0018](./docs/adr/retired/0018-2021-as-normal-edition-optional-program.md)). `getEdition(year, options)` in `src/data/editions/index.ts` is the gateway: a thin pass-through to the Sanity fetch. Pages render via the dynamic route `src/app/(site)/editions/[year]/`. The **program** is an optional section: an edition with `hasProgram` off (2021) renders no calendar/coming-soon block at all; "online-only" is not modelled as a distinct concept, and 2021's off-site photo-gallery link is a small static constant in `edition-content.tsx`, not a field.
 
 To add a new year: create the `edition` document in Studio (Sanity-only — no static file). Set its `status` to `upcoming` while it's a previewable draft, then `live` when the page is ready. (The value is `live`, not `published` — "published" is Sanity's own document lifecycle and is a separate axis; see `CONTEXT.md` → Edition status. The route gate is `status != "upcoming"`.)
 
 ## CMS / Sanity Studio
 
-Embedded Sanity Studio at `/studio`. Schema, GROQ queries, and the components that read them all change in a single PR. For the architecture, conventions, and a step-by-step "add a new page" walkthrough, see [`docs/cms.md`](./docs/cms.md). For the (now-complete) rollout record, see [`docs/cms-rollout-plan.archived.md`](./docs/cms-rollout-plan.archived.md). For specific decisions with tradeoffs, see [`docs/adr/`](./docs/adr/).
+Embedded Sanity Studio at `/studio`. Schema, GROQ queries, and the components that read them all change in a single PR. For the architecture, conventions, and a step-by-step "add a new page" walkthrough, see [`docs/cms.md`](./docs/cms.md). For the (now-complete) rollout record, see [`docs/plans/completed/cms-rollout-plan.archived.md`](./docs/plans/completed/cms-rollout-plan.archived.md). For specific decisions with tradeoffs, see [`docs/adr/`](./docs/adr/).
 
 Key project conventions:
 - Site routes live in `src/app/(site)/` route group so `<SanityLive />` and `<VisualEditing />` don't mount on `/studio`.
@@ -44,15 +44,13 @@ Key project conventions:
 
 ## Image system
 
-Two paths. The **primary** one is Sanity: images authored in the Studio are stored as Sanity assets and served from Sanity's image CDN via `urlFor()` (`src/sanity/lib/image.ts`). All current content — the live editions, homepage, the static pages — uses this. The runtime image shape is `{ src, alt }`.
+Images authored in the Studio are stored as Sanity assets and served from Sanity's image CDN via `urlFor()` (`src/sanity/lib/image.ts`). All content — the live editions, homepage, the static pages — uses this. The runtime image shape is `{ src, alt }`. `remotePatterns` in `next.config.ts` whitelists `cdn.sanity.io`; `minimumCacheTTL` is 31 days.
 
-**Vercel Blob is legacy** (`blobUrl(path)` from `src/lib/blob.ts`), now used only as the origin the `sanity-*` migration scripts uploaded into Sanity assets from (including the 2021 hero in ZSB-20). New images go into Sanity, not Blob. A missing CMS image falls back to a neutral **local** placeholder (`src/lib/placeholder.ts` → `public/img/placeholder.jpg`), not Blob. See [ADR 0005](./docs/adr/0005-vercel-blob-for-image-originals.md) + [ADR 0011](./docs/adr/0011-sanity-assets-for-authored-images.md).
-
-- For the legacy Blob path: `NEXT_PUBLIC_BLOB_URL` is the Blob store's public origin; `remotePatterns` in `next.config.ts` whitelists `*.public.blob.vercel-storage.com` (and Sanity's `cdn.sanity.io`); `minimumCacheTTL` is 31 days. `pnpm exec tsx scripts/blob-upload.ts <file>...` still uploads originals (lowercases basenames, resizes over 3840px) for legacy Blob assets.
+A missing CMS image falls back to a neutral **local** placeholder (`src/lib/placeholder.ts` → `public/img/placeholder.jpg`). Singleton image fields are `required()`, so on a seeded dataset the placeholder never shows. See [ADR 0011](./docs/adr/0011-sanity-assets-for-authored-images.md).
 
 ## Styling
 
-**Panda CSS only — CSS Modules are fully retired.** There are zero `.module.css` files; all styling is Panda. A hard ESLint `no-restricted-imports` rule blocks any new `*.module.css` import (see [ADR 0017](./docs/adr/0017-panda-css-with-oklch-token-theme.md); the migration record is [`docs/panda-migration-plan.md`](./docs/panda-migration-plan.md)). No Tailwind.
+**Panda CSS only — no Tailwind.** All styling is Panda. A hard ESLint `no-restricted-imports` rule blocks any `*.module.css` import (see [ADR 0017](./docs/adr/0017-panda-css-with-oklch-token-theme.md)).
 
 - **Panda CSS** is zero-runtime. Author styles with `css()` / `cx()` from `styled-system/css`; build variant-driven primitives as recipes. The internal `definePreset` module at `src/design-system/preset.ts` owns tokens, semantic tokens, conditions, typography, patterns, and shared recipes. `panda.config.ts` owns extraction and app build configuration. After preset/config changes run `pnpm panda codegen`; `styled-system/` is generated and gitignored. `preflight` is off (the element reset lives in `globals.css` `@layer base`).
 - **Shared styling lives in the internal preset.** Typography is **textStyles**; section/page-shell layout is **layerStyles**. Reusable system contracts are preset recipes; product composition uses co-located `sva`/`cva` recipes. Normalize aggressively: collapse duplicated roles onto the primitive and do not reintroduce per-component value drift.
