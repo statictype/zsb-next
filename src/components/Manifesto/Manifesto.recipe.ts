@@ -8,7 +8,7 @@ import { sva } from 'styled-system/css'
  * the body sits behind an accent gradient rule.
  */
 export const manifesto = sva({
-  slots: ['section', 'container', 'titleHighlight', 'content', 'text'],
+  slots: ['section', 'container', 'title', 'titleHighlight', 'content', 'text'],
   base: {
     section: {
       // ground (light) + rhythm (lg) come from `section()` in the component;
@@ -25,7 +25,17 @@ export const manifesto = sva({
         alignItems: 'start',
       },
     },
-    // The highlighted substring inside the headline — kept as its own slot.
+    // The manifesto headline owns its own display treatment — deliberately not
+    // the `sectionTitle` / `SectionHeading` role (which is smaller + uppercase).
+    title: {
+      fontFamily: 'display',
+      fontSize: { base: '2xl', xl: '3xl', '3xl': '4xl' },
+      lineHeight: { base: 'tight', md: 'display', '4xl': '1.08' },
+      color: 'black',
+      textWrap: 'pretty',
+      margin: '0',
+    },
+    // The highlighted substring inside the headline (the optional accent).
     titleHighlight: { display: 'inline', color: 'action' },
     content: { paddingTop: { base: '0', lg: '20px' } },
     text: {
@@ -41,7 +51,7 @@ export const manifesto = sva({
         background: 'linear-gradient(to bottom, {colors.action}, transparent)',
       },
       '& p': {
-        textStyle: 'lead',
+        textStyle: 'leadLarge',
         color: 'bodyLight',
       },
     },

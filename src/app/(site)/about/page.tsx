@@ -7,6 +7,7 @@ import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
+import { Manifesto } from '@/components/Manifesto/Manifesto'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -43,8 +44,8 @@ async function CachedAbout({ options }: { options: DynamicFetchOptions }) {
 function AboutShell({ view }: { view: AboutView }) {
   const {
     hero,
-    notFestivalTitle,
-    notFestivalBody,
+    manifestoTitle,
+    manifestoBody,
     pillars,
     placeImage,
     carousel,
@@ -66,22 +67,7 @@ function AboutShell({ view }: { view: AboutView }) {
       <figure className={styles.placeImage}>
         <Figure image={placeImage} sizes="100vw" className={styles.placeImageImg} />
       </figure>
-      <section className={section({ ground: 'light', rhythm: 'lg' })}>
-        <div className={styles.inner}>
-          <div className={styles.projectGrid}>
-            <aside className={styles.projectAside}>
-              <h2 className={styles.projectTitle}>{notFestivalTitle}</h2>
-            </aside>
-
-            <div className={styles.projectMain}>
-              {notFestivalBody.map((para, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: positional
-                <p key={i}>{para}</p>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <Manifesto title={manifestoTitle} body={manifestoBody} />
 
       {carousel && (
         <section className={cx(section({ ground: 'dark' }), styles.carouselSection)}>

@@ -15,10 +15,6 @@ export const aboutPage = sva({
     'inner',
     'placeImage',
     'placeImageImg',
-    'projectGrid',
-    'projectAside',
-    'projectTitle',
-    'projectMain',
     'carouselSection',
     'pillarsGrid',
     'pillar',
@@ -52,54 +48,6 @@ export const aboutPage = sva({
       objectFit: 'cover',
       background: 'gray.900',
       filter: 'grayscale(100%) contrast(1.05)',
-    },
-
-    // The project — asymmetric editorial split on light. The shell is
-    // `section({ ground: 'light', rhythm: 'lg' })` in the component; `inner` is
-    // the rail.
-    projectGrid: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      gap: 'lg',
-      lg: {
-        gridTemplateColumns: '1fr 1fr',
-        // No gutter: the body column starts exactly at 50% so its accent bar
-        // lands on the pillars' centre divider.
-        columnGap: '0',
-        rowGap: 'lg',
-        alignItems: 'start',
-      },
-    },
-    projectAside: { position: 'relative' },
-    projectTitle: {
-      fontFamily: 'display',
-      fontSize: { base: '2xl', xl: '3xl', '3xl': '4xl' },
-      lineHeight: { base: 'tight', md: 'display', '4xl': '1.08' },
-      color: 'black',
-      textWrap: 'pretty',
-      margin: '0',
-      paddingRight: 'md',
-    },
-    projectMain: {
-      position: 'relative',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
-      paddingLeft: 'md',
-      md: { paddingLeft: '40px' },
-      _before: {
-        content: '""',
-        position: 'absolute',
-        left: '0',
-        top: '0',
-        bottom: '0',
-        width: '2px',
-        background: 'linear-gradient(to bottom, {colors.action}, transparent)',
-      },
-      '& p': {
-        textStyle: 'lead',
-        color: 'bodyLight',
-      },
     },
 
     // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
@@ -239,7 +187,7 @@ export const aboutPage = sva({
       flexDirection: 'column',
       gap: 'md',
       '& p': {
-        textStyle: 'lead',
+        textStyle: 'leadLarge',
         color: 'bodyLight',
       },
     },

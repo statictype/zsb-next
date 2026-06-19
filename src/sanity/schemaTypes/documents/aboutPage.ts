@@ -11,7 +11,7 @@ export const aboutPage = defineType({
   icon: InfoOutlineIcon,
   groups: [
     { name: 'hero', title: 'Hero', default: true },
-    { name: 'notFestival', title: '"Not a festival"' },
+    { name: 'manifesto', title: 'Manifesto' },
     { name: 'pillars', title: 'Pillars' },
     { name: 'carousel', title: 'Carousel' },
     { name: 'curator', title: 'Curator letter' },
@@ -27,21 +27,21 @@ export const aboutPage = defineType({
     }),
 
     defineField({
-      name: 'notFestivalTitle',
-      title: 'Section title',
-      description: 'e.g. "Not a festival" — renders as the big left-column heading.',
+      name: 'manifestoTitle',
+      title: 'Title',
+      description: 'The big left-column heading (e.g. "Not a festival").',
       type: 'string',
-      group: 'notFestival',
+      group: 'manifesto',
       validation: (rule) => rule.required().max(40),
     }),
     defineField({
-      name: 'notFestivalBody',
-      title: 'Paragraphs',
-      description: 'Each entry is one paragraph.',
-      type: 'array',
-      group: 'notFestival',
-      of: [defineArrayMember({ type: 'text', rows: 3 })],
-      validation: (rule) => rule.required().min(1),
+      name: 'manifestoBody',
+      title: 'Body',
+      description: 'The single intro paragraph beside the title.',
+      type: 'text',
+      rows: 3,
+      group: 'manifesto',
+      validation: (rule) => rule.required(),
     }),
 
     defineField({

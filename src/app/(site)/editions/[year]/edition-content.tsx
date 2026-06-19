@@ -70,7 +70,11 @@ export async function CachedEdition({
 
       <Hero edition={edition} />
 
-      <Manifesto manifesto={edition.manifesto} />
+      <Manifesto
+        title={edition.manifesto.title}
+        body={edition.manifesto.body}
+        accent={edition.manifesto.highlight}
+      />
 
       <ThemeArtists edition={edition} />
 
