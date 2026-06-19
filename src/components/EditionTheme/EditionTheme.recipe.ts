@@ -22,7 +22,6 @@ export const editionTheme = sva({
       display: 'inline-flex',
       alignItems: 'baseline',
       alignSelf: 'flex-start',
-      maxWidth: '100%',
       fontFamily: 'display',
       lineHeight: '1',
       letterSpacing: 'tight',
@@ -59,9 +58,20 @@ export const editionTheme = sva({
   },
   variants: {
     size: {
+      // `huge` is the edition hero — the tape sizes to its text so the black
+      // ground always covers it, even for long single-token themes. `large` /
+      // `normal` render inside constrained list/featured cards, so they cap at
+      // the card width.
       huge: { root: { fontSize: { base: 'xl', md: '3xl', lg: '4xl', xl: '5xl' } } },
-      large: { root: { fontSize: { base: 'xl', md: '3xl', lg: '3xl', xl: '4xl' } } },
-      normal: { root: { fontSize: { base: 'xl', md: '3xl', lg: 'xl', xl: '2xl', '4xl': '3xl' } } },
+      large: {
+        root: { maxWidth: '100%', fontSize: { base: 'xl', md: '3xl', lg: '3xl', xl: '4xl' } },
+      },
+      normal: {
+        root: {
+          maxWidth: '100%',
+          fontSize: { base: 'xl', md: '3xl', lg: 'xl', xl: '2xl', '4xl': '3xl' },
+        },
+      },
     },
     interactive: {
       // Static: the highlight is the accent at rest (the edition hero).
