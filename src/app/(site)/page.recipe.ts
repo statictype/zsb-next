@@ -153,7 +153,7 @@ export const homePage = sva({
     },
     editionRow: {
       display: 'flex',
-      alignItems: 'anchor-center',
+      alignItems: 'center',
       gap: 'sm',
       paddingBlock: '28px',
       borderTop: '1px solid token(colors.borderDark)',
