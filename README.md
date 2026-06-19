@@ -21,6 +21,8 @@ pnpm dev          # Development server on localhost:3000
 | `pnpm typecheck` | `tsc --noEmit` |
 | `pnpm lint` / `pnpm lint:fix` | ESLint (`./src`) |
 | `pnpm format` / `pnpm format:check` | Biome format (formatting only; linter disabled) |
+| `pnpm test` | Vitest unit and component tests |
+| `pnpm test:e2e` | Playwright journeys against a built app |
 | `pnpm images:unused` | Find unused images in `public/img/` (add `:json` for JSON output) |
 
 ## Project Structure

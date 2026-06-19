@@ -2,7 +2,7 @@
 
 import { Dialog as ArkDialog } from '@ark-ui/react/dialog'
 import { Portal } from '@ark-ui/react/portal'
-import type { ReactNode } from 'react'
+import { type ReactNode, useSyncExternalStore } from 'react'
 import { cx } from 'styled-system/css'
 import { dialog } from 'styled-system/recipes'
 
@@ -16,6 +16,10 @@ type DialogProps = AccessibleName & {
   children: ReactNode
   className?: string | undefined
 }
+
+const emptySubscribe = () => () => {}
+const clientReady = () => true
+const serverReady = () => false
 
 /**
  * The site's modal shell. Ark remains private and owns modal behavior; callers
@@ -32,11 +36,15 @@ export function Dialog({
   className,
 }: DialogProps) {
   const styles = dialog({ presentation })
+  // An initially-open machine starts before its portalled content exists during
+  // hydration, so Ark cannot install dismissal/focus effects. Hydrate closed,
+  // then let Ark perform the real closed → open transition on the client.
+  const readyForInteraction = useSyncExternalStore(emptySubscribe, clientReady, serverReady)
 
   return (
     <ArkDialog.Root
       {...(id ? { id } : {})}
-      open={open}
+      open={readyForInteraction && open}
       onOpenChange={(details) => {
         if (!details.open) onClose()
       }}

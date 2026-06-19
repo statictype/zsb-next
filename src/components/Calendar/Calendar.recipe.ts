@@ -492,12 +492,13 @@ export const calendar = sva({
         zIndex: 3,
         '[data-poster=true]:hover &': { opacity: 1, transform: 'translateX(0)' },
       },
-      '@media (hover: hover) and (pointer: fine) and (min-width: 1280px) and (prefers-reduced-motion: reduce)':
-        {
+      _motionReduce: {
+        '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
           transition: 'opacity {durations.normal} {easings.quint}',
           transform: 'none',
           '[data-poster=true]:hover &': { transform: 'none' },
         },
+      },
     },
     posterTag: {
       textStyle: 'metaLabel',

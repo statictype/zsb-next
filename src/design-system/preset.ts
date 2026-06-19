@@ -588,6 +588,7 @@ const carousel = defineSlotRecipe({
       '&::-webkit-scrollbar': { display: 'none' },
       _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
       '&[data-dragging]': { cursor: 'grabbing' },
+      _motionReduce: { scrollBehavior: 'auto' },
     },
     item: { minWidth: 0 },
     control: {
