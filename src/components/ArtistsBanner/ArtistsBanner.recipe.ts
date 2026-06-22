@@ -15,7 +15,7 @@ export const artistsBanner = sva({
       position: 'relative',
       display: 'block',
       width: '100%',
-      background: 'canvas',
+      background: 'surface',
       color: 'white',
       textDecoration: 'none',
       overflow: 'hidden',

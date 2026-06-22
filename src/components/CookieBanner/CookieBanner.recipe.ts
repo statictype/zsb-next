@@ -6,7 +6,7 @@ import { sva } from 'styled-system/css'
  * Fixed, non-modal consent region pinned to the bottom rail. Visitors can keep
  * navigating while it is present. The Reject/Accept actions use the shared
  * `<Button>` primitive, so only the shell layout lives here. The entrance
- * composes the shared `enter()` cva on the banner element.
+ * composes the shared snappy entrance animation style on the banner element.
  */
 export const cookieBanner = sva({
   slots: ['banner', 'inner', 'copy', 'title', 'text', 'link', 'actions'],
@@ -16,13 +16,10 @@ export const cookieBanner = sva({
       left: 'gutter',
       right: 'gutter',
       bottom: 'md',
-      zIndex: 100,
-      background: 'canvas',
+      zIndex: 'banner',
+      background: 'surface',
       color: 'heading',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'borderDark',
-      borderRadius: '2px',
+      border: 'hairline',
       boxShadow: 'modal',
       fontFamily: 'body',
     },

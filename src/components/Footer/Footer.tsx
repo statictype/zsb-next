@@ -23,7 +23,7 @@ const CONNECT_LINKS = [
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   const external = href === '#' || href.startsWith('http') || href.startsWith('mailto:')
-  const cls = cx(button({ variant: 'text' }), s.link)
+  const cls = cx(button({ variant: 'link' }), s.link)
   return external ? (
     <a href={href} className={cls}>
       {children}
@@ -86,7 +86,7 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
         <div className={s.baseline}>
           <div className={s.copyright}>&copy; {CURRENT_YEAR} Bucharest Sculpture Days</div>
           <div className={s.legal}>
-            <Link href="/privacy" className={cx(button({ variant: 'text' }), s.legalLink)}>
+            <Link href="/privacy" className={cx(button({ variant: 'link' }), s.legalLink)}>
               Privacy Policy
             </Link>
             <CookieSettingsButton className={s.legalLink} />

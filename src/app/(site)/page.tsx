@@ -1,17 +1,17 @@
-import { RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
+import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { cx } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { ArtistsBanner } from '@/components/ArtistsBanner/ArtistsBanner'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
-import { enter } from '@/components/enter'
 import { FeaturedSpotlight } from '@/components/FeaturedEvents/FeaturedSpotlight'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { LinkList, LinkListItem } from '@/components/ui/LinkList/LinkList'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import {
   getEditionListItems,
@@ -90,7 +90,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
             <div className={styles.upcomingInner}>
               <div className={styles.upcomingLead}>
                 <p className={styles.upcomingEyebrow}>Upcoming · ZSB {upcoming.year}</p>
-                <h1 className={cx(styles.heroTitle, enter())}>
+                <h1 className={cx(styles.heroTitle, css({ animationStyle: 'enter' }))}>
                   <AccentSplit text={upcoming.theme} accent={upcoming.themeHighlight} lineBreak />
                 </h1>
                 <p className={styles.upcomingDates}>{upcoming.dateTape}</p>
@@ -107,7 +107,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 {ctaLabel && ctaYear && (
                   <Link
                     href={`/editions/${ctaYear}`}
-                    className={button({ variant: 'secondary', size: 'md' })}
+                    className={button({ variant: 'primary', size: 'lg' })}
                   >
                     {ctaLabel} <RiArrowRightLine size={14} />
                   </Link>
@@ -119,7 +119,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
           <section id="home" className={cx(styles.panel, styles.hero)}>
             <div className={styles.heroInner}>
               <div className={styles.heroPanel}>
-                <h1 className={cx(styles.heroTitle, enter())}>
+                <h1 className={cx(styles.heroTitle, css({ animationStyle: 'enter' }))}>
                   <AccentSplit text={title} accent={accent} lineBreak />
                 </h1>
                 <div className={styles.heroText}>
@@ -127,7 +127,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                   {ctaLabel && ctaYear && (
                     <Link
                       href={`/editions/${ctaYear}`}
-                      className={button({ variant: 'secondary', size: 'lg' })}
+                      className={button({ variant: 'primary', size: 'lg' })}
                     >
                       {ctaLabel} <RiArrowRightLine size={14} />
                     </Link>
@@ -153,38 +153,29 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
             <SectionHeading flush>Editions</SectionHeading>
             <p className={styles.editionsSubtext}>{editionsIntro}</p>
           </div>
-          <div className={styles.editionList}>
+          <LinkList className={styles.editionList}>
             {list.map((edition) => {
               if (edition.status === 'upcoming') {
                 return (
-                  <div
+                  <LinkListItem
                     key={edition.year}
-                    className={cx(styles.editionRow, styles.editionRowDisabled)}
-                    aria-disabled="true"
-                  >
-                    <span className={styles.editionYear}>{edition.year}</span>
-                    <span className={styles.editionTheme}>{edition.theme}</span>
-                    <Badge size="sm" className={styles.editionBadge}>
-                      Coming soon
-                    </Badge>
-                  </div>
+                    year={edition.year}
+                    title={edition.theme}
+                    tags={[<Badge key="status">Coming soon</Badge>]}
+                    disabled
+                  />
                 )
               }
               return (
-                <Link
+                <LinkListItem
                   key={edition.year}
+                  year={edition.year}
+                  title={edition.theme}
                   href={`/editions/${edition.year}`}
-                  className={styles.editionRow}
-                >
-                  <span className={styles.editionYear}>{edition.year}</span>
-                  <span className={styles.editionTheme}>{edition.theme}</span>
-                  <span className={styles.editionArrow}>
-                    <RiArrowRightUpLine size={24} />
-                  </span>
-                </Link>
+                />
               )
             })}
-          </div>
+          </LinkList>
         </section>
 
         <ArtistsBanner />

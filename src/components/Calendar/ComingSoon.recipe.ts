@@ -46,9 +46,7 @@ export const comingSoon = sva({
 
     notice: {
       paddingTop: 'xl',
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderDark',
+      borderTop: 'hairline',
     },
     headline: {
       fontFamily: 'display',

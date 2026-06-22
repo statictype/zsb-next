@@ -129,11 +129,7 @@ export function Carousel({
           }
           const controls = (
             <ArkCarousel.Control className={styles.control}>
-              {mode === 'rail' && eyebrow !== undefined && (
-                <Eyebrow tone="muted" size="md">
-                  {eyebrow}
-                </Eyebrow>
-              )}
+              {mode === 'rail' && eyebrow !== undefined && <Eyebrow>{eyebrow}</Eyebrow>}
               {mode === 'rail' && <ArkCarousel.ProgressText className={styles.progressText} />}
               {mode === 'stage' && slides.length > 1 && (
                 <ArkCarousel.IndicatorGroup className={styles.indicatorGroup}>

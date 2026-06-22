@@ -18,9 +18,7 @@ export const calendarFilters = sva({
       gap: 'md',
       marginBottom: '2xl',
       paddingTop: 'lg',
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderDark',
+      borderTop: 'hairline',
     },
 
     bar: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' },

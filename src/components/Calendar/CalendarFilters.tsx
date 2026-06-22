@@ -1,6 +1,7 @@
 'use client'
 
 import { RiResetLeftLine } from '@remixicon/react'
+import { Button } from '@/components/ui/Button/Button'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 import { calendarFilters } from './CalendarFilters.recipe'
 import {
@@ -69,10 +70,16 @@ export function CalendarFilters({
   return (
     <div className={s.filters} role="group" aria-label="Filter the programme">
       <div className={s.bar}>
-        <button type="button" className={s.reset} onClick={onReset} disabled={!canReset}>
+        <Button
+          variant="secondary"
+          size="sm"
+          className={s.reset}
+          onClick={onReset}
+          disabled={!canReset}
+        >
           <RiResetLeftLine size={14} aria-hidden />
           Reset
-        </button>
+        </Button>
       </div>
 
       {facets.venues.length > 1 && (

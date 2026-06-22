@@ -222,7 +222,7 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                     <ul className={s.recapLinks}>
                       {socials.map((social) => (
                         <li key={social.label}>
-                          <Button asChild variant="text">
+                          <Button asChild variant="link">
                             <a href={social.href} target="_blank" rel="noreferrer">
                               {social.label}
                             </a>
@@ -239,8 +239,9 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                   {countLabel}
                 </span>
                 {showPastControl && (
-                  <button
-                    type="button"
+                  <Button
+                    variant="secondary"
+                    size="sm"
                     className={s.pastToggle}
                     data-on={showPast}
                     aria-pressed={showPast}
@@ -248,7 +249,7 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
                   >
                     <RiHistoryLine size={15} aria-hidden />
                     {showPast ? 'Hide' : 'Show'} {past} past {past === 1 ? 'event' : 'events'}
-                  </button>
+                  </Button>
                 )}
               </div>
             )}
@@ -274,9 +275,9 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
           {visible.length === 0 ? (
             <div className={s.empty} role="status">
               <p className={s.emptyText}>No events match these filters.</p>
-              <button type="button" className={s.emptyClear} onClick={reset}>
+              <Button variant="link" className={s.emptyClear} onClick={reset}>
                 Show all events
-              </button>
+              </Button>
             </div>
           ) : (
             // Ongoing exhibitions sit on top as a card grid; the one-off events
@@ -385,9 +386,7 @@ function TypeChips({ event }: { event: CalendarEvent }) {
     <ul className={s.chips}>
       {event.types.map((t) => (
         <li key={`${event.key}-${t.slug}`}>
-          <Badge tone="outline" size="sm">
-            {t.title}
-          </Badge>
+          <Badge tone="outline">{t.title}</Badge>
         </li>
       ))}
     </ul>

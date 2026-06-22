@@ -146,7 +146,7 @@ function PartnersShell({
             <p className={styles.partnerCtaBody}>{ctaBody}</p>
             <a
               href={ctaHref}
-              className={button({ variant: 'secondary' })}
+              className={button({ variant: 'primary', size: 'lg' })}
               {...(ctaHref.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}
             >
               {ctaLabel} <RiArrowRightLine size={14} />

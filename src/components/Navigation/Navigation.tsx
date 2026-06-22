@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { cx } from 'styled-system/css'
+import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
 import { navigation, navigationSwap } from './Navigation.recipe'
 
@@ -45,15 +46,15 @@ export function Navigation({ activeId }: Props) {
     <>
       <div className={s.logo}>{showLogoLink ? <Link href="/">{logo}</Link> : logo}</div>
 
-      <button
-        type="button"
+      <Button
+        variant="icon"
         className={s.toggle}
         aria-label={isOpen ? 'Close navigation' : 'Open navigation'}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <NavigationIcon open={isOpen} />
-      </button>
+      </Button>
 
       <nav className={s.desktopNav} aria-label="Primary navigation">
         <NavLinks activeId={activeId} className={cx(s.navLink, s.desktopNavLink)} />
@@ -70,15 +71,15 @@ export function Navigation({ activeId }: Props) {
           <div className={cx(s.logo, s.dialogLogo)}>
             {showLogoLink ? <Link href="/">{logo}</Link> : logo}
           </div>
-          <button
-            type="button"
+          <Button
+            variant="icon"
             className={cx(s.toggle, s.dialogToggle)}
             aria-label="Close navigation"
             aria-expanded={true}
             onClick={closeMenu}
           >
             <NavigationIcon open={isOpen} />
-          </button>
+          </Button>
           <nav className={s.mobileNav} aria-label="Mobile navigation">
             <NavLinks activeId={activeId} className={s.navLink} onNavigate={closeMenu} />
           </nav>

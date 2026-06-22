@@ -52,7 +52,7 @@ export const manifesto = sva({
       },
       '& p': {
         textStyle: 'leadLarge',
-        color: 'bodyLight',
+        color: 'body',
       },
     },
   },

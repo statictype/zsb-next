@@ -43,7 +43,7 @@ export function ComingSoon({ year, socials }: { year: number; socials: SocialLin
               <ul className={s.links}>
                 {socials.map((social) => (
                   <li key={social.label}>
-                    <Button asChild variant="text">
+                    <Button asChild variant="link">
                       <a href={social.href} target="_blank" rel="noreferrer">
                         {social.label}
                       </a>

@@ -38,7 +38,7 @@ const grayRamp = Object.fromEntries(
 /**
  * Badge — the first unified primitive (ZSB-71 spike proof).
  * Collapses the 8 legacy pill/chip/tape-label/status-badge variants into one
- * recipe with `tone` × `size` × `elevated`.
+ * recipe with one size and two purposeful tones.
  */
 const badge = defineRecipe({
   jsx: ['Badge'],
@@ -54,6 +54,9 @@ const badge = defineRecipe({
     letterSpacing: '1.2px',
     lineHeight: '1.3',
     whiteSpace: 'nowrap',
+    fontSize: '10px',
+    paddingInline: '12px',
+    paddingBlock: '6px',
   },
   variants: {
     tone: {
@@ -61,23 +64,10 @@ const badge = defineRecipe({
       // old `outline` (chartreuse) and `muted` (gray) hairlines were the same
       // role on different grounds — collapsed to one brand-forward hairline.
       highlight: { bg: 'highlight', color: 'black' },
-      outline: { color: 'highlight', borderWidth: '1px', borderColor: 'highlightFaint' },
-      dark: { bg: 'gray.800', color: 'white' },
-    },
-    size: {
-      // `sm` rides the responsive `2xs` token (8→9→10px) so the chip sweep is
-      // lossless across the hand-rolled chips it replaces.
-      sm: { fontSize: '2xs', paddingInline: '8px', paddingBlock: '3px' },
-      md: { fontSize: '10px', paddingInline: '12px', paddingBlock: '6px' },
-    },
-    elevated: {
-      true: {
-        boxShadow: 'badge',
-        transform: 'rotate(-0.7deg)',
-      },
+      outline: { bg: 'black', color: 'highlight', border: 'highlight' },
     },
   },
-  defaultVariants: { tone: 'highlight', size: 'md' },
+  defaultVariants: { tone: 'highlight' },
 })
 
 /**
@@ -99,16 +89,9 @@ const eyebrow = defineRecipe({
     letterSpacing: 'wide',
     lineHeight: 'heading',
     color: 'muted',
+    fontSize: 'xs',
   },
   variants: {
-    tone: {
-      muted: { color: 'muted' },
-      highlight: { color: 'highlight' },
-    },
-    size: {
-      sm: { fontSize: '2xs' },
-      md: { fontSize: 'xs' },
-    },
     rule: {
       true: {
         _before: {
@@ -121,19 +104,22 @@ const eyebrow = defineRecipe({
       },
     },
   },
-  defaultVariants: { tone: 'muted', size: 'md', rule: false },
+  defaultVariants: { rule: false },
 })
+
+const colorShift = { _hover: { color: 'action' } } as const
+const subtleHover = { _hover: { color: 'heading', borderColor: 'heading' } } as const
 
 /**
  * Button — the one action primitive (ADR 0019).
- * `variant` (primary | secondary | ghost | text | icon) × `size` (sm | md | lg).
- * `primary`/`secondary` are the former solid/outline; `text` is the retired
+ * `variant` (primary | secondary | link | icon) × `size` (sm | md | lg).
+ * `link` is the retired
  * `textLink` recipe (borderless inline link, e.g. footer links).
  */
 const button = defineRecipe({
   jsx: ['Button'],
   className: 'btn',
-  description: 'The one action primitive — primary | secondary | ghost | text | icon (ADR 0019)',
+  description: 'The one action primitive — primary | secondary | link | icon (ADR 0019)',
   base: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -142,10 +128,7 @@ const button = defineRecipe({
     fontWeight: 'semibold',
     textTransform: 'uppercase',
     cursor: 'pointer',
-    borderRadius: '0',
-    borderWidth: '2px',
-    borderStyle: 'solid',
-    borderColor: 'transparent',
+    border: 'none',
     transition:
       'color {durations.normal} ease, background-color {durations.normal} ease, border-color {durations.normal} ease, filter {durations.normal} ease',
     _disabled: { opacity: '0.5', cursor: 'not-allowed' },
@@ -154,37 +137,31 @@ const button = defineRecipe({
   variants: {
     variant: {
       primary: {
-        bg: 'action',
-        color: 'white',
-        borderColor: 'action',
-        _hover: { filter: 'brightness(1.1)' },
+        bg: 'transparent',
+        color: 'action',
+        border: 'primary',
+        _hover: { bg: 'action', color: 'white' },
       },
       secondary: {
         bg: 'transparent',
-        color: 'action',
-        borderColor: 'action',
-        _hover: { bg: 'action', color: 'white' },
-      },
-      ghost: {
-        bg: 'transparent',
         color: 'muted',
-        borderColor: 'borderDark',
-        _hover: { color: 'heading', borderColor: 'heading' },
+        border: 'hairline',
+        ...subtleHover,
       },
       // Borderless inline text link (the retired `textLink` recipe). Blends into
       // the surrounding copy — inherits font/size/case/tracking from context —
       // e.g. the footer "Cookie Settings" beside the Privacy Policy link.
-      text: {
+      link: {
         display: 'inline',
         fontFamily: 'inherit',
         fontSize: 'inherit',
         fontWeight: 'inherit',
         textTransform: 'inherit',
         letterSpacing: 'inherit',
-        borderWidth: '0',
         bg: 'transparent',
         color: 'muted',
-        _hover: { color: 'action' },
+        ...colorShift,
+        _hover: { ...colorShift._hover, textDecoration: 'underline' },
       },
       icon: {
         width: '44px',
@@ -194,7 +171,8 @@ const button = defineRecipe({
         borderWidth: '0',
         color: 'heading',
         transition: 'color {durations.normal} ease, transform {durations.normal} {easings.expo}',
-        _hover: { _enabled: { color: 'action' } },
+        ...colorShift,
+        _hover: { _enabled: { color: 'action', transform: 'translateY(-2px)' } },
       },
     },
     size: {
@@ -224,7 +202,7 @@ const button = defineRecipe({
   // The `text` and `icon` variants are sizeless — neutralize the default size.
   compoundVariants: [
     {
-      variant: 'text',
+      variant: 'link',
       css: { paddingBlock: '0', paddingInline: '0', gap: '0' },
     },
     {
@@ -256,14 +234,20 @@ const card = defineRecipe({
     isolation: 'isolate',
     color: 'inherit',
     textDecoration: 'none',
-    borderWidth: '1px',
-    borderStyle: 'solid',
   },
   variants: {
     /** The ground the hairline sits on — the same box language on either. */
     ground: {
-      onDark: { background: 'transparent', borderColor: 'borderDark' },
-      onLight: { background: 'surfaceLight', borderColor: 'borderLight', boxShadow: 'card' },
+      onDark: { background: 'transparent', border: 'hairline' },
+      onLight: {
+        background: 'surface',
+        border: 'hairline',
+        boxShadow: 'card',
+        '--colors-surface': '{colors.white}',
+        '--colors-heading': '{colors.black}',
+        '--colors-body': '{colors.gray.700}',
+        '--colors-divider': '{colors.gray.200}',
+      },
     },
     /** The one hover every card shares: the hairline warms to the accent.
      *  GPU-safe (border-color only — no lift). */
@@ -288,8 +272,15 @@ const section = defineRecipe({
      *  page's own background (e.g. the press strips). Keyed off the semantic
      *  role tokens, never raw black/white. */
     ground: {
-      dark: { background: 'canvas', color: 'heading' },
-      light: { background: 'surfaceLight', color: 'headingLight' },
+      dark: { background: 'surface', color: 'heading' },
+      light: {
+        background: 'surface',
+        color: 'heading',
+        '--colors-surface': '{colors.white}',
+        '--colors-heading': '{colors.black}',
+        '--colors-body': '{colors.gray.700}',
+        '--colors-divider': '{colors.gray.200}',
+      },
     },
     /** Vertical rhythm — the standard cadence vs the looser breathing-room one
      *  (manifesto, About editorial spreads). */
@@ -309,9 +300,7 @@ const accordion = defineSlotRecipe({
   base: {
     root: { width: '100%' },
     item: {
-      borderBottomWidth: '1px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: 'borderDark',
+      borderBottom: 'hairline',
       _last: { borderBottomWidth: '0' },
     },
     itemTrigger: {
@@ -386,9 +375,7 @@ const collapsible = defineSlotRecipe({
   base: {
     root: {
       width: '100%',
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderDark',
+      borderTop: 'hairline',
     },
     trigger: {
       width: '100%',
@@ -450,9 +437,7 @@ const checkbox = defineSlotRecipe({
       fontWeight: 'semibold',
       color: 'gray.300',
       background: 'transparent',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'gray.700',
+      border: 'hairline',
       cursor: 'pointer',
       transition:
         'color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}, background {durations.fast} {easings.quint}',
@@ -508,7 +493,7 @@ const dialog = defineSlotRecipe({
     backdrop: {
       position: 'fixed',
       inset: 0,
-      background: 'scrim',
+      background: 'surface.scrim',
     },
     positioner: {
       position: 'fixed',
@@ -538,25 +523,23 @@ const dialog = defineSlotRecipe({
   variants: {
     presentation: {
       panel: {
-        backdrop: { zIndex: 1100 },
-        positioner: { zIndex: 1101, padding: 'lg', overflowY: 'auto' },
+        backdrop: { zIndex: 'overlay' },
+        positioner: { zIndex: 'modal', padding: 'lg', overflowY: 'auto' },
         content: {
           maxWidth: '540px',
           maxHeight: 'calc(100dvh - 2 * token(spacing.lg))',
           display: 'flex',
           flexDirection: 'column',
           background: 'black',
-          borderWidth: '1px',
-          borderStyle: 'solid',
-          borderColor: 'borderDark',
+          border: 'hairline',
           boxShadow: 'modal',
           overflow: 'hidden',
           md: { flexDirection: 'row', maxWidth: '760px' },
         },
       },
       fullscreen: {
-        backdrop: { zIndex: 9998, background: 'transparent' },
-        positioner: { zIndex: 9999 },
+        backdrop: { zIndex: 'overlay', background: 'transparent' },
+        positioner: { zIndex: 'modal' },
         content: { width: '100vw', height: '100dvh', overflow: 'hidden' },
       },
     },
@@ -640,7 +623,7 @@ const carousel = defineSlotRecipe({
       height: '2px',
       padding: 0,
       border: 0,
-      background: 'onMedia',
+      background: 'muted',
       cursor: 'pointer',
       '&[data-current]': { width: '28px', background: 'highlight' },
       _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '4px' },
@@ -726,7 +709,7 @@ export const designSystemPreset = definePreset({
       },
       keyframes: {
         // The one entrance reveal. Parameterized by CSS vars (`--enter-y` /
-        // `--enter-scale` / `--enter-blur`) set by the `enter()` cva; built
+        // `--enter-scale` / `--enter-blur`) set by animation-style variants; built
         // from→to with `animation-fill-mode: both` so the element rests in its
         // visible final state and reduced-motion is just `animation: none`.
         // Folds in the former fadeSlideUp / fadeIn / dialogIn / cardIn /
@@ -793,6 +776,17 @@ export const designSystemPreset = definePreset({
           pill: { value: '100px' },
           circle: { value: '50%' },
         },
+        borders: {
+          hairline: {
+            value: { width: '1px', style: 'solid', color: '{colors.divider}' },
+          },
+          highlight: {
+            value: { width: '1px', style: 'solid', color: '{colors.chartreuse}' },
+          },
+          primary: {
+            value: { width: '2px', style: 'solid', color: '{colors.action}' },
+          },
+        },
         sizes: {
           // The site content rail (`.sectionInner` max-width).
           maxWidth: { value: '1800px' },
@@ -819,6 +813,7 @@ export const designSystemPreset = definePreset({
           black: { value: '900' },
         },
         durations: {
+          stagger: { value: '60ms' },
           fast: { value: '200ms' },
           normal: { value: '300ms' },
           medium: { value: '400ms' },
@@ -845,25 +840,25 @@ export const designSystemPreset = definePreset({
       },
       semanticTokens: {
         colors: {
-          canvas: { value: '{colors.black}' },
-          // The one light-surface role — white. Every light ground (sections,
-          // onLight cards) keys off this, so light-surface drift can't recur.
-          surfaceLight: { value: '{colors.white}' },
+          surface: {
+            DEFAULT: { value: '{colors.black}' },
+            scrim: { value: 'rgb(0 0 0 / 0.95)' },
+          },
           heading: { value: '{colors.white}' },
-          headingLight: { value: '{colors.black}' },
           body: { value: '{colors.gray.400}' },
-          bodyLight: { value: '{colors.gray.700}' },
           muted: { value: '{colors.gray.600}' },
-          borderDark: { value: '{colors.gray.900}' },
-          borderLight: { value: '{colors.gray.200}' },
+          divider: { value: '{colors.gray.900}' },
           action: { value: '{colors.pink}' },
           highlight: { value: '{colors.chartreuse}' },
-          // Two purposeful translucent roles (the audit's scattered ad-hoc
-          // opacities collapse to these). `highlightFaint` references the
-          // chartreuse anchor so the brand hue stays single-sourced.
-          highlightFaint: { value: 'color-mix(in oklch, {colors.chartreuse} 32%, transparent)' }, // chartreuse hairline
-          onMedia: { value: 'rgb(255 255 255 / 0.55)' }, // dimmed control foreground over imagery
-          scrim: { value: 'rgb(0 0 0 / 0.95)' }, // dark backdrop behind modals / lightbox
+        },
+        zIndex: {
+          nav: { value: '100' },
+          banner: { value: '200' },
+          overlay: { value: '1000' },
+          modal: { value: '1010' },
+          navToggle: { value: '1011' },
+          lightbox: { value: '1020' },
+          draftBadge: { value: '1030' },
         },
         // Stepped-responsive tokens: faithful to the :root media-query overrides.
         fontSizes: {
@@ -938,6 +933,89 @@ export const designSystemPreset = definePreset({
               '3xl': '192px',
               '4xl': '224px',
             },
+          },
+        },
+      },
+      animationStyles: {
+        enter: {
+          DEFAULT: {
+            value: {
+              animationName: 'enter',
+              animationDuration: 'entrance',
+              animationTimingFunction: 'expo',
+              animationFillMode: 'both',
+              animationDelay: 'calc(var(--i, 0) * {durations.stagger})',
+              '--enter-y': '30px',
+              _motionReduce: { animation: 'none' },
+            },
+          },
+          fade: {
+            value: {
+              animationName: 'enter',
+              animationDuration: 'entrance',
+              animationTimingFunction: 'expo',
+              animationFillMode: 'both',
+              '--enter-y': '0px',
+              _motionReduce: { animation: 'none' },
+            },
+          },
+          zoom: {
+            value: {
+              animationName: 'enter',
+              animationDuration: 'entrance',
+              animationTimingFunction: 'expo',
+              animationFillMode: 'both',
+              '--enter-y': '0px',
+              '--enter-scale': '1.06',
+              _motionReduce: { animation: 'none' },
+            },
+          },
+          snappy: {
+            value: {
+              animationName: 'enter',
+              animationDuration: 'normal',
+              animationTimingFunction: 'expo',
+              animationFillMode: 'both',
+              '--enter-y': '30px',
+              _motionReduce: { animation: 'none' },
+            },
+          },
+        },
+        spin: {
+          value: {
+            animationName: 'spin',
+            animationDuration: '32s',
+            animationTimingFunction: 'linear',
+            animationIterationCount: 'infinite',
+            _motionReduce: { animationPlayState: 'paused' },
+          },
+        },
+        shimmer: {
+          value: {
+            animationName: 'shimmer',
+            animationDuration: 'sweep',
+            animationTimingFunction: 'ease-in-out',
+            animationIterationCount: 'infinite',
+            _motionReduce: { animation: 'none' },
+          },
+        },
+        gradientBorder: {
+          value: {
+            animationName: 'gradientBorderShift',
+            animationDuration: '2s',
+            animationTimingFunction: 'linear',
+            animationIterationCount: 'infinite',
+            _motionReduce: { animation: 'none' },
+          },
+        },
+        tape: {
+          value: {
+            animationName: 'tapeIn',
+            animationDuration: 'entrance',
+            animationTimingFunction: 'expo',
+            animationFillMode: 'forwards',
+            animationDelay: 'var(--tape-delay, 0s)',
+            _motionReduce: { animation: 'none' },
           },
         },
       },

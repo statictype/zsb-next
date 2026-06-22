@@ -3,7 +3,7 @@ import { sva } from 'styled-system/css'
 /**
  * IsdayBadge — co-located slot recipe.
  *
- * The "Official Participant" pill is now the shared <Badge tone="dark">; this
+ * The "Official Participant" pill is now the shared <Badge tone="outline">; this
  * recipe owns the seal layout and title block. The shared <Card ground="onLight">
  * owns the surface chrome and ground.
  */
@@ -35,10 +35,10 @@ export const isdayBadge = sva({
       fontSize: '2xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
-      color: 'bodyLight',
+      color: 'body',
       marginTop: 'xs',
     },
-    // Tweaks layered onto <Badge tone="dark"> via className.
+    // Tweaks layered onto <Badge tone="outline"> via className.
     pill: { marginTop: 'md', gap: '6px' },
     pillDot: { width: '6px', height: '6px', background: 'highlight', borderRadius: 'circle' },
   },

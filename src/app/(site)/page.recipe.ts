@@ -26,12 +26,6 @@ export const homePage = sva({
     'editionsHead',
     'editionsSubtext',
     'editionList',
-    'editionRow',
-    'editionYear',
-    'editionTheme',
-    'editionBadge',
-    'editionArrow',
-    'editionRowDisabled',
     'upcomingInner',
     'upcomingLead',
     'upcomingEyebrow',
@@ -93,7 +87,7 @@ export const homePage = sva({
     // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
     heroTitle: {
       textStyle: 'pageTitle',
-      // Reveal contract is the shared `enter()` on the element; delay only here.
+      // Reveal contract is the shared `enter` animation style; delay only here.
       animationDelay: '0.2s',
       width: 'min-content',
     },
@@ -148,52 +142,9 @@ export const homePage = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       paddingInline: 'gutter',
-      borderBottom: '1px solid token(colors.borderDark)',
+      borderBottom: 'hairline',
       width: '100%',
     },
-    editionRow: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'sm',
-      paddingBlock: '28px',
-      borderTop: '1px solid token(colors.borderDark)',
-      textDecoration: 'none',
-      color: 'inherit',
-      transition: 'padding-left {durations.medium} {easings.expo}',
-      _hover: { paddingLeft: '12px' },
-    },
-    editionYear: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      fontWeight: 'semibold',
-      letterSpacing: '0.2em',
-      textTransform: 'uppercase',
-      color: 'muted',
-      flexShrink: '0',
-      width: { base: '40px', md: '60px' },
-      transform: 'translateY(4px)',
-    },
-    editionTheme: {
-      fontFamily: 'display',
-      fontSize: { base: 'lg', md: '2xl' },
-      lineHeight: 'heading',
-      color: 'white',
-      flex: '1',
-      transition: 'color {durations.normal} {easings.quint}',
-      'a:hover &': { color: 'action' },
-    },
-    editionBadge: { flexShrink: '0' },
-    editionArrow: {
-      flexShrink: '0',
-      color: 'muted',
-      display: 'flex',
-      transition:
-        'color {durations.normal} {easings.quint}, transform {durations.medium} {easings.expo}',
-      'a:hover &': { color: 'action', transform: 'translate(4px, -4px)' },
-    },
-    // Upcoming rows are non-navigable <div>s — kill the row's hover shift.
-    editionRowDisabled: { cursor: 'default', opacity: '0.45', _hover: { paddingLeft: '0' } },
-
     upcomingInner: {
       position: 'relative',
       maxWidth: 'maxWidth',
@@ -241,7 +192,7 @@ export const homePage = sva({
       width: '100%',
       maxWidth: '520px',
       paddingTop: 'lg',
-      borderTop: '1px solid token(colors.borderDark)',
+      borderTop: 'hairline',
       lg: { flex: '0 0 42%', maxWidth: '460px', paddingTop: '0', borderTopWidth: '0' },
     },
     lastEditionLabel: {

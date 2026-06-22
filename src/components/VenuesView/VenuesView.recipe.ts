@@ -30,9 +30,7 @@ export const venuesView = sva({
   base: {
     section: {
       // rhythm from `section()` in the component; ground inherits the parent.
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderDark',
+      borderTop: 'hairline',
     },
     inner: { layerStyle: 'sectionInner' },
 
@@ -56,9 +54,7 @@ export const venuesView = sva({
       fontWeight: 'semibold',
       color: 'highlight',
       paddingBottom: 'sm',
-      borderBottomWidth: '1px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: 'borderDark',
+      borderBottom: 'hairline',
     },
     venues: { width: '100%' },
     place: {
@@ -77,9 +73,7 @@ export const venuesView = sva({
       flexDirection: 'column',
       gap: '6px',
       paddingBlock: 'sm',
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderDark',
+      borderTop: 'hairline',
       '&:first-child': { borderTopWidth: '0' },
     },
     eventName: {
@@ -108,9 +102,7 @@ export const venuesView = sva({
       flexDirection: 'column',
       gap: 'sm',
       paddingLeft: 'md',
-      borderLeftWidth: '1px',
-      borderLeftStyle: 'solid',
-      borderLeftColor: 'borderDark',
+      borderLeft: 'hairline',
     },
     childHead: { display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', gap: '10px' },
     childName: {

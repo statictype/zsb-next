@@ -3,6 +3,7 @@
 import { Carousel } from '@/components/Carousel/Carousel'
 import { Figure } from '@/components/Figure/Figure'
 import { useLightbox } from '@/components/Lightbox/Lightbox'
+import { Button } from '@/components/ui/Button/Button'
 import type { MediaKitStripItem } from '@/types/edition'
 import { mediaKitStrip } from './MediaKitStrip.recipe'
 
@@ -31,8 +32,8 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
         slides={items.map((item, index) => ({
           id: `media-kit-${index}`,
           content: (
-            <button
-              type="button"
+            <Button
+              variant="secondary"
               className={s.card}
               onClick={() => lightbox.open(index)}
               aria-label={`Open ${item.year} ${item.name}`}
@@ -43,7 +44,7 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
                 className={s.image}
                 draggable={false}
               />
-            </button>
+            </Button>
           ),
         }))}
       />

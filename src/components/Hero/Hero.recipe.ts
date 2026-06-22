@@ -8,7 +8,7 @@ import { sva } from 'styled-system/css'
  * gains horizontal padding and the tapes hang off the frame's left edge. The
  * top offset mirrors the shared `pageHero` layerStyle (`token(sizes.nav)` + 80/
  * 120px) so the frame starts at the same y as the title on every other page.
- * The image/vignette reveals compose the shared `enter()` cva (image = zoom,
+ * The image/vignette reveals compose the shared `enter` animation styles (image = zoom,
  * vignette = fade); the tapes keep the distinct `tapeIn` keyframe. The frame
  * (not the image) owns the `grayscale(0.3)` so it survives `enter`'s `filter`.
  */
@@ -28,7 +28,7 @@ export const hero = sva({
   base: {
     hero: {
       position: 'relative',
-      background: 'canvas',
+      background: 'surface',
       overflow: 'hidden',
       // Matches the shared pageHero top offset.
       paddingTop: 'calc(token(sizes.nav) + 80px)',
@@ -61,7 +61,7 @@ export const hero = sva({
         position: 'absolute',
         inset: '0',
         pointerEvents: 'none',
-        outline: '1px solid token(colors.borderDark)',
+        outline: '1px solid token(colors.divider)',
         outlineOffset: '-1px',
         zIndex: '2',
       },
@@ -111,7 +111,7 @@ export const hero = sva({
       fontWeight: 'semibold',
       textTransform: 'uppercase',
       letterSpacing: 'label',
-      color: 'headingLight',
+      color: 'heading',
       background: 'highlight',
       paddingBlock: '7px',
       paddingInline: '12px',
@@ -121,7 +121,8 @@ export const hero = sva({
       transformOrigin: 'top left',
       opacity: '0',
       translate: '-8px 16px',
-      animation: 'tapeIn {durations.entrance} {easings.expo} 0.35s forwards',
+      animationStyle: 'tape',
+      '--tape-delay': '0.35s',
       whiteSpace: 'nowrap',
       maxWidth: '100%',
       overflow: 'hidden',
@@ -144,7 +145,7 @@ export const hero = sva({
       fontWeight: 'semibold',
       textTransform: 'uppercase',
       letterSpacing: 'label',
-      color: 'headingLight',
+      color: 'heading',
       background: 'highlight',
       paddingBlock: '7px',
       paddingInline: '12px',
@@ -154,7 +155,8 @@ export const hero = sva({
       transformOrigin: 'top left',
       opacity: '0',
       translate: '-8px 16px',
-      animation: 'tapeIn {durations.entrance} {easings.expo} 0.75s forwards',
+      animationStyle: 'tape',
+      '--tape-delay': '0.75s',
       whiteSpace: 'nowrap',
       maxWidth: '100%',
       overflow: 'hidden',

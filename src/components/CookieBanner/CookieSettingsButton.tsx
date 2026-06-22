@@ -10,7 +10,7 @@ export function CookieSettingsButton({ className }: { className?: string | undef
   }
 
   return (
-    <Button variant="text" className={className} onClick={reopen}>
+    <Button variant="link" className={className} onClick={reopen}>
       Cookie Settings
     </Button>
   )

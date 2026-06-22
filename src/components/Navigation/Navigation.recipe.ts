@@ -27,7 +27,7 @@ export const navigation = sva({
       left: 'gutter',
       width: '40px',
       height: '40px',
-      zIndex: 1001,
+      zIndex: 'nav',
       md: { top: '24px', width: '48px', height: '48px' },
       lg: { width: '56px', height: '56px' },
       xl: { width: '60px', height: '60px' },
@@ -45,7 +45,7 @@ export const navigation = sva({
         // Match the logo's z-index so the menu paints above positioned hero
         // content (home/edition heroes are `position: relative`; without this
         // they paint over the z-auto nav and hide the links).
-        zIndex: 1001,
+        zIndex: 'nav',
       },
       lg: { top: '40px' },
     },
@@ -70,15 +70,13 @@ export const navigation = sva({
       fontSize: 'lg',
       textTransform: 'uppercase',
       textDecoration: 'none',
-      color: 'surfaceLight',
+      color: 'muted',
       padding: '12px 32px',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'borderDark',
+      border: 'hairline',
       letterSpacing: 'label',
       transition:
         'background-color {durations.fast} {easings.quint}, color {durations.fast} {easings.quint}',
-      _hover: { background: 'action', color: 'white' },
+      _hover: { color: 'heading', borderColor: 'heading' },
       _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
       // Active tab gets the highlight fill; siblings stay outlined.
       '&[aria-current=page]': { background: 'highlight', color: 'black' },
@@ -88,7 +86,6 @@ export const navigation = sva({
       fontSize: 'sm',
       padding: '8px 20px',
       marginRight: '-1px',
-      borderRadius: '0',
       '&:last-child': { marginRight: '0' },
     },
 
@@ -109,7 +106,7 @@ export const navigation = sva({
       background: 'transparent',
       border: 'none',
       cursor: 'pointer',
-      zIndex: 1002,
+      zIndex: 'navToggle',
       padding: 0,
       WebkitTapHighlightColor: 'transparent',
       _before: {
@@ -118,9 +115,7 @@ export const navigation = sva({
         inset: '6px',
         zIndex: -1,
         background: 'black',
-        borderWidth: '1px',
-        borderStyle: 'solid',
-        borderColor: 'borderDark',
+        border: 'hairline',
         transition: 'border-color {durations.fast} {easings.quint}',
       },
       color: 'white',
@@ -169,7 +164,7 @@ export const navigationSwap = sva({
         height: '2px',
         background: 'currentColor',
       },
-      _motionReduce: { transitionDuration: '0ms' },
+      _motionReduce: { transition: 'none' },
     },
   },
 })

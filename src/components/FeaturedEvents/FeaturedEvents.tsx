@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import { cx } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
-import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
@@ -37,14 +36,12 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
       <div className={styles.inner}>
         <header className={styles.header}>
           <div className={styles.headerMain}>
-            <Eyebrow tone="highlight" size="sm" className={styles.eyebrow}>
-              Don&rsquo;t miss
-            </Eyebrow>
+            <Eyebrow className={styles.eyebrow}>Don&rsquo;t miss</Eyebrow>
             <SectionHeading id="featured-heading" flush>
               Featured
             </SectionHeading>
           </div>
-          <Button asChild variant="text">
+          <Button asChild variant="link">
             <Link href={`/editions/${year}#program`}>Full calendar</Link>
           </Button>
         </header>
@@ -74,7 +71,10 @@ function FeaturedCard({
   return (
     // The stagger delay rides --i; the whole frame is the hit target via the
     // name link's stretched ::after (see .cardLink in the CSS).
-    <li className={cx(styles.card, enter())} style={{ '--i': index } as CSSProperties}>
+    <li
+      className={cx(styles.card, css({ animationStyle: 'enter' }))}
+      style={{ '--i': index } as CSSProperties}
+    >
       <Card
         as="article"
         ground="onDark"
@@ -116,7 +116,7 @@ function FeaturedCard({
             <ul className={styles.chips}>
               {event.types.slice(0, 2).map((t) => (
                 <li key={t.slug}>
-                  <Badge size="sm">{t.title}</Badge>
+                  <Badge>{t.title}</Badge>
                 </li>
               ))}
             </ul>

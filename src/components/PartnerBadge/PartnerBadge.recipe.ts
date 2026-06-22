@@ -43,7 +43,7 @@ export const partnerBadge = sva({
     textRing: {
       position: 'absolute',
       inset: '0',
-      animation: 'spin 32s linear infinite',
+      animationStyle: 'spin',
       '& svg': { width: '100%', height: '100%' },
       '& text': { fill: 'white', fontFamily: 'body' },
     },

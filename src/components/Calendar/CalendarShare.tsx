@@ -36,7 +36,7 @@ export function CalendarShare() {
 
   return (
     <Button
-      variant="ghost"
+      variant="secondary"
       size="sm"
       className={cx(shareIcon, copied && shareCopied)}
       onClick={share}

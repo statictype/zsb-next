@@ -56,12 +56,12 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
       <div className={s.controls}>
         {/* Dismiss returns to the programme (router back / link up); ✕ was a
               generic close that no longer fits the route model (ZSB-50). */}
-        <Button variant="ghost" size="sm" onClick={onClose}>
+        <Button variant="secondary" size="sm" onClick={onClose}>
           <RiArrowLeftLine size={16} aria-hidden />
           Back to programme
         </Button>
         <Button
-          variant="ghost"
+          variant="secondary"
           size="sm"
           className={cx(shareIcon, copied && shareCopied)}
           onClick={share}
@@ -86,9 +86,7 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
           <ul className={s.types}>
             {event.types.map((t) => (
               <li key={t.slug}>
-                <Badge tone="outline" size="sm">
-                  {t.title}
-                </Badge>
+                <Badge tone="outline">{t.title}</Badge>
               </li>
             ))}
           </ul>
@@ -104,14 +102,14 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
         {(event.ticketUrl || event.facebookUrl) && (
           <div className={s.links}>
             {event.ticketUrl && (
-              <Button asChild variant="text">
+              <Button asChild variant="link">
                 <a href={event.ticketUrl} target="_blank" rel="noreferrer">
                   Tickets
                 </a>
               </Button>
             )}
             {event.facebookUrl && (
-              <Button asChild variant="text">
+              <Button asChild variant="link">
                 <a href={event.facebookUrl} target="_blank" rel="noreferrer">
                   Facebook event
                 </a>

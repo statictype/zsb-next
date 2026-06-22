@@ -1,6 +1,5 @@
 import { css, cx } from 'styled-system/css'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
-import { enter } from '@/components/enter'
 import { Figure } from '@/components/Figure/Figure'
 import type { Edition } from '@/types/edition'
 import { hero } from './Hero.recipe'
@@ -29,9 +28,12 @@ export function Hero({ edition }: HeroProps) {
             image={heroImage}
             sizes="(min-width: 1024px) calc(100vw - 200px), 100vw"
             priority
-            className={cx(styles.image, enter({ rise: 'none', zoom: true }))}
+            className={cx(styles.image, css({ animationStyle: 'enter.zoom' }))}
           />
-          <div className={cx(styles.vignette, enter({ rise: 'none' }))} aria-hidden="true" />
+          <div
+            className={cx(styles.vignette, css({ animationStyle: 'enter.fade' }))}
+            aria-hidden="true"
+          />
         </div>
 
         <div className={styles.tapes}>

@@ -41,15 +41,12 @@ export const privacyPage = sva({
         flexDirection: 'column',
         gap: 'sm',
       },
-      '& li': { paddingLeft: 'md', borderLeft: '2px solid token(colors.borderDark)' },
+      '& li': { paddingLeft: 'md', borderLeft: '2px solid token(colors.divider)' },
     },
     settingsRow: {
       marginTop: 'xs',
       padding: 'md',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'borderDark',
-      borderRadius: '2px',
+      border: 'hairline',
       display: 'inline-flex',
     },
     updated: {

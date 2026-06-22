@@ -51,20 +51,22 @@ export function Dialog({
       lazyMount={false}
       unmountOnExit={false}
     >
-      <Portal>
-        <ArkDialog.Backdrop className={styles.backdrop} />
-        <ArkDialog.Positioner className={cx(styles.positioner, className)}>
-          <ArkDialog.Content
-            className={styles.content}
-            {...(ariaLabel ? { 'aria-label': ariaLabel } : {})}
-          >
-            {title !== undefined && (
-              <ArkDialog.Title className={styles.title}>{title}</ArkDialog.Title>
-            )}
-            {children}
-          </ArkDialog.Content>
-        </ArkDialog.Positioner>
-      </Portal>
+      {readyForInteraction && (
+        <Portal>
+          <ArkDialog.Backdrop className={styles.backdrop} />
+          <ArkDialog.Positioner className={cx(styles.positioner, className)}>
+            <ArkDialog.Content
+              className={styles.content}
+              {...(ariaLabel ? { 'aria-label': ariaLabel } : {})}
+            >
+              {title !== undefined && (
+                <ArkDialog.Title className={styles.title}>{title}</ArkDialog.Title>
+              )}
+              {children}
+            </ArkDialog.Content>
+          </ArkDialog.Positioner>
+        </Portal>
+      )}
     </ArkDialog.Root>
   )
 }

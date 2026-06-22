@@ -79,7 +79,7 @@ function VenuePlace({ venue }: { venue: VenueNode }) {
     <p className={styles.place}>
       {venue.address && <span>{venue.address}</span>}
       {venue.mapUrl && (
-        <Button asChild variant="text">
+        <Button asChild variant="link">
           <a href={venue.mapUrl} target="_blank" rel="noreferrer">
             <RiMapPinLine size={14} aria-hidden /> Map
           </a>
@@ -102,9 +102,7 @@ function EventList({ events, year }: { events: VenueEvent[]; year: number }) {
             <ul className={styles.chips}>
               {event.types.map((t) => (
                 <li key={t.slug}>
-                  <Badge tone="outline" size="sm">
-                    {t.title}
-                  </Badge>
+                  <Badge tone="outline">{t.title}</Badge>
                 </li>
               ))}
             </ul>

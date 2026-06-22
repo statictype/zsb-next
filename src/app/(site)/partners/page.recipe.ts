@@ -52,7 +52,7 @@ export const partnersPage = sva({
       position: 'relative',
       overflow: 'hidden',
       aspectRatio: '16 / 9',
-      border: '1px solid token(colors.borderDark)',
+      border: 'hairline',
       margin: '0',
     },
     eventImageImg: {
@@ -72,14 +72,14 @@ export const partnersPage = sva({
       position: 'relative',
       overflow: 'hidden',
       aspectRatio: '16 / 10',
-      border: '1px solid token(colors.borderLight)',
+      border: 'hairline',
     },
     whySculptureImg: { objectFit: 'cover', background: 'gray.200', filter: 'grayscale(100%)' },
 
     whyGrid: {
       display: 'grid',
       gridTemplateColumns: '1fr',
-      borderTop: '1px solid token(colors.borderLight)',
+      borderTop: 'hairline',
       md: { gridTemplateColumns: '1fr 1fr' },
     },
     whyPillar: {
@@ -87,12 +87,12 @@ export const partnersPage = sva({
       flexDirection: 'column',
       gap: 'md',
       paddingBlock: 'xl',
-      borderBottom: '1px solid token(colors.borderLight)',
+      borderBottom: 'hairline',
       md: {
         padding: 'xl',
         '&:nth-child(odd)': {
           paddingLeft: '0',
-          borderRight: '1px solid token(colors.borderLight)',
+          borderRight: 'hairline',
         },
         '&:nth-child(even)': { paddingRight: '0' },
       },
@@ -109,7 +109,7 @@ export const partnersPage = sva({
       fontSize: { base: 'lg', xl: 'xl' },
       textTransform: 'uppercase',
       lineHeight: 'tight',
-      color: 'headingLight',
+      color: 'heading',
       letterSpacing: 'tight',
       margin: '0',
     },
@@ -117,14 +117,14 @@ export const partnersPage = sva({
       fontFamily: 'body',
       fontSize: 'base',
       lineHeight: { base: 'body', md: 'loose' },
-      color: 'bodyLight',
+      color: 'body',
       maxWidth: '50ch',
     },
 
     // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
     // `partnerCtaInner` is the rail.
     partnerCta: {
-      borderTop: '1px solid token(colors.borderDark)',
+      borderTop: 'hairline',
     },
     partnerCtaInner: {
       maxWidth: 'maxWidth',

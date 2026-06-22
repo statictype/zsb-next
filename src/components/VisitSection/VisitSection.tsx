@@ -137,7 +137,7 @@ export function VisitSection(props: VisitData = {}) {
             </div>
 
             <div className={s.cta}>
-              <Button asChild variant="text">
+              <Button asChild variant="link">
                 <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
                   <RiMapPinLine size={16} />
                   Get Directions

@@ -59,9 +59,7 @@ export const featuredEvents = sva({
     },
 
     card: {
-      // staggered reveal (shared `enter()` on the element) — each card waits a
-      // beat longer than the last (--i); the reveal contract lives in `enter()`.
-      animationDelay: 'calc(var(--i, 0) * 90ms)',
+      // The shared `enter` animation style owns the stagger from `--i`.
       _hover: {
         '& img': { filter: 'grayscale(0%) contrast(1)', transform: 'scale(1.04)' },
         '& a': { color: 'action' },
@@ -85,7 +83,7 @@ export const featuredEvents = sva({
     },
     // Image-less card: a tonal stage for the vast faded day numeral.
     noPoster: {
-      background: 'linear-gradient(150deg, {colors.gray.900}, {colors.canvas} 70%)',
+      background: 'linear-gradient(150deg, {colors.gray.900}, {colors.surface} 70%)',
     },
 
     watermark: {
@@ -106,7 +104,7 @@ export const featuredEvents = sva({
       inset: '0',
       zIndex: '1',
       background:
-        'linear-gradient(to top, {colors.canvas} 2%, color-mix(in srgb, {colors.canvas} 72%, transparent) 26%, transparent 58%)',
+        'linear-gradient(to top, {colors.surface} 2%, color-mix(in srgb, {colors.surface} 72%, transparent) 26%, transparent 58%)',
       pointerEvents: 'none',
     },
     stamp: {

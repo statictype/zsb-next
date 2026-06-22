@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { cx } from 'styled-system/css'
 import { splitFirstMatch } from '@/lib/split-first-match'
 import { editionTheme } from './EditionTheme.recipe'
@@ -41,7 +42,7 @@ export function EditionTheme({
   return (
     <Tag
       className={cx(styles.root, className)}
-      style={delay ? { animationDelay: delay } : undefined}
+      style={delay ? ({ '--tape-delay': delay } as CSSProperties) : undefined}
     >
       {parts ? (
         <>

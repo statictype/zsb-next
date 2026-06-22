@@ -26,7 +26,7 @@ export const editionTheme = sva({
       lineHeight: '1',
       letterSpacing: 'tight',
       color: 'heading',
-      background: 'canvas',
+      background: 'surface',
       // em-derived so padding tracks the font size across the ladder.
       padding: '0.45em 0.6em',
       marginBlock: '2px',
@@ -37,7 +37,7 @@ export const editionTheme = sva({
       // The tape entrance — on every instance.
       opacity: '0',
       translate: '-12px 18px',
-      animation: 'tapeIn {durations.entrance} {easings.expo} forwards',
+      animationStyle: 'tape',
       _before: {
         content: '""',
         position: 'absolute',

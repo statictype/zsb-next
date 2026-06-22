@@ -38,7 +38,8 @@ describe('Dialog', () => {
     document.body.append(container)
     render(dialog, { container, hydrate: true })
 
-    expect(await screen.findByRole('dialog', { name: 'Cold event' })).toBeInTheDocument()
+    const hydratedDialog = await screen.findByRole('dialog', { name: 'Cold event' })
+    await waitFor(() => expect(hydratedDialog).toHaveFocus())
     await user.keyboard('{Escape}')
     expect(onClose).toHaveBeenCalledOnce()
   })

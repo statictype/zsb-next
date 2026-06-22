@@ -98,9 +98,7 @@ export const visitSection = sva({
       gridTemplateColumns: '1fr 1fr',
       gap: 'md',
       paddingTop: 'sm',
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderDark',
+      borderTop: 'hairline',
       md: { display: 'flex', flexWrap: 'wrap' },
     },
     practicalItem: {

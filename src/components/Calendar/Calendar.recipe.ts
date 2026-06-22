@@ -135,9 +135,7 @@ export const calendar = sva({
       fontWeight: 'semibold',
       color: 'gray.300',
       background: 'transparent',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'gray.700',
+      border: 'hairline',
       cursor: 'pointer',
       fontVariantNumeric: 'tabular-nums',
       transition:
@@ -158,9 +156,7 @@ export const calendar = sva({
     band: {
       marginBottom: '2xl',
       paddingTop: 'lg',
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderDark',
+      borderTop: 'hairline',
     },
     bandLabel: {
       fontFamily: 'body',
@@ -181,9 +177,7 @@ export const calendar = sva({
       display: 'flex',
       flexDirection: 'column',
       background: 'black',
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderColor: 'borderDark',
+      border: 'hairline',
       position: 'relative',
       // Gradient hover ring (masked to the 1px edge).
       _before: {
@@ -203,7 +197,7 @@ export const calendar = sva({
         transition: 'opacity {durations.normal} {easings.quint}',
       },
       _hover: {
-        '&::before': { opacity: 1, animation: 'gradientBorderShift 2s linear infinite' },
+        '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
         '& img': { filter: 'grayscale(30%) brightness(1)', transform: 'scale(1.03)' },
         '& a': { color: 'white' },
       },
@@ -269,9 +263,7 @@ export const calendar = sva({
       alignItems: 'flex-start',
       gap: 'md',
       paddingBlock: '2xl',
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderDark',
+      borderTop: 'hairline',
     },
     emptyText: {
       fontFamily: 'display',
@@ -289,9 +281,7 @@ export const calendar = sva({
       background: 'transparent',
       border: 'none',
       paddingBottom: '3px',
-      borderBottomWidth: '1px',
-      borderBottomStyle: 'solid',
-      borderBottomColor: 'gray.700',
+      borderBottom: 'hairline',
       cursor: 'pointer',
       transition:
         'color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}',
@@ -312,7 +302,7 @@ export const calendar = sva({
           bottom: '8px',
           left: 'var(--marker-col)',
           width: '1px',
-          background: 'borderDark',
+          background: 'divider',
         },
       },
     },
@@ -321,9 +311,7 @@ export const calendar = sva({
       flexDirection: 'column',
       gap: 'md',
       paddingBlock: 'lg',
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderDark',
+      borderTop: 'hairline',
       _first: { borderTopWidth: 0, paddingTop: 0 },
       '&[data-past=true]': {
         opacity: 0.42,
@@ -400,9 +388,7 @@ export const calendar = sva({
       flexDirection: 'column',
       gap: 'md',
       paddingBlock: 'md',
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderDark',
+      borderTop: 'hairline',
       position: 'relative',
       _first: { borderTopWidth: 0 },
       _hover: {

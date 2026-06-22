@@ -1,11 +1,9 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { cx } from 'styled-system/css'
-import { card } from 'styled-system/recipes'
 import { Carousel } from '@/components/Carousel/Carousel'
+import { EditionCard } from '@/components/EditionCard/EditionCard'
 import { editionsNav } from './EditionsNav.recipe'
 
 const styles = editionsNav()
@@ -68,45 +66,18 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
           const isUpcoming = edition.status === 'upcoming'
           const isCurrent = !isUpcoming && pathname === href
           const style = { ['--i']: i } as React.CSSProperties
-          // Unified card recipe + the strip's layout-local class. Only a live,
-          // non-current edition is interactive (hairline → accent on hover);
-          // current and upcoming are inert (current keeps a chartreuse hairline).
-          const cardClass = cx(
-            card({ ground: 'onDark', interactive: !isUpcoming && !isCurrent }),
-            styles.card,
-          )
-
-          const inner = (
-            <>
-              <span className={styles.cardTop}>
-                {isUpcoming ? (
-                  <span className={styles.soon}>Soon</span>
-                ) : isCurrent ? (
-                  <span className={styles.viewing}>Viewing</span>
-                ) : null}
-              </span>
-              <span className={styles.meta}>
-                <span className={styles.year}>ZSB {edition.year}</span>
-                <span className={styles.theme}>{edition.theme}</span>
-              </span>
-            </>
-          )
-
-          const content = isUpcoming ? (
-            <div className={cardClass} style={style} data-upcoming>
-              {inner}
-            </div>
-          ) : (
-            <Link
-              href={href}
-              className={cardClass}
+          const content = (
+            <EditionCard
+              year={edition.year}
+              theme={edition.theme}
+              status={isUpcoming ? 'upcoming' : isCurrent ? 'current' : 'live'}
+              media="none"
+              size="sm"
+              href={isUpcoming ? undefined : href}
+              className={styles.card}
               style={style}
-              data-current={isCurrent || undefined}
-              aria-current={isCurrent ? 'page' : undefined}
               draggable={false}
-            >
-              {inner}
-            </Link>
+            />
           )
           return { id: String(edition.year), content }
         })}

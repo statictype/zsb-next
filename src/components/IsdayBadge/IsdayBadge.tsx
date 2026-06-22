@@ -10,7 +10,7 @@ export function IsdayBadge({ className }: { className?: string | undefined }) {
       <div className={s.inner}>
         <div className={s.title}>#ISDAY</div>
         <div className={s.subtitle}>International Sculpture Day</div>
-        <Badge tone="dark" className={cx(s.pill)}>
+        <Badge tone="outline" className={cx(s.pill)}>
           <span className={s.pillDot} />
           <span>Official Participant</span>
         </Badge>

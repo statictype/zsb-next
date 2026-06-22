@@ -57,7 +57,7 @@ export const credits = sva({
     name: {
       fontFamily: 'display',
       fontSize: 'md',
-      color: 'headingLight',
+      color: 'heading',
       textTransform: 'uppercase',
       lineHeight: 'tight',
     },
@@ -86,9 +86,7 @@ export const credits = sva({
     partners: {
       marginTop: 'lg',
       paddingTop: 'lg',
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderLight',
+      borderTop: 'hairline',
       display: 'flex',
       flexDirection: 'column',
       gap: 'lg',
@@ -102,9 +100,7 @@ export const credits = sva({
     secondary: {
       marginTop: 'lg',
       paddingTop: 'lg',
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderTopColor: 'borderLight',
+      borderTop: 'hairline',
       display: 'flex',
       flexDirection: 'column',
       gap: 'lg',
@@ -131,7 +127,7 @@ export const credits = sva({
       fontFamily: 'body',
       fontWeight: 'regular',
       fontSize: 'sm',
-      color: 'bodyLight',
+      color: 'body',
       lineHeight: 'tight',
       '& span': {
         display: 'inline-flex',
