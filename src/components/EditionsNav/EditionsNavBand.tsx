@@ -11,17 +11,17 @@ const styles = editionsNav()
 export interface EditionEntry {
   year: number
   theme: string
+  themeHighlight?: string | undefined
   status: 'upcoming' | 'live'
 }
 
 /**
- * The editions rail: a horizontally draggable band of compact cards inside
- * the shared Carousel. It pairs with the footer below it — pure black,
- * hairline-boxed, no solid fills. Cards are the unified `card` recipe
- * (ZSB-71): live cards link to their edition and take the shared hover (the
- * hairline warms to the accent); upcoming editions are non-clickable "Soon"
- * cards (their route is gated `status != "upcoming"`); the edition you're
- * viewing keeps a persistent chartreuse hairline and is inert. A one-shot
+ * The editions rail: a horizontally draggable band of compact edition tape
+ * links inside the shared Carousel. It pairs with the footer below it — pure
+ * black, no boxed border. Live cards link to their edition and take the theme
+ * substring hover; upcoming editions are non-clickable "Soon" cards (their
+ * route is gated `status != "upcoming"`); the edition you're viewing gets a
+ * persistent "Viewing" badge. A one-shot
  * IntersectionObserver toggles `data-revealed` so the cards stagger in when the
  * strip scrolls into view (it's below the fold).
  */
@@ -70,6 +70,7 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
             <EditionCard
               year={edition.year}
               theme={edition.theme}
+              themeHighlight={edition.themeHighlight}
               status={isUpcoming ? 'upcoming' : isCurrent ? 'current' : 'live'}
               media="none"
               size="sm"

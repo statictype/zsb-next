@@ -23,7 +23,12 @@ async function CachedEditionsNav({ options }: { options: DynamicFetchOptions }) 
   if (editions.length === 0) return null
   return (
     <EditionsNavBand
-      editions={editions.map((e) => ({ year: e.year, theme: e.theme, status: e.status }))}
+      editions={editions.map((e) => ({
+        year: e.year,
+        theme: e.theme,
+        themeHighlight: e.themeHighlight,
+        status: e.status,
+      }))}
     />
   )
 }

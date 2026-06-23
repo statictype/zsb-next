@@ -22,6 +22,7 @@ import {
 export interface EditionListItem {
   year: number
   theme: string
+  themeHighlight?: string
   status: 'upcoming' | 'live'
   /** ISO `YYYY-MM-DD` edition start, when set — lets the latest/upcoming
    *  derivation (ADR 0016) place this edition. Absent for the online 2021. */
@@ -221,7 +222,7 @@ export async function getSitemapMetadataFromSanity() {
 
 /**
  * Lightweight edition list for the homepage cards. Returns just
- * `{ year, theme, status }` per edition. Editor may want to preview an
+ * `{ year, theme, themeHighlight, status }` per edition. Editor may want to preview an
  * upcoming-edition draft on the homepage, so this respects the
  * perspective the caller resolved.
  */
@@ -236,6 +237,7 @@ export async function getEditionsListFromSanity(
       definedFields({
         year: entry.year,
         theme: entry.theme,
+        themeHighlight: entry.themeHighlight ?? '',
         status: entry.status === 'upcoming' ? ('upcoming' as const) : ('live' as const),
         dateStart: entry.dateStart,
       }),

@@ -4,13 +4,14 @@ import { sva } from 'styled-system/css'
  * EditionTheme — the canonical "theme tape".
  *
  * One normalized tape, the edition-hero tape being the truth: lowercase display
- * type on a black tape, rotated −0.45°, inset + float drop-shadow, a 3px
- * chartreuse top rule, and the `tapeIn` entrance on every instance. Padding is
+ * type on a black tape, rotated −0.45°, inset + float drop-shadow, a shared
+ * chartreuse brush-stroke top rule, and the `tapeIn` entrance on every instance. Padding is
  * `em`-based so it scales with the font size. `size` is a named ladder (the
  * three real needs — huge hero / large featured / normal card) rather than a
  * free fontSize prop, because Panda must extract the responsive values
- * statically. `interactive` drives the highlight accent: static `action` at
- * rest (the edition hero) vs white-at-rest → `action` on `a:hover` (cards/nav).
+ * statically. `interactive` drives the highlight accent: static `highlight` at
+ * rest/current (the edition hero/current nav) vs white-at-rest → `action` on `a:hover`
+ * (cards/nav).
  * The entrance delay is the `delay` prop; only container positioning (the hero's
  * nav tuck) rides the caller's `className`.
  */
@@ -44,8 +45,10 @@ export const editionTheme = sva({
         top: '0',
         left: '0',
         right: '0',
-        height: '3px',
-        background: 'highlight',
+        height: 'brushStroke',
+        background:
+          'linear-gradient(90deg, token(colors.brushStroke) 0%, token(colors.brushStroke) 72%, transparent 100%)',
+        clipPath: 'token(assets.brushStrokeX)',
         opacity: '0.85',
       },
       _motionReduce: {
@@ -74,8 +77,8 @@ export const editionTheme = sva({
       },
     },
     interactive: {
-      // Static: the highlight is the accent at rest (the edition hero).
-      false: { highlight: { color: 'action' } },
+      // Static/current: the highlight is chartreuse at rest.
+      false: { highlight: { color: 'highlight' } },
       // Interactive: white at rest, accent on the card/link hover.
       true: { highlight: { color: 'inherit', 'a:hover &': { color: 'action' } } },
     },

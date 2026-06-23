@@ -16,6 +16,9 @@ interface EditionCardProps {
   media?: 'image' | 'none'
   size?: 'lg' | 'md' | 'sm'
   image?: Edition['thumbImage'] | Edition['heroImage'] | undefined
+  date?: string | undefined
+  artistCount?: number | undefined
+  location?: string | undefined
   href?: string | undefined
   className?: string | undefined
   style?: CSSProperties | undefined
@@ -31,6 +34,9 @@ export function EditionCard({
   media = 'image',
   size = 'md',
   image,
+  date,
+  artistCount,
+  location,
   href,
   className,
   style,
@@ -38,7 +44,25 @@ export function EditionCard({
   themeDelay,
 }: EditionCardProps) {
   const styles = editionCard({ media, size })
-  const interactive = status === 'live' && href != null
+  const canLink = status !== 'upcoming' && href != null
+  const interactive = status === 'live' && canLink
+  const activeThemeHighlight = status === 'upcoming' ? undefined : themeHighlight
+  const artistLabel =
+    artistCount == null ? undefined : `${artistCount} ${artistCount === 1 ? 'artist' : 'artists'}`
+  const meta = [date, artistLabel, location].filter((item): item is string => Boolean(item))
+  const yearBadge = <Badge className={styles.year}>{year}</Badge>
+  const statusBadge =
+    status !== 'live' ? (
+      <Badge tone="outline" className={styles.status}>
+        {status === 'current' ? 'Viewing' : 'Soon'}
+      </Badge>
+    ) : null
+  const badges = (
+    <div className={styles.badgeRow}>
+      {yearBadge}
+      {statusBadge}
+    </div>
+  )
   const cardProps = {
     ground: 'onDark' as const,
     interactive,
@@ -47,6 +71,17 @@ export function EditionCard({
     'data-current': status === 'current' || undefined,
     'data-upcoming': status === 'upcoming' || undefined,
   }
+  const themeTape = (
+    <EditionTheme
+      as="h2"
+      size={size === 'lg' ? 'large' : 'normal'}
+      interactive={interactive}
+      theme={theme}
+      themeHighlight={activeThemeHighlight}
+      delay={themeDelay}
+      className={media === 'none' ? styles.themeTape : undefined}
+    />
+  )
   const content = (
     <>
       {media === 'image' && image ? (
@@ -60,29 +95,36 @@ export function EditionCard({
             }
             className={styles.image}
           />
-          <Badge className={styles.year}>{year}</Badge>
+          {badges}
         </div>
       ) : null}
       <div className={styles.content}>
-        {media === 'none' ? <Badge className={styles.year}>{year}</Badge> : null}
-        <EditionTheme
-          as="h2"
-          size={size === 'lg' ? 'large' : 'normal'}
-          interactive={interactive}
-          theme={theme}
-          themeHighlight={themeHighlight}
-          delay={themeDelay}
-        />
-        {status !== 'live' ? (
-          <Badge tone="outline" className={styles.status}>
-            {status === 'current' ? 'Viewing' : 'Soon'}
-          </Badge>
+        {media === 'none' ? (
+          <div className={styles.themeRow} data-status={status !== 'live' || undefined}>
+            {themeTape}
+            <div className={styles.badgeStack}>
+              {yearBadge}
+              {statusBadge}
+            </div>
+          </div>
+        ) : (
+          themeTape
+        )}
+        {media === 'image' && meta.length > 0 ? (
+          <dl className={styles.meta} aria-label={`${year} edition details`}>
+            {meta.map((item) => (
+              <div key={item} className={styles.metaItem}>
+                <dt>{item === date ? 'Date' : item === artistLabel ? 'Artists' : 'Location'}</dt>
+                <dd>{item}</dd>
+              </div>
+            ))}
+          </dl>
         ) : null}
       </div>
     </>
   )
 
-  return href && status !== 'upcoming' ? (
+  return canLink ? (
     <Card
       as={Link}
       href={href}

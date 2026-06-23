@@ -247,6 +247,8 @@ const card = defineRecipe({
         '--colors-heading': '{colors.black}',
         '--colors-body': '{colors.gray.700}',
         '--colors-divider': '{colors.gray.200}',
+        '--colors-brush-stroke': '{colors.action}',
+        '--borders-hairline': '1px solid var(--colors-divider)',
       },
     },
     /** The one hover every card shares: the hairline warms to the accent.
@@ -280,6 +282,8 @@ const section = defineRecipe({
         '--colors-heading': '{colors.black}',
         '--colors-body': '{colors.gray.700}',
         '--colors-divider': '{colors.gray.200}',
+        '--colors-brush-stroke': '{colors.action}',
+        '--borders-hairline': '1px solid var(--colors-divider)',
       },
     },
     /** Vertical rhythm — the standard cadence vs the looser breathing-room one
@@ -790,6 +794,11 @@ export const designSystemPreset = definePreset({
         sizes: {
           // The site content rail (`.sectionInner` max-width).
           maxWidth: { value: '1800px' },
+          brushStroke: { value: '3px' },
+        },
+        assets: {
+          brushStrokeX: { value: 'polygon(0 0, 100% 0, 100% 38%, 68% 58%, 0 100%)' },
+          brushStrokeY: { value: 'polygon(0 0, 100% 0, 58% 68%, 38% 100%, 0 100%)' },
         },
         lineHeights: {
           display: { value: '1' },
@@ -850,6 +859,7 @@ export const designSystemPreset = definePreset({
           divider: { value: '{colors.gray.900}' },
           action: { value: '{colors.pink}' },
           highlight: { value: '{colors.chartreuse}' },
+          brushStroke: { value: '{colors.highlight}' },
         },
         zIndex: {
           nav: { value: '100' },

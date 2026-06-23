@@ -13,8 +13,8 @@ interface EditionThemeProps {
   as?: 'h1' | 'h2' | undefined
   /** Font-size ladder: `huge` (edition hero), `large` (featured card), `normal`. */
   size?: 'huge' | 'large' | 'normal' | undefined
-  /** `true` (cards / nav): highlight is white at rest, accent on `a:hover`.
-   *  `false` (edition hero): highlight is the accent at rest, static. */
+  /** `true` (cards / nav): highlight is white at rest, pink on `a:hover`.
+   *  `false` (edition hero/current nav): highlight is chartreuse at rest, static. */
   interactive?: boolean | undefined
   /** Entrance delay for the `tapeIn` reveal — a fixed value (the hero) or a
    *  stagger expression (`calc(var(--card-index)…)` on the editions cards). */

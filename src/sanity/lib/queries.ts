@@ -44,6 +44,7 @@ export const EDITIONS_LIST_QUERY = defineQuery(`
   *[_type == "edition" && defined(year)] | order(year desc) {
     year,
     theme,
+    themeHighlight,
     status,
     dateStart
   }
