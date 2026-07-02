@@ -16,9 +16,9 @@ interface EditionCardProps {
   media?: 'image' | 'none'
   size?: 'lg' | 'md' | 'sm'
   image?: Edition['thumbImage'] | Edition['heroImage'] | undefined
-  date?: string | undefined
-  artistCount?: number | undefined
-  location?: string | undefined
+  /** Source for the image card's meta row (date/artists/venue) — only read on
+   *  the `media="image"` branch; imageless rail cards omit it. */
+  edition?: Pick<Edition, 'dateTape' | 'artists' | 'venueLine'> | undefined
   href?: string | undefined
   className?: string | undefined
   style?: CSSProperties | undefined
@@ -34,9 +34,7 @@ export function EditionCard({
   media = 'image',
   size = 'md',
   image,
-  date,
-  artistCount,
-  location,
+  edition,
   href,
   className,
   style,
@@ -47,8 +45,11 @@ export function EditionCard({
   const canLink = status !== 'upcoming' && href != null
   const interactive = status === 'live' && canLink
   const activeThemeHighlight = status === 'upcoming' ? undefined : themeHighlight
-  const artistLabel =
-    artistCount == null ? undefined : `${artistCount} ${artistCount === 1 ? 'artist' : 'artists'}`
+  const date = edition?.dateTape.split(' · ')[0]
+  const artistLabel = edition
+    ? `${edition.artists.length} ${edition.artists.length === 1 ? 'artist' : 'artists'}`
+    : undefined
+  const location = edition?.venueLine
   const meta = [date, artistLabel, location].filter((item): item is string => Boolean(item))
   const yearBadge = <Badge className={styles.year}>{year}</Badge>
   const statusBadge =

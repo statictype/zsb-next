@@ -59,9 +59,7 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
                 theme={edition.theme}
                 themeHighlight={edition.themeHighlight}
                 image={thumb}
-                date={edition.dateTape.split(' · ')[0]}
-                artistCount={edition.artists.length}
-                location={edition.venueLine}
+                edition={edition}
                 href={`/editions/${year}`}
                 media="image"
                 size={isFeature ? 'lg' : 'md'}

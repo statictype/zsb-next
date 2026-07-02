@@ -3,16 +3,15 @@ import { describe, expect, it } from 'vitest'
 import { EditionCard } from './EditionCard'
 
 describe('EditionCard', () => {
+  const sampleEdition = {
+    dateTape: '10–20 May 2026',
+    artists: Array.from({ length: 37 }, (_, i) => `Artist ${i}`),
+    venueLine: 'Combinatul Fondului Plastic',
+  }
+
   it('renders archive edition details when image cards receive them', () => {
     render(
-      <EditionCard
-        year={2026}
-        theme="the weight of light"
-        date="10–20 May 2026"
-        artistCount={37}
-        location="Combinatul Fondului Plastic"
-        media="image"
-      />,
+      <EditionCard year={2026} theme="the weight of light" edition={sampleEdition} media="image" />,
     )
 
     expect(screen.getByText('10–20 May 2026')).toBeInTheDocument()
@@ -25,9 +24,7 @@ describe('EditionCard', () => {
       <EditionCard
         year={2026}
         theme="the weight of light"
-        date="10–20 May 2026"
-        artistCount={37}
-        location="Combinatul Fondului Plastic"
+        edition={sampleEdition}
         media="none"
         size="sm"
       />,
