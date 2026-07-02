@@ -4,6 +4,8 @@ import { defineLive, type LivePerspective, resolvePerspectiveFromCookies } from 
 import { client } from './client'
 import { readToken } from './token'
 
+export type { LivePerspective }
+
 export const { sanityFetch, SanityLive } = defineLive({
   client,
   serverToken: readToken,

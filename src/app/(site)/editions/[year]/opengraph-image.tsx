@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og'
-import { getAllEditionYears, getEdition } from '@/data/editions'
+import { getAllEditionYearParams, getEdition } from '@/data/editions'
 import { asciiFold, BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
 import { PUBLISHED } from '@/sanity/lib/live'
 
@@ -14,8 +14,7 @@ export const size = OG_SIZE
 export const contentType = OG_CONTENT_TYPE
 
 export async function generateStaticParams() {
-  const years = await getAllEditionYears()
-  return years.map((year) => ({ year: String(year) }))
+  return getAllEditionYearParams()
 }
 
 export default async function Image({ params }: { params: Promise<{ year: string }> }) {

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { RoutedEventModal } from '@/components/Calendar/RoutedEventModal'
-import { getAllEventParams, getEdition } from '@/data/editions'
+import { getAllEventParams, getEditionForMetadata } from '@/data/editions'
 import { eventMetadata } from '@/lib/seo'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
@@ -14,7 +14,7 @@ export async function generateMetadata(props: PageProps<'/editions/[year]/events
     props.params,
     getDynamicFetchOptions(),
   ])
-  const edition = await getEdition(Number(year), { perspective })
+  const edition = await getEditionForMetadata(Number(year), perspective)
   const event = findEvent(edition, slug)
   return event ? eventMetadata(Number(year), event) : {}
 }

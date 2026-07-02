@@ -1,18 +1,17 @@
 import { Suspense } from 'react'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
-import { getAllEditionYears, getEdition } from '@/data/editions'
+import { getAllEditionYearParams, getEditionForMetadata } from '@/data/editions'
 import { editionMetadata } from '@/lib/seo'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 import { CachedEdition } from './edition-content'
 
 export async function generateStaticParams() {
-  const years = await getAllEditionYears()
-  return years.map((year) => ({ year: String(year) }))
+  return getAllEditionYearParams()
 }
 
 export async function generateMetadata(props: PageProps<'/editions/[year]'>) {
   const [{ year }, { perspective }] = await Promise.all([props.params, getDynamicFetchOptions()])
-  const edition = await getEdition(Number(year), { perspective })
+  const edition = await getEditionForMetadata(Number(year), perspective)
   return edition ? editionMetadata(edition) : {}
 }
 

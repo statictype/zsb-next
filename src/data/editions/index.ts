@@ -8,7 +8,7 @@ import {
   getHeroEditionLeadFromSanity,
   getVisitEditionLeadFromSanity,
 } from '@/sanity/lib/editions'
-import { type DynamicFetchOptions, PUBLISHED } from '@/sanity/lib/live'
+import { type DynamicFetchOptions, type LivePerspective, PUBLISHED } from '@/sanity/lib/live'
 import type { CalendarEvent, Edition } from '@/types/edition'
 
 /**
@@ -134,6 +134,28 @@ export async function getFeaturedEvents(
 export async function getAllEditionYears(): Promise<number[]> {
   'use cache'
   return getEditionYearsFromSanity()
+}
+
+/**
+ * Every edition year as a route param — the generateStaticParams enumeration
+ * shared by the edition page and its opengraph-image route.
+ */
+export async function getAllEditionYearParams(): Promise<{ year: string }[]> {
+  'use cache'
+  const years = await getAllEditionYears()
+  return years.map((year) => ({ year: String(year) }))
+}
+
+/**
+ * A single edition for generateMetadata — resolves the caller's perspective
+ * (so the Presentation tool can preview drafts) with no stega, shared by the
+ * edition page and the event page's metadata.
+ */
+export async function getEditionForMetadata(
+  year: number,
+  perspective: LivePerspective,
+): Promise<Edition | undefined> {
+  return getEdition(year, { perspective })
 }
 
 /**
