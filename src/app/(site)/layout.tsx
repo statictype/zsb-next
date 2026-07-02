@@ -1,5 +1,4 @@
 import { draftMode } from 'next/headers'
-import { VisualEditing } from 'next-sanity/visual-editing'
 import { CookieBanner } from '@/components/CookieBanner/CookieBanner'
 import { DisableDraftMode } from '@/components/DisableDraftMode/DisableDraftMode'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -41,12 +40,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <DraftAware cached={(options) => <Footer fetchOptions={options} />} fallback={null} />
       <CookieBanner />
       <SanityLive includeDrafts={isDraftMode} />
-      {isDraftMode && (
-        <>
-          <DisableDraftMode />
-          <VisualEditing />
-        </>
-      )}
+      {isDraftMode && <DisableDraftMode />}
     </>
   )
 }

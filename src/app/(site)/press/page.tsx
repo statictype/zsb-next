@@ -1,4 +1,3 @@
-import { stegaClean } from '@sanity/client/stega'
 import { notFound } from 'next/navigation'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
@@ -148,7 +147,7 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
                     key={release._id}
                     year={release.publishedAt.slice(0, 4)}
                     title={release.title}
-                    href={release.pdfUrl ? stegaClean(release.pdfUrl) : undefined}
+                    href={release.pdfUrl ?? undefined}
                     external
                   />
                 ))}

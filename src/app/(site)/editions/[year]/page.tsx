@@ -12,9 +12,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: PageProps<'/editions/[year]'>) {
   const [{ year }, { perspective }] = await Promise.all([props.params, getDynamicFetchOptions()])
-  // Metadata never carries stega — stripping is built into the editions
-  // helper via the perspective + stega args.
-  const edition = await getEdition(Number(year), { perspective, stega: false })
+  const edition = await getEdition(Number(year), { perspective })
   return edition ? editionMetadata(edition) : {}
 }
 

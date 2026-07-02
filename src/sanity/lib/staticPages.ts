@@ -35,7 +35,7 @@ export interface VisitPageData {
 
 /**
  * Each fetcher follows the standard 3-layer pattern: caller resolves
- * perspective + stega outside the cache boundary, fetcher caches the mapped
+ * perspective outside the cache boundary, fetcher caches the mapped
  * result. A fetcher returns null when its singleton is absent — the route turns
  * that into `notFound()` (a missing page singleton is a 404, not an empty
  * render). A present singleton is normalized into a *total* view-model by the

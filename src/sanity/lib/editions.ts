@@ -4,7 +4,7 @@ import { definedFields } from '@/lib/defined-fields'
 import type { EditionLead } from '@/lib/derive-editions'
 import type { Edition } from '@/types/edition'
 import { mapEdition } from './editions-mappers'
-import { type DynamicFetchOptions, queryData } from './live'
+import { type DynamicFetchOptions, PUBLISHED, queryData } from './live'
 import {
   EDITION_BY_YEAR_QUERY,
   EDITION_YEARS_QUERY,
@@ -25,7 +25,7 @@ export interface EditionListItem {
 }
 
 /**
- * Cached fetch of a single edition. Caller must pass perspective + stega
+ * Cached fetch of a single edition. Caller must pass perspective
  * (resolved via `getDynamicFetchOptions` outside the cache boundary).
  * Mapped through `mapEdition` so the runtime shape stays stable.
  */
@@ -71,16 +71,16 @@ export async function getHeroEditionLeadFromSanity(
  */
 export async function getEditionYearsFromSanity(): Promise<number[]> {
   'use cache'
-  return (await queryData(EDITION_YEARS_QUERY, { perspective: 'published', stega: false })) ?? []
+  return (await queryData(EDITION_YEARS_QUERY, PUBLISHED)) ?? []
 }
 
 /**
- * Update timestamps for the sitemap, in one query. Published-only and
- * stega-free — the sitemap never previews drafts.
+ * Update timestamps for the sitemap, in one query. Published-only — the
+ * sitemap never previews drafts.
  */
 export async function getSitemapMetadataFromSanity() {
   'use cache'
-  return queryData(SITEMAP_QUERY, { perspective: 'published', stega: false })
+  return queryData(SITEMAP_QUERY, PUBLISHED)
 }
 
 /**

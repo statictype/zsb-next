@@ -8,7 +8,7 @@ import {
   getHeroEditionLeadFromSanity,
   getVisitEditionLeadFromSanity,
 } from '@/sanity/lib/editions'
-import type { DynamicFetchOptions } from '@/sanity/lib/live'
+import { type DynamicFetchOptions, PUBLISHED } from '@/sanity/lib/live'
 import type { CalendarEvent, Edition } from '@/types/edition'
 
 /**
@@ -147,7 +147,7 @@ export async function getAllEventParams(): Promise<{ year: string; slug: string 
   const years = await getAllEditionYears()
   const params: { year: string; slug: string }[] = []
   for (const year of years) {
-    const edition = await getEdition(year, { perspective: 'published', stega: false })
+    const edition = await getEdition(year, PUBLISHED)
     if (!edition) continue
     for (const event of edition.events ?? []) {
       params.push({ year: String(year), slug: event.slug })

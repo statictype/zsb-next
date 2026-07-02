@@ -17,34 +17,41 @@ export const { sanityFetch, SanityLive } = defineLive({
 
 export interface DynamicFetchOptions {
   perspective: LivePerspective
-  stega: boolean
 }
 
+/** The published-perspective default: build time, and every request outside
+ *  draft mode. The one place this literal is declared — everything else
+ *  that needs an explicit "give me the public content" fetch imports it. */
+export const PUBLISHED: DynamicFetchOptions = { perspective: 'published' }
+
 /**
- * Resolve the perspective + stega for a request. Must be called OUTSIDE
- * any `'use cache'` boundary (it reads draftMode + cookies, which are
- * request data). The resolved options are passed into cached helpers as
+ * Resolve the perspective for a request. Must be called OUTSIDE any
+ * `'use cache'` boundary (it reads draftMode + cookies, which are request
+ * data). The resolved options are passed into cached helpers as
  * serializable props so the cache can key on them.
  */
 export async function getDynamicFetchOptions(): Promise<DynamicFetchOptions> {
   const { isEnabled: isDraftMode } = await draftMode()
   if (!isDraftMode) {
-    return { perspective: 'published', stega: false }
+    return PUBLISHED
   }
   const jar = await cookies()
   const perspective = await resolvePerspectiveFromCookies({ cookies: jar })
-  return { perspective: perspective ?? 'drafts', stega: true }
+  return { perspective: perspective ?? 'drafts' }
 }
 
 /**
  * Bridge from resolved {@link DynamicFetchOptions} to `sanityFetch`: the single
- * place perspective + stega are threaded onto a query. Call from inside a
- * fetcher's `'use cache'` body — this helper is intentionally NOT cached itself,
- * so the cache boundary (and its tags) stays on the named fetcher.
+ * place perspective is threaded onto a query. Call from inside a fetcher's
+ * `'use cache'` body — this helper is intentionally NOT cached itself, so the
+ * cache boundary (and its tags) stays on the named fetcher.
  *
  * Mirrors `sanityFetch`'s `<const QueryString>` generic so the literal query
  * string keeps resolving to its generated result type instead of collapsing to
- * `unknown`.
+ * `unknown`. `stega` is always `false` — there is no click-to-edit visual
+ * editing in this app, so stega-encoded output is never wanted; `strict: true`
+ * on `defineLive()` still requires the field on the underlying `sanityFetch`
+ * call, so it's hardcoded here rather than threaded through our own options.
  */
 export async function queryData<const QueryString extends string>(
   query: QueryString,
@@ -55,14 +62,14 @@ export async function queryData<const QueryString extends string>(
     query,
     ...(params ? { params } : {}),
     perspective: options.perspective,
-    stega: options.stega,
+    stega: false,
   })
   return data
 }
 
 /**
  * For use inside generateStaticParams. Build-time only — no draft mode,
- * no stega, no cookie access.
+ * no cookie access.
  */
 export async function sanityFetchStaticParams<const QueryString extends string>({
   query,
@@ -79,8 +86,7 @@ export async function sanityFetchStaticParams<const QueryString extends string>(
 /**
  * For use inside generateMetadata / generateViewport / sitemap.ts /
  * opengraph-image.tsx. Resolves perspective so Presentation Tool can
- * preview metadata for drafts, but always strips stega — metadata in
- * <head> with invisible characters breaks search ranking.
+ * preview metadata for drafts.
  */
 export async function sanityFetchMetadata<const QueryString extends string>({
   query,

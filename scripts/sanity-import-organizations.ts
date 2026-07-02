@@ -100,7 +100,7 @@ async function collect(): Promise<Map<string, CollectedOrg>> {
   }
 
   for (const year of await getAllEditionYears()) {
-    const edition = await getEdition(year, { perspective: 'published', stega: false })
+    const edition = await getEdition(year, { perspective: 'published' })
     if (!edition) continue
     for (const credit of edition.credits) {
       const source = `${year} · ${credit.label}`

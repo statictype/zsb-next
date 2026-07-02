@@ -32,7 +32,7 @@ const styles = homePage()
 
 export async function generateMetadata() {
   const { perspective } = await getDynamicFetchOptions()
-  const home = await getHomepage({ perspective, stega: false })
+  const home = await getHomepage({ perspective })
   return pageMetadata({
     description: home?.metaDescription ?? SITE_DESCRIPTION,
     path: '/',

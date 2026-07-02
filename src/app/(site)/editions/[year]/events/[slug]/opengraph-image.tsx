@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 import { getAllEventParams, getEdition } from '@/data/editions'
 import { eventWhenLabel } from '@/lib/edition-dates'
 import { asciiFold, BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
-import { type DynamicFetchOptions } from '@/sanity/lib/live'
+import { PUBLISHED } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
 
 // Per-event share card (ZSB-41). Three cases, in priority order:
@@ -12,8 +12,6 @@ import { findEvent } from '@/types/edition'
 // The ZSB badge (ZSB-53) is composited over cases 2 + 3 once it lands; the
 // override (1) is always left untouched. Served by the event route so a scraper
 // resolves a real card from the shared URL (ADR 0015).
-
-const PUBLISHED: DynamicFetchOptions = { perspective: 'published', stega: false }
 
 export const alt = 'Bucharest Sculpture Days — event share image.'
 export const size = OG_SIZE

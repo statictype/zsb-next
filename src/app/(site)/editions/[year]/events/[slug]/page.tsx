@@ -7,14 +7,14 @@ import { findEvent } from '@/types/edition'
 import { CachedEdition, loadEdition } from '../../edition-content'
 
 // Title + description for a shared event link; the share card (og:image) is the
-// sibling opengraph-image route. Metadata always strips stega (perspective
-// resolved, stega: false) and caches nothing — safe under ADR 0012.
+// sibling opengraph-image route. Resolves perspective and caches nothing —
+// safe under ADR 0012.
 export async function generateMetadata(props: PageProps<'/editions/[year]/events/[slug]'>) {
   const [{ year, slug }, { perspective }] = await Promise.all([
     props.params,
     getDynamicFetchOptions(),
   ])
-  const edition = await getEdition(Number(year), { perspective, stega: false })
+  const edition = await getEdition(Number(year), { perspective })
   const event = findEvent(edition, slug)
   return event ? eventMetadata(Number(year), event) : {}
 }
