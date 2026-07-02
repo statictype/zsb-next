@@ -5,9 +5,10 @@ import {
   type CalendarFilterOptions,
   type CalendarFilters,
   DEFAULT_FILTERS,
+  parseFilters,
+  serializeFilters,
+  toggleSelection,
 } from './calendar-filters'
-import { toggleSelection } from './filter-selection'
-import { parseFilters, serializeFilters } from './url'
 
 // Filter state lives in the URL as real search params (ZSB-54): read with
 // `useSearchParams`, written with `router.replace`. The calendar renders inside

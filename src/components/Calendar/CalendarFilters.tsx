@@ -7,9 +7,10 @@ import { calendarFilters } from './CalendarFilters.recipe'
 import {
   type CalendarFilterOptions,
   type FilterOption,
+  type FilterSelection,
   type CalendarFilters as Filters,
+  isSelected,
 } from './calendar-filters'
-import { type FilterSelection, isSelected } from './filter-selection'
 
 interface CalendarFiltersProps {
   filterOptions: CalendarFilterOptions

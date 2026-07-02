@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import { css } from 'styled-system/css'
 import { Calendar } from '@/components/Calendar/Calendar'
 import { ComingSoon, type SocialLink } from '@/components/Calendar/ComingSoon'
+import { computeFilterOptions } from '@/components/Calendar/calendar-filters'
 import { Credits } from '@/components/Credits/Credits'
 import { ExternalGallery } from '@/components/ExternalGallery/ExternalGallery'
 import { Hero } from '@/components/Hero/Hero'
@@ -84,9 +85,17 @@ export async function CachedEdition({
           // The calendar reads `useSearchParams` (filters) on the client; a
           // Suspense boundary lets the rest of the cached page prerender while
           // only this subtree client-renders, keeping the route partial-prerender
-          // rather than fully dynamic (ADR 0015).
+          // rather than fully dynamic (ADR 0015). Filter options are pure
+          // aggregation over `events` — computed once here rather than on every
+          // client render.
           <Suspense fallback={null}>
-            <Calendar year={edition.year} events={events} theme={edition.theme} socials={socials} />
+            <Calendar
+              year={edition.year}
+              events={events}
+              filterOptions={computeFilterOptions(events)}
+              theme={edition.theme}
+              socials={socials}
+            />
           </Suspense>
         ) : (
           <ComingSoon year={edition.year} socials={socials} />

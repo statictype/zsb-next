@@ -2,7 +2,7 @@
 
 import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
-import { type ReactNode, useEffect, useRef } from 'react'
+import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
@@ -10,30 +10,15 @@ import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
 import { Collapsible } from '@/components/ui/Collapsible/Collapsible'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
-import {
-  type DayToken,
-  dayToken,
-  editionWindow,
-  formatShortRange,
-  isMultiDayRun,
-  isPastEvent,
-} from '@/lib/edition-dates'
+import { editionWindow, formatShortRange } from '@/lib/edition-dates'
 import { useTodayIso } from '@/lib/use-today-iso'
-import type { CalendarEvent } from '@/types/edition'
+import type { CalendarEvent, CalendarListEvent } from '@/types/edition'
 import { calendar } from './Calendar.recipe'
 import { CalendarFilters } from './CalendarFilters'
 import { CalendarShare, PROGRAM_SECTION_ID } from './CalendarShare'
 import type { SocialLink } from './ComingSoon'
-import {
-  applyFilters,
-  computeFilterOptions,
-  type CalendarFilters as Filters,
-  hasActiveFilters,
-  hasPastEvents,
-  hasUpcomingEvents,
-  matchesFilters,
-  resolveShowPast,
-} from './calendar-filters'
+import { type CalendarFilterOptions, deriveCalendarView } from './calendar-filters'
+import { HashScroller } from './HashScroller'
 import { useCalendarFilters } from './useCalendarFilters'
 
 // No variants — one shared instance for the component + its module-level helpers.
@@ -42,119 +27,31 @@ const s = calendar()
 interface CalendarProps {
   year: number
   events: CalendarEvent[]
+  /** Venue/type facets across the whole edition — computed once server-side
+   *  (`computeFilterOptions` is pure aggregation, independent of the visitor's
+   *  clock or selection, so there's no reason to recompute it on every render). */
+  filterOptions: CalendarFilterOptions
   /** Edition theme, for the finished-edition recap line (ZSB-45). */
   theme?: string
   /** Follow CTAs for the finished-edition recap (ZSB-45); empty hides them. */
   socials?: SocialLink[]
 }
 
-interface AgendaDay {
-  iso: string
-  token: DayToken
-  events: CalendarEvent[]
-}
-
-interface Schedule {
-  /** Multi-day runs (exhibitions) — shown in the "Ongoing" band, each with its range. */
-  onView: CalendarEvent[]
-  /** Single-day events, grouped and ordered by date. */
-  days: AgendaDay[]
-}
-
-// Untimed events sort before timed ones (empty string < "18:00"); ties break
-// by name so the order is stable across renders.
-function byTimeThenName(a: CalendarEvent, b: CalendarEvent): number {
-  return (a.startTime ?? '').localeCompare(b.startTime ?? '') || a.name.localeCompare(b.name)
-}
-
-// Split events into the "Ongoing" multi-day runs and the day-by-day agenda.
-// Pure so it stays cheap to test. The edition window is measured separately
-// (see `editionWindow`) on the full, unfiltered set.
-function buildSchedule(events: CalendarEvent[]): Schedule {
-  const onView: CalendarEvent[] = []
-  const byDay = new Map<string, CalendarEvent[]>()
-
-  for (const event of events) {
-    if (isMultiDayRun(event.startDate, event.endDate)) {
-      onView.push(event)
-    } else {
-      const bucket = byDay.get(event.startDate)
-      if (bucket) bucket.push(event)
-      else byDay.set(event.startDate, [event])
-    }
-  }
-
-  onView.sort(
-    (a, b) =>
-      a.startDate.localeCompare(b.startDate) ||
-      (a.endDate ?? '').localeCompare(b.endDate ?? '') ||
-      a.name.localeCompare(b.name),
-  )
-
-  const days: AgendaDay[] = [...byDay.keys()]
-    .sort((a, b) => a.localeCompare(b))
-    .map((iso) => ({
-      iso,
-      token: dayToken(iso) ?? {
-        weekday: '',
-        weekdayLong: '',
-        day: 0,
-        dayPadded: '',
-        month: '',
-        monthLong: '',
-        year: 0,
-      },
-      events: (byDay.get(iso) ?? []).sort(byTimeThenName),
-    }))
-
-  return { onView, days }
-}
-
-// Headline counts (ZSB-47). Upcoming/past split is judged client-side, so
-// before the clock resolves (`todayIso === null`) everything counts as
-// "upcoming" and no past affordance shows — matching the all-events shell.
-// `upcomingMatching` reacts to the venue/type filters; `upcoming`/`past` are
-// whole-edition totals, independent of the selection.
-function computeCounts(
-  events: CalendarEvent[],
-  filters: Filters,
-  todayIso: string | null,
-): { upcoming: number; upcomingMatching: number; past: number } {
-  if (todayIso === null) {
-    return { upcoming: events.length, upcomingMatching: events.length, past: 0 }
-  }
-  let upcoming = 0
-  let upcomingMatching = 0
-  let past = 0
-  for (const e of events) {
-    if (isPastEvent(e, todayIso)) past++
-    else {
-      upcoming++
-      if (matchesFilters(e, filters)) upcomingMatching++
-    }
-  }
-  return { upcoming, upcomingMatching, past }
-}
-
-export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
+export function Calendar({ year, events, filterOptions, theme, socials = [] }: CalendarProps) {
   const todayIso = useTodayIso()
-  const filterOptions = computeFilterOptions(events)
   const { filters, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(filterOptions)
 
-  // A shared link arrives as `/editions/<year>#program`, but the programme
-  // streams in behind the route's Suspense boundary (loading.tsx) — so the
-  // browser's native fragment scroll usually fires before this section exists
-  // and is lost. Re-run it once on mount, when the element is guaranteed here.
-  const sectionRef = useRef<HTMLElement>(null)
-  useEffect(() => {
-    if (window.location.hash === `#${PROGRAM_SECTION_ID}`) {
-      sectionRef.current?.scrollIntoView({ behavior: 'instant' })
-    }
-  }, [])
-
-  // Narrow to the active selection, then build the schedule from what's left.
-  const visible = applyFilters(events, filters, todayIso)
-  const { onView, days } = buildSchedule(visible)
+  const {
+    visible,
+    onView,
+    days,
+    upcoming,
+    upcomingMatching,
+    past,
+    showPast,
+    showPastControl,
+    canReset,
+  } = deriveCalendarView(events, filters, todayIso)
 
   // Edition window + live/ended judged on the WHOLE edition, never the filtered
   // subset — filtering to past-only on a live edition must keep the live "past"
@@ -163,21 +60,10 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
   const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
   const live = todayIso !== null && !ended
 
-  // Filter affordances. The past toggle only appears when it would actually
-  // change the view (the edition has both past and upcoming events); Reset
-  // lights up once the filters deviate from the all-selected default.
-  const showPast = resolveShowPast(filters, events, todayIso)
-  // The past toggle lives in the headline now (ZSB-47); it shows whenever past
-  // events could be revealed — i.e. a live edition with both past and upcoming.
-  const showPastControl =
-    todayIso !== null && hasPastEvents(events, todayIso) && hasUpcomingEvents(events, todayIso)
   const showFilterBar = filterOptions.venues.length > 1 || filterOptions.types.length > 1
-  const canReset = hasActiveFilters(filters)
 
   const windowLabel =
     editionStart && editionEnd ? formatShortRange(editionStart, editionEnd) : undefined
-
-  const { upcoming, upcomingMatching, past } = computeCounts(events, filters, todayIso)
 
   // "X of Y upcoming events", collapsing to "Y upcoming events" when the venue/
   // type filters aren't narrowing anything. A finished edition (nothing upcoming)
@@ -192,10 +78,10 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
   return (
     <section
       id={PROGRAM_SECTION_ID}
-      ref={sectionRef}
       className={cx(section({ ground: 'dark' }), s.section)}
       aria-labelledby="calendar-heading"
     >
+      <HashScroller id={PROGRAM_SECTION_ID} />
       <div className={s.inner}>
         <header className={s.header}>
           <div className={s.headerMain}>
@@ -406,7 +292,7 @@ function VenueLine({ venue }: { venue: CalendarEvent['venue'] }) {
   )
 }
 
-function EventRow({ event, year }: { event: CalendarEvent; year: number }) {
+function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
   return (
     <li className={s.event} data-poster={!!event.image}>
       <div className={s.eventBody}>
