@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useCallback } from 'react'
 import type { CalendarEvent } from '@/types/edition'
 import { EventModal } from './EventModal'
 
@@ -21,10 +20,10 @@ export function RoutedEventModal({
   editionHref: string
 }) {
   const router = useRouter()
-  const onClose = useCallback(() => {
+  const onClose = () => {
     if (intercepted) router.back()
     else router.push(editionHref)
-  }, [intercepted, editionHref, router])
+  }
 
   return <EventModal event={event} onClose={onClose} />
 }

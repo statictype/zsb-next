@@ -2,7 +2,7 @@
 
 import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
-import { type ReactNode, useEffect, useMemo, useRef } from 'react'
+import { type ReactNode, useEffect, useRef } from 'react'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
@@ -27,6 +27,7 @@ import type { SocialLink } from './ComingSoon'
 import {
   applyFilters,
   computeFilterOptions,
+  type CalendarFilters as Filters,
   hasActiveFilters,
   hasPastEvents,
   hasUpcomingEvents,
@@ -67,8 +68,8 @@ function byTimeThenName(a: CalendarEvent, b: CalendarEvent): number {
 }
 
 // Split events into the "Ongoing" multi-day runs and the day-by-day agenda.
-// Pure so it stays cheap to memoize and test. The edition window is measured
-// separately (see `editionWindow`) on the full, unfiltered set.
+// Pure so it stays cheap to test. The edition window is measured separately
+// (see `editionWindow`) on the full, unfiltered set.
 function buildSchedule(events: CalendarEvent[]): Schedule {
   const onView: CalendarEvent[] = []
   const byDay = new Map<string, CalendarEvent[]>()
@@ -109,9 +110,35 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
   return { onView, days }
 }
 
+// Headline counts (ZSB-47). Upcoming/past split is judged client-side, so
+// before the clock resolves (`todayIso === null`) everything counts as
+// "upcoming" and no past affordance shows — matching the all-events shell.
+// `upcomingMatching` reacts to the venue/type filters; `upcoming`/`past` are
+// whole-edition totals, independent of the selection.
+function computeCounts(
+  events: CalendarEvent[],
+  filters: Filters,
+  todayIso: string | null,
+): { upcoming: number; upcomingMatching: number; past: number } {
+  if (todayIso === null) {
+    return { upcoming: events.length, upcomingMatching: events.length, past: 0 }
+  }
+  let upcoming = 0
+  let upcomingMatching = 0
+  let past = 0
+  for (const e of events) {
+    if (isPastEvent(e, todayIso)) past++
+    else {
+      upcoming++
+      if (matchesFilters(e, filters)) upcomingMatching++
+    }
+  }
+  return { upcoming, upcomingMatching, past }
+}
+
 export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
   const todayIso = useTodayIso()
-  const filterOptions = useMemo(() => computeFilterOptions(events), [events])
+  const filterOptions = computeFilterOptions(events)
   const { filters, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(filterOptions)
 
   // A shared link arrives as `/editions/<year>#program`, but the programme
@@ -126,16 +153,13 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
   }, [])
 
   // Narrow to the active selection, then build the schedule from what's left.
-  const visible = useMemo(
-    () => applyFilters(events, filters, todayIso),
-    [events, filters, todayIso],
-  )
-  const { onView, days } = useMemo(() => buildSchedule(visible), [visible])
+  const visible = applyFilters(events, filters, todayIso)
+  const { onView, days } = buildSchedule(visible)
 
   // Edition window + live/ended judged on the WHOLE edition, never the filtered
   // subset — filtering to past-only on a live edition must keep the live "past"
   // greying, not flip the board into clean-archive mode.
-  const [editionStart, editionEnd] = useMemo(() => editionWindow(events), [events])
+  const [editionStart, editionEnd] = editionWindow(events)
   const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
   const live = todayIso !== null && !ended
 
@@ -153,27 +177,7 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
   const windowLabel =
     editionStart && editionEnd ? formatShortRange(editionStart, editionEnd) : undefined
 
-  // Headline counts (ZSB-47). Upcoming/past split is judged client-side, so
-  // before the clock resolves (`todayIso === null`) we just count everything as
-  // "upcoming" and show no past affordance — matching the all-events shell.
-  // `upcomingMatching` reacts to the venue/type filters; `upcoming`/`past` are
-  // whole-edition totals, independent of the selection.
-  const { upcoming, upcomingMatching, past } = useMemo(() => {
-    if (todayIso === null) {
-      return { upcoming: events.length, upcomingMatching: events.length, past: 0 }
-    }
-    let up = 0
-    let match = 0
-    let pastCount = 0
-    for (const e of events) {
-      if (isPastEvent(e, todayIso)) pastCount++
-      else {
-        up++
-        if (matchesFilters(e, filters)) match++
-      }
-    }
-    return { upcoming: up, upcomingMatching: match, past: pastCount }
-  }, [events, filters, todayIso])
+  const { upcoming, upcomingMatching, past } = computeCounts(events, filters, todayIso)
 
   // "X of Y upcoming events", collapsing to "Y upcoming events" when the venue/
   // type filters aren't narrowing anything. A finished edition (nothing upcoming)

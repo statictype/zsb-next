@@ -1,7 +1,6 @@
 'use client'
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useMemo } from 'react'
 import {
   type CalendarFilterOptions,
   type CalendarFilters,
@@ -32,36 +31,24 @@ export function useCalendarFilters(filterOptions: CalendarFilterOptions): UseCal
   const router = useRouter()
 
   const search = searchParams.toString()
-  const filters = useMemo(() => parseFilters(search), [search])
+  const filters = parseFilters(search)
 
-  const venueSlugs = useMemo(() => filterOptions.venues.map((o) => o.slug), [filterOptions])
-  const typeSlugs = useMemo(() => filterOptions.types.map((o) => o.slug), [filterOptions])
+  const venueSlugs = filterOptions.venues.map((o) => o.slug)
+  const typeSlugs = filterOptions.types.map((o) => o.slug)
 
   // Write the next filter state to the URL (replacing, no scroll jump),
   // preserving any unrelated params; `useSearchParams` re-reads once it lands.
-  const commit = useCallback(
-    (next: CalendarFilters) => {
-      const query = serializeFilters(next, search)
-      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
-    },
-    [router, pathname, search],
-  )
+  const commit = (next: CalendarFilters) => {
+    const query = serializeFilters(next, search)
+    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
+  }
 
-  const toggleVenue = useCallback(
-    (slug: string) =>
-      commit({ ...filters, venues: toggleSelection(filters.venues, slug, venueSlugs) }),
-    [commit, filters, venueSlugs],
-  )
-  const toggleType = useCallback(
-    (slug: string) =>
-      commit({ ...filters, types: toggleSelection(filters.types, slug, typeSlugs) }),
-    [commit, filters, typeSlugs],
-  )
-  const setShowPast = useCallback(
-    (value: boolean) => commit({ ...filters, showPast: value }),
-    [commit, filters],
-  )
-  const reset = useCallback(() => commit(DEFAULT_FILTERS), [commit])
+  const toggleVenue = (slug: string) =>
+    commit({ ...filters, venues: toggleSelection(filters.venues, slug, venueSlugs) })
+  const toggleType = (slug: string) =>
+    commit({ ...filters, types: toggleSelection(filters.types, slug, typeSlugs) })
+  const setShowPast = (value: boolean) => commit({ ...filters, showPast: value })
+  const reset = () => commit(DEFAULT_FILTERS)
 
   return { filters, toggleVenue, toggleType, setShowPast, reset }
 }
