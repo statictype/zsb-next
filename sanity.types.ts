@@ -1649,6 +1649,22 @@ export type ARTIST_BY_SLUG_QUERY_RESULT = {
 export type EDITION_YEARS_QUERY_RESULT = Array<number>
 
 // Source: src/sanity/lib/queries.ts
+// Variable: EVENT_PATHS_QUERY
+// Query: *[_type == "edition" && defined(year) && status != "upcoming"]{    year,    events[]{      "slug": slug.current,      name,      startDate,      "venue": venue->{ "slug": slug.current, name }    }  }
+export type EVENT_PATHS_QUERY_RESULT = Array<{
+  year: number
+  events: Array<{
+    slug: string | null
+    name: string
+    startDate: string
+    venue: {
+      slug: string | null
+      name: string
+    }
+  }> | null
+}>
+
+// Source: src/sanity/lib/queries.ts
 // Variable: SITEMAP_QUERY
 // Query: {    "editions": *[_type == "edition" && defined(year) && status != "upcoming"]      | order(year desc){ year, _updatedAt },    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{      _id,      _updatedAt    },    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]      | order(_updatedAt desc)[0]._updatedAt  }
 export type SITEMAP_QUERY_RESULT = {
@@ -1843,6 +1859,7 @@ declare module '@sanity/client' {
     '\n  *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc).name\n': ARTIST_NAMES_QUERY_RESULT
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc).year\n': EDITION_YEARS_QUERY_RESULT
+    '\n  *[_type == "edition" && defined(year) && status != "upcoming"]{\n    year,\n    events[]{\n      "slug": slug.current,\n      name,\n      startDate,\n      "venue": venue->{ "slug": slug.current, name }\n    }\n  }\n': EVENT_PATHS_QUERY_RESULT
     '\n  {\n    "editions": *[_type == "edition" && defined(year) && status != "upcoming"]\n      | order(year desc){ year, _updatedAt },\n    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{\n      _id,\n      _updatedAt\n    },\n    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]\n      | order(_updatedAt desc)[0]._updatedAt\n  }\n': SITEMAP_QUERY_RESULT
     '\n  *[_type == "edition" && year == $year && status != "upcoming"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip },\n    ogImage,\n    metaDescription,\n    manifesto,\n    themeSection,\n    hasProgram,\n    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,\n    events[] {\n      _key,\n      "slug": slug.current,\n      name,\n      startDate,\n      startTime,\n      endDate,\n      "types": types[]->{ "title": title, "slug": slug.current },\n      "venue": venue->{\n        name,\n        "slug": slug.current,\n        "type": type->title,\n        address,\n        mapUrl,\n        "partOf": partOf->{ name, "type": type->title }\n      },\n      description,\n      image{ ..., "lqip": asset->metadata.lqip },\n      ogImage{ ... },\n      facebookUrl,\n      ticketUrl,\n      featured\n    },\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
   }

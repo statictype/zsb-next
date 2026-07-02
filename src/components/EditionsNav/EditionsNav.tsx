@@ -1,16 +1,18 @@
+import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { getEditionListItems } from '@/data/editions'
-import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
+import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { EditionsNavBand } from './EditionsNavBand'
 
 /**
  * Full-width "browse the editions" band, placed just above the footer on the
- * edition pages, About, and Partners. Self-contained: it resolves its own
- * `DynamicFetchOptions` outside the cache boundary (ADR 0012), so a page only
- * has to render `<Suspense><EditionsNav /></Suspense>` after its content.
+ * edition pages, About, and Partners. Self-contained: it's `DraftAware`'s
+ * page→dynamic→cached triplet (ADR 0012) already wired up, so a page just
+ * renders `<EditionsNav />` with no Suspense wrapper of its own.
  */
-export async function EditionsNav() {
-  const options = await getDynamicFetchOptions()
-  return <CachedEditionsNav options={options} />
+export function EditionsNav() {
+  return (
+    <DraftAware cached={(options) => <CachedEditionsNav options={options} />} fallback={null} />
+  )
 }
 
 async function CachedEditionsNav({ options }: { options: DynamicFetchOptions }) {

@@ -1,6 +1,5 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
 import { css, cx } from 'styled-system/css'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
@@ -33,9 +32,7 @@ export default function PartnersRoute() {
   return (
     <>
       <DraftAware cached={(options) => <CachedPartners options={options} />} fallback={null} />
-      <Suspense>
-        <EditionsNav />
-      </Suspense>
+      <EditionsNav />
     </>
   )
 }

@@ -3,7 +3,6 @@ import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
-import { MediaKitStrip } from '@/components/MediaKitStrip/MediaKitStrip'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -22,6 +21,7 @@ import {
 } from '@/sanity/lib/press'
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 import type { MediaKitStripItem } from '@/types/edition'
+import { MediaKitStrip } from './_components/MediaKitStrip'
 import { pressPage } from './page.recipe'
 
 const styles = pressPage()

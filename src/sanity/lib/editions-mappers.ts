@@ -9,8 +9,6 @@ import { requireImageData, toImageData } from './image'
 
 export type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
 
-type SanityEvent = NonNullable<SanityEdition['events']>[number]
-
 // Words of the event name kept in an auto-derived slug — enough to disambiguate
 // while staying short ("opening-of-the-main-exhibition" → first five).
 const SLUG_NAME_WORDS = 5
@@ -21,9 +19,20 @@ function dateSlugPart(iso: string): string {
   return token ? `${token.day}-${token.month.toLowerCase()}` : slugify(iso)
 }
 
+// The minimal shape slug derivation needs — satisfied by both the full
+// per-event query result (mapEvents) and `EVENT_PATHS_QUERY`'s sparse
+// projection (getEventPathsFromSanity), so both go through the one
+// implementation below.
+export interface EventSlugInput {
+  slug?: string | null
+  name: string
+  startDate: string
+  venue: { slug?: string | null; name: string }
+}
+
 // The auto-derived event slug — date · venue · shortened name (ADR 0015). Uses
 // the venue's own `slug` (e.g. "cfp") when set, else its slugified name.
-function deriveEventSlug(e: SanityEvent): string {
+function deriveEventSlug(e: EventSlugInput): string {
   const venuePart = slugify(e.venue.slug ?? e.venue.name)
   const namePart = slugify(e.name).split('-').filter(Boolean).slice(0, SLUG_NAME_WORDS).join('-')
   return [dateSlugPart(e.startDate), venuePart, namePart].filter(Boolean).join('-')
@@ -43,9 +52,20 @@ function uniqueEventSlugs(bases: string[]): string[] {
   })
 }
 
+/**
+ * Every event's final slug, in order — editor override (slugified) first,
+ * else the auto-derived one, deduped across the edition. The one
+ * implementation of ADR 0015's slug rule; `mapEvents` and the static-params
+ * sparse query (`getEventPathsFromSanity`) both call this rather than each
+ * growing their own copy.
+ */
+export function deriveEventSlugs(events: EventSlugInput[]): string[] {
+  return uniqueEventSlugs(events.map((e) => (e.slug ? slugify(e.slug) : deriveEventSlug(e))))
+}
+
 export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
   if (!raw?.length) return undefined
-  const slugs = uniqueEventSlugs(raw.map((e) => (e.slug ? slugify(e.slug) : deriveEventSlug(e))))
+  const slugs = deriveEventSlugs(raw)
   return raw.map((e, i) =>
     definedFields({
       key: e._key,

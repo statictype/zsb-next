@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { section } from 'styled-system/recipes'
-import { IsdayBadge } from '@/components/IsdayBadge/IsdayBadge'
 import type { CreditEntry } from '@/types/edition'
 import { credits as creditsRecipe } from './Credits.recipe'
+import { IsdayBadge } from './IsdayBadge'
 
 interface CreditsProps {
   credits: CreditEntry[]

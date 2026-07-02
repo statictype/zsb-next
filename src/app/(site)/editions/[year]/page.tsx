@@ -1,4 +1,3 @@
-import { Suspense } from 'react'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { getAllEditionYearParams, getEditionForMetadata } from '@/data/editions'
 import { editionMetadata } from '@/lib/seo'
@@ -24,9 +23,7 @@ export default async function EditionPage(props: PageProps<'/editions/[year]'>) 
   return (
     <>
       <CachedEdition year={Number(year)} options={options} />
-      <Suspense>
-        <EditionsNav />
-      </Suspense>
+      <EditionsNav />
     </>
   )
 }

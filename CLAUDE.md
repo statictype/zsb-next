@@ -61,7 +61,8 @@ A missing CMS image falls back to a neutral **local** placeholder (`src/lib/plac
 
 ## Component conventions
 
-- One folder per component: `src/components/ComponentName/ComponentName.tsx` (+ a co-located `ComponentName.recipe.ts` when it needs multi-slot styling).
+- **Route-driven colocation**: `src/components` holds only components used by more than one route (check transitively — a component pulled in by a shared component like `EditionsNav` counts as multi-route). A component used by exactly one route lives in that route's `_components/` folder instead, one file per component (e.g. `src/app/(site)/visit/_components/VisitFaq.tsx`), flat — no per-component subfolder — except a multi-file subsystem (its own hooks/sub-components/tests, e.g. `Calendar`), which keeps a nested folder inside `_components/` so the route directory doesn't fill with loose files.
+- Shared components in `src/components` still get one folder per component: `src/components/ComponentName/ComponentName.tsx` (+ a co-located `ComponentName.recipe.ts` when it needs multi-slot styling).
 - Ark UI is a private implementation detail of one-piece site primitives under `src/components/ui/` (plus the shared Carousel). Pages and product components consume site-shaped APIs and never import Ark parts, contexts, anatomy, or change-detail types. Ark owns behavior and accessibility; Panda anatomy-aligned slot recipes own appearance.
 - Primitive `className` props apply to the outer root for layout placement only. Internal Ark state styling uses `data-*` selectors in the primitive recipe.
 - Icons: `@remixicon/react`.
