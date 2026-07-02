@@ -52,32 +52,45 @@ Three concrete findings fell out of the same investigation instead:
 
 Full writeup: `journal/use-cache-serialization-limits.md` (untracked).
 
-### Venue rollup: the "computed once" promise doesn't match what `groupVenuesByType` does
+## ❌ Rejected on inspection — Venue rollup "computed once" mismatch
 
 **Files:** `src/lib/venues.ts` (`rollUpVenue`, `groupVenuesByType`), `src/sanity/lib/editions.ts` (`mapEvents`).
 
-CONTEXT.md's Venue section says rollUp is "computed once... so those surfaces
-can't disagree." `rollUpVenue` itself is a one-line parent-or-self ternary
-(deletion test: inlining it into `mapEvents` loses nothing). The module with
-the real logic — `groupVenuesByType` — re-derives parent/child structure from
-the stamped rollUp rather than reusing a precomputed shape, so the real
-complexity isn't actually behind `rollUpVenue`'s seam.
+Originally flagged (from the initial survey) as `groupVenuesByType`
+re-deriving parent/child structure instead of reusing the precomputed
+`rollUp`, making CONTEXT.md's "computed once... can't disagree" claim
+inaccurate. Didn't hold up on a full read of `venues.ts`:
 
-**Candidate:** decide whether `rollUpVenue` should be inlined, and whether
-`groupVenuesByType`'s traversal is the thing that should be named/promoted as
-the actual "computed once" seam CONTEXT.md describes — then sharpen the
-CONTEXT.md wording to match.
+- All three real consumers — `calendar-filters.ts` (filter chips),
+  `seo.ts` (JSON-LD Places), and `groupVenuesByType` (`v.rollUp` at
+  `venues.ts:107`) — read the stamped `rollUp` directly; none re-touches
+  `partOf`. The "computed once" claim is literally true of the code.
+- `groupVenuesByType`'s tree-building (merging address/mapUrl, counting
+  events, sorting) is genuinely separate work from "what's this venue's
+  rolled-up identity" — `rollUp` was never meant to produce a tree, only a
+  flat grouping key. Nothing is being redone.
+- `rollUpVenue` is 3 lines but earns its keep by the "multiple consumers
+  depend on this one definition staying consistent" bar, not by line count.
+- Checked a plausible failure mode (child nodes keyed by raw `v.name` vs. the
+  calendar's `rollUp.slug` diverging on a capitalization mismatch) — not
+  possible in practice, since `partOf` is a Sanity document reference, not
+  free text, so a venue's `.name` always resolves identically.
 
-### `generateStaticParams` duplicated verbatim across the event page and its OG-image route
+CONTEXT.md's existing wording already separates "rollUp is the shared key"
+from "`groupVenuesByType` is the Visit-specific tree builder that consumes
+it" accurately — no doc change needed either.
 
-**Files:** `editions/[year]/events/[slug]/page.tsx`, `.../opengraph-image.tsx`.
+## ✅ Done — `generateStaticParams` duplicated verbatim across the event page and its OG-image route
 
-Both routes independently fetch all editions and flatten events into
-`(year, slug)` params — identical logic, no shared owner. If event-slug
-derivation in `mapEvents` changes, both copies have to be remembered by hand.
+**Files:** `editions/[year]/events/[slug]/page.tsx`, `.../opengraph-image.tsx`, `src/data/editions/index.ts`.
 
-**Candidate:** extract a single `getAllEventParams()` in the events data
-layer that both routes call.
+Both routes independently fetched all editions and flattened events into
+`(year, slug)` params — identical logic, no shared owner. Extracted
+`getAllEventParams()` into `src/data/editions/index.ts` (alongside
+`getAllEditionYears`, same `'use cache'` shape), both routes now just
+`return getAllEventParams()`. Confirmed via `pnpm build`: identical route
+table before/after (same 45 prerendered event pages, same `◐`/`ƒ`
+classification) — pure structural extraction, no behavior change. Landed.
 
 ### `staticPages.ts` `normalize*` mappers are exported only so tests can reach past the fetcher
 

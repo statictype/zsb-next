@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og'
-import { getAllEditionYears, getEdition } from '@/data/editions'
+import { getAllEventParams, getEdition } from '@/data/editions'
 import { eventWhenLabel } from '@/lib/edition-dates'
 import { asciiFold, BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
@@ -19,17 +19,9 @@ export const alt = 'Bucharest Sculpture Days — event share image.'
 export const size = OG_SIZE
 export const contentType = OG_CONTENT_TYPE
 
+// Enumeration is shared with the sibling event route via `getAllEventParams`.
 export async function generateStaticParams() {
-  const years = await getAllEditionYears()
-  const params: { year: string; slug: string }[] = []
-  for (const year of years) {
-    const edition = await getEdition(year, PUBLISHED)
-    if (!edition) continue
-    for (const event of edition.events ?? []) {
-      params.push({ year: String(year), slug: event.slug })
-    }
-  }
-  return params
+  return getAllEventParams()
 }
 
 export default async function Image({

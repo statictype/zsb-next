@@ -137,6 +137,26 @@ export async function getAllEditionYears(): Promise<number[]> {
 }
 
 /**
+ * Every (year, slug) pair for every event across every edition — the
+ * generateStaticParams enumeration shared by the event route and its
+ * opengraph-image route (ADR 0015), so a change to slug derivation in
+ * `mapEvents` only needs remembering in one place.
+ */
+export async function getAllEventParams(): Promise<{ year: string; slug: string }[]> {
+  'use cache'
+  const years = await getAllEditionYears()
+  const params: { year: string; slug: string }[] = []
+  for (const year of years) {
+    const edition = await getEdition(year, { perspective: 'published', stega: false })
+    if (!edition) continue
+    for (const event of edition.events ?? []) {
+      params.push({ year: String(year), slug: event.slug })
+    }
+  }
+  return params
+}
+
+/**
  * Edition list for the homepage cards, newest first. `status` (where an editor
  * flips an upcoming → live row) lives in Sanity, so this is a straight pass of
  * the Sanity list (already year-desc from the query).
