@@ -13,6 +13,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import {
   type DayToken,
   dayToken,
+  editionWindow,
   formatShortRange,
   isMultiDayRun,
   isPastEvent,
@@ -25,12 +26,11 @@ import { CalendarShare, PROGRAM_SECTION_ID } from './CalendarShare'
 import type { SocialLink } from './ComingSoon'
 import {
   applyFilters,
-  computeFacets,
-  editionWindow,
+  computeFilterOptions,
   hasActiveFilters,
   hasPastEvents,
   hasUpcomingEvents,
-  matchesFacets,
+  matchesFilters,
   resolveShowPast,
 } from './calendar-filters'
 import { useCalendarFilters } from './useCalendarFilters'
@@ -111,8 +111,8 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
 
 export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
   const todayIso = useTodayIso()
-  const facets = useMemo(() => computeFacets(events), [events])
-  const { filters, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(facets)
+  const filterOptions = useMemo(() => computeFilterOptions(events), [events])
+  const { filters, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(filterOptions)
 
   // A shared link arrives as `/editions/<year>#program`, but the programme
   // streams in behind the route's Suspense boundary (loading.tsx) — so the
@@ -147,7 +147,7 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
   // events could be revealed — i.e. a live edition with both past and upcoming.
   const showPastControl =
     todayIso !== null && hasPastEvents(events, todayIso) && hasUpcomingEvents(events, todayIso)
-  const showFilterBar = facets.venues.length > 1 || facets.types.length > 1
+  const showFilterBar = filterOptions.venues.length > 1 || filterOptions.types.length > 1
   const canReset = hasActiveFilters(filters)
 
   const windowLabel =
@@ -169,7 +169,7 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
       if (isPastEvent(e, todayIso)) pastCount++
       else {
         up++
-        if (matchesFacets(e, filters)) match++
+        if (matchesFilters(e, filters)) match++
       }
     }
     return { upcoming: up, upcomingMatching: match, past: pastCount }
@@ -263,7 +263,7 @@ export function Calendar({ year, events, theme, socials = [] }: CalendarProps) {
         <ArchiveCollapse ended={ended} count={events.length}>
           {showFilterBar && (
             <CalendarFilters
-              facets={facets}
+              filterOptions={filterOptions}
               filters={filters}
               canReset={canReset}
               onToggleVenue={toggleVenue}

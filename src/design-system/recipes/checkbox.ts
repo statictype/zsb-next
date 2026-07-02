@@ -3,7 +3,7 @@ import { defineSlotRecipe } from '@pandacss/dev'
 export const checkbox = defineSlotRecipe({
   className: 'checkbox',
   jsx: ['Checkbox'],
-  description: 'Controlled facet checkbox with Ark-owned interaction and site chip styling',
+  description: 'Controlled filter-option checkbox with Ark-owned interaction and site chip styling',
   slots: ['root', 'control', 'indicator', 'label'],
   base: {
     root: {

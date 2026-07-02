@@ -3,6 +3,7 @@ import {
   composeDateTape,
   dateParts,
   dayToken,
+  editionWindow,
   eventEndIso,
   eventWhenLabel,
   eventWhenLabelShort,
@@ -162,5 +163,18 @@ describe('eventEndIso / isPastEvent', () => {
     expect(isPastEvent({ startDate: '2026-04-15' }, today)).toBe(false)
     expect(isPastEvent({ startDate: '2026-04-01', endDate: '2026-04-20' }, today)).toBe(false)
     expect(isPastEvent({ startDate: '2026-04-01', endDate: '2026-04-14' }, today)).toBe(true)
+  })
+})
+
+describe('editionWindow', () => {
+  it('measures [earliest start, latest end] across the edition', () => {
+    expect(
+      editionWindow([
+        { startDate: '2026-04-12' },
+        { startDate: '2026-04-10', endDate: '2026-04-25' },
+        { startDate: '2026-04-18' },
+      ]),
+    ).toEqual(['2026-04-10', '2026-04-25'])
+    expect(editionWindow([])).toEqual([null, null])
   })
 })

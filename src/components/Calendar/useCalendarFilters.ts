@@ -3,13 +3,12 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useMemo } from 'react'
 import {
-  type CalendarFacets,
+  type CalendarFilterOptions,
   type CalendarFilters,
   DEFAULT_FILTERS,
-  parseFilters,
-  serializeFilters,
-  toggleSelection,
 } from './calendar-filters'
+import { toggleSelection } from './filter-selection'
+import { parseFilters, serializeFilters } from './url'
 
 // Filter state lives in the URL as real search params (ZSB-54): read with
 // `useSearchParams`, written with `router.replace`. The calendar renders inside
@@ -27,7 +26,7 @@ export interface UseCalendarFilters {
   reset: () => void
 }
 
-export function useCalendarFilters(facets: CalendarFacets): UseCalendarFilters {
+export function useCalendarFilters(filterOptions: CalendarFilterOptions): UseCalendarFilters {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()
@@ -35,8 +34,8 @@ export function useCalendarFilters(facets: CalendarFacets): UseCalendarFilters {
   const search = searchParams.toString()
   const filters = useMemo(() => parseFilters(search), [search])
 
-  const venueSlugs = useMemo(() => facets.venues.map((o) => o.slug), [facets])
-  const typeSlugs = useMemo(() => facets.types.map((o) => o.slug), [facets])
+  const venueSlugs = useMemo(() => filterOptions.venues.map((o) => o.slug), [filterOptions])
+  const typeSlugs = useMemo(() => filterOptions.types.map((o) => o.slug), [filterOptions])
 
   // Write the next filter state to the URL (replacing, no scroll jump),
   // preserving any unrelated params; `useSearchParams` re-reads once it lands.

@@ -174,3 +174,19 @@ export function eventEndIso(event: EventWhen): string {
 export function isPastEvent(event: EventWhen, todayIso: string): boolean {
   return eventEndIso(event) < todayIso
 }
+
+// ---- Edition window ----
+
+// The full edition window [earliest start, latest end] across every event.
+// Judged on the whole edition (never a filtered subset) so live/ended status
+// stays stable as the calendar's filters change.
+export function editionWindow(events: EventWhen[]): [string | null, string | null] {
+  let start: string | null = null
+  let end: string | null = null
+  for (const e of events) {
+    if (start === null || e.startDate < start) start = e.startDate
+    const eEnd = eventEndIso(e)
+    if (end === null || eEnd > end) end = eEnd
+  }
+  return [start, end]
+}

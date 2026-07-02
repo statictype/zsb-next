@@ -3,26 +3,19 @@ import { rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
 import {
   applyFilters,
-  computeFacets,
+  computeFilterOptions,
   DEFAULT_FILTERS,
-  editionWindow,
   hasActiveFilters,
   hasPastEvents,
   hasUpcomingEvents,
-  isAllSelected,
-  isNoneSelected,
-  isSelected,
-  parseFilters,
   resolveShowPast,
-  serializeFilters,
-  toggleSelection,
 } from './calendar-filters'
 
 const CFP = 'Combinatul Fondului Plastic'
 
 // Minimal event factory — only the fields the filter logic touches. The venue's
-// rolled-up identity is stamped with the real rule so the facet/match tests run
-// against production-shaped data (ZSB-65).
+// rolled-up identity is stamped with the real rule so the filter/match tests
+// run against production-shaped data (ZSB-65).
 function ev(
   partial: Partial<Omit<CalendarEvent, 'venue'>> &
     Pick<CalendarEvent, 'key' | 'startDate'> & { venue?: Omit<EventVenue, 'rollUp'> },
@@ -39,7 +32,7 @@ function ev(
   }
 }
 
-describe('hasUpcomingEvents / hasPastEvents / editionWindow', () => {
+describe('hasUpcomingEvents / hasPastEvents', () => {
   const events = [
     ev({ key: 'past', startDate: '2026-04-10' }),
     ev({ key: 'future', startDate: '2026-04-20' }),
@@ -49,17 +42,6 @@ describe('hasUpcomingEvents / hasPastEvents / editionWindow', () => {
     expect(hasPastEvents(events, '2026-04-15')).toBe(true)
     expect(hasUpcomingEvents(events, '2026-05-01')).toBe(false)
     expect(hasPastEvents(events, '2026-04-01')).toBe(false)
-  })
-
-  it('measures [earliest start, latest end] across the edition', () => {
-    expect(
-      editionWindow([
-        ev({ key: 'a', startDate: '2026-04-12' }),
-        ev({ key: 'b', startDate: '2026-04-10', endDate: '2026-04-25' }),
-        ev({ key: 'c', startDate: '2026-04-18' }),
-      ]),
-    ).toEqual(['2026-04-10', '2026-04-25'])
-    expect(editionWindow([])).toEqual([null, null])
   })
 })
 
@@ -85,7 +67,7 @@ describe('resolveShowPast', () => {
   })
 })
 
-describe('computeFacets', () => {
+describe('computeFilterOptions', () => {
   it('rolls sub-venues into their parent and counts events under the parent', () => {
     const events = [
       ev({ key: 'a', startDate: '2026-04-10', venue: { name: CFP, type: 'venue' } }),
@@ -105,7 +87,7 @@ describe('computeFacets', () => {
       }),
       ev({ key: 'd', startDate: '2026-04-13', venue: { name: 'Galeria Simeza', type: 'venue' } }),
     ]
-    const { venues } = computeFacets(events)
+    const { venues } = computeFilterOptions(events)
     expect(venues).toEqual([
       { slug: 'combinatul-fondului-plastic', label: CFP, count: 3 },
       { slug: 'galeria-simeza', label: 'Galeria Simeza', count: 1 },
@@ -124,36 +106,11 @@ describe('computeFacets', () => {
       }),
       ev({ key: 'b', startDate: '2026-04-11', types: [{ title: 'Opening', slug: 'opening' }] }),
     ]
-    const { types } = computeFacets(events)
+    const { types } = computeFilterOptions(events)
     expect(types).toEqual([
       { slug: 'opening', label: 'Opening', count: 2 },
       { slug: 'exhibition', label: 'Exhibition', count: 1 },
     ])
-  })
-})
-
-describe('facet selection helpers', () => {
-  it('treats null as all-selected and [] as none-selected', () => {
-    expect(isAllSelected(null)).toBe(true)
-    expect(isAllSelected([])).toBe(false)
-    expect(isNoneSelected([])).toBe(true)
-    expect(isNoneSelected(null)).toBe(false)
-    expect(isSelected(null, 'cfp')).toBe(true)
-    expect(isSelected(['cfp'], 'cfp')).toBe(true)
-    expect(isSelected(['cfp'], 'simeza')).toBe(false)
-    expect(isSelected([], 'cfp')).toBe(false)
-  })
-
-  it('toggles off from the all-selected default by expanding then removing', () => {
-    expect(toggleSelection(null, 'a', ['a', 'b', 'c'])).toEqual(['b', 'c'])
-  })
-
-  it('collapses back to null once everything is reselected', () => {
-    expect(toggleSelection(['b', 'c'], 'a', ['a', 'b', 'c'])).toBeNull()
-  })
-
-  it('reaches the none state by toggling off the last selected option', () => {
-    expect(toggleSelection(['a'], 'a', ['a', 'b'])).toEqual([])
   })
 })
 
@@ -182,7 +139,7 @@ describe('applyFilters', () => {
     }),
   ]
 
-  it('imposes no constraint when a facet is null (all selected)', () => {
+  it('imposes no constraint when a filter is null (all selected)', () => {
     expect(applyFilters(events, DEFAULT_FILTERS, '2026-04-01')).toHaveLength(3)
   })
 
@@ -195,16 +152,16 @@ describe('applyFilters', () => {
     expect(out.map((e) => e.key)).toEqual(['cfp-ex', 'una-talk'])
   })
 
-  it('shows nothing when a facet is empty (none selected)', () => {
+  it('shows nothing when a filter is empty (none selected)', () => {
     expect(applyFilters(events, { ...DEFAULT_FILTERS, venues: [] }, '2026-04-01')).toHaveLength(0)
   })
 
-  it('OR-combines within the type facet, matching any of an event’s types', () => {
+  it('OR-combines within the type filter, matching any of an event’s types', () => {
     const out = applyFilters(events, { ...DEFAULT_FILTERS, types: ['talk'] }, '2026-04-01')
     expect(out.map((e) => e.key)).toEqual(['una-talk', 'simeza-ex'])
   })
 
-  it('AND-combines across facets', () => {
+  it('AND-combines across filters', () => {
     const out = applyFilters(
       events,
       { ...DEFAULT_FILTERS, venues: ['galeria-simeza'], types: ['exhibition'] },
@@ -239,36 +196,5 @@ describe('hasActiveFilters', () => {
     expect(hasActiveFilters({ ...DEFAULT_FILTERS, venues: ['cfp'] })).toBe(true)
     expect(hasActiveFilters({ ...DEFAULT_FILTERS, venues: [] })).toBe(true)
     expect(hasActiveFilters({ ...DEFAULT_FILTERS, showPast: true })).toBe(true)
-  })
-})
-
-describe('parseFilters / serializeFilters', () => {
-  it('reads an absent param as all-selected (null) and a present one as a selection', () => {
-    expect(parseFilters('?venue=cfp,galeria&type=talk&past=1')).toEqual({
-      venues: ['cfp', 'galeria'],
-      types: ['talk'],
-      showPast: true,
-    })
-    expect(parseFilters('')).toEqual(DEFAULT_FILTERS)
-  })
-
-  it('reads an empty param as the none selection', () => {
-    expect(parseFilters('?venue=')).toEqual({ venues: [], types: null, showPast: null })
-  })
-
-  it('round-trips through serialize → parse, including the none state', () => {
-    const filters = { venues: ['cfp', 'galeria'], types: [], showPast: false }
-    expect(parseFilters(serializeFilters(filters))).toEqual(filters)
-  })
-
-  it('emits an empty string at the default', () => {
-    expect(serializeFilters(DEFAULT_FILTERS)).toBe('')
-  })
-
-  it('preserves unrelated params already on the URL', () => {
-    const query = serializeFilters({ ...DEFAULT_FILTERS, venues: ['cfp'] }, 'utm=fb')
-    const params = new URLSearchParams(query)
-    expect(params.get('utm')).toBe('fb')
-    expect(params.get('venue')).toBe('cfp')
   })
 })

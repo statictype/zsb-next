@@ -5,15 +5,14 @@ import { Button } from '@/components/ui/Button/Button'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 import { calendarFilters } from './CalendarFilters.recipe'
 import {
-  type CalendarFacets,
-  type FacetOption,
-  type FacetSelection,
+  type CalendarFilterOptions,
+  type FilterOption,
   type CalendarFilters as Filters,
-  isSelected,
 } from './calendar-filters'
+import { type FilterSelection, isSelected } from './filter-selection'
 
 interface CalendarFiltersProps {
-  facets: CalendarFacets
+  filterOptions: CalendarFilterOptions
   filters: Filters
   /** True once the filters deviate from the default — enables Reset. */
   canReset: boolean
@@ -22,7 +21,7 @@ interface CalendarFiltersProps {
   onReset: () => void
 }
 
-function FacetChips({
+function FilterChips({
   labelId,
   label,
   options,
@@ -31,14 +30,14 @@ function FacetChips({
 }: {
   labelId: string
   label: string
-  options: FacetOption[]
-  selection: FacetSelection
+  options: FilterOption[]
+  selection: FilterSelection
   onToggle: (slug: string) => void
 }) {
   const s = calendarFilters()
   return (
-    <div className={s.facet}>
-      <span className={s.facetLabel} id={labelId}>
+    <div className={s.filterRow}>
+      <span className={s.filterRowLabel} id={labelId}>
         {label}
       </span>
       <ul className={s.chips} aria-labelledby={labelId}>
@@ -59,7 +58,7 @@ function FacetChips({
 }
 
 export function CalendarFilters({
-  facets,
+  filterOptions,
   filters,
   canReset,
   onToggleVenue,
@@ -82,21 +81,21 @@ export function CalendarFilters({
         </Button>
       </div>
 
-      {facets.venues.length > 1 && (
-        <FacetChips
+      {filterOptions.venues.length > 1 && (
+        <FilterChips
           labelId="filter-venue"
           label="Venue"
-          options={facets.venues}
+          options={filterOptions.venues}
           selection={filters.venues}
           onToggle={onToggleVenue}
         />
       )}
 
-      {facets.types.length > 1 && (
-        <FacetChips
+      {filterOptions.types.length > 1 && (
+        <FilterChips
           labelId="filter-type"
           label="Type"
-          options={facets.types}
+          options={filterOptions.types}
           selection={filters.types}
           onToggle={onToggleType}
         />
