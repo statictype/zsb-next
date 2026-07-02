@@ -47,7 +47,10 @@ export async function CachedEdition({
   options: DynamicFetchOptions
 }) {
   'use cache'
-  const edition = await getEdition(year, options)
+  // Socials feed both the coming-soon follow CTA and a finished edition's recap
+  // (ZSB-45), so resolve them either way, and independently of the edition
+  // fetch (neither depends on the other's result) — same trip, not a waterfall.
+  const [edition, socials] = await Promise.all([getEdition(year, options), socialLinks(options)])
 
   if (!edition) {
     notFound()
@@ -56,12 +59,10 @@ export async function CachedEdition({
   // The program is an optional section (ADR 0018). When present: a live edition
   // with events shows the calendar; one with none yet is the forthcoming one and
   // stands in with a "coming soon" block (ZSB-34). When absent (the online-only
-  // 2021), no program block renders at all. Socials feed both the coming-soon
-  // follow CTA and a finished edition's recap (ZSB-45), so resolve them either way.
+  // 2021), no program block renders at all.
   const events = edition.events ?? []
   const hasEvents = events.length > 0
   const externalGallery = EXTERNAL_GALLERY_BY_YEAR[edition.year]
-  const socials = await socialLinks(options)
 
   return (
     <main className={css({ minHeight: '100vh' })}>
