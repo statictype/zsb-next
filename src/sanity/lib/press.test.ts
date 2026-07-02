@@ -1,13 +1,5 @@
-import { describe, expect, it, vi } from 'vitest'
-
-// press.ts imports the live data layer at module load; defineLive() throws
-// outside React Server Components. flattenKit is pure and never calls into it,
-// so stub the module to let the import resolve.
-vi.mock('./live', () => ({
-  queryData: async () => null,
-}))
-
-import { flattenKit } from './press'
+import { describe, expect, it } from 'vitest'
+import { flattenKit } from './press-mappers'
 
 type RawKit = Parameters<typeof flattenKit>[0]
 

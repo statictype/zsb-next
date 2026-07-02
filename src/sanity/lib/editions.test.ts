@@ -1,13 +1,5 @@
-import { describe, expect, it, vi } from 'vitest'
-
-// editions.ts imports the live data layer at module load; defineLive() throws
-// outside React Server Components. The mappers are pure and never call into
-// it, so stub the module to let the import resolve.
-vi.mock('./live', () => ({
-  queryData: async () => null,
-}))
-
-import { mapCredits, mapEdition, mapEvents } from './editions'
+import { describe, expect, it } from 'vitest'
+import { mapCredits, mapEdition, mapEvents } from './editions-mappers'
 
 type RawEvents = Parameters<typeof mapEvents>[0]
 type RawCredits = Parameters<typeof mapCredits>[0]

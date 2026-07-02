@@ -92,15 +92,40 @@ Both routes independently fetched all editions and flattened events into
 table before/after (same 45 prerendered event pages, same `◐`/`ƒ`
 classification) — pure structural extraction, no behavior change. Landed.
 
-### `staticPages.ts` `normalize*` mappers are exported only so tests can reach past the fetcher
+## ✅ Done (redirected) — `staticPages.ts` `normalize*` mappers exported only for tests
 
-**Files:** `src/sanity/lib/staticPages.ts` (`normalizeAbout`, `normalizePartners`, `normalizePrivacy`).
+**Files:** `src/sanity/lib/staticPages.ts`, `editions.ts`, `press.ts` and their tests.
 
-These are exported "for the co-located unit test," with no production caller
-besides their own fetcher. The tests cross a seam that isn't the interface
-real callers use (the fetcher is), so a bug in how the fetcher wires the
-mapper wouldn't be caught.
+Original framing ("un-export and test the fetcher end-to-end, matching this
+repo's existing fetcher-test convention") was wrong — that convention doesn't
+exist anywhere in this codebase. `docs/testing.md` is explicit: *"The live
+data layer is mocked, not hit... the functions under test are pure and never
+call it."* `editions.test.ts` does the identical thing (`vi.mock('./live', …)`
++ test the pure mappers directly). Testing fetchers end-to-end would also be
+largely pointless: `'use cache'` is a directive Next's compiler interprets —
+outside the Next build pipeline (i.e. in Vitest) it's inert, so "testing the
+fetcher" wouldn't exercise any real caching behavior, just `queryData` +
+mapper composition through much heavier Sanity-query-result-shaped fixtures.
 
-**Candidate:** un-export and test the fetcher end-to-end (mocking
-`queryData`, matching this repo's existing fetcher-test convention), or
-deliberately promote the mapper as a first-class module if it earns that.
+**The real finding, once pushed on:** the `vi.mock('./live', …)` boilerplate
+in all three test files (`editions.test.ts`, `press.test.ts`,
+`staticPages.test.ts`) is a symptom, not the disease. `./live` calls
+`defineLive()` at **module load time**, which throws outside a React Server
+Component. The pure mappers (`mapEvents`, `mapEdition`, `normalizeAbout`,
+`flattenKit`, etc.) were bundled in the *same file* as `'use cache'` fetchers
+that import `queryData` from `./live` — so importing a pure mapper for a test
+transitively pulled in RSC-only infrastructure it never touches, forcing the
+mock. Checked the mappers' own dependencies (`carousel.ts`, `image.ts`,
+`edition-dates.ts`, `slugify.ts`, `defined-fields.ts`, `derive-editions.ts`):
+none import `./live`. The one near-miss (`@/lib/seo`'s `FaqEntry` type) is
+already a type-only import, erased at compile time — zero runtime coupling.
+
+**Fix:** split all three files into `{name}.ts` (fetchers: `'use cache'`,
+`queryData`, delegates to mappers) + `{name}-mappers.ts` (pure, zero `./live`
+dependency) — `editions-mappers.ts`, `press-mappers.ts`,
+`staticPages-mappers.ts`. All three test files now import straight from the
+mappers module with **no mock at all**, not a better mock. Verified: `pnpm
+typecheck`/`lint`/`format` clean, all 162 unit tests pass, and `pnpm build`
+route table is byte-identical to before (same static/PPR/dynamic
+classification for every route). Zero external importers of any mapper
+existed outside its own file + test, confirmed by grep before moving anything.

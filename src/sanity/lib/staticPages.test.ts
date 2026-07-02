@@ -1,12 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
-
-// staticPages.ts imports the live data layer at module load; defineLive()
-// throws outside React Server Components. buildFaq / mapVisit are pure and
-// never call into it, so stub the module to let the import resolve.
-vi.mock('./live', () => ({
-  queryData: async () => null,
-}))
-
+import { describe, expect, it } from 'vitest'
 import {
   buildFaq,
   mapVisit,
@@ -14,7 +6,7 @@ import {
   normalizePartners,
   normalizePrivacy,
   type VisitPage,
-} from './staticPages'
+} from './staticPages-mappers'
 
 // buildFaq / mapVisit only read a handful of fields off the page; the cast
 // keeps fixtures small without reconstructing the full generated query type.
