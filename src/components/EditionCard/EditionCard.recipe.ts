@@ -3,7 +3,18 @@ import { sva } from 'styled-system/css'
 /** Archive image-card chrome only; the footer rail's imageless plate lives in
  *  EditionRailCard.recipe. */
 export const editionCard = sva({
-  slots: ['root', 'media', 'image', 'year', 'content', 'meta', 'metaItem'],
+  slots: [
+    'root',
+    'media',
+    'image',
+    'year',
+    'content',
+    'meta',
+    'details',
+    'venue',
+    'cta',
+    'ctaIcon',
+  ],
   base: {
     root: {
       height: '100%',
@@ -51,28 +62,58 @@ export const editionCard = sva({
       marginTop: '-3rem',
       padding: 'md',
     },
+    // One row: the unlabeled date/venue line on the left, the "View edition"
+    // cue on the right. Spacing above the row comes from `content`'s own
+    // gap; the hairline is the row's own top border.
     meta: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      gap: 'xs',
-      margin: '0',
-      padding: 'md 0 0',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 'sm',
+      marginTop: 'sm',
+      paddingTop: 'md',
       borderTop: 'hairline',
       color: 'body',
-      md: { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' },
     },
-    metaItem: {
-      display: 'grid',
-      gap: '2xs',
+    details: {
       minWidth: '0',
-      '& dt': { textStyle: 'metaLabel' },
-      '& dd': { margin: '0', fontSize: 'sm', lineHeight: 'body', textWrap: 'pretty' },
+      fontSize: 'sm',
+      lineHeight: 'body',
+      letterSpacing: 'subtle',
+      textWrap: 'pretty',
+    },
+    // Keeps the venue name from breaking mid-phrase — a narrow card wraps
+    // before the whole name, not between its words.
+    venue: { whiteSpace: 'nowrap' },
+    // The card's own link already carries the accessible name (tape + meta);
+    // this cue is a purely visual affordance, hidden from the a11y tree.
+    cta: {
+      display: 'flex',
+      alignItems: 'center',
+      flexShrink: '0',
+      gap: 'sm',
+      fontFamily: 'body',
+      fontSize: 'xs',
+      fontWeight: 'semibold',
+      letterSpacing: 'label',
+      textTransform: 'uppercase',
+      color: 'heading',
+      transition: 'color {durations.normal} {easings.expo}',
+      'a:hover &': { color: 'action' },
+    },
+    ctaIcon: {
+      transition: 'transform {durations.normal} {easings.expo}',
+      'a:hover &': { transform: 'translate(2px, -2px)' },
     },
   },
   variants: {
     size: {
-      lg: { media: { aspectRatio: '21 / 9' } },
-      md: { media: { aspectRatio: { base: '4 / 3', md: '16 / 10' } } },
+      // The panoramic ratio only reads as "featured" once the grid actually
+      // goes two-column and spans this card full-width (`lg`, page.recipe.ts).
+      // Below that it stacks single-column with the rest, so it matches their
+      // aspect ratio — otherwise it's the odd one out on mobile.
+      lg: { media: { aspectRatio: { base: '16 / 9', md: '21 / 9', lg: '21 / 9' } } },
+      md: { media: { aspectRatio: { base: '16 / 9', md: '21 / 9', lg: '16 / 10' } } },
     },
   },
   defaultVariants: { size: 'md' },

@@ -8,24 +8,19 @@ describe('EditionCard', () => {
     theme: 'the weight of light',
     themeHighlight: 'light',
     dateTape: '10–20 May 2026 · Combinatul Fondului Plastic',
-    artists: Array.from({ length: 37 }, (_, i) => `Artist ${i}`),
-    venueLine: 'Combinatul Fondului Plastic',
     heroImage: { src: '/img/hero.jpg', alt: 'Hero' },
   }
 
-  it('renders the meta row from the edition slice', () => {
+  it('renders the composed date/venue line', () => {
     render(<EditionCard edition={edition} href="/editions/2026" />)
 
-    // Date is the tape's first segment, before the " · " separator.
-    expect(screen.getByText('10–20 May 2026')).toBeInTheDocument()
-    expect(screen.getByText('37 artists')).toBeInTheDocument()
-    expect(screen.getByText('Combinatul Fondului Plastic')).toBeInTheDocument()
-  })
-
-  it('singularises a one-artist count', () => {
-    render(<EditionCard edition={{ ...edition, artists: ['Solo'] }} href="/editions/2026" />)
-
-    expect(screen.getByText('1 artist')).toBeInTheDocument()
+    // The venue name is a separate nowrap span within the line, so match on
+    // the combined text content rather than a single text node.
+    expect(
+      screen.getByText(
+        (_, node) => node?.textContent === '10–20 May 2026 · Combinatul Fondului Plastic',
+      ),
+    ).toBeInTheDocument()
   })
 
   it('is always a link to the edition page', () => {

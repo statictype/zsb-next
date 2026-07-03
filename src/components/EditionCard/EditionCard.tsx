@@ -1,3 +1,4 @@
+import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
 import type { RecipeVariantProps } from 'styled-system/types'
@@ -10,17 +11,11 @@ import { editionCard } from './EditionCard.recipe'
 
 /** The slice of `Edition` the archive card reads. Derived with `Pick` so it
  *  can't drift from the domain type — a fetched `Edition` satisfies it
- *  structurally and passes straight through. */
+ *  structurally and passes straight through. `dateTape` already composes
+ *  "date · venue", so the card doesn't need `venueLine` separately. */
 export type EditionCardData = Pick<
   Edition,
-  | 'year'
-  | 'theme'
-  | 'themeHighlight'
-  | 'dateTape'
-  | 'artists'
-  | 'venueLine'
-  | 'heroImage'
-  | 'thumbImage'
+  'year' | 'theme' | 'themeHighlight' | 'dateTape' | 'heroImage' | 'thumbImage'
 >
 
 /** Bound to the recipe's variants: renaming or removing a size there
@@ -38,11 +33,11 @@ interface EditionCardProps {
 }
 
 /**
- * The archive edition card (/editions): image, year badge, theme tape, and a
- * date/artists/venue meta row. Always a live link — upcoming editions never
- * reach the archive grid (their pages are gated `status != "upcoming"`). The
- * imageless plate in the footer rail is `EditionRailCard`, which shares the
- * `EditionTheme` tape, not this card.
+ * The archive edition card (/editions): image, year badge, theme tape, an
+ * unlabeled date/venue line, and a decorative "View edition" cue. Always a
+ * live link — upcoming editions never reach the archive grid (their pages
+ * are gated `status != "upcoming"`). The imageless plate in the footer rail
+ * is `EditionRailCard`, which shares the `EditionTheme` tape, not this card.
  */
 export function EditionCard({
   edition,
@@ -52,12 +47,9 @@ export function EditionCard({
   className,
 }: EditionCardProps) {
   const styles = editionCard({ size })
-  const artistCount = edition.artists.length
-  const meta = [
-    { label: 'Date', value: edition.dateTape.split(' · ')[0] },
-    { label: 'Artists', value: `${artistCount} ${artistCount === 1 ? 'artist' : 'artists'}` },
-    { label: 'Location', value: edition.venueLine },
-  ].filter((entry): entry is { label: string; value: string } => Boolean(entry.value))
+  // `dateTape` is composed as "date · venue"; keep the venue name intact as
+  // one wrap unit so a narrow card breaks before it, not inside it.
+  const [date, venue] = edition.dateTape.split(' · ')
 
   return (
     <Card as={Link} href={href} ground="onDark" interactive className={cx(styles.root, className)}>
@@ -80,16 +72,21 @@ export function EditionCard({
           themeHighlight={edition.themeHighlight}
           delay={themeDelay}
         />
-        {meta.length > 0 ? (
-          <dl className={styles.meta} aria-label={`${edition.year} edition details`}>
-            {meta.map(({ label, value }) => (
-              <div key={label} className={styles.metaItem}>
-                <dt>{label}</dt>
-                <dd>{value}</dd>
-              </div>
-            ))}
-          </dl>
-        ) : null}
+        <div className={styles.meta}>
+          <span className={styles.details}>
+            {venue ? (
+              <>
+                {date} · <span className={styles.venue}>{venue}</span>
+              </>
+            ) : (
+              edition.dateTape
+            )}
+          </span>
+          <span className={styles.cta} aria-hidden>
+            View edition
+            <RiArrowRightUpLine size={16} className={styles.ctaIcon} />
+          </span>
+        </div>
       </div>
     </Card>
   )
