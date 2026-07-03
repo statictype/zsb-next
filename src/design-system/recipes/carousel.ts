@@ -14,7 +14,6 @@ export const carousel = defineSlotRecipe({
     'indicatorGroup',
     'indicator',
     'autoplayTrigger',
-    'progressText',
   ],
   base: {
     root: { position: 'relative', width: '100%', minWidth: 0 },
@@ -63,12 +62,6 @@ export const carousel = defineSlotRecipe({
       _hover: { color: 'action' },
       _disabled: { opacity: 0.5, cursor: 'not-allowed' },
       _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
-    },
-    progressText: {
-      textStyle: 'metaLabel',
-      color: 'muted',
-      fontVariantNumeric: 'tabular-nums',
-      marginLeft: 'auto',
     },
     indicatorGroup: { display: 'flex', alignItems: 'center', gap: '10px' },
     indicator: {

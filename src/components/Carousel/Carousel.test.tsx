@@ -39,7 +39,6 @@ describe('Carousel', () => {
 
     expect(screen.getByRole('region', { name: 'Gallery' })).toBeInTheDocument()
     expect(screen.getByText('Photographs')).toBeInTheDocument()
-    expect(screen.getByText('1 / 3')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Previous gallery slide' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Next gallery slide' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /play gallery|pause gallery/i })).toBeNull()

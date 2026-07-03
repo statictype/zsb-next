@@ -96,7 +96,6 @@ export function Carousel({
         item: (index, count) => `${index + 1} of ${count}`,
         autoplayStart: `Play ${label.toLowerCase()}`,
         autoplayStop: `Pause ${label.toLowerCase()}`,
-        progressText: ({ page, totalPages }) => `${page} / ${totalPages}`,
       }}
       onDragStatusChange={(details) => {
         if (details.type !== 'dragging.end') return
@@ -130,7 +129,6 @@ export function Carousel({
           const controls = (
             <ArkCarousel.Control className={styles.control}>
               {mode === 'rail' && eyebrow !== undefined && <Eyebrow>{eyebrow}</Eyebrow>}
-              {mode === 'rail' && <ArkCarousel.ProgressText className={styles.progressText} />}
               {mode === 'stage' && slides.length > 1 && (
                 <ArkCarousel.IndicatorGroup className={styles.indicatorGroup}>
                   {slides.map((slide, index) => (
