@@ -24,6 +24,18 @@ export const editionRailCard = sva({
       whiteSpace: 'nowrap',
       // Air between the brush-stroke rule and the stamped row.
       paddingTop: '0.8em',
+      // `&[class]` (not `!`) bumps specificity so these reliably beat
+      // EditionTheme's own classes for the same properties, instead of the
+      // outcome depending on generated CSS order.
+      '&[class]': {
+        // One step up from EditionTheme's own mobile size (xl → 2xl),
+        // matching its ladder at every other breakpoint.
+        fontSize: { base: '2xl', md: '3xl', lg: 'xl', xl: '2xl', '4xl': '3xl' },
+        // Only the rail drops the left inset: badges start flush with the
+        // brush-stroke rule's own left edge. Other tape call sites (hero,
+        // archive card) keep EditionTheme's padding.
+        paddingLeft: '0',
+      },
     },
   },
   variants: {
