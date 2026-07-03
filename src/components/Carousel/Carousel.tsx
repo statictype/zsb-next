@@ -198,7 +198,17 @@ export function Carousel({
               {mode === 'rail' && controls}
               <ArkCarousel.ItemGroup className={styles.itemGroup}>
                 {slides.map((slide, index) => (
-                  <ArkCarousel.Item key={slide.id} index={index} className={styles.item}>
+                  <ArkCarousel.Item
+                    key={slide.id}
+                    index={index}
+                    className={styles.item}
+                    // Zag stamps an inline `maxWidth: 100%` on items even with
+                    // `autoSize`, clamping the slide box while wider-than-track
+                    // content (the editions plates) paints past it onto the
+                    // next slide. Ark merges this style prop over its own, so
+                    // rail items truly size to their content.
+                    style={mode === 'rail' ? { maxWidth: 'none' } : undefined}
+                  >
                     <div data-carousel-slide-content>{slide.content}</div>
                   </ArkCarousel.Item>
                 ))}

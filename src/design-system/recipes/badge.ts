@@ -22,6 +22,11 @@ export const badge = defineRecipe({
     fontSize: '10px',
     paddingInline: '12px',
     paddingBlock: '6px',
+    // Every tone carries the same hairline (invisible on the solid fill, where
+    // it matches the bg) so mixed tones sit at one height side by side.
+    borderWidth: '0.5px',
+    borderStyle: 'solid',
+    borderColor: 'highlight',
   },
   variants: {
     tone: {
@@ -29,7 +34,7 @@ export const badge = defineRecipe({
       // old `outline` (chartreuse) and `muted` (gray) hairlines were the same
       // role on different grounds — collapsed to one brand-forward hairline.
       highlight: { bg: 'highlight', color: 'black' },
-      outline: { bg: 'black', color: 'highlight', border: 'highlight' },
+      outline: { bg: 'black', color: 'highlight' },
     },
   },
   defaultVariants: { tone: 'highlight' },

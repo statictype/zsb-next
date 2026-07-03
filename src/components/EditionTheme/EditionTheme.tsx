@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { splitFirstMatch } from '@/lib/split-first-match'
 import { editionTheme } from './EditionTheme.recipe'
@@ -6,6 +6,10 @@ import { editionTheme } from './EditionTheme.recipe'
 interface EditionThemeProps {
   /** The edition theme line (e.g. "the weight of light"). */
   theme: string
+  /** Stamped inside the band, before the theme text (the editions rail's
+   *  year/status badges). Part of the heading's accessible name — pass only
+   *  content that reads sensibly there. */
+  lead?: ReactNode | undefined
   /** A substring of `theme` to accent. When set, the tape splits on its first
    *  occurrence and wraps it in the highlight span. */
   themeHighlight?: string | undefined
@@ -30,6 +34,7 @@ interface EditionThemeProps {
  */
 export function EditionTheme({
   theme,
+  lead,
   themeHighlight,
   as: Tag = 'h2',
   size = 'normal',
@@ -44,6 +49,11 @@ export function EditionTheme({
       className={cx(styles.root, className)}
       style={delay ? ({ '--tape-delay': delay } as CSSProperties) : undefined}
     >
+      {/* The trailing space is invisible to flex layout but keeps the
+          heading's accessible name from fusing lead and theme ("2026 the…"
+          instead of "2026the…"). */}
+      {lead ? <span className={styles.lead}>{lead}</span> : null}
+      {lead ? ' ' : null}
       {parts ? (
         <>
           {parts.before}

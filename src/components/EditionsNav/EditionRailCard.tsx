@@ -31,10 +31,11 @@ type EditionRailCardProps = RailPlacement & {
 
 /**
  * One plate in the editions rail: a borderless Card wrapping the shared
- * EditionTheme tape — the rail reuses the tape, not the archive EditionCard.
- * Live plates link and take the theme substring hover; the edition being
- * viewed is an inert link with a "Viewing" badge; upcoming editions are muted
- * "Soon" plates with no link and no highlight.
+ * EditionTheme tape, with the year/status badges stamped inside the band via
+ * the tape's `lead` slot — one solid object, no satellite elements. Live
+ * plates link and take the theme substring hover; the edition being viewed is
+ * an inert link with a "Viewing" badge; upcoming editions are muted "Soon"
+ * plates with no link and no highlight.
  */
 export function EditionRailCard({ edition, status, href, className, style }: EditionRailCardProps) {
   const styles = editionRailCard({ status })
@@ -58,16 +59,23 @@ export function EditionRailCard({ edition, status, href, className, style }: Edi
       style={style}
       {...link}
     >
-      <div className={styles.badgeStack}>
-        <Badge>{edition.year}</Badge>
-        {statusBadge ? <Badge tone="outline">{statusBadge}</Badge> : null}
-      </div>
       <EditionTheme
         as="h2"
         interactive={interactive}
         theme={edition.theme}
         themeHighlight={status === 'upcoming' ? undefined : edition.themeHighlight}
         className={styles.tape}
+        lead={
+          <>
+            <Badge>{edition.year}</Badge>
+            {statusBadge ? (
+              <>
+                {' '}
+                <Badge tone="outline">{statusBadge}</Badge>
+              </>
+            ) : null}
+          </>
+        }
       />
     </Card>
   )

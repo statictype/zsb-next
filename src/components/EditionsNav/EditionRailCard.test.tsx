@@ -12,16 +12,20 @@ describe('EditionRailCard', () => {
     render(<EditionRailCard edition={edition} status="live" href="/editions/2026" />)
 
     expect(screen.getByRole('link')).toHaveAttribute('href', '/editions/2026')
-    const heading = screen.getByRole('heading', { name: 'the weight of light' })
-    expect(heading.querySelector('span')).not.toBeNull()
+    // The highlight substring is wrapped in its own span.
+    expect(screen.getByText('light')).toBeInTheDocument()
   })
 
-  it('stacks the year and status badges together and marks the current page', () => {
+  it('stamps the year and status badges inside the tape heading', () => {
     render(<EditionRailCard edition={edition} status="current" href="/editions/2026" />)
 
     const year = screen.getByText('2026')
     const status = screen.getByText('Viewing')
     expect(year.parentElement).toBe(status.parentElement)
+    // The lead lives inside the band, so it is part of the heading's name.
+    expect(
+      screen.getByRole('heading', { name: '2026 Viewing the weight of light' }),
+    ).toBeInTheDocument()
     expect(screen.getByRole('link')).toHaveAttribute('aria-current', 'page')
   })
 
@@ -30,7 +34,8 @@ describe('EditionRailCard', () => {
 
     expect(screen.getByText('Soon')).toBeInTheDocument()
     expect(screen.queryByRole('link')).toBeNull()
-    const heading = screen.getByRole('heading', { name: 'the weight of light' })
-    expect(heading.querySelector('span')).toBeNull()
+    // Highlight suppressed: the theme is a single unsplit text node.
+    expect(screen.queryByText('light')).toBeNull()
+    expect(screen.getByRole('heading', { name: /the weight of light/ })).toBeInTheDocument()
   })
 })

@@ -16,7 +16,7 @@ import { sva } from 'styled-system/css'
  * nav tuck) rides the caller's `className`.
  */
 export const editionTheme = sva({
-  slots: ['root', 'highlight'],
+  slots: ['root', 'lead', 'highlight'],
   base: {
     root: {
       position: 'relative',
@@ -56,6 +56,15 @@ export const editionTheme = sva({
         opacity: '1',
         translate: '0 0',
       },
+    },
+    // The stamped lead (rail badges): vertically centered in the band, with an
+    // em gap so it tracks the tape's font-size ladder.
+    lead: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      alignSelf: 'center',
+      gap: '2xs',
+      marginRight: '0.6em',
     },
     highlight: { transition: 'color {durations.medium} {easings.expo}' },
   },

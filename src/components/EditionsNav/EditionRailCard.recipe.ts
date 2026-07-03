@@ -1,37 +1,29 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Rail plate chrome: the theme tape with the year/status badges tucked into
- * its lead-in padding. `status` is a real recipe variant so state styling
- * lives next to the state model in EditionRailCard, not behind data-attrs.
+ * Rail plate chrome. The plate is just the theme tape — the year/status
+ * badges are stamped inside the band through EditionTheme's `lead` slot, so
+ * this recipe only shells the tape with link focus and state styling.
+ * `status` is a real recipe variant so state styling lives next to the state
+ * model in EditionRailCard, not behind data-attrs.
  */
 export const editionRailCard = sva({
-  slots: ['root', 'tape', 'badgeStack'],
+  slots: ['root', 'tape'],
   base: {
     root: {
-      position: 'relative',
       display: 'inline-flex',
       height: '100%',
       minHeight: '0',
-      minWidth: '0',
       padding: '0',
       overflow: 'visible',
       _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '4px' },
     },
+    // The plate is as wide as its content — badges, theme, paddings — always
+    // on one line; the carousel drags to reveal plates wider than the screen.
     tape: {
-      paddingLeft: '6.25rem',
-      maxWidth: '100%',
-    },
-    badgeStack: {
-      position: 'absolute',
-      top: '50%',
-      left: '0.6em',
-      zIndex: '2',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      gap: '2xs',
-      transform: 'translateY(-50%)',
+      whiteSpace: 'nowrap',
+      // Air between the brush-stroke rule and the stamped row.
+      paddingTop: '0.8em',
     },
   },
   variants: {
