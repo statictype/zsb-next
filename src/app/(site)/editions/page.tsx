@@ -43,25 +43,18 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
     <EditionsListShell>
       <div className={styles.grid}>
         {visibleEditions.map((edition, index) => {
-          const year = edition.year
           const isFeature = index === 0
-          const thumb = edition.thumbImage ?? edition.heroImage
 
           return (
             <div
-              key={year}
+              key={edition.year}
               className={styles.slot}
               data-feature={isFeature || undefined}
               style={{ '--card-index': index } as CSSProperties}
             >
               <EditionCard
-                year={year}
-                theme={edition.theme}
-                themeHighlight={edition.themeHighlight}
-                image={thumb}
                 edition={edition}
-                href={`/editions/${year}`}
-                media="image"
+                href={`/editions/${edition.year}`}
                 size={isFeature ? 'lg' : 'md'}
                 themeDelay={THEME_STAGGER}
                 className={styles.card}

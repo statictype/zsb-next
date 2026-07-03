@@ -17,20 +17,10 @@ export function EditionsNav() {
 
 async function CachedEditionsNav({ options }: { options: DynamicFetchOptions }) {
   'use cache'
-  // `getEditionListItems` is already sorted year-desc. Live editions link to
-  // their (reachable) page; upcoming ones are shown as non-clickable "Soon"
-  // plates — their route is gated `status != "upcoming"`, so there's nothing
-  // to link to yet.
+  // `getEditionListItems` is already sorted year-desc. The band declares the
+  // slice it reads (`EditionEntry` picks off `EditionListItem`), so the list
+  // passes through unmapped; link/plate policy lives in the band.
   const editions = await getEditionListItems(options)
   if (editions.length === 0) return null
-  return (
-    <EditionsNavBand
-      editions={editions.map((e) => ({
-        year: e.year,
-        theme: e.theme,
-        themeHighlight: e.themeHighlight,
-        status: e.status,
-      }))}
-    />
-  )
+  return <EditionsNavBand editions={editions} />
 }

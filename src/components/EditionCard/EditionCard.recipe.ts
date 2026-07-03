@@ -1,38 +1,14 @@
 import { sva } from 'styled-system/css'
 
+/** Archive image-card chrome only; the footer rail's imageless plate lives in
+ *  EditionRailCard.recipe. */
 export const editionCard = sva({
-  slots: [
-    'root',
-    'media',
-    'image',
-    'badgeRow',
-    'badgeStack',
-    'year',
-    'content',
-    'themeRow',
-    'themeTape',
-    'meta',
-    'metaItem',
-    'status',
-  ],
+  slots: ['root', 'media', 'image', 'year', 'content', 'meta', 'metaItem'],
   base: {
     root: {
       height: '100%',
       overflow: 'visible',
       _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '4px' },
-      '&[data-current=true]': { cursor: 'default', borderColor: 'highlight' },
-      '&[data-upcoming]': {
-        cursor: 'default',
-        opacity: '0.58',
-        filter: 'grayscale(1)',
-        '& h2': { color: 'muted' },
-        '& .badge': {
-          background: 'gray.900',
-          borderColor: 'gray.700',
-          color: 'gray.400',
-          boxShadow: 'none',
-        },
-      },
     },
     media: {
       position: 'relative',
@@ -60,20 +36,12 @@ export const editionCard = sva({
         transform: 'scale(1.05)',
       },
     },
-    badgeRow: {
+    year: {
       position: 'absolute',
       top: 'md',
       left: 'md',
-      right: 'md',
       zIndex: '2',
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 'xs',
     },
-    badgeStack: {},
-    year: {},
     content: {
       position: 'relative',
       zIndex: '1',
@@ -83,12 +51,6 @@ export const editionCard = sva({
       marginTop: '-3rem',
       padding: 'md',
     },
-    themeRow: {
-      position: 'relative',
-      display: 'inline-flex',
-      maxWidth: '100%',
-    },
-    themeTape: {},
     meta: {
       display: 'grid',
       gridTemplateColumns: '1fr',
@@ -106,45 +68,12 @@ export const editionCard = sva({
       '& dt': { textStyle: 'metaLabel' },
       '& dd': { margin: '0', fontSize: 'sm', lineHeight: 'body', textWrap: 'pretty' },
     },
-    status: { alignSelf: 'flex-start' },
   },
   variants: {
-    media: {
-      image: {},
-      none: {
-        root: { padding: '0', minHeight: '0' },
-        content: { marginTop: '0', padding: '0', flex: '0 0 auto' },
-        badgeRow: {
-          position: 'static',
-          right: 'auto',
-          flex: '0 0 auto',
-        },
-        themeRow: {
-          minWidth: '0',
-        },
-        themeTape: {
-          paddingLeft: '6.25rem',
-        },
-        badgeStack: {
-          position: 'absolute',
-          top: '50%',
-          left: '0.6em',
-          zIndex: '2',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          gap: '2xs',
-          transform: 'translateY(-50%)',
-        },
-      },
-    },
     size: {
       lg: { media: { aspectRatio: '21 / 9' } },
       md: { media: { aspectRatio: { base: '4 / 3', md: '16 / 10' } } },
-      sm: {
-        root: { minHeight: '0' },
-      },
     },
   },
-  defaultVariants: { media: 'image', size: 'md' },
+  defaultVariants: { size: 'md' },
 })

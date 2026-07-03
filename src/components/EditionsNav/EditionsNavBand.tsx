@@ -1,29 +1,27 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { type CSSProperties, useEffect, useRef, useState } from 'react'
 import { Carousel } from '@/components/Carousel/Carousel'
-import { EditionCard } from '@/components/EditionCard/EditionCard'
+import type { EditionListItem } from '@/sanity/lib/editions'
+import { EditionRailCard, type RailPlacement } from './EditionRailCard'
 import { editionsNav } from './EditionsNav.recipe'
 
 const styles = editionsNav()
 
-export interface EditionEntry {
-  year: number
-  theme: string
-  themeHighlight?: string | undefined
-  status: 'upcoming' | 'live'
-}
+/** What the band reads off each edition — a strict slice of the data layer's
+ *  `EditionListItem`, so the server side hands the fetched list over unmapped
+ *  and the contract can't drift from the query shape. */
+export type EditionEntry = Pick<EditionListItem, 'year' | 'theme' | 'themeHighlight' | 'status'>
 
 /**
- * The editions rail: a horizontally draggable band of compact edition tape
- * links inside the shared Carousel. It pairs with the footer below it — pure
- * black, no boxed border. Live cards link to their edition and take the theme
- * substring hover; upcoming editions are non-clickable "Soon" cards (their
- * route is gated `status != "upcoming"`); the edition you're viewing gets a
- * persistent "Viewing" badge. A one-shot
- * IntersectionObserver toggles `data-revealed` so the cards stagger in when the
- * strip scrolls into view (it's below the fold).
+ * The editions rail: a horizontally draggable band of EditionRailCard plates
+ * inside the shared Carousel. It pairs with the footer below it — pure black,
+ * no boxed border. The band owns *placement*: it turns each entry's status +
+ * the current pathname into a `RailPlacement` (live link / inert "Viewing" /
+ * non-linked "Soon"), and the plate renders it. A one-shot
+ * IntersectionObserver toggles `data-revealed` so the cards stagger in when
+ * the strip scrolls into view (it's below the fold).
  */
 export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
   const pathname = usePathname()
@@ -63,24 +61,21 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
         eyebrow="Our journey"
         slides={editions.map((edition, i) => {
           const href = `/editions/${edition.year}`
-          const isUpcoming = edition.status === 'upcoming'
-          const isCurrent = !isUpcoming && pathname === href
-          const style = { ['--i']: i } as React.CSSProperties
-          const content = (
-            <EditionCard
-              year={edition.year}
-              theme={edition.theme}
-              themeHighlight={edition.themeHighlight}
-              status={isUpcoming ? 'upcoming' : isCurrent ? 'current' : 'live'}
-              media="none"
-              size="sm"
-              href={isUpcoming ? undefined : href}
-              className={styles.card}
-              style={style}
-              draggable={false}
-            />
-          )
-          return { id: String(edition.year), content }
+          const placement: RailPlacement =
+            edition.status === 'upcoming'
+              ? { status: 'upcoming' }
+              : { status: pathname === href ? 'current' : 'live', href }
+          return {
+            id: String(edition.year),
+            content: (
+              <EditionRailCard
+                edition={edition}
+                {...placement}
+                className={styles.card}
+                style={{ '--i': i } as CSSProperties}
+              />
+            ),
+          }
         })}
       />
     </section>

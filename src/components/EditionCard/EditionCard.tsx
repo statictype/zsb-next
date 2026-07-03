@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import type { CSSProperties } from 'react'
 import { cx } from 'styled-system/css'
+import type { RecipeVariantProps } from 'styled-system/types'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -8,136 +8,89 @@ import { Card } from '@/components/ui/Card/Card'
 import type { Edition } from '@/types/edition'
 import { editionCard } from './EditionCard.recipe'
 
+/** The slice of `Edition` the archive card reads. Derived with `Pick` so it
+ *  can't drift from the domain type — a fetched `Edition` satisfies it
+ *  structurally and passes straight through. */
+export type EditionCardData = Pick<
+  Edition,
+  | 'year'
+  | 'theme'
+  | 'themeHighlight'
+  | 'dateTape'
+  | 'artists'
+  | 'venueLine'
+  | 'heroImage'
+  | 'thumbImage'
+>
+
+/** Bound to the recipe's variants: renaming or removing a size there
+ *  resurfaces here as a type error, not a silently ignored prop. */
+type EditionCardSize = NonNullable<RecipeVariantProps<typeof editionCard>>['size']
+
 interface EditionCardProps {
-  year: number
-  theme: string
-  themeHighlight?: string | undefined
-  status?: 'live' | 'current' | 'upcoming'
-  media?: 'image' | 'none'
-  size?: 'lg' | 'md' | 'sm'
-  image?: Edition['thumbImage'] | Edition['heroImage'] | undefined
-  /** Source for the image card's meta row (date/artists/venue) — only read on
-   *  the `media="image"` branch; imageless rail cards omit it. */
-  edition?: Pick<Edition, 'dateTape' | 'artists' | 'venueLine'> | undefined
-  href?: string | undefined
-  className?: string | undefined
-  style?: CSSProperties | undefined
-  draggable?: boolean | undefined
+  edition: EditionCardData
+  href: string
+  size?: EditionCardSize
+  /** Entrance delay forwarded to the theme tape (the archive grid's
+   *  `--card-index` stagger). */
   themeDelay?: string | undefined
+  className?: string | undefined
 }
 
+/**
+ * The archive edition card (/editions): image, year badge, theme tape, and a
+ * date/artists/venue meta row. Always a live link — upcoming editions never
+ * reach the archive grid (their pages are gated `status != "upcoming"`). The
+ * imageless plate in the footer rail is `EditionRailCard`, which shares the
+ * `EditionTheme` tape, not this card.
+ */
 export function EditionCard({
-  year,
-  theme,
-  themeHighlight,
-  status = 'live',
-  media = 'image',
-  size = 'md',
-  image,
   edition,
   href,
-  className,
-  style,
-  draggable,
+  size = 'md',
   themeDelay,
+  className,
 }: EditionCardProps) {
-  const styles = editionCard({ media, size })
-  const canLink = status !== 'upcoming' && href != null
-  const interactive = status === 'live' && canLink
-  const activeThemeHighlight = status === 'upcoming' ? undefined : themeHighlight
-  const date = edition?.dateTape.split(' · ')[0]
-  const artistLabel = edition
-    ? `${edition.artists.length} ${edition.artists.length === 1 ? 'artist' : 'artists'}`
-    : undefined
-  const location = edition?.venueLine
-  const meta = [date, artistLabel, location].filter((item): item is string => Boolean(item))
-  const yearBadge = <Badge className={styles.year}>{year}</Badge>
-  const statusBadge =
-    status !== 'live' ? (
-      <Badge tone="outline" className={styles.status}>
-        {status === 'current' ? 'Viewing' : 'Soon'}
-      </Badge>
-    ) : null
-  const badges = (
-    <div className={styles.badgeRow}>
-      {yearBadge}
-      {statusBadge}
-    </div>
-  )
-  const cardProps = {
-    ground: 'onDark' as const,
-    interactive,
-    className: cx(styles.root, className),
-    style,
-    'data-current': status === 'current' || undefined,
-    'data-upcoming': status === 'upcoming' || undefined,
-  }
-  const themeTape = (
-    <EditionTheme
-      as="h2"
-      size={size === 'lg' ? 'large' : 'normal'}
-      interactive={interactive}
-      theme={theme}
-      themeHighlight={activeThemeHighlight}
-      delay={themeDelay}
-      className={media === 'none' ? styles.themeTape : undefined}
-    />
-  )
-  const content = (
-    <>
-      {media === 'image' && image ? (
-        <div className={styles.media}>
-          <Figure
-            image={image}
-            sizes={
-              size === 'lg'
-                ? '(min-width: 1440px) 1400px, 100vw'
-                : '(min-width: 1024px) 50vw, 100vw'
-            }
-            className={styles.image}
-          />
-          {badges}
-        </div>
-      ) : null}
+  const styles = editionCard({ size })
+  const artistCount = edition.artists.length
+  const meta = [
+    { label: 'Date', value: edition.dateTape.split(' · ')[0] },
+    { label: 'Artists', value: `${artistCount} ${artistCount === 1 ? 'artist' : 'artists'}` },
+    { label: 'Location', value: edition.venueLine },
+  ].filter((entry): entry is { label: string; value: string } => Boolean(entry.value))
+
+  return (
+    <Card as={Link} href={href} ground="onDark" interactive className={cx(styles.root, className)}>
+      <div className={styles.media}>
+        <Figure
+          image={edition.thumbImage ?? edition.heroImage}
+          sizes={
+            size === 'lg' ? '(min-width: 1440px) 1400px, 100vw' : '(min-width: 1024px) 50vw, 100vw'
+          }
+          className={styles.image}
+        />
+        <Badge className={styles.year}>{edition.year}</Badge>
+      </div>
       <div className={styles.content}>
-        {media === 'none' ? (
-          <div className={styles.themeRow} data-status={status !== 'live' || undefined}>
-            {themeTape}
-            <div className={styles.badgeStack}>
-              {yearBadge}
-              {statusBadge}
-            </div>
-          </div>
-        ) : (
-          themeTape
-        )}
-        {media === 'image' && meta.length > 0 ? (
-          <dl className={styles.meta} aria-label={`${year} edition details`}>
-            {meta.map((item) => (
-              <div key={item} className={styles.metaItem}>
-                <dt>{item === date ? 'Date' : item === artistLabel ? 'Artists' : 'Location'}</dt>
-                <dd>{item}</dd>
+        <EditionTheme
+          as="h2"
+          size={size === 'lg' ? 'large' : 'normal'}
+          interactive
+          theme={edition.theme}
+          themeHighlight={edition.themeHighlight}
+          delay={themeDelay}
+        />
+        {meta.length > 0 ? (
+          <dl className={styles.meta} aria-label={`${edition.year} edition details`}>
+            {meta.map(({ label, value }) => (
+              <div key={label} className={styles.metaItem}>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
               </div>
             ))}
           </dl>
         ) : null}
       </div>
-    </>
-  )
-
-  return canLink ? (
-    <Card
-      as={Link}
-      href={href}
-      draggable={draggable}
-      aria-current={status === 'current' ? 'page' : undefined}
-      {...cardProps}
-    >
-      {content}
-    </Card>
-  ) : (
-    <Card as="div" {...cardProps}>
-      {content}
     </Card>
   )
 }
