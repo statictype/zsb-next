@@ -49,6 +49,7 @@ export const button = defineRecipe({
         fontFamily: 'inherit',
         fontSize: 'inherit',
         fontWeight: 'inherit',
+        lineHeight: 'inherit',
         textTransform: 'inherit',
         letterSpacing: 'inherit',
         bg: 'transparent',
