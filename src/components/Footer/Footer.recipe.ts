@@ -31,7 +31,6 @@ export const footer = sva({
       background: 'surface',
       color: 'heading',
       paddingBlock: 'xl',
-      paddingInline: 'gutter',
       md: {
         paddingBlock: '2xl',
         borderTop: 'hairline',
