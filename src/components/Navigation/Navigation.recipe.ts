@@ -76,11 +76,36 @@ export const navigation = sva({
       letterSpacing: 'label',
       transition:
         'background-color {durations.fast} {easings.quint}, color {durations.fast} {easings.quint}',
-      _hover: { color: 'heading', borderColor: 'heading' },
       _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
-      // Active tab gets the highlight fill; siblings stay outlined.
+      // Label roll — the muted label exits up while an identical pink copy
+      // enters from below, clipped by a mask snug to the line box so nothing
+      // leaks into the link's padding.
+      '& [data-nav-mask]': { display: 'block', overflow: 'hidden' },
+      '& [data-nav-label]': {
+        display: 'block',
+        position: 'relative',
+        transition: 'transform {durations.normal} {easings.expo}',
+        _motionReduce: { transition: 'none' },
+      },
+      '& [data-nav-copy]': {
+        position: 'absolute',
+        top: '110%',
+        left: 0,
+        color: 'action',
+      },
+      '&:hover [data-nav-label], &:focus-visible [data-nav-label]': {
+        transform: 'translateY(-110%)',
+      },
+      _motionReduce: {
+        '&:hover [data-nav-label], &:focus-visible [data-nav-label]': { transform: 'none' },
+        _hover: { color: 'action' },
+      },
+      // Active tab gets the highlight fill; siblings stay outlined. The roll
+      // is suppressed — hover is a preview of elsewhere, not of here.
       '&[aria-current=page]': { background: 'highlight', color: 'black' },
       '&[aria-current=page]:hover': { background: 'highlight', color: 'black' },
+      '&[aria-current=page]:hover [data-nav-label], &[aria-current=page]:focus-visible [data-nav-label]':
+        { transform: 'none' },
     },
     desktopNavLink: {
       fontSize: 'sm',

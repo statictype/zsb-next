@@ -106,7 +106,14 @@ function NavLinks({
       aria-current={item.id === activeId ? 'page' : undefined}
       {...(onNavigate ? { onClick: onNavigate } : {})}
     >
-      {item.label}
+      <span data-nav-mask>
+        <span data-nav-label>
+          {item.label}
+          <span aria-hidden data-nav-copy>
+            {item.label}
+          </span>
+        </span>
+      </span>
     </Link>
   ))
 }
