@@ -3,8 +3,9 @@ import { sva } from 'styled-system/css'
 /**
  * Hero — co-located slot recipe.
  *
- * The edition hero: an image frame (portrait on mobile, 2:1 from `md`) with a
- * stack of sticky-tape labels overlaid. Full-bleed until `lg`, where the hero
+ * The edition hero: an image frame (portrait on mobile, 2:1 from `md`) with
+ * the theme tape (carrying the date line via `meta`) overlaid. Full-bleed
+ * until `lg`, where the hero
  * gains horizontal padding and the tapes hang off the frame's left edge. The
  * top offset mirrors the shared `pageHero` layerStyle (`token(sizes.nav)` + 80/
  * 120px) so the frame starts at the same y as the title on every other page.
@@ -13,18 +14,7 @@ import { sva } from 'styled-system/css'
  * (not the image) owns the `grayscale(0.3)` so it survives `enter`'s `filter`.
  */
 export const hero = sva({
-  slots: [
-    'hero',
-    'stage',
-    'frame',
-    'background',
-    'image',
-    'vignette',
-    'tapes',
-    'tapeDate',
-    'tapeEdition',
-    'editionSep',
-  ],
+  slots: ['hero', 'stage', 'frame', 'background', 'image', 'vignette', 'tapes'],
   base: {
     hero: {
       position: 'relative',
@@ -93,89 +83,11 @@ export const hero = sva({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
-      gap: '10px',
       maxWidth: '94%',
       paddingRight: 'md',
-      md: { bottom: '10%', gap: '14px', maxWidth: '72%' },
-      lg: { bottom: '11%', gap: '16px', maxWidth: '62%' },
-      xl: { gap: '18px', maxWidth: '58%' },
-    },
-
-    // Chartreuse sticky-tape labels. tapeDate/tapeEdition share a look; only
-    // rotate / margin / delay differ, so they're written out per slot (Panda
-    // extracts literal objects, not spreads).
-    tapeDate: {
-      display: 'inline-block',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      fontWeight: 'semibold',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      color: 'heading',
-      background: 'highlight',
-      paddingBlock: '7px',
-      paddingInline: '12px',
-      lineHeight: '1.25',
-      boxShadow:
-        'inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -1px 0 rgba(0, 0, 0, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.35)',
-      transformOrigin: 'top left',
-      opacity: '0',
-      translate: '-8px 16px',
-      animationStyle: 'tape',
-      '--tape-delay': '0.35s',
-      whiteSpace: 'nowrap',
-      maxWidth: '100%',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      rotate: '-0.9deg',
-      marginLeft: '16px',
-      md: { fontSize: 'xs', paddingBlock: '10px', paddingInline: '16px', marginLeft: '28px' },
-      lg: { paddingBlock: '12px', paddingInline: '20px', marginLeft: '-22px' },
-      xl: { marginLeft: '-16px' },
-      _motionReduce: {
-        animation: 'none',
-        opacity: '1',
-        translate: '0 0',
-      },
-    },
-    tapeEdition: {
-      display: 'inline-block',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      fontWeight: 'semibold',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      color: 'heading',
-      background: 'highlight',
-      paddingBlock: '7px',
-      paddingInline: '12px',
-      lineHeight: '1.25',
-      boxShadow:
-        'inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -1px 0 rgba(0, 0, 0, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.35)',
-      transformOrigin: 'top left',
-      opacity: '0',
-      translate: '-8px 16px',
-      animationStyle: 'tape',
-      '--tape-delay': '0.75s',
-      whiteSpace: 'nowrap',
-      maxWidth: '100%',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      rotate: '0.7deg',
-      marginLeft: '28px',
-      md: { fontSize: 'xs', paddingBlock: '10px', paddingInline: '16px', marginLeft: '40px' },
-      lg: { paddingBlock: '12px', paddingInline: '20px' },
-      _motionReduce: {
-        animation: 'none',
-        opacity: '1',
-        translate: '0 0',
-      },
-    },
-    editionSep: {
-      display: 'inline-block',
-      marginInline: '6px',
-      color: 'action',
-      fontWeight: 'black',
+      md: { bottom: '10%', maxWidth: '72%' },
+      lg: { bottom: '11%', maxWidth: '62%' },
+      xl: { maxWidth: '58%' },
     },
   },
 })

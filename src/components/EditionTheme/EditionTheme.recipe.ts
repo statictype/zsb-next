@@ -9,19 +9,22 @@ import { sva } from 'styled-system/css'
  * `em`-based so it scales with the font size. `size` is a named ladder (the
  * three real needs — huge hero / large featured / normal card) rather than a
  * free fontSize prop, because Panda must extract the responsive values
- * statically. `interactive` drives the highlight accent: static `highlight` at
- * rest/current (the edition hero/current nav) vs white-at-rest → `action` on `a:hover`
- * (cards/nav).
+ * statically. `interactive` drives the highlight behavior: static at rest (the
+ * edition hero/current nav — rest color picked by `accent`) vs white-at-rest →
+ * `action` on `a:hover` (cards/nav).
  * The entrance delay is the `delay` prop; only container positioning (the hero's
  * nav tuck) rides the caller's `className`.
  */
 export const editionTheme = sva({
-  slots: ['root', 'lead', 'highlight'],
+  slots: ['root', 'heading', 'lead', 'meta', 'highlight'],
   base: {
+    // The band — a div, not the heading itself, so the optional meta row can
+    // share the tape's ground without entering the heading's accessible name.
+    // All type is set here and inherits into the heading.
     root: {
       position: 'relative',
       display: 'inline-flex',
-      alignItems: 'baseline',
+      flexDirection: 'column',
       alignSelf: 'flex-start',
       fontFamily: 'display',
       lineHeight: '1',
@@ -57,6 +60,15 @@ export const editionTheme = sva({
         translate: '0 0',
       },
     },
+    // The heading row: lead + theme text, laid out exactly like the old
+    // single-element tape (type inherits from root). `fontSize: inherit`
+    // kills the UA's h1/h2 scale factor — the ladder lives on root.
+    heading: {
+      display: 'flex',
+      alignItems: 'baseline',
+      margin: '0',
+      fontSize: 'inherit',
+    },
     // The stamped lead (rail badges): vertically centered in the band, with an
     // em gap so it tracks the tape's font-size ladder.
     lead: {
@@ -65,6 +77,20 @@ export const editionTheme = sva({
       alignSelf: 'center',
       gap: '2xs',
       marginRight: '0.6em',
+    },
+    // The meta line (edition hero's date/venue): a second row inside the
+    // band, so it shares the tape's ground and text inset by construction.
+    // Absolute type — card-meta scale, not the tape ladder.
+    meta: {
+      margin: '0',
+      marginTop: 'md',
+      fontFamily: 'body',
+      fontSize: 'sm',
+      lineHeight: '1.3',
+      fontWeight: 'regular',
+      letterSpacing: 'subtle',
+      textTransform: 'none',
+      color: 'body',
     },
     highlight: { transition: 'color {durations.medium} {easings.expo}' },
   },
@@ -86,11 +112,22 @@ export const editionTheme = sva({
       },
     },
     interactive: {
-      // Static/current: the highlight is chartreuse at rest.
-      false: { highlight: { color: 'highlight' } },
+      // Static: the accent color at rest (see `accent`).
+      false: {},
       // Interactive: white at rest, accent on the card/link hover.
       true: { highlight: { color: 'inherit', 'a:hover &': { color: 'action' } } },
     },
+    // Rest color of a static highlight: chartreuse marks active/current
+    // elements (rail current card), pink is decorative accent (edition hero).
+    // Ignored when `interactive` — hover color there is always `action`.
+    accent: {
+      highlight: {},
+      action: {},
+    },
   },
-  defaultVariants: { size: 'normal', interactive: false },
+  compoundVariants: [
+    { interactive: false, accent: 'highlight', css: { highlight: { color: 'highlight' } } },
+    { interactive: false, accent: 'action', css: { highlight: { color: 'action' } } },
+  ],
+  defaultVariants: { size: 'normal', interactive: false, accent: 'highlight' },
 })

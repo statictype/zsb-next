@@ -6,18 +6,18 @@ import { hero } from './Hero.recipe'
 
 const styles = hero()
 
-// Container positioning only — tuck the theme tape under the nav, mirroring the
-// per-tape left offsets of the date/edition tapes. (Entrance delay is a prop.)
+// Container positioning only — tuck the theme tape under the nav.
+// (Entrance delay is a prop.)
 const tapeTheme = css({
   marginLeft: { base: '10px', md: '18px', lg: '-36px', xl: '-40px' },
 })
 
 interface HeroProps {
-  edition: Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'heroImage' | 'dateTape'>
+  edition: Pick<Edition, 'theme' | 'themeHighlight' | 'heroImage' | 'dateTape'>
 }
 
 export function Hero({ edition }: HeroProps) {
-  const { year, theme, themeHighlight, heroImage, dateTape } = edition
+  const { theme, themeHighlight, heroImage, dateTape } = edition
 
   return (
     <header className={styles.hero}>
@@ -37,18 +37,16 @@ export function Hero({ edition }: HeroProps) {
         </div>
 
         <div className={styles.tapes}>
-          <span className={styles.tapeDate}>{dateTape}</span>
           <EditionTheme
             as="h1"
             size="huge"
+            accent="action"
             theme={theme}
             themeHighlight={themeHighlight}
+            meta={dateTape}
             delay="0.55s"
             className={tapeTheme}
           />
-          <span className={styles.tapeEdition}>
-            Bucharest Sculpture Days <span className={styles.editionSep}>/</span> ZSB {year}
-          </span>
         </div>
       </div>
     </header>

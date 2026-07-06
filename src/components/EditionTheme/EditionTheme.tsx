@@ -13,13 +13,21 @@ interface EditionThemeProps {
   /** A substring of `theme` to accent. When set, the tape splits on its first
    *  occurrence and wraps it in the highlight span. */
   themeHighlight?: string | undefined
+  /** Small meta line rendered inside the band on its own row, under the theme
+   *  text (the edition hero's date/venue). Lives outside the heading element,
+   *  so it never pollutes the heading's accessible name. */
+  meta?: ReactNode | undefined
   /** Heading level — `h1` for the edition hero, `h2` elsewhere. */
   as?: 'h1' | 'h2' | undefined
   /** Font-size ladder: `huge` (edition hero), `large` (featured card), `normal`. */
   size?: 'huge' | 'large' | 'normal' | undefined
   /** `true` (cards / nav): highlight is white at rest, pink on `a:hover`.
-   *  `false` (edition hero/current nav): highlight is chartreuse at rest, static. */
+   *  `false` (edition hero/current nav): highlight is static, in `accent`. */
   interactive?: boolean | undefined
+  /** Rest color of a static highlight — `highlight` (chartreuse) for
+   *  active/current elements, `action` (pink) for decorative accent (the
+   *  edition hero). No effect when `interactive`. */
+  accent?: 'highlight' | 'action' | undefined
   /** Entrance delay for the `tapeIn` reveal — a fixed value (the hero) or a
    *  stagger expression (`calc(var(--card-index)…)` on the editions cards). */
   delay?: string | undefined
@@ -36,33 +44,38 @@ export function EditionTheme({
   theme,
   lead,
   themeHighlight,
+  meta,
   as: Tag = 'h2',
   size = 'normal',
   interactive = false,
+  accent = 'highlight',
   delay,
   className,
 }: EditionThemeProps) {
-  const styles = editionTheme({ size, interactive })
+  const styles = editionTheme({ size, interactive, accent })
   const parts = themeHighlight ? splitFirstMatch(theme, themeHighlight) : null
   return (
-    <Tag
+    <div
       className={cx(styles.root, className)}
       style={delay ? ({ '--tape-delay': delay } as CSSProperties) : undefined}
     >
-      {/* The trailing space is invisible to flex layout but keeps the
-          heading's accessible name from fusing lead and theme ("2026 the…"
-          instead of "2026the…"). */}
-      {lead ? <span className={styles.lead}>{lead}</span> : null}
-      {lead ? ' ' : null}
-      {parts ? (
-        <>
-          {parts.before}
-          <span className={styles.highlight}>{parts.match}</span>
-          {parts.after}
-        </>
-      ) : (
-        theme
-      )}
-    </Tag>
+      <Tag className={styles.heading}>
+        {/* The trailing space is invisible to flex layout but keeps the
+            heading's accessible name from fusing lead and theme ("2026 the…"
+            instead of "2026the…"). */}
+        {lead ? <span className={styles.lead}>{lead}</span> : null}
+        {lead ? ' ' : null}
+        {parts ? (
+          <>
+            {parts.before}
+            <span className={styles.highlight}>{parts.match}</span>
+            {parts.after}
+          </>
+        ) : (
+          theme
+        )}
+      </Tag>
+      {meta ? <p className={styles.meta}>{meta}</p> : null}
+    </div>
   )
 }
