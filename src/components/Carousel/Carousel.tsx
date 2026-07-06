@@ -2,7 +2,7 @@
 
 import { Carousel as ArkCarousel } from '@ark-ui/react/carousel'
 import { RiArrowLeftLine, RiArrowRightLine, RiPauseLine, RiPlayLine } from '@remixicon/react'
-import { type ReactNode, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
+import { type ReactNode, useId, useRef, useState, useSyncExternalStore } from 'react'
 import { cx } from 'styled-system/css'
 import { carousel } from 'styled-system/recipes'
 import { token } from 'styled-system/tokens'
@@ -26,6 +26,10 @@ interface CarouselProps {
 
 const safeId = (value: string) => value.replace(/[^a-zA-Z0-9_-]+/g, '-')
 const reducedMotionQuery = '(prefers-reduced-motion: reduce)'
+
+// Pointer travel (px) between pointerdown and click beyond which the click is
+// treated as the tail of a mouse drag and suppressed.
+const DRAG_CLICK_TOLERANCE = 8
 
 function subscribeToReducedMotion(callback: () => void) {
   const media = window.matchMedia(reducedMotionQuery)
@@ -61,16 +65,13 @@ export function Carousel({
   const [playbackChoice, setPlaybackChoice] = useState<'auto' | 'paused' | 'playing'>('auto')
   const [hovered, setHovered] = useState(false)
   const [focusWithin, setFocusWithin] = useState(false)
-  const suppressClick = useRef(false)
-  const suppressTimer = useRef<number | undefined>(undefined)
+  const dragOrigin = useRef<{ x: number; y: number } | null>(null)
   const styles = carousel({ mode })
   const explicitlyPaused =
     playbackChoice === 'paused' || (playbackChoice === 'auto' && reducedMotion)
   const temporarilyPaused = hovered || focusWithin
   const autoplayEnabled =
     autoplay !== false && !explicitlyPaused && !temporarilyPaused && slides.length > 1
-
-  useEffect(() => () => window.clearTimeout(suppressTimer.current), [])
 
   if (slides.length === 0) return null
 
@@ -97,19 +98,25 @@ export function Carousel({
         autoplayStart: `Play ${label.toLowerCase()}`,
         autoplayStop: `Pause ${label.toLowerCase()}`,
       }}
-      onDragStatusChange={(details) => {
-        if (details.type !== 'dragging.end') return
-        suppressClick.current = true
-        window.clearTimeout(suppressTimer.current)
-        suppressTimer.current = window.setTimeout(() => {
-          suppressClick.current = false
-        }, 0)
+      // A mouse drag on the strip ends with a native click on whatever sits
+      // under the pointer (Zag flags every mousedown as a potential drag, and
+      // the click fires regardless), which would activate slide content —
+      // open the gallery lightbox, follow a card link. Timing-based
+      // suppression around Zag's drag-status events is racy (timers may run
+      // between pointerup and click), so suppress by measured pointer travel
+      // instead: a real click doesn't move, a drag does.
+      onPointerDownCapture={(event) => {
+        dragOrigin.current = { x: event.clientX, y: event.clientY }
       }}
       onClickCapture={(event) => {
-        if (!suppressClick.current) return
+        const origin = dragOrigin.current
+        dragOrigin.current = null
+        // detail === 0 → keyboard-activated click; never suppress those.
+        if (!origin || event.detail === 0) return
+        const travel = Math.hypot(event.clientX - origin.x, event.clientY - origin.y)
+        if (travel < DRAG_CLICK_TOLERANCE) return
         event.preventDefault()
         event.stopPropagation()
-        suppressClick.current = false
       }}
     >
       <ArkCarousel.Context>
