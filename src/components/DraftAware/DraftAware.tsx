@@ -1,8 +1,6 @@
 import { draftMode } from 'next/headers'
 import { type ReactNode, Suspense } from 'react'
-import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
-
-const PUBLISHED: DynamicFetchOptions = { perspective: 'published', stega: false }
+import { type DynamicFetchOptions, getDynamicFetchOptions, PUBLISHED } from '@/sanity/lib/live'
 
 interface DraftAwareProps {
   /**
@@ -19,7 +17,7 @@ interface DraftAwareProps {
  * The page → dynamic → cached triplet, minus the cached leaf. In production
  * (no draft mode) it renders the leaf with published options directly, so the
  * page stays statically cacheable. In draft mode it resolves the request-scoped
- * perspective + stega *outside* the cache boundary and streams the leaf in under
+ * perspective *outside* the cache boundary and streams the leaf in under
  * `fallback`.
  *
  * Each page supplies only what's unique — its cached leaf and its fallback — so

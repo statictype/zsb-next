@@ -38,7 +38,7 @@ export const galleryCarousel = sva({
       },
       _hover: {
         '& img': { transform: 'scale(1.05)', filter: 'brightness(1) contrast(1.1)' },
-        '&::before': { opacity: 1, animation: 'gradientBorderShift 2s linear infinite' },
+        '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
       },
       // Gradient border hover effect (masked ring).
       _before: {

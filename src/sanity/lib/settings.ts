@@ -8,8 +8,8 @@ export type SiteSettings = NonNullable<SITE_SETTINGS_QUERY_RESULT>
 
 /**
  * Cached fetch of the site-wide settings singleton. Caller supplies
- * perspective + stega (resolved via `getDynamicFetchOptions` outside
- * the cache boundary) so the Presentation tool can preview drafts.
+ * perspective (resolved via `getDynamicFetchOptions` outside the cache
+ * boundary) so the Presentation tool can preview drafts.
  *
  * Returns `null` if the singleton hasn't been published yet — the
  * Footer falls back to safe defaults so the page doesn't crash on a

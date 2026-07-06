@@ -1,31 +1,27 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
-import { cx } from 'styled-system/css'
-import { card } from 'styled-system/recipes'
+import { type CSSProperties, useEffect, useRef, useState } from 'react'
 import { Carousel } from '@/components/Carousel/Carousel'
+import type { EditionListItem } from '@/sanity/lib/editions'
+import { EditionRailCard, type RailPlacement } from './EditionRailCard'
 import { editionsNav } from './EditionsNav.recipe'
 
 const styles = editionsNav()
 
-export interface EditionEntry {
-  year: number
-  theme: string
-  status: 'upcoming' | 'live'
-}
+/** What the band reads off each edition — a strict slice of the data layer's
+ *  `EditionListItem`, so the server side hands the fetched list over unmapped
+ *  and the contract can't drift from the query shape. */
+export type EditionEntry = Pick<EditionListItem, 'year' | 'theme' | 'themeHighlight' | 'status'>
 
 /**
- * The editions rail: a horizontally draggable band of compact cards inside
- * the shared Carousel. It pairs with the footer below it — pure black,
- * hairline-boxed, no solid fills. Cards are the unified `card` recipe
- * (ZSB-71): live cards link to their edition and take the shared hover (the
- * hairline warms to the accent); upcoming editions are non-clickable "Soon"
- * cards (their route is gated `status != "upcoming"`); the edition you're
- * viewing keeps a persistent chartreuse hairline and is inert. A one-shot
- * IntersectionObserver toggles `data-revealed` so the cards stagger in when the
- * strip scrolls into view (it's below the fold).
+ * The editions rail: a horizontally draggable band of EditionRailCard plates
+ * inside the shared Carousel. It pairs with the footer below it — pure black,
+ * no boxed border. The band owns *placement*: it turns each entry's status +
+ * the current pathname into a `RailPlacement` (live link / inert "Viewing" /
+ * non-linked "Soon"), and the plate renders it. A one-shot
+ * IntersectionObserver toggles `data-revealed` so the cards stagger in when
+ * the strip scrolls into view (it's below the fold).
  */
 export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
   const pathname = usePathname()
@@ -65,50 +61,21 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
         eyebrow="Our journey"
         slides={editions.map((edition, i) => {
           const href = `/editions/${edition.year}`
-          const isUpcoming = edition.status === 'upcoming'
-          const isCurrent = !isUpcoming && pathname === href
-          const style = { ['--i']: i } as React.CSSProperties
-          // Unified card recipe + the strip's layout-local class. Only a live,
-          // non-current edition is interactive (hairline → accent on hover);
-          // current and upcoming are inert (current keeps a chartreuse hairline).
-          const cardClass = cx(
-            card({ ground: 'onDark', interactive: !isUpcoming && !isCurrent }),
-            styles.card,
-          )
-
-          const inner = (
-            <>
-              <span className={styles.cardTop}>
-                {isUpcoming ? (
-                  <span className={styles.soon}>Soon</span>
-                ) : isCurrent ? (
-                  <span className={styles.viewing}>Viewing</span>
-                ) : null}
-              </span>
-              <span className={styles.meta}>
-                <span className={styles.year}>ZSB {edition.year}</span>
-                <span className={styles.theme}>{edition.theme}</span>
-              </span>
-            </>
-          )
-
-          const content = isUpcoming ? (
-            <div className={cardClass} style={style} data-upcoming>
-              {inner}
-            </div>
-          ) : (
-            <Link
-              href={href}
-              className={cardClass}
-              style={style}
-              data-current={isCurrent || undefined}
-              aria-current={isCurrent ? 'page' : undefined}
-              draggable={false}
-            >
-              {inner}
-            </Link>
-          )
-          return { id: String(edition.year), content }
+          const placement: RailPlacement =
+            edition.status === 'upcoming'
+              ? { status: 'upcoming' }
+              : { status: pathname === href ? 'current' : 'live', href }
+          return {
+            id: String(edition.year),
+            content: (
+              <EditionRailCard
+                edition={edition}
+                {...placement}
+                className={styles.card}
+                style={{ '--i': i } as CSSProperties}
+              />
+            ),
+          }
         })}
       />
     </section>

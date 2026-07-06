@@ -51,7 +51,7 @@ export const errorPage = sva({
       justifyContent: 'center',
       width: '56px',
       height: '56px',
-      border: '1px solid token(colors.borderDark)',
+      border: 'hairline',
       marginBottom: 'xl',
       color: 'action',
     },

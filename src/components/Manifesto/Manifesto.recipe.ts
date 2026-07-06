@@ -5,7 +5,7 @@ import { sva } from 'styled-system/css'
  *
  * First consumer of the `sectionLight` layerStyle. Uses the looser `sectionYLg`
  * rhythm token. The title is a single column that becomes a 2-column grid at lg+;
- * the body sits behind an accent gradient rule.
+ * the body sits behind the shared ground-aware brush-stroke rule.
  */
 export const manifesto = sva({
   slots: ['section', 'container', 'title', 'titleHighlight', 'content', 'text'],
@@ -47,12 +47,15 @@ export const manifesto = sva({
         left: '0',
         top: '0',
         bottom: '0',
-        width: '2px',
-        background: 'linear-gradient(to bottom, {colors.action}, transparent)',
+        width: 'brushStroke',
+        background:
+          'linear-gradient(180deg, token(colors.brushStroke) 0%, token(colors.brushStroke) 72%, transparent 100%)',
+        clipPath: 'token(assets.brushStrokeY)',
+        opacity: '0.85',
       },
       '& p': {
         textStyle: 'leadLarge',
-        color: 'bodyLight',
+        color: 'body',
       },
     },
   },

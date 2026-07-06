@@ -41,7 +41,7 @@ export const aboutPage = sva({
       position: 'relative',
       aspectRatio: '4 / 5',
       overflow: 'hidden',
-      border: '1px solid token(colors.borderDark)',
+      border: 'hairline',
       md: { aspectRatio: '16 / 9' },
     },
     placeImageImg: {
@@ -60,8 +60,8 @@ export const aboutPage = sva({
     pillarsGrid: {
       display: 'grid',
       gridTemplateColumns: '1fr',
-      borderTop: '1px solid token(colors.borderDark)',
-      borderBottom: '1px solid token(colors.borderDark)',
+      borderTop: 'hairline',
+      borderBottom: 'hairline',
       md: { gridTemplateColumns: '1fr 1fr' },
     },
     pillar: {
@@ -69,13 +69,13 @@ export const aboutPage = sva({
       flexDirection: 'column',
       gap: 'md',
       paddingBlock: 'xl',
-      borderBottom: '1px solid token(colors.borderDark)',
+      borderBottom: 'hairline',
       '&:last-child': { borderBottomWidth: '0' },
       md: {
         paddingBlock: 'xl',
         paddingInline: 'xl',
         borderBottomWidth: '0',
-        borderRight: '1px solid token(colors.borderDark)',
+        borderRight: 'hairline',
         marginBlock: '4xl',
         '&:first-child': { paddingLeft: '0' },
         '&:last-child': { paddingRight: '0', borderRightWidth: '0' },
@@ -105,7 +105,7 @@ export const aboutPage = sva({
         position: 'absolute',
         inset: '0 0 auto',
         height: '1px',
-        background: 'borderLight',
+        background: 'divider',
       },
     },
     statementInner: {
@@ -141,7 +141,7 @@ export const aboutPage = sva({
     authorPhotoFrame: {
       padding: '6px',
       background: 'white',
-      border: '1px solid token(colors.borderLight)',
+      border: 'hairline',
       _hover: { '& img': { filter: 'grayscale(0%)', transform: 'scale(1.03)' } },
       _motionReduce: { '& img': { transform: 'none' } },
     },
@@ -170,7 +170,7 @@ export const aboutPage = sva({
       fontFamily: 'display',
       fontSize: 'md',
       textTransform: 'uppercase',
-      color: 'headingLight',
+      color: 'heading',
       lineHeight: 'tight',
       letterSpacing: 'tight',
     },
@@ -188,7 +188,7 @@ export const aboutPage = sva({
       gap: 'md',
       '& p': {
         textStyle: 'leadLarge',
-        color: 'bodyLight',
+        color: 'body',
       },
     },
   },

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
-import { RoutedEventModal } from '@/components/Calendar/RoutedEventModal'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
+import { RoutedEventModal } from '../../../_components/Calendar/RoutedEventModal'
 import { loadEdition } from '../../../edition-content'
 
 // Soft navigation from the calendar (a `<Link>` to the event URL) is intercepted

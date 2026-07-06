@@ -1,13 +1,13 @@
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Navigation } from '@/components/Navigation/Navigation'
-import { VenuesView } from '@/components/VenuesView/VenuesView'
-import { VisitFaq } from '@/components/VisitFaq/VisitFaq'
-import { VisitSection } from '@/components/VisitSection/VisitSection'
 import { getVisitEdition } from '@/data/editions'
 import { makePageMetadata, visitFaqJsonLd } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getVisitPage } from '@/sanity/lib/staticPages'
+import { VenuesView } from './_components/VenuesView'
+import { VisitFaq } from './_components/VisitFaq'
+import { VisitSection } from './_components/VisitSection'
 
 export const generateMetadata = makePageMetadata(getVisitPage, {
   title: 'Visit',

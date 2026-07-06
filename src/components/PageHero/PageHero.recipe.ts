@@ -17,7 +17,7 @@ export const pageHero = sva({
     inner: { layerStyle: 'sectionInner' },
     title: {
       textStyle: 'pageTitle',
-      // Reveal contract is the shared `enter()` on the element; only the delay
+      // Reveal contract is the shared `enter` animation style; only the delay
       // stays here.
       animationDelay: '0.2s',
     },

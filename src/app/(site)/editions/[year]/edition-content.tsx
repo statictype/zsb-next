@@ -1,19 +1,20 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { css } from 'styled-system/css'
-import { Calendar } from '@/components/Calendar/Calendar'
-import { ComingSoon, type SocialLink } from '@/components/Calendar/ComingSoon'
-import { Credits } from '@/components/Credits/Credits'
-import { ExternalGallery } from '@/components/ExternalGallery/ExternalGallery'
-import { Hero } from '@/components/Hero/Hero'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Manifesto } from '@/components/Manifesto/Manifesto'
-import { ThemeArtists } from '@/components/ThemeArtists/ThemeArtists'
 import { getEdition } from '@/data/editions'
 import { editionBreadcrumbJsonLd, editionEventJsonLd } from '@/lib/seo'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
 import type { Edition, ExternalGalleryData } from '@/types/edition'
+import { Calendar } from './_components/Calendar/Calendar'
+import { ComingSoon, type SocialLink } from './_components/Calendar/ComingSoon'
+import { computeFilterOptions } from './_components/Calendar/calendar-filters'
+import { Credits } from './_components/Credits'
+import { ExternalGallery } from './_components/ExternalGallery'
+import { Hero } from './_components/Hero'
+import { ThemeArtists } from './_components/ThemeArtists'
 
 // The off-site photo galleries a few historical editions link to instead of a
 // program. Static, not editor content (ADR 0018): a closed fact per edition. The
@@ -47,7 +48,10 @@ export async function CachedEdition({
   options: DynamicFetchOptions
 }) {
   'use cache'
-  const edition = await getEdition(year, options)
+  // Socials feed both the coming-soon follow CTA and a finished edition's recap
+  // (ZSB-45), so resolve them either way, and independently of the edition
+  // fetch (neither depends on the other's result) — same trip, not a waterfall.
+  const [edition, socials] = await Promise.all([getEdition(year, options), socialLinks(options)])
 
   if (!edition) {
     notFound()
@@ -56,12 +60,10 @@ export async function CachedEdition({
   // The program is an optional section (ADR 0018). When present: a live edition
   // with events shows the calendar; one with none yet is the forthcoming one and
   // stands in with a "coming soon" block (ZSB-34). When absent (the online-only
-  // 2021), no program block renders at all. Socials feed both the coming-soon
-  // follow CTA and a finished edition's recap (ZSB-45), so resolve them either way.
+  // 2021), no program block renders at all.
   const events = edition.events ?? []
   const hasEvents = events.length > 0
   const externalGallery = EXTERNAL_GALLERY_BY_YEAR[edition.year]
-  const socials = await socialLinks(options)
 
   return (
     <main className={css({ minHeight: '100vh' })}>
@@ -83,9 +85,17 @@ export async function CachedEdition({
           // The calendar reads `useSearchParams` (filters) on the client; a
           // Suspense boundary lets the rest of the cached page prerender while
           // only this subtree client-renders, keeping the route partial-prerender
-          // rather than fully dynamic (ADR 0015).
+          // rather than fully dynamic (ADR 0015). Filter options are pure
+          // aggregation over `events` — computed once here rather than on every
+          // client render.
           <Suspense fallback={null}>
-            <Calendar year={edition.year} events={events} theme={edition.theme} socials={socials} />
+            <Calendar
+              year={edition.year}
+              events={events}
+              filterOptions={computeFilterOptions(events)}
+              theme={edition.theme}
+              socials={socials}
+            />
           </Suspense>
         ) : (
           <ComingSoon year={edition.year} socials={socials} />

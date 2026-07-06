@@ -33,7 +33,7 @@ export default function ErrorPage({
             <RiRefreshLine size={14} />
             Try Again
           </Button>
-          <Button asChild variant="ghost">
+          <Button asChild variant="link">
             <Link href="/">Return Home</Link>
           </Button>
         </div>

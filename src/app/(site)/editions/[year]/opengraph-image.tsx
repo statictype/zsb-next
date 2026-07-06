@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og'
-import { getAllEditionYears, getEdition } from '@/data/editions'
+import { getAllEditionYearParams, getEdition } from '@/data/editions'
 import { asciiFold, BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
+import { PUBLISHED } from '@/sanity/lib/live'
 
 // Per-edition share card. If the editor set a Custom share image it's rendered
 // full-bleed (they designed it); otherwise the hero photo gets a gradient scrim
@@ -13,13 +14,12 @@ export const size = OG_SIZE
 export const contentType = OG_CONTENT_TYPE
 
 export async function generateStaticParams() {
-  const years = await getAllEditionYears()
-  return years.map((year) => ({ year: String(year) }))
+  return getAllEditionYearParams()
 }
 
 export default async function Image({ params }: { params: Promise<{ year: string }> }) {
   const { year } = await params
-  const edition = await getEdition(Number(year), { perspective: 'published', stega: false })
+  const edition = await getEdition(Number(year), PUBLISHED)
 
   // Editor override: render their designed image, cropped to fill 1200×630.
   if (edition?.ogImage) {

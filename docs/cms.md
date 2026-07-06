@@ -225,6 +225,7 @@ Two variants:
   const [{ year }, options] = await Promise.all([props.params, getDynamicFetchOptions()])
   return <CachedEdition year={Number(year)} options={options} />
   ```
+- **A component embedded on several pages** (`EditionsNav`, shown on the edition, About, and Partners routes) owns its own `<DraftAware>` internally rather than each page re-resolving it — the component is the reusable unit, so it's also the one that should wrap the triplet. A page just renders `<EditionsNav />`; there's no per-page Suspense to remember.
 
 ### Rendering when a singleton is missing
 

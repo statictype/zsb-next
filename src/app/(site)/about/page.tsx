@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
 import { css, cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
@@ -27,9 +26,7 @@ export default function AboutRoute() {
   return (
     <>
       <DraftAware cached={(options) => <CachedAbout options={options} />} fallback={null} />
-      <Suspense>
-        <EditionsNav />
-      </Suspense>
+      <EditionsNav />
     </>
   )
 }

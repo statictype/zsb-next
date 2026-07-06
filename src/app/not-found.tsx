@@ -1,7 +1,6 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import { css, cx } from 'styled-system/css'
-import { enter } from '@/components/enter'
 
 const page = css({
   position: 'relative',
@@ -10,7 +9,7 @@ const page = css({
   flexDir: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  bg: 'canvas',
+  bg: 'surface',
   overflow: 'hidden',
   paddingBlock: 'xl',
   paddingInline: 'gutter',
@@ -91,7 +90,7 @@ const cta = css({
   textTransform: 'uppercase',
   letterSpacing: 'label',
   color: 'white',
-  border: '1px solid token(colors.borderDark)',
+  border: 'hairline',
   paddingBlock: '14px',
   paddingInline: '28px',
   animationDelay: '0.55s',
@@ -113,11 +112,13 @@ export default function NotFound() {
       <div className={cx(glow, glowChartreuse)} />
 
       <div className={content}>
-        <div className={cx(code, enter())}>404</div>
-        <div className={cx(divider, enter())} />
-        <h1 className={cx(title, enter())}>This space is empty</h1>
-        <p className={cx(subtitle, enter())}>Like an exhibition between shows</p>
-        <Link href="/" className={cx(cta, enter())}>
+        <div className={cx(code, css({ animationStyle: 'enter' }))}>404</div>
+        <div className={cx(divider, css({ animationStyle: 'enter' }))} />
+        <h1 className={cx(title, css({ animationStyle: 'enter' }))}>This space is empty</h1>
+        <p className={cx(subtitle, css({ animationStyle: 'enter' }))}>
+          Like an exhibition between shows
+        </p>
+        <Link href="/" className={cx(cta, css({ animationStyle: 'enter' }))}>
           Return Home <RiArrowRightLine size={14} />
         </Link>
       </div>

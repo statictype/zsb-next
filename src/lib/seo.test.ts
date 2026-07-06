@@ -6,7 +6,7 @@ import type { CalendarEvent, Edition } from '@/types/edition'
 // outside React Server Components, and the functions under test are pure and
 // never touch it. Stub the module so the import resolves.
 vi.mock('@/sanity/lib/live', () => ({
-  getDynamicFetchOptions: async () => ({ perspective: 'published', stega: false }),
+  getDynamicFetchOptions: async () => ({ perspective: 'published' }),
 }))
 
 import {

@@ -1,6 +1,6 @@
 import 'server-only'
 
-import { queryData } from './live'
+import { PUBLISHED, queryData } from './live'
 import { ARTIST_NAMES_QUERY } from './queries'
 
 /**
@@ -11,5 +11,5 @@ import { ARTIST_NAMES_QUERY } from './queries'
  */
 export async function getArtistNames(): Promise<string[]> {
   'use cache'
-  return (await queryData(ARTIST_NAMES_QUERY, { perspective: 'published', stega: false })) ?? []
+  return (await queryData(ARTIST_NAMES_QUERY, PUBLISHED)) ?? []
 }

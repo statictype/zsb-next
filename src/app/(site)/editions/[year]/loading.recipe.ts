@@ -34,7 +34,6 @@ export const editionLoading = sva({
     bone: {
       // exception: skeleton placeholder surface
       background: 'gray.900',
-      borderRadius: '0',
       position: 'relative',
       overflow: 'hidden',
       _after: {
@@ -43,7 +42,7 @@ export const editionLoading = sva({
         inset: '0',
         background:
           'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
-        animation: 'shimmer {durations.sweep} ease-in-out infinite',
+        animationStyle: 'shimmer',
       },
     },
 
@@ -89,7 +88,7 @@ export const editionLoading = sva({
     artistCard: { aspectRatio: '3 / 4' },
 
     venueRow: { display: 'flex', flexDirection: 'column', gap: 'md' },
-    venueItem: { height: '80px', borderBottom: '1px solid token(colors.borderDark)' },
+    venueItem: { height: '80px', borderBottom: 'hairline' },
 
     carousel: {
       height: { base: '50vh', md: '60vh', lg: '70vh', xl: '72vh', '2xl': '75vh', '4xl': '80vh' },

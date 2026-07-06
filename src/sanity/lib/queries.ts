@@ -44,6 +44,7 @@ export const EDITIONS_LIST_QUERY = defineQuery(`
   *[_type == "edition" && defined(year)] | order(year desc) {
     year,
     theme,
+    themeHighlight,
     status,
     dateStart
   }
@@ -204,6 +205,28 @@ export const ARTIST_BY_SLUG_QUERY = defineQuery(`
 
 export const EDITION_YEARS_QUERY = defineQuery(`
   *[_type == "edition" && defined(year)] | order(year desc).year
+`)
+
+// Sparse projection for the event route's generateStaticParams — every
+// edition's year plus exactly the per-event fields `deriveEventSlugs` (ADR
+// 0015) needs to reproduce the real slug, nothing else. Skips the images,
+// carousel, credits, artists, and manifesto that `EDITION_BY_YEAR_QUERY`
+// carries, but can't drop to just the stored slug field: an event without an
+// editor-set slug gets one derived from name/date/venue at read time, so the
+// derivation's inputs have to be fetched too. Reused by the opengraph-image
+// route. `status != "upcoming"` matches the route gate — an upcoming
+// edition's events have no reachable page, so they're excluded rather than
+// prerendered and discarded.
+export const EVENT_PATHS_QUERY = defineQuery(`
+  *[_type == "edition" && defined(year) && status != "upcoming"]{
+    year,
+    events[]{
+      "slug": slug.current,
+      name,
+      startDate,
+      "venue": venue->{ "slug": slug.current, name }
+    }
+  }
 `)
 
 // Everything the sitemap needs to emit honest `lastModified` dates in a

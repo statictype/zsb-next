@@ -5,10 +5,11 @@ import {
   getEditionFromSanity,
   getEditionsListFromSanity,
   getEditionYearsFromSanity,
+  getEventPathsFromSanity,
   getHeroEditionLeadFromSanity,
   getVisitEditionLeadFromSanity,
 } from '@/sanity/lib/editions'
-import type { DynamicFetchOptions } from '@/sanity/lib/live'
+import { type DynamicFetchOptions, type LivePerspective } from '@/sanity/lib/live'
 import type { CalendarEvent, Edition } from '@/types/edition'
 
 /**
@@ -134,6 +135,40 @@ export async function getFeaturedEvents(
 export async function getAllEditionYears(): Promise<number[]> {
   'use cache'
   return getEditionYearsFromSanity()
+}
+
+/**
+ * Every edition year as a route param — the generateStaticParams enumeration
+ * shared by the edition page and its opengraph-image route.
+ */
+export async function getAllEditionYearParams(): Promise<{ year: string }[]> {
+  'use cache'
+  const years = await getAllEditionYears()
+  return years.map((year) => ({ year: String(year) }))
+}
+
+/**
+ * A single edition for generateMetadata — resolves the caller's perspective
+ * (so the Presentation tool can preview drafts) with no stega, shared by the
+ * edition page and the event page's metadata.
+ */
+export async function getEditionForMetadata(
+  year: number,
+  perspective: LivePerspective,
+): Promise<Edition | undefined> {
+  return getEdition(year, { perspective })
+}
+
+/**
+ * Every (year, slug) pair for every event across every edition — the
+ * generateStaticParams enumeration shared by the event route and its
+ * opengraph-image route (ADR 0015). A thin pass-through to the sparse
+ * `EVENT_PATHS_QUERY` fetch, which projects only what slug derivation needs
+ * rather than walking the full nested edition per year.
+ */
+export async function getAllEventParams(): Promise<{ year: string; slug: string }[]> {
+  'use cache'
+  return getEventPathsFromSanity()
 }
 
 /**

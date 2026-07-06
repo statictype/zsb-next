@@ -1,24 +1,12 @@
-import {
-  RiArrowRightLine,
-  RiArrowRightUpLine,
-  RiFileTextLine,
-  RiNewspaperLine,
-  RiPlayCircleLine,
-  RiSoundcloudLine,
-  RiVimeoLine,
-  RiYoutubeLine,
-} from '@remixicon/react'
-import { stegaClean } from '@sanity/client/stega'
 import { notFound } from 'next/navigation'
-import { css } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
-import { MediaKitStrip } from '@/components/MediaKitStrip/MediaKitStrip'
 import { Navigation } from '@/components/Navigation/Navigation'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { LinkList, LinkListItem } from '@/components/ui/LinkList/LinkList'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata, organizationJsonLd, pressAppearancesJsonLd } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
@@ -33,6 +21,7 @@ import {
 } from '@/sanity/lib/press'
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 import type { MediaKitStripItem } from '@/types/edition'
+import { MediaKitStrip } from './_components/MediaKitStrip'
 import { pressPage } from './page.recipe'
 
 const styles = pressPage()
@@ -48,20 +37,6 @@ const MEDIUM_LABEL: Record<Medium, string> = {
   article: 'Article',
   video: 'Video',
   audio: 'Audio',
-}
-
-function iconForUrl(url: string, medium: Medium): typeof RiYoutubeLine {
-  try {
-    const host = new URL(url).hostname
-    if (host.includes('youtube.com') || host.includes('youtu.be')) return RiYoutubeLine
-    if (host.includes('vimeo.com')) return RiVimeoLine
-    if (host.includes('soundcloud.com')) return RiSoundcloudLine
-  } catch {
-    /* invalid URL — fall through to medium fallback */
-  }
-  if (medium === 'video') return RiPlayCircleLine
-  if (medium === 'audio') return RiSoundcloudLine
-  return RiNewspaperLine
 }
 
 export default function PressRoute() {
@@ -133,42 +108,29 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
             <div className={styles.appearancesInner}>
               <SectionHeading>Press appearances</SectionHeading>
 
-              <ul className={styles.appList}>
+              <LinkList>
                 {appearances.map((item) => {
                   if (!item.medium || !item.url) return null
-                  const Icon = iconForUrl(item.url, item.medium)
                   return (
-                    <li key={item._id} className={styles.appRow}>
-                      <a
-                        href={item.url}
-                        className={styles.appLink}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                      >
-                        <span className={styles.appType}>
-                          <Icon size={24} />
-                          <span>{MEDIUM_LABEL[item.medium]}</span>
-                        </span>
-                        <span className={styles.appAside}>
-                          <span className={styles.appDate}>{item.year}</span>
-                          <Badge className={css({ alignSelf: 'center' })}>{item.tag}</Badge>
-                        </span>
-                        <span className={styles.appBody}>
-                          <span className={styles.appText}>
-                            <span className={styles.appTitle}>{item.title}</span>
-                            {item.excerpt && (
-                              <span className={styles.appExcerpt}>{item.excerpt}</span>
-                            )}
-                          </span>
-                          <span className={styles.appArrow}>
-                            <RiArrowRightUpLine size={20} />
-                          </span>
-                        </span>
-                      </a>
-                    </li>
+                    <LinkListItem
+                      key={item._id}
+                      year={item.year}
+                      title={item.title}
+                      href={item.url}
+                      excerpt={item.excerpt}
+                      external
+                      tags={[
+                        <Badge key="tag" tone="outline">
+                          {item.tag}
+                        </Badge>,
+                        <Badge key="medium" tone="outline">
+                          {MEDIUM_LABEL[item.medium]}
+                        </Badge>,
+                      ]}
+                    />
                   )
                 })}
-              </ul>
+              </LinkList>
             </div>
           </section>
         )}
@@ -179,48 +141,21 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
             <div className={styles.releasesInner}>
               <SectionHeading>Press releases</SectionHeading>
 
-              <ul className={styles.releaseList}>
-                {releases.map((release, i) => (
-                  <li key={release._id} className={styles.releaseRow}>
-                    <a
-                      href={release.pdfUrl ? stegaClean(release.pdfUrl) : '#'}
-                      className={styles.releaseLink}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      <span className={styles.releaseId}>{String(i + 1).padStart(2, '0')}</span>
-                      <span className={styles.releaseIcon}>
-                        <RiFileTextLine size={24} />
-                      </span>
-                      <span className={styles.releaseBody}>
-                        <span className={styles.releaseTitle}>{release.title}</span>
-                        <span className={styles.releaseMeta}>
-                          {[
-                            release.language,
-                            `${release.pages} pages`,
-                            formatBytes(release.sizeBytes),
-                          ]
-                            .filter(Boolean)
-                            .join(' · ')}
-                        </span>
-                      </span>
-                      <span className={styles.releaseAction}>
-                        Download PDF <RiArrowRightLine size={14} />
-                      </span>
-                    </a>
-                  </li>
+              <LinkList>
+                {releases.map((release) => (
+                  <LinkListItem
+                    key={release._id}
+                    year={release.publishedAt.slice(0, 4)}
+                    title={release.title}
+                    href={release.pdfUrl ?? undefined}
+                    external
+                  />
                 ))}
-              </ul>
+              </LinkList>
             </div>
           </section>
         )}
       </main>
     </>
   )
-}
-
-function formatBytes(bytes: number | null | undefined): string | null {
-  if (!bytes || bytes <= 0) return null
-  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }

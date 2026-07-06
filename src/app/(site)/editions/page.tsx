@@ -1,13 +1,9 @@
-import Link from 'next/link'
 import { type CSSProperties } from 'react'
-import { css, cx } from 'styled-system/css'
+import { css } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
-import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
-import { Figure } from '@/components/Figure/Figure'
+import { EditionCard } from '@/components/EditionCard/EditionCard'
 import { PageHero } from '@/components/PageHero/PageHero'
-import { Badge } from '@/components/ui/Badge/Badge'
-import { Card } from '@/components/ui/Card/Card'
 import { getAllEditionYears, getEdition } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
@@ -47,56 +43,22 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
     <EditionsListShell>
       <div className={styles.grid}>
         {visibleEditions.map((edition, index) => {
-          const year = edition.year
           const isFeature = index === 0
-          const thumb = edition.thumbImage ?? edition.heroImage
 
           return (
             <div
-              key={year}
+              key={edition.year}
               className={styles.slot}
               data-feature={isFeature || undefined}
               style={{ '--card-index': index } as CSSProperties}
             >
-              <Card
-                as={Link}
-                href={`/editions/${year}`}
-                ground="onDark"
-                interactive
+              <EditionCard
+                edition={edition}
+                href={`/editions/${edition.year}`}
+                size={isFeature ? 'lg' : 'md'}
+                themeDelay={THEME_STAGGER}
                 className={styles.card}
-              >
-                <div className={styles.frame}>
-                  <Figure
-                    image={thumb}
-                    sizes={
-                      isFeature
-                        ? '(min-width: 1440px) 1400px, 100vw'
-                        : '(min-width: 1024px) 50vw, 100vw'
-                    }
-                    className={styles.thumbImg}
-                  />
-                  <Badge className={cx(styles.yearTag)}>{year}</Badge>
-                </div>
-
-                <div className={styles.meta}>
-                  <EditionTheme
-                    as="h2"
-                    size={isFeature ? 'large' : 'normal'}
-                    interactive
-                    theme={edition.theme}
-                    themeHighlight={edition.themeHighlight}
-                    delay={THEME_STAGGER}
-                  />
-                  <div className={styles.metaFoot}>
-                    <span className={styles.subline}>
-                      <span>{edition.artists.length} artists</span>
-                      <span className={styles.sublineDot} aria-hidden />
-                      <span>{edition.dateTape}</span>
-                    </span>
-                    <span className={styles.cta}>Explore</span>
-                  </div>
-                </div>
-              </Card>
+              />
             </div>
           )
         })}

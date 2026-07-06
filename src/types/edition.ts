@@ -84,6 +84,12 @@ export interface CalendarEvent {
   featured: boolean
 }
 
+/** The subset of `CalendarEvent` the programme list renders. Excludes the
+ *  detail-only fields (`ticketUrl`/`facebookUrl`/`ogImage`) that only the
+ *  event modal reads, so list JSX can't reach for one by accident — the data
+ *  is still the same fetch/array, this is a render-boundary type only. */
+export type CalendarListEvent = Omit<CalendarEvent, 'ticketUrl' | 'facebookUrl' | 'ogImage'>
+
 // ---- Carousel ----
 
 export type CarouselLayout = 'trio' | 'duo' | 'featured-portrait' | 'featured-stack' | 'full'

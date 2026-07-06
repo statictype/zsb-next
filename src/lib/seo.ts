@@ -1,20 +1,9 @@
-import { stegaClean } from '@sanity/client/stega'
 import type { SanityImageSource } from '@sanity/image-url'
 import type { Metadata } from 'next'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
 import { urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import type { CalendarEvent, Edition } from '@/types/edition'
-
-// Strings sourced from Sanity carry invisible Visual Editing characters
-// (stega) so the Presentation tool can map rendered text back to fields.
-// Those characters MUST be stripped before anything is written to <head>
-// or to JSON-LD — search engines and social scrapers don't see invisible
-// glyphs as part of the visible string, and the result looks broken or
-// kills click-through rates.
-function clean<T extends string | undefined>(value: T): T {
-  return (typeof value === 'string' ? stegaClean(value) : value) as T
-}
 
 // An editor-set image field from Sanity (image object with optional alt).
 type ShareImageSource = { asset?: unknown; alt?: string | null } | null | undefined
@@ -33,7 +22,7 @@ function shareImages(source: ShareImageSource): NonNullable<Metadata['openGraph'
         .url(),
       width: 1200,
       height: 630,
-      alt: clean(source.alt ?? undefined) || SITE_NAME,
+      alt: (source.alt ?? undefined) || SITE_NAME,
     },
   ]
 }
@@ -51,9 +40,9 @@ export function pageMetadata(args: {
   shareImage?: ShareImageSource
 }): Metadata {
   const images = shareImages(args.shareImage)
-  const description = clean(args.description)
+  const description = args.description
   return {
-    ...(args.title !== undefined && { title: clean(args.title) }),
+    ...(args.title !== undefined && { title: args.title }),
     description,
     alternates: { canonical: args.path },
     // Only emit openGraph when overriding the image — re-declaring the global
@@ -94,8 +83,7 @@ interface MakePageMetadataConfig {
  *
  * Safe under ADR 0012 (docs/adr/0012-cache-components-three-layer-fetch.md):
  * this caches nothing and hides no render `'use cache'` boundary — metadata
- * fetchers are already cached behind their own directive, and metadata always
- * strips stega (perspective resolved, stega: false).
+ * fetchers are already cached behind their own directive.
  */
 export function makePageMetadata(
   fetcher: (options: DynamicFetchOptions) => Promise<PageMetaFields | null>,
@@ -103,7 +91,7 @@ export function makePageMetadata(
 ): () => Promise<Metadata> {
   return async () => {
     const { perspective } = await getDynamicFetchOptions()
-    const page = await fetcher({ perspective, stega: false })
+    const page = await fetcher({ perspective })
     const meta = pageMetadata({
       title,
       description: page?.metaDescription ?? description,
@@ -120,8 +108,8 @@ function truncate(text: string, max: number): string {
 }
 
 export function editionMetadata(edition: Edition): Metadata {
-  const theme = clean(edition.theme)
-  const description = clean(edition.metaDescription) || clean(truncate(edition.manifesto.body, 155))
+  const theme = edition.theme
+  const description = edition.metaDescription || truncate(edition.manifesto.body, 155)
   const title = `${edition.year} — ${theme}`
   const path = `/editions/${edition.year}`
 
@@ -145,8 +133,8 @@ export function editionMetadata(edition: Edition): Metadata {
 // the event route's opengraph-image (override → poster → generated card,
 // ZSB-41); setting it here would duplicate it.
 export function eventMetadata(year: number, event: CalendarEvent): Metadata {
-  const title = clean(event.name)
-  const description = clean(truncate(event.description, 155))
+  const title = event.name
+  const description = truncate(event.description, 155)
   const path = `/editions/${year}/events/${event.slug}`
 
   return {
@@ -163,18 +151,18 @@ export function eventMetadata(year: number, event: CalendarEvent): Metadata {
 }
 
 export function editionEventJsonLd(edition: Edition) {
-  const theme = clean(edition.theme)
-  const start = clean(edition.dateStart)
-  const end = clean(edition.dateEnd)
+  const theme = edition.theme
+  const start = edition.dateStart
+  const end = edition.dateEnd
 
   // ZSB is multi-site. Emit one schema.org Place per distinct top-level location
   // across the edition's events — each venue's stamped rolled-up identity, the
   // same key the calendar filters and the Visit venues view group by (ZSB-65),
   // so a studio inside CFP counts as CFP. Fall back to venueLine, then
   // "Bucharest", when no events are authored yet (the forthcoming edition).
-  const eventPlaces = (edition.events ?? []).map((e) => clean(e.venue.rollUp.name))
+  const eventPlaces = (edition.events ?? []).map((e) => e.venue.rollUp.name)
   const venueNames = [...new Set(eventPlaces.filter(Boolean))]
-  const placeNames = venueNames.length > 0 ? venueNames : [clean(edition.venueLine) || 'Bucharest']
+  const placeNames = venueNames.length > 0 ? venueNames : [edition.venueLine || 'Bucharest']
   const places = placeNames.map((name) => ({
     '@type': 'Place',
     name,
@@ -189,7 +177,7 @@ export function editionEventJsonLd(edition: Edition) {
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: `${SITE_NAME} ${edition.year} — ${theme}`,
-    description: clean(edition.manifesto.body),
+    description: edition.manifesto.body,
     // startDate is effectively required for Google Event rich results; both
     // are stored as YYYY-MM-DD, which schema.org accepts as-is.
     ...(start && { startDate: start }),
@@ -209,7 +197,7 @@ export function editionEventJsonLd(edition: Edition) {
     },
     performer: edition.artists.map((name) => ({
       '@type': 'Person',
-      name: clean(name),
+      name,
     })),
   }
 }
@@ -221,18 +209,17 @@ export interface FaqEntry {
 
 // FAQPage structured data for the Visit page. Google requires every Q&A here
 // to be visibly present on the page, so this is built from the SAME merged
-// list the visible FAQ renders from — never a separate copy. Strings are
-// stega-stripped because this goes straight into a <script> tag.
+// list the visible FAQ renders from — never a separate copy.
 export function visitFaqJsonLd(entries: FaqEntry[]) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: entries.map((entry) => ({
       '@type': 'Question',
-      name: clean(entry.question),
+      name: entry.question,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: clean(entry.answer),
+        text: entry.answer,
       },
     })),
   }
@@ -240,9 +227,7 @@ export function visitFaqJsonLd(entries: FaqEntry[]) {
 
 export function organizationJsonLd(args: { sameAs?: Array<string | null | undefined> }) {
   const sameAs =
-    args.sameAs
-      ?.filter((s): s is string => typeof s === 'string' && s.length > 0)
-      .map((s) => clean(s)) ?? []
+    args.sameAs?.filter((s): s is string => typeof s === 'string' && s.length > 0) ?? []
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -269,11 +254,11 @@ export function pressAppearancesJsonLd(appearances: PressAppearanceForJsonLd[]) 
         a.medium === 'video' ? 'VideoObject' : a.medium === 'audio' ? 'AudioObject' : 'Article'
       const item: Record<string, unknown> = {
         '@type': type,
-        name: clean(a.title!),
-        url: clean(a.url!),
+        name: a.title,
+        url: a.url,
         about: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
       }
-      if (a.excerpt) item.description = clean(a.excerpt)
+      if (a.excerpt) item.description = a.excerpt
       if (a.year) item.datePublished = `${a.year}`
       return { '@type': 'ListItem', position: i + 1, item }
     })
@@ -286,7 +271,7 @@ export function pressAppearancesJsonLd(appearances: PressAppearanceForJsonLd[]) 
 }
 
 export function editionBreadcrumbJsonLd(edition: Edition) {
-  const theme = clean(edition.theme)
+  const theme = edition.theme
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
