@@ -72,26 +72,33 @@ export const lightbox = sva({
       pointerEvents: 'none',
       md: { bottom: '32px' },
     },
-    // Arrows: desktop-only, vertically centered, nudge on hover.
+    // Arrows: desktop-only, each owns its full letterbox column (the 80px
+    // strip beside the frame) so a near-miss navigates instead of falling
+    // through to the close-on-click backdrop. insetBlock keeps the top-right
+    // corner for the close control. The icon nudges on hover, not the strip.
     navPrev: {
       position: 'absolute',
-      top: '50%',
-      left: '16px',
-      transform: 'translateY(-50%)',
+      insetBlock: '96px',
+      left: '0',
+      width: '80px',
+      height: 'auto',
       zIndex: 10,
       display: 'none',
       md: { display: 'inline-flex' },
-      _hover: { transform: 'translateY(-50%) translateX(-2px)' },
+      '& svg': { transition: 'transform {durations.normal} {easings.expo}' },
+      _hover: { transform: 'none', '& svg': { transform: 'translateX(-2px)' } },
     },
     navNext: {
       position: 'absolute',
-      top: '50%',
-      right: '16px',
-      transform: 'translateY(-50%)',
+      insetBlock: '96px',
+      right: '0',
+      width: '80px',
+      height: 'auto',
       zIndex: 10,
       display: 'none',
       md: { display: 'inline-flex' },
-      _hover: { transform: 'translateY(-50%) translateX(2px)' },
+      '& svg': { transition: 'transform {durations.normal} {easings.expo}' },
+      _hover: { transform: 'none', '& svg': { transform: 'translateX(2px)' } },
     },
 
     // Off-screen N±1 prefetch of optimized variants.
