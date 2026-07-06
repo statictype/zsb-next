@@ -22,6 +22,11 @@ export const cookieBanner = sva({
       border: 'hairline',
       boxShadow: 'modal',
       fontFamily: 'body',
+      // A dialog's modal machine sets `body { pointer-events: none }` while
+      // open (everything not part of that dialog's own layer). The banner is
+      // a global fixture portalled straight to <body>, so it inherits that
+      // and becomes unclickable behind any dialog unless reasserted here.
+      pointerEvents: 'auto',
     },
     inner: {
       display: 'flex',
