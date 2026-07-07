@@ -182,18 +182,8 @@ export const calendar = sva({
       // Gradient hover ring (masked to the 1px edge).
       _before: {
         content: '""',
-        position: 'absolute',
-        inset: 0,
+        layerStyle: 'gradientBorder',
         padding: '0.5px',
-        background:
-          'linear-gradient(90deg, token(colors.action) 0%, token(colors.highlight) 50%, token(colors.action) 100%)',
-        backgroundSize: '200% 100%',
-        WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-        WebkitMaskComposite: 'xor',
-        maskComposite: 'exclude',
-        opacity: 0,
-        zIndex: 2,
-        pointerEvents: 'none',
         transition: 'opacity {durations.normal} {easings.quint}',
       },
       _hover: {

@@ -44,7 +44,7 @@ export const hero = sva({
       overflow: 'hidden',
       isolation: 'isolate',
       filter: 'grayscale(0.3)',
-      boxShadow: '0 30px 80px -30px rgba(0, 0, 0, 0.7)',
+      boxShadow: 'frame',
       md: { aspectRatio: '2 / 1' },
       _after: {
         content: '""',
@@ -68,8 +68,7 @@ export const hero = sva({
       position: 'absolute',
       inset: '0',
       pointerEvents: 'none',
-      background:
-        'linear-gradient(115deg, rgba(14, 11, 16, 0.55) 0%, rgba(14, 11, 16, 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgba(14, 11, 16, 0.5) 100%)',
+      background: 'token(gradients.heroVignette)',
       mixBlendMode: 'multiply',
       zIndex: '1',
       animationDelay: '0.3s',

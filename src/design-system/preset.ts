@@ -12,6 +12,13 @@ import {
   tokens,
 } from './tokens'
 
+// Raw-value policy (`strictTokens` stays OFF, deliberately): anything that
+// recurs is a token or composition — shadows (card/badge/modal/frame/tape),
+// the hero vignette gradient, the skeleton + gradient-border layer styles.
+// What remains raw inside recipes is one-off art direction (local scrims,
+// the artists-table barcode, mask geometry, px nudges) where a token would
+// only launder a magic number into a magic name. New values follow the same
+// test: second occurrence → token.
 export const designSystemPreset = definePreset({
   name: 'zsb-design-system',
   conditions: { extend: conditions },

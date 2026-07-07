@@ -183,6 +183,23 @@ export const tokens = {
     card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
     badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
     modal: { value: '0 30px 80px rgb(0 0 0 / 0.5)' },
+    // The hero frame's grounding lift — modal's geometry pulled tighter
+    // (negative spread) and darker, sized for photography on black.
+    frame: { value: '0 30px 80px -30px rgb(0 0 0 / 0.7)' },
+    // The theme tape's pinned-paper elevation (badge's recipe, heavier hand).
+    tape: {
+      value: 'inset 0 1px 0 rgb(255 255 255 / 0.08), 0 14px 32px -6px rgb(0 0 0 / 0.55)',
+    },
+  },
+  gradients: {
+    // The hero's photographic vignette. The near-black stops are the legacy
+    // `canvas` color (#0E0B10, the brand's warm magenta tint) — kept ONLY
+    // here, where it multiplies over imagery; every opaque dark ground is
+    // `black` (ZSB-70).
+    heroVignette: {
+      value:
+        'linear-gradient(115deg, rgb(14 11 16 / 0.55) 0%, rgb(14 11 16 / 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgb(14 11 16 / 0.5) 100%)',
+    },
   },
 } as const
 
@@ -456,6 +473,45 @@ export const layerStyles = {
       paddingBottom: { base: '2xl', md: '3xl' },
     },
   },
-  // NB layerStyles are surface props only — positioned/animated helpers
-  // (e.g. the image skeleton) live in their own `css()` helper, not here.
+  // The one loading-placeholder surface: gray.800 base with the `shimmer`
+  // sweep riding on `::after`. Shared by the image skeleton (`css()` helper
+  // positions it absolutely) and the edition-loading bones.
+  skeleton: {
+    value: {
+      position: 'relative',
+      background: 'gray.800',
+      overflow: 'hidden',
+      _after: {
+        content: '""',
+        position: 'absolute',
+        inset: '0',
+        background:
+          'linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 0.06) 50%, transparent 100%)',
+        animationStyle: 'shimmer',
+      },
+    },
+  },
+  // The hairline-gradient hover ring (Calendar runs + gallery tiles): paint
+  // the action→highlight sweep, then mask everything except the padding ring
+  // (content-box XOR). Applied on a `::before`; the call site supplies
+  // `content`, the ring width (padding), its transition, and the hover that
+  // lifts `opacity` + starts `animationStyle: 'gradientBorder'`.
+  gradientBorder: {
+    value: {
+      position: 'absolute',
+      inset: '0',
+      background:
+        'linear-gradient(90deg, token(colors.action) 0%, token(colors.highlight) 50%, token(colors.action) 100%)',
+      backgroundSize: '200% 100%',
+      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+      mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+      WebkitMaskComposite: 'xor',
+      maskComposite: 'exclude',
+      opacity: '0',
+      zIndex: '2',
+      pointerEvents: 'none',
+    },
+  },
+  // NB layerStyles carry the surface look only — positioning/stacking beyond
+  // the mechanism itself stays at the call site.
 } as const

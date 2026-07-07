@@ -36,7 +36,7 @@ export const editionTheme = sva({
       marginBlock: '2px',
       rotate: '-0.45deg',
       transformOrigin: 'top left',
-      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 14px 32px -6px rgba(0, 0, 0, 0.55)',
+      boxShadow: 'tape',
       textTransform: 'lowercase',
       // The tape entrance — on every instance.
       opacity: '0',

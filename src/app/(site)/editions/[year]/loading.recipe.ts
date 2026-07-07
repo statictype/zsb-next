@@ -5,9 +5,9 @@ import { sva } from 'styled-system/css'
  *
  * The Suspense fallback for an edition page: pulsing "bone" placeholders laid
  * out roughly like the real hero / manifesto / artists / venues / carousel
- * sections. `bone` carries the shared surface + shimmer sweep (the `shimmer`
- * keyframe registers in the Panda config); the size slots are combined onto it
- * via `cx`. The carousel height inlines the former `--carousel-height` stepped
+ * sections. `bone` is the shared `skeleton` layer style (surface + shimmer
+ * sweep, same mechanism as the image skeleton); the size slots are combined
+ * onto it via `cx`. The carousel height inlines the former `--carousel-height` stepped
  * var (this was its last consumer).
  */
 export const editionLoading = sva({
@@ -31,20 +31,7 @@ export const editionLoading = sva({
   base: {
     page: { minHeight: '100vh', background: 'black' },
 
-    bone: {
-      // exception: skeleton placeholder surface
-      background: 'gray.900',
-      position: 'relative',
-      overflow: 'hidden',
-      _after: {
-        content: '""',
-        position: 'absolute',
-        inset: '0',
-        background:
-          'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%)',
-        animationStyle: 'shimmer',
-      },
-    },
+    bone: { layerStyle: 'skeleton' },
 
     hero: {
       height: '100svh',
