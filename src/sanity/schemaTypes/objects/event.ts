@@ -5,8 +5,10 @@ import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 // The building block of the program. Events are nested in the edition (one list
 // per edition), not standalone documents — an event has no life outside its
-// edition and we don't deep-link a single one; sharing targets the filtered
-// calendar view (ADR 0014). Timing is a Bucharest-local `startDate` + optional
+// edition (ADR 0014). Each event does get a canonical deep link at
+// /editions/[year]/events/[slug], with the `slug` field below either
+// editor-set or derived at read time (ADR 0015).
+// Timing is a Bucharest-local `startDate` + optional
 // `startTime` (only when the time matters) + optional `endDate`; we store no UTC
 // instants and no end-times. "Ongoing" (multi-day) and "past vs upcoming" are
 // *derived* by the renderer, never stored here.
