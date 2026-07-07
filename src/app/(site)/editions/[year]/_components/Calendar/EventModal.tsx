@@ -46,13 +46,7 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
   const s = eventModal()
 
   return (
-    <Dialog
-      id={`event-${event.slug}`}
-      open
-      onClose={onClose}
-      title={event.name}
-      presentation="panel"
-    >
+    <Dialog open onClose={onClose} title={event.name} presentation="panel">
       <div className={s.controls}>
         {/* Dismiss returns to the programme (router back / link up); ✕ was a
               generic close that no longer fits the route model (ZSB-50). */}

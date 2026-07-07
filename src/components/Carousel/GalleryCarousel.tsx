@@ -1,8 +1,9 @@
 'use client'
 
+import { useState } from 'react'
 import { css } from 'styled-system/css'
 import { Figure } from '@/components/Figure/Figure'
-import { useLightbox } from '@/components/Lightbox/Lightbox'
+import { Lightbox } from '@/components/Lightbox/Lightbox'
 import type { CarouselLayout, CarouselSlide as GallerySlide } from '@/types/edition'
 import { Carousel } from './Carousel'
 import { galleryCarousel } from './GalleryCarousel.recipe'
@@ -21,7 +22,7 @@ export function GalleryCarousel({ slides, eyebrow }: { slides: GallerySlide[]; e
   const lightboxImages = slides.flatMap((slide) =>
     slide.images.map((image) => ({ src: image.image.src, caption: image.caption })),
   )
-  const lightbox = useLightbox(lightboxImages)
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const styles = galleryCarousel()
   const slideOffsets = slides.map((_, slideIndex) =>
     slides.slice(0, slideIndex).reduce((imageCount, slide) => imageCount + slide.images.length, 0),
@@ -38,7 +39,7 @@ export function GalleryCarousel({ slides, eyebrow }: { slides: GallerySlide[]; e
               key={image.image.src}
               type="button"
               className={styles.item}
-              onClick={() => lightbox.open(imageFlatIndex)}
+              onClick={() => setLightboxIndex(imageFlatIndex)}
             >
               <Figure
                 image={image.image}
@@ -66,7 +67,12 @@ export function GalleryCarousel({ slides, eyebrow }: { slides: GallerySlide[]; e
         eyebrow={eyebrow}
         className={placement}
       />
-      {lightbox.element}
+      <Lightbox
+        images={lightboxImages}
+        index={lightboxIndex}
+        onClose={() => setLightboxIndex(null)}
+        onIndexChange={setLightboxIndex}
+      />
     </>
   )
 }

@@ -1,7 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import { Figure } from '@/components/Figure/Figure'
-import { useLightbox } from '@/components/Lightbox/Lightbox'
+import { Lightbox } from '@/components/Lightbox/Lightbox'
 import type { HeroImage } from '@/types/edition'
 import { Carousel } from './Carousel'
 import { homepageCarousel } from './HomepageCarousel.recipe'
@@ -13,7 +14,7 @@ export function HomepageCarousel({
   images: HeroImage[]
   interval?: number
 }) {
-  const lightbox = useLightbox(images.map((image) => ({ src: image.src, caption: '' })))
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const styles = homepageCarousel()
   const slides = images.map((image, index) => ({
     id: `homepage-${index}`,
@@ -22,7 +23,7 @@ export function HomepageCarousel({
         type="button"
         className={styles.slide}
         aria-label="Open image in lightbox"
-        onClick={() => lightbox.open(index)}
+        onClick={() => setLightboxIndex(index)}
       >
         <Figure
           image={image}
@@ -47,7 +48,12 @@ export function HomepageCarousel({
         autoplay={interval}
         loop
       />
-      {lightbox.element}
+      <Lightbox
+        images={images.map((image) => ({ src: image.src, caption: '' }))}
+        index={lightboxIndex}
+        onClose={() => setLightboxIndex(null)}
+        onIndexChange={setLightboxIndex}
+      />
     </>
   )
 }

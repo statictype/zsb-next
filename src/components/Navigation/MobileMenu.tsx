@@ -35,7 +35,6 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
       </Button>
 
       <Dialog
-        id="mobile-navigation"
         open={isOpen}
         onClose={closeMenu}
         ariaLabel="Site navigation"
