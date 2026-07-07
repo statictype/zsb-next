@@ -81,9 +81,8 @@ function PartnersShell({
           <div className={styles.inner}>
             <SectionHeading>{eventTitle}</SectionHeading>
             <div className={styles.eventBody}>
-              {eventBody.map((para, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: positional
-                <p key={i}>{para}</p>
+              {eventBody.map((para) => (
+                <p key={para}>{para}</p>
               ))}
             </div>
             <figure className={styles.eventImage}>
@@ -114,8 +113,7 @@ function PartnersShell({
 
             <div className={styles.whyGrid}>
               {whyPoints.map((point, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: positional
-                <article key={i} className={styles.whyPillar}>
+                <article key={point.title} className={styles.whyPillar}>
                   <div className={styles.whyPillarHead}>
                     <span className={styles.whyPillarNum}>{pad(i + 1)}</span>
                     <h3 className={styles.whyPillarTitle}>{point.title}</h3>

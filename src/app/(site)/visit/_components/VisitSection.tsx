@@ -10,6 +10,7 @@ import {
   RiTimeLine,
   RiWheelchairLine,
 } from '@remixicon/react'
+import { css } from 'styled-system/css'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -76,14 +77,8 @@ export function VisitSection(props: VisitData = {}) {
           </div>
 
           <div className={s.content}>
-            <SectionHeading flush>
-              {venueName.map((line, i, arr) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: positional
-                <span key={i}>
-                  {line}
-                  {i < arr.length - 1 && <br />}
-                </span>
-              ))}
+            <SectionHeading flush className={css({ whiteSpace: 'pre-line' })}>
+              {venueName.join('\n')}
             </SectionHeading>
 
             <div className={s.infoRow}>
@@ -99,15 +94,7 @@ export function VisitSection(props: VisitData = {}) {
               <div className={s.infoBlock}>
                 <RiTimeLine size={18} className={s.infoIcon} />
                 <span className={s.infoLabel}>Opening Hours</span>
-                <span className={s.infoValue}>
-                  {hoursLines.map((line, i, arr) => (
-                    // biome-ignore lint/suspicious/noArrayIndexKey: positional
-                    <span key={i}>
-                      {line}
-                      {i < arr.length - 1 && <br />}
-                    </span>
-                  ))}
-                </span>
+                <span className={s.infoValue}>{hoursLines.join('\n')}</span>
               </div>
             </div>
 

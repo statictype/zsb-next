@@ -26,6 +26,9 @@ export const galleryCarousel = sva({
     },
 
     item: {
+      // Native <button> without preflight — strip the UA chrome.
+      display: 'block',
+      border: 'none',
       position: 'relative',
       overflow: 'hidden',
       cursor: 'pointer',

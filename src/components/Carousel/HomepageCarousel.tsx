@@ -18,17 +18,11 @@ export function HomepageCarousel({
   const slides = images.map((image, index) => ({
     id: `homepage-${index}`,
     content: (
-      <div
+      <button
+        type="button"
         className={styles.slide}
-        role="button"
-        tabIndex={0}
         aria-label="Open image in lightbox"
         onClick={() => lightbox.open(index)}
-        onKeyDown={(event) => {
-          if (event.key !== 'Enter' && event.key !== ' ') return
-          event.preventDefault()
-          lightbox.open(index)
-        }}
       >
         <Figure
           image={image}
@@ -39,7 +33,7 @@ export function HomepageCarousel({
           draggable={false}
         />
         <div className={styles.vignette} aria-hidden />
-      </div>
+      </button>
     ),
   }))
 

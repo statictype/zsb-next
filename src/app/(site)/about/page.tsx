@@ -75,9 +75,8 @@ function AboutShell({ view }: { view: AboutView }) {
       <section className={section({ ground: 'dark' })}>
         <div className={styles.inner}>
           <div className={styles.pillarsGrid}>
-            {pillars.map((p, i) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: positional
-              <article key={i} className={styles.pillar}>
+            {pillars.map((p) => (
+              <article key={p.label} className={styles.pillar}>
                 <div className={styles.pillarHead}>
                   <h2 className={styles.pillarTitle}>{p.label}</h2>
                 </div>
@@ -116,9 +115,8 @@ function AboutShell({ view }: { view: AboutView }) {
 
           <div className={styles.statementLetter}>
             <div className={styles.letterBody}>
-              {curatorLetter.map((para, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: positional
-                <p key={i}>{para}</p>
+              {curatorLetter.map((para) => (
+                <p key={para}>{para}</p>
               ))}
             </div>
           </div>

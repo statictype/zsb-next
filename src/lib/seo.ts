@@ -195,9 +195,9 @@ export function editionEventJsonLd(edition: Edition) {
       name: SITE_NAME,
       url: SITE_URL,
     },
-    performer: edition.artists.map((name) => ({
+    performer: edition.artists.map((artist) => ({
       '@type': 'Person',
-      name,
+      name: artist.name,
     })),
   }
 }

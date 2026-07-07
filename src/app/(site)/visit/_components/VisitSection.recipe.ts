@@ -91,6 +91,8 @@ export const visitSection = sva({
       // exception: bright body on dark, lead-style emphasis
       color: 'gray.200',
       lineHeight: 'body',
+      // Joined multi-line values (opening hours) render their own '\n' breaks.
+      whiteSpace: 'pre-line',
     },
 
     practicalStrip: {

@@ -4,7 +4,7 @@ import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { getAllEditionYears } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
-import { getArtistNames } from '@/sanity/lib/artists'
+import { getArtistIndex } from '@/sanity/lib/artists'
 
 export const metadata = pageMetadata({
   title: 'Artists',
@@ -14,7 +14,7 @@ export const metadata = pageMetadata({
 })
 
 export default async function ArtistsPage() {
-  const [artists, editionYears] = await Promise.all([getArtistNames(), getAllEditionYears()])
+  const [artists, editionYears] = await Promise.all([getArtistIndex(), getAllEditionYears()])
   const editionCount = editionYears.length
 
   return (

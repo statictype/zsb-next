@@ -20,6 +20,9 @@ export default [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
+      'react/no-array-index-key': 'error',
+      'jsx-a11y/no-static-element-interactions': 'error',
+      'react/no-danger': 'error',
 
       // CSS Modules are fully retired — styling is Panda only (ADR 0017). Block
       // any new `*.module.css` import so the migration can't silently regress.
@@ -34,17 +37,6 @@ export default [
           ],
         },
       ],
-    },
-  },
-  {
-    // Files where positional array keys are intentional (slides / items never reorder).
-    files: [
-      'src/components/Carousel/Carousel.tsx',
-      'src/components/MediaKit/MediaKit.tsx',
-      'src/components/Program/Program.tsx',
-    ],
-    rules: {
-      'react/no-array-index-key': 'off',
     },
   },
   {

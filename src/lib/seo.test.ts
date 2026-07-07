@@ -55,7 +55,10 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
     venueLine: 'Combinatul Fondului Plastic',
     manifesto: { title: 'A title', highlight: 'title', body: 'The manifesto body.' },
     themeSection: { body: 'Theme body.' },
-    artists: ['Mircea Roman', 'Ana Rus'],
+    artists: [
+      { _id: 'artist-1', name: 'Mircea Roman' },
+      { _id: 'artist-2', name: 'Ana Rus' },
+    ],
     hasProgram: true,
     events: [event('Combinatul Fondului Plastic'), event('Partner Venues')],
     credits: [{ type: 'primary', label: 'Curator', value: 'Reka Csapo Dup' }],
