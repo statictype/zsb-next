@@ -3,11 +3,11 @@ import { css } from 'styled-system/css'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { getAllEditionYears } from '@/data/editions'
-import { getArtistNames } from '@/sanity/lib/artists'
+import { getArtistIndex } from '@/sanity/lib/artists'
 import { artistsBanner } from './ArtistsBanner.recipe'
 
 export async function ArtistsBanner() {
-  const [artists, editionYears] = await Promise.all([getArtistNames(), getAllEditionYears()])
+  const [artists, editionYears] = await Promise.all([getArtistIndex(), getAllEditionYears()])
   const artistCount = artists.length
   const editionCount = editionYears.length
 

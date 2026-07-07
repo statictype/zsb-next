@@ -34,17 +34,11 @@ export function GalleryCarousel({ slides, eyebrow }: { slides: GallerySlide[]; e
         {slide.images.map((image, imageIndex) => {
           const imageFlatIndex = startIndex + imageIndex
           return (
-            <div
+            <button
               key={image.image.src}
+              type="button"
               className={styles.item}
-              role="button"
-              tabIndex={0}
               onClick={() => lightbox.open(imageFlatIndex)}
-              onKeyDown={(event) => {
-                if (event.key !== 'Enter' && event.key !== ' ') return
-                event.preventDefault()
-                lightbox.open(imageFlatIndex)
-              }}
             >
               <Figure
                 image={image.image}
@@ -52,7 +46,7 @@ export function GalleryCarousel({ slides, eyebrow }: { slides: GallerySlide[]; e
                 className={styles.itemImage}
                 draggable={false}
               />
-            </div>
+            </button>
           )
         })}
       </div>

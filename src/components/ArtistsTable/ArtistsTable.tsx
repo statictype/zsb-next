@@ -1,5 +1,6 @@
 import { cx } from 'styled-system/css'
 import { padNum, splitInHalf } from '@/lib/format-utils'
+import type { ArtistListItem } from '@/types/edition'
 import { artistsTable } from './ArtistsTable.recipe'
 
 const styles = artistsTable()
@@ -10,7 +11,7 @@ interface MetaItem {
 }
 
 interface ArtistsTableProps {
-  artists: string[]
+  artists: ArtistListItem[]
   meta?: MetaItem[]
   className?: string | undefined
   headerLabel?: string
@@ -34,18 +35,18 @@ export function ArtistsTable({
 
       <div className={styles.body}>
         <div className={styles.column}>
-          {firstHalf.map((name, i) => (
-            <div key={name} className={styles.entry}>
+          {firstHalf.map((artist, i) => (
+            <div key={artist._id} className={styles.entry}>
               <span className={styles.num}>{padNum(i + 1, 3)}</span>
-              <span className={styles.name}>{name}</span>
+              <span className={styles.name}>{artist.name}</span>
             </div>
           ))}
         </div>
         <div className={styles.column}>
-          {secondHalf.map((name, i) => (
-            <div key={name} className={styles.entry}>
+          {secondHalf.map((artist, i) => (
+            <div key={artist._id} className={styles.entry}>
               <span className={styles.num}>{padNum(mid + i + 1, 3)}</span>
-              <span className={styles.name}>{name}</span>
+              <span className={styles.name}>{artist.name}</span>
             </div>
           ))}
         </div>

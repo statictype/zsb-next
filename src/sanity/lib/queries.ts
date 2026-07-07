@@ -185,9 +185,10 @@ export const ARTISTS_QUERY = defineQuery(`
   }
 `)
 
-// Names only, surname-ordered — for the artists index and the homepage banner.
-export const ARTIST_NAMES_QUERY = defineQuery(`
-  *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc).name
+// Identity + display name, surname-ordered — for the artists index and the
+// homepage banner. `_id` exists purely as a stable React key.
+export const ARTIST_INDEX_QUERY = defineQuery(`
+  *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc){ _id, name }
 `)
 
 export const ARTIST_BY_SLUG_QUERY = defineQuery(`
@@ -269,7 +270,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     manifesto,
     themeSection,
     hasProgram,
-    "artists": artists[]->{name, sortName} | order(coalesce(sortName, name) asc).name,
+    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },
     events[] {
       _key,
       "slug": slug.current,

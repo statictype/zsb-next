@@ -178,7 +178,7 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
       ariaLabel="Image lightbox"
       presentation="fullscreen"
     >
-      {/* biome-ignore lint/a11y/noStaticElementInteractions: lightbox click and drag are product gestures */}
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- lightbox click and drag are product gestures; keyboard and close live on the Dialog and its buttons */}
       <div
         className={s.lightbox}
         onClick={onClose}
@@ -197,7 +197,7 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
           <RiCloseLine size={28} />
         </Button>
 
-        {/* biome-ignore lint/a11y/noStaticElementInteractions: frame letterbox click closes */}
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- frame letterbox click closes; the close Button is the accessible path */}
         <div className={s.frame} style={frameStyle} onClick={onClose}>
           {!loaded && <span aria-hidden className={skeleton} />}
           <Image
@@ -215,7 +215,7 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
         </div>
 
         {current.caption && (
-          // biome-ignore lint/a11y/noStaticElementInteractions: caption click is a no-op
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- caption click only stops propagation so the backdrop doesn't close
           <div className={s.caption} onClick={stop}>
             {current.caption}
           </div>

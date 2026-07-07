@@ -67,6 +67,8 @@ export const credits = sva({
       fontSize: 'sm',
       color: 'muted',
       lineHeight: 'body',
+      // Authored multi-line strings render their own '\n' breaks.
+      whiteSpace: 'pre-line',
     },
     logo: {
       height: '44px',
@@ -159,6 +161,8 @@ export const credits = sva({
       fontSize: 'sm',
       color: 'muted',
       lineHeight: 'body',
+      // Authored multi-line strings render their own '\n' breaks.
+      whiteSpace: 'pre-line',
     },
   },
 })

@@ -173,6 +173,15 @@ export interface MasonryImage {
   rows: number
 }
 
+// ---- Artists ----
+
+/** Identity + display name for artist listings; `_id` exists purely as a
+ *  stable render key. */
+export interface ArtistListItem {
+  _id: string
+  name: string
+}
+
 // ---- Full Edition ----
 
 export interface Edition {
@@ -196,7 +205,7 @@ export interface Edition {
   venueLine: string
   manifesto: ManifestoData
   themeSection: ThemeData
-  artists: string[]
+  artists: ArtistListItem[]
   // Whether this edition has a program section at all (ADR 0018). The online-only
   // 2021 has none; an edition with `hasProgram` true but no events yet renders the
   // coming-soon block. Defaults to true in the mapper for older docs.
