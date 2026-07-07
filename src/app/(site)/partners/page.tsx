@@ -6,7 +6,6 @@ import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
-import { Navigation } from '@/components/Navigation/Navigation'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
@@ -69,7 +68,6 @@ function PartnersShell({
 
   return (
     <>
-      <Navigation activeId={null} />
       <main>
         <PageHero
           flush

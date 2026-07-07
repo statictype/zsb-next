@@ -6,7 +6,6 @@ import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
-import { Navigation } from '@/components/Navigation/Navigation'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { LinkList, LinkListItem } from '@/components/ui/LinkList/LinkList'
@@ -80,7 +79,6 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
 
   return (
     <>
-      <Navigation activeId="home" />
       <main>
         {upcoming ? (
           // Hero switch leads with the Upcoming edition (ZSB-44). It has no
