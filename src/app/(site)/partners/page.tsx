@@ -64,7 +64,6 @@ function PartnersShell({
     ctaBody,
     ctaLabel,
   } = view
-  const ctaHref = `mailto:${contactEmail ?? ''}`
 
   return (
     <>
@@ -123,29 +122,32 @@ function PartnersShell({
           </div>
         </section>
 
-        <section className={cx(section({ ground: 'dark' }), styles.partnerCta)}>
-          <div className={styles.partnerCtaInner}>
-            <div className={styles.partnerCtaBadge}>
-              <PartnerBadge />
+        {/* No contact email in settings would mean a broken `mailto:` — hide
+            the ask entirely rather than render a CTA that goes nowhere. */}
+        {contactEmail && (
+          <section className={cx(section({ ground: 'dark' }), styles.partnerCta)}>
+            <div className={styles.partnerCtaInner}>
+              <div className={styles.partnerCtaBadge}>
+                <PartnerBadge />
+              </div>
+              <h2 className={styles.partnerCtaHeading}>
+                <AccentSplit
+                  text={ctaHeading}
+                  accent={ctaHeadingAccent}
+                  className={styles.partnerCtaAccent}
+                  lineBreak
+                />
+              </h2>
+              <p className={styles.partnerCtaBody}>{ctaBody}</p>
+              <a
+                href={`mailto:${contactEmail}`}
+                className={button({ variant: 'primary', size: 'lg' })}
+              >
+                {ctaLabel} <RiArrowRightLine size={14} />
+              </a>
             </div>
-            <h2 className={styles.partnerCtaHeading}>
-              <AccentSplit
-                text={ctaHeading}
-                accent={ctaHeadingAccent}
-                className={styles.partnerCtaAccent}
-                lineBreak
-              />
-            </h2>
-            <p className={styles.partnerCtaBody}>{ctaBody}</p>
-            <a
-              href={ctaHref}
-              className={button({ variant: 'primary', size: 'lg' })}
-              {...(ctaHref.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}
-            >
-              {ctaLabel} <RiArrowRightLine size={14} />
-            </a>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
     </>
   )

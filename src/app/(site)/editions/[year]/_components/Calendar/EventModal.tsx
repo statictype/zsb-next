@@ -1,7 +1,7 @@
 'use client'
 
 import { RiArrowLeftLine } from '@remixicon/react'
-import { css, cx } from 'styled-system/css'
+import { cx } from 'styled-system/css'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
@@ -9,21 +9,11 @@ import { Dialog } from '@/components/ui/Dialog/Dialog'
 import { eventWhenLabel } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 import { eventModal } from './EventModal.recipe'
-import { useShareLink } from './useShareLink'
+import { shareCopied, shareIcon, useShareLink } from './useShareLink'
 
 // The Back/Share controls are plain ghost <Button>s floating over the dialog
 // top; the click-through bar (`controls` slot) re-enables pointer-events on its
 // buttons, so nothing is layered on top of the ghost variant here.
-const shareIcon = css({
-  '& svg': { transition: 'transform {durations.fast} {easings.quint}' },
-  _hover: { '& svg': { transform: 'translateY(-2px)' } },
-  _motionReduce: { '& svg': { transition: 'none' } },
-})
-const shareCopied = css({
-  color: 'highlight',
-  borderColor: 'highlight',
-  _hover: { color: 'highlight', borderColor: 'highlight' },
-})
 
 // The full picture for a single event, opened from the calendar (ZSB-40). A
 // dialog over the schedule: everything the agenda row summarises — the whole

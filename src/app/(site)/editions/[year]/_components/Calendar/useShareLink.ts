@@ -2,6 +2,7 @@
 
 import { type RemixiconComponentType, RiCheckLine, RiLinkM, RiShareLine } from '@remixicon/react'
 import { useEffect, useState, useSyncExternalStore } from 'react'
+import { css } from 'styled-system/css'
 
 // The share affordance shared by the calendar (ZSB-33) and the event detail
 // (ZSB-50): a native share sheet where the platform offers one, an inline
@@ -67,3 +68,17 @@ export function useShareLink(resolveUrl: () => string): ShareLink {
     Icon: canNativeShare ? RiShareLine : copied ? RiCheckLine : RiLinkM,
   }
 }
+
+// The look both share buttons layer onto the ghost <Button>, kept beside the
+// behavior they dress up. Icon nudge on hover:
+export const shareIcon = css({
+  '& svg': { transition: 'transform {durations.fast} {easings.quint}' },
+  _hover: { '& svg': { transform: 'translateY(-2px)' } },
+  _motionReduce: { '& svg': { transition: 'none' } },
+})
+// Copied — settle into the chartreuse "confirmed" accent used across the board.
+export const shareCopied = css({
+  color: 'highlight',
+  borderColor: 'highlight',
+  _hover: { color: 'highlight', borderColor: 'highlight' },
+})
