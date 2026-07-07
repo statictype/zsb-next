@@ -3,12 +3,12 @@
 import { Swap as ArkSwap } from '@ark-ui/react/swap'
 import { RiCloseLine } from '@remixicon/react'
 import Link from 'next/link'
-import { type ReactNode, useState } from 'react'
+import { type ReactNode, Suspense, useState } from 'react'
 import { cx } from 'styled-system/css'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
 import { navigation, navigationSwap } from './Navigation.recipe'
-import { NavLinks } from './NavLinks'
+import { NavLinks, NavLinksList } from './NavLinks'
 
 const s = navigation()
 
@@ -56,7 +56,13 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
             <NavigationIcon open={isOpen} />
           </Button>
           <nav className={s.mobileNav} aria-label="Mobile navigation">
-            <NavLinks className={s.navLink} onNavigate={closeMenu} />
+            <Suspense
+              fallback={
+                <NavLinksList pathname={null} className={s.navLink} onNavigate={closeMenu} />
+              }
+            >
+              <NavLinks className={s.navLink} onNavigate={closeMenu} />
+            </Suspense>
           </nav>
         </div>
       </Dialog>

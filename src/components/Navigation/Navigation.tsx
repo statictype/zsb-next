@@ -1,11 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { cx } from 'styled-system/css'
 import { MobileMenu } from './MobileMenu'
 import { navigation } from './Navigation.recipe'
-import { NavLinks } from './NavLinks'
+import { NavLinks, NavLinksList } from './NavLinks'
 
 const s = navigation()
+const desktopLinkClass = cx(s.navLink, s.desktopNavLink)
 
 /**
  * Server shell — logo + desktop nav wrapper. Mounted once in `(site)/layout.tsx`;
@@ -32,7 +34,9 @@ export function Navigation() {
       </div>
 
       <nav className={s.desktopNav} aria-label="Primary navigation">
-        <NavLinks className={cx(s.navLink, s.desktopNavLink)} />
+        <Suspense fallback={<NavLinksList pathname={null} className={desktopLinkClass} />}>
+          <NavLinks className={desktopLinkClass} />
+        </Suspense>
       </nav>
 
       <MobileMenu logo={logo} />

@@ -16,20 +16,26 @@ function isActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`)
 }
 
-export function NavLinks({
-  className,
-  onNavigate,
-}: {
+type NavLinksProps = {
   className: string | undefined
   onNavigate?: (() => void) | undefined
-}) {
-  const pathname = usePathname()
+}
+
+/**
+ * Pure link list. `pathname: null` renders without aria-current — used as the
+ * Suspense fallback so the static shell carries the links themselves.
+ */
+export function NavLinksList({
+  pathname,
+  className,
+  onNavigate,
+}: NavLinksProps & { pathname: string | null }) {
   return NAV_ITEMS.map((item) => (
     <Link
       key={item.href}
       href={item.href}
       className={className}
-      aria-current={isActive(pathname, item.href) ? 'page' : undefined}
+      aria-current={pathname !== null && isActive(pathname, item.href) ? 'page' : undefined}
       {...(onNavigate ? { onClick: onNavigate } : {})}
     >
       <span data-nav-mask>
@@ -42,4 +48,14 @@ export function NavLinks({
       </span>
     </Link>
   ))
+}
+
+/**
+ * Under cacheComponents, usePathname() is runtime data when the route's params
+ * aren't known at build time — always mount this under <Suspense> with a
+ * `<NavLinksList pathname={null}>` fallback, or fallback-shell prerenders fail.
+ */
+export function NavLinks(props: NavLinksProps) {
+  const pathname = usePathname()
+  return <NavLinksList pathname={pathname} {...props} />
 }
