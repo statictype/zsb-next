@@ -11,6 +11,7 @@ import { navigation, navigationSwap } from './Navigation.recipe'
 import { NavLinks, NavLinksList } from './NavLinks'
 
 const s = navigation()
+const mobileLinkClass = cx(s.navLink, s.mobileNavLink)
 
 /**
  * Hamburger toggle + fullscreen menu Dialog. Navigation persists across route
@@ -58,10 +59,10 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
           <nav className={s.mobileNav} aria-label="Mobile navigation">
             <Suspense
               fallback={
-                <NavLinksList pathname={null} className={s.navLink} onNavigate={closeMenu} />
+                <NavLinksList pathname={null} className={mobileLinkClass} onNavigate={closeMenu} />
               }
             >
-              <NavLinks className={s.navLink} onNavigate={closeMenu} />
+              <NavLinks className={mobileLinkClass} onNavigate={closeMenu} />
             </Suspense>
           </nav>
         </div>

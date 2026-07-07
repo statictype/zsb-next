@@ -18,6 +18,7 @@ export const navigation = sva({
     'desktopNavLink',
     'mobileShell',
     'mobileNav',
+    'mobileNavLink',
     'navLink',
   ],
   base: {
@@ -64,14 +65,16 @@ export const navigation = sva({
       alignItems: 'center',
       gap: 'md',
     },
+    // Sizing (fontSize/padding) deliberately lives in the per-context slots
+    // below, not here: base + override would emit two conflicting atomic
+    // utilities on one element, and the winner follows global stylesheet
+    // order — which reshuffles as unrelated styles come and go.
     navLink: {
       display: 'block',
       fontFamily: 'display',
-      fontSize: 'lg',
       textTransform: 'uppercase',
       textDecoration: 'none',
       color: 'muted',
-      padding: '12px 32px',
       border: 'hairline',
       letterSpacing: 'label',
       transition:
@@ -112,6 +115,10 @@ export const navigation = sva({
       padding: '8px 20px',
       marginRight: '-1px',
       '&:last-child': { marginRight: '0' },
+    },
+    mobileNavLink: {
+      fontSize: 'lg',
+      padding: '12px 32px',
     },
 
     // Hamburger — the <button> is the full 48px touch surface (transparent); the
