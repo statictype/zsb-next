@@ -1,8 +1,9 @@
 'use client'
 
+import { useState } from 'react'
 import { Carousel } from '@/components/Carousel/Carousel'
 import { Figure } from '@/components/Figure/Figure'
-import { useLightbox } from '@/components/Lightbox/Lightbox'
+import { Lightbox } from '@/components/Lightbox/Lightbox'
 import { Button } from '@/components/ui/Button/Button'
 import type { MediaKitStripItem } from '@/types/edition'
 import { mediaKitStrip } from './MediaKitStrip.recipe'
@@ -12,12 +13,7 @@ interface MediaKitStripProps {
 }
 
 export function MediaKitStrip({ items }: MediaKitStripProps) {
-  const lightbox = useLightbox(
-    items.map((item) => ({
-      src: item.image.src,
-      caption: `${item.year} · ${item.name}`,
-    })),
-  )
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const s = mediaKitStrip()
 
   return (
@@ -35,7 +31,7 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
             <Button
               variant="secondary"
               className={s.card}
-              onClick={() => lightbox.open(index)}
+              onClick={() => setLightboxIndex(index)}
               aria-label={`Open ${item.year} ${item.name}`}
             >
               <Figure
@@ -49,7 +45,15 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
         }))}
       />
 
-      {lightbox.element}
+      <Lightbox
+        images={items.map((item) => ({
+          src: item.image.src,
+          caption: `${item.year} · ${item.name}`,
+        }))}
+        index={lightboxIndex}
+        onClose={() => setLightboxIndex(null)}
+        onIndexChange={setLightboxIndex}
+      />
     </>
   )
 }

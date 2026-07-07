@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { useState } from 'react'
 import { describe, expect, it } from 'vitest'
-import { type LightboxImage, useLightbox } from './Lightbox'
+import { Lightbox, type LightboxImage } from './Lightbox'
 
 const images: LightboxImage[] = [
   { src: 'https://example.com/a.jpg', caption: 'Alpha' },
@@ -10,13 +11,18 @@ const images: LightboxImage[] = [
 ]
 
 function Harness() {
-  const lightbox = useLightbox(images)
+  const [index, setIndex] = useState<number | null>(null)
   return (
     <>
-      <button type="button" onClick={() => lightbox.open(0)}>
+      <button type="button" onClick={() => setIndex(0)}>
         open lightbox
       </button>
-      {lightbox.element}
+      <Lightbox
+        images={images}
+        index={index}
+        onClose={() => setIndex(null)}
+        onIndexChange={setIndex}
+      />
     </>
   )
 }

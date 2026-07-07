@@ -16,40 +16,14 @@ export interface LightboxImage {
 
 const SIZES = '(min-width: 768px) calc(100vw - 160px), 90vw'
 
-export function useLightbox(images: LightboxImage[]) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [index, setIndex] = useState(0)
-
-  const open = (i: number) => {
-    setIndex(i)
-    setIsOpen(true)
-  }
-  const close = () => setIsOpen(false)
-  const next = () => setIndex((i) => (i + 1) % images.length)
-  const prev = () => setIndex((i) => (i - 1 + images.length) % images.length)
-
-  return {
-    open,
-    element: (
-      <LightboxView
-        images={images}
-        index={index}
-        isOpen={isOpen}
-        onClose={close}
-        onNext={next}
-        onPrev={prev}
-      />
-    ),
-  }
-}
-
-interface LightboxViewProps {
+interface LightboxProps {
   images: LightboxImage[]
-  index: number
-  isOpen: boolean
+  /** Flat index of the open image; `null` renders the lightbox closed. */
+  index: number | null
   onClose: () => void
-  onNext: () => void
-  onPrev: () => void
+  /** Fully controlled: arrows, arrow keys and swipes emit the wrapped-around
+   *  target index here — the math stays inside, callers just store it. */
+  onIndexChange: (index: number) => void
 }
 
 interface DragState {
@@ -67,33 +41,58 @@ const SWIPE_NAV_MAX = 80
 const SWIPE_CLOSE_THRESHOLD_RATIO = 0.25
 const SWIPE_CLOSE_MAX = 150
 
-function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: LightboxViewProps) {
+/** The one copy of the wrap-around math — arrows, arrow keys, swipe and the
+ *  preload window all step through here. */
+function stepIndex(index: number, dir: 1 | -1, count: number): number {
+  return (index + dir + count) % count
+}
+
+export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProps) {
   const [loadedSrc, setLoadedSrc] = useState<string | null>(null)
   const [drag, setDrag] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const dragRef = useRef<DragState | null>(null)
 
+  const isOpen = index !== null
+  // Remember the last open index (the store-previous-render-info pattern from
+  // the useState docs) so the Dialog's exit transition keeps showing the image
+  // that was open instead of snapping elsewhere once index goes null.
+  const [lastIndex, setLastIndex] = useState(0)
+  if (index !== null && index !== lastIndex) setLastIndex(index)
+  const displayIndex = index ?? lastIndex
+
+  const onNext = () => {
+    if (index !== null) onIndexChange(stepIndex(index, 1, images.length))
+  }
+  const onPrev = () => {
+    if (index !== null) onIndexChange(stepIndex(index, -1, images.length))
+  }
+
+  // Derives the key handlers from `index` directly instead of closing over
+  // onNext/onPrev — render-scoped functions in the dep array would re-arm the
+  // listener every render.
+  const count = images.length
   useEffect(() => {
-    if (!isOpen) return
+    if (index === null) return
 
     const handleKeydown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') onPrev()
-      if (e.key === 'ArrowRight') onNext()
+      if (e.key === 'ArrowLeft') onIndexChange(stepIndex(index, -1, count))
+      if (e.key === 'ArrowRight') onIndexChange(stepIndex(index, 1, count))
     }
 
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  }, [isOpen, onNext, onPrev])
+  }, [index, count, onIndexChange])
 
   if (!images.length) return null
 
-  const current = images[index]
+  const current = images[displayIndex]
   if (!current) return null
 
   const loaded = loadedSrc === current.src
 
-  const prevIndex = (index - 1 + images.length) % images.length
-  const nextIndex = (index + 1) % images.length
+  const prevIndex = stepIndex(displayIndex, -1, images.length)
+  const nextIndex = stepIndex(displayIndex, 1, images.length)
   const preloadSrcs = Array.from(
     new Set(
       [images[prevIndex]?.src, images[nextIndex]?.src].filter(
@@ -171,13 +170,7 @@ function LightboxView({ images, index, isOpen, onClose, onNext, onPrev }: Lightb
   const s = lightboxRecipe()
 
   return (
-    <Dialog
-      id="gallery-lightbox"
-      open={isOpen}
-      onClose={onClose}
-      ariaLabel="Image lightbox"
-      presentation="fullscreen"
-    >
+    <Dialog open={isOpen} onClose={onClose} ariaLabel="Image lightbox" presentation="fullscreen">
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- lightbox click and drag are product gestures; keyboard and close live on the Dialog and its buttons */}
       <div
         className={s.lightbox}

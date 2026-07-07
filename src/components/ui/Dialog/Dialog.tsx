@@ -9,7 +9,6 @@ import { dialog } from 'styled-system/recipes'
 type AccessibleName = { title: ReactNode; ariaLabel?: never } | { title?: never; ariaLabel: string }
 
 type DialogProps = AccessibleName & {
-  id?: string | undefined
   open: boolean
   onClose: () => void
   presentation: 'panel' | 'fullscreen'
@@ -24,9 +23,14 @@ const serverReady = () => false
 /**
  * The site's modal shell. Ark remains private and owns modal behavior; callers
  * provide only controlled site state, an accessible name, and product content.
+ *
+ * Deliberately no `id` prop: Zag resolves the dialog's DOM nodes by id, and
+ * Next keeps visited routes mounted in hidden Activity boundaries — a caller-
+ * chosen id duplicated across those kept-alive pages makes Zag track the wrong
+ * (stale) node, so clicks inside the open dialog dismiss it as "outside".
+ * Ark's per-instance generated ids can't collide.
  */
 export function Dialog({
-  id,
   open,
   onClose,
   presentation,
@@ -43,7 +47,6 @@ export function Dialog({
 
   return (
     <ArkDialog.Root
-      {...(id ? { id } : {})}
       open={readyForInteraction && open}
       onOpenChange={(details) => {
         if (!details.open) onClose()
