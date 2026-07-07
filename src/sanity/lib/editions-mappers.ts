@@ -1,4 +1,5 @@
-import type { EDITION_BY_YEAR_QUERY_RESULT } from '@/../sanity.types'
+import type { EDITION_BY_YEAR_QUERY_RESULT, EDITION_CARDS_QUERY_RESULT } from '@/../sanity.types'
+import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { definedFields } from '@/lib/defined-fields'
 import { composeDateTape, dayToken } from '@/lib/edition-dates'
 import { slugify } from '@/lib/slugify'
@@ -121,6 +122,22 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
     }
   }
   return out
+}
+
+/**
+ * The /editions archive card slice — same field conventions as `mapEdition`
+ * below (required hero fails loudly, optional thumb flows as absence, the
+ * mapper owns the dateTape composition).
+ */
+export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): EditionCardData {
+  return definedFields({
+    year: raw.year,
+    theme: raw.theme,
+    themeHighlight: raw.themeHighlight ?? '',
+    dateTape: composeDateTape(raw),
+    heroImage: requireImageData(raw.heroImage, 'heroImage'),
+    thumbImage: toImageData(raw.thumbImage),
+  })
 }
 
 // Fields below are marked nullable by TypeGen because the schema makes

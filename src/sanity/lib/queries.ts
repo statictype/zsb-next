@@ -204,8 +204,12 @@ export const ARTIST_BY_SLUG_QUERY = defineQuery(`
   }
 `)
 
+// Every edition's year + status, one row per edition. Serves two different
+// views: the "N editions" counts (all years, upcoming included) and the
+// generateStaticParams enumeration (upcoming filtered out — its page is gated
+// `status != "upcoming"`, so prerendering it would bake a 404).
 export const EDITION_YEARS_QUERY = defineQuery(`
-  *[_type == "edition" && defined(year)] | order(year desc).year
+  *[_type == "edition" && defined(year)] | order(year desc){ year, status }
 `)
 
 // Sparse projection for the event route's generateStaticParams — every
@@ -244,6 +248,23 @@ export const SITEMAP_QUERY = defineQuery(`
     },
     "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]
       | order(_updatedAt desc)[0]._updatedAt
+  }
+`)
+
+// The /editions archive grid: exactly the card slice (`EditionCardData`) —
+// theme tape, dateTape inputs, imagery — instead of N full-edition fetches.
+// Status-filtered and year-desc like the page itself, so row 0 is the
+// newest live edition (the feature card).
+export const EDITION_CARDS_QUERY = defineQuery(`
+  *[_type == "edition" && defined(year) && status != "upcoming"] | order(year desc) {
+    year,
+    theme,
+    themeHighlight,
+    dateStart,
+    dateEnd,
+    venueLine,
+    heroImage{ ..., "lqip": asset->metadata.lqip },
+    thumbImage{ ..., "lqip": asset->metadata.lqip }
   }
 `)
 

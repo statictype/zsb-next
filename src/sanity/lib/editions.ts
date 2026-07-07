@@ -1,12 +1,14 @@
 import 'server-only'
 
+import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { definedFields } from '@/lib/defined-fields'
 import type { EditionLead } from '@/lib/derive-editions'
 import type { Edition } from '@/types/edition'
-import { deriveEventSlugs, mapEdition } from './editions-mappers'
+import { deriveEventSlugs, mapEdition, mapEditionCard } from './editions-mappers'
 import { type DynamicFetchOptions, PUBLISHED, queryData } from './live'
 import {
   EDITION_BY_YEAR_QUERY,
+  EDITION_CARDS_QUERY,
   EDITION_YEARS_QUERY,
   EDITIONS_LIST_QUERY,
   EVENT_PATHS_QUERY,
@@ -65,14 +67,35 @@ export async function getHeroEditionLeadFromSanity(
   return (await queryData(HERO_EDITION_QUERY, options)) === 'upcoming' ? 'upcoming' : 'latest'
 }
 
+/** One row per edition, newest first — year plus the status that decides
+ *  whether the edition has a reachable page. */
+export interface EditionYearRow {
+  year: number
+  status: 'live' | 'upcoming'
+}
+
 /**
- * Cached list of edition years. Drafts never introduce or remove a year
- * (year is set on creation and rarely changes), so we hardcode published
- * here. Used by /editions, /artists, sitemap, generateStaticParams.
+ * Cached year+status rows. Drafts never introduce or remove a year (year is
+ * set on creation and rarely changes), so we hardcode published here. Two
+ * consumers, two views: the "N editions" counts read every row, the
+ * generateStaticParams enumeration filters out upcoming.
  */
-export async function getEditionYearsFromSanity(): Promise<number[]> {
+export async function getEditionYearsFromSanity(): Promise<EditionYearRow[]> {
   'use cache'
   return (await queryData(EDITION_YEARS_QUERY, PUBLISHED)) ?? []
+}
+
+/**
+ * The /editions archive cards in one card-shaped query — year, theme tape,
+ * dateTape inputs, imagery — instead of a full-edition fetch per year.
+ * Respects the caller's perspective so an editor can preview draft edits.
+ */
+export async function getEditionCardsFromSanity(
+  options: DynamicFetchOptions,
+): Promise<EditionCardData[]> {
+  'use cache'
+  const data = await queryData(EDITION_CARDS_QUERY, options)
+  return (data ?? []).map(mapEditionCard)
 }
 
 /**
