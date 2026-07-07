@@ -68,38 +68,3 @@ export async function queryData<const QueryString extends string>(
   })
   return data
 }
-
-/**
- * For use inside generateStaticParams. Build-time only — no draft mode,
- * no cookie access.
- */
-export async function sanityFetchStaticParams<const QueryString extends string>({
-  query,
-  params = {},
-}: {
-  query: QueryString
-  params?: QueryParams
-}) {
-  'use cache'
-  const { data } = await sanityFetch({ query, params, perspective: 'published', stega: false })
-  return { data }
-}
-
-/**
- * For use inside generateMetadata / generateViewport / sitemap.ts /
- * opengraph-image.tsx. Resolves perspective so Presentation Tool can
- * preview metadata for drafts.
- */
-export async function sanityFetchMetadata<const QueryString extends string>({
-  query,
-  params = {},
-  perspective,
-}: {
-  query: QueryString
-  params?: QueryParams
-  perspective: LivePerspective
-}) {
-  'use cache'
-  const { data } = await sanityFetch({ query, params, perspective, stega: false })
-  return { data }
-}

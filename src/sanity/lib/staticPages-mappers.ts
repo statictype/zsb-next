@@ -7,7 +7,14 @@ import type {
 import { SITE_NAME } from '@/lib/constants'
 import { definedFields } from '@/lib/defined-fields'
 import type { FaqEntry } from '@/lib/seo'
-import type { Amenity, CarouselSlide, ImageData, TransportRoute, VisitData } from '@/types/edition'
+import type {
+  Amenity,
+  CarouselSlide,
+  IconKey,
+  ImageData,
+  TransportRoute,
+  VisitData,
+} from '@/types/edition'
 import { mapCarousel } from './carousel'
 import { toImageData } from './image'
 
@@ -144,6 +151,39 @@ export function normalizePrivacy(raw: PrivacyPageRaw): PrivacyView {
 
 // ---- Visit page projections ----
 
+const ICON_KEYS: readonly IconKey[] = ['wheelchair', 'parking', 'cafe', 'paint', 'restroom', 'wifi']
+
+function asIconKey(value: string | null | undefined): IconKey | undefined {
+  return value && (ICON_KEYS as readonly string[]).includes(value) ? (value as IconKey) : undefined
+}
+
+/** Validate raw amenities at the typegen boundary (like `asLayout` in
+ *  carousel.ts): drafts bypass schema validation and a schema edit can widen
+ *  the icon union, so entries without a label or a renderer-known icon are
+ *  dropped instead of cast through. */
+function mapAmenities(raw: VisitPage['amenities']): Amenity[] | null {
+  if (!raw) return null
+  const out: Amenity[] = []
+  for (const item of raw) {
+    const icon = asIconKey(item.icon)
+    if (item.label && icon) out.push({ label: item.label, icon })
+  }
+  return out
+}
+
+/** Same boundary treatment for transport rows: all three fields or the row
+ *  is dropped. */
+function mapTransport(raw: VisitPage['transport']): TransportRoute[] | null {
+  if (!raw) return null
+  const out: TransportRoute[] = []
+  for (const item of raw) {
+    if (item.from && item.lines && item.walk) {
+      out.push({ from: item.from, lines: item.lines, walk: item.walk })
+    }
+  }
+  return out
+}
+
 /** Project a VisitPage into the runtime shape VisitSection renders. */
 export function mapVisit(page: VisitPage | null): VisitData {
   if (!page) return {}
@@ -155,8 +195,8 @@ export function mapVisit(page: VisitPage | null): VisitData {
     mapsUrl: page.mapsUrl ?? null,
     image,
     hoursLines: page.hoursLines ?? null,
-    amenities: (page.amenities ?? null) as Amenity[] | null,
-    transport: (page.transport ?? null) as TransportRoute[] | null,
+    amenities: mapAmenities(page.amenities),
+    transport: mapTransport(page.transport),
   }
 }
 

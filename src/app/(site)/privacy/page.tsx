@@ -1,4 +1,8 @@
-import { PortableText, type PortableTextComponents } from '@portabletext/react'
+import {
+  PortableText,
+  type PortableTextComponents,
+  type PortableTextMarkComponentProps,
+} from '@portabletext/react'
 import { notFound } from 'next/navigation'
 import { css } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
@@ -19,6 +23,11 @@ export const generateMetadata = makePageMetadata(getPrivacyPage, {
   robots: { index: true, follow: true },
 })
 
+/** The `link` markDef exactly as PRIVACY_PAGE_QUERY projects it (via
+ *  `PrivacyView['body']`), so the mark component reads typegen output instead
+ *  of casting. */
+type PrivacyLinkMark = NonNullable<PrivacyView['body'][number]['markDefs']>[number]
+
 const portableTextComponents: PortableTextComponents = {
   block: {
     h2: ({ children }) => <h2>{children}</h2>,
@@ -31,9 +40,9 @@ const portableTextComponents: PortableTextComponents = {
   marks: {
     strong: ({ children }) => <strong>{children}</strong>,
     em: ({ children }) => <em>{children}</em>,
-    link: ({ value, children }) => {
-      const href = (value as { href?: string } | undefined)?.href ?? '#'
-      const newTab = (value as { newTab?: boolean } | undefined)?.newTab ?? false
+    link: ({ value, children }: PortableTextMarkComponentProps<PrivacyLinkMark>) => {
+      const href = value?.href ?? '#'
+      const newTab = value?.newTab ?? false
       if (newTab) {
         return (
           <a href={href} target="_blank" rel="noreferrer noopener">

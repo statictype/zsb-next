@@ -15,6 +15,8 @@ export function splitInHalf<T>(arr: T[]): [T[], T[]] {
  * assumes the last whitespace token is the surname, which is wrong for
  * particles ("van der", "de la") and some double surnames; those are
  * meant to be overridden via the artist's `sortName` field in Sanity.
+ * Consumed by scripts/sanity-backfill-artist-sortname.ts; app-side sorting
+ * reads the backfilled `sortName` from Sanity instead of recomputing.
  */
 export function surnameSortKey(name: string): string {
   const parts = name.trim().split(/\s+/)
@@ -22,9 +24,4 @@ export function surnameSortKey(name: string): string {
   const last = parts[parts.length - 1]
   const rest = parts.slice(0, -1).join(' ')
   return `${last} ${rest}`
-}
-
-/** Compare two full names by their surname-first key, Romanian collation. */
-export function bySurname(a: string, b: string): number {
-  return surnameSortKey(a).localeCompare(surnameSortKey(b), 'ro')
 }
