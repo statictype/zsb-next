@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ revalidated: body.tags })
   } catch (err) {
-    return new Response(err instanceof Error ? err.message : String(err), { status: 500 })
+    console.error('Revalidation webhook failed:', err)
+    return new Response('Internal server error', { status: 500 })
   }
 }
