@@ -3,7 +3,6 @@ import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
-import { Navigation } from '@/components/Navigation/Navigation'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { LinkList, LinkListItem } from '@/components/ui/LinkList/LinkList'
@@ -83,7 +82,6 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
         })}
       />
       {appearances.length > 0 && <JsonLd data={pressAppearancesJsonLd(appearances)} />}
-      <Navigation activeId={null} />
       <main className={styles.page}>
         {/* ===== Hero ===== */}
         <PageHero

@@ -5,7 +5,6 @@ import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
-import { Navigation } from '@/components/Navigation/Navigation'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
@@ -63,7 +62,6 @@ function PrivacyShell({ view }: { view: PrivacyView }) {
 
   return (
     <>
-      <Navigation activeId={null} />
       <main>
         <PageHero
           title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}

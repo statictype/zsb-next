@@ -1,6 +1,5 @@
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
-import { Navigation } from '@/components/Navigation/Navigation'
 import { getVisitEdition } from '@/data/editions'
 import { makePageMetadata, visitFaqJsonLd } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
@@ -17,7 +16,6 @@ export const generateMetadata = makePageMetadata(getVisitPage, {
 export default function VisitRoute() {
   return (
     <>
-      <Navigation activeId={null} />
       <main>
         <DraftAware
           cached={(options) => <CachedVisit options={options} />}

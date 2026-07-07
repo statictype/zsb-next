@@ -4,6 +4,7 @@ import { DisableDraftMode } from '@/components/DisableDraftMode/DisableDraftMode
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { Footer } from '@/components/Footer/Footer'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
+import { Navigation } from '@/components/Navigation/Navigation'
 import { SITE_NAME, SITE_URL } from '@/lib/constants'
 import { SanityLive } from '@/sanity/lib/live'
 
@@ -36,6 +37,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           ],
         }}
       />
+      <Navigation />
       {children}
       <DraftAware cached={(options) => <Footer fetchOptions={options} />} fallback={null} />
       <CookieBanner />
