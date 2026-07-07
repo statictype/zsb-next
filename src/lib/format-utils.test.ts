@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { bySurname, padNum, splitInHalf, surnameSortKey } from './format-utils'
+import { padNum, splitInHalf, surnameSortKey } from './format-utils'
 
 describe('padNum', () => {
   it('left-pads to the default width of 2', () => {
@@ -48,23 +48,5 @@ describe('surnameSortKey', () => {
 
   it('trims and collapses surrounding / inner whitespace', () => {
     expect(surnameSortKey('  Mircea   Roman  ')).toBe('Roman Mircea')
-  })
-})
-
-describe('bySurname', () => {
-  it('orders names by their surname key', () => {
-    const sorted = ['Mircea Roman', 'Andreea Eftene', 'Ana Rus'].sort(bySurname)
-    expect(sorted).toEqual(['Andreea Eftene', 'Mircea Roman', 'Ana Rus'])
-  })
-
-  it('uses Romanian collation for diacritics', () => {
-    // Romanian alphabet orders the surname keys Codre < Sava < Șuteu — 'ș' is a
-    // distinct letter sorting after 's', and 'C' precedes both.
-    const sorted = ['Ana Șuteu', 'Ion Sava', 'Tudor Codre'].sort(bySurname)
-    expect(sorted).toEqual(['Tudor Codre', 'Ion Sava', 'Ana Șuteu'])
-  })
-
-  it('returns 0 for equal surname keys', () => {
-    expect(bySurname('Ana Rus', 'Ana Rus')).toBe(0)
   })
 })

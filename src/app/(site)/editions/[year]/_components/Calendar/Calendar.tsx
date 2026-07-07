@@ -58,7 +58,9 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
   // greying, not flip the board into clean-archive mode.
   const [editionStart, editionEnd] = editionWindow(events)
   const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
-  const live = todayIso !== null && !ended
+  // Non-null exactly while the edition is live; the `past` checks below read
+  // it so narrowing flows instead of needing `todayIso!` assertions.
+  const liveClock = ended ? null : todayIso
 
   const showFilterBar = filterOptions.venues.length > 1 || filterOptions.types.length > 1
 
@@ -179,7 +181,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                   <ul className={s.runs}>
                     {onView.map((run) => {
                       const runEnd = run.endDate ?? run.startDate
-                      const past = live && runEnd < todayIso!
+                      const past = liveClock !== null && runEnd < liveClock
                       // Every run carries its own span — runs cover different
                       // stretches of the edition, so a shared band range read as
                       // "everything runs these dates" (ZSB-48).
@@ -220,7 +222,11 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
               {days.length > 0 && (
                 <ol className={s.agenda}>
                   {days.map((day) => (
-                    <li key={day.iso} className={s.day} data-past={live && day.iso < todayIso!}>
+                    <li
+                      key={day.iso}
+                      className={s.day}
+                      data-past={liveClock !== null && day.iso < liveClock}
+                    >
                       <div className={s.marker}>
                         <span className={s.markerNode} aria-hidden />
                         <span className={s.markerDay}>{day.token.dayPadded}</span>
@@ -271,7 +277,9 @@ function ArchiveCollapse({
   )
 }
 
-function TypeChips({ event }: { event: CalendarEvent }) {
+// Narrowed to the render-boundary type so list rows (CalendarListEvent) and
+// full events feed it alike without widening back to CalendarEvent.
+function TypeChips({ event }: { event: Pick<CalendarListEvent, 'key' | 'types'> }) {
   return (
     <ul className={s.chips}>
       {event.types.map((t) => (

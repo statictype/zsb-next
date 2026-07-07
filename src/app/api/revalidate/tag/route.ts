@@ -46,6 +46,6 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ revalidated: body.tags })
   } catch (err) {
-    return new Response((err as Error).message, { status: 500 })
+    return new Response(err instanceof Error ? err.message : String(err), { status: 500 })
   }
 }

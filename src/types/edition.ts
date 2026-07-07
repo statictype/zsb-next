@@ -163,16 +163,6 @@ export interface ExternalGalleryData {
   href: string
 }
 
-// ---- Masonry Gallery ----
-
-export interface MasonryImage {
-  src: string
-  alt: string
-  caption: string
-  cols: number
-  rows: number
-}
-
 // ---- Artists ----
 
 /** Identity + display name for artist listings; `_id` exists purely as a

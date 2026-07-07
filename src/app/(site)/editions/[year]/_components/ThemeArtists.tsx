@@ -10,9 +10,7 @@ import { themeArtists } from './ThemeArtists.recipe'
 const styles = themeArtists()
 
 interface ThemeArtistsProps {
-  edition: Pick<Edition, 'year' | 'theme' | 'themeSection' | 'artists'> & {
-    carousel?: Edition['carousel']
-  }
+  edition: Pick<Edition, 'year' | 'theme' | 'themeSection' | 'artists' | 'carousel'>
 }
 
 export function ThemeArtists({ edition }: ThemeArtistsProps) {

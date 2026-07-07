@@ -2,9 +2,9 @@
  * Backfill `sortName` on artist documents so they sort by surname while
  * still displaying first-name-first (the Name field is unchanged).
  *
- * Default key is surname-first: "Andreea Eftene" → "Eftene Andreea".
- * Mirrors `surnameSortKey` in src/lib/format-utils.ts (inlined here to keep
- * the script free of the `@/` path alias, like the other sanity-* scripts).
+ * Default key is surname-first: "Andreea Eftene" → "Eftene Andreea",
+ * computed by `surnameSortKey` from src/lib/format-utils.ts (relative
+ * import — scripts stay free of the `@/` path alias).
  *
  * Idempotent: skips any document that already has `sortName` set, so manual
  * overrides (particles, double surnames, collectives) are preserved on re-run.
@@ -19,15 +19,7 @@
 import './_load-env'
 
 import { createClient } from '@sanity/client'
-
-/** Surname-first key. Single-token names returned unchanged. */
-function surnameSortKey(name: string): string {
-  const parts = name.trim().split(/\s+/)
-  if (parts.length < 2) return name.trim()
-  const last = parts[parts.length - 1]
-  const rest = parts.slice(0, -1).join(' ')
-  return `${last} ${rest}`
-}
+import { surnameSortKey } from '../src/lib/format-utils'
 
 interface ArtistDoc {
   _id: string
