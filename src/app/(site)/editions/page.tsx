@@ -4,7 +4,7 @@ import { section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
 import { PageHero } from '@/components/PageHero/PageHero'
-import { getAllEditionYears, getEdition } from '@/data/editions'
+import { getEditionCards } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { editionsPage } from './page.recipe'
@@ -32,17 +32,14 @@ const THEME_STAGGER = 'calc(var(--card-index, 0) * 120ms + 120ms)'
 
 async function CachedEditionsList({ options }: { options: DynamicFetchOptions }) {
   'use cache'
-  const years = await getAllEditionYears()
-  const editions = await Promise.all(years.map(async (year) => getEdition(year, options)))
-  // Filter nulls (e.g. upcoming editions hidden from the list) BEFORE mapping, so
-  // index 0 is the first *visible* edition — the latest live one gets the feature
-  // treatment regardless of how many hidden years precede it.
-  const visibleEditions = editions.filter((edition) => edition != null)
+  // Already status-filtered and year-desc in the query, so index 0 is the
+  // newest live edition — the one that gets the feature treatment.
+  const editions = await getEditionCards(options)
 
   return (
     <EditionsListShell>
       <div className={styles.grid}>
-        {visibleEditions.map((edition, index) => {
+        {editions.map((edition, index) => {
           const isFeature = index === 0
 
           return (

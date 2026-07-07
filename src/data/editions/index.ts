@@ -1,7 +1,9 @@
+import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { type DerivedEditions, deriveEditions, resolveLeadEdition } from '@/lib/derive-editions'
 import { groupVenuesByType, type VenueTypeSection } from '@/lib/venues'
 import {
   type EditionListItem,
+  getEditionCardsFromSanity,
   getEditionFromSanity,
   getEditionsListFromSanity,
   getEditionYearsFromSanity,
@@ -132,19 +134,32 @@ export async function getFeaturedEvents(
   return featured.length ? { year: edition.year, events: featured } : undefined
 }
 
+/** Every edition year, upcoming included — the "N editions" counts on the
+ *  /artists page and the homepage banner. */
 export async function getAllEditionYears(): Promise<number[]> {
   'use cache'
-  return getEditionYearsFromSanity()
+  const rows = await getEditionYearsFromSanity()
+  return rows.map((row) => row.year)
 }
 
 /**
- * Every edition year as a route param — the generateStaticParams enumeration
- * shared by the edition page and its opengraph-image route.
+ * Live edition years as route params — the generateStaticParams enumeration
+ * shared by the edition page and its opengraph-image route. Upcoming is
+ * excluded: its page is gated `status != "upcoming"`, so prerendering that
+ * year would bake a 404.
  */
 export async function getAllEditionYearParams(): Promise<{ year: string }[]> {
   'use cache'
-  const years = await getAllEditionYears()
-  return years.map((year) => ({ year: String(year) }))
+  const rows = await getEditionYearsFromSanity()
+  return rows.filter((row) => row.status !== 'upcoming').map((row) => ({ year: String(row.year) }))
+}
+
+/**
+ * The /editions archive cards, newest first — one card-shaped query instead
+ * of a full-edition fetch per year.
+ */
+export async function getEditionCards(options: DynamicFetchOptions): Promise<EditionCardData[]> {
+  return getEditionCardsFromSanity(options)
 }
 
 /**
