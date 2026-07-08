@@ -623,6 +623,13 @@ export const layerStyles = {
   chipRow: {
     value: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm' },
   },
+  // The brush-stroke rule's shared boilerplate (EditionTheme's top rule,
+  // Manifesto's left rule) — content/position/opacity are identical; axis
+  // (height vs width, position sides, gradient direction, clipPath) stays
+  // at each call site.
+  brushStrokeRule: {
+    value: { content: '""', position: 'absolute', opacity: '0.85' },
+  },
   // NB layerStyles carry the surface look only — positioning/stacking beyond
   // the mechanism itself stays at the call site.
 } as const

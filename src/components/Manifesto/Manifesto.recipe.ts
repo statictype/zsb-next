@@ -41,8 +41,7 @@ export const manifesto = sva({
       position: 'relative',
       paddingLeft: { base: 'md', md: '[40px]' },
       _before: {
-        content: '""',
-        position: 'absolute',
+        layerStyle: 'brushStrokeRule',
         left: '0',
         top: '0',
         bottom: '0',
@@ -50,7 +49,6 @@ export const manifesto = sva({
         background:
           '[linear-gradient(180deg, token(colors.brushStroke) 0%, token(colors.brushStroke) 72%, transparent 100%)]',
         clipPath: 'token(assets.brushStrokeY)',
-        opacity: '0.85',
       },
       '& p': {
         textStyle: 'leadLarge',

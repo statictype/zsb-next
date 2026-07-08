@@ -10,13 +10,6 @@ export const editionsNav = sva({
       border: 'none',
       // Breathing room between plates, on top of the carousel's own gap.
       marginInlineEnd: 'lg',
-      opacity: '0',
-      transform: 'translateY(16px)',
-      // Staggered reveal — per-plate delay rides the --i custom prop.
-      transition:
-        '[opacity {durations.reveal} {easings.expo} calc(var(--i, 0) * 60ms), transform {durations.reveal} {easings.expo} calc(var(--i, 0) * 60ms)]',
-      '[data-revealed=true] &': { opacity: '1', transform: 'translateY(0)' },
-      _motionReduce: { opacity: '1', transform: 'none', transitionDuration: 'instant' },
     },
   },
 })

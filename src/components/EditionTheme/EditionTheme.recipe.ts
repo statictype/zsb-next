@@ -43,8 +43,7 @@ export const editionTheme = sva({
       translate: '[-12px 18px]',
       animationStyle: 'tape',
       _before: {
-        content: '""',
-        position: 'absolute',
+        layerStyle: 'brushStrokeRule',
         top: '0',
         left: '0',
         right: '0',
@@ -52,7 +51,6 @@ export const editionTheme = sva({
         background:
           '[linear-gradient(90deg, token(colors.brushStroke) 0%, token(colors.brushStroke) 72%, transparent 100%)]',
         clipPath: 'token(assets.brushStrokeX)',
-        opacity: '0.85',
       },
       _motionReduce: {
         animation: 'none',
