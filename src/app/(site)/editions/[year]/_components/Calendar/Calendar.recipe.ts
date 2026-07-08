@@ -19,9 +19,6 @@ export const calendar = sva({
     'layout',
     'header',
     'headerMain',
-    'meta',
-    'metaYear',
-    'metaDot',
     'counts',
     'count',
     'pastToggle',
@@ -58,21 +55,16 @@ export const calendar = sva({
     'recap',
     'recapLine',
     'recapMark',
-    'recapFollow',
-    'recapFollowLabel',
-    'recapLinks',
   ],
   base: {
     section: {
       // ground + rhythm come from `section({ ground: 'dark' })` in the component.
       // Shared links land on #program; offset past the tall top padding.
       scrollMarginTop: '[calc(token(spacing.lg) - token(spacing.sectionY))]',
-      // Agenda date-marker column width; scales up with the type.
-      '--marker-col': '84px',
-      md: { '--marker-col': '132px' },
-      lg: { '--marker-col': '168px' },
-      xl: { '--marker-col': '144px' },
-      '2xl': { '--marker-col': '160px' },
+      // Agenda date-marker column width — tracks the responsive `4xl` spacing
+      // ramp so the column and the timeline spine (`agenda::before` `left`) stay
+      // in lockstep and scale monotonically with the section rhythm.
+      '--marker-col': 'token(spacing.4xl)',
     },
     inner: { layerStyle: 'sectionInner' },
     layout: { minWidth: '0' },
@@ -85,22 +77,6 @@ export const calendar = sva({
       marginBottom: 'xl',
     },
     headerMain: { minWidth: '0' },
-    meta: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'md',
-      marginTop: 'md',
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'body',
-      md: { fontSize: 'sm' },
-    },
-    metaYear: { color: 'highlight' },
-    metaDot: { width: '[4px]', height: '[4px]', background: 'gray.700', borderRadius: 'circle' },
 
     counts: {
       display: 'flex',
@@ -499,8 +475,5 @@ export const calendar = sva({
     },
     recapLine: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },
     recapMark: { color: 'white', fontWeight: 'semibold' },
-    recapFollow: { display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 'md' },
-    recapFollowLabel: { textStyle: 'metaLabel' },
-    recapLinks: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'md' },
   },
 })

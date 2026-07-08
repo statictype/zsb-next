@@ -4,45 +4,16 @@ import { sva } from 'styled-system/css'
  * ComingSoon — co-located slot recipe.
  *
  * Stands in for the calendar on a live edition whose events aren't announced
- * yet; shares the schedule board's dark surface. Header mirrors the live
- * calendar's (minus the window/count meta). Raw grays are the documented
- * dark-board exceptions.
+ * yet; shares the schedule board's dark surface. The header title + meta row
+ * and the follow CTAs are the shared `CalendarMeta` / `FollowLinks`; this
+ * recipe keeps only the notice copy layout.
  */
 export const comingSoon = sva({
-  slots: [
-    'inner',
-    'header',
-    'meta',
-    'metaYear',
-    'metaDot',
-    'metaSoon',
-    'notice',
-    'headline',
-    'body',
-    'follow',
-    'followLabel',
-    'links',
-  ],
+  slots: ['inner', 'header', 'notice', 'headline', 'body'],
   base: {
     inner: { layerStyle: 'sectionInner' },
 
     header: { marginBottom: 'xl' },
-    meta: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'md',
-      marginTop: 'md',
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      md: { fontSize: 'sm' },
-    },
-    metaYear: { color: 'highlight' },
-    metaSoon: { color: 'highlight' },
-    metaDot: { width: '[4px]', height: '[4px]', background: 'gray.700', borderRadius: 'circle' },
 
     notice: {
       paddingTop: 'xl',
@@ -63,9 +34,5 @@ export const comingSoon = sva({
       color: 'body',
       maxWidth: 'measure',
     },
-
-    follow: { display: 'flex', flexDirection: 'column', gap: 'md', marginTop: 'xl' },
-    followLabel: { textStyle: 'metaLabel' },
-    links: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'md' },
   },
 })

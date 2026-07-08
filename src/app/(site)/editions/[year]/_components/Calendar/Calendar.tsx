@@ -14,9 +14,10 @@ import { useTodayIso } from '@/lib/use-today-iso'
 import type { CalendarEvent, CalendarListEvent } from '@/types/edition'
 import { calendar } from './Calendar.recipe'
 import { CalendarFilters } from './CalendarFilters'
+import { CalendarMeta } from './CalendarMeta'
 import { CalendarShare, PROGRAM_SECTION_ID } from './CalendarShare'
-import type { SocialLink } from './ComingSoon'
 import { type CalendarFilterOptions, deriveCalendarView } from './calendar-filters'
+import { FollowLinks, type SocialLink } from './FollowLinks'
 import { HashScroller } from './HashScroller'
 import { TypeChips } from './TypeChips'
 import { useCalendarFilters } from './useCalendarFilters'
@@ -91,15 +92,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
             <SectionHeading id="calendar-heading" flush>
               Calendar
             </SectionHeading>
-            <p className={s.meta}>
-              <span className={s.metaYear}>{year}</span>
-              {windowLabel && (
-                <>
-                  <span className={s.metaDot} aria-hidden />
-                  <span>{windowLabel}</span>
-                </>
-              )}
-            </p>
+            <CalendarMeta year={year} label={windowLabel} />
             {ended ? (
               // A finished edition leads with a short recap + follow CTAs; its
               // archive agenda collapses below (ZSB-45). Applies to every
@@ -109,22 +102,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                   That was <strong className={s.recapMark}>ZSB {year}</strong>
                   {theme ? ` — ${theme}` : ''}.
                 </p>
-                {socials.length > 0 && (
-                  <div className={s.recapFollow}>
-                    <span className={s.recapFollowLabel}>Follow for what&rsquo;s next</span>
-                    <ul className={s.recapLinks}>
-                      {socials.map((social) => (
-                        <li key={social.label}>
-                          <Button asChild variant="link">
-                            <a href={social.href} target="_blank" rel="noreferrer">
-                              {social.label}
-                            </a>
-                          </Button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <FollowLinks label="Follow for what’s next" socials={socials} />
               </div>
             ) : (
               <div className={s.counts}>
