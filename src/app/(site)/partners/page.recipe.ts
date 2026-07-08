@@ -19,12 +19,6 @@ export const partnersPage = sva({
     'whySculptureTop',
     'whySculptureImage',
     'whySculptureImg',
-    'whyGrid',
-    'whyPillar',
-    'whyPillarHead',
-    'whyPillarNum',
-    'whyPillarTitle',
-    'whyPillarBody',
     'partnerCta',
     'partnerCtaInner',
     'partnerCtaBadge',
@@ -75,44 +69,6 @@ export const partnersPage = sva({
       filter: '[grayscale(100%)]',
     },
 
-    whyGrid: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      borderTop: 'hairline',
-      md: { gridTemplateColumns: '1fr 1fr' },
-    },
-    whyPillar: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
-      paddingBlock: 'xl',
-      borderBottom: 'hairline',
-      md: {
-        padding: 'xl',
-        '&:nth-child(odd)': {
-          paddingLeft: '0',
-          borderRight: 'hairline',
-        },
-        '&:nth-child(even)': { paddingRight: '0' },
-      },
-    },
-    whyPillarHead: { display: 'flex', alignItems: 'baseline', gap: 'md' },
-    whyPillarNum: {
-      fontFamily: 'display',
-      fontSize: 'md',
-      color: 'muted',
-      letterSpacing: 'tight',
-    },
-    whyPillarTitle: {
-      textStyle: 'labelDisplay',
-      fontSize: { base: 'lg', xl: 'xl' },
-      color: 'heading',
-    },
-    whyPillarBody: {
-      textStyle: 'prose',
-      maxWidth: 'measure',
-    },
-
     // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
     // `partnerCtaInner` is the rail.
     partnerCta: {
@@ -129,7 +85,7 @@ export const partnersPage = sva({
     partnerCtaBadge: { marginBottom: '2xl' },
     partnerCtaHeading: {
       fontFamily: 'display',
-      fontSize: '6xl',
+      fontSize: '5xl',
       color: 'white',
       lineHeight: 'display',
       marginBottom: 'lg',

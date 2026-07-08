@@ -111,7 +111,6 @@ export const tokens = {
     '3xl': { value: 'clamp(40px, 36.52px + 1.087vw, 56px)' },
     '4xl': { value: 'clamp(48px, 42.35px + 1.766vw, 74px)' },
     '5xl': { value: 'clamp(58px, 50.61px + 2.31vw, 92px)' },
-    '6xl': { value: 'clamp(48px, 8vw, 106px)' },
   },
   spacing: {
     // `0` is a real member of the scale: overriding a larger breakpoint's

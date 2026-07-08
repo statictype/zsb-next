@@ -16,10 +16,6 @@ export const aboutPage = sva({
     'placeImage',
     'placeImageImg',
     'carouselSection',
-    'pillarsGrid',
-    'pillar',
-    'pillarTitle',
-    'pillarBody',
     'statement',
     'statementInner',
     'statementAside',
@@ -53,40 +49,6 @@ export const aboutPage = sva({
     carouselSection: {
       // Cancel the carousel controls' top margin — the section owns the rhythm.
       '& > :first-child': { marginTop: '0' },
-    },
-
-    pillarsGrid: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      borderTop: 'hairline',
-      borderBottom: 'hairline',
-      md: { gridTemplateColumns: '1fr 1fr' },
-    },
-    pillar: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
-      paddingBlock: 'xl',
-      borderBottom: 'hairline',
-      '&:last-child': { borderBottom: 'none' },
-      md: {
-        paddingBlock: 'xl',
-        paddingInline: 'xl',
-        borderBottom: 'none',
-        borderRight: 'hairline',
-        marginBlock: '4xl',
-        '&:first-child': { paddingLeft: '0' },
-        '&:last-child': { paddingRight: '0', borderRight: 'none' },
-      },
-    },
-    pillarTitle: {
-      textStyle: 'labelDisplay',
-      fontSize: 'lg',
-      color: 'highlight',
-    },
-    pillarBody: {
-      textStyle: 'prose',
-      maxWidth: 'measure',
     },
 
     // Curator letter — signed editorial spread on light. Ground (light) +
