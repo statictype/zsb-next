@@ -3,10 +3,11 @@
 import { RiArrowLeftLine, RiArrowRightLine, RiCloseLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { cx } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
 import { skeleton } from '@/components/skeleton'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
+import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { lightbox as lightboxRecipe } from './Lightbox.recipe'
 
 export interface LightboxImage {
@@ -207,18 +208,13 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
           />
         </div>
 
-        {current.caption && (
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- caption click only stops propagation so the backdrop doesn't close
-          <div className={s.caption} onClick={stop}>
-            {current.caption}
-          </div>
-        )}
+        {current.caption && <Eyebrow className={s.caption}>{current.caption}</Eyebrow>}
 
         {images.length > 1 && (
           <>
             <Button
               variant="icon"
-              className={cx(s.navPrev)}
+              className={cx(s.nav, css({ left: '0', '--nav-nudge': '-2px' }))}
               onClick={(e) => {
                 e.stopPropagation()
                 onPrev()
@@ -229,7 +225,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
             </Button>
             <Button
               variant="icon"
-              className={cx(s.navNext)}
+              className={cx(s.nav, css({ right: '0', '--nav-nudge': '2px' }))}
               onClick={(e) => {
                 e.stopPropagation()
                 onNext()

@@ -14,17 +14,7 @@ import { sva } from 'styled-system/css'
  * image-viewer layout, controls, and gesture feedback.
  */
 export const lightbox = sva({
-  slots: [
-    'lightbox',
-    'frame',
-    'image',
-    'close',
-    'caption',
-    'navPrev',
-    'navNext',
-    'preload',
-    'preloadFrame',
-  ],
+  slots: ['lightbox', 'frame', 'image', 'close', 'caption', 'nav', 'preload', 'preloadFrame'],
   base: {
     lightbox: {
       position: 'relative',
@@ -55,35 +45,36 @@ export const lightbox = sva({
     },
 
     // Positioned over the dark backdrop; Button supplies size + white→action.
+    // zIndex is local to the lightbox root's stacking context (the whole
+    // viewer already sits at the global `lightbox` layer via Dialog) — it
+    // shares the top local layer with the arrows, which it never overlaps.
     close: {
       position: 'absolute',
       top: 'md',
       right: 'md',
-      zIndex: 'lightbox',
+      zIndex: '10',
       _hover: { transform: 'rotate(90deg)' },
-      md: { top: '[32px]', right: '[32px]' },
+      md: { top: 'lg', right: 'lg' },
     },
+    // Type is the shared `Eyebrow` recipe (body/xs/uppercase/wide/muted),
+    // applied at the call site; the slot owns only placement.
     caption: {
       position: 'absolute',
       bottom: 'lg',
       left: '[50%]',
       transform: 'translateX(-50%)',
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      color: 'muted',
       pointerEvents: 'none',
-      md: { bottom: '[32px]' },
     },
     // Arrows: desktop-only, each owns its full letterbox column (the 80px
     // strip beside the frame) so a near-miss navigates instead of falling
     // through to the close-on-click backdrop. insetBlock keeps the top-right
-    // corner for the close control. The icon nudges on hover, not the strip.
-    navPrev: {
+    // corner for the close control. On hover the strip cancels Button's own
+    // icon-hover transform (`transform: none`) and nudges the `svg` instead,
+    // so only the arrow glyph moves. Side (left/right) + nudge direction
+    // (`--nav-nudge`) are set per-arrow at the call site; the rest is shared.
+    nav: {
       position: 'absolute',
-      insetBlock: '[96px]',
-      left: '0',
+      insetBlock: 'xl',
       width: '[80px]',
       height: 'auto',
       zIndex: '10',
@@ -94,23 +85,7 @@ export const lightbox = sva({
         transitionDuration: 'normal',
         transitionTimingFunction: 'expo',
       },
-      _hover: { transform: 'none', '& svg': { transform: 'translateX(-2px)' } },
-    },
-    navNext: {
-      position: 'absolute',
-      insetBlock: '[96px]',
-      right: '0',
-      width: '[80px]',
-      height: 'auto',
-      zIndex: '10',
-      display: 'none',
-      md: { display: 'inline-flex' },
-      '& svg': {
-        transitionProperty: '[transform]',
-        transitionDuration: 'normal',
-        transitionTimingFunction: 'expo',
-      },
-      _hover: { transform: 'none', '& svg': { transform: 'translateX(2px)' } },
+      _hover: { transform: 'none', '& svg': { transform: 'translateX(var(--nav-nudge, 0px))' } },
     },
 
     // Off-screen N±1 prefetch of optimized variants.
