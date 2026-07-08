@@ -18,7 +18,6 @@ export const aboutPage = sva({
     'carouselSection',
     'pillarsGrid',
     'pillar',
-    'pillarHead',
     'pillarTitle',
     'pillarBody',
     'statement',
@@ -45,9 +44,8 @@ export const aboutPage = sva({
       md: { aspectRatio: '16 / 9' },
     },
     placeImageImg: {
-      objectFit: 'cover',
+      layerStyle: 'coverMono',
       background: 'gray.900',
-      filter: '[grayscale(100%) contrast(1.05)]',
     },
 
     // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
@@ -81,14 +79,10 @@ export const aboutPage = sva({
         '&:last-child': { paddingRight: '0', borderRight: 'none' },
       },
     },
-    pillarHead: { display: 'flex', alignItems: 'baseline', gap: 'md' },
     pillarTitle: {
-      fontFamily: 'display',
+      textStyle: 'labelDisplay',
       fontSize: 'lg',
-      textTransform: 'uppercase',
-      lineHeight: 'tight',
       color: 'highlight',
-      letterSpacing: 'tight',
     },
     pillarBody: {
       textStyle: 'prose',
@@ -125,6 +119,7 @@ export const aboutPage = sva({
       display: 'flex',
       flexDirection: 'column',
       gap: 'md',
+      // Matches the portrait's mobile image request; keep frame and source size aligned.
       maxWidth: '[240px]',
     },
     authorPhotoFrame: {
@@ -157,12 +152,9 @@ export const aboutPage = sva({
       borderTop: 'primary',
     },
     authorName: {
-      fontFamily: 'display',
+      textStyle: 'labelDisplay',
       fontSize: 'md',
-      textTransform: 'uppercase',
       color: 'heading',
-      lineHeight: 'tight',
-      letterSpacing: 'tight',
     },
     authorRole: {
       fontFamily: 'body',

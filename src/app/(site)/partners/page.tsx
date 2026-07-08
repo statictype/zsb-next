@@ -95,6 +95,7 @@ function PartnersShell({
                 <Eyebrow rule className={css({ marginBottom: 'xl' })}>
                   {whyEyebrow}
                 </Eyebrow>
+                {/* Wider than prose measure so the editorial heading keeps its intended two-line rhythm. */}
                 <SectionHeading flush className={css({ maxWidth: '[700px]' })}>
                   {whyTitle}
                 </SectionHeading>

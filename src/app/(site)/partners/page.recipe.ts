@@ -42,10 +42,7 @@ export const partnersPage = sva({
       maxWidth: 'measure',
       marginBottom: '2xl',
       '& p': {
-        fontFamily: 'body',
-        fontSize: 'base',
-        lineHeight: { base: 'body', md: 'loose' },
-        color: 'body',
+        textStyle: 'prose',
       },
     },
     eventImage: {
@@ -55,9 +52,8 @@ export const partnersPage = sva({
       border: 'hairline',
     },
     eventImageImg: {
-      objectFit: 'cover',
+      layerStyle: 'coverMono',
       background: 'gray.900',
-      filter: '[grayscale(100%) contrast(1.05)]',
     },
 
     whySculptureTop: {
@@ -73,7 +69,11 @@ export const partnersPage = sva({
       aspectRatio: '16 / 10',
       border: 'hairline',
     },
-    whySculptureImg: { objectFit: 'cover', background: 'gray.200', filter: '[grayscale(100%)]' },
+    whySculptureImg: {
+      layerStyle: 'coverMono',
+      background: 'gray.200',
+      filter: '[grayscale(100%)]',
+    },
 
     whyGrid: {
       display: 'grid',
@@ -104,18 +104,12 @@ export const partnersPage = sva({
       letterSpacing: 'tight',
     },
     whyPillarTitle: {
-      fontFamily: 'display',
+      textStyle: 'labelDisplay',
       fontSize: { base: 'lg', xl: 'xl' },
-      textTransform: 'uppercase',
-      lineHeight: 'tight',
       color: 'heading',
-      letterSpacing: 'tight',
     },
     whyPillarBody: {
-      fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: { base: 'body', md: 'loose' },
-      color: 'body',
+      textStyle: 'prose',
       maxWidth: 'measure',
     },
 
@@ -135,7 +129,7 @@ export const partnersPage = sva({
     partnerCtaBadge: { marginBottom: '2xl' },
     partnerCtaHeading: {
       fontFamily: 'display',
-      fontSize: '[clamp(48px, 8vw, 106px)]',
+      fontSize: '6xl',
       color: 'white',
       lineHeight: 'display',
       marginBottom: 'lg',
@@ -146,7 +140,7 @@ export const partnersPage = sva({
       lineHeight: 'body',
       fontWeight: 'light',
       color: 'body',
-      maxWidth: '[460px]',
+      maxWidth: 'measure',
       marginBottom: '2xl',
     },
   },

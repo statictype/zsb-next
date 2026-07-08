@@ -77,9 +77,7 @@ function AboutShell({ view }: { view: AboutView }) {
           <div className={styles.pillarsGrid}>
             {pillars.map((p) => (
               <article key={p.label} className={styles.pillar}>
-                <div className={styles.pillarHead}>
-                  <h2 className={styles.pillarTitle}>{p.label}</h2>
-                </div>
+                <h2 className={styles.pillarTitle}>{p.label}</h2>
                 <p className={styles.pillarBody}>{p.body}</p>
               </article>
             ))}
