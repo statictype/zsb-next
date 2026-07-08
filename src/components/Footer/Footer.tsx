@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import { cx } from 'styled-system/css'
-import { button } from 'styled-system/recipes'
+import type { ReactNode } from 'react'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
+import { Button } from '@/components/ui/Button/Button'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 import { footer } from './Footer.recipe'
@@ -17,17 +17,20 @@ const CONNECT_LINKS = [
   { label: 'Visit', href: '/visit' },
 ] as const
 
-function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+function FooterLink({ href, children }: { href: string; children: ReactNode }) {
   const external = href === '#' || href.startsWith('http') || href.startsWith('mailto:')
-  const cls = cx(button({ variant: 'link' }), s.link)
-  return external ? (
-    <a href={href} className={cls}>
-      {children}
-    </a>
-  ) : (
-    <Link href={href} className={cls}>
-      {children}
-    </Link>
+  return (
+    <Button asChild variant="link" className={s.link}>
+      {external ? <a href={href}>{children}</a> : <Link href={href}>{children}</Link>}
+    </Button>
+  )
+}
+
+function LegalLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Button asChild variant="link" className={s.legalLink}>
+      <Link href={href}>{children}</Link>
+    </Button>
   )
 }
 
@@ -55,7 +58,7 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
       <div className={s.inner}>
         <div className={s.primary}>
           <div className={s.badge}>
-            <PartnerBadge />
+            <PartnerBadge size="footer" />
           </div>
 
           <div className={s.cols}>
@@ -87,9 +90,7 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
         <div className={s.baseline}>
           <div className={s.copyright}>&copy; {currentYear} Bucharest Sculpture Days</div>
           <div className={s.legal}>
-            <Link href="/privacy" className={cx(button({ variant: 'link' }), s.legalLink)}>
-              Privacy Policy
-            </Link>
+            <LegalLink href="/privacy">Privacy Policy</LegalLink>
             <CookieSettingsButton className={s.legalLink} />
           </div>
         </div>

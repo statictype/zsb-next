@@ -7,8 +7,8 @@ import { sva } from 'styled-system/css'
  * fixed nav (the `pageHero` layerStyle owns the full padding, so the page-top
  * offset is deterministic) and animates the title in. Folds together what used
  * to be `shared.pageHero` + `sectionInner` + `pageTitle` + `lead` repeated on
- * every static page. `title` carries the entrance animation at the call site
- * (textStyles are typography-only); `lead` adds its `max-width`/top margin.
+ * every static page. `title` carries the shared entrance animation; `lead` adds
+ * its `max-width`/top margin.
  */
 export const pageHero = sva({
   slots: ['hero', 'inner', 'title', 'lead'],
@@ -17,8 +17,7 @@ export const pageHero = sva({
     inner: { layerStyle: 'sectionInner' },
     title: {
       textStyle: 'pageTitle',
-      // Reveal contract is the shared `enter` animation style; only the delay
-      // stays here.
+      animationStyle: 'enter',
       animationDelay: 'fast',
     },
     lead: { textStyle: 'lead', color: 'body', maxWidth: 'measure', marginTop: 'xl' },

@@ -9,8 +9,7 @@ import { sva } from 'styled-system/css'
  * the `pageTitle` textStyle + entrance directly (it's not the standard PageHero
  * block — Carousel layout, min-content title). The `.editionBadge` pill →
  * `<Badge>`. Row hovers drive from the `<a>` via `a:hover &` (disabled rows are
- * `<div>`, so they never trigger the colour/arrow shift). `--partner-badge-scale`
- * is set per breakpoint.
+ * `<div>`, so they never trigger the colour/arrow shift).
  */
 export const homePage = sva({
   slots: [
@@ -106,18 +105,13 @@ export const homePage = sva({
       alignSelf: 'center',
       marginTop: 'md',
       zIndex: '10',
-      '--partner-badge-scale': '2.2',
-      md: { '--partner-badge-scale': '1.8' },
       lg: {
         gridColumn: '2',
         gridRow: '1',
         justifySelf: 'end',
         alignSelf: 'start',
         marginTop: '0',
-        '--partner-badge-scale': '1.65',
       },
-      xl: { '--partner-badge-scale': '1.75' },
-      '3xl': { '--partner-badge-scale': '1.85' },
     },
 
     // The editions section shell is `section({ ground: 'dark' })` (composed with
@@ -180,7 +174,7 @@ export const homePage = sva({
       letterSpacing: 'subtle',
       color: 'body',
     },
-    upcomingBadge: { marginTop: 'sm', '--partner-badge-scale': '1.5' },
+    upcomingBadge: { marginTop: 'sm' },
     lastEdition: {
       display: 'flex',
       flexDirection: 'column',

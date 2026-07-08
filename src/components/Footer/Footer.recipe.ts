@@ -7,7 +7,7 @@ import { sva } from 'styled-system/css'
  * stamp, baseline meta row. Mobile-first — `base` is the mobile (centered,
  * stacked) layout and `md` is the spread desktop row.
  *
- * The links adopt the `button` text variant; the `link` slot only carries the
+ * The links adopt the `Button` link variant; the `link` slot only carries the
  * footer's typographic treatment layered on top.
  */
 export const footer = sva({
@@ -71,8 +71,6 @@ export const footer = sva({
     },
     badge: {
       flexShrink: 0,
-      '--partner-badge-scale': '1.4',
-      md: { '--partner-badge-scale': '1.2' },
     },
 
     navCol: {
@@ -92,17 +90,13 @@ export const footer = sva({
       },
     },
     colTitle: {
-      flexBasis: 'full',
+      width: 'full',
       textAlign: 'center',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      fontWeight: 'semibold',
-      textTransform: 'uppercase',
+      textStyle: 'footerMeta',
       letterSpacing: 'wide',
-      color: 'muted',
-      md: { marginBottom: 'xs', flexBasis: '[auto]', textAlign: 'left' },
+      md: { marginBottom: 'xs', width: 'fit', textAlign: 'left' },
     },
-    // Footer-link typography layered onto button.text.
+    // Footer-link typography layered onto the Button link variant.
     link: {
       width: 'fit',
       fontFamily: 'body',
@@ -115,12 +109,8 @@ export const footer = sva({
 
     stamp: {
       flexShrink: 0,
-      fontFamily: 'body',
-      fontSize: '2xs',
-      fontWeight: 'semibold',
-      textTransform: 'uppercase',
+      textStyle: 'footerMeta',
       letterSpacing: 'wide',
-      color: 'muted',
       border: 'hairline',
       paddingBlock: 'sm',
       paddingInline: 'md',
@@ -134,11 +124,8 @@ export const footer = sva({
       gap: 'md',
       paddingTop: 'lg',
       borderTop: 'hairline',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
+      textStyle: 'footerMeta',
       letterSpacing: 'label',
-      color: 'muted',
       alignItems: 'center',
       textAlign: 'center',
       md: {
@@ -150,9 +137,6 @@ export const footer = sva({
     },
     copyright: { color: 'muted' },
     legal: { display: 'flex', gap: 'lg' },
-    // The text-variant button defaults to `size: md`, whose fontSize/tracking
-    // would override the inherited baseline meta scale — re-assert it so the
-    // legal links read at the same size as the copyright beside them.
-    legalLink: { fontSize: '2xs', letterSpacing: 'label' },
+    legalLink: { textStyle: 'footerMeta', letterSpacing: 'label' },
   },
 })

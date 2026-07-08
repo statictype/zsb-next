@@ -104,6 +104,7 @@ export const tokens = {
   // Static + already-fluid (clamp) scales port as plain tokens.
   // Stepped-responsive ones live in semanticTokens below.
   fontSizes: {
+    badgeRing: { value: '40px' },
     md: { value: 'clamp(19px, 18.35px + 0.2038vw, 22px)' },
     lg: { value: 'clamp(22px, 21.35px + 0.2038vw, 25px)' },
     xl: { value: 'clamp(26px, 24.26px + 0.5435vw, 34px)' },
@@ -194,6 +195,7 @@ export const tokens = {
     subtle: { value: '0.6px' },
     label: { value: '1.2px' },
     wide: { value: '4px' },
+    badgeRing: { value: '8px' },
   },
   fontWeights: {
     light: { value: '300' },
@@ -220,6 +222,11 @@ export const tokens = {
     sweep: { value: '1600ms' },
   },
   easings: {
+    elastic: { value: 'cubic-bezier(0.34, 1.56, 0.64, 1)' },
+    elasticLinear: {
+      value:
+        'linear(0, 0.43 5%, 0.85 10%, 1.11 15%, 1.2 20%, 1.18 25%, 1.1 30%, 1.03 35%, 0.98 42.5%, 0.96 47.5%, 0.99 60%, 1.005 70%, 1)',
+    },
     expo: { value: 'cubic-bezier(0.16, 1, 0.3, 1)' },
     quint: { value: 'cubic-bezier(0.23, 1, 0.32, 1)' },
   },
@@ -299,6 +306,18 @@ export const semanticTokens = {
   sizes: {
     // Fixed-nav height — the page-top offset every hero clears.
     nav: { value: { base: '60px', md: '72px', lg: '84px', xl: '100px' } },
+    partnerBadgeStandard: { value: { base: '72px', md: '96px', xl: '125px' } },
+    partnerBadgeStandardIcon: { value: { base: '20px', md: '26px', xl: '36px' } },
+    partnerBadgeFooter: { value: { base: '100.8px', md: '115.2px', xl: '150px' } },
+    partnerBadgeFooterIcon: { value: { base: '28px', md: '31.2px', xl: '43.2px' } },
+    partnerBadgeHero: {
+      value: { base: '158.4px', md: '172.8px', lg: '158.4px', xl: '218.75px', '3xl': '231.25px' },
+    },
+    partnerBadgeHeroIcon: {
+      value: { base: '44px', md: '46.8px', lg: '42.9px', xl: '63px', '3xl': '66.6px' },
+    },
+    partnerBadgeUpcoming: { value: { base: '108px', md: '144px', xl: '187.5px' } },
+    partnerBadgeUpcomingIcon: { value: { base: '30px', md: '39px', xl: '54px' } },
   },
   spacing: {
     md: { value: { base: '16px', md: '20px' } },
@@ -508,6 +527,15 @@ export const textStyles = {
       fontSize: '2xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
+      fontWeight: 'semibold',
+      color: 'muted',
+    },
+  },
+  footerMeta: {
+    value: {
+      fontFamily: 'body',
+      fontSize: '2xs',
+      textTransform: 'uppercase',
       fontWeight: 'semibold',
       color: 'muted',
     },

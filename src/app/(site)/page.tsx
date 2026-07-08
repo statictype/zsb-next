@@ -94,7 +94,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 </h1>
                 <p className={styles.upcomingDates}>{upcoming.dateTape}</p>
                 <div className={styles.upcomingBadge}>
-                  <PartnerBadge />
+                  <PartnerBadge size="upcoming" />
                 </div>
               </div>
 
@@ -135,7 +135,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
               </div>
 
               <div className={styles.heroBadge}>
-                <PartnerBadge />
+                <PartnerBadge size="hero" />
               </div>
 
               <div className={styles.heroVisual}>
