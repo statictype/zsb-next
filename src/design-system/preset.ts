@@ -13,19 +13,18 @@ import {
 } from './tokens'
 
 // Raw-value policy (`strictTokens` is ON — see panda.config.ts): every style
-// value must be a token, or a deliberate `[bracketed]` exception. Anything that
-// recurs is a token or composition — shadows (card/badge/modal/frame/tape),
-// the hero vignette gradient, the skeleton + gradient-border layer styles.
+// value must be a token — no exceptions. Anything that recurs is a token or
+// composition — shadows (card/badge/modal/frame/tape), the hero vignette
+// gradient, the skeleton + gradient-border layer styles.
 //
-// MIGRATION IN PROGRESS: the `[bracketed]` literals still scattered through the
-// recipes are NOT a sanctioned art-direction set — they are a backlog. ~95% can
-// still be resolved: snap to the nearest token (accept a small visual delta) or
-// refactor / recompose (extract a layerStyle, merge near-duplicate slots). Only
-// a genuine residue is load-bearing one-off art direction (local scrims, the
-// artists-table barcode, mask geometry, %-centering / hairline px) where a
-// token would only launder a magic number into a magic name. Treat a bracket as
-// debt to justify or remove, not as a blessed exception. New values follow the
-// same test: second occurrence → token.
+// `[bracketed]` literals still scattered through the recipes are migration
+// backlog, not sanctioned art direction. Resolve every one: snap to the
+// nearest token (accept a small visual delta) or refactor/recompose (extract
+// a layerStyle, merge near-duplicate slots, derive one value from another via
+// a token-backed CSS var instead of hardcoding both). There is no load-bearing
+// exception that stays raw — a bracket is debt to remove, never a value to
+// keep and explain. New values follow the same test: second occurrence →
+// token.
 export const designSystemPreset = definePreset({
   name: 'zsb-design-system',
   conditions: { extend: conditions },
