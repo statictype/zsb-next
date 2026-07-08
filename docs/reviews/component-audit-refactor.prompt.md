@@ -67,6 +67,16 @@ finding instead of downgrading it to a comment.
    clean for these files just stays out of the summary table — silence is the
    signal, not a "clean" line to write. Per rule 3, expect ds-hygiene to
    rarely be silent in a codebase that still has any `[bracketed]` literals.
+6. **When a fix is later implemented, unify usage repo-wide, not just inside
+   the reviewed files.** If a finding's fix touches a component's public prop
+   API (adds/removes/requires a prop) or a token/recipe that other,
+   out-of-scope files also consume, the implementation should update every
+   call site across `src/`, not only the files this review happened to cover.
+   The goal is one consistent way to use the design system, not a
+   reviewed-files/everyone-else split where the audited corner looks clean and
+   the rest of the repo quietly drifts further from it. This is a note for
+   implementation time, not a license to edit files during the review itself
+   — rule 1 still holds while producing the audit document.
 
 ## Phase 1 — Ground yourself (mandatory, before any finding)
 
@@ -216,6 +226,6 @@ Each detailed finding carries these fields:
 | `axis` | structure / ds-hygiene / types / prop-api / dead-code / adversarial |
 | `smell` | one line |
 | `evidence` | the cited existing token/recipe/textStyle/layerStyle to reuse, the proposed new token, or the call site that proves it — must be verifiable. If a comment claimed this was intentional, name the comment and say why it doesn't hold. If sibling raw literals exist elsewhere in `src/`, list them here even if the recommendation is scoped to the reviewed file only. |
-| `recommendation` | the concrete code change — extract / merge / derive / delete / tokenize. Never "add a comment." State what shrinks. If sibling call sites were found, state both scopes: fix here only, vs. also-applies-to `file:line` list. If the fix changes rendered output at all (a value shift, not just where it's declared; a new inherited property entering the cascade), say so in one clause — that's the one thing worth an eyeball before committing, no formal tier needed to say it. |
+| `recommendation` | the concrete code change — extract / merge / derive / delete / tokenize. Never "add a comment." State what shrinks. If sibling call sites were found, list every `file:line` — per rule 6, the default when this gets implemented is fixing all of them, not just the reviewed file, so name the full call-site set here rather than deferring it to a follow-up. If the fix changes rendered output at all (a value shift, not just where it's declared; a new inherited property entering the cascade), say so in one clause — that's the one thing worth an eyeball before committing, no formal tier needed to say it. |
 
 Then **stop**. Do not implement anything.

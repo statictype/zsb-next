@@ -22,7 +22,10 @@ export const dialog = defineSlotRecipe({
       position: 'relative',
       width: '100%',
       minWidth: 0,
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '-2px' },
+      _focusVisible: {
+        outline: 'focus',
+        outlineOffset: '[calc(token(borderWidths.focus) * -1)]',
+      },
     },
     title: {
       position: 'absolute',

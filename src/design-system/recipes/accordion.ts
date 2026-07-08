@@ -26,7 +26,7 @@ export const accordion = defineSlotRecipe({
       cursor: 'pointer',
       transition: 'color {durations.fast} {easings.quint}',
       _hover: { color: 'action' },
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '3px' },
+      _focusVisible: { outline: 'focus', outlineOffset: '3px' },
       _motionReduce: { transition: 'none' },
       '& [data-accordion-meta]': {
         marginLeft: 'auto',
