@@ -164,7 +164,7 @@ export const calendar = sva({
       },
       _hover: {
         '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
-        '& img': { filter: '[grayscale(30%) brightness(1)]', transform: 'scale(1.03)' },
+        '& img': { filter: '[token(assets.developHover)]', transform: 'scale(1.03)' },
         '& a': { color: 'white' },
       },
       '& a:focus-visible': { color: 'white' },
@@ -187,7 +187,7 @@ export const calendar = sva({
       background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: '[grayscale(100%) brightness(0.7)]',
+        filter: '[token(assets.developRest)]',
         transitionProperty: '[filter, transform]',
         transitionDuration: 'medium',
         transitionTimingFunction: 'quint',

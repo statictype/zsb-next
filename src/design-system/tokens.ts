@@ -120,6 +120,9 @@ export const tokens = {
     sm: { value: '8px' },
     lg: { value: 'clamp(24px, 18.78px + 1.6304vw, 48px)' },
     xl: { value: 'clamp(32px, 23.3px + 2.7174vw, 72px)' },
+    // The archive card's image-bleeds-under-content overlap (negated at the
+    // call site: `marginTop: '[calc(token(spacing.cardOverlap) * -1)]'`).
+    cardOverlap: { value: '3rem' },
   },
   radii: {
     pill: { value: '100px' },
@@ -170,6 +173,11 @@ export const tokens = {
     // The hero frame's grayscale grade — photography desaturated just enough
     // to sit on the dark ground without going fully mono.
     grayscaleSubtle: { value: 'grayscale(0.3)' },
+    // The card-media "develop" treatment — fully desaturated + dimmed at
+    // rest, warming back to color + full brightness on hover/focus. Shared by
+    // EditionCard and Calendar's run cards.
+    developRest: { value: 'grayscale(1) brightness(0.7)' },
+    developHover: { value: 'grayscale(0.3) brightness(1)' },
   },
   lineHeights: {
     display: { value: '1' },
@@ -237,6 +245,11 @@ export const tokens = {
     heroVignette: {
       value:
         'linear-gradient(115deg, rgb(14 11 16 / 0.55) 0%, rgb(14 11 16 / 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgb(14 11 16 / 0.5) 100%)',
+    },
+    // The archive card's media scrim — top + bottom darkening for the year
+    // badge/gradient legibility over card imagery.
+    cardScrim: {
+      value: 'linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))',
     },
   },
 } as const
