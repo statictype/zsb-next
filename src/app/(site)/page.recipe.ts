@@ -187,7 +187,7 @@ export const homePage = sva({
       alignItems: 'flex-start',
       gap: 'md',
       width: 'full',
-      maxWidth: '[520px]',
+      maxWidth: 'narrowColumn',
       paddingTop: 'lg',
       borderTop: 'hairline',
       lg: { flex: '[0 0 42%]', maxWidth: '[460px]', paddingTop: '0', borderTop: 'none' },

@@ -36,7 +36,7 @@ export const visitImageFrame = sva({
   base: {
     block: {
       padding: 'lg',
-      maxWidth: '[500px]',
+      maxWidth: 'narrowColumn',
       marginInline: 'auto',
       lg: { maxWidth: '[none]', marginInline: '0' },
     },

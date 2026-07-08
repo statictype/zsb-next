@@ -44,7 +44,7 @@ export const errorPage = sva({
       transform: 'translateX(-50%)',
       pointerEvents: 'none',
     },
-    content: { position: 'relative', zIndex: '10', textAlign: 'center', maxWidth: '[520px]' },
+    content: { position: 'relative', zIndex: '10', textAlign: 'center', maxWidth: 'narrowColumn' },
     icon: {
       display: 'inline-flex',
       alignItems: 'center',

@@ -58,7 +58,7 @@ export const artistsBanner = sva({
       fontSize: 'sm',
       lineHeight: 'body',
       color: 'body',
-      maxWidth: { md: '[500px]' },
+      maxWidth: { md: 'narrowColumn' },
     },
     accent: {
       position: 'absolute',
