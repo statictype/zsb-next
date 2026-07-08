@@ -19,7 +19,7 @@ export const homepageCarousel = sva({
       position: 'absolute',
       inset: '0',
       pointerEvents: 'none',
-      background: '[radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.45) 100%)]',
+      backgroundGradient: 'carouselVignette',
     },
   },
 })

@@ -4,9 +4,10 @@ import { sva } from 'styled-system/css'
  * Lightbox — co-located slot recipe.
  *
  * Full-screen image viewer with swipe/drag. The close + prev/next adopt the
- * `<Button variant="icon">` (white→action); their positioning
- * and per-control motion (close rotates, arrows nudge) layer on via the slot
- * classes. The backdrop alpha + drag transform stay inline (request-driven).
+ * `<Button variant="icon">` (white→action); their positioning and per-control
+ * motion (close rotates, arrows use the icon variant's own lift) layer on via
+ * the slot classes. The backdrop alpha + drag transform stay inline
+ * (request-driven).
  * Bracketed values are viewer geometry: letterbox columns, viewport frames,
  * chrome offsets.
  *
@@ -30,10 +31,11 @@ export const lightbox = sva({
     },
     frame: {
       position: 'relative',
-      width: '[90vw]',
+      width: 'lightboxFrameWidth',
       height: '[85vh]',
       willChange: 'transform, opacity',
-      md: { width: '[calc(100vw - 160px)]', height: '[90vh]' },
+      // Leaves one `lightboxNavColumn` clear on each side for the nav arrows.
+      md: { width: '[calc(100vw - (token(sizes.lightboxNavColumn) * 2))]', height: '[90vh]' },
     },
     // Drag prevention comes from the Image's `draggable={false}` attribute.
     image: {
@@ -47,14 +49,23 @@ export const lightbox = sva({
     // Positioned over the dark backdrop; Button supplies size + white→action.
     // zIndex is local to the lightbox root's stacking context (the whole
     // viewer already sits at the global `lightbox` layer via Dialog) — it
-    // shares the top local layer with the arrows, which it never overlaps.
+    // sits above the arrows (`nav`) so a near-miss between the two always
+    // resolves to close, never a navigation.
     close: {
       position: 'absolute',
       top: 'md',
       right: 'md',
-      zIndex: '10',
+      zIndex: '20',
       _hover: { transform: 'rotate(90deg)' },
       md: { top: 'lg', right: 'lg' },
+      // Hit-slop: grows the clickable area beyond the visible icon without
+      // shifting it (the pseudo-element expands symmetrically around the
+      // button's own box).
+      _before: {
+        content: '""',
+        position: 'absolute',
+        inset: '[calc({sizes.hitSlop} * -1)]',
+      },
     },
     // Type is the shared `Eyebrow` recipe (body/xs/uppercase/wide/muted),
     // applied at the call site; the slot owns only placement.
@@ -65,27 +76,20 @@ export const lightbox = sva({
       transform: 'translateX(-50%)',
       pointerEvents: 'none',
     },
-    // Arrows: desktop-only, each owns its full letterbox column (the 80px
-    // strip beside the frame) so a near-miss navigates instead of falling
-    // through to the close-on-click backdrop. insetBlock keeps the top-right
-    // corner for the close control. On hover the strip cancels Button's own
-    // icon-hover transform (`transform: none`) and nudges the `svg` instead,
-    // so only the arrow glyph moves. Side (left/right) + nudge direction
-    // (`--nav-nudge`) are set per-arrow at the call site; the rest is shared.
+    // Arrows: desktop-only, each owns a generous but bounded vertical click
+    // zone (`lightboxNavHit`), centered on the frame — tall enough to be an
+    // easy target, short enough to stay clear of the close button's corner.
+    // Side (left/right) is set per-arrow at the call site; the hover lift is
+    // Button's own `icon` variant.
     nav: {
       position: 'absolute',
-      insetBlock: 'xl',
-      width: '[80px]',
-      height: 'auto',
+      top: '[50%]',
+      translate: '[0 -50%]',
+      width: 'lightboxNavColumn',
+      height: 'lightboxNavHit',
       zIndex: '10',
       display: 'none',
       md: { display: 'inline-flex' },
-      '& svg': {
-        transitionProperty: '[transform]',
-        transitionDuration: 'normal',
-        transitionTimingFunction: 'expo',
-      },
-      _hover: { transform: 'none', '& svg': { transform: 'translateX(var(--nav-nudge, 0px))' } },
     },
 
     // Off-screen N±1 prefetch of optimized variants.

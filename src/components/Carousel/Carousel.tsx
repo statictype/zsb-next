@@ -6,6 +6,7 @@ import { type ReactNode, useId, useRef, useState, useSyncExternalStore } from 'r
 import { cx } from 'styled-system/css'
 import { carousel } from 'styled-system/recipes'
 import { token } from 'styled-system/tokens'
+import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 
 export interface CarouselSlide {
@@ -26,10 +27,6 @@ interface CarouselProps {
 
 const safeId = (value: string) => value.replace(/[^a-zA-Z0-9_-]+/g, '-')
 const reducedMotionQuery = '(prefers-reduced-motion: reduce)'
-
-// Pointer travel (px) between pointerdown and click beyond which the click is
-// treated as the tail of a mouse drag and suppressed.
-const DRAG_CLICK_TOLERANCE = 8
 
 function subscribeToReducedMotion(callback: () => void) {
   const media = window.matchMedia(reducedMotionQuery)
@@ -88,8 +85,8 @@ export function Carousel({
       allowMouseDrag
       loop={loop}
       autoplay={autoplayEnabled ? { delay: autoplay } : false}
-      spacing={mode === 'rail' ? token('spacing.md') : '0px'}
-      padding={mode === 'rail' ? token('spacing.gutter') : '0px'}
+      spacing={mode === 'rail' ? token('spacing.md') : undefined}
+      padding={mode === 'rail' ? token('spacing.gutter') : undefined}
       translations={{
         nextTrigger: `Next ${label.toLowerCase()} slide`,
         prevTrigger: `Previous ${label.toLowerCase()} slide`,
@@ -114,7 +111,7 @@ export function Carousel({
         // detail === 0 → keyboard-activated click; never suppress those.
         if (!origin || event.detail === 0) return
         const travel = Math.hypot(event.clientX - origin.x, event.clientY - origin.y)
-        if (travel < DRAG_CLICK_TOLERANCE) return
+        if (travel < POINTER_DRAG_TOLERANCE_PX) return
         event.preventDefault()
         event.stopPropagation()
       }}
@@ -149,12 +146,12 @@ export function Carousel({
                 </ArkCarousel.IndicatorGroup>
               )}
               <span data-carousel-arrows>
-                <ArkCarousel.PrevTrigger className={styles.prevTrigger} onClick={resetAutoplay}>
+                <ArkCarousel.PrevTrigger className={styles.trigger} onClick={resetAutoplay}>
                   <RiArrowLeftLine size={20} />
                 </ArkCarousel.PrevTrigger>
                 {mode === 'stage' && autoplay !== false && slides.length > 1 && (
                   <ArkCarousel.AutoplayTrigger
-                    className={styles.autoplayTrigger}
+                    className={styles.trigger}
                     aria-label={
                       explicitlyPaused
                         ? `Play ${label.toLowerCase()}`
@@ -171,7 +168,7 @@ export function Carousel({
                     {explicitlyPaused ? <RiPlayLine size={20} /> : <RiPauseLine size={20} />}
                   </ArkCarousel.AutoplayTrigger>
                 )}
-                <ArkCarousel.NextTrigger className={styles.nextTrigger} onClick={resetAutoplay}>
+                <ArkCarousel.NextTrigger className={styles.trigger} onClick={resetAutoplay}>
                   <RiArrowRightLine size={20} />
                 </ArkCarousel.NextTrigger>
               </span>

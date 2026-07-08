@@ -1,12 +1,10 @@
 'use client'
 
-import { useState } from 'react'
 import { css } from 'styled-system/css'
 import { Figure } from '@/components/Figure/Figure'
-import { Lightbox } from '@/components/Lightbox/Lightbox'
 import type { CarouselLayout, CarouselSlide as GallerySlide } from '@/types/edition'
-import { Carousel } from './Carousel'
 import { galleryCarousel } from './GalleryCarousel.recipe'
+import { LightboxCarousel } from './LightboxCarousel'
 
 const placement = css({ marginTop: '3xl' })
 
@@ -22,57 +20,49 @@ export function GalleryCarousel({ slides, eyebrow }: { slides: GallerySlide[]; e
   const lightboxImages = slides.flatMap((slide) =>
     slide.images.map((image) => ({ src: image.image.src, caption: image.caption })),
   )
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const styles = galleryCarousel()
   const slideOffsets = slides.map((_, slideIndex) =>
     slides.slice(0, slideIndex).reduce((imageCount, slide) => imageCount + slide.images.length, 0),
   )
 
-  const carouselSlides = slides.map((slide, slideIndex) => {
-    const startIndex = slideOffsets[slideIndex] ?? 0
-    const content = (
-      <div className={galleryCarousel({ layout: slide.layout }).slide}>
-        {slide.images.map((image, imageIndex) => {
-          const imageFlatIndex = startIndex + imageIndex
-          return (
-            <button
-              key={image.image.src}
-              type="button"
-              className={styles.item}
-              onClick={() => setLightboxIndex(imageFlatIndex)}
-            >
-              <Figure
-                image={image.image}
-                sizes={sizesFor(slide.layout, imageIndex)}
-                className={styles.itemImage}
-                draggable={false}
-              />
-            </button>
-          )
-        })}
-      </div>
-    )
-    return { id: `gallery-${slideIndex}`, content }
-  })
-
   return (
-    <>
-      <Carousel
-        id="edition-gallery"
-        slides={carouselSlides}
-        label="Edition photo carousel"
-        mode="rail"
-        autoplay={false}
-        loop={false}
-        eyebrow={eyebrow}
-        className={placement}
-      />
-      <Lightbox
-        images={lightboxImages}
-        index={lightboxIndex}
-        onClose={() => setLightboxIndex(null)}
-        onIndexChange={setLightboxIndex}
-      />
-    </>
+    <LightboxCarousel
+      id="edition-gallery"
+      label="Edition photo carousel"
+      mode="rail"
+      autoplay={false}
+      loop={false}
+      eyebrow={eyebrow}
+      className={placement}
+      lightboxImages={lightboxImages}
+      slides={(openLightbox) =>
+        slides.map((slide, slideIndex) => {
+          const startIndex = slideOffsets[slideIndex] ?? 0
+          const content = (
+            <div className={galleryCarousel({ layout: slide.layout }).slide}>
+              {slide.images.map((image, imageIndex) => {
+                const imageFlatIndex = startIndex + imageIndex
+                return (
+                  <button
+                    key={image.image.src}
+                    type="button"
+                    className={styles.item}
+                    onClick={() => openLightbox(imageFlatIndex)}
+                  >
+                    <Figure
+                      image={image.image}
+                      sizes={sizesFor(slide.layout, imageIndex)}
+                      className={styles.itemImage}
+                      draggable={false}
+                    />
+                  </button>
+                )
+              })}
+            </div>
+          )
+          return { id: `gallery-${slideIndex}`, content }
+        })
+      }
+    />
   )
 }

@@ -153,14 +153,12 @@ export const calendar = sva({
       background: 'black',
       border: 'hairline',
       position: 'relative',
-      // Gradient hover ring (masked to the 1px edge).
+      // Gradient hover ring (masked to the hairline edge).
       _before: {
         content: '""',
         layerStyle: 'gradientBorder',
-        padding: '[0.5px]',
-        transitionProperty: '[opacity]',
+        padding: '[token(borderWidths.gradientRingHairline)]',
         transitionDuration: 'normal',
-        transitionTimingFunction: 'quint',
       },
       _hover: {
         '&::before': { opacity: 1, animationStyle: 'gradientBorder' },

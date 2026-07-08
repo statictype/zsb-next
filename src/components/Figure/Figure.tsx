@@ -25,10 +25,16 @@ import { FallbackImage } from './FallbackImage'
  * background so transparent areas don't reveal the pulse. Per-site visual
  * styling (object-fit, radius, transitions) stays in that `className`.
  */
+/** The `next/image` props `Figure` and `FallbackImage` forward untouched. */
+export type FigurePassthroughProps = Pick<
+  ImageProps,
+  'className' | 'priority' | 'draggable' | 'style'
+>
+
 type FigureProps = {
   image: ImageData | null | undefined
   sizes: string
-} & Pick<ImageProps, 'className' | 'priority' | 'draggable' | 'style'>
+} & FigurePassthroughProps
 
 export function Figure({ image, sizes, ...rest }: FigureProps) {
   const data = image ?? PLACEHOLDER_IMAGE

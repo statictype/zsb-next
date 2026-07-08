@@ -4,17 +4,7 @@ export const carousel = defineSlotRecipe({
   className: 'carousel',
   jsx: ['Carousel'],
   description: 'Ark-backed stage and rail carousel contract',
-  slots: [
-    'root',
-    'itemGroup',
-    'item',
-    'control',
-    'nextTrigger',
-    'prevTrigger',
-    'indicatorGroup',
-    'indicator',
-    'autoplayTrigger',
-  ],
+  slots: ['root', 'itemGroup', 'item', 'control', 'trigger', 'indicatorGroup', 'indicator'],
   base: {
     root: { position: 'relative', width: '100%', minWidth: 0 },
     itemGroup: {
@@ -35,21 +25,9 @@ export const carousel = defineSlotRecipe({
       marginInline: 'auto',
       '& [data-carousel-arrows]': { display: 'flex', alignItems: 'center', gap: 'sm' },
     },
-    prevTrigger: {
-      width: '44px',
-      height: '44px',
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      border: 0,
-      background: 'transparent',
-      color: 'heading',
-      cursor: 'pointer',
-      _hover: { color: 'action' },
-      _disabled: { opacity: 0.5, cursor: 'not-allowed' },
-      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
-    },
-    nextTrigger: {
+    // Shared by prev/next/autoplay — all three are the same 44px transparent
+    // hit target with the same hover/focus treatment.
+    trigger: {
       width: '44px',
       height: '44px',
       display: 'inline-flex',
@@ -73,19 +51,6 @@ export const carousel = defineSlotRecipe({
       cursor: 'pointer',
       '&[data-current]': { width: '28px', background: 'highlight' },
       _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '4px' },
-    },
-    autoplayTrigger: {
-      width: '44px',
-      height: '44px',
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      border: 0,
-      background: 'transparent',
-      color: 'heading',
-      cursor: 'pointer',
-      _hover: { color: 'action' },
-      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
     },
   },
   variants: {

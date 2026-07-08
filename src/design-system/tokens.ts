@@ -155,6 +155,10 @@ export const tokens = {
     '0': { value: '0px' },
     hairline: { value: '1px' },
     focus: { value: '2px' },
+    // The gradientBorder hover ring's width — two calls, two ring weights
+    // (gallery tiles vs the tighter Calendar run cards).
+    gradientRing: { value: '2px' },
+    gradientRingHairline: { value: '0.5px' },
   },
   sizes: {
     // Structural fractions/keywords, tokenized so `strictTokens` can hold
@@ -183,6 +187,20 @@ export const tokens = {
     // recipes; 520px is its most common value.
     narrowColumn: { value: '520px' },
     brushStroke: { value: '3px' },
+    // The lightbox's desktop letterbox column — each nav arrow owns one full
+    // column beside the frame. The frame's `md`+ width is derived from this
+    // (100vw minus two columns) instead of restating the pixel math.
+    lightboxNavColumn: { value: '80px' },
+    // The lightbox frame's base (pre-`md`) width fraction of the viewport.
+    lightboxFrameWidth: { value: '90vw' },
+    // The nav arrows' vertical click zone — generous, but bounded (not the
+    // full letterbox column height) so it can't reach into the close
+    // button's corner.
+    lightboxNavHit: { value: '240px' },
+    // Invisible click-target expansion (a `::before` hit-slop) beyond a
+    // control's visible box — the close button uses it to stay easy to hit
+    // without visually growing past its icon.
+    hitSlop: { value: '16px' },
   },
   assets: {
     brushStrokeX: { value: 'polygon(0 0, 100% 0, 100% 38%, 68% 58%, 0 100%)' },
@@ -198,6 +216,11 @@ export const tokens = {
     // EditionCard and Calendar's run cards.
     developRest: { value: 'grayscale(1) brightness(0.7)' },
     developHover: { value: 'grayscale(0.3) brightness(1)' },
+    // The gallery rail item's develop treatment — same rest/hover pairing
+    // shape as `developRest`/`developHover`, tuned with contrast instead of
+    // desaturation.
+    galleryDevelopRest: { value: 'brightness(0.9) contrast(1)' },
+    galleryDevelopHover: { value: 'brightness(1) contrast(1.1)' },
   },
   lineHeights: {
     display: { value: '1' },
@@ -277,6 +300,11 @@ export const tokens = {
     cardScrim: {
       value: 'linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))',
     },
+    // The homepage carousel slide's radial vignette — darkens the frame edges
+    // without a directional cast (unlike `heroVignette`).
+    carouselVignette: {
+      value: 'radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.45) 100%)',
+    },
   },
 } as const
 
@@ -311,6 +339,7 @@ export const semanticTokens = {
     '3': { value: '3' },
     '4': { value: '4' },
     '10': { value: '10' },
+    '20': { value: '20' },
   },
   // Stepped-responsive tokens: faithful to the :root media-query overrides.
   fontSizes: {
@@ -644,8 +673,9 @@ export const layerStyles = {
   // The hairline-gradient hover ring (Calendar runs + gallery tiles): paint
   // the action→highlight sweep, then mask everything except the padding ring
   // (content-box XOR). Applied on a `::before`; the call site supplies
-  // `content`, the ring width (padding), its transition, and the hover that
-  // lifts `opacity` + starts `animationStyle: 'gradientBorder'`.
+  // `content`, the ring width (padding) and its duration — `transitionProperty`
+  // and `transitionTimingFunction` are identical at both call sites, so they
+  // live here instead of being restated at each one.
   gradientBorder: {
     value: {
       position: 'absolute',
@@ -660,6 +690,32 @@ export const layerStyles = {
       opacity: '0',
       zIndex: '2',
       pointerEvents: 'none',
+      transitionProperty: '[opacity]',
+      transitionTimingFunction: 'quint',
+    },
+  },
+  // The gallery rail slide's width+height, ramped in tandem across
+  // breakpoints (same bundling rationale as `heroTapeOffset`) plus the
+  // landscape-phone height override.
+  galleryRailFrame: {
+    value: {
+      width: {
+        base: '[clamp(360px, 92vw, 540px)]',
+        md: '[clamp(600px, 81vw, 990px)]',
+        lg: '[clamp(730px, 73vw, 1140px)]',
+        xl: '[clamp(830px, 62vw, 1250px)]',
+        '2xl': '[clamp(940px, 59vw, 1350px)]',
+        '4xl': '[clamp(1040px, 55vw, 1460px)]',
+      },
+      height: {
+        base: '[28vh]',
+        md: '[35vh]',
+        lg: '[40vh]',
+        xl: '[42vh]',
+        '2xl': '[43vh]',
+        '4xl': '[44vh]',
+      },
+      '@media (max-width: 767px) and (orientation: landscape)': { height: '[73vh]' },
     },
   },
   // Horizontal wrap of pill/badge chips (calendar type tags, filter chips):
