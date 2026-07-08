@@ -39,7 +39,7 @@ export const manifesto = sva({
     content: { paddingTop: { base: '0', lg: 'md' } },
     text: {
       position: 'relative',
-      paddingLeft: { base: 'md', md: '[40px]' },
+      paddingLeft: { base: 'md', md: 'lg' },
       _before: {
         layerStyle: 'brushStrokeRule',
         left: '0',

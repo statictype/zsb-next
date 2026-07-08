@@ -51,7 +51,6 @@ export const externalGallery = sva({
       color: 'muted',
       textTransform: 'uppercase',
       letterSpacing: 'label',
-      _before: { content: '""', width: '[40px]', height: '[1px]', background: 'divider' },
     },
 
     card: {

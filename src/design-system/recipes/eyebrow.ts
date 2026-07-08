@@ -24,13 +24,7 @@ export const eyebrow = defineRecipe({
   variants: {
     rule: {
       true: {
-        _before: {
-          content: '""',
-          width: '40px',
-          height: '2px',
-          background: 'currentColor',
-          flexShrink: '0',
-        },
+        _before: { layerStyle: 'ruleLine' },
       },
     },
   },

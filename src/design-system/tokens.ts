@@ -730,6 +730,12 @@ export const layerStyles = {
   brushStrokeRule: {
     value: { content: '""', position: 'absolute', opacity: '0.85' },
   },
+  // The small horizontal kicker rule (Eyebrow's `rule` variant) — a
+  // `::before` dash sized off the shared `lg` spacing step rather than a
+  // one-off pixel value.
+  ruleLine: {
+    value: { content: '""', width: 'lg', height: '2px', background: 'current', flexShrink: '0' },
+  },
   // NB layerStyles carry the surface look only — positioning/stacking beyond
   // the mechanism itself stays at the call site.
 } as const
