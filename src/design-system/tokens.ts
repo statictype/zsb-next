@@ -531,6 +531,15 @@ export const layerStyles = {
       filter: '[grayscale(100%) contrast(1.05)]',
     },
   },
+  // The edition hero tape's bottom offset + width cap, stepped in tandem
+  // across breakpoints so the two ramps live in one named place instead of
+  // two parallel brackets at the call site.
+  heroTapeOffset: {
+    value: {
+      bottom: { base: '8%', md: '10%', lg: '11%' },
+      maxWidth: { base: '94%', md: '72%', lg: '62%', xl: '58%' },
+    },
+  },
   pageHero: {
     value: {
       background: 'black',

@@ -49,7 +49,7 @@ export const hero = sva({
         inset: '0',
         pointerEvents: 'none',
         outline: 'hairline',
-        outlineOffset: '[-1px]',
+        outlineOffset: 'xs',
         zIndex: '2',
       },
     },
@@ -72,18 +72,14 @@ export const hero = sva({
     },
 
     tapes: {
+      layerStyle: 'heroTapeOffset',
       position: 'absolute',
       left: '0',
-      bottom: '[8%]',
       zIndex: '4',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
-      maxWidth: '[94%]',
       paddingRight: 'md',
-      md: { bottom: '[10%]', maxWidth: '[72%]' },
-      lg: { bottom: '[11%]', maxWidth: '[62%]' },
-      xl: { maxWidth: '[58%]' },
     },
   },
 })
