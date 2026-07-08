@@ -98,14 +98,7 @@ export const aboutPage = sva({
     // Curator letter — signed editorial spread on light. Ground (light) +
     // rhythm (lg) from `section()` in the component; `statementInner` is the rail.
     statement: {
-      position: 'relative',
-      _before: {
-        content: '""',
-        position: 'absolute',
-        inset: '[0 0 auto]',
-        height: '[1px]',
-        background: 'divider',
-      },
+      borderTop: 'hairline',
     },
     statementInner: {
       layerStyle: 'sectionInner',
