@@ -1,9 +1,5 @@
 # Component audit — reusable review prompt
 
-Paste this prompt and **attach the component file(s) to review** (a few at a time,
-so you can go deep). The agent reviews only what's attached; it discovers
-everything else itself.
-
 ---
 
 ## Your role
