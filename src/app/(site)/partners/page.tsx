@@ -92,10 +92,10 @@ function PartnersShell({
           <div className={styles.inner}>
             <div className={styles.whySculptureTop}>
               <div>
-                <Eyebrow rule className={css({ marginBottom: '32px' })}>
+                <Eyebrow rule className={css({ marginBottom: 'xl' })}>
                   {whyEyebrow}
                 </Eyebrow>
-                <SectionHeading flush className={css({ maxWidth: '700px' })}>
+                <SectionHeading flush className={css({ maxWidth: '[700px]' })}>
                   {whyTitle}
                 </SectionHeading>
               </div>

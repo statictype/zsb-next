@@ -17,20 +17,21 @@ export const editionCard = sva({
   ],
   base: {
     root: {
-      height: '100%',
+      height: 'full',
       overflow: 'visible',
-      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '4px' },
+      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
     },
     media: {
       position: 'relative',
-      width: '100%',
+      width: 'full',
       overflow: 'hidden',
       background: 'gray.900',
       _after: {
         content: '""',
         position: 'absolute',
         inset: '0',
-        background: 'linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))',
+        background:
+          '[linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))]',
         pointerEvents: 'none',
         zIndex: '1',
       },
@@ -38,12 +39,13 @@ export const editionCard = sva({
     image: {
       objectFit: 'cover',
       background: 'gray.900',
-      filter: 'grayscale(100%) brightness(0.7)',
+      filter: '[grayscale(100%) brightness(0.7)]',
       transform: 'scale(1.01)',
+      // Develop and zoom on separate clocks — one shorthand, two durations.
       transition:
-        'filter {durations.reveal} {easings.expo}, transform {durations.entrance} {easings.expo}',
+        '[filter {durations.reveal} {easings.expo}, transform {durations.entrance} {easings.expo}]',
       'a:hover &, a:focus-visible &': {
-        filter: 'grayscale(30%) brightness(1)',
+        filter: '[grayscale(30%) brightness(1)]',
         transform: 'scale(1.05)',
       },
     },
@@ -59,7 +61,7 @@ export const editionCard = sva({
       display: 'flex',
       flexDirection: 'column',
       gap: 'md',
-      marginTop: '-3rem',
+      marginTop: '[-3rem]',
       padding: 'md',
     },
     // One row: the unlabeled date/venue line on the left, the "View edition"
@@ -80,7 +82,7 @@ export const editionCard = sva({
       fontSize: 'sm',
       lineHeight: 'body',
       letterSpacing: 'subtle',
-      textWrap: 'pretty',
+      textWrap: '[pretty]',
     },
     // Keeps the venue name from breaking mid-phrase — a narrow card wraps
     // before the whole name, not between its words.
@@ -98,11 +100,15 @@ export const editionCard = sva({
       letterSpacing: 'label',
       textTransform: 'uppercase',
       color: 'heading',
-      transition: 'color {durations.normal} {easings.expo}',
+      transitionProperty: 'colors',
+      transitionDuration: 'normal',
+      transitionTimingFunction: 'expo',
       'a:hover &': { color: 'action' },
     },
     ctaIcon: {
-      transition: 'transform {durations.normal} {easings.expo}',
+      transitionProperty: '[transform]',
+      transitionDuration: 'normal',
+      transitionTimingFunction: 'expo',
       'a:hover &': { transform: 'translate(2px, -2px)' },
     },
   },

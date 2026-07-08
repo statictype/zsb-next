@@ -72,9 +72,13 @@ export function useShareLink(resolveUrl: () => string): ShareLink {
 // The look both share buttons layer onto the ghost <Button>, kept beside the
 // behavior they dress up. Icon nudge on hover:
 export const shareIcon = css({
-  '& svg': { transition: 'transform {durations.fast} {easings.quint}' },
+  '& svg': {
+    transitionProperty: '[transform]',
+    transitionDuration: 'fast',
+    transitionTimingFunction: 'quint',
+  },
   _hover: { '& svg': { transform: 'translateY(-2px)' } },
-  _motionReduce: { '& svg': { transition: 'none' } },
+  _motionReduce: { '& svg': { transitionDuration: 'instant' } },
 })
 // Copied — settle into the chartreuse "confirmed" accent used across the board.
 export const shareCopied = css({

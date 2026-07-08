@@ -12,18 +12,18 @@ export const editionRailCard = sva({
   base: {
     root: {
       display: 'inline-flex',
-      height: '100%',
+      height: 'full',
       minHeight: '0',
       padding: '0',
       overflow: 'visible',
-      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '4px' },
+      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
     },
     // The plate is as wide as its content — badges, theme, paddings — always
     // on one line; the carousel drags to reveal plates wider than the screen.
     tape: {
       whiteSpace: 'nowrap',
       // Air between the brush-stroke rule and the stamped row.
-      paddingTop: '0.8em',
+      paddingTop: '[0.8em]',
       // `&[class]` (not `!`) bumps specificity so these reliably beat
       // EditionTheme's own classes for the same properties, instead of the
       // outcome depending on generated CSS order.
@@ -48,13 +48,13 @@ export const editionRailCard = sva({
         root: {
           cursor: 'default',
           opacity: '0.58',
-          filter: 'grayscale(1)',
+          filter: '[grayscale(1)]',
           '& h2': { color: 'muted' },
           '& .badge': {
             background: 'gray.900',
             borderColor: 'gray.700',
             color: 'gray.400',
-            boxShadow: 'none',
+            boxShadow: '[none]',
           },
         },
       },

@@ -28,7 +28,7 @@ export const eventModal = sva({
       top: 'sm',
       left: 'sm',
       right: 'sm',
-      zIndex: 2,
+      zIndex: '2',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -39,25 +39,25 @@ export const eventModal = sva({
 
     poster: {
       position: 'relative',
-      width: '100%',
+      width: 'full',
       aspectRatio: '3 / 4',
-      maxHeight: '46vh',
-      flexShrink: 0,
+      maxHeight: '[46vh]',
+      flexShrink: '0',
       overflow: 'hidden',
       background: 'black',
       // Show the whole poster, not a crop.
       '& img': { objectFit: 'contain' },
-      md: { width: '320px', aspectRatio: 'auto', maxHeight: 'none', alignSelf: 'stretch' },
+      md: { width: '[320px]', aspectRatio: 'auto', maxHeight: '[none]', alignSelf: 'stretch' },
     },
 
     body: {
       display: 'flex',
-      flex: 1,
-      minHeight: 0,
+      flex: '1',
+      minHeight: '0',
       flexDirection: 'column',
       gap: 'xs',
       // Top padding clears the floating control bar (36px + offset) with a gap.
-      paddingTop: 'calc(36px + token(spacing.sm) + token(spacing.lg))',
+      paddingTop: '[calc(36px + token(spacing.sm) + token(spacing.lg))]',
       paddingInline: 'lg',
       paddingBottom: 'lg',
       overflowY: 'auto',
@@ -72,13 +72,13 @@ export const eventModal = sva({
     },
     name: { fontFamily: 'display', fontSize: '2xl', lineHeight: 'tight', color: 'white' },
 
-    types: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: 'sm' },
+    types: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm', marginTop: 'sm' },
 
     venue: {
       display: 'flex',
       alignItems: 'center',
       flexWrap: 'wrap',
-      gap: '8px',
+      gap: 'sm',
       marginTop: 'sm',
       fontFamily: 'body',
       fontSize: 'sm',
@@ -106,6 +106,6 @@ export const eventModal = sva({
       whiteSpace: 'pre-line',
     },
 
-    links: { display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: 'lg' },
+    links: { display: 'flex', flexWrap: 'wrap', gap: 'md', marginTop: 'lg' },
   },
 })

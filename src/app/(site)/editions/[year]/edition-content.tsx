@@ -66,7 +66,7 @@ export async function CachedEdition({
   const externalGallery = EXTERNAL_GALLERY_BY_YEAR[edition.year]
 
   return (
-    <main className={css({ minHeight: '100vh' })}>
+    <main className={css({ minHeight: 'svh' })}>
       <JsonLd data={editionEventJsonLd(edition)} />
       <JsonLd data={editionBreadcrumbJsonLd(edition)} />
 

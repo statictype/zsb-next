@@ -31,7 +31,7 @@ export const comingSoon = sva({
       display: 'flex',
       alignItems: 'center',
       flexWrap: 'wrap',
-      gap: '12px',
+      gap: 'md',
       marginTop: 'md',
       fontFamily: 'body',
       fontSize: 'xs',
@@ -42,7 +42,7 @@ export const comingSoon = sva({
     },
     metaYear: { color: 'highlight' },
     metaSoon: { color: 'highlight' },
-    metaDot: { width: '4px', height: '4px', background: 'gray.700', borderRadius: 'circle' },
+    metaDot: { width: '[4px]', height: '[4px]', background: 'gray.700', borderRadius: 'circle' },
 
     notice: {
       paddingTop: 'xl',
@@ -53,7 +53,7 @@ export const comingSoon = sva({
       fontSize: '2xl',
       lineHeight: 'tight',
       color: 'white',
-      maxWidth: '18ch',
+      maxWidth: '[18ch]',
     },
     body: {
       marginTop: 'md',
@@ -61,7 +61,7 @@ export const comingSoon = sva({
       fontSize: 'base',
       lineHeight: 'body',
       color: 'body',
-      maxWidth: '52ch',
+      maxWidth: 'measure',
     },
 
     follow: { display: 'flex', flexDirection: 'column', gap: 'md', marginTop: 'xl' },
@@ -73,6 +73,6 @@ export const comingSoon = sva({
       fontWeight: 'semibold',
       color: 'muted',
     },
-    links: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: '20px' },
+    links: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'md' },
   },
 })

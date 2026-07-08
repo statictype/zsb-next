@@ -33,7 +33,7 @@ export default async function ArtistsPage() {
         <div className={css({ layerStyle: 'sectionInner' })}>
           <ArtistsTable
             artists={artists}
-            className={css({ maxWidth: '820px', marginInline: 'auto' })}
+            className={css({ maxWidth: '[820px]', marginInline: 'auto' })}
             meta={[
               { label: 'Total', value: artists.length },
               { label: 'Editions', value: editionCount },

@@ -90,7 +90,7 @@ function AboutShell({ view }: { view: AboutView }) {
       <section className={cx(section({ ground: 'light', rhythm: 'lg' }), styles.statement)}>
         <div className={styles.statementInner}>
           <aside className={styles.statementAside}>
-            <Eyebrow rule className={css({ marginBottom: '32px' })}>
+            <Eyebrow rule className={css({ marginBottom: 'xl' })}>
               {curatorEyebrow}
             </Eyebrow>
 

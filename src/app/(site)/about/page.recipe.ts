@@ -47,7 +47,7 @@ export const aboutPage = sva({
     placeImageImg: {
       objectFit: 'cover',
       background: 'gray.900',
-      filter: 'grayscale(100%) contrast(1.05)',
+      filter: '[grayscale(100%) contrast(1.05)]',
     },
 
     // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
@@ -70,15 +70,15 @@ export const aboutPage = sva({
       gap: 'md',
       paddingBlock: 'xl',
       borderBottom: 'hairline',
-      '&:last-child': { borderBottomWidth: '0' },
+      '&:last-child': { borderBottom: 'none' },
       md: {
         paddingBlock: 'xl',
         paddingInline: 'xl',
-        borderBottomWidth: '0',
+        borderBottom: 'none',
         borderRight: 'hairline',
         marginBlock: '4xl',
         '&:first-child': { paddingLeft: '0' },
-        '&:last-child': { paddingRight: '0', borderRightWidth: '0' },
+        '&:last-child': { paddingRight: '0', borderRight: 'none' },
       },
     },
     pillarHead: { display: 'flex', alignItems: 'baseline', gap: 'md' },
@@ -89,11 +89,10 @@ export const aboutPage = sva({
       lineHeight: 'tight',
       color: 'highlight',
       letterSpacing: 'tight',
-      margin: '0',
     },
     pillarBody: {
       textStyle: 'prose',
-      maxWidth: '50ch',
+      maxWidth: 'measure',
     },
 
     // Curator letter — signed editorial spread on light. Ground (light) +
@@ -103,8 +102,8 @@ export const aboutPage = sva({
       _before: {
         content: '""',
         position: 'absolute',
-        inset: '0 0 auto',
-        height: '1px',
+        inset: '[0 0 auto]',
+        height: '[1px]',
         background: 'divider',
       },
     },
@@ -127,7 +126,7 @@ export const aboutPage = sva({
       marginBottom: '2xl',
       lg: {
         position: 'sticky',
-        top: 'calc(token(sizes.nav) + token(spacing.xl))',
+        top: '[calc(token(sizes.nav) + token(spacing.xl))]',
         marginBottom: '0',
       },
     },
@@ -135,14 +134,13 @@ export const aboutPage = sva({
       display: 'flex',
       flexDirection: 'column',
       gap: 'md',
-      margin: '0',
-      maxWidth: '240px',
+      maxWidth: '[240px]',
     },
     authorPhotoFrame: {
-      padding: '6px',
+      padding: 'sm',
       background: 'white',
       border: 'hairline',
-      _hover: { '& img': { filter: 'grayscale(0%)', transform: 'scale(1.03)' } },
+      _hover: { '& img': { filter: '[grayscale(0%)]', transform: 'scale(1.03)' } },
       _motionReduce: { '& img': { transform: 'none' } },
     },
     authorPhoto: {
@@ -154,17 +152,18 @@ export const aboutPage = sva({
     authorPhotoImg: {
       objectFit: 'cover',
       background: 'gray.200',
-      filter: 'grayscale(100%) contrast(1.02)',
-      transition:
-        'filter {durations.slow} {easings.expo}, transform {durations.slow} {easings.expo}',
-      _motionReduce: { transition: 'none' },
+      filter: '[grayscale(100%) contrast(1.02)]',
+      transitionProperty: '[filter, transform]',
+      transitionDuration: 'slow',
+      transitionTimingFunction: 'expo',
+      _motionReduce: { transitionDuration: 'instant' },
     },
     authorCaption: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '4px',
+      gap: 'xs',
       paddingTop: 'sm',
-      borderTop: '2px solid token(colors.action)',
+      borderTop: 'primary',
     },
     authorName: {
       fontFamily: 'display',
@@ -181,7 +180,7 @@ export const aboutPage = sva({
       letterSpacing: 'wide',
       color: 'muted',
     },
-    statementLetter: { maxWidth: '62ch' },
+    statementLetter: { maxWidth: 'measure' },
     letterBody: {
       display: 'flex',
       flexDirection: 'column',

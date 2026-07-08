@@ -39,7 +39,7 @@ export const partnersPage = sva({
       display: 'flex',
       flexDirection: 'column',
       gap: 'md',
-      maxWidth: '60ch',
+      maxWidth: 'measure',
       marginBottom: '2xl',
       '& p': {
         fontFamily: 'body',
@@ -53,12 +53,11 @@ export const partnersPage = sva({
       overflow: 'hidden',
       aspectRatio: '16 / 9',
       border: 'hairline',
-      margin: '0',
     },
     eventImageImg: {
       objectFit: 'cover',
       background: 'gray.900',
-      filter: 'grayscale(100%) contrast(1.05)',
+      filter: '[grayscale(100%) contrast(1.05)]',
     },
 
     whySculptureTop: {
@@ -74,7 +73,7 @@ export const partnersPage = sva({
       aspectRatio: '16 / 10',
       border: 'hairline',
     },
-    whySculptureImg: { objectFit: 'cover', background: 'gray.200', filter: 'grayscale(100%)' },
+    whySculptureImg: { objectFit: 'cover', background: 'gray.200', filter: '[grayscale(100%)]' },
 
     whyGrid: {
       display: 'grid',
@@ -111,14 +110,13 @@ export const partnersPage = sva({
       lineHeight: 'tight',
       color: 'heading',
       letterSpacing: 'tight',
-      margin: '0',
     },
     whyPillarBody: {
       fontFamily: 'body',
       fontSize: 'base',
       lineHeight: { base: 'body', md: 'loose' },
       color: 'body',
-      maxWidth: '50ch',
+      maxWidth: 'measure',
     },
 
     // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
@@ -136,13 +134,13 @@ export const partnersPage = sva({
       justifyContent: 'center',
       textAlign: 'center',
     },
-    partnerCtaBadge: { marginBottom: '54px' },
+    partnerCtaBadge: { marginBottom: '2xl' },
     partnerCtaHeading: {
       fontFamily: 'display',
-      fontSize: 'clamp(48px, 8vw, 106px)',
+      fontSize: '[clamp(48px, 8vw, 106px)]',
       color: 'white',
       lineHeight: 'display',
-      marginBottom: '24px',
+      marginBottom: 'lg',
     },
     partnerCtaAccent: { color: 'action' },
     partnerCtaBody: {
@@ -150,8 +148,8 @@ export const partnersPage = sva({
       lineHeight: 'body',
       fontWeight: 'light',
       color: 'body',
-      maxWidth: '460px',
-      marginBottom: '46px',
+      maxWidth: '[460px]',
+      marginBottom: '2xl',
     },
   },
 })

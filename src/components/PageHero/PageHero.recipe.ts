@@ -19,9 +19,9 @@ export const pageHero = sva({
       textStyle: 'pageTitle',
       // Reveal contract is the shared `enter` animation style; only the delay
       // stays here.
-      animationDelay: '0.2s',
+      animationDelay: 'fast',
     },
-    lead: { textStyle: 'lead', color: 'body', maxWidth: '60ch', marginTop: 'xl' },
+    lead: { textStyle: 'lead', color: 'body', maxWidth: 'measure', marginTop: 'xl' },
   },
   variants: {
     // Drop the hero's bottom padding when a section follows directly — the

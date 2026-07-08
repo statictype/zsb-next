@@ -11,7 +11,7 @@ export const visitFaq = sva({
   slots: ['inner', 'list', 'answer'],
   base: {
     inner: { layerStyle: 'sectionInner' },
-    list: { maxWidth: '760px' },
+    list: { maxWidth: '[760px]' },
     answer: {
       fontFamily: 'body',
       fontSize: 'base',

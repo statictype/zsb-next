@@ -40,7 +40,7 @@ export const visitSection = sva({
     'cta',
   ],
   base: {
-    section: { width: '100%', paddingBlock: 'sectionY' },
+    section: { width: 'full', paddingBlock: 'sectionY' },
     inner: { layerStyle: 'sectionInner' },
 
     splitLayout: {
@@ -53,10 +53,10 @@ export const visitSection = sva({
 
     imageBlock: {
       position: 'relative',
-      padding: '24px',
-      maxWidth: '500px',
+      padding: 'lg',
+      maxWidth: '[500px]',
       marginInline: 'auto',
-      lg: { maxWidth: 'none', marginInline: '0' },
+      lg: { maxWidth: '[none]', marginInline: '0' },
     },
     imageFrame: {
       position: 'relative',
@@ -75,8 +75,8 @@ export const visitSection = sva({
       flexWrap: 'wrap',
       md: { flexDirection: 'row', gap: 'xl' },
     },
-    infoBlock: { display: 'flex', flexDirection: 'column', gap: '4px' },
-    infoIcon: { color: 'action', marginBottom: '4px' },
+    infoBlock: { display: 'flex', flexDirection: 'column', gap: 'xs' },
+    infoIcon: { color: 'action', marginBottom: 'xs' },
     infoLabel: {
       fontFamily: 'body',
       fontSize: 'xs',
@@ -106,7 +106,7 @@ export const visitSection = sva({
     practicalItem: {
       display: 'flex',
       alignItems: 'center',
-      gap: '6px',
+      gap: 'sm',
       fontFamily: 'body',
       fontSize: 'xs',
       color: 'body',
@@ -116,17 +116,17 @@ export const visitSection = sva({
     },
     practicalIcon: { color: 'muted' },
 
-    transportList: { display: 'flex', flexDirection: 'column', gap: '6px' },
+    transportList: { display: 'flex', flexDirection: 'column', gap: 'sm' },
     transportLine: {
       display: 'flex',
       alignItems: 'center',
-      gap: '6px',
+      gap: 'sm',
       fontFamily: 'body',
       fontSize: 'xs',
       color: 'body',
       flexWrap: 'wrap',
     },
-    transportIcon: { color: 'muted', flexShrink: 0 },
+    transportIcon: { color: 'muted', flexShrink: '0' },
     transportFrom: {
       // exception: bright emphasis for city name
       color: 'gray.300',

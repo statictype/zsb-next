@@ -30,17 +30,16 @@ export const manifesto = sva({
     title: {
       fontFamily: 'display',
       fontSize: { base: '2xl', xl: '3xl', '3xl': '4xl' },
-      lineHeight: { base: 'tight', md: 'display', '4xl': '1.08' },
+      lineHeight: { base: 'tight', md: 'display', '4xl': '[1.08]' },
       color: 'black',
-      textWrap: 'pretty',
-      margin: '0',
+      textWrap: '[pretty]',
     },
     // The highlighted substring inside the headline (the optional accent).
     titleHighlight: { display: 'inline', color: 'action' },
-    content: { paddingTop: { base: '0', lg: '20px' } },
+    content: { paddingTop: { base: '0', lg: 'md' } },
     text: {
       position: 'relative',
-      paddingLeft: { base: 'md', md: '40px' },
+      paddingLeft: { base: 'md', md: '[40px]' },
       _before: {
         content: '""',
         position: 'absolute',
@@ -49,7 +48,7 @@ export const manifesto = sva({
         bottom: '0',
         width: 'brushStroke',
         background:
-          'linear-gradient(180deg, token(colors.brushStroke) 0%, token(colors.brushStroke) 72%, transparent 100%)',
+          '[linear-gradient(180deg, token(colors.brushStroke) 0%, token(colors.brushStroke) 72%, transparent 100%)]',
         clipPath: 'token(assets.brushStrokeY)',
         opacity: '0.85',
       },

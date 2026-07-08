@@ -9,10 +9,10 @@ export const editionsPage = sva({
       display: 'grid',
       gridTemplateColumns: '1fr',
       gap: '2xl',
-      width: '100%',
+      width: 'full',
       lg: { gridTemplateColumns: 'repeat(2, 1fr)', columnGap: 'gridGap', rowGap: '2xl' },
     },
     slot: { lg: { '&[data-feature]': { gridColumn: '1 / -1' } } },
-    card: { height: '100%' },
+    card: { height: 'full' },
   },
 })

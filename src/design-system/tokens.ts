@@ -91,6 +91,10 @@ export const tokens = {
     // `black` are merged here — every dark ground is the same `#000`.
     black: { value: 'oklch(0% 0 0)' },
     white: { value: '#fff' },
+    // CSS keywords admitted as tokens: unstyling (button resets, ghost
+    // fills) and inheriting glyph color are recurring, deliberate moves.
+    transparent: { value: 'transparent' },
+    current: { value: 'currentColor' },
   },
   fonts: {
     // Reference the next/font CSS variables already set on <html>.
@@ -109,6 +113,9 @@ export const tokens = {
     '5xl': { value: 'clamp(58px, 50.61px + 2.31vw, 92px)' },
   },
   spacing: {
+    // `0` is a real member of the scale: overriding a larger breakpoint's
+    // padding, pinning an overlay edge (`inset: '0'`), collapsing a gap.
+    '0': { value: '0px' },
     xs: { value: '4px' },
     sm: { value: '8px' },
     lg: { value: 'clamp(24px, 18.78px + 1.6304vw, 48px)' },
@@ -119,6 +126,9 @@ export const tokens = {
     circle: { value: '50%' },
   },
   borders: {
+    // `none` as a token: buttons/fieldsets keep their UA border (preflight
+    // is off), so stripping it is a deliberate, recurring act.
+    none: { value: 'none' },
     hairline: {
       value: { width: '1px', style: 'solid', color: '{colors.divider}' },
     },
@@ -128,8 +138,24 @@ export const tokens = {
     primary: {
       value: { width: '2px', style: 'solid', color: '{colors.action}' },
     },
+    // The one focus ring (`outline: 'focus'` + an outlineOffset at the site).
+    focus: {
+      value: { width: '2px', style: 'solid', color: '{colors.chartreuse}' },
+    },
   },
   sizes: {
+    // Structural fractions/keywords, tokenized so `strictTokens` can hold
+    // without bracket noise on every overlay and full-bleed frame.
+    '0': { value: '0px' },
+    full: { value: '100%' },
+    fit: { value: 'fit-content' },
+    // NB no `screen` size token: preset-base hardcodes `screen: 100vh` in its
+    // height utilities, shadowing any theme token of that name. Fullscreen
+    // shells use the preset's own `svh` value (100svh) instead.
+    // Minimum comfortable touch target (WCAG 2.5.8-ish; the nav toggle).
+    touch: { value: '48px' },
+    // The comfortable prose measure (leads, FAQ bodies, link lists).
+    measure: { value: '60ch' },
     // The site content rail (`.sectionInner` max-width).
     maxWidth: { value: '1800px' },
     brushStroke: { value: '3px' },
@@ -160,6 +186,9 @@ export const tokens = {
     black: { value: '900' },
   },
   durations: {
+    // Reduced-motion kill switch: `transitionDuration: 'instant'` under
+    // `_motionReduce` ends a transition without re-declaring the shorthand.
+    instant: { value: '0s' },
     stagger: { value: '60ms' },
     fast: { value: '200ms' },
     normal: { value: '300ms' },
@@ -190,6 +219,8 @@ export const tokens = {
     tape: {
       value: 'inset 0 1px 0 rgb(255 255 255 / 0.08), 0 14px 32px -6px rgb(0 0 0 / 0.55)',
     },
+    // Legibility halo for type sitting directly on photography.
+    text: { value: '0 1px 8px rgb(0 0 0 / 0.55)' },
   },
   gradients: {
     // The hero's photographic vignette. The near-black stops are the legacy
@@ -218,6 +249,7 @@ export const semanticTokens = {
     brushStroke: { value: '{colors.highlight}' },
   },
   zIndex: {
+    // Global chrome stacking — semantic, page-wide.
     nav: { value: '100' },
     banner: { value: '200' },
     overlay: { value: '1000' },
@@ -225,6 +257,14 @@ export const semanticTokens = {
     navToggle: { value: '1011' },
     lightbox: { value: '1020' },
     draftBadge: { value: '1030' },
+    // Local stacking inside an `isolation: isolate` (or positioned) subtree:
+    // numeric by design — media base, scrim, content, floating accents.
+    '0': { value: '0' },
+    '1': { value: '1' },
+    '2': { value: '2' },
+    '3': { value: '3' },
+    '4': { value: '4' },
+    '10': { value: '10' },
   },
   // Stepped-responsive tokens: faithful to the :root media-query overrides.
   fontSizes: {
