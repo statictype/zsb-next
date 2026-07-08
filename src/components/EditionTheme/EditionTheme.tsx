@@ -19,8 +19,8 @@ interface EditionThemeProps {
   meta?: ReactNode | undefined
   /** Heading level — `h1` for the edition hero, `h2` elsewhere. */
   as?: 'h1' | 'h2' | undefined
-  /** Font-size ladder: `huge` (edition hero), `large` (featured card), `normal`. */
-  size?: 'huge' | 'large' | 'normal' | undefined
+  /** Font-size ladder: `huge` (edition hero), `large` (featured card), `normal`, `rail` (editions rail plate). */
+  size?: 'huge' | 'large' | 'normal' | 'rail' | undefined
   /** `true` (cards / nav): highlight is white at rest, pink on `a:hover`.
    *  `false` (edition hero/current nav): highlight is static, in `accent`. */
   interactive?: boolean | undefined
@@ -28,6 +28,9 @@ interface EditionThemeProps {
    *  active/current elements, `action` (pink) for decorative accent (the
    *  edition hero). No effect when `interactive`. */
   accent?: 'highlight' | 'action' | undefined
+  /** De-emphasizes the whole heading (lead + theme text) — the rail's
+   *  "upcoming" plate. */
+  muted?: boolean | undefined
   /** Entrance delay for the `tapeIn` reveal — a fixed value (the hero) or a
    *  stagger expression (`calc(var(--card-index)…)` on the editions cards). */
   delay?: string | undefined
@@ -49,10 +52,11 @@ export function EditionTheme({
   size = 'normal',
   interactive = false,
   accent = 'highlight',
+  muted = false,
   delay,
   className,
 }: EditionThemeProps) {
-  const styles = editionTheme({ size, interactive, accent })
+  const styles = editionTheme({ size, interactive, accent, muted })
   const parts = themeHighlight ? splitFirstMatch(theme, themeHighlight) : null
   return (
     <div

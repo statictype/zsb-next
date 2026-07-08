@@ -40,6 +40,7 @@ type EditionRailCardProps = RailPlacement & {
 export function EditionRailCard({ edition, status, href, className, style }: EditionRailCardProps) {
   const styles = editionRailCard({ status })
   const interactive = status === 'live'
+  const isUpcoming = status === 'upcoming'
   const statusBadge = STATUS_BADGE[status]
   const link =
     href != null
@@ -61,17 +62,24 @@ export function EditionRailCard({ edition, status, href, className, style }: Edi
     >
       <EditionTheme
         as="h2"
+        size="rail"
         interactive={interactive}
+        muted={isUpcoming}
         theme={edition.theme}
-        themeHighlight={status === 'upcoming' ? undefined : edition.themeHighlight}
+        themeHighlight={isUpcoming ? undefined : edition.themeHighlight}
         className={styles.tape}
         lead={
           <>
-            <Badge>{edition.year}</Badge>
+            <Badge className={isUpcoming ? styles.badgeMuted : undefined}>{edition.year}</Badge>
             {statusBadge ? (
               <>
                 {' '}
-                <Badge tone="outline">{statusBadge}</Badge>
+                <Badge
+                  tone={isUpcoming ? undefined : 'outline'}
+                  className={isUpcoming ? styles.badgeMuted : undefined}
+                >
+                  {statusBadge}
+                </Badge>
               </>
             ) : null}
           </>

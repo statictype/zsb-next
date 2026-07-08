@@ -173,6 +173,9 @@ export const tokens = {
     // The hero frame's grayscale grade — photography desaturated just enough
     // to sit on the dark ground without going fully mono.
     grayscaleSubtle: { value: 'grayscale(0.3)' },
+    // Full desaturation — the rail's "upcoming" plate, muted flat rather than
+    // graded like `grayscaleSubtle`.
+    grayscaleFull: { value: 'grayscale(1)' },
     // The card-media "develop" treatment — fully desaturated + dimmed at
     // rest, warming back to color + full brightness on hover/focus. Shared by
     // EditionCard and Calendar's run cards.

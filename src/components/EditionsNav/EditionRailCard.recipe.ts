@@ -8,7 +8,7 @@ import { sva } from 'styled-system/css'
  * model in EditionRailCard, not behind data-attrs.
  */
 export const editionRailCard = sva({
-  slots: ['root', 'tape'],
+  slots: ['root', 'tape', 'badgeMuted'],
   base: {
     root: {
       display: 'inline-flex',
@@ -20,22 +20,16 @@ export const editionRailCard = sva({
     },
     // The plate is as wide as its content — badges, theme, paddings — always
     // on one line; the carousel drags to reveal plates wider than the screen.
-    tape: {
-      whiteSpace: 'nowrap',
-      // Air between the brush-stroke rule and the stamped row.
-      paddingTop: '[0.8em]',
-      // `&[class]` (not `!`) bumps specificity so these reliably beat
-      // EditionTheme's own classes for the same properties, instead of the
-      // outcome depending on generated CSS order.
-      '&[class]': {
-        // Two steps up from EditionTheme's `normal` ladder — the token
-        // equivalent of the 1.5× the rail plates ran at and kept on purpose.
-        fontSize: { base: '4xl', md: '5xl', lg: '3xl', xl: '4xl', '4xl': '5xl' },
-        // Only the rail drops the left inset: badges start flush with the
-        // brush-stroke rule's own left edge. Other tape call sites (hero,
-        // archive card) keep EditionTheme's padding.
-        paddingLeft: '0',
-      },
+    // Font-size ladder + padding treatment live on EditionTheme's own `rail`
+    // size variant now, not overridden here.
+    tape: { whiteSpace: 'nowrap' },
+    // Applied via `className` to the lead badges when `status="upcoming"` —
+    // an opt-in override through Badge's own prop, not a `.badge` selector
+    // guessing at its rendered class from outside.
+    badgeMuted: {
+      background: 'gray.900',
+      borderColor: 'gray.700',
+      color: 'gray.400',
     },
   },
   variants: {
@@ -46,16 +40,14 @@ export const editionRailCard = sva({
       },
       upcoming: {
         root: {
+          // No shared "disabled/muted" opacity convention exists across the
+          // codebase yet (button/carousel/checkbox each pick their own) —
+          // adding an `opacity` token scale here would make Panda's opacity
+          // utility strict repo-wide, not just for this call site. Left raw
+          // pending that broader migration.
           cursor: 'default',
           opacity: '0.58',
-          filter: '[grayscale(1)]',
-          '& h2': { color: 'muted' },
-          '& .badge': {
-            background: 'gray.900',
-            borderColor: 'gray.700',
-            color: 'gray.400',
-            boxShadow: '[none]',
-          },
+          filter: '[token(assets.grayscaleFull)]',
         },
       },
     },

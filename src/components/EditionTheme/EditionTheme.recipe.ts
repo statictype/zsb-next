@@ -7,7 +7,7 @@ import { sva } from 'styled-system/css'
  * type on a black tape, rotated −0.45°, inset + float drop-shadow, a shared
  * chartreuse brush-stroke top rule, and the `tapeIn` entrance on every instance. Padding is
  * `em`-based (bracketed) so it scales with the font size. `size` is a named ladder (the
- * three real needs — huge hero / large featured / normal card) rather than a
+ * four real needs — huge hero / large featured / normal card / rail plate) rather than a
  * free fontSize prop, because Panda must extract the responsive values
  * statically. `interactive` drives the highlight behavior: static at rest (the
  * edition hero/current nav — rest color picked by `accent`) vs white-at-rest →
@@ -114,6 +114,20 @@ export const editionTheme = sva({
           fontSize: { base: 'xl', md: '3xl', lg: 'xl', xl: '2xl', '4xl': '3xl' },
         },
       },
+      // The editions rail plate — two steps up from `normal`'s ladder (the
+      // token equivalent of the 1.5× the rail ran at and kept on purpose),
+      // with the rail's own padding treatment: extra top air below the
+      // brush-stroke rule, and no left inset (badges start flush with the
+      // rule's own left edge — other tape call sites keep the em-based
+      // padding from `root`'s base).
+      rail: {
+        root: {
+          maxWidth: 'full',
+          fontSize: { base: '4xl', md: '5xl', lg: '3xl', xl: '4xl', '4xl': '5xl' },
+          paddingTop: '[0.8em]',
+          paddingLeft: '0',
+        },
+      },
     },
     interactive: {
       // Static: the accent color at rest (see `accent`).
@@ -128,10 +142,17 @@ export const editionTheme = sva({
       highlight: {},
       action: {},
     },
+    // De-emphasizes the whole heading (lead + theme text) — the rail's
+    // "upcoming" plate. Separate from `accent`/`interactive`, which only ever
+    // affect the highlight span.
+    muted: {
+      true: { heading: { color: 'muted' } },
+      false: {},
+    },
   },
   compoundVariants: [
     { interactive: false, accent: 'highlight', css: { highlight: { color: 'highlight' } } },
     { interactive: false, accent: 'action', css: { highlight: { color: 'action' } } },
   ],
-  defaultVariants: { size: 'normal', interactive: false, accent: 'highlight' },
+  defaultVariants: { size: 'normal', interactive: false, accent: 'highlight', muted: false },
 })
