@@ -225,14 +225,7 @@ export const calendar = sva({
       flex: '1',
       minWidth: '0',
     },
-    runName: {
-      fontFamily: 'body',
-      fontWeight: 'bold',
-      fontSize: 'base',
-      lineHeight: 'tight',
-      letterSpacing: 'tight',
-      color: 'gray.200',
-    },
+    runName: { textStyle: 'boardTitle' },
     runFoot: {
       display: 'flex',
       alignItems: 'center',
@@ -410,14 +403,7 @@ export const calendar = sva({
       fontVariantNumeric: 'tabular-nums',
       letterSpacing: 'subtle',
     },
-    eventName: {
-      fontFamily: 'body',
-      fontWeight: 'bold',
-      fontSize: 'base',
-      lineHeight: 'tight',
-      letterSpacing: 'tight',
-      color: 'white',
-    },
+    eventName: { textStyle: 'boardTitle' },
     // The name link; its ::after stretches the hit target over the whole row.
     nameButton: {
       font: '[inherit]',

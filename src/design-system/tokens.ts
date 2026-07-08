@@ -459,6 +459,18 @@ export const textStyles = {
       textTransform: 'uppercase',
     },
   },
+  // Item title on the dark schedule board — the agenda event rows and the
+  // Ongoing run cards. Body face (not display), set tight.
+  boardTitle: {
+    value: {
+      fontFamily: 'body',
+      fontWeight: 'bold',
+      fontSize: 'base',
+      lineHeight: 'tight',
+      letterSpacing: 'tight',
+      color: 'white',
+    },
+  },
   labelDisplay: {
     value: {
       fontFamily: 'display',
