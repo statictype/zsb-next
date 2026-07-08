@@ -65,6 +65,6 @@ export const calendarFilters = sva({
       color: 'muted',
       md: { flexShrink: '0', width: '[56px]', paddingTop: 'md' },
     },
-    chips: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm' },
+    chips: { layerStyle: 'chipRow' },
   },
 })

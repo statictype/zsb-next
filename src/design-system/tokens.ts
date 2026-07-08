@@ -566,6 +566,11 @@ export const layerStyles = {
       pointerEvents: 'none',
     },
   },
+  // Horizontal wrap of pill/badge chips (calendar type tags, filter chips):
+  // the list surface only — the chips themselves are their own primitives.
+  chipRow: {
+    value: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm' },
+  },
   // NB layerStyles carry the surface look only — positioning/stacking beyond
   // the mechanism itself stays at the call site.
 } as const

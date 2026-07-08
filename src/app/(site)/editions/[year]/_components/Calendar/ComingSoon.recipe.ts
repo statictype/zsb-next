@@ -65,14 +65,7 @@ export const comingSoon = sva({
     },
 
     follow: { display: 'flex', flexDirection: 'column', gap: 'md', marginTop: 'xl' },
-    followLabel: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'muted',
-    },
+    followLabel: { textStyle: 'metaLabel' },
     links: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'md' },
   },
 })

@@ -6,7 +6,6 @@ import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
-import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
 import { Collapsible } from '@/components/ui/Collapsible/Collapsible'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -19,7 +18,9 @@ import { CalendarShare, PROGRAM_SECTION_ID } from './CalendarShare'
 import type { SocialLink } from './ComingSoon'
 import { type CalendarFilterOptions, deriveCalendarView } from './calendar-filters'
 import { HashScroller } from './HashScroller'
+import { TypeChips } from './TypeChips'
 import { useCalendarFilters } from './useCalendarFilters'
+import { VenueLine } from './VenueLine'
 
 // No variants — one shared instance for the component + its module-level helpers.
 const s = calendar()
@@ -197,7 +198,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                             </div>
                           )}
                           <div className={s.runContent}>
-                            <TypeChips event={run} />
+                            <TypeChips types={run.types} />
                             <h4 className={s.runName}>
                               <Link
                                 className={s.nameButton}
@@ -277,36 +278,13 @@ function ArchiveCollapse({
   )
 }
 
-// Narrowed to the render-boundary type so list rows (CalendarListEvent) and
-// full events feed it alike without widening back to CalendarEvent.
-function TypeChips({ event }: { event: Pick<CalendarListEvent, 'key' | 'types'> }) {
-  return (
-    <ul className={s.chips}>
-      {event.types.map((t) => (
-        <li key={`${event.key}-${t.slug}`}>
-          <Badge tone="outline">{t.title}</Badge>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-function VenueLine({ venue }: { venue: CalendarEvent['venue'] }) {
-  return (
-    <p className={s.venue}>
-      <span className={s.venueName}>{venue.name}</span>
-      {venue.partOf && <span className={s.venueParent}>{venue.partOf.name}</span>}
-    </p>
-  )
-}
-
 function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
   return (
     <li className={s.event} data-poster={!!event.image}>
       <div className={s.eventBody}>
         <div className={s.eventTop}>
           {event.startTime && <span className={s.eventTime}>{event.startTime}</span>}
-          <TypeChips event={event} />
+          <TypeChips types={event.types} />
           {event.image && <span className={s.posterTag}>Poster</span>}
         </div>
         {/* The name links to the event's route (the modal opens over the

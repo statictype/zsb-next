@@ -55,10 +55,6 @@ export const calendar = sva({
     'eventDesc',
     'poster',
     'posterTag',
-    'venue',
-    'venueName',
-    'venueParent',
-    'chips',
     'recap',
     'recapLine',
     'recapMark',
@@ -507,30 +503,6 @@ export const calendar = sva({
       },
     },
 
-    // ---- Venue line + type chips (runs + events) ----
-    venue: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'sm',
-      fontFamily: 'body',
-      fontSize: 'xs',
-    },
-    venueName: {
-      color: 'gray.300',
-      textTransform: 'uppercase',
-      letterSpacing: 'subtle',
-      fontWeight: 'medium',
-    },
-    venueParent: {
-      color: 'muted',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontSize: '2xs',
-      _before: { content: '"↳ "' },
-    },
-    chips: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm' },
-
     // ---- Finished-edition recap ----
     recap: {
       display: 'flex',
@@ -542,14 +514,7 @@ export const calendar = sva({
     recapLine: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },
     recapMark: { color: 'white', fontWeight: 'semibold' },
     recapFollow: { display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 'md' },
-    recapFollowLabel: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'muted',
-    },
+    recapFollowLabel: { textStyle: 'metaLabel' },
     recapLinks: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'md' },
   },
 })

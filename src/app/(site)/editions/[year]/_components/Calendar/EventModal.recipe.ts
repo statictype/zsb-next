@@ -7,19 +7,7 @@ import { sva } from 'styled-system/css'
  * this recipe keeps event layout, typography, poster, and floating controls.
  */
 export const eventModal = sva({
-  slots: [
-    'controls',
-    'poster',
-    'body',
-    'when',
-    'name',
-    'types',
-    'venue',
-    'venueName',
-    'venueParent',
-    'description',
-    'links',
-  ],
+  slots: ['controls', 'poster', 'body', 'when', 'name', 'types', 'venue', 'description', 'links'],
   base: {
     // Floating bar over the dialog top: Back (left) + Share (right). The bar is
     // click-through; only the buttons themselves take pointer events.
@@ -72,30 +60,10 @@ export const eventModal = sva({
     },
     name: { fontFamily: 'display', fontSize: '2xl', lineHeight: 'tight', color: 'white' },
 
-    types: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm', marginTop: 'sm' },
-
-    venue: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'sm',
-      marginTop: 'sm',
-      fontFamily: 'body',
-      fontSize: 'sm',
-    },
-    venueName: {
-      color: 'gray.300',
-      textTransform: 'uppercase',
-      letterSpacing: 'subtle',
-      fontWeight: 'medium',
-    },
-    venueParent: {
-      color: 'muted',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontSize: '2xs',
-      _before: { content: '"↳ "' },
-    },
+    // Layout-only overrides — the chip list + venue line are the shared
+    // `TypeChips` / `VenueLine` components; these slots add the modal's rhythm.
+    types: { marginTop: 'sm' },
+    venue: { marginTop: 'sm' },
 
     description: {
       marginTop: 'md',
