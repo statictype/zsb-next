@@ -45,12 +45,10 @@ export const accordion = defineSlotRecipe({
       paddingBottom: 'lg',
     },
     itemIndicator: {
-      display: 'inline-flex',
+      layerStyle: 'disclosureIndicator',
       flexShrink: '0',
       color: 'muted',
-      transition: 'transform {durations.fast} {easings.quint}',
-      '&[data-state=open]': { transform: 'rotate(180deg)' },
-      _motionReduce: { transition: 'none' },
+      transitionDuration: 'fast',
     },
   },
   variants: {

@@ -27,17 +27,7 @@ export const dialog = defineSlotRecipe({
         outlineOffset: '[calc(token(borderWidths.focus) * -1)]',
       },
     },
-    title: {
-      position: 'absolute',
-      width: '1px',
-      height: '1px',
-      padding: 0,
-      margin: '-1px',
-      overflow: 'hidden',
-      clip: 'rect(0 0 0 0)',
-      whiteSpace: 'nowrap',
-      borderWidth: 0,
-    },
+    title: { layerStyle: 'srOnly' },
   },
   variants: {
     presentation: {
@@ -45,7 +35,7 @@ export const dialog = defineSlotRecipe({
         backdrop: { zIndex: 'overlay' },
         positioner: { zIndex: 'modal', padding: 'lg', overflowY: 'auto' },
         content: {
-          maxWidth: '540px',
+          maxWidth: 'dialogPanel',
           maxHeight: 'calc(100dvh - 2 * token(spacing.lg))',
           display: 'flex',
           flexDirection: 'column',
@@ -53,7 +43,7 @@ export const dialog = defineSlotRecipe({
           border: 'hairline',
           boxShadow: 'modal',
           overflow: 'hidden',
-          md: { flexDirection: 'row', maxWidth: '760px' },
+          md: { flexDirection: 'row', maxWidth: 'dialogPanelWide' },
         },
       },
       fullscreen: {

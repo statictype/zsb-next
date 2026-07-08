@@ -58,8 +58,8 @@ export const button = defineRecipe({
         _hover: { ...colorShift._hover, textDecoration: 'underline' },
       },
       icon: {
-        width: '44px',
-        height: '44px',
+        width: 'hitTarget',
+        height: 'hitTarget',
         padding: '0',
         background: 'transparent',
         borderWidth: '0',

@@ -11,7 +11,7 @@ export const carousel = defineSlotRecipe({
       scrollbarWidth: 'none',
       scrollBehavior: 'smooth',
       '&::-webkit-scrollbar': { display: 'none' },
-      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
+      _focusVisible: { outline: 'primary', outlineOffset: '2px' },
       '&[data-dragging]': { cursor: 'grabbing' },
       _motionReduce: { scrollBehavior: 'auto' },
     },
@@ -28,8 +28,8 @@ export const carousel = defineSlotRecipe({
     // Shared by prev/next/autoplay — all three are the same 44px transparent
     // hit target with the same hover/focus treatment.
     trigger: {
-      width: '44px',
-      height: '44px',
+      width: 'hitTarget',
+      height: 'hitTarget',
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -39,7 +39,7 @@ export const carousel = defineSlotRecipe({
       cursor: 'pointer',
       _hover: { color: 'action' },
       _disabled: { opacity: 0.5, cursor: 'not-allowed' },
-      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
+      _focusVisible: { outline: 'primary', outlineOffset: '2px' },
     },
     indicatorGroup: { display: 'flex', alignItems: 'center', gap: '10px' },
     indicator: {
@@ -50,7 +50,7 @@ export const carousel = defineSlotRecipe({
       background: 'muted',
       cursor: 'pointer',
       '&[data-current]': { width: '28px', background: 'highlight' },
-      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '4px' },
+      _focusVisible: { outline: 'primary', outlineOffset: '4px' },
     },
   },
   variants: {

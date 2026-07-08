@@ -41,12 +41,10 @@ export const collapsible = defineSlotRecipe({
     },
     content: { paddingTop: 'md', paddingBottom: 'lg' },
     indicator: {
-      display: 'inline-flex',
+      layerStyle: 'disclosureIndicator',
       marginLeft: 'auto',
       color: 'inherit',
-      transition: 'transform {durations.normal} {easings.quint}',
-      '&[data-state=open]': { transform: 'rotate(180deg)' },
-      _motionReduce: { transition: 'none' },
+      transitionDuration: 'normal',
     },
   },
 })

@@ -12,9 +12,9 @@ import { TypeChips } from './TypeChips'
 import { shareCopied, shareIcon, useShareLink } from './useShareLink'
 import { VenueLine } from './VenueLine'
 
-// The Back/Share controls are plain ghost <Button>s floating over the dialog
-// top; the click-through bar (`controls` slot) re-enables pointer-events on its
-// buttons, so nothing is layered on top of the ghost variant here.
+// The Back/Share controls are plain secondary <Button>s floating over the
+// dialog top; the click-through bar (`controls` slot) re-enables
+// pointer-events on its buttons, so nothing is layered on top of them here.
 
 // The full picture for a single event, opened from the calendar (ZSB-40). A
 // dialog over the schedule: everything the agenda row summarises — the whole

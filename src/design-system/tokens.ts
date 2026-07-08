@@ -201,6 +201,14 @@ export const tokens = {
     // control's visible box — the close button uses it to stay easy to hit
     // without visually growing past its icon.
     hitSlop: { value: '16px' },
+    // The transparent square hit target shared by Button's `icon` variant and
+    // the carousel prev/next/autoplay controls — distinct from `touch` (the
+    // WCAG minimum), this is the DS's own icon-button footprint.
+    hitTarget: { value: '44px' },
+    // The modal dialog's `panel` presentation width, and its `md`+ two-column
+    // step.
+    dialogPanel: { value: '540px' },
+    dialogPanelWide: { value: '760px' },
   },
   assets: {
     brushStrokeX: { value: 'polygon(0 0, 100% 0, 100% 38%, 68% 58%, 0 100%)' },
@@ -735,6 +743,34 @@ export const layerStyles = {
   // one-off pixel value.
   ruleLine: {
     value: { content: '""', width: 'lg', height: '2px', background: 'current', flexShrink: '0' },
+  },
+  // The disclosure chevron shared by Accordion/Collapsible: flex + rotate on
+  // `data-state=open` + motion-reduce kill. `transitionDuration` (and
+  // color/flexShrink/marginLeft) stay call-site deltas — the two consumers
+  // deliberately run on different clocks.
+  disclosureIndicator: {
+    value: {
+      display: 'inline-flex',
+      transitionProperty: '[transform]',
+      transitionTimingFunction: 'quint',
+      '&[data-state=open]': { transform: 'rotate(180deg)' },
+      _motionReduce: { transition: 'none' },
+    },
+  },
+  // Visually-hidden but still in the accessibility tree — the standard
+  // sr-only recipe, named once instead of hand-rolled at each call site.
+  srOnly: {
+    value: {
+      position: 'absolute',
+      width: '1px',
+      height: '1px',
+      padding: '0',
+      margin: '-1px',
+      overflow: 'hidden',
+      clip: 'rect(0 0 0 0)',
+      whiteSpace: 'nowrap',
+      borderWidth: '0',
+    },
   },
   // NB layerStyles carry the surface look only — positioning/stacking beyond
   // the mechanism itself stays at the call site.
