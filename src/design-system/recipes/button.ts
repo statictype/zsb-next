@@ -91,6 +91,10 @@ export const button = defineRecipe({
         paddingBlock: { base: '12px', md: '16px', lg: '20px', '2xl': '24px' },
         paddingInline: { base: '28px', md: '36px', lg: '44px', '2xl': '52px' },
       },
+      touch: {
+        width: 'touch',
+        height: 'touch',
+      },
     },
   },
   // The `text` and `icon` variants are sizeless — neutralize the default size.

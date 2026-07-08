@@ -119,6 +119,10 @@ export const tokens = {
     '0': { value: '0px' },
     xs: { value: '4px' },
     sm: { value: '8px' },
+    hairlineOverlap: { value: 'calc({borderWidths.hairline} * -1)' },
+    navLogoTopMd: { value: '24px' },
+    navDesktopTop: { value: '32px' },
+    navDesktopTopLg: { value: '40px' },
     lg: { value: 'clamp(24px, 18.78px + 1.6304vw, 48px)' },
     xl: { value: 'clamp(32px, 23.3px + 2.7174vw, 72px)' },
     // The archive card's image-bleeds-under-content overlap (negated at the
@@ -134,18 +138,23 @@ export const tokens = {
     // is off), so stripping it is a deliberate, recurring act.
     none: { value: 'none' },
     hairline: {
-      value: { width: '1px', style: 'solid', color: '{colors.divider}' },
+      value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.divider}' },
     },
     highlight: {
-      value: { width: '1px', style: 'solid', color: '{colors.chartreuse}' },
+      value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.chartreuse}' },
     },
     primary: {
-      value: { width: '2px', style: 'solid', color: '{colors.action}' },
+      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.action}' },
     },
     // The one focus ring (`outline: 'focus'` + an outlineOffset at the site).
     focus: {
-      value: { width: '2px', style: 'solid', color: '{colors.chartreuse}' },
+      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.chartreuse}' },
     },
+  },
+  borderWidths: {
+    '0': { value: '0px' },
+    hairline: { value: '1px' },
+    focus: { value: '2px' },
   },
   sizes: {
     // Structural fractions/keywords, tokenized so `strictTokens` can hold
@@ -158,6 +167,13 @@ export const tokens = {
     // shells use the preset's own `svh` value (100svh) instead.
     // Minimum comfortable touch target (WCAG 2.5.8-ish; the nav toggle).
     touch: { value: '48px' },
+    navLogoBase: { value: '40px' },
+    navLogoLg: { value: '56px' },
+    navLogoXl: { value: '60px' },
+    navIcon: { value: '24px' },
+    navGlyph: { value: '18px' },
+    navGlyphStroke: { value: '2px' },
+    navRollOffset: { value: '110%' },
     // The comfortable prose measure (leads, FAQ bodies, link lists).
     measure: { value: '60ch' },
     // The site content rail (`.sectionInner` max-width).
