@@ -3,11 +3,11 @@ import { sva } from 'styled-system/css'
 /**
  * VisitSection — co-located slot recipe.
  *
- * Dark split layout: framed venue image (with scattered decorative pixels) +
- * an info column (address, hours, amenity strip, transport list, directions
- * CTA). Section padding is split the legacy way — vertical rhythm on the
- * outer `section`, the content rail + inline padding on `inner` — rather than
- * the `section` layerStyle, to avoid double inline padding.
+ * Dark split layout: venue image + an info column (address, hours, amenity
+ * strip, transport list, directions CTA). Section padding is split the legacy
+ * way — vertical rhythm on the outer `section`, the content rail + inline
+ * padding on `inner` — rather than the `section` layerStyle, to avoid double
+ * inline padding.
  *
  * `infoValue`/`transportFrom` keep the legacy raw-gray exceptions (bright body
  * on dark, lead-style emphasis). The unused `eyebrow`/`headline` rules were
@@ -21,7 +21,6 @@ export const visitSection = sva({
     'imageBlock',
     'imageFrame',
     'image',
-    'pixel',
     'content',
     'infoRow',
     'infoBlock',
@@ -52,7 +51,6 @@ export const visitSection = sva({
     },
 
     imageBlock: {
-      position: 'relative',
       padding: 'lg',
       maxWidth: '[500px]',
       marginInline: 'auto',
@@ -64,7 +62,6 @@ export const visitSection = sva({
       overflow: 'hidden',
     },
     image: { objectFit: 'cover', background: 'gray.900' },
-    pixel: { position: 'absolute', pointerEvents: 'none' },
 
     content: { display: 'flex', flexDirection: 'column', gap: 'lg' },
 

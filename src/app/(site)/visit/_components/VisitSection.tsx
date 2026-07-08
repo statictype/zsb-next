@@ -28,17 +28,6 @@ const ICONS: Record<IconKey, RemixiconComponentType> = {
   wifi: RiHomeWifiLine,
 }
 
-const PIXELS = [
-  { top: '-12px', left: '60px', size: 24, color: 'var(--colors-action)' },
-  { top: '40px', right: '-16px', size: 20, color: 'var(--colors-action)' },
-  { bottom: '80px', right: '-20px', size: 16, color: 'var(--colors-highlight)' },
-  { bottom: '-14px', left: '120px', size: 22, color: 'var(--colors-action)' },
-  { top: '50%', left: '-18px', size: 14, color: 'var(--colors-highlight)' },
-  { bottom: '30px', left: '-10px', size: 18, color: 'var(--colors-action)' },
-  { top: '20px', left: '30%', size: 10, color: 'var(--colors-highlight)' },
-  { bottom: '-8px', right: '25%', size: 12, color: 'var(--colors-highlight)' },
-] as const
-
 export function VisitSection(props: VisitData = {}) {
   const venueName = props.venueName ?? []
   const street = props.street ?? ''
@@ -59,21 +48,6 @@ export function VisitSection(props: VisitData = {}) {
             <div className={s.imageFrame}>
               <Figure image={image} sizes="(max-width: 1023px) 100vw, 45vw" className={s.image} />
             </div>
-            {PIXELS.map((px) => (
-              <div
-                key={`${px.size}-${px.color}-${'top' in px ? px.top : ''}${'bottom' in px ? px.bottom : ''}`}
-                className={s.pixel}
-                style={{
-                  top: 'top' in px ? px.top : undefined,
-                  bottom: 'bottom' in px ? px.bottom : undefined,
-                  left: 'left' in px ? px.left : undefined,
-                  right: 'right' in px ? px.right : undefined,
-                  width: px.size,
-                  height: px.size,
-                  background: px.color,
-                }}
-              />
-            ))}
           </div>
 
           <div className={s.content}>
