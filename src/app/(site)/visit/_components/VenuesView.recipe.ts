@@ -90,11 +90,7 @@ export const venuesView = sva({
       _motionReduce: { transitionDuration: 'instant' },
     },
     eventWhen: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      color: 'muted',
+      textStyle: 'metaLabel',
       fontVariantNumeric: 'tabular-nums',
     },
     chips: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm' },
@@ -116,11 +112,7 @@ export const venuesView = sva({
       color: 'gray.300',
     },
     childType: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      color: 'muted',
+      textStyle: 'metaLabel',
     },
   },
 })
