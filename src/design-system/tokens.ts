@@ -158,6 +158,10 @@ export const tokens = {
     measure: { value: '60ch' },
     // The site content rail (`.sectionInner` max-width).
     maxWidth: { value: '1800px' },
+    // Narrow single-column cap (mobile stat blocks, banners, error/edition
+    // copy) — recurs as an unnamed ~500-525px literal across several
+    // recipes; 520px is its most common value.
+    narrowColumn: { value: '520px' },
     brushStroke: { value: '3px' },
   },
   assets: {

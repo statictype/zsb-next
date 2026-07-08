@@ -21,7 +21,7 @@ export const themeArtists = sva({
       position: 'relative',
       zIndex: '1',
       paddingInline: 'gutter',
-      maxWidth: '[525px]',
+      maxWidth: 'narrowColumn',
       lg: {
         rowGap: 'lg',
         columnGap: '4xl',
