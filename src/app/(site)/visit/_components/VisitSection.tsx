@@ -15,7 +15,13 @@ import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { IconKey, VisitData } from '@/types/edition'
-import { visitSection } from './VisitSection.recipe'
+import {
+  amenityStrip,
+  transportList as transportListRecipe,
+  visitImageFrame,
+  visitInfoSummary,
+  visitSection,
+} from './VisitSection.recipe'
 
 // Fixed icon set mirrored from the amenity schema. Editors pick an
 // icon key; this is the renderer-side mapping.
@@ -39,14 +45,22 @@ export function VisitSection(props: VisitData = {}) {
   const transport = props.transport ?? []
 
   const s = visitSection()
+  const imageStyles = visitImageFrame()
+  const infoStyles = visitInfoSummary()
+  const amenityStyles = amenityStrip()
+  const transportStyles = transportListRecipe()
 
   return (
     <div id="visit" className={s.section}>
       <div className={s.inner}>
         <div className={s.splitLayout}>
-          <div className={s.imageBlock}>
-            <div className={s.imageFrame}>
-              <Figure image={image} sizes="(max-width: 1023px) 100vw, 45vw" className={s.image} />
+          <div className={imageStyles.block}>
+            <div className={imageStyles.frame}>
+              <Figure
+                image={image}
+                sizes="(max-width: 1023px) 100vw, 45vw"
+                className={imageStyles.image}
+              />
             </div>
           </div>
 
@@ -55,44 +69,44 @@ export function VisitSection(props: VisitData = {}) {
               {venueName.join('\n')}
             </SectionHeading>
 
-            <div className={s.infoRow}>
-              <div className={s.infoBlock}>
-                <RiMapPinLine size={18} className={s.infoIcon} />
-                <span className={s.infoLabel}>Location</span>
-                <span className={s.infoValue}>
+            <div className={infoStyles.row}>
+              <div className={infoStyles.block}>
+                <RiMapPinLine size={18} className={infoStyles.icon} />
+                <span className={infoStyles.label}>Location</span>
+                <span className={infoStyles.value}>
                   {street}
                   <br />
                   {city}
                 </span>
               </div>
-              <div className={s.infoBlock}>
-                <RiTimeLine size={18} className={s.infoIcon} />
-                <span className={s.infoLabel}>Opening Hours</span>
-                <span className={s.infoValue}>{hoursLines.join('\n')}</span>
+              <div className={infoStyles.block}>
+                <RiTimeLine size={18} className={infoStyles.icon} />
+                <span className={infoStyles.label}>Opening Hours</span>
+                <span className={infoStyles.value}>{hoursLines.join('\n')}</span>
               </div>
             </div>
 
-            <div className={s.practicalStrip}>
+            <div className={amenityStyles.strip}>
               {amenities.map((item) => {
                 const Icon = ICONS[item.icon] ?? RiMapPinLine
                 return (
-                  <div key={item.label} className={s.practicalItem}>
-                    <Icon size={16} className={s.practicalIcon} />
+                  <div key={item.label} className={amenityStyles.item}>
+                    <Icon size={16} className={amenityStyles.icon} />
                     <span>{item.label}</span>
                   </div>
                 )
               })}
             </div>
 
-            <div className={s.transportList}>
+            <div className={transportStyles.list}>
               {transport.map((route) => (
-                <div key={route.from} className={s.transportLine}>
-                  <RiBusLine size={14} className={s.transportIcon} />
-                  <span className={s.transportFrom}>{route.from}</span>
-                  <span className={s.transportDot}>&middot;</span>
+                <div key={route.from} className={transportStyles.line}>
+                  <RiBusLine size={14} className={transportStyles.icon} />
+                  <span className={transportStyles.from}>{route.from}</span>
+                  <span className={transportStyles.dot}>&middot;</span>
                   <span>{route.lines}</span>
-                  <span className={s.transportDot}>&middot;</span>
-                  <span className={s.transportWalk}>{route.walk}</span>
+                  <span className={transportStyles.dot}>&middot;</span>
+                  <span className={transportStyles.walk}>{route.walk}</span>
                 </div>
               ))}
             </div>
