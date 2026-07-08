@@ -540,6 +540,14 @@ export const layerStyles = {
       maxWidth: { base: '94%', md: '72%', lg: '62%', xl: '58%' },
     },
   },
+  // The edition hero tape's horizontal nudge — tucks it under the nav on
+  // mobile, then pulls it flush with the logo from `lg` as the tape's own
+  // em-based padding grows with its `huge` fontSize ladder.
+  heroTapeNudge: {
+    value: {
+      marginLeft: { base: '10px', md: '18px', lg: '-36px', xl: '-40px' },
+    },
+  },
   pageHero: {
     value: {
       background: 'black',
