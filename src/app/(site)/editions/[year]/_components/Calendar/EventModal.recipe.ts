@@ -44,8 +44,10 @@ export const eventModal = sva({
       minHeight: '0',
       flexDirection: 'column',
       gap: 'xs',
-      // Top padding clears the floating control bar (36px + offset) with a gap.
-      paddingTop: '[calc(36px + token(spacing.sm) + token(spacing.lg))]',
+      // Clear the floating control bar. Its bottom edge sits at `top` (sm) plus
+      // the ~sm-Button height (~34px); `3xl` stays safely above that at every
+      // breakpoint, so the clearance never depends on measuring the button.
+      paddingTop: '3xl',
       paddingInline: 'lg',
       paddingBottom: 'lg',
       overflowY: 'auto',
