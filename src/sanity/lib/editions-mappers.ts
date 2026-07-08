@@ -135,6 +135,7 @@ export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): Edition
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
     dateTape: composeDateTape(raw),
+    venueLine: raw.venueLine ?? '',
     heroImage: requireImageData(raw.heroImage, 'heroImage'),
     thumbImage: toImageData(raw.thumbImage),
   })
