@@ -12,13 +12,20 @@ import {
   tokens,
 } from './tokens'
 
-// Raw-value policy (`strictTokens` stays OFF, deliberately): anything that
+// Raw-value policy (`strictTokens` is ON — see panda.config.ts): every style
+// value must be a token, or a deliberate `[bracketed]` exception. Anything that
 // recurs is a token or composition — shadows (card/badge/modal/frame/tape),
 // the hero vignette gradient, the skeleton + gradient-border layer styles.
-// What remains raw inside recipes is one-off art direction (local scrims,
-// the artists-table barcode, mask geometry, px nudges) where a token would
-// only launder a magic number into a magic name. New values follow the same
-// test: second occurrence → token.
+//
+// MIGRATION IN PROGRESS: the `[bracketed]` literals still scattered through the
+// recipes are NOT a sanctioned art-direction set — they are a backlog. ~95% can
+// still be resolved: snap to the nearest token (accept a small visual delta) or
+// refactor / recompose (extract a layerStyle, merge near-duplicate slots). Only
+// a genuine residue is load-bearing one-off art direction (local scrims, the
+// artists-table barcode, mask geometry, %-centering / hairline px) where a
+// token would only launder a magic number into a magic name. Treat a bracket as
+// debt to justify or remove, not as a blessed exception. New values follow the
+// same test: second occurrence → token.
 export const designSystemPreset = definePreset({
   name: 'zsb-design-system',
   conditions: { extend: conditions },

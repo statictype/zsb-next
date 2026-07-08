@@ -108,9 +108,7 @@ export const aboutPage = sva({
       },
     },
     statementInner: {
-      maxWidth: 'maxWidth',
-      marginInline: 'auto',
-      paddingInline: 'gutter',
+      layerStyle: 'sectionInner',
       lg: {
         display: 'grid',
         gridTemplateColumns: 'minmax(260px, 340px) minmax(0, 1fr)',

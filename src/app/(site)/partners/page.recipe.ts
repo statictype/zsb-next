@@ -125,9 +125,7 @@ export const partnersPage = sva({
       borderTop: 'hairline',
     },
     partnerCtaInner: {
-      maxWidth: 'maxWidth',
-      paddingInline: 'gutter',
-      marginInline: 'auto',
+      layerStyle: 'sectionInner',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
