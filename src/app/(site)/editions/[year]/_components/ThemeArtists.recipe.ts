@@ -39,19 +39,12 @@ export const themeArtists = sva({
     },
     body: {
       marginBottom: '2xl',
-      lg: { gridColumn: '1', alignSelf: 'start' },
+      lg: { alignSelf: 'start' },
       '& p': {
-        fontFamily: 'body',
-        fontWeight: 'regular',
-        color: 'body',
-        lineHeight: 'body',
-        textAlign: 'left',
+        textStyle: 'prose',
         textWrap: '[pretty]',
-        fontSize: 'base',
       },
       '& p:last-child': { marginBottom: '0' },
     },
-
-    artistsTable: { gridColumn: '2' },
   },
 })
