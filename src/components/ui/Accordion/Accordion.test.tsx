@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { Accordion } from './Accordion'
 
 const items = [
-  { id: 'one', trigger: 'First question', content: 'First answer' },
+  { id: 'one', trigger: 'First question', triggerHeading: 'h3' as const, content: 'First answer' },
   { id: 'two', trigger: 'Second question', content: 'Second answer' },
 ]
 
@@ -18,6 +18,9 @@ describe('Accordion', () => {
 
     const first = screen.getByRole('button', { name: 'First question' })
     const second = screen.getByRole('button', { name: 'Second question' })
+    expect(screen.getByRole('heading', { level: 3, name: 'First question' })).toContainElement(
+      first,
+    )
     expect(first).toHaveAttribute('aria-expanded', 'false')
     expect(second).toHaveAttribute('aria-expanded', 'false')
 
