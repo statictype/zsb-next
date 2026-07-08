@@ -39,6 +39,12 @@ single-use one). A named token in one file beats a persuasive comment at every
 call site: it's discoverable, greppable, and the next person who needs the
 same number finds it instead of re-inventing it.
 
+Every recommendation takes the form of one of these verbs: **extract, merge,
+derive, compose, delete, inline, replace, tokenize.** "Add a comment
+explaining X", "document the rationale", "leave as-is but note why" are not
+on the list — if that's genuinely the best you can do for a finding, drop the
+finding instead of downgrading it to a comment.
+
 ## Hard rules
 
 1. **Review only. Do not edit any file. Do not commit anything.** Your single
@@ -50,23 +56,17 @@ same number finds it instead of re-inventing it.
    (`src/design-system/preset.ts`) has no blessed exceptions — confirm it
    still reads that way before you rely on it; if someone re-added an
    exception list, flag that as its own finding rather than quoting it as law.
-4. **Every recommendation is a code change.** "Add a comment explaining X",
-   "document the rationale", "leave as-is but note why" are not valid
-   recommendations under this prompt — if that's genuinely the best you can
-   do for a finding, drop the finding instead of downgrading it to a comment.
-   Valid recommendation verbs: extract, merge, derive, compose, delete,
-   inline, replace, tokenize.
-5. **Bias toward fewer lines.** When two structural fixes are both valid,
+4. **Bias toward fewer lines.** When two structural fixes are both valid,
    prefer the one that deletes more code — merging near-duplicate slots into
    one with a variant beats keeping both and cross-referencing them; deriving
    a value via `calc()`/CSS var off one token beats declaring two tokens that
    must be kept in sync by convention. State the line-count direction of the
    fix in the recommendation (e.g. "collapses 2 slots into 1", "removes the
    now-redundant override").
-6. **Empty is a valid result** for axes unrelated to raw values (structure,
-   types, dead code) — don't manufacture a finding to fill an axis. But given
-   rule 3, expect the ds-hygiene axis to rarely be empty in a codebase that
-   still has any `[bracketed]` literals, since none of them get a pass anymore.
+5. **Don't manufacture a finding to fill an axis.** An axis that's genuinely
+   clean for these files just stays out of the summary table — silence is the
+   signal, not a "clean" line to write. Per rule 3, expect ds-hygiene to
+   rarely be silent in a codebase that still has any `[bracketed]` literals.
 
 ## Phase 1 — Ground yourself (mandatory, before any finding)
 
@@ -82,10 +82,15 @@ Discover and read, don't assume:
 - **All call sites / usages** of each attached component — read the JSX, not
   just the recipe. The best findings (dead handlers, missing prop forwarding,
   duplicated blocks) are only visible from usage.
-- **Candidate reuse targets**: actively hunt for an existing token / textStyle
-  / recipe / layerStyle whose declarations match a slot's — exact *or near*.
-  This is the highest-value move; cite the specific match for every reuse
-  finding.
+- **Candidate reuse targets, project-wide** — for every raw literal you find
+  in the reviewed files, don't stop at checking it against the existing
+  token/textStyle/recipe/layerStyle scale; grep the same or a near value
+  across all of `src/`. The highest-value findings are often an *unnamed*
+  sibling literal sitting in some other file, not a match against something
+  already tokenized. Cite the specific match (or sibling) for every reuse
+  finding, and list every sibling call site you found even if you're only
+  recommending a fix for the reviewed file — the follow-up may want to
+  extend the token everywhere at once.
 - **Every existing comment that justifies a raw value or a duplication**, in
   the files under review. Each one is a candidate finding: either the
   justification is wrong (there IS a refactor) and the comment is stale, or
@@ -103,36 +108,38 @@ Every raw pixel/percent/literal value becomes one of, in priority order:
    width vs. its inset, a tape's offset vs. a nav element's position), stop
    hardcoding both. Express one as `calc()`/a CSS var off the other, or off a
    shared token, so a future change to one can't silently desync the other.
-3. **A new token** — when the value is genuinely novel (no existing scale
-   member is close, and nothing to derive it from), add it to `tokens.ts`
-   under the right category instead of leaving it as an inline bracket. This
-   still applies to values that appear only once: a named token is
-   self-documenting; an inline bracket with a comment is not.
+3. **A single new layerStyle**, not N parallel tokens, when two or more
+   properties on the same slot/call site ramp across the same breakpoints and
+   read as one positioning shape (an offset + a width cap, a directional
+   nudge) — bundle them the same way `pageHero` already bundles
+   background/color/paddingTop as one reusable unit, instead of minting a
+   separate scalar token per property.
+4. **A new token** — when the value is genuinely novel (no existing scale
+   member is close, and nothing to derive it from or bundle it with), add it
+   to `tokens.ts` under the right category instead of leaving it as an inline
+   bracket. This still applies to values that appear only once: a named
+   token is self-documenting; an inline bracket with a comment is not.
 
-There is no fourth option. If you cannot place a value into one of the three
+There is no fifth option. If you cannot place a value into one of the four
 above, that itself is the finding — flag the gap in the token scale, don't
 paper over it with a bracket-plus-comment.
 
 ## The six axes
 
-Consider each attached component against all six — but per hard rule 6, an
-axis that's genuinely clean gets a one-line "clean," not a stretched finding.
-Go deep on what's real; you have few files.
+Consider each attached component against all six. Axis 2 (ds-hygiene) gets
+the most detail below because it's the bespoke, project-specific machinery —
+the raw-value rules above don't come from general code-review competence.
+The rest are standard judgment you already apply; they're kept to one line
+each as a checklist, not a tutorial. Go deep on what's real; you have few
+files.
 
 ### 1. Structure & composition
-- **God-recipe / slot sprawl**: does one recipe own slots for what are really
-  N separate components? Recommend extracting sub-components.
-- **Blocks embedded as parent slots**: section headings, cards, asides, media
-  that should be their own component instead of a slot on the page/parent.
-- **Reinventing a shared component**: a raw title/label/button slot that
-  ignores an existing primitive.
-- **Depth smell**: a parent reaching past its own layout to style a child's
-  internals.
-- **Near-duplicate components/recipes that should be one** with a variant —
-  actively look for two files that are 80%+ the same shape; the fix is a
-  merge, not a shared comment noting the similarity.
-- Every recommendation names the **extraction/merge boundary** and what
-  shrinks as a result.
+God-recipe/slot sprawl standing in for N separate components; a section
+heading/card/aside/media block embedded as a parent slot instead of its own
+component; a raw slot reinventing an existing shared primitive; a parent
+reaching past its own layout into a child's internals; two recipes that are
+80%+ the same shape and should merge with a variant. Name the
+extraction/merge boundary and what shrinks.
 
 ### 2. Design-system hygiene
 - **Raw-value drift**: apply the no-exceptions rule above to every bracket.
@@ -143,9 +150,10 @@ Go deep on what's real; you have few files.
 - **Composition over re-typing**: rails/shells redeclared instead of
   composing a `layerStyle`; identical style blocks repeated across slots.
 - **Ramps with no derivation**: a multi-breakpoint value ramp — even a
-  "tuned art direction" one — either tokenize the ramp itself or, if it's
-  actually pinned to another element's geometry (nav height, sibling width),
-  derive it from that element's token instead of restating the numbers.
+  "tuned art direction" one — either becomes a layer style/token (per the
+  no-exceptions rule) or, if it's actually pinned to another element's
+  geometry (nav height, sibling width), gets derived from that element's
+  token instead of restating the numbers.
 - **Cascade hazards**: the same property set by two sources → single-source
   ownership.
 - **Semantic-token misuse**: a global/chrome token used for a local element;
@@ -156,45 +164,33 @@ Go deep on what's real; you have few files.
   tokenized, not the comment more thorough.
 
 ### 3. Types
-- Dead/unused type exports; `any`, unsafe `as`, non-null `!` that hide bugs.
-- `exactOptionalPropertyTypes` correctness; `noUncheckedIndexedAccess` guards.
-- Over-broad types where a union/discriminated union fits; duplicated shapes
-  that should reference a shared type or the generated `*VariantProps`.
+Dead/unused type exports; `any`, unsafe `as`, non-null `!` that hide bugs;
+`exactOptionalPropertyTypes`/`noUncheckedIndexedAccess` gaps; over-broad types
+where a union or the generated `*VariantProps` fits better.
 
 ### 4. Prop / API design
-- Does it forward the DOM/event props its element needs?
-- Controlled vs. uncontrolled consistency.
-- Ad-hoc `className` overrides that should be recipe variants; boolean-trap
-  props.
-- **Unexercised optional props** — a prop with a default that every current
-  call site leaves at that default is dead flexibility; recommend removing it
-  until a second call site actually needs it (verify with a repo-wide grep,
-  not an assumption).
-- `className` merged predictably; naming consistent with siblings.
+Missing DOM/event prop forwarding; controlled-vs-uncontrolled inconsistency;
+ad-hoc `className` overrides that should be recipe variants; boolean-trap
+props; an optional prop every current call site leaves at its default
+(verify with a repo-wide grep, not an assumption, then recommend removing it
+until a second call site needs it).
 
 ### 5. Dead code
-- Declared-but-unapplied recipe slots; unreferenced exports/imports/vars.
-- Vestigial handlers/attrs neutralized elsewhere.
-- Redundant overrides that duplicate a base value.
-- Stale comments describing removed/nonexistent slots or values.
-- **CSS selectors defensive against a shape the data can't produce** — e.g. a
-  `:last-child`/`:nth-child` override guarding multiplicity that the type
-  system rules out (a field typed as a single `string`, not rich content).
-  Verify the type before flagging, then collapse the selector.
+Declared-but-unapplied recipe slots; unreferenced exports/imports/vars;
+vestigial handlers/attrs neutralized elsewhere; redundant overrides
+duplicating a base/default value; stale comments describing removed slots or
+values; a `:last-child`/`:nth-child` selector defending against a shape the
+type system already rules out (verify the type, then collapse the selector).
 
 ### 6. Adversarial staff-engineer smells
-- **Works-by-accident fragility**: correctness depending on cascade/emission
-  order rather than intent.
-- **Hidden coupling**: overriding or depending on another component's
-  internal styles or behavior *without* deriving from it — if component A's
-  offset is tuned to component B's geometry, that coupling should be
-  expressed in code (import B's token, compute off it) not just narrated.
-- **Semantic inconsistency**: two different models for the same concern.
-- **Redundant nesting/wrappers** that duplicate the parent's layout.
-- **A comment where a refactor should be** — treat every "here's why this
-  duplication/rawness is fine" comment in the reviewed files as a prompt to
-  try harder, not as a settled question. Report what you tried and why it
-  didn't resolve, if it genuinely didn't.
+Works-by-accident fragility (correctness depending on cascade/emission order
+rather than intent); hidden coupling — component A's offset tuned to
+component B's geometry without deriving from it, expressed in code (import
+B's token, compute off it), not narrated in a comment; two different models
+for the same concern; redundant wrapper nesting that duplicates the parent's
+layout; and, per the one rule above, any "here's why this duplication/rawness
+is fine" comment treated as a prompt to try harder, not a settled question —
+report what you tried and why it didn't resolve, if it genuinely didn't.
 
 ## Output — the audit document
 
@@ -205,11 +201,11 @@ explicitly asked.
 
 Structure:
 
-1. **Summary table** at the top — one row per finding: id, file, axis, risk
-   tier, one-line smell. At-a-glance.
-2. **Detailed findings**, ranked **most-actionable-first** (risk tier
-   ascending, so the safe wins are at the top and the executor works
-   top-down).
+1. **Summary table** at the top — one row per finding: id, file, axis,
+   one-line smell. At-a-glance.
+2. **Detailed findings**, in file/line order. There's no priority ranking to
+   compute up front — the user picks what to work on by id or topic; don't
+   spend effort pre-sorting for them.
 
 Each detailed finding carries these fields:
 
@@ -218,14 +214,8 @@ Each detailed finding carries these fields:
 | `id` | stable ref (e.g. `DS-1`, `STRUCT-2`) |
 | `file:line` | clickable anchor |
 | `axis` | structure / ds-hygiene / types / prop-api / dead-code / adversarial |
-| `risk tier` | `no-op` (exact reuse, zero visual change) → `small-visual` (token-snap) → `visual-risk` (structural/inheritance/layout) → `behavioral` |
 | `smell` | one line |
-| `evidence` | the cited existing token/recipe/textStyle/layerStyle to reuse, the proposed new token, or the call site that proves it — must be verifiable. If a comment claimed this was intentional, name the comment and say why it doesn't hold. |
-| `recommendation` | the concrete code change — extract / merge / derive / delete / tokenize. Never "add a comment." State what shrinks. |
-| `effort` | trivial / small / involved |
-
-End with an **execution order**: the ids grouped by risk tier, so the
-follow-up implementation can start with `no-op` swaps and stop before
-`visual-risk` / `behavioral` ones for a human eyeball.
+| `evidence` | the cited existing token/recipe/textStyle/layerStyle to reuse, the proposed new token, or the call site that proves it — must be verifiable. If a comment claimed this was intentional, name the comment and say why it doesn't hold. If sibling raw literals exist elsewhere in `src/`, list them here even if the recommendation is scoped to the reviewed file only. |
+| `recommendation` | the concrete code change — extract / merge / derive / delete / tokenize. Never "add a comment." State what shrinks. If sibling call sites were found, state both scopes: fix here only, vs. also-applies-to `file:line` list. If the fix changes rendered output at all (a value shift, not just where it's declared; a new inherited property entering the cascade), say so in one clause — that's the one thing worth an eyeball before committing, no formal tier needed to say it. |
 
 Then **stop**. Do not implement anything.
