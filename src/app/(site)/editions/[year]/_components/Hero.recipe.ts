@@ -7,25 +7,22 @@ import { sva } from 'styled-system/css'
  * the theme tape (carrying the date line via `meta`) overlaid. Full-bleed
  * until `lg`, where the hero
  * gains horizontal padding and the tapes hang off the frame's left edge. The
- * top offset mirrors the shared `pageHero` layerStyle (`token(sizes.nav)` + 80/
- * 120px) so the frame starts at the same y as the title on every other page.
- * The image/vignette reveals compose the shared `enter` animation styles (image = zoom,
- * vignette = fade); the tapes keep the distinct `tapeIn` keyframe. The frame
- * (not the image) owns the `grayscale(0.3)` so it survives `enter`'s `filter`.
+ * shell composes the shared `pageHero` layerStyle (nav-clearing top padding +
+ * black ground) so the frame starts at the same y as the title on every other
+ * page. The image/vignette reveals compose the shared `enter` animation styles
+ * (image = zoom, vignette = fade); the tapes keep the distinct `tapeIn`
+ * keyframe. The frame (not the image) owns the `grayscaleSubtle` filter so it
+ * survives `enter`'s `filter`.
  */
 export const hero = sva({
   slots: ['hero', 'stage', 'frame', 'background', 'image', 'vignette', 'tapes'],
   base: {
     hero: {
+      layerStyle: 'pageHero',
       position: 'relative',
-      background: 'surface',
       overflow: 'hidden',
-      // Matches the shared pageHero top offset.
-      paddingTop: '[calc(token(sizes.nav) + 80px)]',
       paddingInline: '0',
-      paddingBottom: '3xl',
-      md: { paddingTop: '[calc(token(sizes.nav) + 120px)]', paddingBottom: '4xl' },
-      lg: { paddingInline: 'gutter', paddingBottom: '4xl' },
+      lg: { paddingInline: 'gutter' },
     },
     stage: {
       position: 'relative',
@@ -43,7 +40,7 @@ export const hero = sva({
       aspectRatio: '4 / 5',
       overflow: 'hidden',
       isolation: 'isolate',
-      filter: '[grayscale(0.3)]',
+      filter: '[token(assets.grayscaleSubtle)]',
       boxShadow: 'frame',
       md: { aspectRatio: '2 / 1' },
       _after: {

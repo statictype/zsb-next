@@ -163,6 +163,9 @@ export const tokens = {
   assets: {
     brushStrokeX: { value: 'polygon(0 0, 100% 0, 100% 38%, 68% 58%, 0 100%)' },
     brushStrokeY: { value: 'polygon(0 0, 100% 0, 58% 68%, 38% 100%, 0 100%)' },
+    // The hero frame's grayscale grade — photography desaturated just enough
+    // to sit on the dark ground without going fully mono.
+    grayscaleSubtle: { value: 'grayscale(0.3)' },
   },
   lineHeights: {
     display: { value: '1' },
