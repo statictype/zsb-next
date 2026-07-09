@@ -15,6 +15,13 @@ The real layout shape-set is **8 patterns across 9 clusters**: `Container` (C1),
 C6 is `HStack` with `justify="space-between"`), `Wrap` (C7), `Grid` (C8),
 `Divider` (C9). Everything below collapses to them.
 
+## Adoption status
+
+| cluster-id | pattern | status | note |
+| --- | --- | --- | --- |
+| C1-rail | `Container` | completed | Completed in an earlier adoption run. |
+| C3-stack | `Stack` | completed | Completed in the C3 adoption run. |
+
 ---
 
 ## View 1 — decision record
