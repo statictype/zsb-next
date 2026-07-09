@@ -1,6 +1,6 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
-import { Container, Stack } from 'styled-system/jsx'
+import { Container, HStack, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
@@ -23,10 +23,18 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
       <Container>
-        <Stack className={styles.header}>
+        <HStack
+          className={styles.header}
+          flexDirection={{ base: 'column', md: 'row' }}
+          alignItems={{ base: 'stretch', md: 'flex-end' }}
+          justify={{ md: 'space-between' }}
+          gap="md"
+        >
           <SectionHeading flush>Archive</SectionHeading>
-          <div className={styles.count}>{theme}</div>
-        </Stack>
+          <HStack className={styles.count} gap="md">
+            {theme}
+          </HStack>
+        </HStack>
 
         <Card asChild ground="onDark" interactive>
           <a
@@ -54,13 +62,13 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
 
                 <p className={styles.description}>{description}</p>
 
-                <div className={styles.cta}>
+                <HStack className={styles.cta} gap="md">
                   <span className={styles.ctaLabel}>{linkLabel}</span>
                   <span aria-hidden>
                     <RiArrowRightUpLine size={18} />
                   </span>
                   <span className={styles.ctaUrl}>{prettyHost(href)}</span>
-                </div>
+                </HStack>
               </Stack>
 
               <div className={styles.cardRight} aria-hidden>

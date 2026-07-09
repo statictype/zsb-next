@@ -27,9 +27,6 @@ export const artistsTable = sva({
     root: { width: 'full' },
 
     colHeader: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
       paddingBlock: 'sm',
       paddingInline: 'md',
       background: 'highlight',
@@ -60,9 +57,6 @@ export const artistsTable = sva({
       },
     },
     entry: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'sm',
       paddingBlock: 'sm',
       paddingInline: 'md',
       borderBottom: 'hairline',
@@ -87,11 +81,6 @@ export const artistsTable = sva({
     },
 
     footer: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      gap: 'sm',
       padding: 'sm',
       background: 'highlight',
       color: 'black',

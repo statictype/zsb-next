@@ -131,12 +131,6 @@ export const homePage = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       width: 'full',
-      lg: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        gap: '3xl',
-      },
     },
     upcomingLead: {
       alignItems: 'flex-start',

@@ -63,14 +63,7 @@ export const editionCard = sva({
       marginTop: '[calc(token(spacing.cardOverlap) * -1)]',
       padding: 'md',
     },
-    // One row: the unlabeled date/venue line on the left, the "View edition"
-    // cue on the right. Spacing above the row comes from `content`'s own
-    // gap; the hairline is the row's own top border.
     meta: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 'sm',
       marginTop: 'sm',
       paddingTop: 'md',
       borderTop: 'hairline',
@@ -86,13 +79,8 @@ export const editionCard = sva({
     // Keeps the venue name from breaking mid-phrase — a narrow card wraps
     // before the whole name, not between its words.
     venue: { whiteSpace: 'nowrap' },
-    // The card's own link already carries the accessible name (tape + meta);
-    // this cue is a purely visual affordance, hidden from the a11y tree.
     cta: {
-      display: 'flex',
-      alignItems: 'center',
       flexShrink: '0',
-      gap: 'sm',
       fontFamily: 'body',
       fontSize: 'xs',
       fontWeight: 'semibold',

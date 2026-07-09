@@ -58,22 +58,15 @@ export const editionTheme = sva({
         translate: '[0 0]',
       },
     },
-    // The heading row: lead + theme text, laid out exactly like the old
-    // single-element tape (type inherits from root). `fontSize: inherit`
-    // kills the UA's h1/h2 scale factor — the ladder lives on root.
     heading: {
-      display: 'flex',
-      alignItems: 'baseline',
       margin: '0',
       fontSize: '[inherit]',
     },
-    // The stamped lead (rail badges): vertically centered in the band, with a
-    // small gap to the theme text.
     lead: {
       display: 'inline-flex',
       alignItems: 'center',
-      alignSelf: 'center',
       gap: 'xs',
+      alignSelf: 'center',
       marginRight: '[0.6em]',
     },
     // The meta line (edition hero's date/venue): a second row inside the

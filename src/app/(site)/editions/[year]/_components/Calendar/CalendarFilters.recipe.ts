@@ -20,9 +20,6 @@ export const calendarFilters = sva({
 
     bar: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' },
     reset: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 'sm',
       fontFamily: 'body',
       fontSize: '2xs',
       textTransform: 'uppercase',

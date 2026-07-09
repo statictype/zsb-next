@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
-import { Container } from 'styled-system/jsx'
+import { Container, HStack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -35,7 +35,13 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
   return (
     <section className={section({ ground: 'dark' })} aria-labelledby="featured-heading">
       <Container>
-        <header className={styles.header}>
+        <HStack
+          as="header"
+          className={styles.header}
+          alignItems="flex-end"
+          justify="space-between"
+          gap="md"
+        >
           <div className={styles.headerMain}>
             <Eyebrow className={styles.eyebrow}>Don&rsquo;t miss</Eyebrow>
             <SectionHeading id="featured-heading" flush>
@@ -45,7 +51,7 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
           <Button asChild variant="link">
             <Link href={`/editions/${year}#program`}>Full calendar</Link>
           </Button>
-        </header>
+        </HStack>
 
         <ul className={styles.grid}>
           {events.map((event, i) => (

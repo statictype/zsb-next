@@ -8,7 +8,7 @@ import { sva } from 'styled-system/css'
  * paired cells in a light grid. The recipe owns those two rhythms explicitly.
  */
 export const pillarGrid = sva({
-  slots: ['grid', 'item', 'head', 'number', 'title', 'body'],
+  slots: ['grid', 'item', 'number', 'title', 'body'],
   base: {
     grid: {
       display: 'grid',
@@ -20,7 +20,6 @@ export const pillarGrid = sva({
       paddingBlock: 'xl',
       borderBottom: 'hairline',
     },
-    head: { display: 'flex', alignItems: 'baseline', gap: 'md' },
     number: {
       fontFamily: 'display',
       fontSize: 'md',

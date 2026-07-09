@@ -2,7 +2,7 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cx } from 'styled-system/css'
-import { Stack } from 'styled-system/jsx'
+import { HStack, Stack } from 'styled-system/jsx'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
@@ -87,7 +87,13 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
           // photography of its own yet, so the last edition's slideshow + CTA are
           // kept as a compact "from the last edition" side card.
           <section id="home" className={cx(styles.panel, styles.hero)}>
-            <Stack className={styles.upcomingInner} gap="2xl">
+            <HStack
+              className={styles.upcomingInner}
+              flexDirection={{ base: 'column', lg: 'row' }}
+              alignItems={{ base: 'stretch', lg: 'flex-start' }}
+              justify={{ lg: 'space-between' }}
+              gap={{ base: '2xl', lg: '3xl' }}
+            >
               <Stack className={styles.upcomingLead} gap="lg">
                 <Eyebrow className={styles.upcomingEyebrow}>Upcoming · ZSB {upcoming.year}</Eyebrow>
                 <h1 className={styles.heroTitle}>
@@ -113,7 +119,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                   </Link>
                 )}
               </Stack>
-            </Stack>
+            </HStack>
           </section>
         ) : (
           <section id="home" className={cx(styles.panel, styles.hero)}>

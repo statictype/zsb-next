@@ -29,19 +29,10 @@ export const cookieBanner = sva({
       pointerEvents: 'auto',
     },
     inner: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       paddingBlock: 'md',
       paddingInline: 'lg',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      md: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 'xl',
-      },
     },
     copy: { minWidth: '0' },
     title: {

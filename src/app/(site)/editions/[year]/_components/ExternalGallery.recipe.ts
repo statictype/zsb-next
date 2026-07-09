@@ -26,12 +26,8 @@ export const externalGallery = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       marginBottom: 'xl',
-      md: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },
     },
     count: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'md',
       fontFamily: 'body',
       fontSize: 'sm',
       color: 'muted',
@@ -66,9 +62,6 @@ export const externalGallery = sva({
     },
 
     cta: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'md',
       marginTop: 'md',
       paddingTop: 'lg',
       borderTop: 'hairline',

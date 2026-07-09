@@ -35,10 +35,6 @@ export const featuredEvents = sva({
   ],
   base: {
     header: {
-      display: 'flex',
-      alignItems: 'flex-end',
-      justifyContent: 'space-between',
-      gap: 'md',
       marginBottom: 'xl',
     },
     headerMain: { minWidth: '0' },

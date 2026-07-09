@@ -1,7 +1,7 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
-import { Stack } from 'styled-system/jsx'
+import { HStack, Stack } from 'styled-system/jsx'
 import type { RecipeVariantProps } from 'styled-system/types'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
@@ -74,7 +74,7 @@ export function EditionCard({
           themeHighlight={edition.themeHighlight}
           delay={themeDelay}
         />
-        <div className={styles.meta}>
+        <HStack className={styles.meta} justify="space-between">
           <span className={styles.details}>
             {edition.venueLine ? (
               <>
@@ -84,11 +84,11 @@ export function EditionCard({
               edition.dateTape
             )}
           </span>
-          <span className={styles.cta} aria-hidden>
+          <HStack as="span" className={styles.cta} aria-hidden>
             View edition
             <RiArrowRightUpLine size={16} className={styles.ctaIcon} />
-          </span>
-        </div>
+          </HStack>
+        </HStack>
       </Stack>
     </Card>
   )

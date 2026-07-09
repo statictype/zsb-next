@@ -89,9 +89,6 @@ export const amenityStrip = sva({
       md: { display: 'flex', flexWrap: 'wrap' },
     },
     item: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'sm',
       fontFamily: 'body',
       fontSize: 'xs',
       color: 'body',
@@ -107,13 +104,9 @@ export const transportList = sva({
   slots: ['line', 'icon', 'from', 'dot', 'walk'],
   base: {
     line: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'sm',
       fontFamily: 'body',
       fontSize: 'xs',
       color: 'body',
-      flexWrap: 'wrap',
     },
     icon: { color: 'muted', flexShrink: '0' },
     from: {

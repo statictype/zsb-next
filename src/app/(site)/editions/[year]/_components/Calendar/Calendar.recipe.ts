@@ -67,13 +67,7 @@ export const calendar = sva({
     },
     layout: { minWidth: '0' },
 
-    header: {
-      display: 'flex',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
-      gap: 'md',
-      marginBottom: 'xl',
-    },
+    header: { marginBottom: 'xl' },
     headerMain: { minWidth: '0' },
 
     counts: {
@@ -93,9 +87,6 @@ export const calendar = sva({
       fontVariantNumeric: 'tabular-nums',
     },
     pastToggle: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 'sm',
       minHeight: '[32px]',
       paddingBlock: 'xs',
       paddingInline: 'md',
@@ -309,15 +300,11 @@ export const calendar = sva({
       md: { fontSize: '2xl' },
     },
     markerMeta: {
-      display: 'flex',
-      alignItems: 'baseline',
-      gap: 'sm',
       fontFamily: 'body',
       fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
       fontWeight: 'semibold',
-      md: { flexDirection: 'column', alignItems: 'flex-end', gap: 'xs' },
     },
     markerMonth: { color: 'muted' },
     markerWeekday: { color: 'action' },

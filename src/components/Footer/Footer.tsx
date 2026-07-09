@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
-import { Stack } from 'styled-system/jsx'
+import { HStack, Stack } from 'styled-system/jsx'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Button } from '@/components/ui/Button/Button'
@@ -88,13 +88,17 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
           <span className={s.stamp}>{catalogStamp}</span>
         </Stack>
 
-        <Stack className={s.baseline}>
+        <HStack
+          className={s.baseline}
+          flexDirection={{ base: 'column', md: 'row' }}
+          justify={{ md: 'space-between' }}
+        >
           <div className={s.copyright}>&copy; {currentYear} Bucharest Sculpture Days</div>
           <div className={s.legal}>
             <LegalLink href="/privacy">Privacy Policy</LegalLink>
             <CookieSettingsButton className={s.legalLink} />
           </div>
-        </Stack>
+        </HStack>
       </Stack>
     </footer>
   )

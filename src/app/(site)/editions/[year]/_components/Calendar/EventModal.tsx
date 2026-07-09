@@ -2,6 +2,7 @@
 
 import { RiArrowLeftLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
+import { HStack } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
@@ -38,7 +39,7 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
 
   return (
     <Dialog open onClose={onClose} title={event.name} presentation="panel">
-      <div className={s.controls}>
+      <HStack className={s.controls} justify="space-between">
         {/* Dismiss returns to the programme (router back / link up); ✕ was a
               generic close that no longer fits the route model (ZSB-50). */}
         <Button variant="secondary" size="sm" onClick={onClose}>
@@ -55,7 +56,7 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
           <ShareIcon size={15} aria-hidden />
           {shareLabel}
         </Button>
-      </div>
+      </HStack>
 
       {event.image && (
         <div className={s.poster}>

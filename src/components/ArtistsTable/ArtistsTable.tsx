@@ -1,4 +1,5 @@
 import { cx } from 'styled-system/css'
+import { HStack } from 'styled-system/jsx'
 import { padNum, splitInHalf } from '@/lib/format-utils'
 import type { ArtistListItem } from '@/types/edition'
 import { artistsTable } from './ArtistsTable.recipe'
@@ -28,32 +29,32 @@ export function ArtistsTable({
 
   return (
     <div className={cx(styles.root, className)}>
-      <div className={styles.colHeader}>
+      <HStack className={styles.colHeader} justify="space-between">
         <span className={styles.headerLabel}>{headerLabel}</span>
         <span>001&mdash;{padNum(artists.length, 3)}</span>
-      </div>
+      </HStack>
 
       <div className={styles.body}>
         <div className={styles.column}>
           {firstHalf.map((artist, i) => (
-            <div key={artist._id} className={styles.entry}>
+            <HStack key={artist._id} className={styles.entry}>
               <span className={styles.num}>{padNum(i + 1, 3)}</span>
               <span className={styles.name}>{artist.name}</span>
-            </div>
+            </HStack>
           ))}
         </div>
         <div className={styles.column}>
           {secondHalf.map((artist, i) => (
-            <div key={artist._id} className={styles.entry}>
+            <HStack key={artist._id} className={styles.entry}>
               <span className={styles.num}>{padNum(mid + i + 1, 3)}</span>
               <span className={styles.name}>{artist.name}</span>
-            </div>
+            </HStack>
           ))}
         </div>
       </div>
 
       {meta.length > 0 && (
-        <div className={styles.footer}>
+        <HStack className={styles.footer} justify="space-between">
           <div className={styles.meta}>
             {meta.map(({ label, value }) => (
               <div key={label} className={styles.metaItem}>
@@ -63,7 +64,7 @@ export function ArtistsTable({
             ))}
           </div>
           <div className={styles.barcode} />
-        </div>
+        </HStack>
       )}
     </div>
   )

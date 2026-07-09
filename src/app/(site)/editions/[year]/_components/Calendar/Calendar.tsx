@@ -4,7 +4,7 @@ import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
-import { Container, Stack } from 'styled-system/jsx'
+import { Container, HStack, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
@@ -88,7 +88,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
     >
       <HashScroller id={PROGRAM_SECTION_ID} />
       <Container>
-        <header className={s.header}>
+        <HStack as="header" className={s.header} justify="space-between" gap="md">
           <div className={s.headerMain}>
             <SectionHeading id="calendar-heading" flush>
               Calendar
@@ -127,7 +127,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
             )}
           </div>
           <CalendarShare />
-        </header>
+        </HStack>
 
         {/* On a finished edition the filters and the board fold into the archive
             Collapsible together (ZSB-45), so filtering still works once expanded;
@@ -208,19 +208,25 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                       className={s.day}
                       data-past={liveClock !== null && day.iso < liveClock}
                     >
-                      <Stack
+                      <HStack
                         className={s.marker}
-                        direction={{ base: 'row', md: 'column' }}
-                        align={{ base: 'baseline', md: 'flex-end' }}
+                        flexDirection={{ base: 'row', md: 'column' }}
+                        alignItems={{ base: 'baseline', md: 'flex-end' }}
                         gap={{ base: 'md', md: 'sm' }}
                       >
                         <span className={s.markerNode} aria-hidden />
                         <span className={s.markerDay}>{day.token.dayPadded}</span>
-                        <span className={s.markerMeta}>
+                        <HStack
+                          as="span"
+                          className={s.markerMeta}
+                          flexDirection={{ base: 'row', md: 'column' }}
+                          alignItems={{ base: 'baseline', md: 'flex-end' }}
+                          gap={{ md: 'xs' }}
+                        >
                           <span className={s.markerMonth}>{day.token.month}</span>
                           <span className={s.markerWeekday}>{day.token.weekday}</span>
-                        </span>
-                      </Stack>
+                        </HStack>
+                      </HStack>
                       <ul className={s.events}>
                         {day.events.map((event) => (
                           <EventRow key={event.key} event={event} year={year} />

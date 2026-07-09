@@ -11,7 +11,7 @@ import {
   RiWheelchairLine,
 } from '@remixicon/react'
 import { css } from 'styled-system/css'
-import { Container, Stack } from 'styled-system/jsx'
+import { Container, HStack, Stack } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -91,24 +91,24 @@ export function VisitSection(props: VisitData = {}) {
               {amenities.map((item) => {
                 const Icon = ICONS[item.icon] ?? RiMapPinLine
                 return (
-                  <div key={item.label} className={amenityStyles.item}>
+                  <HStack key={item.label} className={amenityStyles.item}>
                     <Icon size={16} className={amenityStyles.icon} />
                     <span>{item.label}</span>
-                  </div>
+                  </HStack>
                 )
               })}
             </div>
 
             <Stack gap="sm">
               {transport.map((route) => (
-                <div key={route.from} className={transportStyles.line}>
+                <HStack key={route.from} className={transportStyles.line} flexWrap="wrap">
                   <RiBusLine size={14} className={transportStyles.icon} />
                   <span className={transportStyles.from}>{route.from}</span>
                   <span className={transportStyles.dot}>&middot;</span>
                   <span>{route.lines}</span>
                   <span className={transportStyles.dot}>&middot;</span>
                   <span className={transportStyles.walk}>{route.walk}</span>
-                </div>
+                </HStack>
               ))}
             </Stack>
 

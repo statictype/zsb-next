@@ -46,11 +46,6 @@ export const artistsBanner = sva({
       width: 'full',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      display: 'flex',
-      flexDirection: { base: 'column', md: 'row' },
-      justifyContent: { md: 'space-between' },
-      alignItems: { md: 'center' },
-      gap: 'lg',
     },
     subtext: {
       fontFamily: 'body',
