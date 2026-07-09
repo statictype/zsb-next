@@ -1,11 +1,8 @@
 import { sva } from 'styled-system/css'
 
 export const pillarGrid = sva({
-  slots: ['grid', 'item', 'number', 'title', 'body'],
+  slots: ['item', 'number', 'title', 'body'],
   base: {
-    grid: {
-      borderTop: 'hairline',
-    },
     item: {
       paddingBlock: 'xl',
       borderBottom: 'hairline',
@@ -27,7 +24,6 @@ export const pillarGrid = sva({
   variants: {
     rhythm: {
       bookend: {
-        grid: { borderBottom: 'hairline' },
         item: {
           '&:last-child': { borderBottom: 'none' },
           md: {

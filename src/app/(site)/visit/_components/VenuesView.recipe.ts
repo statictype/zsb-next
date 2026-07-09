@@ -4,12 +4,11 @@ import { sva } from 'styled-system/css'
  * VenuesView — co-located slot recipe.
  *
  * The programme browsed by place (ZSB-27), under the Visit page's main-venue
- * block. No ground of its own — it inherits the page's dark canvas and only
- * draws a top hairline; the shared Accordion owns disclosure chrome and state.
+ * block. No ground of its own — it inherits the page's dark canvas; the shared
+ * Accordion owns disclosure chrome and state.
  */
 export const venuesView = sva({
   slots: [
-    'section',
     'header',
     'lede',
     'group',
@@ -25,11 +24,6 @@ export const venuesView = sva({
     'childType',
   ],
   base: {
-    section: {
-      // rhythm from `section()` in the component; ground inherits the parent.
-      borderTop: 'hairline',
-    },
-
     header: { marginBottom: 'xl' },
     lede: {
       marginTop: 'md',
@@ -50,7 +44,6 @@ export const venuesView = sva({
       fontWeight: 'semibold',
       color: 'highlight',
       paddingBottom: 'sm',
-      borderBottom: 'hairline',
     },
     venues: { width: 'full' },
     place: {

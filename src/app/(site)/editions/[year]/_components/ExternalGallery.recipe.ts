@@ -55,9 +55,7 @@ export const externalGallery = sva({
     },
 
     cta: {
-      marginTop: 'md',
       paddingTop: 'lg',
-      borderTop: 'hairline',
     },
     ctaLabel: {
       fontFamily: 'body',

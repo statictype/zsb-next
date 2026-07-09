@@ -1,7 +1,7 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
-import { HStack, Stack } from 'styled-system/jsx'
+import { Divider, HStack, Stack } from 'styled-system/jsx'
 import type { RecipeVariantProps } from 'styled-system/types'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
@@ -74,6 +74,7 @@ export function EditionCard({
           themeHighlight={edition.themeHighlight}
           delay={themeDelay}
         />
+        <Divider mt="sm" />
         <HStack className={styles.meta} justify="space-between">
           <span className={styles.details}>
             {edition.venueLine ? (

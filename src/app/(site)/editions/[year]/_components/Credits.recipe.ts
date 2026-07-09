@@ -57,17 +57,12 @@ export const credits = sva({
     // ISDay badge fills the 4th column of the primary row from 1280 up.
     badge: { xl: { gridColumn: 4 } },
 
-    // Partners + secondary share one 4-column track so their grid lines align,
-    // each separated from the band above by a hairline.
+    // Partners + secondary share one 4-column track so their grid lines align.
     partners: {
-      marginTop: 'lg',
       paddingTop: 'lg',
-      borderTop: 'hairline',
     },
     secondary: {
-      marginTop: 'lg',
       paddingTop: 'lg',
-      borderTop: 'hairline',
     },
 
     partnersBlock: {

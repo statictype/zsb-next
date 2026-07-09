@@ -30,7 +30,6 @@ export const footer = sva({
       paddingBlock: 'xl',
       md: {
         paddingBlock: '2xl',
-        borderTop: 'hairline',
       },
     },
     inner: {
@@ -80,7 +79,6 @@ export const footer = sva({
 
     baseline: {
       paddingTop: 'lg',
-      borderTop: 'hairline',
       textStyle: 'footerMeta',
       letterSpacing: 'label',
       textAlign: 'center',

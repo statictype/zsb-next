@@ -1,7 +1,7 @@
 'use client'
 
 import { RiResetLeftLine } from '@remixicon/react'
-import { Stack, Wrap } from 'styled-system/jsx'
+import { Divider, Stack, Wrap } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 import { calendarFilters } from './CalendarFilters.recipe'
@@ -69,39 +69,42 @@ export function CalendarFilters({
 }: CalendarFiltersProps) {
   const s = calendarFilters()
   return (
-    <Stack className={s.filters} role="group" aria-label="Filter the programme">
-      <div className={s.bar}>
-        <Button
-          variant="secondary"
-          size="sm"
-          className={s.reset}
-          onClick={onReset}
-          disabled={!canReset}
-        >
-          <RiResetLeftLine size={14} aria-hidden />
-          Reset
-        </Button>
-      </div>
+    <>
+      <Divider />
+      <Stack className={s.filters} role="group" aria-label="Filter the programme">
+        <div className={s.bar}>
+          <Button
+            variant="secondary"
+            size="sm"
+            className={s.reset}
+            onClick={onReset}
+            disabled={!canReset}
+          >
+            <RiResetLeftLine size={14} aria-hidden />
+            Reset
+          </Button>
+        </div>
 
-      {filterOptions.venues.length > 1 && (
-        <FilterChips
-          labelId="filter-venue"
-          label="Venue"
-          options={filterOptions.venues}
-          selection={filters.venues}
-          onToggle={onToggleVenue}
-        />
-      )}
+        {filterOptions.venues.length > 1 && (
+          <FilterChips
+            labelId="filter-venue"
+            label="Venue"
+            options={filterOptions.venues}
+            selection={filters.venues}
+            onToggle={onToggleVenue}
+          />
+        )}
 
-      {filterOptions.types.length > 1 && (
-        <FilterChips
-          labelId="filter-type"
-          label="Type"
-          options={filterOptions.types}
-          selection={filters.types}
-          onToggle={onToggleType}
-        />
-      )}
-    </Stack>
+        {filterOptions.types.length > 1 && (
+          <FilterChips
+            labelId="filter-type"
+            label="Type"
+            options={filterOptions.types}
+            selection={filters.types}
+            onToggle={onToggleType}
+          />
+        )}
+      </Stack>
+    </>
   )
 }

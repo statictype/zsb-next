@@ -1,4 +1,4 @@
-import { Grid, HStack, Stack } from 'styled-system/jsx'
+import { Divider, Grid, HStack, Stack } from 'styled-system/jsx'
 import { pillarGrid } from './PillarGrid.recipe'
 
 export interface PillarGridItem {
@@ -30,20 +30,24 @@ export function PillarGrid({
   const styles = pillarGrid({ rhythm, titleTone, titleScale })
 
   return (
-    <Grid className={styles.grid} columns={{ base: 1, md: 2 }} gap="0">
-      {items.map((item, index) => (
-        <Stack as="article" key={item.title} className={styles.item}>
-          {numbered ? (
-            <HStack alignItems="baseline" gap="md">
-              <span className={styles.number}>{pad(index + 1)}</span>
+    <>
+      <Divider />
+      <Grid columns={{ base: 1, md: 2 }} gap="0">
+        {items.map((item, index) => (
+          <Stack as="article" key={item.title} className={styles.item}>
+            {numbered ? (
+              <HStack alignItems="baseline" gap="md">
+                <span className={styles.number}>{pad(index + 1)}</span>
+                <Title className={styles.title}>{item.title}</Title>
+              </HStack>
+            ) : (
               <Title className={styles.title}>{item.title}</Title>
-            </HStack>
-          ) : (
-            <Title className={styles.title}>{item.title}</Title>
-          )}
-          <p className={styles.body}>{item.body}</p>
-        </Stack>
-      ))}
-    </Grid>
+            )}
+            <p className={styles.body}>{item.body}</p>
+          </Stack>
+        ))}
+      </Grid>
+      {rhythm === 'bookend' && <Divider />}
+    </>
   )
 }

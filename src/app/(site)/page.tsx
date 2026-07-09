@@ -2,7 +2,7 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cx } from 'styled-system/css'
-import { Grid, HStack, Stack } from 'styled-system/jsx'
+import { Divider, Grid, HStack, Stack } from 'styled-system/jsx'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
@@ -105,6 +105,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 </div>
               </Stack>
 
+              <Divider display={{ base: 'block', lg: 'none' }} />
               <Stack as="aside" className={styles.lastEdition}>
                 <p className={styles.lastEditionLabel}>From the last edition</p>
                 <div className={styles.lastEditionMedia}>

@@ -4,7 +4,7 @@ import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
-import { Container, Grid, HStack, Stack, Wrap } from 'styled-system/jsx'
+import { Container, Divider, Grid, HStack, Stack, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
@@ -156,47 +156,50 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
             // follow below as the day-by-day agenda (ZSB-49).
             <div className={s.layout}>
               {onView.length > 0 && (
-                <section className={s.band} aria-label="Ongoing throughout the edition">
-                  <h3 className={s.bandLabel}>Ongoing</h3>
-                  <Grid as="ul" minChildWidth="300px" gap="md" listStyle="none">
-                    {onView.map((run) => {
-                      const runEnd = run.endDate ?? run.startDate
-                      const past = liveClock !== null && runEnd < liveClock
-                      // Every run carries its own span — runs cover different
-                      // stretches of the edition, so a shared band range read as
-                      // "everything runs these dates" (ZSB-48).
-                      const runRange = formatShortRange(run.startDate, runEnd)
-                      return (
-                        <li key={run.key} className={s.run} data-past={past}>
-                          {run.image && (
-                            <div className={s.runMedia}>
-                              <Figure
-                                image={run.image}
-                                sizes="(min-width: 1280px) 360px, (min-width: 768px) 45vw, 90vw"
-                              />
-                            </div>
-                          )}
-                          <Stack className={s.runContent} gap="sm">
-                            <TypeChips types={run.types} />
-                            <h4 className={s.runName}>
-                              <Link
-                                className={s.nameButton}
-                                href={`/editions/${year}/events/${run.slug}`}
-                                scroll={false}
-                              >
-                                {run.name}
-                              </Link>
-                            </h4>
-                            <VenueLine venue={run.venue} />
-                            <Wrap className={s.runFoot} gap="md">
-                              {runRange && <span className={s.runRange}>{runRange}</span>}
-                            </Wrap>
-                          </Stack>
-                        </li>
-                      )
-                    })}
-                  </Grid>
-                </section>
+                <>
+                  <Divider />
+                  <section className={s.band} aria-label="Ongoing throughout the edition">
+                    <h3 className={s.bandLabel}>Ongoing</h3>
+                    <Grid as="ul" minChildWidth="300px" gap="md" listStyle="none">
+                      {onView.map((run) => {
+                        const runEnd = run.endDate ?? run.startDate
+                        const past = liveClock !== null && runEnd < liveClock
+                        // Every run carries its own span — runs cover different
+                        // stretches of the edition, so a shared band range read as
+                        // "everything runs these dates" (ZSB-48).
+                        const runRange = formatShortRange(run.startDate, runEnd)
+                        return (
+                          <li key={run.key} className={s.run} data-past={past}>
+                            {run.image && (
+                              <div className={s.runMedia}>
+                                <Figure
+                                  image={run.image}
+                                  sizes="(min-width: 1280px) 360px, (min-width: 768px) 45vw, 90vw"
+                                />
+                              </div>
+                            )}
+                            <Stack className={s.runContent} gap="sm">
+                              <TypeChips types={run.types} />
+                              <h4 className={s.runName}>
+                                <Link
+                                  className={s.nameButton}
+                                  href={`/editions/${year}/events/${run.slug}`}
+                                  scroll={false}
+                                >
+                                  {run.name}
+                                </Link>
+                              </h4>
+                              <VenueLine venue={run.venue} />
+                              <Wrap className={s.runFoot} gap="md">
+                                {runRange && <span className={s.runRange}>{runRange}</span>}
+                              </Wrap>
+                            </Stack>
+                          </li>
+                        )
+                      })}
+                    </Grid>
+                  </section>
+                </>
               )}
 
               {days.length > 0 && (

@@ -113,7 +113,6 @@ export const calendar = sva({
     band: {
       marginBottom: '2xl',
       paddingTop: 'lg',
-      borderTop: 'hairline',
     },
     bandLabel: {
       fontFamily: 'body',

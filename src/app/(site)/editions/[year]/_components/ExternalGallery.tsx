@@ -1,6 +1,6 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
-import { Center, Container, Grid, HStack, Stack } from 'styled-system/jsx'
+import { Center, Container, Divider, Grid, HStack, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
@@ -62,6 +62,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
 
                 <p className={styles.description}>{description}</p>
 
+                <Divider mt="md" />
                 <HStack className={styles.cta} gap="md">
                   <span className={styles.ctaLabel}>{linkLabel}</span>
                   <span aria-hidden>

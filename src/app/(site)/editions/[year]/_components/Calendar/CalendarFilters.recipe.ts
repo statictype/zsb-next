@@ -15,7 +15,6 @@ export const calendarFilters = sva({
     filters: {
       marginBottom: '2xl',
       paddingTop: 'lg',
-      borderTop: 'hairline',
     },
 
     bar: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' },

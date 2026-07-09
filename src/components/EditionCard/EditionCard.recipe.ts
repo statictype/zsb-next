@@ -64,9 +64,7 @@ export const editionCard = sva({
       padding: 'md',
     },
     meta: {
-      marginTop: 'sm',
       paddingTop: 'md',
-      borderTop: 'hairline',
       color: 'body',
     },
     details: {

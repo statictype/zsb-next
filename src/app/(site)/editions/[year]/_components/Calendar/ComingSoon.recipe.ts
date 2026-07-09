@@ -7,7 +7,6 @@ export const comingSoon = sva({
 
     notice: {
       paddingTop: 'xl',
-      borderTop: 'hairline',
     },
     headline: {
       fontFamily: 'display',

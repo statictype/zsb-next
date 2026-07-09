@@ -1,7 +1,6 @@
 import { RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
-import { cx } from 'styled-system/css'
-import { Container, Stack, Wrap } from 'styled-system/jsx'
+import { Container, Divider, Stack, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Accordion } from '@/components/ui/Accordion/Accordion'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -22,34 +21,38 @@ const styles = venuesView()
 // modal (reusing ZSB-40).
 export function VenuesView({ year, sections }: { year: number; sections: VenueTypeSection[] }) {
   return (
-    <section className={cx(section(), styles.section)} aria-labelledby="venues-heading">
-      <Container>
-        <header className={styles.header}>
-          <SectionHeading id="venues-heading" flush>
-            Where it happens
-          </SectionHeading>
-          <p className={styles.lede}>The {year} programme, venue by venue.</p>
-        </header>
+    <>
+      <Divider />
+      <section className={section()} aria-labelledby="venues-heading">
+        <Container>
+          <header className={styles.header}>
+            <SectionHeading id="venues-heading" flush>
+              Where it happens
+            </SectionHeading>
+            <p className={styles.lede}>The {year} programme, venue by venue.</p>
+          </header>
 
-        {sections.map((section) => (
-          <div key={section.type} className={styles.group}>
-            <h3 className={styles.groupTitle}>{section.type}</h3>
-            <Accordion
-              id={`venues-${slugify(section.type)}`}
-              className={styles.venues}
-              triggerTypography="display"
-              items={section.venues.map((venue) => ({
-                id: slugify(venue.name),
-                trigger: venue.name,
-                triggerHeading: 'h4',
-                meta: `${venue.totalEvents} ${venue.totalEvents === 1 ? 'event' : 'events'}`,
-                content: <VenueDetails venue={venue} year={year} />,
-              }))}
-            />
-          </div>
-        ))}
-      </Container>
-    </section>
+          {sections.map((section) => (
+            <div key={section.type} className={styles.group}>
+              <h3 className={styles.groupTitle}>{section.type}</h3>
+              <Divider />
+              <Accordion
+                id={`venues-${slugify(section.type)}`}
+                className={styles.venues}
+                triggerTypography="display"
+                items={section.venues.map((venue) => ({
+                  id: slugify(venue.name),
+                  trigger: venue.name,
+                  triggerHeading: 'h4',
+                  meta: `${venue.totalEvents} ${venue.totalEvents === 1 ? 'event' : 'events'}`,
+                  content: <VenueDetails venue={venue} year={year} />,
+                }))}
+              />
+            </div>
+          ))}
+        </Container>
+      </section>
+    </>
   )
 }
 
