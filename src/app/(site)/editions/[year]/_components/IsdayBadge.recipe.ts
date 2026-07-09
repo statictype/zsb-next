@@ -10,7 +10,7 @@ import { sva } from 'styled-system/css'
 export const isdayBadge = sva({
   slots: ['card', 'inner', 'title', 'subtitle', 'pill', 'pillDot'],
   base: {
-    card: { width: '100%' },
+    card: { width: 'full' },
     inner: {
       position: 'relative',
       display: 'flex',
@@ -18,7 +18,7 @@ export const isdayBadge = sva({
       alignItems: 'center',
       justifyContent: 'center',
       textAlign: 'center',
-      height: '100%',
+      height: 'full',
       paddingBlock: 'lg',
       paddingInline: 'md',
     },
@@ -27,7 +27,7 @@ export const isdayBadge = sva({
       fontWeight: 'light',
       fontSize: 'xl',
       color: 'action',
-      letterSpacing: '-0.5px',
+      letterSpacing: 'tight',
       lineHeight: 'heading',
     },
     subtitle: {
@@ -39,7 +39,7 @@ export const isdayBadge = sva({
       marginTop: 'xs',
     },
     // Tweaks layered onto <Badge tone="outline"> via className.
-    pill: { marginTop: 'md', gap: '6px' },
-    pillDot: { width: '6px', height: '6px', background: 'highlight', borderRadius: 'circle' },
+    pill: { marginTop: 'md', gap: 'sm' },
+    pillDot: { width: '[6px]', height: '[6px]', background: 'highlight', borderRadius: 'circle' },
   },
 })

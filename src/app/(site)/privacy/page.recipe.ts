@@ -12,7 +12,7 @@ export const privacyPage = sva({
   slots: ['article', 'settingsRow', 'updated'],
   base: {
     article: {
-      maxWidth: '70ch',
+      maxWidth: 'measure',
       display: 'flex',
       flexDirection: 'column',
       gap: 'md',
@@ -22,7 +22,7 @@ export const privacyPage = sva({
         fontSize: 'xl',
         lineHeight: 'display',
         color: 'heading',
-        letterSpacing: '-0.5px',
+        letterSpacing: 'tight',
         marginTop: 'lg',
       },
       '& h2:first-child': { marginTop: '0' },
@@ -41,7 +41,7 @@ export const privacyPage = sva({
         flexDirection: 'column',
         gap: 'sm',
       },
-      '& li': { paddingLeft: 'md', borderLeft: '2px solid token(colors.divider)' },
+      '& li': { paddingLeft: 'md', borderLeft: '[2px solid token(colors.divider)]' },
     },
     settingsRow: {
       marginTop: 'xs',

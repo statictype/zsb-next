@@ -3,8 +3,8 @@ import { cx } from 'styled-system/css'
 import { type ButtonVariantProps, button } from 'styled-system/recipes'
 
 /**
- * Button — the one action primitive (ADR 0019): primary | secondary | ghost |
- * text | icon × size. The `text` variant absorbs the retired `textLink`; `icon`
+ * Button — the one action primitive (ADR 0019): primary | secondary | link |
+ * icon × size. The `link` variant absorbs the retired `textLink`; `icon`
  * absorbs the retired `IconButton`.
  *
  * Renders a `<button>` by default. With **`asChild`** it renders *as* its single

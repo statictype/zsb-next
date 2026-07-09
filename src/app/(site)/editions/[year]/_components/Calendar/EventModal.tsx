@@ -3,17 +3,18 @@
 import { RiArrowLeftLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
 import { Figure } from '@/components/Figure/Figure'
-import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
 import { eventWhenLabel } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 import { eventModal } from './EventModal.recipe'
+import { TypeChips } from './TypeChips'
 import { shareCopied, shareIcon, useShareLink } from './useShareLink'
+import { VenueLine } from './VenueLine'
 
-// The Back/Share controls are plain ghost <Button>s floating over the dialog
-// top; the click-through bar (`controls` slot) re-enables pointer-events on its
-// buttons, so nothing is layered on top of the ghost variant here.
+// The Back/Share controls are plain secondary <Button>s floating over the
+// dialog top; the click-through bar (`controls` slot) re-enables
+// pointer-events on its buttons, so nothing is layered on top of them here.
 
 // The full picture for a single event, opened from the calendar (ZSB-40). A
 // dialog over the schedule: everything the agenda row summarises — the whole
@@ -66,20 +67,9 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
         <p className={s.when}>{eventWhenLabel(event)}</p>
         <h2 className={s.name}>{event.name}</h2>
 
-        {event.types.length > 0 && (
-          <ul className={s.types}>
-            {event.types.map((t) => (
-              <li key={t.slug}>
-                <Badge tone="outline">{t.title}</Badge>
-              </li>
-            ))}
-          </ul>
-        )}
+        <TypeChips types={event.types} className={s.types} />
 
-        <p className={s.venue}>
-          <span className={s.venueName}>{event.venue.name}</span>
-          {event.venue.partOf && <span className={s.venueParent}>{event.venue.partOf.name}</span>}
-        </p>
+        <VenueLine venue={event.venue} size="md" className={s.venue} />
 
         {event.description && <p className={s.description}>{event.description}</p>}
 

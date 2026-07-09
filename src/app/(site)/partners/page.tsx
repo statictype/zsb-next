@@ -8,6 +8,7 @@ import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
+import { PillarGrid } from '@/components/PillarGrid/PillarGrid'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata } from '@/lib/seo'
@@ -22,10 +23,6 @@ export const generateMetadata = makePageMetadata(getPartnersPage, {
   title: 'Partners',
   path: '/partners',
 })
-
-function pad(n: number): string {
-  return String(n).padStart(2, '0')
-}
 
 export default function PartnersRoute() {
   return (
@@ -92,10 +89,11 @@ function PartnersShell({
           <div className={styles.inner}>
             <div className={styles.whySculptureTop}>
               <div>
-                <Eyebrow rule className={css({ marginBottom: '32px' })}>
+                <Eyebrow rule className={css({ marginBottom: 'xl' })}>
                   {whyEyebrow}
                 </Eyebrow>
-                <SectionHeading flush className={css({ maxWidth: '700px' })}>
+                {/* Wider than prose measure so the editorial heading keeps its intended two-line rhythm. */}
+                <SectionHeading flush className={css({ maxWidth: '[700px]' })}>
                   {whyTitle}
                 </SectionHeading>
               </div>
@@ -108,17 +106,13 @@ function PartnersShell({
               </div>
             </div>
 
-            <div className={styles.whyGrid}>
-              {whyPoints.map((point, i) => (
-                <article key={point.title} className={styles.whyPillar}>
-                  <div className={styles.whyPillarHead}>
-                    <span className={styles.whyPillarNum}>{pad(i + 1)}</span>
-                    <h3 className={styles.whyPillarTitle}>{point.title}</h3>
-                  </div>
-                  <p className={styles.whyPillarBody}>{point.text}</p>
-                </article>
-              ))}
-            </div>
+            <PillarGrid
+              items={whyPoints.map((point) => ({ title: point.title, body: point.text }))}
+              numbered
+              titleLevel="h3"
+              rhythm="pair"
+              titleScale="responsive"
+            />
           </div>
         </section>
 

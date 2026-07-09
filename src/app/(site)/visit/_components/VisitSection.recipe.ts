@@ -3,44 +3,18 @@ import { sva } from 'styled-system/css'
 /**
  * VisitSection — co-located slot recipe.
  *
- * Dark split layout: framed venue image (with scattered decorative pixels) +
- * an info column (address, hours, amenity strip, transport list, directions
- * CTA). Section padding is split the legacy way — vertical rhythm on the
- * outer `section`, the content rail + inline padding on `inner` — rather than
- * the `section` layerStyle, to avoid double inline padding.
+ * Dark split layout shell for the Visit lead section. The block recipes below
+ * keep image, info, amenity, and transport styling separate without splitting
+ * this small page into tiny JSX components.
  *
  * `infoValue`/`transportFrom` keep the legacy raw-gray exceptions (bright body
  * on dark, lead-style emphasis). The unused `eyebrow`/`headline` rules were
  * dropped, not ported.
  */
 export const visitSection = sva({
-  slots: [
-    'section',
-    'inner',
-    'splitLayout',
-    'imageBlock',
-    'imageFrame',
-    'image',
-    'pixel',
-    'content',
-    'infoRow',
-    'infoBlock',
-    'infoIcon',
-    'infoLabel',
-    'infoValue',
-    'practicalStrip',
-    'practicalItem',
-    'practicalIcon',
-    'transportList',
-    'transportLine',
-    'transportIcon',
-    'transportFrom',
-    'transportDot',
-    'transportWalk',
-    'cta',
-  ],
+  slots: ['section', 'inner', 'splitLayout', 'content', 'cta'],
   base: {
-    section: { width: '100%', paddingBlock: 'sectionY' },
+    section: { width: 'full', paddingBlock: 'sectionY' },
     inner: { layerStyle: 'sectionInner' },
 
     splitLayout: {
@@ -51,33 +25,43 @@ export const visitSection = sva({
       lg: { gridTemplateColumns: '5fr 6fr', gap: 'gridGap' },
     },
 
-    imageBlock: {
-      position: 'relative',
-      padding: '24px',
-      maxWidth: '500px',
+    content: { display: 'flex', flexDirection: 'column', gap: 'lg' },
+
+    cta: { paddingTop: 'md' },
+  },
+})
+
+export const visitImageFrame = sva({
+  slots: ['block', 'frame', 'image'],
+  base: {
+    block: {
+      padding: 'lg',
+      maxWidth: 'narrowColumn',
       marginInline: 'auto',
-      lg: { maxWidth: 'none', marginInline: '0' },
+      lg: { maxWidth: '[none]', marginInline: '0' },
     },
-    imageFrame: {
+    frame: {
       position: 'relative',
       aspectRatio: '4 / 5',
       overflow: 'hidden',
     },
     image: { objectFit: 'cover', background: 'gray.900' },
-    pixel: { position: 'absolute', pointerEvents: 'none' },
+  },
+})
 
-    content: { display: 'flex', flexDirection: 'column', gap: 'lg' },
-
-    infoRow: {
+export const visitInfoSummary = sva({
+  slots: ['row', 'block', 'icon', 'label', 'value'],
+  base: {
+    row: {
       display: 'flex',
       flexDirection: 'column',
       gap: 'lg',
       flexWrap: 'wrap',
       md: { flexDirection: 'row', gap: 'xl' },
     },
-    infoBlock: { display: 'flex', flexDirection: 'column', gap: '4px' },
-    infoIcon: { color: 'action', marginBottom: '4px' },
-    infoLabel: {
+    block: { display: 'flex', flexDirection: 'column', gap: 'xs' },
+    icon: { color: 'action', marginBottom: 'xs' },
+    label: {
       fontFamily: 'body',
       fontSize: 'xs',
       textTransform: 'uppercase',
@@ -85,7 +69,7 @@ export const visitSection = sva({
       color: 'muted',
       fontWeight: 'semibold',
     },
-    infoValue: {
+    value: {
       fontFamily: 'body',
       fontSize: 'sm',
       // exception: bright body on dark, lead-style emphasis
@@ -94,8 +78,13 @@ export const visitSection = sva({
       // Joined multi-line values (opening hours) render their own '\n' breaks.
       whiteSpace: 'pre-line',
     },
+  },
+})
 
-    practicalStrip: {
+export const amenityStrip = sva({
+  slots: ['strip', 'item', 'icon'],
+  base: {
+    strip: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
       gap: 'md',
@@ -103,10 +92,10 @@ export const visitSection = sva({
       borderTop: 'hairline',
       md: { display: 'flex', flexWrap: 'wrap' },
     },
-    practicalItem: {
+    item: {
       display: 'flex',
       alignItems: 'center',
-      gap: '6px',
+      gap: 'sm',
       fontFamily: 'body',
       fontSize: 'xs',
       color: 'body',
@@ -114,27 +103,30 @@ export const visitSection = sva({
       letterSpacing: 'wide',
       lg: { fontSize: '2xs' },
     },
-    practicalIcon: { color: 'muted' },
+    icon: { color: 'muted' },
+  },
+})
 
-    transportList: { display: 'flex', flexDirection: 'column', gap: '6px' },
-    transportLine: {
+export const transportList = sva({
+  slots: ['list', 'line', 'icon', 'from', 'dot', 'walk'],
+  base: {
+    list: { display: 'flex', flexDirection: 'column', gap: 'sm' },
+    line: {
       display: 'flex',
       alignItems: 'center',
-      gap: '6px',
+      gap: 'sm',
       fontFamily: 'body',
       fontSize: 'xs',
       color: 'body',
       flexWrap: 'wrap',
     },
-    transportIcon: { color: 'muted', flexShrink: 0 },
-    transportFrom: {
+    icon: { color: 'muted', flexShrink: '0' },
+    from: {
       // exception: bright emphasis for city name
       color: 'gray.300',
       fontWeight: 'semibold',
     },
-    transportDot: { color: 'muted' },
-    transportWalk: { color: 'muted' },
-
-    cta: { paddingTop: 'md' },
+    dot: { color: 'muted' },
+    walk: { color: 'muted' },
   },
 })

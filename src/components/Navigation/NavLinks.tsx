@@ -10,10 +10,13 @@ const NAV_ITEMS = [
   { label: 'Artists', href: '/artists' },
 ] as const
 
-/** Exact match for `/`, section-prefix match otherwise (`/editions/2024` lights Editions). */
-function isActive(pathname: string, href: string): boolean {
-  if (href === '/') return pathname === '/'
-  return pathname === href || pathname.startsWith(`${href}/`)
+function isExactPage(pathname: string, href: string): boolean {
+  return pathname === href
+}
+
+function isSectionActive(pathname: string, href: string): boolean {
+  if (href === '/') return isExactPage(pathname, href)
+  return isExactPage(pathname, href) || pathname.startsWith(`${href}/`)
 }
 
 type NavLinksProps = {
@@ -22,7 +25,7 @@ type NavLinksProps = {
 }
 
 /**
- * Pure link list. `pathname: null` renders without aria-current — used as the
+ * Pure link list. `pathname: null` renders without current state — used as the
  * Suspense fallback so the static shell carries the links themselves.
  */
 export function NavLinksList({
@@ -30,24 +33,30 @@ export function NavLinksList({
   className,
   onNavigate,
 }: NavLinksProps & { pathname: string | null }) {
-  return NAV_ITEMS.map((item) => (
-    <Link
-      key={item.href}
-      href={item.href}
-      className={className}
-      aria-current={pathname !== null && isActive(pathname, item.href) ? 'page' : undefined}
-      {...(onNavigate ? { onClick: onNavigate } : {})}
-    >
-      <span data-nav-mask>
-        <span data-nav-label>
-          {item.label}
-          <span aria-hidden data-nav-copy>
+  return NAV_ITEMS.map((item) => {
+    const exactPage = pathname !== null && isExactPage(pathname, item.href)
+    const sectionActive = pathname !== null && isSectionActive(pathname, item.href)
+
+    return (
+      <Link
+        key={item.href}
+        href={item.href}
+        className={className}
+        aria-current={exactPage ? 'page' : undefined}
+        data-active={sectionActive ? true : undefined}
+        {...(onNavigate ? { onClick: onNavigate } : {})}
+      >
+        <span data-nav-mask>
+          <span data-nav-label>
             {item.label}
+            <span aria-hidden data-nav-copy>
+              {item.label}
+            </span>
           </span>
         </span>
-      </span>
-    </Link>
-  ))
+      </Link>
+    )
+  })
 }
 
 /**

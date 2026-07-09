@@ -14,8 +14,8 @@ import { cva } from 'styled-system/css'
 export const sectionHeading = cva({
   base: {
     textStyle: 'sectionTitle',
-    color: 'inherit',
-    textWrap: 'pretty',
+    color: '[inherit]',
+    textWrap: '[pretty]',
     marginBottom: 'xl',
   },
   variants: {

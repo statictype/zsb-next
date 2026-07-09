@@ -9,5 +9,7 @@ export default defineConfig({
   exclude: [],
   jsxFramework: 'react',
   jsxStyleProps: 'none',
+  // Every style value is a token (or a deliberate, [bracketed] exception).
+  strictTokens: true,
   outdir: 'styled-system',
 })

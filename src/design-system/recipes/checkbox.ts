@@ -30,7 +30,7 @@ export const checkbox = defineSlotRecipe({
         borderColor: 'action',
       },
       '&[data-focus-visible]': {
-        outline: '2px solid token(colors.highlight)',
+        outline: 'focus',
         outlineOffset: '2px',
       },
       '& [data-checkbox-count]': {
@@ -47,7 +47,7 @@ export const checkbox = defineSlotRecipe({
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      borderWidth: '1px',
+      borderWidth: 'hairline',
       borderStyle: 'solid',
       borderColor: 'currentColor',
       opacity: 0.5,

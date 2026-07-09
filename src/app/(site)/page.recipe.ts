@@ -9,8 +9,7 @@ import { sva } from 'styled-system/css'
  * the `pageTitle` textStyle + entrance directly (it's not the standard PageHero
  * block — Carousel layout, min-content title). The `.editionBadge` pill →
  * `<Badge>`. Row hovers drive from the `<a>` via `a:hover &` (disabled rows are
- * `<div>`, so they never trigger the colour/arrow shift). Unused `editionsLink`
- * + the empty `.main` are dropped. `--partner-badge-scale` is set per breakpoint.
+ * `<div>`, so they never trigger the colour/arrow shift).
  */
 export const homePage = sva({
   slots: [
@@ -36,27 +35,27 @@ export const homePage = sva({
     'lastEditionMedia',
   ],
   base: {
-    panel: { width: '100%', scrollMarginTop: 'token(sizes.nav)' },
+    panel: { width: 'full', scrollMarginTop: '[token(sizes.nav)]' },
 
+    // Shell = the shared `pageHero` layerStyle (black ground + nav-clearing
+    // top padding + section bottom padding); the flex column, gutter, and
+    // full-viewport min-height are the hero's own additions.
     hero: {
+      layerStyle: 'pageHero',
       position: 'relative',
-      width: '100%',
-      background: 'black',
-      paddingTop: 'calc(token(sizes.nav) + 80px)',
+      width: 'full',
       paddingInline: 'gutter',
-      paddingBottom: '2xl',
       overflow: 'hidden',
-      minHeight: '100svh',
+      minHeight: 'svh',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-start',
-      md: { paddingTop: 'calc(token(sizes.nav) + 120px)', paddingBottom: '3xl' },
     },
     heroInner: {
       position: 'relative',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      width: '100%',
+      width: 'full',
       display: 'flex',
       flexDirection: 'column',
       gap: 'lg',
@@ -71,7 +70,7 @@ export const homePage = sva({
     heroVisual: {
       order: '2',
       position: 'relative',
-      width: '100%',
+      width: 'full',
       lg: { gridColumn: '1 / -1', gridRow: '2' },
     },
     heroPanel: {
@@ -87,9 +86,12 @@ export const homePage = sva({
     // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
     heroTitle: {
       textStyle: 'pageTitle',
-      // Reveal contract is the shared `enter` animation style; delay only here.
-      animationDelay: '0.2s',
-      width: 'min-content',
+      // Entrance owned here, not split across the JSX: the shared `enter`
+      // style plus the title's own delay override sit together, so the
+      // animation-delay winner is legible in one place.
+      animationStyle: 'enter',
+      animationDelay: 'fast',
+      width: '[min-content]',
     },
     heroText: {
       display: 'flex',
@@ -102,54 +104,44 @@ export const homePage = sva({
       order: '3',
       alignSelf: 'center',
       marginTop: 'md',
-      zIndex: '5',
-      '--partner-badge-scale': '2.2',
-      md: { '--partner-badge-scale': '1.8' },
+      zIndex: '10',
       lg: {
         gridColumn: '2',
         gridRow: '1',
         justifySelf: 'end',
         alignSelf: 'start',
         marginTop: '0',
-        '--partner-badge-scale': '1.65',
       },
-      xl: { '--partner-badge-scale': '1.75' },
-      '3xl': { '--partner-badge-scale': '1.85' },
     },
 
     // The editions section shell is `section({ ground: 'dark' })` (composed with
     // the `panel` slot in the component); `editionsHead` + `editionList` are the
     // rails, so they own the gutter.
     editionsHead: {
+      layerStyle: 'sectionInner',
       display: 'flex',
       flexDirection: 'column',
       gap: 'md',
-      maxWidth: 'maxWidth',
-      marginInline: 'auto',
       marginBottom: '2xl',
-      paddingInline: 'gutter',
-      width: '100%',
+      width: 'full',
     },
     editionsSubtext: {
       fontFamily: 'body',
       fontSize: 'sm',
       lineHeight: 'body',
       color: 'body',
-      margin: '0',
-      maxWidth: '60ch',
+      maxWidth: 'measure',
     },
     editionList: {
-      maxWidth: 'maxWidth',
-      marginInline: 'auto',
-      paddingInline: 'gutter',
+      layerStyle: 'sectionInner',
       borderBottom: 'hairline',
-      width: '100%',
+      width: 'full',
     },
     upcomingInner: {
       position: 'relative',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      width: '100%',
+      width: 'full',
       display: 'flex',
       flexDirection: 'column',
       gap: '2xl',
@@ -167,15 +159,14 @@ export const homePage = sva({
       gap: 'lg',
       color: 'heading',
       minWidth: '0',
-      lg: { flex: '1 1 0' },
+      lg: { flex: '[1 1 0]' },
     },
+    // Deltas over the `Eyebrow` recipe base (body/uppercase/wide/muted/xs):
+    // the upcoming lead runs it highlight, a step larger, and heavier.
     upcomingEyebrow: {
-      fontFamily: 'body',
-      fontSize: 'sm',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      fontWeight: 'semibold',
       color: 'highlight',
+      fontSize: 'sm',
+      fontWeight: 'semibold',
     },
     upcomingDates: {
       fontFamily: 'body',
@@ -183,26 +174,19 @@ export const homePage = sva({
       letterSpacing: 'subtle',
       color: 'body',
     },
-    upcomingBadge: { marginTop: 'sm', '--partner-badge-scale': '1.5' },
+    upcomingBadge: { marginTop: 'sm' },
     lastEdition: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
       gap: 'md',
-      width: '100%',
-      maxWidth: '520px',
+      width: 'full',
+      maxWidth: 'narrowColumn',
       paddingTop: 'lg',
       borderTop: 'hairline',
-      lg: { flex: '0 0 42%', maxWidth: '460px', paddingTop: '0', borderTopWidth: '0' },
+      lg: { flex: '[0 0 42%]', maxWidth: '[460px]', paddingTop: '0', borderTop: 'none' },
     },
-    lastEditionLabel: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'muted',
-    },
-    lastEditionMedia: { position: 'relative', width: '100%' },
+    lastEditionLabel: { textStyle: 'metaLabel' },
+    lastEditionMedia: { position: 'relative', width: 'full' },
   },
 })

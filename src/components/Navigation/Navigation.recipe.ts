@@ -5,7 +5,8 @@ import { sva } from 'styled-system/css'
  *
  * Floating logo + pill menu, no top bar. Desktop navigation is a plain nav;
  * mobile placement lives inside the shared fullscreen Dialog. Active state is
- * semantic `aria-current="page"`; the private Ark Swap icon is styled below.
+ * visual `data-active`; exact page state also gets semantic
+ * `aria-current="page"`. The private Ark Swap icon is styled below.
  */
 export const navigation = sva({
   slots: [
@@ -26,34 +27,34 @@ export const navigation = sva({
       position: 'absolute',
       top: 'md',
       left: 'gutter',
-      width: '40px',
-      height: '40px',
+      width: 'navLogoBase',
+      height: 'navLogoBase',
       zIndex: 'nav',
-      md: { top: '24px', width: '48px', height: '48px' },
-      lg: { width: '56px', height: '56px' },
-      xl: { width: '60px', height: '60px' },
+      md: { top: 'navLogoTopMd', width: 'touch', height: 'touch' },
+      lg: { width: 'navLogoLg', height: 'navLogoLg' },
+      xl: { width: 'navLogoXl', height: 'navLogoXl' },
     },
-    logoImg: { width: '100%', height: '100%', objectFit: 'contain', display: 'block' },
+    logoImg: { width: 'full', height: 'full', objectFit: 'contain', display: 'block' },
 
     desktopNav: {
       display: 'none',
       md: {
         display: 'flex',
         position: 'absolute',
-        top: '32px',
+        top: 'navDesktopTop',
         right: 'gutter',
-        gap: 0,
+        gap: '0',
         // Match the logo's z-index so the menu paints above positioned hero
         // content (home/edition heroes are `position: relative`; without this
         // they paint over the z-auto nav and hide the links).
         zIndex: 'nav',
       },
-      lg: { top: '40px' },
+      lg: { top: 'navDesktopTopLg' },
     },
     mobileShell: {
       position: 'relative',
-      width: '100%',
-      height: '100%',
+      width: 'full',
+      height: 'full',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -77,27 +78,31 @@ export const navigation = sva({
       color: 'muted',
       border: 'hairline',
       letterSpacing: 'label',
-      transition:
-        'background-color {durations.fast} {easings.quint}, color {durations.fast} {easings.quint}',
-      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
+      transitionProperty: 'colors',
+      transitionDuration: 'fast',
+      transitionTimingFunction: 'quint',
+      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
       // Label roll — the muted label exits up while an identical pink copy
       // enters from below, clipped by a mask snug to the line box so nothing
       // leaks into the link's padding.
       '& [data-nav-mask]': { display: 'block', overflow: 'hidden' },
       '& [data-nav-label]': {
+        '--nav-roll-offset': 'token(sizes.navRollOffset)',
         display: 'block',
         position: 'relative',
-        transition: 'transform {durations.normal} {easings.expo}',
-        _motionReduce: { transition: 'none' },
+        transitionProperty: 'common',
+        transitionDuration: 'normal',
+        transitionTimingFunction: 'expo',
+        _motionReduce: { transitionDuration: 'instant' },
       },
       '& [data-nav-copy]': {
         position: 'absolute',
-        top: '110%',
-        left: 0,
+        top: 'var(--nav-roll-offset)',
+        left: '0',
         color: 'action',
       },
       '&:hover [data-nav-label], &:focus-visible [data-nav-label]': {
-        transform: 'translateY(-110%)',
+        transform: 'translateY(calc(var(--nav-roll-offset) * -1))',
       },
       _motionReduce: {
         '&:hover [data-nav-label], &:focus-visible [data-nav-label]': { transform: 'none' },
@@ -105,62 +110,59 @@ export const navigation = sva({
       },
       // Active tab gets the highlight fill; siblings stay outlined. The roll
       // is suppressed — hover is a preview of elsewhere, not of here.
-      '&[aria-current=page]': { background: 'highlight', color: 'black' },
-      '&[aria-current=page]:hover': { background: 'highlight', color: 'black' },
-      '&[aria-current=page]:hover [data-nav-label], &[aria-current=page]:focus-visible [data-nav-label]':
+      '&[data-active=true]': { background: 'highlight', color: 'black' },
+      '&[data-active=true]:hover': { background: 'highlight', color: 'black' },
+      '&[data-active=true]:hover [data-nav-label], &[data-active=true]:focus-visible [data-nav-label]':
         { transform: 'none' },
     },
     desktopNavLink: {
       fontSize: 'sm',
-      padding: '8px 20px',
-      marginRight: '-1px',
+      paddingBlock: 'sm',
+      paddingInline: 'md',
+      marginRight: 'hairlineOverlap',
       '&:last-child': { marginRight: '0' },
     },
     mobileNavLink: {
       fontSize: 'lg',
-      padding: '12px 32px',
+      paddingBlock: 'md',
+      paddingInline: 'xl',
     },
 
-    // Hamburger — the <button> is the full 48px touch surface (transparent); the
+    // Hamburger — the <button> is the full touch-size surface (transparent); the
     // visible mark is a smaller dark box drawn by ::before, so the tap target
     // stays generous while the chrome reads compact.
     toggle: {
-      display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '5px',
+      gap: 'xs',
       position: 'fixed',
       top: 'md',
       right: 'gutter',
-      width: '48px',
-      height: '48px',
-      background: 'transparent',
-      border: 'none',
-      cursor: 'pointer',
       zIndex: 'navToggle',
-      padding: 0,
       WebkitTapHighlightColor: 'transparent',
       _before: {
         content: '""',
         position: 'absolute',
-        inset: '6px',
-        zIndex: -1,
+        inset: 'sm',
+        zIndex: '0',
         background: 'black',
         border: 'hairline',
-        transition: 'border-color {durations.fast} {easings.quint}',
+        pointerEvents: 'none',
+        transitionProperty: 'colors',
+        transitionDuration: 'fast',
+        transitionTimingFunction: 'quint',
       },
+      '& > *': { position: 'relative', zIndex: '1' },
       color: 'white',
       _hover: { color: 'action' },
       '&:focus-visible::before': {
-        outline: '2px solid token(colors.action)',
-        outlineOffset: '2px',
+        outline: 'focus',
+        outlineOffset: 'xs',
       },
       '&[aria-expanded=true]': { color: 'highlight' },
       md: { display: 'none' },
     },
-    dialogLogo: { zIndex: 1 },
-    dialogToggle: { zIndex: 1, md: { display: 'flex' } },
+    dialogLogo: { zIndex: '1' },
+    dialogToggle: { zIndex: '1', md: { display: 'inline-flex' } },
   },
 })
 
@@ -169,8 +171,8 @@ export const navigationSwap = sva({
   slots: ['root', 'indicator'],
   base: {
     root: {
-      width: '24px',
-      height: '24px',
+      width: 'navIcon',
+      height: 'navIcon',
       placeItems: 'center',
       '& [data-type]': {
         opacity: 0,
@@ -180,23 +182,24 @@ export const navigationSwap = sva({
       },
     },
     indicator: {
-      width: '24px',
-      height: '24px',
+      width: 'navIcon',
+      height: 'navIcon',
       alignItems: 'center',
       justifyContent: 'center',
-      color: 'currentColor',
-      transition: 'opacity',
+      color: 'current',
+      transitionProperty: 'common',
       transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
       '&[hidden]': { display: 'inline-flex!' },
-      '&[data-type=off]': { flexDirection: 'column', gap: '4px' },
+      '&[data-type=off]': { flexDirection: 'column', gap: 'xs' },
       '&[data-type=off] > span': {
         display: 'block',
-        width: '18px',
-        height: '2px',
-        background: 'currentColor',
+        width: 'navGlyph',
+        height: 'navGlyphStroke',
+        background: 'current',
       },
-      _motionReduce: { transition: 'none' },
+      '& svg': { width: 'full', height: 'full' },
+      _motionReduce: { transitionDuration: 'instant' },
     },
   },
 })

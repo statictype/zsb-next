@@ -1,7 +1,8 @@
 'use client'
 
-import Image, { type ImageProps } from 'next/image'
+import Image from 'next/image'
 import { useState } from 'react'
+import type { FigurePassthroughProps } from '@/components/Figure/Figure'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 
 /**
@@ -13,7 +14,7 @@ import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
  * + state, hence a client boundary). The placeholder is a local public asset, so
  * it still resolves even when remote image optimization is the thing failing.
  */
-type FallbackImageProps = Pick<ImageProps, 'className' | 'priority' | 'draggable' | 'style'> & {
+type FallbackImageProps = FigurePassthroughProps & {
   src: string
   alt: string
   sizes: string

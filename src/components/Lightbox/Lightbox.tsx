@@ -3,18 +3,24 @@
 import { RiArrowLeftLine, RiArrowRightLine, RiCloseLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { cx } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
+import { token } from 'styled-system/tokens'
+import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { skeleton } from '@/components/skeleton'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
+import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { lightbox as lightboxRecipe } from './Lightbox.recipe'
 
 export interface LightboxImage {
   src: string
-  caption: string
+  caption?: string
 }
 
-const SIZES = '(min-width: 768px) calc(100vw - 160px), 90vw'
+// Mirrors `Lightbox.recipe.ts`'s frame geometry (`lightboxFrameWidth` and two
+// `lightboxNavColumn`s) so the browser's image selection agrees with the
+// frame's actual rendered width.
+const SIZES = `(min-width: ${token('sizes.breakpoint-md')}) calc(100vw - (${token('sizes.lightboxNavColumn')} * 2)), ${token('sizes.lightboxFrameWidth')}`
 
 interface LightboxProps {
   images: LightboxImage[]
@@ -35,11 +41,13 @@ interface DragState {
   axis: 'h' | 'v' | null
 }
 
-const AXIS_LOCK_THRESHOLD = 8
 const SWIPE_NAV_THRESHOLD_RATIO = 0.2
 const SWIPE_NAV_MAX = 80
 const SWIPE_CLOSE_THRESHOLD_RATIO = 0.25
 const SWIPE_CLOSE_MAX = 150
+// Vertical drag distance (px) over which the backdrop/image fully fades
+// while dragging down to dismiss.
+const VERTICAL_FADE_DISTANCE = 300
 
 /** The one copy of the wrap-around math — arrows, arrow keys, swipe and the
  *  preload window all step through here. */
@@ -88,6 +96,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
 
   const current = images[displayIndex]
   if (!current) return null
+  const caption = current.caption ?? ''
 
   const loaded = loadedSrc === current.src
 
@@ -121,7 +130,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
     if (!d.axis) {
       const ax = Math.abs(d.dx)
       const ay = Math.abs(d.dy)
-      if (ax > AXIS_LOCK_THRESHOLD || ay > AXIS_LOCK_THRESHOLD) {
+      if (ax > POINTER_DRAG_TOLERANCE_PX || ay > POINTER_DRAG_TOLERANCE_PX) {
         d.axis = ax > ay ? 'h' : 'v'
         setIsDragging(true)
       } else {
@@ -153,13 +162,14 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
     setDrag({ x: 0, y: 0 })
   }
 
-  const verticalProgress = Math.min(1, drag.y / 300)
+  const verticalProgress = Math.min(1, drag.y / VERTICAL_FADE_DISTANCE)
   const backdropAlpha = 0.95 * (1 - verticalProgress * 0.5)
+  const normal = token('durations.normal')
   const frameStyle = {
     transform: `translate3d(${drag.x}px, ${drag.y}px, 0)`,
     transition: isDragging
       ? 'none'
-      : 'transform var(--durations-normal) var(--easings-expo), opacity var(--durations-normal) var(--easings-quint)',
+      : `transform ${normal} ${token('easings.expo')}, opacity ${normal} ${token('easings.quint')}`,
     opacity: 1 - verticalProgress * 0.4,
   }
 
@@ -196,7 +206,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
           <Image
             key={current.src}
             src={current.src}
-            alt={current.caption}
+            alt={caption}
             fill
             sizes={SIZES}
             className={s.image}
@@ -207,18 +217,13 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
           />
         </div>
 
-        {current.caption && (
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- caption click only stops propagation so the backdrop doesn't close
-          <div className={s.caption} onClick={stop}>
-            {current.caption}
-          </div>
-        )}
+        {caption && <Eyebrow className={s.caption}>{caption}</Eyebrow>}
 
         {images.length > 1 && (
           <>
             <Button
               variant="icon"
-              className={cx(s.navPrev)}
+              className={cx(s.nav, css({ left: '0' }))}
               onClick={(e) => {
                 e.stopPropagation()
                 onPrev()
@@ -229,7 +234,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
             </Button>
             <Button
               variant="icon"
-              className={cx(s.navNext)}
+              className={cx(s.nav, css({ right: '0' }))}
               onClick={(e) => {
                 e.stopPropagation()
                 onNext()

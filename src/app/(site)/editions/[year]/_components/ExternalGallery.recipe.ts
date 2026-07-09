@@ -45,19 +45,18 @@ export const externalGallery = sva({
     count: {
       display: 'flex',
       alignItems: 'center',
-      gap: '12px',
+      gap: 'md',
       fontFamily: 'body',
       fontSize: 'sm',
       color: 'muted',
       textTransform: 'uppercase',
       letterSpacing: 'label',
-      _before: { content: '""', width: '40px', height: '1px', background: 'divider' },
     },
 
     card: {
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
+      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
     },
     cardInner: {
       display: 'grid',
@@ -80,8 +79,7 @@ export const externalGallery = sva({
       fontSize: 'base',
       lineHeight: 'body',
       color: 'body',
-      maxWidth: '50ch',
-      margin: '0',
+      maxWidth: 'measure',
     },
 
     cta: {
@@ -105,12 +103,12 @@ export const externalGallery = sva({
       fontFamily: 'body',
       fontSize: '2xs',
       textTransform: 'lowercase',
-      letterSpacing: '0.5px',
+      letterSpacing: 'subtle',
       color: 'muted',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      maxWidth: '100%',
+      maxWidth: 'full',
       '@media (max-width: 540px)': { display: 'none' },
     },
 
@@ -123,10 +121,11 @@ export const externalGallery = sva({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '420px',
+        minHeight: '[420px]',
         padding: '2xl',
         borderLeft: 'hairline',
-        background: 'rgb(255 255 255 / 0.015)',
+        // Barely-there lift for the plate panel.
+        background: '[rgb(255 255 255 / 0.015)]',
       },
     },
     plate: {
@@ -139,19 +138,19 @@ export const externalGallery = sva({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '4px',
+        gap: 'xs',
         fontFamily: 'display',
-        lineHeight: '1',
+        lineHeight: 'display',
         textTransform: 'uppercase',
       },
       '& [data-part="zsb"]': {
-        fontSize: 'clamp(56px, 7vw, 104px)',
-        letterSpacing: '-2px',
+        fontSize: '[clamp(56px, 7vw, 104px)]',
+        letterSpacing: '[-2px]',
         color: 'white',
       },
       '& [data-part="year"]': {
-        fontSize: 'clamp(36px, 4.5vw, 64px)',
-        letterSpacing: '-1px',
+        fontSize: '[clamp(36px, 4.5vw, 64px)]',
+        letterSpacing: '[-1px]',
         color: 'action',
       },
       '& [data-part="meta"]': {

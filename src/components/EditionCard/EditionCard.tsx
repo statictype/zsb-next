@@ -11,11 +11,12 @@ import { editionCard } from './EditionCard.recipe'
 
 /** The slice of `Edition` the archive card reads. Derived with `Pick` so it
  *  can't drift from the domain type — a fetched `Edition` satisfies it
- *  structurally and passes straight through. `dateTape` already composes
- *  "date · venue", so the card doesn't need `venueLine` separately. */
+ *  structurally and passes straight through. Both `dateTape` (composed
+ *  "date · venue") and `venueLine` are read: the tape gives the date, the
+ *  line gives the venue directly instead of re-parsing it back out. */
 export type EditionCardData = Pick<
   Edition,
-  'year' | 'theme' | 'themeHighlight' | 'dateTape' | 'heroImage' | 'thumbImage'
+  'year' | 'theme' | 'themeHighlight' | 'dateTape' | 'venueLine' | 'heroImage' | 'thumbImage'
 >
 
 /** Bound to the recipe's variants: renaming or removing a size there
@@ -47,9 +48,9 @@ export function EditionCard({
   className,
 }: EditionCardProps) {
   const styles = editionCard({ size })
-  // `dateTape` is composed as "date · venue"; keep the venue name intact as
-  // one wrap unit so a narrow card breaks before it, not inside it.
-  const [date, venue] = edition.dateTape.split(' · ')
+  // `dateTape` composes "date · venue"; split off just the date and read
+  // `venueLine` directly for the venue, rather than re-parsing it back out.
+  const date = edition.dateTape.split(' · ')[0]
 
   return (
     <Card as={Link} href={href} ground="onDark" interactive className={cx(styles.root, className)}>
@@ -74,9 +75,9 @@ export function EditionCard({
         />
         <div className={styles.meta}>
           <span className={styles.details}>
-            {venue ? (
+            {edition.venueLine ? (
               <>
-                {date} · <span className={styles.venue}>{venue}</span>
+                {date} · <span className={styles.venue}>{edition.venueLine}</span>
               </>
             ) : (
               edition.dateTape

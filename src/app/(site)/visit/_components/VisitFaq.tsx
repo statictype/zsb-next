@@ -27,7 +27,8 @@ export function VisitFaq({ entries }: VisitFaqProps) {
           className={s.list}
           items={entries.map((entry) => ({
             id: entry.question,
-            trigger: <h3>{entry.question}</h3>,
+            trigger: entry.question,
+            triggerHeading: 'h3',
             content: <p className={s.answer}>{entry.answer}</p>,
           }))}
         />

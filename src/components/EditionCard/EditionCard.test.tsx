@@ -8,6 +8,7 @@ describe('EditionCard', () => {
     theme: 'the weight of light',
     themeHighlight: 'light',
     dateTape: '10–20 May 2026 · Combinatul Fondului Plastic',
+    venueLine: 'Combinatul Fondului Plastic',
     heroImage: { src: '/img/hero.jpg', alt: 'Hero' },
   }
 

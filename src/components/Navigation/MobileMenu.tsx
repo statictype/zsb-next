@@ -26,6 +26,7 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
     <>
       <Button
         variant="icon"
+        size="touch"
         className={s.toggle}
         aria-label={isOpen ? 'Close navigation' : 'Open navigation'}
         aria-expanded={isOpen}
@@ -48,6 +49,7 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
           </div>
           <Button
             variant="icon"
+            size="touch"
             className={cx(s.toggle, s.dialogToggle)}
             aria-label="Close navigation"
             aria-expanded={true}
@@ -86,7 +88,7 @@ function NavigationIcon({ open }: { open: boolean }) {
         <span />
       </ArkSwap.Indicator>
       <ArkSwap.Indicator type="on" className={icon.indicator}>
-        <RiCloseLine size={24} />
+        <RiCloseLine />
       </ArkSwap.Indicator>
     </ArkSwap.Root>
   )

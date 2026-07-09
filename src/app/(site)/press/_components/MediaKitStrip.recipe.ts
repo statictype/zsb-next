@@ -11,23 +11,25 @@ export const mediaKitStrip = sva({
   base: {
     card: {
       position: 'relative',
-      width: 'clamp(240px, 70vw, 320px)',
+      width: '[clamp(240px, 70vw, 320px)]',
       aspectRatio: '3 / 4',
       // exception: image placeholder, raised-dark surface
       background: 'gray.900',
       border: 'none',
-      padding: 0,
+      padding: '0',
       cursor: 'pointer',
       overflow: 'hidden',
       _hover: { '& img': { transform: 'scale(1.04)' } },
-      md: { width: 'clamp(320px, 38vw, 460px)' },
-      xl: { width: 'clamp(360px, 28vw, 480px)' },
+      md: { width: '[clamp(320px, 38vw, 460px)]' },
+      xl: { width: '[clamp(360px, 28vw, 480px)]' },
     },
     // Drag prevention comes from the Figure's `draggable={false}` attribute.
     image: {
       objectFit: 'cover',
       background: 'gray.900',
-      transition: 'transform {durations.entrance} {easings.expo}',
+      transitionProperty: '[transform]',
+      transitionDuration: 'entrance',
+      transitionTimingFunction: 'expo',
     },
   },
 })

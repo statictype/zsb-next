@@ -9,8 +9,9 @@ import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
 import type { Edition, ExternalGalleryData } from '@/types/edition'
 import { Calendar } from './_components/Calendar/Calendar'
-import { ComingSoon, type SocialLink } from './_components/Calendar/ComingSoon'
+import { ComingSoon } from './_components/Calendar/ComingSoon'
 import { computeFilterOptions } from './_components/Calendar/calendar-filters'
+import type { SocialLink } from './_components/Calendar/FollowLinks'
 import { Credits } from './_components/Credits'
 import { ExternalGallery } from './_components/ExternalGallery'
 import { Hero } from './_components/Hero'
@@ -66,7 +67,7 @@ export async function CachedEdition({
   const externalGallery = EXTERNAL_GALLERY_BY_YEAR[edition.year]
 
   return (
-    <main className={css({ minHeight: '100vh' })}>
+    <main className={css({ minHeight: 'svh' })}>
       <JsonLd data={editionEventJsonLd(edition)} />
       <JsonLd data={editionBreadcrumbJsonLd(edition)} />
 

@@ -1,13 +1,14 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { css, cx } from 'styled-system/css'
+import { cx } from 'styled-system/css'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Badge } from '@/components/ui/Badge/Badge'
+import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { LinkList, LinkListItem } from '@/components/ui/LinkList/LinkList'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import {
@@ -87,13 +88,13 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
           <section id="home" className={cx(styles.panel, styles.hero)}>
             <div className={styles.upcomingInner}>
               <div className={styles.upcomingLead}>
-                <p className={styles.upcomingEyebrow}>Upcoming · ZSB {upcoming.year}</p>
-                <h1 className={cx(styles.heroTitle, css({ animationStyle: 'enter' }))}>
+                <Eyebrow className={styles.upcomingEyebrow}>Upcoming · ZSB {upcoming.year}</Eyebrow>
+                <h1 className={styles.heroTitle}>
                   <AccentSplit text={upcoming.theme} accent={upcoming.themeHighlight} lineBreak />
                 </h1>
                 <p className={styles.upcomingDates}>{upcoming.dateTape}</p>
                 <div className={styles.upcomingBadge}>
-                  <PartnerBadge />
+                  <PartnerBadge size="upcoming" />
                 </div>
               </div>
 
@@ -117,7 +118,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
           <section id="home" className={cx(styles.panel, styles.hero)}>
             <div className={styles.heroInner}>
               <div className={styles.heroPanel}>
-                <h1 className={cx(styles.heroTitle, css({ animationStyle: 'enter' }))}>
+                <h1 className={styles.heroTitle}>
                   <AccentSplit text={title} accent={accent} lineBreak />
                 </h1>
                 <div className={styles.heroText}>
@@ -134,7 +135,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
               </div>
 
               <div className={styles.heroBadge}>
-                <PartnerBadge />
+                <PartnerBadge size="hero" />
               </div>
 
               <div className={styles.heroVisual}>

@@ -1,24 +1,30 @@
 import { RiEmpathizeFill } from '@remixicon/react'
 import Link from 'next/link'
+import { useId } from 'react'
 import { partnerBadge } from './PartnerBadge.recipe'
 
-export function PartnerBadge({ variant = 'light' }: { variant?: 'light' | 'dark' } = {}) {
-  const s = partnerBadge({ variant })
+interface PartnerBadgeProps {
+  size?: 'standard' | 'footer' | 'hero' | 'upcoming' | undefined
+}
+
+export function PartnerBadge({ size = 'standard' }: PartnerBadgeProps = {}) {
+  const s = partnerBadge({ size })
+  const pathId = `partnerCircle-${useId().replaceAll(':', '')}`
 
   return (
     <div className={s.wrap}>
-      <Link href="/partners" className={s.link}>
+      <Link href="/partners" className={s.link} aria-label="Become a partner">
         <div className={s.body}>
           <div className={s.textRing}>
             <svg viewBox="0 0 500 500" aria-hidden="true">
               <defs>
                 <path
-                  id="partnerCircle"
+                  id={pathId}
                   d="M 250,250 m -210,0 a 210,210 0 1,1 420,0 a 210,210 0 1,1 -420,0"
                 />
               </defs>
-              <text fontSize="40" fontWeight="600" letterSpacing="8">
-                <textPath href="#partnerCircle" startOffset="0%">
+              <text>
+                <textPath href={`#${pathId}`} startOffset="0%">
                   SUPPORT THE MISSION • BECOME A PARTNER •{' '}
                 </textPath>
               </text>

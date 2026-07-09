@@ -39,7 +39,8 @@ export function VenuesView({ year, sections }: { year: number; sections: VenueTy
               triggerTypography="display"
               items={section.venues.map((venue) => ({
                 id: slugify(venue.name),
-                trigger: <h4>{venue.name}</h4>,
+                trigger: venue.name,
+                triggerHeading: 'h4',
                 meta: `${venue.totalEvents} ${venue.totalEvents === 1 ? 'event' : 'events'}`,
                 content: <VenueDetails venue={venue} year={year} />,
               }))}

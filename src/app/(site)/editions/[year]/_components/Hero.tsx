@@ -8,9 +8,7 @@ const styles = hero()
 
 // Container positioning only — tuck the theme tape under the nav.
 // (Entrance delay is a prop.)
-const tapeTheme = css({
-  marginLeft: { base: '10px', md: '18px', lg: '-36px', xl: '-40px' },
-})
+const tapeTheme = css({ layerStyle: 'heroTapeNudge' })
 
 interface HeroProps {
   edition: Pick<Edition, 'theme' | 'themeHighlight' | 'heroImage' | 'dateTape'>

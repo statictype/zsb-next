@@ -12,31 +12,17 @@ export const editionRailCard = sva({
   base: {
     root: {
       display: 'inline-flex',
-      height: '100%',
+      height: 'full',
       minHeight: '0',
       padding: '0',
       overflow: 'visible',
-      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '4px' },
+      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
     },
     // The plate is as wide as its content — badges, theme, paddings — always
     // on one line; the carousel drags to reveal plates wider than the screen.
-    tape: {
-      whiteSpace: 'nowrap',
-      // Air between the brush-stroke rule and the stamped row.
-      paddingTop: '0.8em',
-      // `&[class]` (not `!`) bumps specificity so these reliably beat
-      // EditionTheme's own classes for the same properties, instead of the
-      // outcome depending on generated CSS order.
-      '&[class]': {
-        // Two steps up from EditionTheme's `normal` ladder — the token
-        // equivalent of the 1.5× the rail plates ran at and kept on purpose.
-        fontSize: { base: '4xl', md: '5xl', lg: '3xl', xl: '4xl', '4xl': '5xl' },
-        // Only the rail drops the left inset: badges start flush with the
-        // brush-stroke rule's own left edge. Other tape call sites (hero,
-        // archive card) keep EditionTheme's padding.
-        paddingLeft: '0',
-      },
-    },
+    // Font-size ladder + padding treatment live on EditionTheme's own `rail`
+    // size variant now, not overridden here.
+    tape: { whiteSpace: 'nowrap' },
   },
   variants: {
     status: {
@@ -46,16 +32,15 @@ export const editionRailCard = sva({
       },
       upcoming: {
         root: {
+          // No shared "disabled/muted" opacity convention exists across the
+          // codebase yet (button/carousel/checkbox each pick their own) —
+          // adding an `opacity` token scale here would make Panda's opacity
+          // utility strict repo-wide (confirmed: it does, for every existing
+          // raw opacity literal in every recipe, not just this one), not
+          // just for this call site. Left raw pending that broader migration.
           cursor: 'default',
           opacity: '0.58',
-          filter: 'grayscale(1)',
-          '& h2': { color: 'muted' },
-          '& .badge': {
-            background: 'gray.900',
-            borderColor: 'gray.700',
-            color: 'gray.400',
-            boxShadow: 'none',
-          },
+          filter: '[token(assets.grayscaleFull)]',
         },
       },
     },

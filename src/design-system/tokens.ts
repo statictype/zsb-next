@@ -91,6 +91,10 @@ export const tokens = {
     // `black` are merged here — every dark ground is the same `#000`.
     black: { value: 'oklch(0% 0 0)' },
     white: { value: '#fff' },
+    // CSS keywords admitted as tokens: unstyling (button resets, ghost
+    // fills) and inheriting glyph color are recurring, deliberate moves.
+    transparent: { value: 'transparent' },
+    current: { value: 'currentColor' },
   },
   fonts: {
     // Reference the next/font CSS variables already set on <html>.
@@ -100,6 +104,10 @@ export const tokens = {
   // Static + already-fluid (clamp) scales port as plain tokens.
   // Stepped-responsive ones live in semanticTokens below.
   fontSizes: {
+    badgeRing: { value: '40px' },
+    // Badge's own fixed size — deliberately not the stepped `xs` scale (Badge
+    // is documented as one size, not a responsive one).
+    badge: { value: '10px' },
     md: { value: 'clamp(19px, 18.35px + 0.2038vw, 22px)' },
     lg: { value: 'clamp(22px, 21.35px + 0.2038vw, 25px)' },
     xl: { value: 'clamp(26px, 24.26px + 0.5435vw, 34px)' },
@@ -109,34 +117,126 @@ export const tokens = {
     '5xl': { value: 'clamp(58px, 50.61px + 2.31vw, 92px)' },
   },
   spacing: {
+    // `0` is a real member of the scale: overriding a larger breakpoint's
+    // padding, pinning an overlay edge (`inset: '0'`), collapsing a gap.
+    '0': { value: '0px' },
     xs: { value: '4px' },
     sm: { value: '8px' },
+    hairlineOverlap: { value: 'calc({borderWidths.hairline} * -1)' },
+    navLogoTopMd: { value: '24px' },
+    navDesktopTop: { value: '32px' },
+    navDesktopTopLg: { value: '40px' },
+    // Badge's own padding — not shared by anything else in the size scale.
+    badgeX: { value: '12px' },
+    badgeY: { value: '6px' },
     lg: { value: 'clamp(24px, 18.78px + 1.6304vw, 48px)' },
     xl: { value: 'clamp(32px, 23.3px + 2.7174vw, 72px)' },
+    // The archive card's image-bleeds-under-content overlap (negated at the
+    // call site: `marginTop: '[calc(token(spacing.cardOverlap) * -1)]'`).
+    cardOverlap: { value: '3rem' },
   },
   radii: {
     pill: { value: '100px' },
     circle: { value: '50%' },
   },
   borders: {
+    // `none` as a token: buttons/fieldsets keep their UA border (preflight
+    // is off), so stripping it is a deliberate, recurring act.
+    none: { value: 'none' },
     hairline: {
-      value: { width: '1px', style: 'solid', color: '{colors.divider}' },
+      value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.divider}' },
     },
     highlight: {
-      value: { width: '1px', style: 'solid', color: '{colors.chartreuse}' },
+      value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.chartreuse}' },
     },
     primary: {
-      value: { width: '2px', style: 'solid', color: '{colors.action}' },
+      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.action}' },
+    },
+    // The one focus ring (`outline: 'focus'` + an outlineOffset at the site).
+    focus: {
+      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.chartreuse}' },
     },
   },
+  borderWidths: {
+    '0': { value: '0px' },
+    hairline: { value: '1px' },
+    focus: { value: '2px' },
+    // The gradientBorder hover ring's width (gallery tiles).
+    gradientRing: { value: '2px' },
+    // The sub-pixel hairline: Calendar's tighter gradient ring weight, and
+    // Badge's own border (same value, different mechanism — named neutrally
+    // so both can share it).
+    hairlineThin: { value: '0.5px' },
+  },
   sizes: {
+    // Structural fractions/keywords, tokenized so `strictTokens` can hold
+    // without bracket noise on every overlay and full-bleed frame.
+    '0': { value: '0px' },
+    full: { value: '100%' },
+    fit: { value: 'fit-content' },
+    // NB no `screen` size token: preset-base hardcodes `screen: 100vh` in its
+    // height utilities, shadowing any theme token of that name. Fullscreen
+    // shells use the preset's own `svh` value (100svh) instead.
+    // Minimum comfortable touch target (WCAG 2.5.8-ish; the nav toggle).
+    touch: { value: '48px' },
+    navLogoBase: { value: '40px' },
+    navLogoLg: { value: '56px' },
+    navLogoXl: { value: '60px' },
+    navIcon: { value: '24px' },
+    navGlyph: { value: '18px' },
+    navGlyphStroke: { value: '2px' },
+    navRollOffset: { value: '110%' },
+    // The comfortable prose measure (leads, FAQ bodies, link lists).
+    measure: { value: '60ch' },
     // The site content rail (`.sectionInner` max-width).
     maxWidth: { value: '1800px' },
+    // Narrow single-column cap (mobile stat blocks, banners, error/edition
+    // copy) — recurs as an unnamed ~500-525px literal across several
+    // recipes; 520px is its most common value.
+    narrowColumn: { value: '520px' },
     brushStroke: { value: '3px' },
+    // The lightbox's desktop letterbox column — each nav arrow owns one full
+    // column beside the frame. The frame's `md`+ width is derived from this
+    // (100vw minus two columns) instead of restating the pixel math.
+    lightboxNavColumn: { value: '80px' },
+    // The lightbox frame's base (pre-`md`) width fraction of the viewport.
+    lightboxFrameWidth: { value: '90vw' },
+    // The nav arrows' vertical click zone — generous, but bounded (not the
+    // full letterbox column height) so it can't reach into the close
+    // button's corner.
+    lightboxNavHit: { value: '240px' },
+    // Invisible click-target expansion (a `::before` hit-slop) beyond a
+    // control's visible box — the close button uses it to stay easy to hit
+    // without visually growing past its icon.
+    hitSlop: { value: '16px' },
+    // The transparent square hit target shared by Button's `icon` variant and
+    // the carousel prev/next/autoplay controls — distinct from `touch` (the
+    // WCAG minimum), this is the DS's own icon-button footprint.
+    hitTarget: { value: '44px' },
+    // The modal dialog's `panel` presentation width, and its `md`+ two-column
+    // step.
+    dialogPanel: { value: '540px' },
+    dialogPanelWide: { value: '760px' },
   },
   assets: {
     brushStrokeX: { value: 'polygon(0 0, 100% 0, 100% 38%, 68% 58%, 0 100%)' },
     brushStrokeY: { value: 'polygon(0 0, 100% 0, 58% 68%, 38% 100%, 0 100%)' },
+    // The hero frame's grayscale grade — photography desaturated just enough
+    // to sit on the dark ground without going fully mono.
+    grayscaleSubtle: { value: 'grayscale(0.3)' },
+    // Full desaturation — the rail's "upcoming" plate, muted flat rather than
+    // graded like `grayscaleSubtle`.
+    grayscaleFull: { value: 'grayscale(1)' },
+    // The card-media "develop" treatment — fully desaturated + dimmed at
+    // rest, warming back to color + full brightness on hover/focus. Shared by
+    // EditionCard and Calendar's run cards.
+    developRest: { value: 'grayscale(1) brightness(0.7)' },
+    developHover: { value: 'grayscale(0.3) brightness(1)' },
+    // The gallery rail item's develop treatment — same rest/hover pairing
+    // shape as `developRest`/`developHover`, tuned with contrast instead of
+    // desaturation.
+    galleryDevelopRest: { value: 'brightness(0.9) contrast(1)' },
+    galleryDevelopHover: { value: 'brightness(1) contrast(1.1)' },
   },
   lineHeights: {
     display: { value: '1' },
@@ -144,12 +244,15 @@ export const tokens = {
     tight: { value: '1.16' },
     body: { value: '1.56' },
     loose: { value: '1.9' },
+    // Badge's own tight, single-line-chip line-height.
+    badge: { value: '1.3' },
   },
   letterSpacings: {
     tight: { value: '-0.02em' },
     subtle: { value: '0.6px' },
     label: { value: '1.2px' },
     wide: { value: '4px' },
+    badgeRing: { value: '8px' },
   },
   fontWeights: {
     light: { value: '300' },
@@ -160,6 +263,9 @@ export const tokens = {
     black: { value: '900' },
   },
   durations: {
+    // Reduced-motion kill switch: `transitionDuration: 'instant'` under
+    // `_motionReduce` ends a transition without re-declaring the shorthand.
+    instant: { value: '0s' },
     stagger: { value: '60ms' },
     fast: { value: '200ms' },
     normal: { value: '300ms' },
@@ -173,6 +279,11 @@ export const tokens = {
     sweep: { value: '1600ms' },
   },
   easings: {
+    elastic: { value: 'cubic-bezier(0.34, 1.56, 0.64, 1)' },
+    elasticLinear: {
+      value:
+        'linear(0, 0.43 5%, 0.85 10%, 1.11 15%, 1.2 20%, 1.18 25%, 1.1 30%, 1.03 35%, 0.98 42.5%, 0.96 47.5%, 0.99 60%, 1.005 70%, 1)',
+    },
     expo: { value: 'cubic-bezier(0.16, 1, 0.3, 1)' },
     quint: { value: 'cubic-bezier(0.23, 1, 0.32, 1)' },
   },
@@ -183,6 +294,35 @@ export const tokens = {
     card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
     badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
     modal: { value: '0 30px 80px rgb(0 0 0 / 0.5)' },
+    // The hero frame's grounding lift — modal's geometry pulled tighter
+    // (negative spread) and darker, sized for photography on black.
+    frame: { value: '0 30px 80px -30px rgb(0 0 0 / 0.7)' },
+    // The theme tape's pinned-paper elevation (badge's recipe, heavier hand).
+    tape: {
+      value: 'inset 0 1px 0 rgb(255 255 255 / 0.08), 0 14px 32px -6px rgb(0 0 0 / 0.55)',
+    },
+    // Legibility halo for type sitting directly on photography.
+    text: { value: '0 1px 8px rgb(0 0 0 / 0.55)' },
+  },
+  gradients: {
+    // The hero's photographic vignette. The near-black stops are the legacy
+    // `canvas` color (#0E0B10, the brand's warm magenta tint) — kept ONLY
+    // here, where it multiplies over imagery; every opaque dark ground is
+    // `black` (ZSB-70).
+    heroVignette: {
+      value:
+        'linear-gradient(115deg, rgb(14 11 16 / 0.55) 0%, rgb(14 11 16 / 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgb(14 11 16 / 0.5) 100%)',
+    },
+    // The archive card's media scrim — top + bottom darkening for the year
+    // badge/gradient legibility over card imagery.
+    cardScrim: {
+      value: 'linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))',
+    },
+    // The homepage carousel slide's radial vignette — darkens the frame edges
+    // without a directional cast (unlike `heroVignette`).
+    carouselVignette: {
+      value: 'radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.45) 100%)',
+    },
   },
 } as const
 
@@ -201,6 +341,7 @@ export const semanticTokens = {
     brushStroke: { value: '{colors.highlight}' },
   },
   zIndex: {
+    // Global chrome stacking — semantic, page-wide.
     nav: { value: '100' },
     banner: { value: '200' },
     overlay: { value: '1000' },
@@ -208,6 +349,15 @@ export const semanticTokens = {
     navToggle: { value: '1011' },
     lightbox: { value: '1020' },
     draftBadge: { value: '1030' },
+    // Local stacking inside an `isolation: isolate` (or positioned) subtree:
+    // numeric by design — media base, scrim, content, floating accents.
+    '0': { value: '0' },
+    '1': { value: '1' },
+    '2': { value: '2' },
+    '3': { value: '3' },
+    '4': { value: '4' },
+    '10': { value: '10' },
+    '20': { value: '20' },
   },
   // Stepped-responsive tokens: faithful to the :root media-query overrides.
   fontSizes: {
@@ -219,6 +369,18 @@ export const semanticTokens = {
   sizes: {
     // Fixed-nav height — the page-top offset every hero clears.
     nav: { value: { base: '60px', md: '72px', lg: '84px', xl: '100px' } },
+    partnerBadgeStandard: { value: { base: '72px', md: '96px', xl: '125px' } },
+    partnerBadgeStandardIcon: { value: { base: '20px', md: '26px', xl: '36px' } },
+    partnerBadgeFooter: { value: { base: '100.8px', md: '115.2px', xl: '150px' } },
+    partnerBadgeFooterIcon: { value: { base: '28px', md: '31.2px', xl: '43.2px' } },
+    partnerBadgeHero: {
+      value: { base: '158.4px', md: '172.8px', lg: '158.4px', xl: '218.75px', '3xl': '231.25px' },
+    },
+    partnerBadgeHeroIcon: {
+      value: { base: '44px', md: '46.8px', lg: '42.9px', xl: '63px', '3xl': '66.6px' },
+    },
+    partnerBadgeUpcoming: { value: { base: '108px', md: '144px', xl: '187.5px' } },
+    partnerBadgeUpcomingIcon: { value: { base: '30px', md: '39px', xl: '54px' } },
   },
   spacing: {
     md: { value: { base: '16px', md: '20px' } },
@@ -402,12 +564,41 @@ export const textStyles = {
       textTransform: 'uppercase',
     },
   },
+  // Item title on the dark schedule board — the agenda event rows and the
+  // Ongoing run cards. Body face (not display), set tight.
+  boardTitle: {
+    value: {
+      fontFamily: 'body',
+      fontWeight: 'bold',
+      fontSize: 'base',
+      lineHeight: 'tight',
+      letterSpacing: 'tight',
+      color: 'white',
+    },
+  },
+  labelDisplay: {
+    value: {
+      fontFamily: 'display',
+      textTransform: 'uppercase',
+      lineHeight: 'tight',
+      letterSpacing: 'tight',
+    },
+  },
   metaLabel: {
     value: {
       fontFamily: 'body',
       fontSize: '2xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
+      fontWeight: 'semibold',
+      color: 'muted',
+    },
+  },
+  footerMeta: {
+    value: {
+      fontFamily: 'body',
+      fontSize: '2xs',
+      textTransform: 'uppercase',
       fontWeight: 'semibold',
       color: 'muted',
     },
@@ -445,6 +636,29 @@ export const layerStyles = {
   sectionInner: {
     value: { maxWidth: 'maxWidth', marginInline: 'auto', paddingInline: 'gutter' },
   },
+  coverMono: {
+    value: {
+      objectFit: 'cover',
+      filter: '[grayscale(100%) contrast(1.05)]',
+    },
+  },
+  // The edition hero tape's bottom offset + width cap, stepped in tandem
+  // across breakpoints so the two ramps live in one named place instead of
+  // two parallel brackets at the call site.
+  heroTapeOffset: {
+    value: {
+      bottom: { base: '8%', md: '10%', lg: '11%' },
+      maxWidth: { base: '94%', md: '72%', lg: '62%', xl: '58%' },
+    },
+  },
+  // The edition hero tape's horizontal nudge — tucks it under the nav on
+  // mobile, then pulls it flush with the logo from `lg` as the tape's own
+  // em-based padding grows with its `huge` fontSize ladder.
+  heroTapeNudge: {
+    value: {
+      marginLeft: { base: '10px', md: '18px', lg: '-36px', xl: '-40px' },
+    },
+  },
   pageHero: {
     value: {
       background: 'black',
@@ -456,6 +670,118 @@ export const layerStyles = {
       paddingBottom: { base: '2xl', md: '3xl' },
     },
   },
-  // NB layerStyles are surface props only — positioned/animated helpers
-  // (e.g. the image skeleton) live in their own `css()` helper, not here.
+  // The one loading-placeholder surface: gray.800 base with the `shimmer`
+  // sweep riding on `::after`. Shared by the image skeleton (`css()` helper
+  // positions it absolutely) and the edition-loading bones.
+  skeleton: {
+    value: {
+      position: 'relative',
+      background: 'gray.800',
+      overflow: 'hidden',
+      _after: {
+        content: '""',
+        position: 'absolute',
+        inset: '0',
+        background:
+          'linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 0.06) 50%, transparent 100%)',
+        animationStyle: 'shimmer',
+      },
+    },
+  },
+  // The hairline-gradient hover ring (Calendar runs + gallery tiles): paint
+  // the action→highlight sweep, then mask everything except the padding ring
+  // (content-box XOR). Applied on a `::before`; the call site supplies
+  // `content`, the ring width (padding) and its duration — `transitionProperty`
+  // and `transitionTimingFunction` are identical at both call sites, so they
+  // live here instead of being restated at each one.
+  gradientBorder: {
+    value: {
+      position: 'absolute',
+      inset: '0',
+      background:
+        'linear-gradient(90deg, token(colors.action) 0%, token(colors.highlight) 50%, token(colors.action) 100%)',
+      backgroundSize: '200% 100%',
+      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+      mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+      WebkitMaskComposite: 'xor',
+      maskComposite: 'exclude',
+      opacity: '0',
+      zIndex: '2',
+      pointerEvents: 'none',
+      transitionProperty: '[opacity]',
+      transitionTimingFunction: 'quint',
+    },
+  },
+  // The gallery rail slide's width+height, ramped in tandem across
+  // breakpoints (same bundling rationale as `heroTapeOffset`) plus the
+  // landscape-phone height override.
+  galleryRailFrame: {
+    value: {
+      width: {
+        base: '[clamp(360px, 92vw, 540px)]',
+        md: '[clamp(600px, 81vw, 990px)]',
+        lg: '[clamp(730px, 73vw, 1140px)]',
+        xl: '[clamp(830px, 62vw, 1250px)]',
+        '2xl': '[clamp(940px, 59vw, 1350px)]',
+        '4xl': '[clamp(1040px, 55vw, 1460px)]',
+      },
+      height: {
+        base: '[28vh]',
+        md: '[35vh]',
+        lg: '[40vh]',
+        xl: '[42vh]',
+        '2xl': '[43vh]',
+        '4xl': '[44vh]',
+      },
+      '@media (max-width: 767px) and (orientation: landscape)': { height: '[73vh]' },
+    },
+  },
+  // Horizontal wrap of pill/badge chips (calendar type tags, filter chips):
+  // the list surface only — the chips themselves are their own primitives.
+  chipRow: {
+    value: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm' },
+  },
+  // The brush-stroke rule's shared boilerplate (EditionTheme's top rule,
+  // Manifesto's left rule) — content/position/opacity are identical; axis
+  // (height vs width, position sides, gradient direction, clipPath) stays
+  // at each call site.
+  brushStrokeRule: {
+    value: { content: '""', position: 'absolute', opacity: '0.85' },
+  },
+  // The small horizontal kicker rule (Eyebrow's `rule` variant) — a
+  // `::before` dash sized off the shared `lg` spacing step rather than a
+  // one-off pixel value.
+  ruleLine: {
+    value: { content: '""', width: 'lg', height: '2px', background: 'current', flexShrink: '0' },
+  },
+  // The disclosure chevron shared by Accordion/Collapsible: flex + rotate on
+  // `data-state=open` + motion-reduce kill. `transitionDuration` (and
+  // color/flexShrink/marginLeft) stay call-site deltas — the two consumers
+  // deliberately run on different clocks.
+  disclosureIndicator: {
+    value: {
+      display: 'inline-flex',
+      transitionProperty: '[transform]',
+      transitionTimingFunction: 'quint',
+      '&[data-state=open]': { transform: 'rotate(180deg)' },
+      _motionReduce: { transition: 'none' },
+    },
+  },
+  // Visually-hidden but still in the accessibility tree — the standard
+  // sr-only recipe, named once instead of hand-rolled at each call site.
+  srOnly: {
+    value: {
+      position: 'absolute',
+      width: '1px',
+      height: '1px',
+      padding: '0',
+      margin: '-1px',
+      overflow: 'hidden',
+      clip: 'rect(0 0 0 0)',
+      whiteSpace: 'nowrap',
+      borderWidth: '0',
+    },
+  },
+  // NB layerStyles carry the surface look only — positioning/stacking beyond
+  // the mechanism itself stays at the call site.
 } as const

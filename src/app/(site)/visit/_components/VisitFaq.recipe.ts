@@ -11,12 +11,9 @@ export const visitFaq = sva({
   slots: ['inner', 'list', 'answer'],
   base: {
     inner: { layerStyle: 'sectionInner' },
-    list: { maxWidth: '760px' },
+    list: { maxWidth: 'measure' },
     answer: {
-      fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: 'body',
-      color: 'body',
+      textStyle: 'prose',
       // Editorial answers may contain intentional line breaks.
       whiteSpace: 'pre-line',
     },

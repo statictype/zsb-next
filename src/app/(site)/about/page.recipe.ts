@@ -16,11 +16,6 @@ export const aboutPage = sva({
     'placeImage',
     'placeImageImg',
     'carouselSection',
-    'pillarsGrid',
-    'pillar',
-    'pillarHead',
-    'pillarTitle',
-    'pillarBody',
     'statement',
     'statementInner',
     'statementAside',
@@ -45,9 +40,8 @@ export const aboutPage = sva({
       md: { aspectRatio: '16 / 9' },
     },
     placeImageImg: {
-      objectFit: 'cover',
+      layerStyle: 'coverMono',
       background: 'gray.900',
-      filter: 'grayscale(100%) contrast(1.05)',
     },
 
     // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
@@ -57,61 +51,13 @@ export const aboutPage = sva({
       '& > :first-child': { marginTop: '0' },
     },
 
-    pillarsGrid: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      borderTop: 'hairline',
-      borderBottom: 'hairline',
-      md: { gridTemplateColumns: '1fr 1fr' },
-    },
-    pillar: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
-      paddingBlock: 'xl',
-      borderBottom: 'hairline',
-      '&:last-child': { borderBottomWidth: '0' },
-      md: {
-        paddingBlock: 'xl',
-        paddingInline: 'xl',
-        borderBottomWidth: '0',
-        borderRight: 'hairline',
-        marginBlock: '4xl',
-        '&:first-child': { paddingLeft: '0' },
-        '&:last-child': { paddingRight: '0', borderRightWidth: '0' },
-      },
-    },
-    pillarHead: { display: 'flex', alignItems: 'baseline', gap: 'md' },
-    pillarTitle: {
-      fontFamily: 'display',
-      fontSize: 'lg',
-      textTransform: 'uppercase',
-      lineHeight: 'tight',
-      color: 'highlight',
-      letterSpacing: 'tight',
-      margin: '0',
-    },
-    pillarBody: {
-      textStyle: 'prose',
-      maxWidth: '50ch',
-    },
-
     // Curator letter — signed editorial spread on light. Ground (light) +
     // rhythm (lg) from `section()` in the component; `statementInner` is the rail.
     statement: {
-      position: 'relative',
-      _before: {
-        content: '""',
-        position: 'absolute',
-        inset: '0 0 auto',
-        height: '1px',
-        background: 'divider',
-      },
+      borderTop: 'hairline',
     },
     statementInner: {
-      maxWidth: 'maxWidth',
-      marginInline: 'auto',
-      paddingInline: 'gutter',
+      layerStyle: 'sectionInner',
       lg: {
         display: 'grid',
         gridTemplateColumns: 'minmax(260px, 340px) minmax(0, 1fr)',
@@ -127,7 +73,7 @@ export const aboutPage = sva({
       marginBottom: '2xl',
       lg: {
         position: 'sticky',
-        top: 'calc(token(sizes.nav) + token(spacing.xl))',
+        top: '[calc(token(sizes.nav) + token(spacing.xl))]',
         marginBottom: '0',
       },
     },
@@ -135,14 +81,14 @@ export const aboutPage = sva({
       display: 'flex',
       flexDirection: 'column',
       gap: 'md',
-      margin: '0',
-      maxWidth: '240px',
+      // Matches the portrait's mobile image request; keep frame and source size aligned.
+      maxWidth: '[240px]',
     },
     authorPhotoFrame: {
-      padding: '6px',
+      padding: 'sm',
       background: 'white',
       border: 'hairline',
-      _hover: { '& img': { filter: 'grayscale(0%)', transform: 'scale(1.03)' } },
+      _hover: { '& img': { filter: '[grayscale(0%)]', transform: 'scale(1.03)' } },
       _motionReduce: { '& img': { transform: 'none' } },
     },
     authorPhoto: {
@@ -154,25 +100,23 @@ export const aboutPage = sva({
     authorPhotoImg: {
       objectFit: 'cover',
       background: 'gray.200',
-      filter: 'grayscale(100%) contrast(1.02)',
-      transition:
-        'filter {durations.slow} {easings.expo}, transform {durations.slow} {easings.expo}',
-      _motionReduce: { transition: 'none' },
+      filter: '[grayscale(100%) contrast(1.02)]',
+      transitionProperty: '[filter, transform]',
+      transitionDuration: 'slow',
+      transitionTimingFunction: 'expo',
+      _motionReduce: { transitionDuration: 'instant' },
     },
     authorCaption: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '4px',
+      gap: 'xs',
       paddingTop: 'sm',
-      borderTop: '2px solid token(colors.action)',
+      borderTop: 'primary',
     },
     authorName: {
-      fontFamily: 'display',
+      textStyle: 'labelDisplay',
       fontSize: 'md',
-      textTransform: 'uppercase',
       color: 'heading',
-      lineHeight: 'tight',
-      letterSpacing: 'tight',
     },
     authorRole: {
       fontFamily: 'body',
@@ -181,7 +125,7 @@ export const aboutPage = sva({
       letterSpacing: 'wide',
       color: 'muted',
     },
-    statementLetter: { maxWidth: '62ch' },
+    statementLetter: { maxWidth: 'measure' },
     letterBody: {
       display: 'flex',
       flexDirection: 'column',

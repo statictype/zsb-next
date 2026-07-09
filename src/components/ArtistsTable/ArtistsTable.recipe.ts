@@ -24,7 +24,7 @@ export const artistsTable = sva({
     'barcode',
   ],
   base: {
-    root: { width: '100%' },
+    root: { width: 'full' },
 
     colHeader: {
       display: 'flex',
@@ -45,7 +45,7 @@ export const artistsTable = sva({
     body: {
       display: 'flex',
       flexDirection: 'column',
-      width: '100%',
+      width: 'full',
       border: 'hairline',
       md: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' },
     },
@@ -73,8 +73,8 @@ export const artistsTable = sva({
       lineHeight: 'loose',
       color: 'muted',
       fontVariantNumeric: 'tabular-nums',
-      minWidth: '28px',
-      md: { minWidth: '32px' },
+      minWidth: '[28px]',
+      md: { minWidth: '[32px]' },
     },
     name: {
       fontFamily: 'body',
@@ -109,14 +109,15 @@ export const artistsTable = sva({
       letterSpacing: 'label',
       color: 'black',
       fontWeight: 'semibold',
-      '& span': { color: 'black', marginLeft: '8px', fontWeight: 'regular' },
+      '& span': { color: 'black', marginLeft: 'sm', fontWeight: 'regular' },
     },
     barcode: {
       justifySelf: 'flex-end',
-      height: '24px',
-      width: '80px',
+      height: '[24px]',
+      width: '[80px]',
+      // The ticket-stub barcode — decorative ink stripes over the chartreuse.
       background:
-        'repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0px, rgba(0, 0, 0, 0.5) 2px, transparent 2px, transparent 4px, rgba(0, 0, 0, 0.5) 4px, rgba(0, 0, 0, 0.5) 5px, transparent 5px, transparent 8px)',
+        '[repeating-linear-gradient(90deg, rgb(0 0 0 / 0.5) 0px, rgb(0 0 0 / 0.5) 2px, transparent 2px, transparent 4px, rgb(0 0 0 / 0.5) 4px, rgb(0 0 0 / 0.5) 5px, transparent 5px, transparent 8px)]',
     },
   },
 })

@@ -1,12 +1,9 @@
+import { css } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
-import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
+import { CalendarMeta } from './CalendarMeta'
 import { comingSoon } from './ComingSoon.recipe'
-
-export interface SocialLink {
-  label: string
-  href: string
-}
+import { FollowLinks, type SocialLink } from './FollowLinks'
 
 // Stands in for the calendar on a live edition whose events aren't announced
 // yet (ZSB-34) — in practice only ever the forthcoming edition, since a past
@@ -23,11 +20,7 @@ export function ComingSoon({ year, socials }: { year: number; socials: SocialLin
           <SectionHeading id="calendar-heading" flush>
             Calendar
           </SectionHeading>
-          <p className={s.meta}>
-            <span className={s.metaYear}>{year}</span>
-            <span className={s.metaDot} aria-hidden />
-            <span className={s.metaSoon}>Coming soon</span>
-          </p>
+          <CalendarMeta year={year} label="Coming soon" tone="accent" />
         </header>
 
         <div className={s.notice}>
@@ -37,22 +30,12 @@ export function ComingSoon({ year, socials }: { year: number; socials: SocialLin
             calendar lands here soon.
           </p>
 
-          {socials.length > 0 && (
-            <div className={s.follow}>
-              <span className={s.followLabel}>Follow for updates</span>
-              <ul className={s.links}>
-                {socials.map((social) => (
-                  <li key={social.label}>
-                    <Button asChild variant="link">
-                      <a href={social.href} target="_blank" rel="noreferrer">
-                        {social.label}
-                      </a>
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <FollowLinks
+            label="Follow for updates"
+            socials={socials}
+            layout="stack"
+            className={css({ marginTop: 'xl' })}
+          />
         </div>
       </div>
     </section>

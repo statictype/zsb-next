@@ -26,7 +26,7 @@ export const accordion = defineSlotRecipe({
       cursor: 'pointer',
       transition: 'color {durations.fast} {easings.quint}',
       _hover: { color: 'action' },
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '3px' },
+      _focusVisible: { outline: 'focus', outlineOffset: '3px' },
       _motionReduce: { transition: 'none' },
       '& [data-accordion-meta]': {
         marginLeft: 'auto',
@@ -45,12 +45,10 @@ export const accordion = defineSlotRecipe({
       paddingBottom: 'lg',
     },
     itemIndicator: {
-      display: 'inline-flex',
+      layerStyle: 'disclosureIndicator',
       flexShrink: '0',
       color: 'muted',
-      transition: 'transform {durations.fast} {easings.quint}',
-      '&[data-state=open]': { transform: 'rotate(180deg)' },
-      _motionReduce: { transition: 'none' },
+      transitionDuration: 'fast',
     },
   },
   variants: {

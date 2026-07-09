@@ -17,20 +17,23 @@ export const editionCard = sva({
   ],
   base: {
     root: {
-      height: '100%',
+      height: 'full',
       overflow: 'visible',
-      _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '4px' },
+      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
     },
     media: {
       position: 'relative',
-      width: '100%',
+      width: 'full',
       overflow: 'hidden',
       background: 'gray.900',
+      // Shared below `lg`, where both sizes stack single-column; only the
+      // panoramic `lg` size variant departs at the `lg` breakpoint.
+      aspectRatio: { base: '16 / 9', md: '21 / 9' },
       _after: {
         content: '""',
         position: 'absolute',
         inset: '0',
-        background: 'linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))',
+        backgroundGradient: 'cardScrim',
         pointerEvents: 'none',
         zIndex: '1',
       },
@@ -38,12 +41,13 @@ export const editionCard = sva({
     image: {
       objectFit: 'cover',
       background: 'gray.900',
-      filter: 'grayscale(100%) brightness(0.7)',
+      filter: '[token(assets.developRest)]',
       transform: 'scale(1.01)',
+      // Develop and zoom on separate clocks — one shorthand, two durations.
       transition:
-        'filter {durations.reveal} {easings.expo}, transform {durations.entrance} {easings.expo}',
+        '[filter {durations.reveal} {easings.expo}, transform {durations.entrance} {easings.expo}]',
       'a:hover &, a:focus-visible &': {
-        filter: 'grayscale(30%) brightness(1)',
+        filter: '[token(assets.developHover)]',
         transform: 'scale(1.05)',
       },
     },
@@ -59,7 +63,7 @@ export const editionCard = sva({
       display: 'flex',
       flexDirection: 'column',
       gap: 'md',
-      marginTop: '-3rem',
+      marginTop: '[calc(token(spacing.cardOverlap) * -1)]',
       padding: 'md',
     },
     // One row: the unlabeled date/venue line on the left, the "View edition"
@@ -80,7 +84,7 @@ export const editionCard = sva({
       fontSize: 'sm',
       lineHeight: 'body',
       letterSpacing: 'subtle',
-      textWrap: 'pretty',
+      textWrap: '[pretty]',
     },
     // Keeps the venue name from breaking mid-phrase — a narrow card wraps
     // before the whole name, not between its words.
@@ -98,11 +102,15 @@ export const editionCard = sva({
       letterSpacing: 'label',
       textTransform: 'uppercase',
       color: 'heading',
-      transition: 'color {durations.normal} {easings.expo}',
+      transitionProperty: 'colors',
+      transitionDuration: 'normal',
+      transitionTimingFunction: 'expo',
       'a:hover &': { color: 'action' },
     },
     ctaIcon: {
-      transition: 'transform {durations.normal} {easings.expo}',
+      transitionProperty: '[transform]',
+      transitionDuration: 'normal',
+      transitionTimingFunction: 'expo',
       'a:hover &': { transform: 'translate(2px, -2px)' },
     },
   },
@@ -112,8 +120,8 @@ export const editionCard = sva({
       // goes two-column and spans this card full-width (`lg`, page.recipe.ts).
       // Below that it stacks single-column with the rest, so it matches their
       // aspect ratio — otherwise it's the odd one out on mobile.
-      lg: { media: { aspectRatio: { base: '16 / 9', md: '21 / 9', lg: '21 / 9' } } },
-      md: { media: { aspectRatio: { base: '16 / 9', md: '21 / 9', lg: '16 / 10' } } },
+      lg: { media: { aspectRatio: { lg: '21 / 9' } } },
+      md: { media: { aspectRatio: { lg: '16 / 10' } } },
     },
   },
   defaultVariants: { size: 'md' },

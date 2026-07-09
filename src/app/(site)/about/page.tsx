@@ -8,6 +8,7 @@ import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { Figure } from '@/components/Figure/Figure'
 import { Manifesto } from '@/components/Manifesto/Manifesto'
 import { PageHero } from '@/components/PageHero/PageHero'
+import { PillarGrid } from '@/components/PillarGrid/PillarGrid'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata } from '@/lib/seo'
@@ -74,23 +75,17 @@ function AboutShell({ view }: { view: AboutView }) {
 
       <section className={section({ ground: 'dark' })}>
         <div className={styles.inner}>
-          <div className={styles.pillarsGrid}>
-            {pillars.map((p) => (
-              <article key={p.label} className={styles.pillar}>
-                <div className={styles.pillarHead}>
-                  <h2 className={styles.pillarTitle}>{p.label}</h2>
-                </div>
-                <p className={styles.pillarBody}>{p.body}</p>
-              </article>
-            ))}
-          </div>
+          <PillarGrid
+            items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
+            titleTone="highlight"
+          />
         </div>
       </section>
 
       <section className={cx(section({ ground: 'light', rhythm: 'lg' }), styles.statement)}>
         <div className={styles.statementInner}>
           <aside className={styles.statementAside}>
-            <Eyebrow rule className={css({ marginBottom: '32px' })}>
+            <Eyebrow rule className={css({ marginBottom: 'xl' })}>
               {curatorEyebrow}
             </Eyebrow>
 

@@ -10,19 +10,12 @@ export const galleryCarousel = sva({
   slots: ['slide', 'item', 'itemImage'],
   base: {
     slide: {
-      width: 'clamp(360px, 92vw, 540px)',
-      height: '28vh',
+      layerStyle: 'galleryRailFrame',
       display: 'grid',
       gap: 'sm',
       boxSizing: 'border-box',
       gridTemplateRows: '1fr',
-      // Landscape phones get a much taller strip.
-      '@media (max-width: 767px) and (orientation: landscape)': { height: '73vh' },
-      md: { width: 'clamp(600px, 81vw, 990px)', height: '35vh', gap: 'md' },
-      lg: { width: 'clamp(730px, 73vw, 1140px)', height: '40vh' },
-      xl: { width: 'clamp(830px, 62vw, 1250px)', height: '42vh' },
-      '2xl': { width: 'clamp(940px, 59vw, 1350px)', height: '43vh' },
-      '4xl': { width: 'clamp(1040px, 55vw, 1460px)', height: '44vh' },
+      md: { gap: 'md' },
     },
 
     item: {
@@ -35,31 +28,21 @@ export const galleryCarousel = sva({
       // exception: image placeholder fallback, raised-dark surface
       background: 'gray.900',
       '& img': {
+        // Zoom and develop at different speeds — one shorthand, two clocks.
         transition:
-          'transform {durations.entrance} {easings.expo}, filter {durations.reveal} {easings.quint}',
-        filter: 'brightness(0.9) contrast(1)',
+          '[transform {durations.entrance} {easings.expo}, filter {durations.reveal} {easings.quint}]',
+        filter: '[token(assets.galleryDevelopRest)]',
       },
       _hover: {
-        '& img': { transform: 'scale(1.05)', filter: 'brightness(1) contrast(1.1)' },
+        '& img': { transform: 'scale(1.05)', filter: '[token(assets.galleryDevelopHover)]' },
         '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
       },
       // Gradient border hover effect (masked ring).
       _before: {
         content: '""',
-        position: 'absolute',
-        inset: 0,
-        padding: '2px',
-        background:
-          'linear-gradient(90deg, token(colors.action) 0%, token(colors.highlight) 50%, token(colors.action) 100%)',
-        backgroundSize: '200% 100%',
-        WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-        mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-        WebkitMaskComposite: 'xor',
-        maskComposite: 'exclude',
-        opacity: 0,
-        zIndex: 2,
-        pointerEvents: 'none',
-        transition: 'opacity {durations.medium} {easings.quint}',
+        layerStyle: 'gradientBorder',
+        padding: '[token(borderWidths.gradientRing)]',
+        transitionDuration: 'medium',
       },
     },
     // Drag prevention comes from the Figure's `draggable={false}` attribute.

@@ -25,7 +25,7 @@ export const button = defineRecipe({
     transition:
       'color {durations.normal} ease, background-color {durations.normal} ease, border-color {durations.normal} ease, filter {durations.normal} ease',
     _disabled: { opacity: '0.5', cursor: 'not-allowed' },
-    _focusVisible: { outline: '2px solid token(colors.action)', outlineOffset: '2px' },
+    _focusVisible: { outline: 'primary', outlineOffset: '2px' },
   },
   variants: {
     variant: {
@@ -58,8 +58,8 @@ export const button = defineRecipe({
         _hover: { ...colorShift._hover, textDecoration: 'underline' },
       },
       icon: {
-        width: '44px',
-        height: '44px',
+        width: 'hitTarget',
+        height: 'hitTarget',
         padding: '0',
         background: 'transparent',
         borderWidth: '0',
@@ -90,6 +90,10 @@ export const button = defineRecipe({
         gap: { base: '10px', md: '12px', lg: '14px' },
         paddingBlock: { base: '12px', md: '16px', lg: '20px', '2xl': '24px' },
         paddingInline: { base: '28px', md: '36px', lg: '44px', '2xl': '52px' },
+      },
+      touch: {
+        width: 'touch',
+        height: 'touch',
       },
     },
   },

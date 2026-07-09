@@ -21,9 +21,10 @@ export const themeArtists = sva({
       position: 'relative',
       zIndex: '1',
       paddingInline: 'gutter',
-      maxWidth: '525px',
+      maxWidth: 'narrowColumn',
       lg: {
-        gap: '{spacing.lg} {spacing.4xl}',
+        rowGap: 'lg',
+        columnGap: '4xl',
         maxWidth: 'maxWidth',
       },
       '4xl': { paddingLeft: '2xl' },
@@ -38,19 +39,12 @@ export const themeArtists = sva({
     },
     body: {
       marginBottom: '2xl',
-      lg: { gridColumn: '1', alignSelf: 'start' },
+      lg: { alignSelf: 'start' },
       '& p': {
-        fontFamily: 'body',
-        fontWeight: 'regular',
-        color: 'body',
-        lineHeight: 'body',
-        textAlign: 'left',
-        textWrap: 'pretty',
-        fontSize: 'base',
+        textStyle: 'prose',
+        textWrap: '[pretty]',
       },
       '& p:last-child': { marginBottom: '0' },
     },
-
-    artistsTable: { gridColumn: '2' },
   },
 })

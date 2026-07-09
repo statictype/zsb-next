@@ -61,11 +61,11 @@ export const featuredEvents = sva({
     card: {
       // The shared `enter` animation style owns the stagger from `--i`.
       _hover: {
-        '& img': { filter: 'grayscale(0%) contrast(1)', transform: 'scale(1.04)' },
+        '& img': { filter: '[grayscale(0%) contrast(1)]', transform: 'scale(1.04)' },
         '& a': { color: 'action' },
       },
       _motionReduce: {
-        '& img': { transition: 'none', transform: 'none' },
+        '& img': { transitionDuration: 'instant', transform: 'none' },
       },
     },
 
@@ -76,23 +76,24 @@ export const featuredEvents = sva({
       background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: 'grayscale(100%) contrast(1.1)',
-        transition:
-          'filter {durations.medium} {easings.quint}, transform {durations.medium} {easings.quint}',
+        filter: '[grayscale(100%) contrast(1.1)]',
+        transitionProperty: '[filter, transform]',
+        transitionDuration: 'medium',
+        transitionTimingFunction: 'quint',
       },
     },
     // Image-less card: a tonal stage for the vast faded day numeral.
     noPoster: {
-      background: 'linear-gradient(150deg, {colors.gray.900}, {colors.surface} 70%)',
+      background: '[linear-gradient(150deg, token(colors.gray.900), token(colors.surface) 70%)]',
     },
 
     watermark: {
       position: 'absolute',
-      top: '-0.18em',
-      right: '0.04em',
+      top: '[-0.18em]',
+      right: '[0.04em]',
       fontFamily: 'display',
-      fontSize: 'clamp(120px, 32vw, 260px)',
-      lineHeight: '1',
+      fontSize: '[clamp(120px, 32vw, 260px)]',
+      lineHeight: 'display',
       color: 'heading',
       opacity: '0.05',
       fontVariantNumeric: 'tabular-nums',
@@ -104,7 +105,7 @@ export const featuredEvents = sva({
       inset: '0',
       zIndex: '1',
       background:
-        'linear-gradient(to top, {colors.surface} 2%, color-mix(in srgb, {colors.surface} 72%, transparent) 26%, transparent 58%)',
+        '[linear-gradient(to top, token(colors.surface) 2%, color-mix(in srgb, token(colors.surface) 72%, transparent) 26%, transparent 58%)]',
       pointerEvents: 'none',
     },
     stamp: {
@@ -117,12 +118,12 @@ export const featuredEvents = sva({
       color: 'heading',
       fontVariantNumeric: 'tabular-nums',
       opacity: '0.85',
-      textShadow: '0 1px 8px rgba(0, 0, 0, 0.55)',
+      textShadow: 'text',
     },
 
     caption: {
       position: 'absolute',
-      inset: 'auto 0 0 0',
+      inset: '[auto 0 0 0]',
       zIndex: '2',
       display: 'flex',
       flexDirection: 'column',
@@ -146,22 +147,24 @@ export const featuredEvents = sva({
     // Links to the event route; inherits the heading type. Its ::after stretches
     // the hit target over the whole frame.
     cardLink: {
-      font: 'inherit',
-      color: 'inherit',
+      font: '[inherit]',
+      color: '[inherit]',
       textDecoration: 'none',
-      transition: 'color {durations.fast} {easings.quint}',
+      transitionProperty: 'colors',
+      transitionDuration: 'fast',
+      transitionTimingFunction: 'quint',
       _after: { content: '""', position: 'absolute', inset: '0', zIndex: '3' },
       _focusVisible: {
         color: 'action',
-        outline: '2px solid token(colors.highlight)',
-        outlineOffset: '3px',
+        outline: 'focus',
+        outlineOffset: 'xs',
       },
     },
     venue: {
       display: 'flex',
       alignItems: 'center',
       flexWrap: 'wrap',
-      gap: '8px',
+      gap: 'sm',
       fontFamily: 'body',
       fontSize: 'sm',
     },
@@ -182,8 +185,8 @@ export const featuredEvents = sva({
       listStyle: 'none',
       display: 'flex',
       flexWrap: 'wrap',
-      gap: '6px',
-      marginTop: '2px',
+      gap: 'sm',
+      marginTop: 'xs',
     },
   },
 })

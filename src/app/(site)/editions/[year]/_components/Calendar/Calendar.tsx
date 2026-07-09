@@ -6,7 +6,6 @@ import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
-import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
 import { Collapsible } from '@/components/ui/Collapsible/Collapsible'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -15,11 +14,14 @@ import { useTodayIso } from '@/lib/use-today-iso'
 import type { CalendarEvent, CalendarListEvent } from '@/types/edition'
 import { calendar } from './Calendar.recipe'
 import { CalendarFilters } from './CalendarFilters'
+import { CalendarMeta } from './CalendarMeta'
 import { CalendarShare, PROGRAM_SECTION_ID } from './CalendarShare'
-import type { SocialLink } from './ComingSoon'
 import { type CalendarFilterOptions, deriveCalendarView } from './calendar-filters'
+import { FollowLinks, type SocialLink } from './FollowLinks'
 import { HashScroller } from './HashScroller'
+import { TypeChips } from './TypeChips'
 import { useCalendarFilters } from './useCalendarFilters'
+import { VenueLine } from './VenueLine'
 
 // No variants — one shared instance for the component + its module-level helpers.
 const s = calendar()
@@ -90,15 +92,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
             <SectionHeading id="calendar-heading" flush>
               Calendar
             </SectionHeading>
-            <p className={s.meta}>
-              <span className={s.metaYear}>{year}</span>
-              {windowLabel && (
-                <>
-                  <span className={s.metaDot} aria-hidden />
-                  <span>{windowLabel}</span>
-                </>
-              )}
-            </p>
+            <CalendarMeta year={year} label={windowLabel} />
             {ended ? (
               // A finished edition leads with a short recap + follow CTAs; its
               // archive agenda collapses below (ZSB-45). Applies to every
@@ -108,22 +102,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                   That was <strong className={s.recapMark}>ZSB {year}</strong>
                   {theme ? ` — ${theme}` : ''}.
                 </p>
-                {socials.length > 0 && (
-                  <div className={s.recapFollow}>
-                    <span className={s.recapFollowLabel}>Follow for what&rsquo;s next</span>
-                    <ul className={s.recapLinks}>
-                      {socials.map((social) => (
-                        <li key={social.label}>
-                          <Button asChild variant="link">
-                            <a href={social.href} target="_blank" rel="noreferrer">
-                              {social.label}
-                            </a>
-                          </Button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                <FollowLinks label="Follow for what’s next" socials={socials} />
               </div>
             ) : (
               <div className={s.counts}>
@@ -197,7 +176,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                             </div>
                           )}
                           <div className={s.runContent}>
-                            <TypeChips event={run} />
+                            <TypeChips types={run.types} />
                             <h4 className={s.runName}>
                               <Link
                                 className={s.nameButton}
@@ -277,36 +256,13 @@ function ArchiveCollapse({
   )
 }
 
-// Narrowed to the render-boundary type so list rows (CalendarListEvent) and
-// full events feed it alike without widening back to CalendarEvent.
-function TypeChips({ event }: { event: Pick<CalendarListEvent, 'key' | 'types'> }) {
-  return (
-    <ul className={s.chips}>
-      {event.types.map((t) => (
-        <li key={`${event.key}-${t.slug}`}>
-          <Badge tone="outline">{t.title}</Badge>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-function VenueLine({ venue }: { venue: CalendarEvent['venue'] }) {
-  return (
-    <p className={s.venue}>
-      <span className={s.venueName}>{venue.name}</span>
-      {venue.partOf && <span className={s.venueParent}>{venue.partOf.name}</span>}
-    </p>
-  )
-}
-
 function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
   return (
     <li className={s.event} data-poster={!!event.image}>
       <div className={s.eventBody}>
         <div className={s.eventTop}>
           {event.startTime && <span className={s.eventTime}>{event.startTime}</span>}
-          <TypeChips event={event} />
+          <TypeChips types={event.types} />
           {event.image && <span className={s.posterTag}>Poster</span>}
         </div>
         {/* The name links to the event's route (the modal opens over the

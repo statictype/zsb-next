@@ -30,7 +30,7 @@ export const collapsible = defineSlotRecipe({
       _hover: {
         '& [data-collapsible-label]': { textDecoration: 'underline', textUnderlineOffset: '3px' },
       },
-      _focusVisible: { outline: '2px solid token(colors.highlight)', outlineOffset: '2px' },
+      _focusVisible: { outline: 'focus', outlineOffset: '2px' },
       '& [data-collapsible-label=open]': { display: 'none' },
       '&[data-state=open] [data-collapsible-label=closed]': { display: 'none' },
       '&[data-state=open] [data-collapsible-label=open]': { display: 'inline' },
@@ -41,12 +41,10 @@ export const collapsible = defineSlotRecipe({
     },
     content: { paddingTop: 'md', paddingBottom: 'lg' },
     indicator: {
-      display: 'inline-flex',
+      layerStyle: 'disclosureIndicator',
       marginLeft: 'auto',
       color: 'inherit',
-      transition: 'transform {durations.normal} {easings.quint}',
-      '&[data-state=open]': { transform: 'rotate(180deg)' },
-      _motionReduce: { transition: 'none' },
+      transitionDuration: 'normal',
     },
   },
 })
