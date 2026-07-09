@@ -29,6 +29,10 @@ export const partnerBadge = sva({
       width: 'full',
       height: 'full',
       willChange: 'transform',
+      // Elastic hover-scale (formerly two gsap.to calls): a springy bezier
+      // everywhere, upgraded to a `linear()` elastic — overshoot + one
+      // bounce-back — where supported. `body` fills the link, so hovering
+      // anywhere on the badge triggers it.
       transition: 'transform',
       transitionDuration: 'reveal',
       transitionTimingFunction: 'elastic',
