@@ -21,6 +21,9 @@ C6 is `HStack` with `justify="space-between"`), `Wrap` (C7), `Grid` (C8),
 | --- | --- | --- | --- |
 | C1-rail | `Container` | completed | Completed in an earlier adoption run. |
 | C3-stack | `Stack` | completed | Completed in the C3 adoption run. |
+| C4-center | `Center` | completed | Completed in the C4 Center adoption run. |
+| C5-hstack | `HStack` | completed | Completed in the C5/C6 HStack adoption run. |
+| C6-bar | `HStack justify="space-between"` | completed | Completed in the C5/C6 HStack adoption run. |
 
 ---
 

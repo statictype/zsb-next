@@ -149,6 +149,14 @@ Do not use breakpoint objects that bypass the pattern transform:
 <Stack direction="column" md={{ direction: 'row' }} />
 ```
 
+For built-in JSX patterns, prefer their generated JSX component surface over
+class composition. Do not replace an interactive element with `hstack()`/`cx()`
+just to move layout; if the element must remain a `Button`, keep it a `Button`.
+Only add a built-in pattern default in the preset when the current generated
+surface already expresses the needed prop; otherwise use JSX style props such as
+`alignItems`/`flexDirection` at the call site. Do not write a custom transform
+for a built-in pattern during a cluster pass.
+
 If the subtree also uses a `jsx:`-enabled recipe such as `section`, keep the
 subtree uniform. Prefer JSX recipe usage where the local codebase already
 supports it instead of mixing a pattern inside a `cx(section(), ...)` wrapper.
@@ -207,6 +215,7 @@ Then search the touched files for:
 display: 'flex'
 display: 'grid'
 flexDirection
+hstack(
 css={
 ```
 
