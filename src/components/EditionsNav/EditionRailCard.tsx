@@ -70,16 +70,11 @@ export function EditionRailCard({ edition, status, href, className, style }: Edi
         className={styles.tape}
         lead={
           <>
-            <Badge className={isUpcoming ? styles.badgeMuted : undefined}>{edition.year}</Badge>
+            <Badge tone={isUpcoming ? 'muted' : undefined}>{edition.year}</Badge>
             {statusBadge ? (
               <>
                 {' '}
-                <Badge
-                  tone={isUpcoming ? undefined : 'outline'}
-                  className={isUpcoming ? styles.badgeMuted : undefined}
-                >
-                  {statusBadge}
-                </Badge>
+                <Badge tone={isUpcoming ? 'muted' : 'outline'}>{statusBadge}</Badge>
               </>
             ) : null}
           </>

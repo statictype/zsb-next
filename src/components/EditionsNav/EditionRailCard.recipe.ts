@@ -8,7 +8,7 @@ import { sva } from 'styled-system/css'
  * model in EditionRailCard, not behind data-attrs.
  */
 export const editionRailCard = sva({
-  slots: ['root', 'tape', 'badgeMuted'],
+  slots: ['root', 'tape'],
   base: {
     root: {
       display: 'inline-flex',
@@ -23,14 +23,6 @@ export const editionRailCard = sva({
     // Font-size ladder + padding treatment live on EditionTheme's own `rail`
     // size variant now, not overridden here.
     tape: { whiteSpace: 'nowrap' },
-    // Applied via `className` to the lead badges when `status="upcoming"` —
-    // an opt-in override through Badge's own prop, not a `.badge` selector
-    // guessing at its rendered class from outside.
-    badgeMuted: {
-      background: 'gray.900',
-      borderColor: 'gray.700',
-      color: 'gray.400',
-    },
   },
   variants: {
     status: {
@@ -43,8 +35,9 @@ export const editionRailCard = sva({
           // No shared "disabled/muted" opacity convention exists across the
           // codebase yet (button/carousel/checkbox each pick their own) —
           // adding an `opacity` token scale here would make Panda's opacity
-          // utility strict repo-wide, not just for this call site. Left raw
-          // pending that broader migration.
+          // utility strict repo-wide (confirmed: it does, for every existing
+          // raw opacity literal in every recipe, not just this one), not
+          // just for this call site. Left raw pending that broader migration.
           cursor: 'default',
           opacity: '0.58',
           filter: '[token(assets.grayscaleFull)]',

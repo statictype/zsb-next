@@ -157,7 +157,7 @@ export const calendar = sva({
       _before: {
         content: '""',
         layerStyle: 'gradientBorder',
-        padding: '[token(borderWidths.gradientRingHairline)]',
+        padding: '[token(borderWidths.hairlineThin)]',
         transitionDuration: 'normal',
       },
       _hover: {

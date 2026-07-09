@@ -105,6 +105,9 @@ export const tokens = {
   // Stepped-responsive ones live in semanticTokens below.
   fontSizes: {
     badgeRing: { value: '40px' },
+    // Badge's own fixed size — deliberately not the stepped `xs` scale (Badge
+    // is documented as one size, not a responsive one).
+    badge: { value: '10px' },
     md: { value: 'clamp(19px, 18.35px + 0.2038vw, 22px)' },
     lg: { value: 'clamp(22px, 21.35px + 0.2038vw, 25px)' },
     xl: { value: 'clamp(26px, 24.26px + 0.5435vw, 34px)' },
@@ -123,6 +126,9 @@ export const tokens = {
     navLogoTopMd: { value: '24px' },
     navDesktopTop: { value: '32px' },
     navDesktopTopLg: { value: '40px' },
+    // Badge's own padding — not shared by anything else in the size scale.
+    badgeX: { value: '12px' },
+    badgeY: { value: '6px' },
     lg: { value: 'clamp(24px, 18.78px + 1.6304vw, 48px)' },
     xl: { value: 'clamp(32px, 23.3px + 2.7174vw, 72px)' },
     // The archive card's image-bleeds-under-content overlap (negated at the
@@ -155,10 +161,12 @@ export const tokens = {
     '0': { value: '0px' },
     hairline: { value: '1px' },
     focus: { value: '2px' },
-    // The gradientBorder hover ring's width — two calls, two ring weights
-    // (gallery tiles vs the tighter Calendar run cards).
+    // The gradientBorder hover ring's width (gallery tiles).
     gradientRing: { value: '2px' },
-    gradientRingHairline: { value: '0.5px' },
+    // The sub-pixel hairline: Calendar's tighter gradient ring weight, and
+    // Badge's own border (same value, different mechanism — named neutrally
+    // so both can share it).
+    hairlineThin: { value: '0.5px' },
   },
   sizes: {
     // Structural fractions/keywords, tokenized so `strictTokens` can hold
@@ -236,6 +244,8 @@ export const tokens = {
     tight: { value: '1.16' },
     body: { value: '1.56' },
     loose: { value: '1.9' },
+    // Badge's own tight, single-line-chip line-height.
+    badge: { value: '1.3' },
   },
   letterSpacings: {
     tight: { value: '-0.02em' },

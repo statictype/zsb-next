@@ -30,7 +30,7 @@ export const manifesto = sva({
     title: {
       fontFamily: 'display',
       fontSize: { base: '2xl', xl: '3xl', '3xl': '4xl' },
-      lineHeight: { base: 'tight', md: 'display', '4xl': '[1.08]' },
+      lineHeight: { base: 'tight', md: 'display', '4xl': 'tight' },
       color: 'black',
       textWrap: '[pretty]',
     },
