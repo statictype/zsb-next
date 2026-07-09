@@ -9,10 +9,6 @@ import { footer } from './Footer.recipe'
 
 const s = footer()
 
-const CURRENT_YEAR = new Date().getFullYear()
-// Reads like an edition-catalogue stamp — the span the event has run.
-const CATALOG_STAMP = `ZSB · 2021—${CURRENT_YEAR}`
-
 // Internal navigation labels are structural, not editorial — they live
 // in code so editors don't accidentally rename the link to its own page.
 const CONNECT_LINKS = [
@@ -48,6 +44,11 @@ async function CachedFooter({ options }: { options: DynamicFetchOptions }) {
 function FooterShell({ settings }: { settings: SiteSettings | null }) {
   const socials = buildSocialLinks(settings)
   const contactHref = settings?.contactEmail ? `mailto:${settings.contactEmail}` : undefined
+  // Per render, not module scope: across a year boundary the stamp and © lag
+  // only until the next revalidation, not until the next server process.
+  const currentYear = new Date().getFullYear()
+  // Reads like an edition-catalogue stamp — the span the event has run.
+  const catalogStamp = `ZSB · 2021—${currentYear}`
 
   return (
     <footer className={s.footer}>
@@ -80,11 +81,11 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
             )}
           </div>
 
-          <span className={s.stamp}>{CATALOG_STAMP}</span>
+          <span className={s.stamp}>{catalogStamp}</span>
         </div>
 
         <div className={s.baseline}>
-          <div className={s.copyright}>&copy; {CURRENT_YEAR} Bucharest Sculpture Days</div>
+          <div className={s.copyright}>&copy; {currentYear} Bucharest Sculpture Days</div>
           <div className={s.legal}>
             <Link href="/privacy" className={cx(button({ variant: 'link' }), s.legalLink)}>
               Privacy Policy

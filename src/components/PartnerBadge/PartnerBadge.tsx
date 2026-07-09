@@ -1,42 +1,14 @@
-'use client'
-
 import { RiEmpathizeFill } from '@remixicon/react'
-import gsap from 'gsap'
 import Link from 'next/link'
-import { useRef } from 'react'
 import { partnerBadge } from './PartnerBadge.recipe'
 
 export function PartnerBadge({ variant = 'light' }: { variant?: 'light' | 'dark' } = {}) {
-  const bodyRef = useRef<HTMLDivElement>(null)
   const s = partnerBadge({ variant })
-
-  function handleEnter() {
-    if (!bodyRef.current) return
-    gsap.to(bodyRef.current, {
-      scale: 1.12,
-      duration: 0.5,
-      ease: 'elastic.out(1, 0.5)',
-    })
-  }
-
-  function handleLeave() {
-    if (!bodyRef.current) return
-    gsap.to(bodyRef.current, {
-      scale: 1,
-      duration: 0.6,
-      ease: 'elastic.out(1, 0.4)',
-    })
-  }
 
   return (
     <div className={s.wrap}>
-      <Link
-        href="/partners"
-        className={s.link}
-        onMouseLeave={handleLeave}
-        onMouseEnter={handleEnter}
-      >
-        <div ref={bodyRef} className={s.body}>
+      <Link href="/partners" className={s.link}>
+        <div className={s.body}>
           <div className={s.textRing}>
             <svg viewBox="0 0 500 500" aria-hidden="true">
               <defs>
