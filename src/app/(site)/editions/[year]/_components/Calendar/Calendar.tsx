@@ -4,6 +4,7 @@ import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
@@ -86,7 +87,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
       aria-labelledby="calendar-heading"
     >
       <HashScroller id={PROGRAM_SECTION_ID} />
-      <div className={s.inner}>
+      <Container>
         <header className={s.header}>
           <div className={s.headerMain}>
             <SectionHeading id="calendar-heading" flush>
@@ -226,7 +227,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
             </div>
           )}
         </ArchiveCollapse>
-      </div>
+      </Container>
     </section>
   )
 }

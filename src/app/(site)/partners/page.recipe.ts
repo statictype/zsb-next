@@ -1,18 +1,7 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Partners page — co-located slot recipe.
- *
- * Intro prose + full-width event image on dark, a "why sculpture" block on
- * light (eyebrow + title + image, then a 4-pillar grid), and a centered partner
- * CTA. Shared hero header → `PageHero`; the why-eyebrow → `<Eyebrow>`. Sections
- * that combined `shared.section` with a ground fold the padding straight in
- * (`layerStyle` carries only the ground; `section` was just padding). `border-
- * light`/`border-dark` → borderLight/borderDark hairlines.
- */
 export const partnersPage = sva({
   slots: [
-    'inner',
     'eventBody',
     'eventImage',
     'eventImageImg',
@@ -27,8 +16,6 @@ export const partnersPage = sva({
     'partnerCtaBody',
   ],
   base: {
-    inner: { layerStyle: 'sectionInner' },
-
     eventBody: {
       display: 'flex',
       flexDirection: 'column',

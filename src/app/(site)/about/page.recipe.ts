@@ -1,18 +1,7 @@
 import { sva } from 'styled-system/css'
 
-/**
- * About page — co-located slot recipe.
- *
- * The editorial About spread: an asymmetric "the project" split on light, a
- * dark gallery carousel + pillars band, then the curator letter — a sticky
- * portrait/masthead rail beside a generously set letter on light. The shared
- * hero header is the `PageHero` component; the curator eyebrow is `<Eyebrow>`.
- * The unused legacy `signature*` rules are dropped (the letter renders no
- * sign-off block). `inner` reuses the shared `sectionInner` layerStyle.
- */
 export const aboutPage = sva({
   slots: [
-    'inner',
     'placeImage',
     'placeImageImg',
     'carouselSection',
@@ -30,8 +19,6 @@ export const aboutPage = sva({
     'letterBody',
   ],
   base: {
-    inner: { layerStyle: 'sectionInner' },
-
     placeImage: {
       position: 'relative',
       aspectRatio: '4 / 5',

@@ -10,7 +10,6 @@ import { sva } from 'styled-system/css'
 export const venuesView = sva({
   slots: [
     'section',
-    'inner',
     'header',
     'lede',
     'group',
@@ -32,7 +31,6 @@ export const venuesView = sva({
       // rhythm from `section()` in the component; ground inherits the parent.
       borderTop: 'hairline',
     },
-    inner: { layerStyle: 'sectionInner' },
 
     header: { marginBottom: 'xl' },
     lede: {

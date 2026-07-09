@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
@@ -74,12 +75,12 @@ function AboutShell({ view }: { view: AboutView }) {
       )}
 
       <section className={section({ ground: 'dark' })}>
-        <div className={styles.inner}>
+        <Container>
           <PillarGrid
             items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
             titleTone="highlight"
           />
-        </div>
+        </Container>
       </section>
 
       <section className={cx(section({ ground: 'light', rhythm: 'lg' }), styles.statement)}>

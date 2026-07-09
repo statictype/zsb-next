@@ -1,5 +1,6 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
@@ -21,7 +22,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
 
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
-      <div className={styles.inner}>
+      <Container>
         <div className={styles.header}>
           <SectionHeading flush>Archive</SectionHeading>
           <div className={styles.count}>{theme}</div>
@@ -62,8 +63,6 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
                 </div>
               </div>
 
-              {/* Quiet edition plate — the old animated monogram, stripped of every
-                gradient and the drifting grid. Solid type on a hairline panel. */}
               <div className={styles.cardRight} aria-hidden>
                 <div className={styles.plate}>
                   <div data-part="monogram">
@@ -79,7 +78,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
             </div>
           </a>
         </Card>
-      </div>
+      </Container>
     </section>
   )
 }

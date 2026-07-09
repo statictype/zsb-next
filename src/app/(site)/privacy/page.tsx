@@ -5,6 +5,7 @@ import {
 } from '@portabletext/react'
 import { notFound } from 'next/navigation'
 import { css } from 'styled-system/css'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
@@ -78,7 +79,7 @@ function PrivacyShell({ view }: { view: PrivacyView }) {
         />
 
         <section className={section({ ground: 'dark' })}>
-          <div className={css({ layerStyle: 'sectionInner' })}>
+          <Container>
             <article className={styles.article}>
               {body.length > 0 && <PortableText value={body} components={portableTextComponents} />}
 
@@ -92,7 +93,7 @@ function PrivacyShell({ view }: { view: PrivacyView }) {
                 <p className={styles.updated}>Last updated: {formatUpdatedAt(updatedAt)}.</p>
               )}
             </article>
-          </div>
+          </Container>
         </section>
       </main>
     </>

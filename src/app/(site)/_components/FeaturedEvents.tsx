@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -33,7 +34,7 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
 
   return (
     <section className={section({ ground: 'dark' })} aria-labelledby="featured-heading">
-      <div className={styles.inner}>
+      <Container>
         <header className={styles.header}>
           <div className={styles.headerMain}>
             <Eyebrow className={styles.eyebrow}>Don&rsquo;t miss</Eyebrow>
@@ -51,7 +52,7 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
             <FeaturedCard key={event.key} event={event} year={year} index={i} />
           ))}
         </ul>
-      </div>
+      </Container>
     </section>
   )
 }

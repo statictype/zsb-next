@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -83,27 +84,24 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
       />
       {appearances.length > 0 && <JsonLd data={pressAppearancesJsonLd(appearances)} />}
       <main className={styles.page}>
-        {/* ===== Hero ===== */}
         <PageHero
           flush
           title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
           lead={hero.lead}
         />
 
-        {/* ===== Media Kit Strip ===== */}
         {kit.length > 0 && (
           <section id="media-kit" className={section()}>
-            <div className={styles.kitHeader}>
+            <Container mb="2xl">
               <SectionHeading flush>Media kit</SectionHeading>
-            </div>
+            </Container>
             <MediaKitStrip items={kit} />
           </section>
         )}
 
-        {/* ===== Appearances ===== */}
         {appearances.length > 0 && (
           <section className={section()}>
-            <div className={styles.appearancesInner}>
+            <Container>
               <SectionHeading>Press appearances</SectionHeading>
 
               <LinkList>
@@ -129,14 +127,13 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
                   )
                 })}
               </LinkList>
-            </div>
+            </Container>
           </section>
         )}
 
-        {/* ===== Releases ===== */}
         {releases.length > 0 && (
           <section className={section()}>
-            <div className={styles.releasesInner}>
+            <Container>
               <SectionHeading>Press releases</SectionHeading>
 
               <LinkList>
@@ -150,7 +147,7 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
                   />
                 ))}
               </LinkList>
-            </div>
+            </Container>
           </section>
         )}
       </main>

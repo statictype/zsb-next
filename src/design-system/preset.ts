@@ -18,7 +18,14 @@ import {
 export const designSystemPreset = definePreset({
   name: 'zsb-design-system',
   conditions: { extend: conditions },
-  patterns: { extend: { editorialSplit } },
+  patterns: {
+    extend: {
+      container: {
+        defaultValues: { maxWidth: 'maxWidth', px: 'gutter', position: 'static' },
+      },
+      editorialSplit,
+    },
+  },
   // Mirror the stepped breakpoints from globals.css (mobile-first).
   theme: {
     extend: {

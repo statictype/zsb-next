@@ -1,4 +1,5 @@
 import { css } from 'styled-system/css'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { CalendarMeta } from './CalendarMeta'
@@ -15,7 +16,7 @@ export function ComingSoon({ year, socials }: { year: number; socials: SocialLin
   const s = comingSoon()
   return (
     <section className={section({ ground: 'dark' })} aria-labelledby="calendar-heading">
-      <div className={s.inner}>
+      <Container>
         <header className={s.header}>
           <SectionHeading id="calendar-heading" flush>
             Calendar
@@ -37,7 +38,7 @@ export function ComingSoon({ year, socials }: { year: number; socials: SocialLin
             className={css({ marginTop: 'xl' })}
           />
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

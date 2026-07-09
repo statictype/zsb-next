@@ -1,4 +1,5 @@
 import { css } from 'styled-system/css'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { PageHero } from '@/components/PageHero/PageHero'
@@ -30,7 +31,7 @@ export default async function ArtistsPage() {
       />
 
       <section className={section({ ground: 'dark' })}>
-        <div className={css({ layerStyle: 'sectionInner' })}>
+        <Container>
           <ArtistsTable
             artists={artists}
             className={css({ maxWidth: '[820px]', marginInline: 'auto' })}
@@ -39,7 +40,7 @@ export default async function ArtistsPage() {
               { label: 'Editions', value: editionCount },
             ]}
           />
-        </div>
+        </Container>
       </section>
     </main>
   )

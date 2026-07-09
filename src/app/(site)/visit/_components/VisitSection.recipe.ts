@@ -12,10 +12,9 @@ import { sva } from 'styled-system/css'
  * dropped, not ported.
  */
 export const visitSection = sva({
-  slots: ['section', 'inner', 'splitLayout', 'content', 'cta'],
+  slots: ['section', 'splitLayout', 'content', 'cta'],
   base: {
     section: { width: 'full', paddingBlock: 'sectionY' },
-    inner: { layerStyle: 'sectionInner' },
 
     splitLayout: {
       display: 'grid',

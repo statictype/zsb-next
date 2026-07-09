@@ -1,6 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
+import { Container } from 'styled-system/jsx'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -72,7 +73,7 @@ function PartnersShell({
         />
 
         <section className={section({ ground: 'dark' })}>
-          <div className={styles.inner}>
+          <Container>
             <SectionHeading>{eventTitle}</SectionHeading>
             <div className={styles.eventBody}>
               {eventBody.map((para) => (
@@ -82,17 +83,16 @@ function PartnersShell({
             <figure className={styles.eventImage}>
               <Figure image={eventImage} sizes="100vw" className={styles.eventImageImg} />
             </figure>
-          </div>
+          </Container>
         </section>
 
         <section className={section({ ground: 'light' })}>
-          <div className={styles.inner}>
+          <Container>
             <div className={styles.whySculptureTop}>
               <div>
                 <Eyebrow rule className={css({ marginBottom: 'xl' })}>
                   {whyEyebrow}
                 </Eyebrow>
-                {/* Wider than prose measure so the editorial heading keeps its intended two-line rhythm. */}
                 <SectionHeading flush className={css({ maxWidth: '[700px]' })}>
                   {whyTitle}
                 </SectionHeading>
@@ -113,7 +113,7 @@ function PartnersShell({
               rhythm="pair"
               titleScale="responsive"
             />
-          </div>
+          </Container>
         </section>
 
         {/* No contact email in settings would mean a broken `mailto:` — hide

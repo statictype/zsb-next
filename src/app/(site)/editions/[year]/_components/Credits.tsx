@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import type { CreditEntry } from '@/types/edition'
 import { credits as creditsRecipe } from './Credits.recipe'
@@ -16,8 +17,7 @@ export function Credits({ credits }: CreditsProps) {
 
   return (
     <section className={section({ ground: 'light' })}>
-      <div className={s.container}>
-        {/* Primary Credits */}
+      <Container>
         <div className={s.primary}>
           {primary.map((credit) => (
             <div key={credit.label} className={s.block}>
@@ -41,7 +41,6 @@ export function Credits({ credits }: CreditsProps) {
           <IsdayBadge className={s.badge} />
         </div>
 
-        {/* Partners */}
         {partners.length > 0 && (
           <div className={s.partners}>
             {partners.map((credit) => (
@@ -57,7 +56,6 @@ export function Credits({ credits }: CreditsProps) {
           </div>
         )}
 
-        {/* Secondary Credits + ISDay seal in the 4th column */}
         <div className={s.secondary}>
           {secondary.map((credit) => (
             <div key={credit.label} className={s.inline}>
@@ -66,7 +64,7 @@ export function Credits({ credits }: CreditsProps) {
             </div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

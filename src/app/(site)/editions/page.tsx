@@ -1,5 +1,6 @@
 import { type CSSProperties } from 'react'
 import { css } from 'styled-system/css'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
@@ -78,7 +79,7 @@ function EditionsListShell({ children }: { children?: React.ReactNode }) {
       />
 
       <section className={section({ ground: 'dark' })}>
-        <div className={styles.inner}>{children}</div>
+        <Container>{children}</Container>
       </section>
     </main>
   )

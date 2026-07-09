@@ -1,14 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Credits — co-located slot recipe.
- *
- * Four-tier credit roster (primary grid + partners + secondary) on a white
- * section. Reuses the `section`/`sectionInner` foundation; the tiered grids and
- * the partner-name middot separators are the bespoke part. The shared label
- * treatment is factored to `labelBase` and spread into each tier's label slot
- * (partners recolors to `action`).
- */
 const labelBase = {
   fontSize: 'xs',
   textTransform: 'uppercase',
@@ -18,7 +9,6 @@ const labelBase = {
 
 export const credits = sva({
   slots: [
-    'container',
     'primary',
     'block',
     'label',
@@ -36,11 +26,8 @@ export const credits = sva({
     'inlineNames',
   ],
   base: {
-    container: { layerStyle: 'sectionInner' },
-
     label: labelBase,
 
-    // Primary tier — 1 → 2 → 4 column grid.
     primary: {
       display: 'flex',
       flexDirection: 'column',

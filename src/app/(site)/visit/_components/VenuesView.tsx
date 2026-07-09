@@ -1,6 +1,7 @@
 import { RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Accordion } from '@/components/ui/Accordion/Accordion'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -22,7 +23,7 @@ const styles = venuesView()
 export function VenuesView({ year, sections }: { year: number; sections: VenueTypeSection[] }) {
   return (
     <section className={cx(section(), styles.section)} aria-labelledby="venues-heading">
-      <div className={styles.inner}>
+      <Container>
         <header className={styles.header}>
           <SectionHeading id="venues-heading" flush>
             Where it happens
@@ -47,7 +48,7 @@ export function VenuesView({ year, sections }: { year: number; sections: VenueTy
             />
           </div>
         ))}
-      </div>
+      </Container>
     </section>
   )
 }

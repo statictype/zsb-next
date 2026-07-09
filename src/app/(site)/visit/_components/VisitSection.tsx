@@ -11,6 +11,7 @@ import {
   RiWheelchairLine,
 } from '@remixicon/react'
 import { css } from 'styled-system/css'
+import { Container } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -52,7 +53,7 @@ export function VisitSection(props: VisitData = {}) {
 
   return (
     <div id="visit" className={s.section}>
-      <div className={s.inner}>
+      <Container>
         <div className={s.splitLayout}>
           <div className={imageStyles.block}>
             <div className={imageStyles.frame}>
@@ -123,7 +124,7 @@ export function VisitSection(props: VisitData = {}) {
             ) : null}
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   )
 }

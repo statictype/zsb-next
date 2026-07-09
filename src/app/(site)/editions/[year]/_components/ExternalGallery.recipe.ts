@@ -1,18 +1,8 @@
 import { sva } from 'styled-system/css'
 
-/**
- * ExternalGallery — co-located slot recipe.
- *
- * Archive-link section for editions whose archive lives off-site (the 2021
- * online edition), built on the unified hairline Card (the `card()` recipe owns
- * the chrome + accent-warming hover; this adds the card's max-width/centering
- * and the inner grid). Text left, a quiet edition plate right on `lg`. The CTA
- * icon is decorative; the `.tag` pill uses `<Badge>`.
- */
 export const externalGallery = sva({
   slots: [
     'section',
-    'inner',
     'header',
     'count',
     'card',
@@ -31,7 +21,6 @@ export const externalGallery = sva({
       // ground + rhythm come from `section({ ground: 'dark' })` in the component.
       position: 'relative',
     },
-    inner: { layerStyle: 'sectionInner' },
 
     header: {
       maxWidth: 'maxWidth',

@@ -1,3 +1,4 @@
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Accordion } from '@/components/ui/Accordion/Accordion'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -20,7 +21,7 @@ export function VisitFaq({ entries }: VisitFaqProps) {
   const s = visitFaq()
   return (
     <section className={section({ ground: 'dark' })} aria-labelledby="visit-faq-title">
-      <div className={s.inner}>
+      <Container>
         <SectionHeading id="visit-faq-title">Good to know</SectionHeading>
         <Accordion
           id="visit-faq"
@@ -32,7 +33,7 @@ export function VisitFaq({ entries }: VisitFaqProps) {
             content: <p className={s.answer}>{entry.answer}</p>,
           }))}
         />
-      </div>
+      </Container>
     </section>
   )
 }

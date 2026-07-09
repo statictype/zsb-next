@@ -2,9 +2,8 @@ import { sva } from 'styled-system/css'
 
 /** Archive-page layout only; EditionCard owns card composition and chrome. */
 export const editionsPage = sva({
-  slots: ['inner', 'grid', 'slot', 'card'],
+  slots: ['grid', 'slot', 'card'],
   base: {
-    inner: { layerStyle: 'sectionInner' },
     grid: {
       display: 'grid',
       gridTemplateColumns: '1fr',

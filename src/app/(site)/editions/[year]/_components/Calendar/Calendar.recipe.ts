@@ -15,7 +15,6 @@ import { sva } from 'styled-system/css'
 export const calendar = sva({
   slots: [
     'section',
-    'inner',
     'layout',
     'header',
     'headerMain',
@@ -66,7 +65,6 @@ export const calendar = sva({
       // in lockstep and scale monotonically with the section rhythm.
       '--marker-col': 'token(spacing.4xl)',
     },
-    inner: { layerStyle: 'sectionInner' },
     layout: { minWidth: '0' },
 
     header: {
