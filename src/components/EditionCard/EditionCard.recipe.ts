@@ -19,7 +19,6 @@ export const editionCard = sva({
     root: {
       height: 'full',
       overflow: 'visible',
-      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
     },
     media: {
       position: 'relative',

@@ -22,7 +22,7 @@ export const collapsible = defineSlotRecipe({
       cursor: 'pointer',
       textAlign: 'left',
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
       fontWeight: 'semibold',
@@ -30,7 +30,6 @@ export const collapsible = defineSlotRecipe({
       _hover: {
         '& [data-collapsible-label]': { textDecoration: 'underline', textUnderlineOffset: '3px' },
       },
-      _focusVisible: { outline: 'focus', outlineOffset: '2px' },
       '& [data-collapsible-label=open]': { display: 'none' },
       '&[data-state=open] [data-collapsible-label=closed]': { display: 'none' },
       '&[data-state=open] [data-collapsible-label=open]': { display: 'inline' },

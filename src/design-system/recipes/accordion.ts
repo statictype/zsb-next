@@ -26,12 +26,11 @@ export const accordion = defineSlotRecipe({
       cursor: 'pointer',
       transition: 'color {durations.fast} {easings.quint}',
       _hover: { color: 'action' },
-      _focusVisible: { outline: 'focus', outlineOffset: '3px' },
       _motionReduce: { transition: 'none' },
       '& [data-accordion-meta]': {
         marginLeft: 'auto',
         fontFamily: 'body',
-        fontSize: '2xs',
+        fontSize: 'xs',
         textTransform: 'uppercase',
         letterSpacing: 'label',
         fontWeight: 'semibold',
@@ -64,7 +63,7 @@ export const accordion = defineSlotRecipe({
       display: {
         itemTrigger: {
           fontFamily: 'display',
-          fontSize: { base: 'lg', md: 'xl' },
+          fontSize: { base: 'md', md: 'lg' },
           lineHeight: 'tight',
         },
       },

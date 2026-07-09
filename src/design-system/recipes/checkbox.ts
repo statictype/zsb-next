@@ -34,7 +34,7 @@ export const checkbox = defineSlotRecipe({
         outlineOffset: '2px',
       },
       '& [data-checkbox-count]': {
-        fontSize: '2xs',
+        fontSize: 'xs',
         fontVariantNumeric: 'tabular-nums',
         opacity: 0.6,
       },

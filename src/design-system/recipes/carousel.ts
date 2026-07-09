@@ -11,7 +11,6 @@ export const carousel = defineSlotRecipe({
       scrollbarWidth: 'none',
       scrollBehavior: 'smooth',
       '&::-webkit-scrollbar': { display: 'none' },
-      _focusVisible: { outline: 'primary', outlineOffset: '2px' },
       '&[data-dragging]': { cursor: 'grabbing' },
       _motionReduce: { scrollBehavior: 'auto' },
     },
@@ -38,8 +37,6 @@ export const carousel = defineSlotRecipe({
       color: 'heading',
       cursor: 'pointer',
       _hover: { color: 'action' },
-      _disabled: { opacity: 0.5, cursor: 'not-allowed' },
-      _focusVisible: { outline: 'primary', outlineOffset: '2px' },
     },
     indicatorGroup: { display: 'flex', alignItems: 'center', gap: '10px' },
     indicator: {
@@ -50,7 +47,6 @@ export const carousel = defineSlotRecipe({
       background: 'muted',
       cursor: 'pointer',
       '&[data-current]': { width: '28px', background: 'highlight' },
-      _focusVisible: { outline: 'primary', outlineOffset: '4px' },
     },
   },
   variants: {

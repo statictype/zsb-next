@@ -95,14 +95,14 @@ export const editionTheme = sva({
       // ground always covers it, even for long single-token themes. `large` /
       // `normal` render inside constrained list/featured cards, so they cap at
       // the card width.
-      huge: { root: { fontSize: { base: 'xl', md: '3xl', lg: '4xl', xl: '5xl' } } },
+      huge: { root: { fontSize: { base: 'lg', md: 'lg', lg: 'xl', xl: 'xl' } } },
       large: {
-        root: { maxWidth: 'full', fontSize: { base: 'xl', md: '3xl', lg: '3xl', xl: '4xl' } },
+        root: { maxWidth: 'full', fontSize: { base: 'lg', md: 'lg', lg: 'lg', xl: 'xl' } },
       },
       normal: {
         root: {
           maxWidth: 'full',
-          fontSize: { base: 'xl', md: '3xl', lg: 'xl', xl: '2xl', '4xl': '3xl' },
+          fontSize: 'lg',
         },
       },
       // The editions rail plate — two steps up from `normal`'s ladder (the
@@ -114,7 +114,7 @@ export const editionTheme = sva({
       rail: {
         root: {
           maxWidth: 'full',
-          fontSize: { base: '4xl', md: '5xl', lg: '3xl', xl: '4xl', '4xl': '5xl' },
+          fontSize: { base: 'xl', md: 'xl', lg: 'lg', xl: 'xl', '4xl': 'xl' },
           paddingTop: '[0.8em]',
           paddingLeft: '0',
         },

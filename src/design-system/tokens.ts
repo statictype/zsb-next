@@ -87,17 +87,16 @@ export const tokens = {
     display: { value: 'var(--font-dela-gothic), sans-serif' },
     body: { value: 'var(--font-montserrat), sans-serif' },
   },
-  // Stepped-responsive scales live in semanticTokens below.
+  // The 6-step fluid scale (375→1920px viewport), all `clamp()`.
   fontSizes: {
     badgeRing: { value: '40px' },
     badge: { value: '10px' },
-    md: { value: 'clamp(19px, 18.35px + 0.2038vw, 22px)' },
-    lg: { value: 'clamp(22px, 21.35px + 0.2038vw, 25px)' },
-    xl: { value: 'clamp(26px, 24.26px + 0.5435vw, 34px)' },
-    '2xl': { value: 'clamp(32px, 28.96px + 0.9511vw, 46px)' },
-    '3xl': { value: 'clamp(40px, 36.52px + 1.087vw, 56px)' },
-    '4xl': { value: 'clamp(48px, 42.35px + 1.766vw, 74px)' },
-    '5xl': { value: 'clamp(58px, 50.61px + 2.31vw, 92px)' },
+    xs: { value: 'clamp(10px, 9.76px + 0.0647vw, 11px)' },
+    sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
+    base: { value: '16px' },
+    md: { value: 'clamp(19px, 17.54px + 0.3883vw, 25px)' },
+    lg: { value: 'clamp(26px, 18.72px + 1.9417vw, 56px)' },
+    xl: { value: 'clamp(48px, 37.32px + 2.8479vw, 92px)' },
   },
   spacing: {
     // `0` is a real member of the scale: overriding a larger breakpoint's
@@ -337,13 +336,6 @@ export const semanticTokens = {
     '10': { value: '10' },
     '20': { value: '20' },
   },
-  // Stepped-responsive tokens: faithful to the :root media-query overrides.
-  fontSizes: {
-    base: { value: { base: '16px', lg: '15px', '4xl': '16px' } },
-    '2xs': { value: { base: '8px', lg: '9px', '4xl': '10px' } },
-    xs: { value: { base: '10px', lg: '11px' } },
-    sm: { value: { base: '12px', '4xl': '13px' } },
-  },
   sizes: {
     // Fixed-nav height — the page-top offset every hero clears.
     nav: { value: { base: '60px', md: '72px', lg: '84px', xl: '100px' } },
@@ -510,47 +502,109 @@ export const animationStyles = {
   },
 } as const
 
-// Typography utilities. Pure type — margins / max-width belong at the call
-// site. Tag/kicker treatments are NOT here: they are the Badge / Eyebrow
-// recipes.
+// The 7 sealed textStyles — pure type, no color. Ink cascades from the
+// surface (ground/section owns heading/body/muted ink).
 export const textStyles = {
-  sectionTitle: {
+  display: {
     value: {
       fontFamily: 'display',
-      fontSize: { base: 'xl', md: '2xl' },
-      lineHeight: 'display',
+      fontSize: 'xl',
+      lineHeight: '1',
+      letterSpacing: '-0.02em',
       textTransform: 'uppercase',
     },
   },
-  // textStyles are typography-only — the entrance animation (the legacy
-  // `.pageTitle` `fadeSlideUp`) is applied at the call site via
-  // `css({ animation: 'fadeSlideUp 1s {easings.expo} 0.2s both' })`.
+  title: {
+    value: {
+      fontFamily: 'display',
+      fontSize: 'lg',
+      lineHeight: '1.16',
+      letterSpacing: '-0.02em',
+      textTransform: 'uppercase',
+    },
+  },
+  heading: {
+    value: {
+      fontFamily: 'display',
+      fontSize: 'md',
+      lineHeight: '1.16',
+      letterSpacing: '-0.02em',
+      textTransform: 'uppercase',
+    },
+  },
+  lead: {
+    value: {
+      fontFamily: 'body',
+      fontSize: 'md',
+      fontWeight: 'light',
+      lineHeight: '1.56',
+      textWrap: 'pretty',
+    },
+  },
+  body: {
+    value: {
+      fontFamily: 'body',
+      fontSize: 'base',
+      lineHeight: '1.56',
+      textWrap: 'pretty',
+    },
+  },
+  caption: {
+    value: {
+      fontFamily: 'body',
+      fontSize: 'sm',
+      lineHeight: '1.38',
+    },
+  },
+  label: {
+    value: {
+      fontFamily: 'body',
+      fontSize: 'xs',
+      fontWeight: 'semibold',
+      lineHeight: '1.3',
+      letterSpacing: '1.2px',
+      textTransform: 'uppercase',
+    },
+  },
+
+  // Legacy styles — thin copies of the canonical styles above, kept only so
+  // existing recipe references still resolve. Die in Phase 2.
   pageTitle: {
     value: {
       fontFamily: 'display',
-      fontSize: 'clamp(40px, 4.75vw, 100px)',
+      fontSize: 'xl',
       lineHeight: '1',
+      letterSpacing: '-0.02em',
+      textTransform: 'uppercase',
+    },
+  },
+  sectionTitle: {
+    value: {
+      fontFamily: 'display',
+      fontSize: 'lg',
+      lineHeight: '1.16',
+      letterSpacing: '-0.02em',
       textTransform: 'uppercase',
     },
   },
   cardTitle: {
     value: {
       fontFamily: 'display',
-      fontSize: 'xl',
-      lineHeight: 'heading',
-      letterSpacing: 'tight',
+      fontSize: 'md',
+      lineHeight: '1.16',
+      letterSpacing: '-0.02em',
       textTransform: 'uppercase',
     },
   },
   // Item title on the dark schedule board — the agenda event rows and the
-  // Ongoing run cards. Body face (not display), set tight.
+  // Ongoing run cards.
   boardTitle: {
     value: {
-      fontFamily: 'body',
-      fontWeight: 'bold',
-      fontSize: 'base',
-      lineHeight: 'tight',
-      letterSpacing: 'tight',
+      fontFamily: 'display',
+      fontSize: 'md',
+      lineHeight: '1.16',
+      letterSpacing: '-0.02em',
+      textTransform: 'uppercase',
       color: 'white',
     },
   },
@@ -565,43 +619,44 @@ export const textStyles = {
   metaLabel: {
     value: {
       fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
+      fontSize: 'xs',
       fontWeight: 'semibold',
+      lineHeight: '1.3',
+      letterSpacing: '1.2px',
+      textTransform: 'uppercase',
       color: 'muted',
     },
   },
   footerMeta: {
     value: {
       fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
+      fontSize: 'xs',
       fontWeight: 'semibold',
+      lineHeight: '1.3',
+      letterSpacing: '1.2px',
+      textTransform: 'uppercase',
       color: 'muted',
     },
   },
-  lead: {
-    value: {
-      fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: 'body',
-      textWrap: 'pretty',
-    },
-  },
-  // The homepage hero's larger, lighter intro — the one place a lead is
-  // emphasised over the canonical `lead` role.
+  // The homepage hero's larger, lighter intro — absorbed into the canonical
+  // `lead` role.
   leadLarge: {
     value: {
       fontFamily: 'body',
       fontSize: 'md',
       fontWeight: 'light',
-      lineHeight: 'body',
+      lineHeight: '1.56',
       textWrap: 'pretty',
     },
   },
   prose: {
-    value: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },
+    value: {
+      fontFamily: 'body',
+      fontSize: 'base',
+      lineHeight: '1.56',
+      textWrap: 'pretty',
+      color: 'body',
+    },
   },
 } as const
 

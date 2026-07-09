@@ -16,7 +16,7 @@ export const privacyPage = sva({
       textStyle: 'prose',
       '& h2': {
         fontFamily: 'display',
-        fontSize: 'xl',
+        fontSize: 'lg',
         lineHeight: 'display',
         color: 'heading',
         letterSpacing: 'tight',

@@ -50,13 +50,13 @@ export const eventModal = sva({
     },
     when: {
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
       fontWeight: 'semibold',
       color: 'highlight',
     },
-    name: { fontFamily: 'display', fontSize: '2xl', lineHeight: 'tight', color: 'white' },
+    name: { fontFamily: 'display', fontSize: 'lg', lineHeight: 'tight', color: 'white' },
 
     // Layout-only overrides — the chip list + venue line are the shared
     // `TypeChips` / `VenueLine` components; these slots add the modal's rhythm.

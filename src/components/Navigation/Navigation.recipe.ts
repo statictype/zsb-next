@@ -71,7 +71,6 @@ export const navigation = sva({
       transitionProperty: 'colors',
       transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
-      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
       // Label roll — the muted label exits up while an identical pink copy
       // enters from below, clipped by a mask snug to the line box so nothing
       // leaks into the link's padding.
@@ -113,7 +112,7 @@ export const navigation = sva({
       '&:last-child': { marginRight: '0' },
     },
     mobileNavLink: {
-      fontSize: 'lg',
+      fontSize: 'md',
       paddingBlock: 'md',
       paddingInline: 'xl',
     },

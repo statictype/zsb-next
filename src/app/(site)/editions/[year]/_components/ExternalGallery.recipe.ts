@@ -37,7 +37,6 @@ export const externalGallery = sva({
     card: {
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
     },
     cardLeft: {
       paddingBlock: 'xl',
@@ -68,7 +67,7 @@ export const externalGallery = sva({
     ctaUrl: {
       marginLeft: 'auto',
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'lowercase',
       letterSpacing: 'subtle',
       color: 'muted',
@@ -114,7 +113,7 @@ export const externalGallery = sva({
         display: 'flex',
         justifyContent: 'space-between',
         fontFamily: 'body',
-        fontSize: '2xs',
+        fontSize: 'xs',
         textTransform: 'uppercase',
         letterSpacing: 'wide',
         color: 'muted',

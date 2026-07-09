@@ -29,7 +29,7 @@ export const manifesto = sva({
     // the `sectionTitle` / `SectionHeading` role (which is smaller + uppercase).
     title: {
       fontFamily: 'display',
-      fontSize: { base: '2xl', xl: '3xl', '3xl': '4xl' },
+      fontSize: { base: 'lg', xl: 'lg', '3xl': 'xl' },
       lineHeight: { base: 'tight', md: 'display', '4xl': 'tight' },
       color: 'black',
       textWrap: '[pretty]',

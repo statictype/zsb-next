@@ -24,8 +24,6 @@ export const button = defineRecipe({
     border: 'none',
     transition:
       'color {durations.normal} ease, background-color {durations.normal} ease, border-color {durations.normal} ease, filter {durations.normal} ease',
-    _disabled: { opacity: '0.5', cursor: 'not-allowed' },
-    _focusVisible: { outline: 'primary', outlineOffset: '2px' },
   },
   variants: {
     variant: {

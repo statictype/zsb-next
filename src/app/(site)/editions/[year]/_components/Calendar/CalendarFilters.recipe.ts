@@ -20,7 +20,7 @@ export const calendarFilters = sva({
     bar: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' },
     reset: {
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
       fontWeight: 'semibold',
@@ -39,8 +39,6 @@ export const calendarFilters = sva({
         transitionTimingFunction: 'quint',
       },
       '&:hover:not(:disabled)': { color: 'action', '& svg': { transform: 'rotate(-90deg)' } },
-      _disabled: { color: 'gray.800', cursor: 'default' },
-      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
     },
 
     filterRow: {
@@ -48,7 +46,7 @@ export const calendarFilters = sva({
     },
     filterRowLabel: {
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'wide',
       fontWeight: 'semibold',

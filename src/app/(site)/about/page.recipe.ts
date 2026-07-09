@@ -100,7 +100,7 @@ export const aboutPage = sva({
     },
     authorRole: {
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'wide',
       color: 'muted',

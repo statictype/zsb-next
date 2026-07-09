@@ -71,7 +71,7 @@ export const amenityStrip = sva({
       color: 'body',
       textTransform: 'uppercase',
       letterSpacing: 'wide',
-      lg: { fontSize: '2xs' },
+      lg: { fontSize: 'xs' },
     },
     icon: { color: 'muted' },
   },

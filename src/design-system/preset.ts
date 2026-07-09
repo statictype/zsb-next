@@ -1,4 +1,4 @@
-import { definePreset } from '@pandacss/dev'
+import { definePattern, definePreset } from '@pandacss/dev'
 import { editorialSplit } from './recipes/editorial-split'
 import { recipes } from './recipes/index'
 import {
@@ -32,6 +32,29 @@ export const designSystemPreset = definePreset({
         defaultValues: { maxWidth: 'maxWidth', px: 'gutter', position: 'static' },
       },
       editorialSplit,
+      text: definePattern({
+        jsxName: 'Text',
+        jsxElement: 'span',
+        properties: {
+          variant: {
+            type: 'enum',
+            value: ['display', 'title', 'heading', 'lead', 'body', 'caption', 'label'],
+          },
+        },
+        defaultValues: { variant: 'body' },
+        blocklist: [
+          'fontSize',
+          'fontFamily',
+          'fontWeight',
+          'letterSpacing',
+          'lineHeight',
+          'textTransform',
+          'textStyle',
+        ],
+        transform({ variant, ...rest }) {
+          return { textStyle: variant, ...rest }
+        },
+      }),
     },
   },
   // Mirror the stepped breakpoints from globals.css (mobile-first).
@@ -46,6 +69,10 @@ export const designSystemPreset = definePreset({
       layerStyles,
       recipes,
     },
+  },
+  globalCss: {
+    ':focus-visible': { outline: 'focus', outlineOffset: 'token(spacing.xs)' },
+    ':disabled, [aria-disabled=true]': { opacity: 0.5, cursor: 'not-allowed' },
   },
 })
 

@@ -85,7 +85,7 @@ export const calendar = sva({
       paddingBlock: 'xs',
       paddingInline: 'md',
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
       fontWeight: 'semibold',
@@ -98,7 +98,6 @@ export const calendar = sva({
       transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
       _hover: { color: 'white', borderColor: 'white' },
-      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
       // On → the chartreuse "active" fill.
       '&[data-on=true]': {
         color: 'black',
@@ -116,7 +115,7 @@ export const calendar = sva({
     },
     bandLabel: {
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'wide',
       fontWeight: 'semibold',
@@ -179,7 +178,7 @@ export const calendar = sva({
     },
     runRange: {
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
       color: 'muted',
@@ -193,13 +192,13 @@ export const calendar = sva({
     },
     emptyText: {
       fontFamily: 'display',
-      fontSize: 'lg',
+      fontSize: 'md',
       lineHeight: 'tight',
       color: 'gray.300',
     },
     emptyClear: {
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
       fontWeight: 'semibold',
@@ -213,7 +212,6 @@ export const calendar = sva({
       transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
       _hover: { color: 'action', borderColor: 'action' },
-      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
     },
 
     // ---- Agenda timeline ----
@@ -276,11 +274,10 @@ export const calendar = sva({
     },
     markerDay: {
       fontFamily: 'display',
-      fontSize: '3xl',
+      fontSize: 'lg',
       lineHeight: '[0.8]',
       color: 'white',
       fontVariantNumeric: 'tabular-nums',
-      md: { fontSize: '2xl' },
     },
     markerMeta: {
       fontFamily: 'body',
@@ -337,11 +334,7 @@ export const calendar = sva({
       transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
       _after: { content: '""', position: 'absolute', inset: '0', zIndex: '1' },
-      _focusVisible: {
-        color: 'action',
-        outline: 'focus',
-        outlineOffset: 'xs',
-      },
+      _focusVisible: { color: 'action' },
       _motionReduce: { transitionDuration: 'instant' },
     },
     eventDesc: {

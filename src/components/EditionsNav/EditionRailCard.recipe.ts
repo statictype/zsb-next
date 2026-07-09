@@ -16,7 +16,6 @@ export const editionRailCard = sva({
       minHeight: '0',
       padding: '0',
       overflow: 'visible',
-      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
     },
     // The plate is as wide as its content — badges, theme, paddings — always
     // on one line; the carousel drags to reveal plates wider than the screen.
@@ -32,12 +31,9 @@ export const editionRailCard = sva({
       },
       upcoming: {
         root: {
-          // No shared "disabled/muted" opacity convention exists across the
-          // codebase yet (button/carousel/checkbox each pick their own) —
-          // adding an `opacity` token scale here would make Panda's opacity
-          // utility strict repo-wide (confirmed: it does, for every existing
-          // raw opacity literal in every recipe, not just this one), not
-          // just for this call site. Left raw pending that broader migration.
+          // Left raw: adding an `opacity` token scale would make Panda's
+          // opacity utility strict repo-wide, for every existing raw opacity
+          // literal in every recipe, not just this call site.
           cursor: 'default',
           opacity: '0.58',
           filter: '[token(assets.grayscaleFull)]',

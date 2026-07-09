@@ -21,14 +21,14 @@ export const artistsTable = sva({
       paddingBlock: 'sm',
       paddingInline: 'md',
       background: 'highlight',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       fontWeight: 'semibold',
       letterSpacing: 'label',
       color: 'black',
       '& span:last-child': { lineHeight: 'heading' },
     },
-    headerLabel: { fontFamily: 'body', fontSize: '2xs' },
+    headerLabel: { fontFamily: 'body', fontSize: 'xs' },
 
     body: {
       width: 'full',
@@ -51,7 +51,7 @@ export const artistsTable = sva({
       '&:last-child': { borderBottomWidth: '0' },
     },
     num: {
-      fontSize: '2xs',
+      fontSize: 'xs',
       lineHeight: 'loose',
       color: 'muted',
       fontVariantNumeric: 'tabular-nums',
@@ -60,7 +60,7 @@ export const artistsTable = sva({
     },
     name: {
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       lineHeight: 'loose',
       color: 'body',
       fontWeight: 'medium',
@@ -75,7 +75,7 @@ export const artistsTable = sva({
       md: { paddingInline: 'md' },
     },
     metaItem: {
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
       color: 'black',

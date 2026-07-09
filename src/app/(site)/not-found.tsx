@@ -62,7 +62,7 @@ const divider = css({
 
 const title = css({
   fontFamily: 'display',
-  fontSize: 'lg',
+  fontSize: 'md',
   textTransform: 'uppercase',
   letterSpacing: 'label',
   color: 'white',
@@ -83,7 +83,7 @@ const cta = css({
   alignItems: 'center',
   gap: 'sm',
   fontFamily: 'body',
-  fontSize: '2xs',
+  fontSize: 'xs',
   textTransform: 'uppercase',
   letterSpacing: 'label',
   color: 'white',

@@ -24,7 +24,7 @@ export const venueLine = sva({
       color: 'muted',
       textTransform: 'uppercase',
       letterSpacing: 'label',
-      fontSize: '2xs',
+      fontSize: 'xs',
       _before: { content: '"↳ "' },
     },
   },

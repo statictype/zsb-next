@@ -55,7 +55,7 @@ export const partnersPage = sva({
     partnerCtaBadge: { marginBottom: '2xl' },
     partnerCtaHeading: {
       fontFamily: 'display',
-      fontSize: '5xl',
+      fontSize: 'xl',
       color: 'white',
       lineHeight: 'display',
       marginBottom: 'lg',

@@ -55,8 +55,8 @@ export const pillarGrid = sva({
       highlight: { title: { color: 'highlight' } },
     },
     titleScale: {
-      standard: { title: { fontSize: 'lg' } },
-      responsive: { title: { fontSize: { base: 'lg', xl: 'xl' } } },
+      standard: { title: { fontSize: 'md' } },
+      responsive: { title: { fontSize: { base: 'md', xl: 'lg' } } },
     },
   },
   defaultVariants: {

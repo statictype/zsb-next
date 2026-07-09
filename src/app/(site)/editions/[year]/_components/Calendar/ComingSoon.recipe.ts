@@ -10,7 +10,7 @@ export const comingSoon = sva({
     },
     headline: {
       fontFamily: 'display',
-      fontSize: '2xl',
+      fontSize: 'lg',
       lineHeight: 'tight',
       color: 'white',
       maxWidth: '[18ch]',

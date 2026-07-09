@@ -102,7 +102,7 @@ export const featuredEvents = sva({
     },
     when: {
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
       fontWeight: 'semibold',
@@ -124,11 +124,7 @@ export const featuredEvents = sva({
       transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
       _after: { content: '""', position: 'absolute', inset: '0', zIndex: '3' },
-      _focusVisible: {
-        color: 'action',
-        outline: 'focus',
-        outlineOffset: 'xs',
-      },
+      _focusVisible: { color: 'action' },
     },
     venue: {
       fontFamily: 'body',
@@ -144,7 +140,7 @@ export const featuredEvents = sva({
       color: 'muted',
       textTransform: 'uppercase',
       letterSpacing: 'label',
-      fontSize: '2xs',
+      fontSize: 'xs',
       _before: { content: '"↳ "' },
     },
   },

@@ -38,7 +38,7 @@ export const venuesView = sva({
     group: { marginTop: '2xl' },
     groupTitle: {
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'wide',
       fontWeight: 'semibold',
@@ -68,7 +68,6 @@ export const venuesView = sva({
       transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
       _hover: { color: 'action' },
-      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
       _motionReduce: { transitionDuration: 'instant' },
     },
     eventWhen: {

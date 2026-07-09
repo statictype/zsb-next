@@ -34,7 +34,7 @@ export const linkList = sva({
     title: {
       display: 'block',
       fontFamily: 'display',
-      fontSize: { base: 'lg', md: '2xl' },
+      fontSize: { base: 'md', md: 'lg' },
       lineHeight: 'heading',
       color: 'heading',
       transitionProperty: 'colors',

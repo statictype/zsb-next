@@ -14,14 +14,14 @@ export const isdayBadge = sva({
     title: {
       fontFamily: 'body',
       fontWeight: 'light',
-      fontSize: 'xl',
+      fontSize: 'lg',
       color: 'action',
       letterSpacing: 'tight',
       lineHeight: 'heading',
     },
     subtitle: {
       fontFamily: 'body',
-      fontSize: '2xs',
+      fontSize: 'xs',
       textTransform: 'uppercase',
       letterSpacing: 'label',
       color: 'body',

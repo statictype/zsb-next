@@ -46,7 +46,7 @@ export const errorPage = sva({
     },
     title: {
       fontFamily: 'display',
-      fontSize: '2xl',
+      fontSize: 'lg',
       textTransform: 'uppercase',
       letterSpacing: 'label',
       color: 'white',
