@@ -9,7 +9,6 @@ const labelBase = {
 
 export const credits = sva({
   slots: [
-    'primary',
     'label',
     'name',
     'detail',
@@ -27,15 +26,6 @@ export const credits = sva({
   base: {
     label: labelBase,
 
-    primary: {
-      md: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        columnGap: 'lg',
-        rowGap: 'xl',
-      },
-      xl: { gridTemplateColumns: 'repeat(4, 1fr)' },
-    },
     name: {
       fontFamily: 'display',
       fontSize: 'md',
@@ -73,23 +63,11 @@ export const credits = sva({
       marginTop: 'lg',
       paddingTop: 'lg',
       borderTop: 'hairline',
-      md: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        columnGap: 'lg',
-        rowGap: 'lg',
-      },
     },
     secondary: {
       marginTop: 'lg',
       paddingTop: 'lg',
       borderTop: 'hairline',
-      md: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        columnGap: 'lg',
-        rowGap: 'lg',
-      },
     },
 
     partnersBlock: {

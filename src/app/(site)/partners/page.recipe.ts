@@ -5,7 +5,6 @@ export const partnersPage = sva({
     'eventBody',
     'eventImage',
     'eventImageImg',
-    'whySculptureTop',
     'whySculptureImage',
     'whySculptureImg',
     'partnerCta',
@@ -34,13 +33,6 @@ export const partnersPage = sva({
       background: 'gray.900',
     },
 
-    whySculptureTop: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      gap: '2xl',
-      marginBottom: '3xl',
-      lg: { gridTemplateColumns: '1fr 1fr', gap: '3xl', alignItems: 'end' },
-    },
     whySculptureImage: {
       position: 'relative',
       overflow: 'hidden',

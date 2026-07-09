@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
-import { Container, HStack, Wrap } from 'styled-system/jsx'
+import { Container, Grid, HStack, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -15,21 +15,12 @@ import { featuredEvents } from './FeaturedEvents.recipe'
 
 const styles = featuredEvents()
 
-// The homepage spotlight (ZSB-31): the few events the team has marked `featured`,
-// pulled off the schedule board (ZSB-28) and pinned up as poster cards. The look
-// only — which edition these come from and whether the section appears at all is
-// owned by ZSB-44; this component takes the chosen events and renders them. Each
-// card links to the event's route so the detail modal opens over the edition
-// (ADR 0015), exactly like a calendar row.
-
 interface FeaturedEventsProps {
   year: number
   events: CalendarEvent[]
 }
 
 export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
-  // No marked events → no section. (Presence is ultimately ZSB-44's call, but a
-  // component that renders an empty spotlight would be a bug regardless.)
   if (events.length === 0) return null
 
   return (
@@ -53,11 +44,11 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
           </Button>
         </HStack>
 
-        <ul className={styles.grid}>
+        <Grid as="ul" columns={{ base: 1, md: 2, lg: 3 }} listStyle="none">
           {events.map((event, i) => (
             <FeaturedCard key={event.key} event={event} year={year} index={i} />
           ))}
-        </ul>
+        </Grid>
       </Container>
     </section>
   )

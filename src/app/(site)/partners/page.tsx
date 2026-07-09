@@ -1,7 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
-import { Center, Container, Stack } from 'styled-system/jsx'
+import { Center, Container, Grid, Stack } from 'styled-system/jsx'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -88,7 +88,12 @@ function PartnersShell({
 
         <section className={section({ ground: 'light' })}>
           <Container>
-            <div className={styles.whySculptureTop}>
+            <Grid
+              columns={{ base: 1, lg: 2 }}
+              gap={{ base: '2xl', lg: '3xl' }}
+              alignItems={{ lg: 'end' }}
+              marginBottom="3xl"
+            >
               <div>
                 <Eyebrow rule className={css({ marginBottom: 'xl' })}>
                   {whyEyebrow}
@@ -104,7 +109,7 @@ function PartnersShell({
                   className={styles.whySculptureImg}
                 />
               </div>
-            </div>
+            </Grid>
 
             <PillarGrid
               items={whyPoints.map((point) => ({ title: point.title, body: point.text }))}

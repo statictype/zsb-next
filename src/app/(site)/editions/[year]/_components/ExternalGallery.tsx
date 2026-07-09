@@ -1,6 +1,6 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
-import { Center, Container, HStack, Stack } from 'styled-system/jsx'
+import { Center, Container, Grid, HStack, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
@@ -44,7 +44,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
             rel="noopener noreferrer"
             aria-label={`${linkLabel} — opens ${href} in a new tab`}
           >
-            <div className={styles.cardInner}>
+            <Grid gap="0" gridTemplateColumns={{ lg: '1.4fr 1fr' }}>
               <Stack className={styles.cardLeft}>
                 <Badge>{tag}</Badge>
 
@@ -88,7 +88,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
                   </div>
                 </Center>
               </Center>
-            </div>
+            </Grid>
           </a>
         </Card>
       </Container>

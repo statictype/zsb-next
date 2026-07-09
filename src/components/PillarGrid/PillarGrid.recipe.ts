@@ -1,20 +1,10 @@
 import { sva } from 'styled-system/css'
 
-/**
- * PillarGrid — shared editorial pillar grid.
- *
- * About and Partners share the same two-column pillar system, but keep distinct
- * border rhythms: About uses bookended cells inside a dark band, Partners uses
- * paired cells in a light grid. The recipe owns those two rhythms explicitly.
- */
 export const pillarGrid = sva({
   slots: ['grid', 'item', 'number', 'title', 'body'],
   base: {
     grid: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
       borderTop: 'hairline',
-      md: { gridTemplateColumns: '1fr 1fr' },
     },
     item: {
       paddingBlock: 'xl',

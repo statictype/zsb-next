@@ -1,5 +1,5 @@
 import { cx } from 'styled-system/css'
-import { Center, Stack } from 'styled-system/jsx'
+import { Center, Grid, Stack } from 'styled-system/jsx'
 import { editionLoading } from './loading.recipe'
 
 const styles = editionLoading()
@@ -26,7 +26,7 @@ export default function EditionLoading() {
 
       <div className={styles.section}>
         <div className={cx(styles.bone, styles.sectionTitle)} />
-        <div className={styles.artistGrid}>
+        <Grid columns={{ base: 2, md: 3, lg: 4 }} gap="md">
           <div className={cx(styles.bone, styles.artistCard)} />
           <div className={cx(styles.bone, styles.artistCard)} />
           <div className={cx(styles.bone, styles.artistCard)} />
@@ -35,7 +35,7 @@ export default function EditionLoading() {
           <div className={cx(styles.bone, styles.artistCard)} />
           <div className={cx(styles.bone, styles.artistCard)} />
           <div className={cx(styles.bone, styles.artistCard)} />
-        </div>
+        </Grid>
       </div>
 
       <div className={styles.section}>

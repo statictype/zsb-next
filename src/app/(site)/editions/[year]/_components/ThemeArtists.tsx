@@ -1,5 +1,5 @@
 import { cx } from 'styled-system/css'
-import { editorialSplit } from 'styled-system/patterns'
+import { Grid } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
@@ -23,7 +23,12 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
           {theme}
         </SectionHeading>
       </div>
-      <div className={cx(editorialSplit(), styles.inner)}>
+      <Grid
+        className={styles.inner}
+        gridTemplateColumns={{ lg: '0.8fr 1.2fr' }}
+        rowGap={{ lg: 'lg' }}
+        columnGap={{ lg: '4xl' }}
+      >
         <div className={styles.body}>
           <p>{themeSection.body}</p>
         </div>
@@ -36,7 +41,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
             { label: 'Edition', value: `${year - 2020}-${year}` },
           ]}
         />
-      </div>
+      </Grid>
 
       {carousel && <GalleryCarousel slides={carousel} eyebrow={theme} />}
     </section>

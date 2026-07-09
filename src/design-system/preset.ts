@@ -23,6 +23,11 @@ export const designSystemPreset = definePreset({
       stack: { defaultValues: { gap: 'md' } },
       hstack: { defaultValues: { gap: 'sm' } },
       wrap: { defaultValues: { gap: 'sm', align: 'center' } },
+      grid: {
+        defaultValues: (props) => ({
+          gap: props.columnGap || props.rowGap ? undefined : 'gridGap',
+        }),
+      },
       container: {
         defaultValues: { maxWidth: 'maxWidth', px: 'gutter', position: 'static' },
       },

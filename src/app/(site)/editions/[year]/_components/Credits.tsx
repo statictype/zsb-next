@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Container, Stack, Wrap } from 'styled-system/jsx'
+import { Container, Grid, Stack, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import type { CreditEntry } from '@/types/edition'
 import { credits as creditsRecipe } from './Credits.recipe'
@@ -18,7 +18,7 @@ export function Credits({ credits }: CreditsProps) {
   return (
     <section className={section({ ground: 'light' })}>
       <Container>
-        <Stack className={s.primary} gap="lg">
+        <Grid columns={{ base: 1, md: 2, xl: 4 }} columnGap="lg" rowGap={{ base: 'lg', md: 'xl' }}>
           {primary.map((credit) => (
             <Stack key={credit.label} gap="sm">
               <span className={s.label}>{credit.label}</span>
@@ -39,10 +39,10 @@ export function Credits({ credits }: CreditsProps) {
             </Stack>
           ))}
           <IsdayBadge className={s.badge} />
-        </Stack>
+        </Grid>
 
         {partners.length > 0 && (
-          <Stack className={s.partners} gap="lg">
+          <Grid className={s.partners} columns={{ base: 1, md: 4 }} gap="lg">
             {partners.map((credit) => (
               <Stack key={credit.label} className={s.partnersBlock} gap="sm">
                 <span className={s.partnersLabel}>{credit.label}</span>
@@ -53,17 +53,17 @@ export function Credits({ credits }: CreditsProps) {
                 </Wrap>
               </Stack>
             ))}
-          </Stack>
+          </Grid>
         )}
 
-        <Stack className={s.secondary} gap="lg">
+        <Grid className={s.secondary} columns={{ base: 1, md: 4 }} gap="lg">
           {secondary.map((credit) => (
             <Stack key={credit.label} className={s.inline} gap="sm">
               <span className={s.inlineLabel}>{credit.label}</span>
               <span className={s.inlineNames}>{credit.value}</span>
             </Stack>
           ))}
-        </Stack>
+        </Grid>
       </Container>
     </section>
   )

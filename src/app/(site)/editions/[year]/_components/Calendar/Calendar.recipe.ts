@@ -23,7 +23,6 @@ export const calendar = sva({
     'pastToggle',
     'band',
     'bandLabel',
-    'runs',
     'run',
     'runMedia',
     'runContent',
@@ -124,12 +123,6 @@ export const calendar = sva({
       fontWeight: 'semibold',
       color: 'highlight',
       marginBottom: 'md',
-    },
-    runs: {
-      listStyle: 'none',
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))',
-      gap: 'md',
     },
     run: {
       display: 'flex',

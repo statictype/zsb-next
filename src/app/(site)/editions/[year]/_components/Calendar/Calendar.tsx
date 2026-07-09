@@ -4,7 +4,7 @@ import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
-import { Container, HStack, Stack, Wrap } from 'styled-system/jsx'
+import { Container, Grid, HStack, Stack, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
@@ -158,7 +158,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
               {onView.length > 0 && (
                 <section className={s.band} aria-label="Ongoing throughout the edition">
                   <h3 className={s.bandLabel}>Ongoing</h3>
-                  <ul className={s.runs}>
+                  <Grid as="ul" minChildWidth="300px" gap="md" listStyle="none">
                     {onView.map((run) => {
                       const runEnd = run.endDate ?? run.startDate
                       const past = liveClock !== null && runEnd < liveClock
@@ -195,7 +195,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                         </li>
                       )
                     })}
-                  </ul>
+                  </Grid>
                 </section>
               )}
 

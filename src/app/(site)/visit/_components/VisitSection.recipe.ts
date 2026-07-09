@@ -1,28 +1,9 @@
 import { sva } from 'styled-system/css'
 
-/**
- * VisitSection — co-located slot recipe.
- *
- * Dark split layout shell for the Visit lead section. The block recipes below
- * keep image, info, amenity, and transport styling separate without splitting
- * this small page into tiny JSX components.
- *
- * `infoValue`/`transportFrom` keep the legacy raw-gray exceptions (bright body
- * on dark, lead-style emphasis). The unused `eyebrow`/`headline` rules were
- * dropped, not ported.
- */
 export const visitSection = sva({
-  slots: ['section', 'splitLayout', 'content', 'cta'],
+  slots: ['section', 'content', 'cta'],
   base: {
     section: { width: 'full', paddingBlock: 'sectionY' },
-
-    splitLayout: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      gap: '2xl',
-      alignItems: 'center',
-      lg: { gridTemplateColumns: '5fr 6fr', gap: 'gridGap' },
-    },
 
     cta: { paddingTop: 'md' },
   },

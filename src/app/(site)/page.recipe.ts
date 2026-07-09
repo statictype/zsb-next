@@ -56,16 +56,6 @@ export const homePage = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       width: 'full',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'lg',
-      lg: {
-        display: 'grid',
-        gridTemplateColumns: '1fr auto',
-        alignItems: 'start',
-        columnGap: '2xl',
-        rowGap: '3xl',
-      },
     },
     heroVisual: {
       order: '2',

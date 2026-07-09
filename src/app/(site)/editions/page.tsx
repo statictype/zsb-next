@@ -1,6 +1,6 @@
 import { type CSSProperties } from 'react'
 import { css } from 'styled-system/css'
-import { Container } from 'styled-system/jsx'
+import { Container, Grid } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
@@ -39,7 +39,7 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
 
   return (
     <EditionsListShell>
-      <div className={styles.grid}>
+      <Grid columns={{ base: 1, lg: 2 }}>
         {editions.map((edition, index) => {
           const isFeature = index === 0
 
@@ -60,7 +60,7 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
             </div>
           )
         })}
-      </div>
+      </Grid>
     </EditionsListShell>
   )
 }

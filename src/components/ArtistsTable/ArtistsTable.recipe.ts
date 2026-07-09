@@ -1,13 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/**
- * ArtistsTable — co-located slot recipe.
- *
- * A numbered two-column roster on a chartreuse header/footer, framed by the
- * shared dark hairline (`--border-dark` → borderDark token). Single column on
- * mobile (stacked entries), a real 2-col grid from `md` where the inter-column
- * the hairline flips from a bottom border to a right border.
- */
 export const artistsTable = sva({
   slots: [
     'root',
@@ -39,11 +31,8 @@ export const artistsTable = sva({
     headerLabel: { fontFamily: 'body', fontSize: '2xs' },
 
     body: {
-      display: 'flex',
-      flexDirection: 'column',
       width: 'full',
       border: 'hairline',
-      md: { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' },
     },
     column: {
       borderBottom: 'hairline',

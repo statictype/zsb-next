@@ -6,7 +6,6 @@ export const externalGallery = sva({
     'header',
     'count',
     'card',
-    'cardInner',
     'cardLeft',
     'titleHighlight',
     'description',
@@ -40,12 +39,6 @@ export const externalGallery = sva({
       marginInline: 'auto',
       _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
     },
-    cardInner: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      lg: { gridTemplateColumns: '1.4fr 1fr' },
-    },
-
     cardLeft: {
       paddingBlock: 'xl',
       paddingInline: 'lg',

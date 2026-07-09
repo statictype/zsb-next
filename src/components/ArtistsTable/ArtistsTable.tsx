@@ -1,5 +1,5 @@
 import { cx } from 'styled-system/css'
-import { HStack, Wrap } from 'styled-system/jsx'
+import { Grid, HStack, Wrap } from 'styled-system/jsx'
 import { padNum, splitInHalf } from '@/lib/format-utils'
 import type { ArtistListItem } from '@/types/edition'
 import { artistsTable } from './ArtistsTable.recipe'
@@ -34,7 +34,7 @@ export function ArtistsTable({
         <span>001&mdash;{padNum(artists.length, 3)}</span>
       </HStack>
 
-      <div className={styles.body}>
+      <Grid className={styles.body} columns={{ base: 1, md: 2 }} gap="0">
         <div className={styles.column}>
           {firstHalf.map((artist, i) => (
             <HStack key={artist._id} className={styles.entry}>
@@ -51,7 +51,7 @@ export function ArtistsTable({
             </HStack>
           ))}
         </div>
-      </div>
+      </Grid>
 
       {meta.length > 0 && (
         <HStack className={styles.footer} justify="space-between">

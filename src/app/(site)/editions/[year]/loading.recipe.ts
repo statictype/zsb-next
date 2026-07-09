@@ -11,7 +11,6 @@ export const editionLoading = sva({
     'section',
     'sectionTitle',
     'manifestoLine',
-    'artistGrid',
     'artistCard',
     'venueItem',
     'carousel',
@@ -47,13 +46,6 @@ export const editionLoading = sva({
       '&:nth-child(5)': { width: '[60%]' },
     },
 
-    artistGrid: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(2, 1fr)',
-      gap: 'md',
-      md: { gridTemplateColumns: 'repeat(3, 1fr)' },
-      lg: { gridTemplateColumns: 'repeat(4, 1fr)' },
-    },
     artistCard: { aspectRatio: '3 / 4' },
 
     venueItem: { height: '[80px]', borderBottom: 'hairline' },

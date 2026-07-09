@@ -2,7 +2,7 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cx } from 'styled-system/css'
-import { HStack, Stack } from 'styled-system/jsx'
+import { Grid, HStack, Stack } from 'styled-system/jsx'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
@@ -123,7 +123,13 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
           </section>
         ) : (
           <section id="home" className={cx(styles.panel, styles.hero)}>
-            <div className={styles.heroInner}>
+            <Grid
+              className={styles.heroInner}
+              gridTemplateColumns={{ lg: '1fr auto' }}
+              rowGap={{ base: 'lg', lg: '3xl' }}
+              columnGap={{ lg: '2xl' }}
+              alignItems={{ lg: 'start' }}
+            >
               <Stack className={styles.heroPanel} gap="lg">
                 <h1 className={styles.heroTitle}>
                   <AccentSplit text={title} accent={accent} lineBreak />
@@ -148,7 +154,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
               <div className={styles.heroVisual}>
                 <HomepageCarousel images={slideshow} />
               </div>
-            </div>
+            </Grid>
           </section>
         )}
 

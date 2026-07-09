@@ -1,4 +1,4 @@
-import { HStack, Stack } from 'styled-system/jsx'
+import { Grid, HStack, Stack } from 'styled-system/jsx'
 import { pillarGrid } from './PillarGrid.recipe'
 
 export interface PillarGridItem {
@@ -30,7 +30,7 @@ export function PillarGrid({
   const styles = pillarGrid({ rhythm, titleTone, titleScale })
 
   return (
-    <div className={styles.grid}>
+    <Grid className={styles.grid} columns={{ base: 1, md: 2 }} gap="0">
       {items.map((item, index) => (
         <Stack as="article" key={item.title} className={styles.item}>
           {numbered ? (
@@ -44,6 +44,6 @@ export function PillarGrid({
           <p className={styles.body}>{item.body}</p>
         </Stack>
       ))}
-    </div>
+    </Grid>
   )
 }
