@@ -1,16 +1,6 @@
-/**
- * Gray ramp generated from ONE anchor (ZSB-70 palette rationalisation).
- *
- * The legacy palette had ~18 hand-picked grays (incl. 350/750/850 half-steps).
- * Measuring them in OKLCH showed a single systematic ramp: a magenta-leaning
- * hue (~345°) at very low chroma, varying only in lightness. So we regenerate
- * it from a fixed hue + chroma and step the L — preserving the brand's warm
- * tint while collapsing the source of truth to a handful of numbers.
- *
- * These are SOLID (not alpha) on purpose: grays sit on text over media
- * (scrims, galleries, Hero), where translucency would read through the image.
- * Alpha is reserved for adaptive solid-surface roles (dividers/overlays) later.
- */
+// Gray ramp generated from a fixed hue + chroma, stepping L. Solid (not alpha)
+// on purpose: grays sit on text over media, where translucency would read
+// through the image.
 const GRAY_HUE = 345
 const GRAY_CHROMA = 0.005
 const GRAY_L: Record<string, number> = {
@@ -49,12 +39,8 @@ export const breakpoints = {
 } as const
 
 export const keyframes = {
-  // The one entrance reveal. Parameterized by CSS vars (`--enter-y` /
-  // `--enter-scale` / `--enter-blur`) set by animation-style variants; built
-  // from→to with `animation-fill-mode: both` so the element rests in its
-  // visible final state and reduced-motion is just `animation: none`.
-  // Folds in the former fadeSlideUp / fadeIn / dialogIn / cardIn /
-  // imageReveal / cardReveal.
+  // The one entrance reveal, parameterized by CSS vars (`--enter-y` /
+  // `--enter-scale` / `--enter-blur`) set by the animation-style variants.
   enter: {
     from: {
       opacity: '0',
@@ -101,12 +87,9 @@ export const tokens = {
     display: { value: 'var(--font-dela-gothic), sans-serif' },
     body: { value: 'var(--font-montserrat), sans-serif' },
   },
-  // Static + already-fluid (clamp) scales port as plain tokens.
-  // Stepped-responsive ones live in semanticTokens below.
+  // Stepped-responsive scales live in semanticTokens below.
   fontSizes: {
     badgeRing: { value: '40px' },
-    // Badge's own fixed size — deliberately not the stepped `xs` scale (Badge
-    // is documented as one size, not a responsive one).
     badge: { value: '10px' },
     md: { value: 'clamp(19px, 18.35px + 0.2038vw, 22px)' },
     lg: { value: 'clamp(22px, 21.35px + 0.2038vw, 25px)' },
@@ -263,18 +246,13 @@ export const tokens = {
     black: { value: '900' },
   },
   durations: {
-    // Reduced-motion kill switch: `transitionDuration: 'instant'` under
-    // `_motionReduce` ends a transition without re-declaring the shorthand.
-    instant: { value: '0s' },
+    instant: { value: '0s' }, // the reduced-motion kill switch
     stagger: { value: '60ms' },
     fast: { value: '200ms' },
     normal: { value: '300ms' },
     medium: { value: '400ms' },
     slow: { value: '500ms' },
     reveal: { value: '600ms' },
-    // Slow entrances/reveals (the fadeSlideUp / tape / image-reveal family)
-    // and the skeleton sweep — collapsed off the scattered 0.8–1.3s / 1.6–1.8s
-    // literals. Continuous loops (spin/glow/etc.) keep their own literal speed.
     entrance: { value: '900ms' },
     sweep: { value: '1600ms' },
   },
