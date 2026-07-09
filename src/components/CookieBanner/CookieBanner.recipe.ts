@@ -43,7 +43,7 @@ export const cookieBanner = sva({
         gap: 'xl',
       },
     },
-    copy: { display: 'flex', flexDirection: 'column', gap: 'xs', minWidth: '0' },
+    copy: { minWidth: '0' },
     title: {
       fontFamily: 'display',
       fontSize: 'sm',

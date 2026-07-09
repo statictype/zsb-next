@@ -9,7 +9,7 @@ import { sva } from 'styled-system/css'
  * accent gradient reference the pink/chartreuse anchors via `color-mix`.
  */
 export const artistsBanner = sva({
-  slots: ['root', 'inner', 'left', 'subtext', 'accent'],
+  slots: ['root', 'inner', 'subtext', 'accent'],
   base: {
     root: {
       position: 'relative',
@@ -52,7 +52,6 @@ export const artistsBanner = sva({
       alignItems: { md: 'center' },
       gap: 'lg',
     },
-    left: { display: 'flex', flexDirection: 'column', gap: 'sm' },
     subtext: {
       fontFamily: 'body',
       fontSize: 'sm',

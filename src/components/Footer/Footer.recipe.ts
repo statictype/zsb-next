@@ -38,16 +38,10 @@ export const footer = sva({
     },
     inner: {
       layerStyle: 'sectionInner',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'xl',
     },
 
     primary: {
-      display: 'flex',
-      flexDirection: 'column',
       alignItems: 'center',
-      gap: 'lg',
       md: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -57,10 +51,7 @@ export const footer = sva({
       },
     },
     cols: {
-      display: 'flex',
-      flexDirection: 'column',
       alignItems: 'center',
-      gap: 'lg',
       alignSelf: 'stretch',
       md: {
         flexDirection: 'row',
@@ -119,9 +110,6 @@ export const footer = sva({
     },
 
     baseline: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       paddingTop: 'lg',
       borderTop: 'hairline',
       textStyle: 'footerMeta',

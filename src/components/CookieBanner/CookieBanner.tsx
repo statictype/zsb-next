@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useSyncExternalStore } from 'react'
 import { createPortal } from 'react-dom'
 import { css, cx } from 'styled-system/css'
+import { Stack } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { CONSENT_COOKIE, CONSENT_REOPEN_EVENT, GA_MEASUREMENT_ID } from '@/lib/constants'
 import { cookieBanner } from './CookieBanner.recipe'
@@ -69,7 +70,7 @@ export function CookieBanner() {
               className={cx(s.banner, css({ animationStyle: 'enter.snappy' }))}
             >
               <div className={s.inner}>
-                <div className={s.copy}>
+                <Stack className={s.copy} gap="xs">
                   <p id="cookie-consent-title" className={s.title}>
                     We use cookies
                   </p>
@@ -81,7 +82,7 @@ export function CookieBanner() {
                     </Link>
                     .
                   </p>
-                </div>
+                </Stack>
                 <div className={s.actions}>
                   <Button variant="secondary" size="sm" onClick={reject}>
                     Reject

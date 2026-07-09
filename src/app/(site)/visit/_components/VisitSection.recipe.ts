@@ -24,8 +24,6 @@ export const visitSection = sva({
       lg: { gridTemplateColumns: '5fr 6fr', gap: 'gridGap' },
     },
 
-    content: { display: 'flex', flexDirection: 'column', gap: 'lg' },
-
     cta: { paddingTop: 'md' },
   },
 })
@@ -49,7 +47,7 @@ export const visitImageFrame = sva({
 })
 
 export const visitInfoSummary = sva({
-  slots: ['row', 'block', 'icon', 'label', 'value'],
+  slots: ['row', 'icon', 'label', 'value'],
   base: {
     row: {
       display: 'flex',
@@ -58,7 +56,6 @@ export const visitInfoSummary = sva({
       flexWrap: 'wrap',
       md: { flexDirection: 'row', gap: 'xl' },
     },
-    block: { display: 'flex', flexDirection: 'column', gap: 'xs' },
     icon: { color: 'action', marginBottom: 'xs' },
     label: {
       fontFamily: 'body',
@@ -107,9 +104,8 @@ export const amenityStrip = sva({
 })
 
 export const transportList = sva({
-  slots: ['list', 'line', 'icon', 'from', 'dot', 'walk'],
+  slots: ['line', 'icon', 'from', 'dot', 'walk'],
   base: {
-    list: { display: 'flex', flexDirection: 'column', gap: 'sm' },
     line: {
       display: 'flex',
       alignItems: 'center',

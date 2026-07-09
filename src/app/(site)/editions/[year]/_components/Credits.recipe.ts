@@ -10,7 +10,6 @@ const labelBase = {
 export const credits = sva({
   slots: [
     'primary',
-    'block',
     'label',
     'name',
     'detail',
@@ -29,9 +28,6 @@ export const credits = sva({
     label: labelBase,
 
     primary: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'lg',
       md: {
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 1fr)',
@@ -40,7 +36,6 @@ export const credits = sva({
       },
       xl: { gridTemplateColumns: 'repeat(4, 1fr)' },
     },
-    block: { display: 'flex', flexDirection: 'column', gap: 'sm' },
     name: {
       fontFamily: 'display',
       fontSize: 'md',
@@ -78,9 +73,6 @@ export const credits = sva({
       marginTop: 'lg',
       paddingTop: 'lg',
       borderTop: 'hairline',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'lg',
       md: {
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
@@ -92,9 +84,6 @@ export const credits = sva({
       marginTop: 'lg',
       paddingTop: 'lg',
       borderTop: 'hairline',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'lg',
       md: {
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
@@ -104,9 +93,6 @@ export const credits = sva({
     },
 
     partnersBlock: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'sm',
       md: { gridColumn: 'span 2' },
     },
     partnersLabel: { ...labelBase, color: 'action' },
@@ -138,9 +124,6 @@ export const credits = sva({
     },
 
     inline: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'sm',
       md: { gridColumn: 'span 2' },
       lg: { gridColumn: 'span 1' },
     },

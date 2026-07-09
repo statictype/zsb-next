@@ -2,6 +2,7 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cx } from 'styled-system/css'
+import { Stack } from 'styled-system/jsx'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
@@ -86,8 +87,8 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
           // photography of its own yet, so the last edition's slideshow + CTA are
           // kept as a compact "from the last edition" side card.
           <section id="home" className={cx(styles.panel, styles.hero)}>
-            <div className={styles.upcomingInner}>
-              <div className={styles.upcomingLead}>
+            <Stack className={styles.upcomingInner} gap="2xl">
+              <Stack className={styles.upcomingLead} gap="lg">
                 <Eyebrow className={styles.upcomingEyebrow}>Upcoming · ZSB {upcoming.year}</Eyebrow>
                 <h1 className={styles.heroTitle}>
                   <AccentSplit text={upcoming.theme} accent={upcoming.themeHighlight} lineBreak />
@@ -96,9 +97,9 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 <div className={styles.upcomingBadge}>
                   <PartnerBadge size="upcoming" />
                 </div>
-              </div>
+              </Stack>
 
-              <aside className={styles.lastEdition}>
+              <Stack as="aside" className={styles.lastEdition}>
                 <p className={styles.lastEditionLabel}>From the last edition</p>
                 <div className={styles.lastEditionMedia}>
                   <HomepageCarousel images={slideshow} />
@@ -111,17 +112,17 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                     {ctaLabel} <RiArrowRightLine size={14} />
                   </Link>
                 )}
-              </aside>
-            </div>
+              </Stack>
+            </Stack>
           </section>
         ) : (
           <section id="home" className={cx(styles.panel, styles.hero)}>
             <div className={styles.heroInner}>
-              <div className={styles.heroPanel}>
+              <Stack className={styles.heroPanel} gap="lg">
                 <h1 className={styles.heroTitle}>
                   <AccentSplit text={title} accent={accent} lineBreak />
                 </h1>
-                <div className={styles.heroText}>
+                <Stack gap="lg">
                   <p className={styles.heroLead}>{lead}</p>
                   {ctaLabel && ctaYear && (
                     <Link
@@ -131,8 +132,8 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                       {ctaLabel} <RiArrowRightLine size={14} />
                     </Link>
                   )}
-                </div>
-              </div>
+                </Stack>
+              </Stack>
 
               <div className={styles.heroBadge}>
                 <PartnerBadge size="hero" />
@@ -148,10 +149,10 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
         {featured && <FeaturedSpotlight year={featured.year} events={featured.events} />}
 
         <section id="editions" className={cx(styles.panel, section({ ground: 'dark' }))}>
-          <div className={styles.editionsHead}>
+          <Stack className={styles.editionsHead}>
             <SectionHeading flush>Editions</SectionHeading>
             <p className={styles.editionsSubtext}>{editionsIntro}</p>
-          </div>
+          </Stack>
           <LinkList className={styles.editionList}>
             {list.map((edition) => {
               if (edition.status === 'upcoming') {

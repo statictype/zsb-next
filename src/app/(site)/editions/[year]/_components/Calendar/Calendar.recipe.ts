@@ -190,9 +190,6 @@ export const calendar = sva({
       },
     },
     runContent: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'sm',
       padding: 'md',
       flex: '1',
       minWidth: '0',
@@ -216,10 +213,7 @@ export const calendar = sva({
 
     // ---- Empty state ----
     empty: {
-      display: 'flex',
-      flexDirection: 'column',
       alignItems: 'flex-start',
-      gap: 'md',
       paddingBlock: '2xl',
       borderTop: 'hairline',
     },
@@ -266,9 +260,6 @@ export const calendar = sva({
       },
     },
     day: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       paddingBlock: 'lg',
       borderTop: 'hairline',
       _first: { borderTop: 'none', paddingTop: '0' },
@@ -289,13 +280,7 @@ export const calendar = sva({
       xl: { paddingBlock: 'md' },
     },
     marker: {
-      display: 'flex',
-      alignItems: 'baseline',
-      gap: 'md',
       md: {
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        gap: 'sm',
         paddingRight: 'lg',
         textAlign: 'right',
         position: 'sticky',
@@ -345,9 +330,6 @@ export const calendar = sva({
 
     // ---- Event row ----
     event: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       paddingBlock: 'md',
       borderTop: 'hairline',
       position: 'relative',
@@ -358,11 +340,7 @@ export const calendar = sva({
       },
     },
     eventBody: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'sm',
       minWidth: '0',
-      // Reserve the hover-float poster's column on poster rows (wide screens).
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
         '[data-poster=true] &': { paddingRight: '[calc(220px + token(spacing.lg))]' },
       },
@@ -463,10 +441,7 @@ export const calendar = sva({
 
     // ---- Finished-edition recap ----
     recap: {
-      display: 'flex',
-      flexDirection: 'column',
       alignItems: 'flex-start',
-      gap: 'md',
       marginTop: 'sm',
     },
     recapLine: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },

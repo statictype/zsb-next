@@ -19,7 +19,7 @@ export const homePage = sva({
     'heroVisual',
     'heroPanel',
     'heroTitle',
-    'heroText',
+
     'heroLead',
     'heroBadge',
     'editionsHead',
@@ -76,9 +76,6 @@ export const homePage = sva({
     heroPanel: {
       order: '1',
       position: 'relative',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'lg',
       color: 'heading',
       minWidth: '0',
       lg: { gridColumn: '1', gridRow: '1' },
@@ -93,12 +90,7 @@ export const homePage = sva({
       animationDelay: 'fast',
       width: '[min-content]',
     },
-    heroText: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      gap: 'lg',
-    },
+
     heroLead: { textStyle: 'leadLarge', color: 'body' },
     heroBadge: {
       order: '3',
@@ -119,9 +111,6 @@ export const homePage = sva({
     // rails, so they own the gutter.
     editionsHead: {
       layerStyle: 'sectionInner',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       marginBottom: '2xl',
       width: 'full',
     },
@@ -142,9 +131,6 @@ export const homePage = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       width: 'full',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '2xl',
       lg: {
         flexDirection: 'row',
         alignItems: 'flex-start',
@@ -153,10 +139,7 @@ export const homePage = sva({
       },
     },
     upcomingLead: {
-      display: 'flex',
-      flexDirection: 'column',
       alignItems: 'flex-start',
-      gap: 'lg',
       color: 'heading',
       minWidth: '0',
       lg: { flex: '[1 1 0]' },
@@ -176,10 +159,7 @@ export const homePage = sva({
     },
     upcomingBadge: { marginTop: 'sm' },
     lastEdition: {
-      display: 'flex',
-      flexDirection: 'column',
       alignItems: 'flex-start',
-      gap: 'md',
       width: 'full',
       maxWidth: 'narrowColumn',
       paddingTop: 'lg',

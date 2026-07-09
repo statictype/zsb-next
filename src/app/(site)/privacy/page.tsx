@@ -5,7 +5,7 @@ import {
 } from '@portabletext/react'
 import { notFound } from 'next/navigation'
 import { css } from 'styled-system/css'
-import { Container } from 'styled-system/jsx'
+import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
@@ -35,8 +35,16 @@ const portableTextComponents: PortableTextComponents = {
     normal: ({ children }) => <p>{children}</p>,
   },
   list: {
-    bullet: ({ children }) => <ul>{children}</ul>,
-    number: ({ children }) => <ol>{children}</ol>,
+    bullet: ({ children }) => (
+      <Stack as="ul" gap="sm">
+        {children}
+      </Stack>
+    ),
+    number: ({ children }) => (
+      <Stack as="ol" gap="sm">
+        {children}
+      </Stack>
+    ),
   },
   marks: {
     strong: ({ children }) => <strong>{children}</strong>,
@@ -80,7 +88,7 @@ function PrivacyShell({ view }: { view: PrivacyView }) {
 
         <section className={section({ ground: 'dark' })}>
           <Container>
-            <article className={styles.article}>
+            <Stack as="article" className={styles.article}>
               {body.length > 0 && <PortableText value={body} components={portableTextComponents} />}
 
               <h2>Change your mind</h2>
@@ -92,7 +100,7 @@ function PrivacyShell({ view }: { view: PrivacyView }) {
               {updatedAt && (
                 <p className={styles.updated}>Last updated: {formatUpdatedAt(updatedAt)}.</p>
               )}
-            </article>
+            </Stack>
           </Container>
         </section>
       </main>

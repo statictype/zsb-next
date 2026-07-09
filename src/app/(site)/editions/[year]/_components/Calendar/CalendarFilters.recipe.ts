@@ -13,9 +13,6 @@ export const calendarFilters = sva({
   slots: ['filters', 'bar', 'reset', 'filterRow', 'filterRowLabel', 'chips'],
   base: {
     filters: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       marginBottom: '2xl',
       paddingTop: 'lg',
       borderTop: 'hairline',
@@ -51,9 +48,6 @@ export const calendarFilters = sva({
     },
 
     filterRow: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'sm',
       md: { flexDirection: 'row', alignItems: 'baseline', gap: 'md' },
     },
     filterRowLabel: {

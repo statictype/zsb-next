@@ -17,9 +17,6 @@ export const pillarGrid = sva({
       md: { gridTemplateColumns: '1fr 1fr' },
     },
     item: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       paddingBlock: 'xl',
       borderBottom: 'hairline',
     },

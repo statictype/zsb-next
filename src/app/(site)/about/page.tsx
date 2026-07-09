@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
-import { Container } from 'styled-system/jsx'
+import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
@@ -92,7 +92,7 @@ function AboutShell({ view }: { view: AboutView }) {
 
             <SectionHeading>{curatorHeadline}</SectionHeading>
 
-            <figure className={styles.statementByline}>
+            <Stack as="figure" className={styles.statementByline}>
               <div className={styles.authorPhotoFrame}>
                 <div className={styles.authorPhoto}>
                   <Figure
@@ -102,19 +102,19 @@ function AboutShell({ view }: { view: AboutView }) {
                   />
                 </div>
               </div>
-              <figcaption className={styles.authorCaption}>
+              <Stack as="figcaption" gap="xs" className={styles.authorCaption}>
                 <span className={styles.authorName}>{curatorName}</span>
                 <span className={styles.authorRole}>{curatorRole}</span>
-              </figcaption>
-            </figure>
+              </Stack>
+            </Stack>
           </aside>
 
           <div className={styles.statementLetter}>
-            <div className={styles.letterBody}>
+            <Stack className={styles.letterBody}>
               {curatorLetter.map((para) => (
                 <p key={para}>{para}</p>
               ))}
-            </div>
+            </Stack>
           </div>
         </div>
       </section>

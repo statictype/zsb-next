@@ -60,9 +60,6 @@ export const editionCard = sva({
     content: {
       position: 'relative',
       zIndex: '1',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       marginTop: '[calc(token(spacing.cardOverlap) * -1)]',
       padding: 'md',
     },

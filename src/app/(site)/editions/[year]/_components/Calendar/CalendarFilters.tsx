@@ -1,6 +1,7 @@
 'use client'
 
 import { RiResetLeftLine } from '@remixicon/react'
+import { Stack } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 import { calendarFilters } from './CalendarFilters.recipe'
@@ -37,7 +38,7 @@ function FilterChips({
 }) {
   const s = calendarFilters()
   return (
-    <div className={s.filterRow}>
+    <Stack className={s.filterRow} gap="sm">
       <span className={s.filterRowLabel} id={labelId}>
         {label}
       </span>
@@ -54,7 +55,7 @@ function FilterChips({
           </li>
         ))}
       </ul>
-    </div>
+    </Stack>
   )
 }
 
@@ -68,7 +69,7 @@ export function CalendarFilters({
 }: CalendarFiltersProps) {
   const s = calendarFilters()
   return (
-    <div className={s.filters} role="group" aria-label="Filter the programme">
+    <Stack className={s.filters} role="group" aria-label="Filter the programme">
       <div className={s.bar}>
         <Button
           variant="secondary"
@@ -101,6 +102,6 @@ export function CalendarFilters({
           onToggle={onToggleType}
         />
       )}
-    </div>
+    </Stack>
   )
 }

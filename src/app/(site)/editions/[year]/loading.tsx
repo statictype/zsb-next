@@ -1,4 +1,5 @@
 import { cx } from 'styled-system/css'
+import { Stack } from 'styled-system/jsx'
 import { editionLoading } from './loading.recipe'
 
 const styles = editionLoading()
@@ -16,13 +17,13 @@ export default function EditionLoading() {
       {/* Manifesto skeleton */}
       <div className={styles.section}>
         <div className={cx(styles.bone, styles.sectionTitle)} />
-        <div className={styles.manifesto}>
+        <Stack>
           <div className={cx(styles.bone, styles.manifestoLine)} />
           <div className={cx(styles.bone, styles.manifestoLine)} />
           <div className={cx(styles.bone, styles.manifestoLine)} />
           <div className={cx(styles.bone, styles.manifestoLine)} />
           <div className={cx(styles.bone, styles.manifestoLine)} />
-        </div>
+        </Stack>
       </div>
 
       {/* Artists skeleton */}
@@ -43,11 +44,11 @@ export default function EditionLoading() {
       {/* Venues skeleton */}
       <div className={styles.section}>
         <div className={cx(styles.bone, styles.sectionTitle)} />
-        <div className={styles.venueRow}>
+        <Stack>
           <div className={cx(styles.bone, styles.venueItem)} />
           <div className={cx(styles.bone, styles.venueItem)} />
           <div className={cx(styles.bone, styles.venueItem)} />
-        </div>
+        </Stack>
       </div>
 
       {/* Carousel skeleton */}

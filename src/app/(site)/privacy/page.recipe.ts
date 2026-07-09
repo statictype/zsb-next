@@ -13,9 +13,6 @@ export const privacyPage = sva({
   base: {
     article: {
       maxWidth: 'measure',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       textStyle: 'prose',
       '& h2': {
         fontFamily: 'display',
@@ -37,10 +34,8 @@ export const privacyPage = sva({
       '& ul': {
         listStyle: 'none',
         padding: '0',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'sm',
       },
+      '& ol': { paddingInlineStart: 'lg' },
       '& li': { paddingLeft: 'md', borderLeft: '[2px solid token(colors.divider)]' },
     },
     settingsRow: {

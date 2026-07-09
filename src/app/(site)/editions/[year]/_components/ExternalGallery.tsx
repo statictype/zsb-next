@@ -1,6 +1,6 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
-import { Container } from 'styled-system/jsx'
+import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
@@ -23,10 +23,10 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
       <Container>
-        <div className={styles.header}>
+        <Stack className={styles.header}>
           <SectionHeading flush>Archive</SectionHeading>
           <div className={styles.count}>{theme}</div>
-        </div>
+        </Stack>
 
         <Card asChild ground="onDark" interactive>
           <a
@@ -37,7 +37,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
             aria-label={`${linkLabel} — opens ${href} in a new tab`}
           >
             <div className={styles.cardInner}>
-              <div className={styles.cardLeft}>
+              <Stack className={styles.cardLeft}>
                 <Badge>{tag}</Badge>
 
                 <SectionHeading as="h3" flush>
@@ -61,7 +61,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
                   </span>
                   <span className={styles.ctaUrl}>{prettyHost(href)}</span>
                 </div>
-              </div>
+              </Stack>
 
               <div className={styles.cardRight} aria-hidden>
                 <div className={styles.plate}>

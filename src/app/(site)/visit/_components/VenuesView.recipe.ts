@@ -67,9 +67,6 @@ export const venuesView = sva({
 
     events: { listStyle: 'none', display: 'flex', flexDirection: 'column' },
     event: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'sm',
       paddingBlock: 'sm',
       borderTop: 'hairline',
       '&:first-child': { borderTop: 'none' },
@@ -94,9 +91,6 @@ export const venuesView = sva({
     chips: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm' },
 
     child: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'sm',
       paddingLeft: 'md',
       borderLeft: 'hairline',
     },

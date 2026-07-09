@@ -1,7 +1,7 @@
 import { RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
-import { Container } from 'styled-system/jsx'
+import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Accordion } from '@/components/ui/Accordion/Accordion'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -60,14 +60,14 @@ function VenueDetails({ venue, year }: { venue: TopVenue; year: number }) {
       {venue.events.length > 0 && <EventList events={venue.events} year={year} />}
 
       {venue.children.map((child) => (
-        <div key={child.name} className={styles.child}>
+        <Stack key={child.name} className={styles.child} gap="sm">
           <p className={styles.childHead}>
             <span className={styles.childName}>{child.name}</span>
             <span className={styles.childType}>{child.type}</span>
           </p>
           <VenuePlace venue={child} />
           <EventList events={child.events} year={year} />
-        </div>
+        </Stack>
       ))}
     </>
   )
@@ -95,7 +95,7 @@ function EventList({ events, year }: { events: VenueEvent[]; year: number }) {
   return (
     <ul className={styles.events}>
       {events.map((event) => (
-        <li key={event.key} className={styles.event}>
+        <Stack as="li" key={event.key} className={styles.event} gap="sm">
           <Link className={styles.eventName} href={`/editions/${year}/events/${event.slug}`}>
             {event.name}
           </Link>
@@ -109,7 +109,7 @@ function EventList({ events, year }: { events: VenueEvent[]; year: number }) {
               ))}
             </ul>
           )}
-        </li>
+        </Stack>
       ))}
     </ul>
   )

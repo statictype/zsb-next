@@ -17,9 +17,6 @@ export const partnersPage = sva({
   ],
   base: {
     eventBody: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       maxWidth: 'measure',
       marginBottom: '2xl',
       '& p': {

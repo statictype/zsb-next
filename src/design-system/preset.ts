@@ -20,6 +20,7 @@ export const designSystemPreset = definePreset({
   conditions: { extend: conditions },
   patterns: {
     extend: {
+      stack: { defaultValues: { gap: 'md' } },
       container: {
         defaultValues: { maxWidth: 'maxWidth', px: 'gutter', position: 'static' },
       },

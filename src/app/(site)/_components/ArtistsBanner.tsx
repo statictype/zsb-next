@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { css } from 'styled-system/css'
+import { Stack } from 'styled-system/jsx'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { getAllEditionYears } from '@/data/editions'
@@ -16,7 +17,7 @@ export async function ArtistsBanner() {
   return (
     <Link href="/artists" className={s.root}>
       <div className={s.inner}>
-        <div className={s.left}>
+        <Stack gap="sm">
           <Badge className={css({ marginBottom: 'md' })}>Index</Badge>
           <SectionHeading as="h2" flush>
             Artists
@@ -25,7 +26,7 @@ export async function ArtistsBanner() {
             {artistCount} artists. {editionCount} editions. One sustained question: what sculpture
             makes visible that nothing else can.
           </p>
-        </div>
+        </Stack>
         <span>Explore</span>
       </div>
       <div className={s.accent} data-part="accent" />

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Container } from 'styled-system/jsx'
+import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import type { CreditEntry } from '@/types/edition'
 import { credits as creditsRecipe } from './Credits.recipe'
@@ -18,9 +18,9 @@ export function Credits({ credits }: CreditsProps) {
   return (
     <section className={section({ ground: 'light' })}>
       <Container>
-        <div className={s.primary}>
+        <Stack className={s.primary} gap="lg">
           {primary.map((credit) => (
-            <div key={credit.label} className={s.block}>
+            <Stack key={credit.label} gap="sm">
               <span className={s.label}>{credit.label}</span>
               <span className={s.name}>{credit.value}</span>
               {credit.detail && <span className={s.detail}>{credit.detail}</span>}
@@ -36,34 +36,34 @@ export function Credits({ credits }: CreditsProps) {
                   />
                 </div>
               )}
-            </div>
+            </Stack>
           ))}
           <IsdayBadge className={s.badge} />
-        </div>
+        </Stack>
 
         {partners.length > 0 && (
-          <div className={s.partners}>
+          <Stack className={s.partners} gap="lg">
             {partners.map((credit) => (
-              <div key={credit.label} className={s.partnersBlock}>
+              <Stack key={credit.label} className={s.partnersBlock} gap="sm">
                 <span className={s.partnersLabel}>{credit.label}</span>
                 <div className={s.partnersList}>
                   {credit.value.split('\n').map((name) => (
                     <span key={name}>{name}</span>
                   ))}
                 </div>
-              </div>
+              </Stack>
             ))}
-          </div>
+          </Stack>
         )}
 
-        <div className={s.secondary}>
+        <Stack className={s.secondary} gap="lg">
           {secondary.map((credit) => (
-            <div key={credit.label} className={s.inline}>
+            <Stack key={credit.label} className={s.inline} gap="sm">
               <span className={s.inlineLabel}>{credit.label}</span>
               <span className={s.inlineNames}>{credit.value}</span>
-            </div>
+            </Stack>
           ))}
-        </div>
+        </Stack>
       </Container>
     </section>
   )

@@ -65,10 +65,6 @@ export const aboutPage = sva({
       },
     },
     statementByline: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
-      // Matches the portrait's mobile image request; keep frame and source size aligned.
       maxWidth: '[240px]',
     },
     authorPhotoFrame: {
@@ -94,9 +90,6 @@ export const aboutPage = sva({
       _motionReduce: { transitionDuration: 'instant' },
     },
     authorCaption: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'xs',
       paddingTop: 'sm',
       borderTop: 'primary',
     },
@@ -114,9 +107,6 @@ export const aboutPage = sva({
     },
     statementLetter: { maxWidth: 'measure' },
     letterBody: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       '& p': {
         textStyle: 'leadLarge',
         color: 'body',

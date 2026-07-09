@@ -1,6 +1,7 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
+import { Stack } from 'styled-system/jsx'
 import type { RecipeVariantProps } from 'styled-system/types'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
@@ -64,7 +65,7 @@ export function EditionCard({
         />
         <Badge className={styles.year}>{edition.year}</Badge>
       </div>
-      <div className={styles.content}>
+      <Stack className={styles.content}>
         <EditionTheme
           as="h2"
           size={size === 'lg' ? 'large' : 'normal'}
@@ -88,7 +89,7 @@ export function EditionCard({
             <RiArrowRightUpLine size={16} className={styles.ctaIcon} />
           </span>
         </div>
-      </div>
+      </Stack>
     </Card>
   )
 }

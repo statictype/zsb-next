@@ -11,7 +11,7 @@ import {
   RiWheelchairLine,
 } from '@remixicon/react'
 import { css } from 'styled-system/css'
-import { Container } from 'styled-system/jsx'
+import { Container, Stack } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -65,13 +65,13 @@ export function VisitSection(props: VisitData = {}) {
             </div>
           </div>
 
-          <div className={s.content}>
+          <Stack className={s.content} gap="lg">
             <SectionHeading flush className={css({ whiteSpace: 'pre-line' })}>
               {venueName.join('\n')}
             </SectionHeading>
 
             <div className={infoStyles.row}>
-              <div className={infoStyles.block}>
+              <Stack gap="xs">
                 <RiMapPinLine size={18} className={infoStyles.icon} />
                 <span className={infoStyles.label}>Location</span>
                 <span className={infoStyles.value}>
@@ -79,12 +79,12 @@ export function VisitSection(props: VisitData = {}) {
                   <br />
                   {city}
                 </span>
-              </div>
-              <div className={infoStyles.block}>
+              </Stack>
+              <Stack gap="xs">
                 <RiTimeLine size={18} className={infoStyles.icon} />
                 <span className={infoStyles.label}>Opening Hours</span>
                 <span className={infoStyles.value}>{hoursLines.join('\n')}</span>
-              </div>
+              </Stack>
             </div>
 
             <div className={amenityStyles.strip}>
@@ -99,7 +99,7 @@ export function VisitSection(props: VisitData = {}) {
               })}
             </div>
 
-            <div className={transportStyles.list}>
+            <Stack gap="sm">
               {transport.map((route) => (
                 <div key={route.from} className={transportStyles.line}>
                   <RiBusLine size={14} className={transportStyles.icon} />
@@ -110,7 +110,7 @@ export function VisitSection(props: VisitData = {}) {
                   <span className={transportStyles.walk}>{route.walk}</span>
                 </div>
               ))}
-            </div>
+            </Stack>
 
             {mapsUrl ? (
               <div className={s.cta}>
@@ -122,7 +122,7 @@ export function VisitSection(props: VisitData = {}) {
                 </Button>
               </div>
             ) : null}
-          </div>
+          </Stack>
         </div>
       </Container>
     </div>

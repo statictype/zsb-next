@@ -26,9 +26,6 @@ export const externalGallery = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       marginBottom: 'xl',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       md: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },
     },
     count: {
@@ -54,9 +51,6 @@ export const externalGallery = sva({
     },
 
     cardLeft: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       paddingBlock: 'xl',
       paddingInline: 'lg',
       md: { padding: '2xl' },

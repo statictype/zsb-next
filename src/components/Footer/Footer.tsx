@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
+import { Stack } from 'styled-system/jsx'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Button } from '@/components/ui/Button/Button'
@@ -55,13 +56,13 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
 
   return (
     <footer className={s.footer}>
-      <div className={s.inner}>
-        <div className={s.primary}>
+      <Stack className={s.inner} gap="xl">
+        <Stack className={s.primary} gap="lg">
           <div className={s.badge}>
             <PartnerBadge size="footer" />
           </div>
 
-          <div className={s.cols}>
+          <Stack className={s.cols} gap="lg">
             <nav className={s.navCol} aria-label="Footer">
               <h2 className={s.colTitle}>Connect</h2>
               {contactHref && <FooterLink href={contactHref}>Contact</FooterLink>}
@@ -82,19 +83,19 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
                 ))}
               </div>
             )}
-          </div>
+          </Stack>
 
           <span className={s.stamp}>{catalogStamp}</span>
-        </div>
+        </Stack>
 
-        <div className={s.baseline}>
+        <Stack className={s.baseline}>
           <div className={s.copyright}>&copy; {currentYear} Bucharest Sculpture Days</div>
           <div className={s.legal}>
             <LegalLink href="/privacy">Privacy Policy</LegalLink>
             <CookieSettingsButton className={s.legalLink} />
           </div>
-        </div>
-      </div>
+        </Stack>
+      </Stack>
     </footer>
   )
 }

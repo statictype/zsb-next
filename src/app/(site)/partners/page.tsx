@@ -1,7 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
-import { Container } from 'styled-system/jsx'
+import { Container, Stack } from 'styled-system/jsx'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -75,11 +75,11 @@ function PartnersShell({
         <section className={section({ ground: 'dark' })}>
           <Container>
             <SectionHeading>{eventTitle}</SectionHeading>
-            <div className={styles.eventBody}>
+            <Stack className={styles.eventBody}>
               {eventBody.map((para) => (
                 <p key={para}>{para}</p>
               ))}
-            </div>
+            </Stack>
             <figure className={styles.eventImage}>
               <Figure image={eventImage} sizes="100vw" className={styles.eventImageImg} />
             </figure>

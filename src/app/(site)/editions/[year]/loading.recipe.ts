@@ -20,11 +20,9 @@ export const editionLoading = sva({
     'heroTheme',
     'section',
     'sectionTitle',
-    'manifesto',
     'manifestoLine',
     'artistGrid',
     'artistCard',
-    'venueRow',
     'venueItem',
     'carousel',
   ],
@@ -55,7 +53,6 @@ export const editionLoading = sva({
     },
     sectionTitle: { width: '[180px]', height: '[28px]', marginBottom: 'xl' },
 
-    manifesto: { display: 'flex', flexDirection: 'column', gap: 'md' },
     manifestoLine: {
       height: '[16px]',
       '&:nth-child(1)': { width: '[90%]' },
@@ -74,7 +71,6 @@ export const editionLoading = sva({
     },
     artistCard: { aspectRatio: '3 / 4' },
 
-    venueRow: { display: 'flex', flexDirection: 'column', gap: 'md' },
     venueItem: { height: '[80px]', borderBottom: 'hairline' },
 
     carousel: {

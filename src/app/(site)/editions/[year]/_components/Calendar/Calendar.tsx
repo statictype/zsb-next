@@ -4,7 +4,7 @@ import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
-import { Container } from 'styled-system/jsx'
+import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
@@ -98,13 +98,13 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
               // A finished edition leads with a short recap + follow CTAs; its
               // archive agenda collapses below (ZSB-45). Applies to every
               // finished edition, judged client-side like the rest of the board.
-              <div className={s.recap}>
+              <Stack className={s.recap}>
                 <p className={s.recapLine}>
                   That was <strong className={s.recapMark}>ZSB {year}</strong>
                   {theme ? ` — ${theme}` : ''}.
                 </p>
                 <FollowLinks label="Follow for what’s next" socials={socials} />
-              </div>
+              </Stack>
             ) : (
               <div className={s.counts}>
                 <span className={s.count} aria-live="polite">
@@ -145,12 +145,12 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
           )}
 
           {visible.length === 0 ? (
-            <div className={s.empty} role="status">
+            <Stack className={s.empty} role="status">
               <p className={s.emptyText}>No events match these filters.</p>
               <Button variant="link" className={s.emptyClear} onClick={reset}>
                 Show all events
               </Button>
-            </div>
+            </Stack>
           ) : (
             // Ongoing exhibitions sit on top as a card grid; the one-off events
             // follow below as the day-by-day agenda (ZSB-49).
@@ -176,7 +176,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                               />
                             </div>
                           )}
-                          <div className={s.runContent}>
+                          <Stack className={s.runContent} gap="sm">
                             <TypeChips types={run.types} />
                             <h4 className={s.runName}>
                               <Link
@@ -191,7 +191,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                             <div className={s.runFoot}>
                               {runRange && <span className={s.runRange}>{runRange}</span>}
                             </div>
-                          </div>
+                          </Stack>
                         </li>
                       )
                     })}
@@ -202,25 +202,31 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
               {days.length > 0 && (
                 <ol className={s.agenda}>
                   {days.map((day) => (
-                    <li
+                    <Stack
+                      as="li"
                       key={day.iso}
                       className={s.day}
                       data-past={liveClock !== null && day.iso < liveClock}
                     >
-                      <div className={s.marker}>
+                      <Stack
+                        className={s.marker}
+                        direction={{ base: 'row', md: 'column' }}
+                        align={{ base: 'baseline', md: 'flex-end' }}
+                        gap={{ base: 'md', md: 'sm' }}
+                      >
                         <span className={s.markerNode} aria-hidden />
                         <span className={s.markerDay}>{day.token.dayPadded}</span>
                         <span className={s.markerMeta}>
                           <span className={s.markerMonth}>{day.token.month}</span>
                           <span className={s.markerWeekday}>{day.token.weekday}</span>
                         </span>
-                      </div>
+                      </Stack>
                       <ul className={s.events}>
                         {day.events.map((event) => (
                           <EventRow key={event.key} event={event} year={year} />
                         ))}
                       </ul>
-                    </li>
+                    </Stack>
                   ))}
                 </ol>
               )}
@@ -259,8 +265,8 @@ function ArchiveCollapse({
 
 function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
   return (
-    <li className={s.event} data-poster={!!event.image}>
-      <div className={s.eventBody}>
+    <Stack as="li" className={s.event} data-poster={!!event.image}>
+      <Stack className={s.eventBody} gap="sm">
         <div className={s.eventTop}>
           {event.startTime && <span className={s.eventTime}>{event.startTime}</span>}
           <TypeChips types={event.types} />
@@ -280,12 +286,12 @@ function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
         </h4>
         <VenueLine venue={event.venue} />
         <p className={s.eventDesc}>{event.description}</p>
-      </div>
+      </Stack>
       {event.image && (
         <div className={s.poster}>
           <Figure image={event.image} sizes="(min-width: 1280px) 240px, 70vw" />
         </div>
       )}
-    </li>
+    </Stack>
   )
 }
