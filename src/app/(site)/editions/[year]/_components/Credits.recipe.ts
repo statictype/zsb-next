@@ -1,9 +1,6 @@
 import { sva } from 'styled-system/css'
 
 const labelBase = {
-  fontSize: 'xs',
-  textTransform: 'uppercase',
-  letterSpacing: 'wide',
   color: 'muted',
 } as const
 
@@ -27,18 +24,10 @@ export const credits = sva({
     label: labelBase,
 
     name: {
-      fontFamily: 'display',
-      fontSize: 'md',
       color: 'heading',
-      textTransform: 'uppercase',
-      lineHeight: 'tight',
     },
     detail: {
-      fontFamily: 'body',
-      fontWeight: 'regular',
-      fontSize: 'sm',
       color: 'muted',
-      lineHeight: 'body',
       // Authored multi-line strings render their own '\n' breaks.
       whiteSpace: 'pre-line',
     },
@@ -70,11 +59,7 @@ export const credits = sva({
     },
     partnersLabel: { ...labelBase, color: 'action' },
     partnersList: {
-      fontFamily: 'body',
-      fontWeight: 'regular',
-      fontSize: 'sm',
       color: 'body',
-      lineHeight: 'tight',
       '& span': {
         display: 'inline-flex',
         alignItems: 'center',
@@ -98,10 +83,7 @@ export const credits = sva({
     },
     inlineLabel: labelBase,
     inlineNames: {
-      fontFamily: 'body',
-      fontSize: 'sm',
       color: 'muted',
-      lineHeight: 'body',
       // Authored multi-line strings render their own '\n' breaks.
       whiteSpace: 'pre-line',
     },

@@ -4,7 +4,7 @@ import {
   type PortableTextMarkComponentProps,
 } from '@portabletext/react'
 import { notFound } from 'next/navigation'
-import { Container, Stack } from 'styled-system/jsx'
+import { Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
@@ -30,8 +30,16 @@ type PrivacyLinkMark = NonNullable<PrivacyView['body'][number]['markDefs']>[numb
 
 const portableTextComponents: PortableTextComponents = {
   block: {
-    h2: ({ children }) => <h2>{children}</h2>,
-    normal: ({ children }) => <p>{children}</p>,
+    h2: ({ children }) => (
+      <Text as="h2" variant="title">
+        {children}
+      </Text>
+    ),
+    normal: ({ children }) => (
+      <Text as="p" variant="body">
+        {children}
+      </Text>
+    ),
   },
   list: {
     bullet: ({ children }) => (
@@ -46,7 +54,11 @@ const portableTextComponents: PortableTextComponents = {
     ),
   },
   marks: {
-    strong: ({ children }) => <strong>{children}</strong>,
+    strong: ({ children }) => (
+      <Text as="strong" variant="body">
+        {children}
+      </Text>
+    ),
     em: ({ children }) => <em>{children}</em>,
     link: ({ value, children }: PortableTextMarkComponentProps<PrivacyLinkMark>) => {
       const href = value?.href ?? '#'
@@ -90,14 +102,20 @@ function PrivacyShell({ view }: { view: PrivacyView }) {
             <Stack as="article" className={styles.article}>
               {body.length > 0 && <PortableText value={body} components={portableTextComponents} />}
 
-              <h2>Change your mind</h2>
-              <p>You can withdraw or update your consent at any time:</p>
+              <Text as="h2" variant="title">
+                Change your mind
+              </Text>
+              <Text as="p" variant="body">
+                You can withdraw or update your consent at any time:
+              </Text>
               <div className={styles.settingsRow}>
                 <CookieSettingsButton />
               </div>
 
               {updatedAt && (
-                <p className={styles.updated}>Last updated: {formatUpdatedAt(updatedAt)}.</p>
+                <Text as="p" variant="label" className={styles.updated}>
+                  Last updated: {formatUpdatedAt(updatedAt)}.
+                </Text>
               )}
             </Stack>
           </Container>

@@ -21,7 +21,6 @@ export const cookieBanner = sva({
       color: 'heading',
       border: 'hairline',
       boxShadow: 'modal',
-      fontFamily: 'body',
       // A dialog's modal machine sets `body { pointer-events: none }` while
       // open (everything not part of that dialog's own layer). The banner is
       // a global fixture portalled straight to <body>, so it inherits that
@@ -36,14 +35,9 @@ export const cookieBanner = sva({
     },
     copy: { minWidth: '0' },
     title: {
-      fontFamily: 'display',
-      fontSize: 'sm',
       color: 'heading',
-      letterSpacing: 'tight',
     },
     text: {
-      fontSize: 'xs',
-      lineHeight: 'body',
       color: 'body',
     },
     link: {

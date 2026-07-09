@@ -1,5 +1,5 @@
 import { cx } from 'styled-system/css'
-import { Wrap } from 'styled-system/jsx'
+import { Text, Wrap } from 'styled-system/jsx'
 import type { EventVenue } from '@/types/edition'
 import { venueLine } from './VenueLine.recipe'
 
@@ -18,8 +18,14 @@ export function VenueLine({
   const s = venueLine({ size })
   return (
     <Wrap as="p" className={cx(s.venue, className)}>
-      <span className={s.name}>{venue.name}</span>
-      {venue.partOf && <span className={s.parent}>{venue.partOf.name}</span>}
+      <Text variant="caption" className={s.name}>
+        {venue.name}
+      </Text>
+      {venue.partOf && (
+        <Text variant="label" className={s.parent}>
+          {venue.partOf.name}
+        </Text>
+      )}
     </Wrap>
   )
 }

@@ -26,9 +26,6 @@ export const editionTheme = sva({
       display: 'inline-flex',
       flexDirection: 'column',
       alignSelf: 'flex-start',
-      fontFamily: 'display',
-      lineHeight: 'display',
-      letterSpacing: 'tight',
       color: 'heading',
       background: 'surface',
       // em-derived so padding tracks the font size across the ladder.
@@ -37,7 +34,6 @@ export const editionTheme = sva({
       rotate: '[-0.45deg]',
       transformOrigin: 'top left',
       boxShadow: 'tape',
-      textTransform: 'lowercase',
       // The tape entrance — on every instance.
       opacity: '0',
       translate: '[-12px 18px]',
@@ -60,7 +56,6 @@ export const editionTheme = sva({
     },
     heading: {
       margin: '0',
-      fontSize: '[inherit]',
     },
     lead: {
       display: 'inline-flex',
@@ -75,12 +70,6 @@ export const editionTheme = sva({
     meta: {
       margin: '0',
       marginTop: 'md',
-      fontFamily: 'body',
-      fontSize: 'sm',
-      lineHeight: 'heading',
-      fontWeight: 'regular',
-      letterSpacing: 'subtle',
-      textTransform: 'none',
       color: 'body',
     },
     highlight: {
@@ -95,14 +84,14 @@ export const editionTheme = sva({
       // ground always covers it, even for long single-token themes. `large` /
       // `normal` render inside constrained list/featured cards, so they cap at
       // the card width.
-      huge: { root: { fontSize: { base: 'lg', md: 'lg', lg: 'xl', xl: 'xl' } } },
+      huge: { root: { textStyle: 'editionTheme.tapeType.huge' } },
       large: {
-        root: { maxWidth: 'full', fontSize: { base: 'lg', md: 'lg', lg: 'lg', xl: 'xl' } },
+        root: { maxWidth: 'full', textStyle: 'editionTheme.tapeType.large' },
       },
       normal: {
         root: {
           maxWidth: 'full',
-          fontSize: 'lg',
+          textStyle: 'editionTheme.tapeType.normal',
         },
       },
       // The editions rail plate — two steps up from `normal`'s ladder (the
@@ -114,7 +103,7 @@ export const editionTheme = sva({
       rail: {
         root: {
           maxWidth: 'full',
-          fontSize: { base: 'xl', md: 'xl', lg: 'lg', xl: 'xl', '4xl': 'xl' },
+          textStyle: 'editionTheme.tapeType.rail',
           paddingTop: '[0.8em]',
           paddingLeft: '0',
         },

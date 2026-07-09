@@ -13,13 +13,8 @@ export const privacyPage = sva({
   base: {
     article: {
       maxWidth: 'measure',
-      textStyle: 'prose',
       '& h2': {
-        fontFamily: 'display',
-        fontSize: 'lg',
-        lineHeight: 'display',
         color: 'heading',
-        letterSpacing: 'tight',
         marginTop: 'lg',
       },
       '& h2:first-child': { marginTop: '0' },
@@ -30,7 +25,7 @@ export const privacyPage = sva({
         textDecorationColor: 'action',
         _hover: { color: 'action' },
       },
-      '& strong': { color: 'heading', fontWeight: 'semibold' },
+      '& strong': { color: 'heading' },
       '& ul': {
         listStyle: 'none',
         padding: '0',
@@ -46,10 +41,7 @@ export const privacyPage = sva({
     },
     updated: {
       marginTop: 'xl',
-      fontSize: 'xs',
       color: 'muted',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
     },
   },
 })

@@ -39,19 +39,11 @@ export const visitInfoSummary = sva({
     },
     icon: { color: 'action', marginBottom: 'xs' },
     label: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
       color: 'muted',
-      fontWeight: 'semibold',
     },
     value: {
-      fontFamily: 'body',
-      fontSize: 'sm',
       // exception: bright body on dark, lead-style emphasis
       color: 'gray.200',
-      lineHeight: 'body',
       // Joined multi-line values (opening hours) render their own '\n' breaks.
       whiteSpace: 'pre-line',
     },
@@ -66,12 +58,8 @@ export const amenityStrip = sva({
       borderTop: 'hairline',
     },
     item: {
-      fontFamily: 'body',
-      fontSize: 'xs',
       color: 'body',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      lg: { fontSize: 'xs' },
+      lg: {},
     },
     icon: { color: 'muted' },
   },
@@ -81,15 +69,12 @@ export const transportList = sva({
   slots: ['line', 'icon', 'from', 'dot', 'walk'],
   base: {
     line: {
-      fontFamily: 'body',
-      fontSize: 'xs',
       color: 'body',
     },
     icon: { color: 'muted', flexShrink: '0' },
     from: {
       // exception: bright emphasis for city name
       color: 'gray.300',
-      fontWeight: 'semibold',
     },
     dot: { color: 'muted' },
     walk: { color: 'muted' },

@@ -18,9 +18,7 @@ export const partnersPage = sva({
     eventBody: {
       maxWidth: 'measure',
       marginBottom: '2xl',
-      '& p': {
-        textStyle: 'prose',
-      },
+      '& p': {},
     },
     eventImage: {
       position: 'relative',
@@ -54,17 +52,11 @@ export const partnersPage = sva({
     },
     partnerCtaBadge: { marginBottom: '2xl' },
     partnerCtaHeading: {
-      fontFamily: 'display',
-      fontSize: 'xl',
       color: 'white',
-      lineHeight: 'display',
       marginBottom: 'lg',
     },
     partnerCtaAccent: { color: 'action' },
     partnerCtaBody: {
-      fontSize: 'base',
-      lineHeight: 'body',
-      fontWeight: 'light',
       color: 'body',
       maxWidth: 'measure',
       marginBottom: '2xl',

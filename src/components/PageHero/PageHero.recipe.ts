@@ -5,11 +5,10 @@ export const pageHero = sva({
   base: {
     hero: { layerStyle: 'pageHero' },
     title: {
-      textStyle: 'pageTitle',
       animationStyle: 'enter',
       animationDelay: 'fast',
     },
-    lead: { textStyle: 'lead', color: 'body', maxWidth: 'measure', marginTop: 'xl' },
+    lead: { color: 'body', maxWidth: 'measure', marginTop: 'xl' },
   },
   variants: {
     // Drop the hero's bottom padding when a section follows directly — the

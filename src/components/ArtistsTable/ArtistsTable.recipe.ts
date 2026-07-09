@@ -21,14 +21,10 @@ export const artistsTable = sva({
       paddingBlock: 'sm',
       paddingInline: 'md',
       background: 'highlight',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      fontWeight: 'semibold',
-      letterSpacing: 'label',
       color: 'black',
-      '& span:last-child': { lineHeight: 'heading' },
+      '& span:last-child': {},
     },
-    headerLabel: { fontFamily: 'body', fontSize: 'xs' },
+    headerLabel: {},
 
     body: {
       width: 'full',
@@ -51,21 +47,13 @@ export const artistsTable = sva({
       '&:last-child': { borderBottomWidth: '0' },
     },
     num: {
-      fontSize: 'xs',
-      lineHeight: 'loose',
       color: 'muted',
       fontVariantNumeric: 'tabular-nums',
       minWidth: '[28px]',
       md: { minWidth: '[32px]' },
     },
     name: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      lineHeight: 'loose',
       color: 'body',
-      fontWeight: 'medium',
-      textTransform: 'uppercase',
-      letterSpacing: 'subtle',
     },
 
     footer: {
@@ -75,12 +63,8 @@ export const artistsTable = sva({
       md: { paddingInline: 'md' },
     },
     metaItem: {
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
       color: 'black',
-      fontWeight: 'semibold',
-      '& span': { color: 'black', marginLeft: 'sm', fontWeight: 'regular' },
+      '& span': { color: 'black', marginLeft: 'sm' },
     },
     barcode: {
       justifySelf: 'flex-end',

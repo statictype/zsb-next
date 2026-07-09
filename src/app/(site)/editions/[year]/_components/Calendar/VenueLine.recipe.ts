@@ -11,28 +11,20 @@ import { sva } from 'styled-system/css'
 export const venueLine = sva({
   slots: ['venue', 'name', 'parent'],
   base: {
-    venue: {
-      fontFamily: 'body',
-    },
+    venue: {},
     name: {
       color: 'gray.300',
-      textTransform: 'uppercase',
-      letterSpacing: 'subtle',
-      fontWeight: 'medium',
     },
     parent: {
       color: 'muted',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontSize: 'xs',
       _before: { content: '"↳ "' },
     },
   },
   variants: {
     // `sm` — the compact board list; `md` — the roomier modal body.
     size: {
-      sm: { venue: { fontSize: 'xs' } },
-      md: { venue: { fontSize: 'sm' } },
+      sm: {},
+      md: {},
     },
   },
   defaultVariants: { size: 'sm' },

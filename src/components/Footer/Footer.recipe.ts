@@ -51,25 +51,16 @@ export const footer = sva({
     colTitle: {
       width: 'full',
       textAlign: 'center',
-      textStyle: 'footerMeta',
-      letterSpacing: 'wide',
       md: { marginBottom: 'xs', width: 'fit', textAlign: 'left' },
     },
     // Footer-link typography layered onto the Button link variant.
     link: {
       width: 'fit',
-      fontFamily: 'body',
-      fontSize: 'sm',
-      fontWeight: 'medium',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
       color: 'body',
     },
 
     stamp: {
       flexShrink: 0,
-      textStyle: 'footerMeta',
-      letterSpacing: 'wide',
       border: 'hairline',
       paddingBlock: 'sm',
       paddingInline: 'md',
@@ -79,12 +70,10 @@ export const footer = sva({
 
     baseline: {
       paddingTop: 'lg',
-      textStyle: 'footerMeta',
-      letterSpacing: 'label',
       textAlign: 'center',
       md: { textAlign: 'left' },
     },
     copyright: { color: 'muted' },
-    legalLink: { textStyle: 'footerMeta', letterSpacing: 'label' },
+    legalLink: {},
   },
 })

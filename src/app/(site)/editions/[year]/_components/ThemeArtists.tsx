@@ -1,5 +1,5 @@
 import { cx } from 'styled-system/css'
-import { Grid } from 'styled-system/jsx'
+import { Grid, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
@@ -30,7 +30,9 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
         columnGap={{ lg: '4xl' }}
       >
         <div className={styles.body}>
-          <p>{themeSection.body}</p>
+          <Text as="p" variant="body">
+            {themeSection.body}
+          </Text>
         </div>
 
         <ArtistsTable

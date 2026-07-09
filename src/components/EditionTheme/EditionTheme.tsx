@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { cx } from 'styled-system/css'
-import { HStack } from 'styled-system/jsx'
+import { HStack, Text } from 'styled-system/jsx'
 import { splitFirstMatch } from '@/lib/split-first-match'
 import { editionTheme } from './EditionTheme.recipe'
 
@@ -80,7 +80,11 @@ export function EditionTheme({
           theme
         )}
       </HStack>
-      {meta ? <p className={styles.meta}>{meta}</p> : null}
+      {meta ? (
+        <Text as="p" variant="caption" className={styles.meta}>
+          {meta}
+        </Text>
+      ) : null}
     </div>
   )
 }

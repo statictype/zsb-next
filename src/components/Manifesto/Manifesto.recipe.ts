@@ -51,7 +51,6 @@ export const manifesto = sva({
         clipPath: 'token(assets.brushStrokeY)',
       },
       '& p': {
-        textStyle: 'leadLarge',
         color: 'body',
       },
     },

@@ -2,6 +2,7 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 
 const page = css({
   position: 'relative',
@@ -61,20 +62,12 @@ const divider = css({
 })
 
 const title = css({
-  fontFamily: 'display',
-  fontSize: 'md',
-  textTransform: 'uppercase',
-  letterSpacing: 'label',
   color: 'white',
   marginBottom: 'md',
 })
 
 const subtitle = css({
-  fontFamily: 'body',
-  fontSize: 'sm',
   color: 'body',
-  textTransform: 'uppercase',
-  letterSpacing: 'label',
   marginBottom: '2xl',
 })
 
@@ -82,10 +75,6 @@ const cta = css({
   display: 'inline-flex',
   alignItems: 'center',
   gap: 'sm',
-  fontFamily: 'body',
-  fontSize: 'xs',
-  textTransform: 'uppercase',
-  letterSpacing: 'label',
   color: 'white',
   border: 'hairline',
   paddingBlock: 'md',
@@ -123,14 +112,16 @@ export default function NotFound() {
           404
         </div>
         <div className={cx(divider, enter)} style={beat(2)} />
-        <h1 className={cx(title, enter)} style={beat(4)}>
+        <Text as="h1" variant="heading" className={cx(title, enter)} style={beat(4)}>
           This space is empty
-        </h1>
-        <p className={cx(subtitle, enter)} style={beat(6)}>
+        </Text>
+        <Text as="p" variant="label" className={cx(subtitle, enter)} style={beat(6)}>
           Like an exhibition between shows
-        </p>
+        </Text>
         <Link href="/" className={cx(cta, enter)} style={beat(8)}>
-          Return Home <RiArrowRightLine size={14} />
+          <Text variant="label" display="contents">
+            Return Home <RiArrowRightLine size={14} />
+          </Text>
         </Link>
       </div>
     </div>

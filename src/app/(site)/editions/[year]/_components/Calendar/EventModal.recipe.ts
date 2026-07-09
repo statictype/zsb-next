@@ -49,14 +49,9 @@ export const eventModal = sva({
       overflowY: 'auto',
     },
     when: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
       color: 'highlight',
     },
-    name: { fontFamily: 'display', fontSize: 'lg', lineHeight: 'tight', color: 'white' },
+    name: { color: 'white' },
 
     // Layout-only overrides — the chip list + venue line are the shared
     // `TypeChips` / `VenueLine` components; these slots add the modal's rhythm.
@@ -65,9 +60,6 @@ export const eventModal = sva({
 
     description: {
       marginTop: 'md',
-      fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: 'body',
       color: 'body',
       whiteSpace: 'pre-line',
     },

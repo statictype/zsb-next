@@ -27,11 +27,7 @@ export const externalGallery = sva({
       marginBottom: 'xl',
     },
     count: {
-      fontFamily: 'body',
-      fontSize: 'sm',
       color: 'muted',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
     },
 
     card: {
@@ -46,9 +42,6 @@ export const externalGallery = sva({
     },
     titleHighlight: { color: 'highlight' },
     description: {
-      fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: 'body',
       color: 'body',
       maxWidth: 'measure',
     },
@@ -57,12 +50,7 @@ export const externalGallery = sva({
       paddingTop: 'lg',
     },
     ctaLabel: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
       color: 'white',
-      fontWeight: 'semibold',
     },
     ctaUrl: {
       marginLeft: 'auto',
@@ -91,18 +79,14 @@ export const externalGallery = sva({
       position: 'absolute',
       inset: '0',
       '& [data-part="monogram"]': {
-        fontFamily: 'display',
-        lineHeight: 'display',
-        textTransform: 'uppercase',
+        textStyle: 'externalGallery.plateType.monogram',
       },
       '& [data-part="zsb"]': {
-        fontSize: '[clamp(56px, 7vw, 104px)]',
-        letterSpacing: '[-2px]',
+        textStyle: 'externalGallery.plateType.zsb',
         color: 'white',
       },
       '& [data-part="year"]': {
-        fontSize: '[clamp(36px, 4.5vw, 64px)]',
-        letterSpacing: '[-1px]',
+        textStyle: 'externalGallery.plateType.year',
         color: 'action',
       },
       '& [data-part="meta"]': {
@@ -112,10 +96,6 @@ export const externalGallery = sva({
         right: 'md',
         display: 'flex',
         justifyContent: 'space-between',
-        fontFamily: 'body',
-        fontSize: 'xs',
-        textTransform: 'uppercase',
-        letterSpacing: 'wide',
         color: 'muted',
       },
     },

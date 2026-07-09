@@ -21,11 +21,6 @@ export const collapsible = defineSlotRecipe({
       background: 'transparent',
       cursor: 'pointer',
       textAlign: 'left',
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
       color: 'action',
       _hover: {
         '& [data-collapsible-label]': { textDecoration: 'underline', textUnderlineOffset: '3px' },

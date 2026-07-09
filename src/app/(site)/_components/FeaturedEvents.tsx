@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
-import { Container, Grid, HStack, Wrap } from 'styled-system/jsx'
+import { Container, Grid, HStack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -98,16 +98,22 @@ function FeaturedCard({
         </span>
 
         <div className={styles.caption}>
-          <p className={styles.when}>{eventWhenLabelShort(event)}</p>
+          <Text as="p" variant="label" className={styles.when}>
+            {eventWhenLabelShort(event)}
+          </Text>
           <h3 className={styles.name}>
             <Link className={styles.cardLink} href={`/editions/${year}/events/${event.slug}`}>
               {event.name}
             </Link>
           </h3>
           <Wrap as="p" className={styles.venue}>
-            <span className={styles.venueName}>{event.venue.name}</span>
+            <Text variant="caption" className={styles.venueName}>
+              {event.venue.name}
+            </Text>
             {event.venue.partOf && (
-              <span className={styles.venueParent}>{event.venue.partOf.name}</span>
+              <Text variant="label" className={styles.venueParent}>
+                {event.venue.partOf.name}
+              </Text>
             )}
           </Wrap>
           {event.types.length > 0 && (

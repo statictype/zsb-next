@@ -8,16 +8,10 @@ export const pillarGrid = sva({
       borderBottom: 'hairline',
     },
     number: {
-      fontFamily: 'display',
-      fontSize: 'md',
       color: 'muted',
-      letterSpacing: 'tight',
     },
-    title: {
-      textStyle: 'labelDisplay',
-    },
+    title: {},
     body: {
-      textStyle: 'prose',
       maxWidth: 'measure',
     },
   },
@@ -54,10 +48,7 @@ export const pillarGrid = sva({
       heading: { title: { color: 'heading' } },
       highlight: { title: { color: 'highlight' } },
     },
-    titleScale: {
-      standard: { title: { fontSize: 'md' } },
-      responsive: { title: { fontSize: { base: 'md', xl: 'lg' } } },
-    },
+    titleScale: { standard: {}, responsive: {} },
   },
   defaultVariants: {
     rhythm: 'bookend',

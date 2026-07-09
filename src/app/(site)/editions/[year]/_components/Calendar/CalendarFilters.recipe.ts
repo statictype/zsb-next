@@ -19,11 +19,6 @@ export const calendarFilters = sva({
 
     bar: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' },
     reset: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
       color: 'gray.300',
       background: 'transparent',
       border: 'none',
@@ -45,11 +40,6 @@ export const calendarFilters = sva({
       md: { flexDirection: 'row', alignItems: 'baseline', gap: 'md' },
     },
     filterRowLabel: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      fontWeight: 'semibold',
       color: 'muted',
       md: { flexShrink: '0', width: '[56px]', paddingTop: 'md' },
     },

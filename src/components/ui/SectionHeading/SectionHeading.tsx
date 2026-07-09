@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 import { sectionHeading } from './SectionHeading.recipe'
 
 interface SectionHeadingProps {
@@ -30,8 +31,13 @@ export function SectionHeading({
   children,
 }: SectionHeadingProps) {
   return (
-    <Tag id={id} className={cx(sectionHeading({ case: textCase, flush }), className)}>
+    <Text
+      as={Tag}
+      variant="title"
+      id={id}
+      className={cx(sectionHeading({ case: textCase, flush }), className)}
+    >
       {children}
-    </Tag>
+    </Text>
   )
 }

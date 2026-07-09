@@ -1,4 +1,4 @@
-import { Divider, Grid, HStack, Stack } from 'styled-system/jsx'
+import { Divider, Grid, HStack, Stack, Text } from 'styled-system/jsx'
 import { pillarGrid } from './PillarGrid.recipe'
 
 export interface PillarGridItem {
@@ -28,6 +28,7 @@ export function PillarGrid({
   titleScale = 'standard',
 }: PillarGridProps) {
   const styles = pillarGrid({ rhythm, titleTone, titleScale })
+  const titleVariant = titleScale === 'responsive' ? 'title' : 'heading'
 
   return (
     <>
@@ -37,13 +38,21 @@ export function PillarGrid({
           <Stack as="article" key={item.title} className={styles.item}>
             {numbered ? (
               <HStack alignItems="baseline" gap="md">
-                <span className={styles.number}>{pad(index + 1)}</span>
-                <Title className={styles.title}>{item.title}</Title>
+                <Text variant="heading" className={styles.number}>
+                  {pad(index + 1)}
+                </Text>
+                <Text as={Title} variant={titleVariant} className={styles.title}>
+                  {item.title}
+                </Text>
               </HStack>
             ) : (
-              <Title className={styles.title}>{item.title}</Title>
+              <Text as={Title} variant={titleVariant} className={styles.title}>
+                {item.title}
+              </Text>
             )}
-            <p className={styles.body}>{item.body}</p>
+            <Text as="p" variant="body" className={styles.body}>
+              {item.body}
+            </Text>
           </Stack>
         ))}
       </Grid>

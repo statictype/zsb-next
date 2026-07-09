@@ -29,7 +29,6 @@ export const themeArtists = sva({
       marginBottom: '2xl',
       lg: { alignSelf: 'start' },
       '& p': {
-        textStyle: 'prose',
         textWrap: '[pretty]',
       },
       '& p:last-child': { marginBottom: '0' },

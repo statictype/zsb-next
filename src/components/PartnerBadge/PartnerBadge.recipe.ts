@@ -46,10 +46,7 @@ export const partnerBadge = sva({
       '& svg': { width: 'full', height: 'full' },
       '& text': {
         fill: 'white',
-        fontFamily: 'body',
-        fontSize: 'badgeRing',
-        fontWeight: 'semibold',
-        letterSpacing: 'badgeRing',
+        textStyle: 'partnerBadge.ringType',
       },
     },
     arrow: { position: 'relative', zIndex: '1', display: 'flex' },

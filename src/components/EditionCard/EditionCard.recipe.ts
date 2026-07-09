@@ -68,9 +68,6 @@ export const editionCard = sva({
     },
     details: {
       minWidth: '0',
-      fontSize: 'sm',
-      lineHeight: 'body',
-      letterSpacing: 'subtle',
       textWrap: '[pretty]',
     },
     // Keeps the venue name from breaking mid-phrase — a narrow card wraps
@@ -78,11 +75,6 @@ export const editionCard = sva({
     venue: { whiteSpace: 'nowrap' },
     cta: {
       flexShrink: '0',
-      fontFamily: 'body',
-      fontSize: 'xs',
-      fontWeight: 'semibold',
-      letterSpacing: 'label',
-      textTransform: 'uppercase',
       color: 'heading',
       transitionProperty: 'colors',
       transitionDuration: 'normal',

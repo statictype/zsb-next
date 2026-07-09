@@ -1,8 +1,8 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
-import { Center, Container, Grid, Stack } from 'styled-system/jsx'
-import { button, section } from 'styled-system/recipes'
+import { Center, Container, Grid, Stack, Text } from 'styled-system/jsx'
+import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
@@ -10,6 +10,7 @@ import { Figure } from '@/components/Figure/Figure'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { PillarGrid } from '@/components/PillarGrid/PillarGrid'
+import { Button } from '@/components/ui/Button/Button'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata } from '@/lib/seo'
@@ -77,7 +78,9 @@ function PartnersShell({
             <SectionHeading>{eventTitle}</SectionHeading>
             <Stack className={styles.eventBody}>
               {eventBody.map((para) => (
-                <p key={para}>{para}</p>
+                <Text as="p" variant="body" key={para}>
+                  {para}
+                </Text>
               ))}
             </Stack>
             <figure className={styles.eventImage}>
@@ -129,21 +132,22 @@ function PartnersShell({
               <div className={styles.partnerCtaBadge}>
                 <PartnerBadge />
               </div>
-              <h2 className={styles.partnerCtaHeading}>
+              <Text as="h2" variant="display" className={styles.partnerCtaHeading}>
                 <AccentSplit
                   text={ctaHeading}
                   accent={ctaHeadingAccent}
                   className={styles.partnerCtaAccent}
                   lineBreak
                 />
-              </h2>
-              <p className={styles.partnerCtaBody}>{ctaBody}</p>
-              <a
-                href={`mailto:${contactEmail}`}
-                className={button({ variant: 'primary', size: 'lg' })}
-              >
-                {ctaLabel} <RiArrowRightLine size={14} />
-              </a>
+              </Text>
+              <Text as="p" variant="body" className={styles.partnerCtaBody}>
+                {ctaBody}
+              </Text>
+              <Button asChild variant="primary" size="lg">
+                <a href={`mailto:${contactEmail}`}>
+                  {ctaLabel} <RiArrowRightLine size={14} />
+                </a>
+              </Button>
             </Center>
           </section>
         )}

@@ -1,4 +1,4 @@
-import { Stack, Wrap } from 'styled-system/jsx'
+import { Stack, Text, Wrap } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { followLinks } from './FollowLinks.recipe'
 
@@ -41,7 +41,9 @@ export function FollowLinks({
   if (layout === 'stack') {
     return (
       <Stack className={className} gap="md" alignItems="flex-start">
-        <span className={s.label}>{label}</span>
+        <Text variant="label" className={s.label}>
+          {label}
+        </Text>
         {links}
       </Stack>
     )
@@ -49,7 +51,9 @@ export function FollowLinks({
 
   return (
     <Wrap className={className} gap="md">
-      <span className={s.label}>{label}</span>
+      <Text variant="label" className={s.label}>
+        {label}
+      </Text>
       {links}
     </Wrap>
   )

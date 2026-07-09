@@ -4,6 +4,7 @@ import { Checkbox as ArkCheckbox } from '@ark-ui/react/checkbox'
 import { RiCheckLine } from '@remixicon/react'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 import { checkbox } from 'styled-system/recipes'
 
 interface CheckboxProps {
@@ -34,8 +35,14 @@ export function Checkbox({ id, label, checked, onCheckedChange, count, className
           <RiCheckLine size={12} />
         </ArkCheckbox.Indicator>
       </ArkCheckbox.Control>
-      <ArkCheckbox.Label className={styles.label}>{label}</ArkCheckbox.Label>
-      {count != null && <span data-checkbox-count>{count}</span>}
+      <ArkCheckbox.Label className={styles.label}>
+        <Text variant="label">{label}</Text>
+      </ArkCheckbox.Label>
+      {count != null && (
+        <Text variant="label" data-checkbox-count>
+          {count}
+        </Text>
+      )}
     </ArkCheckbox.Root>
   )
 }

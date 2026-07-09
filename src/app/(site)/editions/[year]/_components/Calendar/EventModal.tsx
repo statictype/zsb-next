@@ -2,7 +2,7 @@
 
 import { RiArrowLeftLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
-import { HStack, Wrap } from 'styled-system/jsx'
+import { HStack, Text, Wrap } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
@@ -65,14 +65,22 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
       )}
 
       <div className={s.body}>
-        <p className={s.when}>{eventWhenLabel(event)}</p>
-        <h2 className={s.name}>{event.name}</h2>
+        <Text as="p" variant="label" className={s.when}>
+          {eventWhenLabel(event)}
+        </Text>
+        <Text as="h2" variant="title" className={s.name}>
+          {event.name}
+        </Text>
 
         <TypeChips types={event.types} className={s.types} />
 
         <VenueLine venue={event.venue} size="md" className={s.venue} />
 
-        {event.description && <p className={s.description}>{event.description}</p>}
+        {event.description && (
+          <Text as="p" variant="body" className={s.description}>
+            {event.description}
+          </Text>
+        )}
 
         {(event.ticketUrl || event.facebookUrl) && (
           <Wrap className={s.links} gap="md">

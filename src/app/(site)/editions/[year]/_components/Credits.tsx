@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Container, Divider, Grid, Stack, Wrap } from 'styled-system/jsx'
+import { Container, Divider, Grid, Stack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import type { CreditEntry } from '@/types/edition'
 import { credits as creditsRecipe } from './Credits.recipe'
@@ -21,9 +21,17 @@ export function Credits({ credits }: CreditsProps) {
         <Grid columns={{ base: 1, md: 2, xl: 4 }} columnGap="lg" rowGap={{ base: 'lg', md: 'xl' }}>
           {primary.map((credit) => (
             <Stack key={credit.label} gap="sm">
-              <span className={s.label}>{credit.label}</span>
-              <span className={s.name}>{credit.value}</span>
-              {credit.detail && <span className={s.detail}>{credit.detail}</span>}
+              <Text variant="label" className={s.label}>
+                {credit.label}
+              </Text>
+              <Text variant="heading" className={s.name}>
+                {credit.value}
+              </Text>
+              {credit.detail && (
+                <Text variant="caption" className={s.detail}>
+                  {credit.detail}
+                </Text>
+              )}
               {credit.logo && (
                 <div>
                   <Image
@@ -47,10 +55,14 @@ export function Credits({ credits }: CreditsProps) {
             <Grid className={s.partners} columns={{ base: 1, md: 4 }} gap="lg">
               {partners.map((credit) => (
                 <Stack key={credit.label} className={s.partnersBlock} gap="sm">
-                  <span className={s.partnersLabel}>{credit.label}</span>
+                  <Text variant="label" className={s.partnersLabel}>
+                    {credit.label}
+                  </Text>
                   <Wrap className={s.partnersList} align="center" rowGap="xs">
                     {credit.value.split('\n').map((name) => (
-                      <span key={name}>{name}</span>
+                      <Text variant="caption" key={name}>
+                        {name}
+                      </Text>
                     ))}
                   </Wrap>
                 </Stack>
@@ -63,8 +75,12 @@ export function Credits({ credits }: CreditsProps) {
         <Grid className={s.secondary} columns={{ base: 1, md: 4 }} gap="lg">
           {secondary.map((credit) => (
             <Stack key={credit.label} className={s.inline} gap="sm">
-              <span className={s.inlineLabel}>{credit.label}</span>
-              <span className={s.inlineNames}>{credit.value}</span>
+              <Text variant="label" className={s.inlineLabel}>
+                {credit.label}
+              </Text>
+              <Text variant="caption" className={s.inlineNames}>
+                {credit.value}
+              </Text>
             </Stack>
           ))}
         </Grid>

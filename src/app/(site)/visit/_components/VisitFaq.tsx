@@ -1,4 +1,4 @@
-import { Container } from 'styled-system/jsx'
+import { Container, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Accordion } from '@/components/ui/Accordion/Accordion'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -30,7 +30,11 @@ export function VisitFaq({ entries }: VisitFaqProps) {
             id: entry.question,
             trigger: entry.question,
             triggerHeading: 'h3',
-            content: <p className={s.answer}>{entry.answer}</p>,
+            content: (
+              <Text as="p" variant="body" className={s.answer}>
+                {entry.answer}
+              </Text>
+            ),
           }))}
         />
       </Container>

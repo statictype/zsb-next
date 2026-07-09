@@ -1,5 +1,5 @@
 import { cx } from 'styled-system/css'
-import { Center } from 'styled-system/jsx'
+import { Center, Text } from 'styled-system/jsx'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
 import { isdayBadge } from './IsdayBadge.recipe'
@@ -10,7 +10,9 @@ export function IsdayBadge({ className }: { className?: string | undefined }) {
     <Card ground="onLight" className={cx(s.card, className)}>
       <Center className={s.inner} flexDirection="column">
         <div className={s.title}>#ISDAY</div>
-        <div className={s.subtitle}>International Sculpture Day</div>
+        <Text as="div" variant="label" className={s.subtitle}>
+          International Sculpture Day
+        </Text>
         <Badge tone="outline" className={cx(s.pill)}>
           <span className={s.pillDot} />
           <span>Official Participant</span>

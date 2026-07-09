@@ -11,7 +11,7 @@ import {
   RiWheelchairLine,
 } from '@remixicon/react'
 import { css } from 'styled-system/css'
-import { Container, Grid, HStack, Stack, Wrap } from 'styled-system/jsx'
+import { Container, Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -77,17 +77,23 @@ export function VisitSection(props: VisitData = {}) {
             <div className={infoStyles.row}>
               <Stack gap="xs">
                 <RiMapPinLine size={18} className={infoStyles.icon} />
-                <span className={infoStyles.label}>Location</span>
-                <span className={infoStyles.value}>
+                <Text variant="label" className={infoStyles.label}>
+                  Location
+                </Text>
+                <Text variant="caption" className={infoStyles.value}>
                   {street}
                   <br />
                   {city}
-                </span>
+                </Text>
               </Stack>
               <Stack gap="xs">
                 <RiTimeLine size={18} className={infoStyles.icon} />
-                <span className={infoStyles.label}>Opening Hours</span>
-                <span className={infoStyles.value}>{hoursLines.join('\n')}</span>
+                <Text variant="label" className={infoStyles.label}>
+                  Opening Hours
+                </Text>
+                <Text variant="caption" className={infoStyles.value}>
+                  {hoursLines.join('\n')}
+                </Text>
               </Stack>
             </div>
 
@@ -97,7 +103,7 @@ export function VisitSection(props: VisitData = {}) {
                 return (
                   <HStack key={item.label} className={amenityStyles.item}>
                     <Icon size={16} className={amenityStyles.icon} />
-                    <span>{item.label}</span>
+                    <Text variant="label">{item.label}</Text>
                   </HStack>
                 )
               })}
@@ -107,11 +113,19 @@ export function VisitSection(props: VisitData = {}) {
               {transport.map((route) => (
                 <HStack key={route.from} className={transportStyles.line} flexWrap="wrap">
                   <RiBusLine size={14} className={transportStyles.icon} />
-                  <span className={transportStyles.from}>{route.from}</span>
-                  <span className={transportStyles.dot}>&middot;</span>
-                  <span>{route.lines}</span>
-                  <span className={transportStyles.dot}>&middot;</span>
-                  <span className={transportStyles.walk}>{route.walk}</span>
+                  <Text variant="body" className={transportStyles.from}>
+                    {route.from}
+                  </Text>
+                  <Text variant="caption" className={transportStyles.dot}>
+                    &middot;
+                  </Text>
+                  <Text variant="caption">{route.lines}</Text>
+                  <Text variant="caption" className={transportStyles.dot}>
+                    &middot;
+                  </Text>
+                  <Text variant="caption" className={transportStyles.walk}>
+                    {route.walk}
+                  </Text>
                 </HStack>
               ))}
             </Stack>

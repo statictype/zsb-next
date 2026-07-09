@@ -72,11 +72,6 @@ export const calendar = sva({
       marginTop: 'sm',
     },
     count: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
       color: 'white',
       fontVariantNumeric: 'tabular-nums',
     },
@@ -84,11 +79,6 @@ export const calendar = sva({
       minHeight: '[32px]',
       paddingBlock: 'xs',
       paddingInline: 'md',
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
       color: 'gray.300',
       background: 'transparent',
       border: 'hairline',
@@ -114,11 +104,6 @@ export const calendar = sva({
       paddingTop: 'lg',
     },
     bandLabel: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      fontWeight: 'semibold',
       color: 'highlight',
       marginBottom: 'md',
     },
@@ -171,16 +156,12 @@ export const calendar = sva({
       flex: '1',
       minWidth: '0',
     },
-    runName: { textStyle: 'boardTitle' },
+    runName: {},
     runFoot: {
       marginTop: 'auto',
       paddingTop: 'sm',
     },
     runRange: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
       color: 'muted',
     },
 
@@ -191,17 +172,9 @@ export const calendar = sva({
       borderTop: 'hairline',
     },
     emptyText: {
-      fontFamily: 'display',
-      fontSize: 'md',
-      lineHeight: 'tight',
       color: 'gray.300',
     },
     emptyClear: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
       color: 'white',
       background: 'transparent',
       border: 'none',
@@ -273,19 +246,11 @@ export const calendar = sva({
       },
     },
     markerDay: {
-      fontFamily: 'display',
-      fontSize: 'lg',
-      lineHeight: '[0.8]',
+      textStyle: 'calendar.markerDayType',
       color: 'white',
       fontVariantNumeric: 'tabular-nums',
     },
-    markerMeta: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-    },
+    markerMeta: {},
     markerMonth: { color: 'muted' },
     markerWeekday: { color: 'action' },
     events: {
@@ -319,7 +284,7 @@ export const calendar = sva({
       fontVariantNumeric: 'tabular-nums',
       letterSpacing: 'subtle',
     },
-    eventName: { textStyle: 'boardTitle' },
+    eventName: {},
     // The name link; its ::after stretches the hit target over the whole row.
     nameButton: {
       font: '[inherit]',
@@ -338,9 +303,6 @@ export const calendar = sva({
       _motionReduce: { transitionDuration: 'instant' },
     },
     eventDesc: {
-      fontFamily: 'body',
-      fontSize: 'sm',
-      lineHeight: 'body',
       color: 'body',
       maxWidth: 'measure',
       // Two-line teaser; Panda's lineClamp expands the full -webkit-box clamp.
@@ -387,7 +349,6 @@ export const calendar = sva({
       },
     },
     posterTag: {
-      textStyle: 'metaLabel',
       display: 'none',
       alignItems: 'center',
       gap: 'sm',
@@ -406,7 +367,7 @@ export const calendar = sva({
       alignItems: 'flex-start',
       marginTop: 'sm',
     },
-    recapLine: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },
-    recapMark: { color: 'white', fontWeight: 'semibold' },
+    recapLine: { color: 'body' },
+    recapMark: { color: 'white' },
   },
 })

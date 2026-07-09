@@ -1,6 +1,6 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
-import { Center, Container, Divider, Grid, HStack, Stack } from 'styled-system/jsx'
+import { Center, Container, Divider, Grid, HStack, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
@@ -31,9 +31,9 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
           gap="md"
         >
           <SectionHeading flush>Archive</SectionHeading>
-          <HStack className={styles.count} gap="md">
+          <Text variant="label" className={styles.count}>
             {theme}
-          </HStack>
+          </Text>
         </HStack>
 
         <Card asChild ground="onDark" interactive>
@@ -60,11 +60,15 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
                   )}
                 </SectionHeading>
 
-                <p className={styles.description}>{description}</p>
+                <Text as="p" variant="body" className={styles.description}>
+                  {description}
+                </Text>
 
                 <Divider mt="md" />
                 <HStack className={styles.cta} gap="md">
-                  <span className={styles.ctaLabel}>{linkLabel}</span>
+                  <Text variant="label" className={styles.ctaLabel}>
+                    {linkLabel}
+                  </Text>
                   <span aria-hidden>
                     <RiArrowRightUpLine size={18} />
                   </span>
@@ -83,10 +87,10 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
                     <span data-part="zsb">ZSB</span>
                     <span data-part="year">2021</span>
                   </Center>
-                  <div data-part="meta">
+                  <Text as="div" variant="label" data-part="meta">
                     <span>Edition 01</span>
                     <span>Digital</span>
-                  </div>
+                  </Text>
                 </Center>
               </Center>
             </Grid>

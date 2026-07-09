@@ -2,7 +2,7 @@
 
 import { RiAlertLine, RiRefreshLine } from '@remixicon/react'
 import Link from 'next/link'
-import { Center } from 'styled-system/jsx'
+import { Center, Text } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { errorPage } from './error.recipe'
 
@@ -23,12 +23,14 @@ export default function ErrorPage({
         <div className={styles.icon}>
           <RiAlertLine size={24} />
         </div>
-        <h1 className={styles.title}>Something broke</h1>
-        <p className={styles.message}>
+        <Text as="h1" variant="title" className={styles.title}>
+          Something broke
+        </Text>
+        <Text as="p" variant="caption" className={styles.message}>
           An unexpected error occurred.
           <br />
           Try again or return to the homepage.
-        </p>
+        </Text>
         <div className={styles.actions}>
           <Button variant="secondary" onClick={reset}>
             <RiRefreshLine size={14} />

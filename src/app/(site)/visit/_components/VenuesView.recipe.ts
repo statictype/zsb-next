@@ -27,28 +27,16 @@ export const venuesView = sva({
     header: { marginBottom: 'xl' },
     lede: {
       marginTop: 'md',
-      fontFamily: 'body',
-      fontSize: { base: 'sm', md: 'base' },
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
       color: 'body',
     },
 
     group: { marginTop: '2xl' },
     groupTitle: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      fontWeight: 'semibold',
       color: 'highlight',
       paddingBottom: 'sm',
     },
     venues: { width: 'full' },
     place: {
-      fontFamily: 'body',
-      fontSize: 'sm',
       color: 'muted',
     },
 
@@ -59,9 +47,6 @@ export const venuesView = sva({
       '&:first-child': { borderTop: 'none' },
     },
     eventName: {
-      fontFamily: 'display',
-      fontSize: 'base',
-      lineHeight: 'tight',
       color: 'white',
       width: 'fit',
       transitionProperty: 'colors',
@@ -71,7 +56,6 @@ export const venuesView = sva({
       _motionReduce: { transitionDuration: 'instant' },
     },
     eventWhen: {
-      textStyle: 'metaLabel',
       fontVariantNumeric: 'tabular-nums',
     },
     child: {
@@ -79,15 +63,8 @@ export const venuesView = sva({
       borderLeft: 'hairline',
     },
     childName: {
-      fontFamily: 'body',
-      fontSize: 'sm',
-      textTransform: 'uppercase',
-      letterSpacing: 'subtle',
-      fontWeight: 'semibold',
       color: 'gray.300',
     },
-    childType: {
-      textStyle: 'metaLabel',
-    },
+    childType: {},
   },
 })

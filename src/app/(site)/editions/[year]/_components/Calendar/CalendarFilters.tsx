@@ -1,7 +1,7 @@
 'use client'
 
 import { RiResetLeftLine } from '@remixicon/react'
-import { Divider, Stack, Wrap } from 'styled-system/jsx'
+import { Divider, Stack, Text, Wrap } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 import { calendarFilters } from './CalendarFilters.recipe'
@@ -39,9 +39,9 @@ function FilterChips({
   const s = calendarFilters()
   return (
     <Stack className={s.filterRow} gap="sm">
-      <span className={s.filterRowLabel} id={labelId}>
+      <Text variant="label" className={s.filterRowLabel} id={labelId}>
         {label}
-      </span>
+      </Text>
       <Wrap as="ul" listStyle="none" aria-labelledby={labelId}>
         {options.map((option) => (
           <li key={option.slug}>

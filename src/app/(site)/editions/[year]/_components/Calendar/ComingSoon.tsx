@@ -1,5 +1,5 @@
 import { css } from 'styled-system/css'
-import { Container, Divider } from 'styled-system/jsx'
+import { Container, Divider, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { CalendarMeta } from './CalendarMeta'
@@ -26,11 +26,13 @@ export function ComingSoon({ year, socials }: { year: number; socials: SocialLin
 
         <Divider />
         <div className={s.notice}>
-          <p className={s.headline}>The programme is taking shape.</p>
-          <p className={s.body}>
+          <Text as="p" variant="title" className={s.headline}>
+            The programme is taking shape.
+          </Text>
+          <Text as="p" variant="body" className={s.body}>
             Talks, openings, exhibitions and workshops across the city are being finalised. The full
             calendar lands here soon.
-          </p>
+          </Text>
 
           <FollowLinks
             label="Follow for updates"

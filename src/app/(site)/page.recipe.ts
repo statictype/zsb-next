@@ -6,7 +6,7 @@ import { sva } from 'styled-system/css'
  * Dark hero with the stage Carousel pinned right and the title crashing over its
  * left edge, an Upcoming-lead variant (next edition's theme + a demoted "from
  * the last edition" card), then the past-editions register. The hero title uses
- * the `pageTitle` textStyle + entrance directly (it's not the standard PageHero
+ * the shared display type + entrance directly (it's not the standard PageHero
  * block — Carousel layout, min-content title). The `.editionBadge` pill →
  * `<Badge>`. Row hovers drive from the `<a>` via `a:hover &` (disabled rows are
  * `<div>`, so they never trigger the colour/arrow shift).
@@ -72,7 +72,6 @@ export const homePage = sva({
     },
     // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
     heroTitle: {
-      textStyle: 'pageTitle',
       // Entrance owned here, not split across the JSX: the shared `enter`
       // style plus the title's own delay override sit together, so the
       // animation-delay winner is legible in one place.
@@ -81,7 +80,7 @@ export const homePage = sva({
       width: '[min-content]',
     },
 
-    heroLead: { textStyle: 'leadLarge', color: 'body' },
+    heroLead: { color: 'body' },
     heroBadge: {
       order: '3',
       alignSelf: 'center',
@@ -105,9 +104,6 @@ export const homePage = sva({
       width: 'full',
     },
     editionsSubtext: {
-      fontFamily: 'body',
-      fontSize: 'sm',
-      lineHeight: 'body',
       color: 'body',
       maxWidth: 'measure',
     },
@@ -128,17 +124,10 @@ export const homePage = sva({
       minWidth: '0',
       lg: { flex: '[1 1 0]' },
     },
-    // Deltas over the `Eyebrow` recipe base (body/uppercase/wide/muted/xs):
-    // the upcoming lead runs it highlight, a step larger, and heavier.
     upcomingEyebrow: {
       color: 'highlight',
-      fontSize: 'sm',
-      fontWeight: 'semibold',
     },
     upcomingDates: {
-      fontFamily: 'body',
-      fontSize: 'md',
-      letterSpacing: 'subtle',
       color: 'body',
     },
     upcomingBadge: { marginTop: 'sm' },
@@ -149,7 +138,7 @@ export const homePage = sva({
       paddingTop: 'lg',
       lg: { flex: '[0 0 42%]', maxWidth: '[460px]', paddingTop: '0' },
     },
-    lastEditionLabel: { textStyle: 'metaLabel' },
+    lastEditionLabel: {},
     lastEditionMedia: { position: 'relative', width: 'full' },
   },
 })

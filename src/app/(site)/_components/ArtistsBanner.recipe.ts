@@ -48,9 +48,6 @@ export const artistsBanner = sva({
       marginInline: 'auto',
     },
     subtext: {
-      fontFamily: 'body',
-      fontSize: 'sm',
-      lineHeight: 'body',
       color: 'body',
       maxWidth: { md: 'narrowColumn' },
     },

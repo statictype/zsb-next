@@ -20,10 +20,6 @@ export const isdayBadge = sva({
       lineHeight: 'heading',
     },
     subtitle: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
       color: 'body',
       marginTop: 'xs',
     },

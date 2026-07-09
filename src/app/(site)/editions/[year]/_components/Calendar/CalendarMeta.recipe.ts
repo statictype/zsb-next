@@ -13,13 +13,8 @@ export const calendarMeta = sva({
   base: {
     meta: {
       marginTop: 'md',
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
       color: 'body',
-      md: { fontSize: 'sm' },
+      md: {},
     },
     year: { color: 'highlight' },
     dot: { width: '[4px]', height: '[4px]', background: 'gray.700', borderRadius: 'circle' },

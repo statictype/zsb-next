@@ -2,14 +2,14 @@ import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cx } from 'styled-system/css'
-import { Divider, Grid, HStack, Stack } from 'styled-system/jsx'
-import { button, section } from 'styled-system/recipes'
+import { Divider, Grid, HStack, Stack, Text } from 'styled-system/jsx'
+import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Badge } from '@/components/ui/Badge/Badge'
-import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
+import { Button } from '@/components/ui/Button/Button'
 import { LinkList, LinkListItem } from '@/components/ui/LinkList/LinkList'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import {
@@ -95,11 +95,15 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
               gap={{ base: '2xl', lg: '3xl' }}
             >
               <Stack className={styles.upcomingLead} gap="lg">
-                <Eyebrow className={styles.upcomingEyebrow}>Upcoming · ZSB {upcoming.year}</Eyebrow>
-                <h1 className={styles.heroTitle}>
+                <Text variant="caption" className={styles.upcomingEyebrow}>
+                  Upcoming · ZSB {upcoming.year}
+                </Text>
+                <Text as="h1" variant="display" className={styles.heroTitle}>
                   <AccentSplit text={upcoming.theme} accent={upcoming.themeHighlight} lineBreak />
-                </h1>
-                <p className={styles.upcomingDates}>{upcoming.dateTape}</p>
+                </Text>
+                <Text as="p" variant="body" className={styles.upcomingDates}>
+                  {upcoming.dateTape}
+                </Text>
                 <div className={styles.upcomingBadge}>
                   <PartnerBadge size="upcoming" />
                 </div>
@@ -107,17 +111,18 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
 
               <Divider display={{ base: 'block', lg: 'none' }} />
               <Stack as="aside" className={styles.lastEdition}>
-                <p className={styles.lastEditionLabel}>From the last edition</p>
+                <Text as="p" variant="label" className={styles.lastEditionLabel}>
+                  From the last edition
+                </Text>
                 <div className={styles.lastEditionMedia}>
                   <HomepageCarousel images={slideshow} />
                 </div>
                 {ctaLabel && ctaYear && (
-                  <Link
-                    href={`/editions/${ctaYear}`}
-                    className={button({ variant: 'primary', size: 'lg' })}
-                  >
-                    {ctaLabel} <RiArrowRightLine size={14} />
-                  </Link>
+                  <Button asChild variant="primary" size="lg">
+                    <Link href={`/editions/${ctaYear}`}>
+                      {ctaLabel} <RiArrowRightLine size={14} />
+                    </Link>
+                  </Button>
                 )}
               </Stack>
             </HStack>
@@ -132,18 +137,19 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
               alignItems={{ lg: 'start' }}
             >
               <Stack className={styles.heroPanel} gap="lg">
-                <h1 className={styles.heroTitle}>
+                <Text as="h1" variant="display" className={styles.heroTitle}>
                   <AccentSplit text={title} accent={accent} lineBreak />
-                </h1>
+                </Text>
                 <Stack gap="lg">
-                  <p className={styles.heroLead}>{lead}</p>
+                  <Text as="p" variant="lead" className={styles.heroLead}>
+                    {lead}
+                  </Text>
                   {ctaLabel && ctaYear && (
-                    <Link
-                      href={`/editions/${ctaYear}`}
-                      className={button({ variant: 'primary', size: 'lg' })}
-                    >
-                      {ctaLabel} <RiArrowRightLine size={14} />
-                    </Link>
+                    <Button asChild variant="primary" size="lg">
+                      <Link href={`/editions/${ctaYear}`}>
+                        {ctaLabel} <RiArrowRightLine size={14} />
+                      </Link>
+                    </Button>
                   )}
                 </Stack>
               </Stack>
@@ -164,7 +170,9 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
         <section id="editions" className={cx(styles.panel, section({ ground: 'dark' }))}>
           <Stack className={styles.editionsHead}>
             <SectionHeading flush>Editions</SectionHeading>
-            <p className={styles.editionsSubtext}>{editionsIntro}</p>
+            <Text as="p" variant="caption" className={styles.editionsSubtext}>
+              {editionsIntro}
+            </Text>
           </Stack>
           <LinkList className={styles.editionList}>
             {list.map((edition) => {

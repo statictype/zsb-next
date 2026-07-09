@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 import { type EyebrowVariantProps, eyebrow } from 'styled-system/recipes'
 
 /**
@@ -14,5 +15,9 @@ type EyebrowProps = EyebrowVariantProps & {
 }
 
 export function Eyebrow({ children, className, ...variants }: EyebrowProps) {
-  return <p className={cx(eyebrow(variants), className)}>{children}</p>
+  return (
+    <Text as="p" variant="label" className={cx(eyebrow(variants), className)}>
+      {children}
+    </Text>
+  )
 }

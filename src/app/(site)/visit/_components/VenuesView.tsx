@@ -1,6 +1,6 @@
 import { RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
-import { Container, Divider, Stack, Wrap } from 'styled-system/jsx'
+import { Container, Divider, Stack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Accordion } from '@/components/ui/Accordion/Accordion'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -29,12 +29,16 @@ export function VenuesView({ year, sections }: { year: number; sections: VenueTy
             <SectionHeading id="venues-heading" flush>
               Where it happens
             </SectionHeading>
-            <p className={styles.lede}>The {year} programme, venue by venue.</p>
+            <Text as="p" variant="caption" className={styles.lede}>
+              The {year} programme, venue by venue.
+            </Text>
           </header>
 
           {sections.map((section) => (
             <div key={section.type} className={styles.group}>
-              <h3 className={styles.groupTitle}>{section.type}</h3>
+              <Text as="h3" variant="caption" className={styles.groupTitle}>
+                {section.type}
+              </Text>
               <Divider />
               <Accordion
                 id={`venues-${slugify(section.type)}`}
@@ -65,8 +69,12 @@ function VenueDetails({ venue, year }: { venue: TopVenue; year: number }) {
       {venue.children.map((child) => (
         <Stack key={child.name} className={styles.child} gap="sm">
           <Wrap as="p" align="baseline">
-            <span className={styles.childName}>{child.name}</span>
-            <span className={styles.childType}>{child.type}</span>
+            <Text variant="caption" className={styles.childName}>
+              {child.name}
+            </Text>
+            <Text variant="label" className={styles.childType}>
+              {child.type}
+            </Text>
           </Wrap>
           <VenuePlace venue={child} />
           <EventList events={child.events} year={year} />
@@ -82,11 +90,13 @@ function VenuePlace({ venue }: { venue: VenueNode }) {
   if (!venue.address && !venue.mapUrl) return null
   return (
     <Wrap as="p" className={styles.place} gap="md">
-      {venue.address && <span>{venue.address}</span>}
+      {venue.address && <Text variant="caption">{venue.address}</Text>}
       {venue.mapUrl && (
         <Button asChild variant="link">
           <a href={venue.mapUrl} target="_blank" rel="noreferrer">
-            <RiMapPinLine size={14} aria-hidden /> Map
+            <Text variant="caption" display="contents">
+              <RiMapPinLine size={14} aria-hidden /> Map
+            </Text>
           </a>
         </Button>
       )}
@@ -100,9 +110,13 @@ function EventList({ events, year }: { events: VenueEvent[]; year: number }) {
       {events.map((event) => (
         <Stack as="li" key={event.key} className={styles.event} gap="sm">
           <Link className={styles.eventName} href={`/editions/${year}/events/${event.slug}`}>
-            {event.name}
+            <Text variant="heading" display="contents">
+              {event.name}
+            </Text>
           </Link>
-          <span className={styles.eventWhen}>{event.when}</span>
+          <Text variant="label" className={styles.eventWhen}>
+            {event.when}
+          </Text>
           {event.types.length > 0 && (
             <Wrap as="ul" listStyle="none">
               {event.types.map((t) => (

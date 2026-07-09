@@ -94,21 +94,14 @@ export const aboutPage = sva({
       borderTop: 'primary',
     },
     authorName: {
-      textStyle: 'labelDisplay',
-      fontSize: 'md',
       color: 'heading',
     },
     authorRole: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
       color: 'muted',
     },
     statementLetter: { maxWidth: 'measure' },
     letterBody: {
       '& p': {
-        textStyle: 'leadLarge',
         color: 'body',
       },
     },

@@ -567,6 +567,98 @@ export const textStyles = {
     },
   },
 
+  featuredEvents: {
+    watermarkType: {
+      value: {
+        fontFamily: 'display',
+        fontSize: 'clamp(120px, 32vw, 260px)',
+        lineHeight: '1',
+      },
+    },
+  },
+  calendar: {
+    markerDayType: {
+      value: {
+        fontFamily: 'display',
+        fontSize: 'lg',
+        lineHeight: '0.8',
+      },
+    },
+  },
+  externalGallery: {
+    plateType: {
+      monogram: {
+        value: {
+          fontFamily: 'display',
+          lineHeight: '1',
+          textTransform: 'uppercase',
+        },
+      },
+      zsb: {
+        value: {
+          fontSize: 'clamp(56px, 7vw, 104px)',
+          letterSpacing: '-2px',
+        },
+      },
+      year: {
+        value: {
+          fontSize: 'clamp(36px, 4.5vw, 64px)',
+          letterSpacing: '-1px',
+        },
+      },
+    },
+  },
+  editionTheme: {
+    tapeType: {
+      huge: {
+        value: {
+          fontFamily: 'display',
+          fontSize: { base: 'lg', md: 'lg', lg: 'xl', xl: 'xl' },
+          lineHeight: '1',
+          letterSpacing: '-0.02em',
+          textTransform: 'lowercase',
+        },
+      },
+      large: {
+        value: {
+          fontFamily: 'display',
+          fontSize: { base: 'lg', md: 'lg', lg: 'lg', xl: 'xl' },
+          lineHeight: '1',
+          letterSpacing: '-0.02em',
+          textTransform: 'lowercase',
+        },
+      },
+      normal: {
+        value: {
+          fontFamily: 'display',
+          fontSize: 'lg',
+          lineHeight: '1',
+          letterSpacing: '-0.02em',
+          textTransform: 'lowercase',
+        },
+      },
+      rail: {
+        value: {
+          fontFamily: 'display',
+          fontSize: { base: 'xl', md: 'xl', lg: 'lg', xl: 'xl', '4xl': 'xl' },
+          lineHeight: '1',
+          letterSpacing: '-0.02em',
+          textTransform: 'lowercase',
+        },
+      },
+    },
+  },
+  partnerBadge: {
+    ringType: {
+      value: {
+        fontFamily: 'body',
+        fontSize: 'badgeRing',
+        fontWeight: 'semibold',
+        letterSpacing: 'badgeRing',
+      },
+    },
+  },
+
   // Legacy styles — thin copies of the canonical styles above, kept only so
   // existing recipe references still resolve. Die in Phase 2.
   pageTitle: {

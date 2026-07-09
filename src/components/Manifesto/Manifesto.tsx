@@ -1,4 +1,5 @@
 import { cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 import { editorialSplit } from 'styled-system/patterns'
 import { section } from 'styled-system/recipes'
 import { splitFirstMatch } from '@/lib/split-first-match'
@@ -32,7 +33,9 @@ export function Manifesto({ title, body, accent }: ManifestoProps) {
         </h2>
         <div className={s.content}>
           <div className={s.text}>
-            <p>{body}</p>
+            <Text as="p" variant="lead">
+              {body}
+            </Text>
           </div>
         </div>
       </div>

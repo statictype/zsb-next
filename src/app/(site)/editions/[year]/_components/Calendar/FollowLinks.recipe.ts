@@ -5,11 +5,11 @@ import { sva } from 'styled-system/css'
  *
  * A "Follow …" label above a row of social link buttons, shared by the
  * finished-edition recap (inline) and the ComingSoon notice (stacked). The
- * label reuses the `metaLabel` textStyle; `layout` picks the wrapper axis.
+ * `layout` picks the wrapper axis.
  */
 export const followLinks = sva({
   slots: ['label'],
   base: {
-    label: { textStyle: 'metaLabel' },
+    label: {},
   },
 })

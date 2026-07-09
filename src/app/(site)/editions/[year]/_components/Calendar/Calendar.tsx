@@ -4,7 +4,7 @@ import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
-import { Container, Divider, Grid, HStack, Stack, Wrap } from 'styled-system/jsx'
+import { Container, Divider, Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
@@ -99,17 +99,20 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
               // archive agenda collapses below (ZSB-45). Applies to every
               // finished edition, judged client-side like the rest of the board.
               <Stack className={s.recap}>
-                <p className={s.recapLine}>
-                  That was <strong className={s.recapMark}>ZSB {year}</strong>
+                <Text as="p" variant="body" className={s.recapLine}>
+                  That was{' '}
+                  <Text as="strong" variant="body" className={s.recapMark}>
+                    ZSB {year}
+                  </Text>
                   {theme ? ` — ${theme}` : ''}.
-                </p>
+                </Text>
                 <FollowLinks label="Follow for what’s next" socials={socials} />
               </Stack>
             ) : (
               <Wrap className={s.counts} gap="md">
-                <span className={s.count} aria-live="polite">
+                <Text variant="label" className={s.count} aria-live="polite">
                   {countLabel}
-                </span>
+                </Text>
                 {showPastControl && (
                   <Button
                     variant="secondary"
@@ -146,9 +149,11 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
 
           {visible.length === 0 ? (
             <Stack className={s.empty} role="status">
-              <p className={s.emptyText}>No events match these filters.</p>
+              <Text as="p" variant="heading" className={s.emptyText}>
+                No events match these filters.
+              </Text>
               <Button variant="link" className={s.emptyClear} onClick={reset}>
-                Show all events
+                <Text variant="label">Show all events</Text>
               </Button>
             </Stack>
           ) : (
@@ -159,7 +164,9 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                 <>
                   <Divider />
                   <section className={s.band} aria-label="Ongoing throughout the edition">
-                    <h3 className={s.bandLabel}>Ongoing</h3>
+                    <Text as="h3" variant="label" className={s.bandLabel}>
+                      Ongoing
+                    </Text>
                     <Grid as="ul" minChildWidth="300px" gap="md" listStyle="none">
                       {onView.map((run) => {
                         const runEnd = run.endDate ?? run.startDate
@@ -180,7 +187,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                             )}
                             <Stack className={s.runContent} gap="sm">
                               <TypeChips types={run.types} />
-                              <h4 className={s.runName}>
+                              <Text as="h4" variant="heading" className={s.runName}>
                                 <Link
                                   className={s.nameButton}
                                   href={`/editions/${year}/events/${run.slug}`}
@@ -188,10 +195,14 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                                 >
                                   {run.name}
                                 </Link>
-                              </h4>
+                              </Text>
                               <VenueLine venue={run.venue} />
                               <Wrap className={s.runFoot} gap="md">
-                                {runRange && <span className={s.runRange}>{runRange}</span>}
+                                {runRange && (
+                                  <Text variant="label" className={s.runRange}>
+                                    {runRange}
+                                  </Text>
+                                )}
                               </Wrap>
                             </Stack>
                           </li>
@@ -226,8 +237,12 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                           alignItems={{ base: 'baseline', md: 'flex-end' }}
                           gap={{ md: 'xs' }}
                         >
-                          <span className={s.markerMonth}>{day.token.month}</span>
-                          <span className={s.markerWeekday}>{day.token.weekday}</span>
+                          <Text variant="label" className={s.markerMonth}>
+                            {day.token.month}
+                          </Text>
+                          <Text variant="label" className={s.markerWeekday}>
+                            {day.token.weekday}
+                          </Text>
                         </HStack>
                       </HStack>
                       <ul className={s.events}>
@@ -279,12 +294,16 @@ function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
         <Wrap>
           {event.startTime && <span className={s.eventTime}>{event.startTime}</span>}
           <TypeChips types={event.types} />
-          {event.image && <span className={s.posterTag}>Poster</span>}
+          {event.image && (
+            <Text variant="label" className={s.posterTag}>
+              Poster
+            </Text>
+          )}
         </Wrap>
         {/* The name links to the event's route (the modal opens over the
             edition); its stretched overlay makes the whole row the hit target
             (see `.nameButton` in the CSS). */}
-        <h4 className={s.eventName}>
+        <Text as="h4" variant="heading" className={s.eventName}>
           <Link
             className={s.nameButton}
             href={`/editions/${year}/events/${event.slug}`}
@@ -292,9 +311,11 @@ function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
           >
             {event.name}
           </Link>
-        </h4>
+        </Text>
         <VenueLine venue={event.venue} />
-        <p className={s.eventDesc}>{event.description}</p>
+        <Text as="p" variant="caption" className={s.eventDesc}>
+          {event.description}
+        </Text>
       </Stack>
       {event.image && (
         <div className={s.poster}>

@@ -4,6 +4,7 @@ import { Accordion as ArkAccordion } from '@ark-ui/react/accordion'
 import { RiArrowDownSLine } from '@remixicon/react'
 import type { ReactNode } from 'react'
 import { css, cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 import { accordion } from 'styled-system/recipes'
 
 export interface AccordionItem {
@@ -49,8 +50,16 @@ export function Accordion({
       {items.map((item) => {
         const trigger = (
           <ArkAccordion.ItemTrigger className={styles.itemTrigger}>
-            {item.trigger}
-            {item.meta !== undefined && <span data-accordion-meta>{item.meta}</span>}
+            {triggerTypography === 'display' ? (
+              <Text variant="heading">{item.trigger}</Text>
+            ) : (
+              item.trigger
+            )}
+            {item.meta !== undefined && (
+              <Text variant="label" data-accordion-meta>
+                {item.meta}
+              </Text>
+            )}
             <ArkAccordion.ItemIndicator className={styles.itemIndicator}>
               <RiArrowDownSLine size={20} aria-hidden />
             </ArkAccordion.ItemIndicator>

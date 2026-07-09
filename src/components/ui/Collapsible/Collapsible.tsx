@@ -4,6 +4,7 @@ import { Collapsible as ArkCollapsible } from '@ark-ui/react/collapsible'
 import { RiArrowDownSLine } from '@remixicon/react'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 import { collapsible } from 'styled-system/recipes'
 
 interface CollapsibleProps {
@@ -35,9 +36,17 @@ export function Collapsible({
       unmountOnExit={false}
     >
       <ArkCollapsible.Trigger className={styles.trigger}>
-        <span data-collapsible-label="closed">{closedLabel}</span>
-        <span data-collapsible-label="open">{openLabel}</span>
-        {meta !== undefined && <span data-collapsible-meta>{meta}</span>}
+        <Text variant="label" data-collapsible-label="closed">
+          {closedLabel}
+        </Text>
+        <Text variant="label" data-collapsible-label="open">
+          {openLabel}
+        </Text>
+        {meta !== undefined && (
+          <Text variant="label" data-collapsible-meta>
+            {meta}
+          </Text>
+        )}
         <ArkCollapsible.Indicator className={styles.indicator}>
           <RiArrowDownSLine size={20} aria-hidden />
         </ArkCollapsible.Indicator>

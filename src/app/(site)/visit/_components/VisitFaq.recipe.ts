@@ -5,7 +5,6 @@ export const visitFaq = sva({
   base: {
     list: { maxWidth: 'measure' },
     answer: {
-      textStyle: 'prose',
       // Editorial answers may contain intentional line breaks.
       whiteSpace: 'pre-line',
     },
