@@ -72,6 +72,6 @@ export const eventModal = sva({
       whiteSpace: 'pre-line',
     },
 
-    links: { display: 'flex', flexWrap: 'wrap', gap: 'md', marginTop: 'lg' },
+    links: { marginTop: 'lg' },
   },
 })

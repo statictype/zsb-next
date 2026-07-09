@@ -714,11 +714,6 @@ export const layerStyles = {
       '@media (max-width: 767px) and (orientation: landscape)': { height: '[73vh]' },
     },
   },
-  // Horizontal wrap of pill/badge chips (calendar type tags, filter chips):
-  // the list surface only — the chips themselves are their own primitives.
-  chipRow: {
-    value: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm' },
-  },
   // The brush-stroke rule's shared boilerplate (EditionTheme's top rule,
   // Manifesto's left rule) — content/position/opacity are identical; axis
   // (height vs width, position sides, gradient direction, clipPath) stays

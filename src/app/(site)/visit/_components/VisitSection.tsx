@@ -11,7 +11,7 @@ import {
   RiWheelchairLine,
 } from '@remixicon/react'
 import { css } from 'styled-system/css'
-import { Container, HStack, Stack } from 'styled-system/jsx'
+import { Container, HStack, Stack, Wrap } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -87,7 +87,7 @@ export function VisitSection(props: VisitData = {}) {
               </Stack>
             </div>
 
-            <div className={amenityStyles.strip}>
+            <Wrap className={amenityStyles.strip} gap="md">
               {amenities.map((item) => {
                 const Icon = ICONS[item.icon] ?? RiMapPinLine
                 return (
@@ -97,7 +97,7 @@ export function VisitSection(props: VisitData = {}) {
                   </HStack>
                 )
               })}
-            </div>
+            </Wrap>
 
             <Stack gap="sm">
               {transport.map((route) => (

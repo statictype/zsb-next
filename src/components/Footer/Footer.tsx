@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
-import { Center, HStack, Stack } from 'styled-system/jsx'
+import { Center, HStack, Stack, Wrap } from 'styled-system/jsx'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Button } from '@/components/ui/Button/Button'
@@ -75,7 +75,15 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
             gap={{ base: 'lg', md: '2xl' }}
             alignSelf={{ base: 'stretch', md: 'auto' }}
           >
-            <nav className={s.navCol} aria-label="Footer">
+            <Wrap
+              as="nav"
+              className={s.navCol}
+              aria-label="Footer"
+              align="baseline"
+              justify="center"
+              rowGap="sm"
+              columnGap="md"
+            >
               <h2 className={s.colTitle}>Connect</h2>
               {contactHref && <FooterLink href={contactHref}>Contact</FooterLink>}
               {CONNECT_LINKS.map((link) => (
@@ -83,17 +91,23 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
                   {link.label}
                 </FooterLink>
               ))}
-            </nav>
+            </Wrap>
 
             {socials.length > 0 && (
-              <div className={s.navCol}>
+              <Wrap
+                className={s.navCol}
+                align="baseline"
+                justify="center"
+                rowGap="sm"
+                columnGap="md"
+              >
                 <h2 className={s.colTitle}>Follow</h2>
                 {socials.map((link) => (
                   <FooterLink key={link.label} href={link.href}>
                     {link.label}
                   </FooterLink>
                 ))}
-              </div>
+              </Wrap>
             )}
           </Center>
 
@@ -106,10 +120,10 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
           justify={{ md: 'space-between' }}
         >
           <div className={s.copyright}>&copy; {currentYear} Bucharest Sculpture Days</div>
-          <div className={s.legal}>
+          <Wrap gap="lg">
             <LegalLink href="/privacy">Privacy Policy</LegalLink>
             <CookieSettingsButton className={s.legalLink} />
-          </div>
+          </Wrap>
         </HStack>
       </Stack>
     </footer>

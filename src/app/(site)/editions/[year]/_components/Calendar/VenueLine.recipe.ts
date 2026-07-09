@@ -12,10 +12,6 @@ export const venueLine = sva({
   slots: ['venue', 'name', 'parent'],
   base: {
     venue: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'sm',
       fontFamily: 'body',
     },
     name: {

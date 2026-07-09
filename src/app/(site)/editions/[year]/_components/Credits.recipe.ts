@@ -97,10 +97,6 @@ export const credits = sva({
     },
     partnersLabel: { ...labelBase, color: 'action' },
     partnersList: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'center',
-      rowGap: 'xs',
       fontFamily: 'body',
       fontWeight: 'regular',
       fontSize: 'sm',

@@ -6,11 +6,11 @@ import { sva } from 'styled-system/css'
  * Venue/type chips (all-on-by-default multi-select) + a Reset control, inside
  * the dark Calendar section. Each chip is the shared `<Checkbox>` primitive (it
  * owns the chip look + selected/hover/focus states); this recipe keeps only the
- * surrounding layout (filter rows, the chip list, Reset). Raw grays are the
+ * surrounding layout (filter rows and Reset). Raw grays are the
  * documented dark-board exceptions.
  */
 export const calendarFilters = sva({
-  slots: ['filters', 'bar', 'reset', 'filterRow', 'filterRowLabel', 'chips'],
+  slots: ['filters', 'bar', 'reset', 'filterRow', 'filterRowLabel'],
   base: {
     filters: {
       marginBottom: '2xl',
@@ -56,6 +56,5 @@ export const calendarFilters = sva({
       color: 'muted',
       md: { flexShrink: '0', width: '[56px]', paddingTop: 'md' },
     },
-    chips: { layerStyle: 'chipRow' },
   },
 })

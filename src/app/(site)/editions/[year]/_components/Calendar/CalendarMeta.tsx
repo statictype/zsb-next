@@ -1,3 +1,4 @@
+import { Wrap } from 'styled-system/jsx'
 import { calendarMeta } from './CalendarMeta.recipe'
 
 // The board header's meta line — the edition year, then an optional trailing
@@ -15,7 +16,7 @@ export function CalendarMeta({
 }) {
   const s = calendarMeta()
   return (
-    <p className={s.meta}>
+    <Wrap as="p" className={s.meta} gap="md">
       <span className={s.year}>{year}</span>
       {label && (
         <>
@@ -23,6 +24,6 @@ export function CalendarMeta({
           <span className={tone === 'accent' ? s.accent : undefined}>{label}</span>
         </>
       )}
-    </p>
+    </Wrap>
   )
 }

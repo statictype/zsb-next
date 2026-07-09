@@ -4,7 +4,7 @@ import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
-import { Container, HStack, Stack } from 'styled-system/jsx'
+import { Container, HStack, Stack, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
@@ -106,7 +106,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                 <FollowLinks label="Follow for what’s next" socials={socials} />
               </Stack>
             ) : (
-              <div className={s.counts}>
+              <Wrap className={s.counts} gap="md">
                 <span className={s.count} aria-live="polite">
                   {countLabel}
                 </span>
@@ -123,7 +123,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                     {showPast ? 'Hide' : 'Show'} {past} past {past === 1 ? 'event' : 'events'}
                   </Button>
                 )}
-              </div>
+              </Wrap>
             )}
           </div>
           <CalendarShare />
@@ -188,9 +188,9 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                               </Link>
                             </h4>
                             <VenueLine venue={run.venue} />
-                            <div className={s.runFoot}>
+                            <Wrap className={s.runFoot} gap="md">
                               {runRange && <span className={s.runRange}>{runRange}</span>}
-                            </div>
+                            </Wrap>
                           </Stack>
                         </li>
                       )
@@ -273,11 +273,11 @@ function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
   return (
     <Stack as="li" className={s.event} data-poster={!!event.image}>
       <Stack className={s.eventBody} gap="sm">
-        <div className={s.eventTop}>
+        <Wrap>
           {event.startTime && <span className={s.eventTime}>{event.startTime}</span>}
           <TypeChips types={event.types} />
           {event.image && <span className={s.posterTag}>Poster</span>}
-        </div>
+        </Wrap>
         {/* The name links to the event's route (the modal opens over the
             edition); its stretched overlay makes the whole row the hit target
             (see `.nameButton` in the CSS). */}

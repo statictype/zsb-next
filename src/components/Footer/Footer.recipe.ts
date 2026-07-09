@@ -21,7 +21,6 @@ export const footer = sva({
     'stamp',
     'baseline',
     'copyright',
-    'legal',
     'legalLink',
   ],
   base: {
@@ -42,13 +41,6 @@ export const footer = sva({
     },
 
     navCol: {
-      display: 'flex',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      alignItems: 'baseline',
-      justifyContent: 'center',
-      rowGap: 'sm',
-      columnGap: 'md',
       md: {
         flexDirection: 'column',
         flexWrap: 'nowrap',
@@ -95,7 +87,6 @@ export const footer = sva({
       md: { textAlign: 'left' },
     },
     copyright: { color: 'muted' },
-    legal: { display: 'flex', gap: 'lg' },
     legalLink: { textStyle: 'footerMeta', letterSpacing: 'label' },
   },
 })

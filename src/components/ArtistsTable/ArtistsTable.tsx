@@ -1,5 +1,5 @@
 import { cx } from 'styled-system/css'
-import { HStack } from 'styled-system/jsx'
+import { HStack, Wrap } from 'styled-system/jsx'
 import { padNum, splitInHalf } from '@/lib/format-utils'
 import type { ArtistListItem } from '@/types/edition'
 import { artistsTable } from './ArtistsTable.recipe'
@@ -55,14 +55,14 @@ export function ArtistsTable({
 
       {meta.length > 0 && (
         <HStack className={styles.footer} justify="space-between">
-          <div className={styles.meta}>
+          <Wrap gap="md" justify="flex-start">
             {meta.map(({ label, value }) => (
               <div key={label} className={styles.metaItem}>
                 {label}
                 <span>{value}</span>
               </div>
             ))}
-          </div>
+          </Wrap>
           <div className={styles.barcode} />
         </HStack>
       )}

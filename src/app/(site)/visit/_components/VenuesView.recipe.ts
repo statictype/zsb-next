@@ -20,9 +20,7 @@ export const venuesView = sva({
     'event',
     'eventName',
     'eventWhen',
-    'chips',
     'child',
-    'childHead',
     'childName',
     'childType',
   ],
@@ -56,10 +54,6 @@ export const venuesView = sva({
     },
     venues: { width: 'full' },
     place: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'md',
       fontFamily: 'body',
       fontSize: 'sm',
       color: 'muted',
@@ -88,13 +82,10 @@ export const venuesView = sva({
       textStyle: 'metaLabel',
       fontVariantNumeric: 'tabular-nums',
     },
-    chips: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm' },
-
     child: {
       paddingLeft: 'md',
       borderLeft: 'hairline',
     },
-    childHead: { display: 'flex', alignItems: 'baseline', flexWrap: 'wrap', gap: 'sm' },
     childName: {
       fontFamily: 'body',
       fontSize: 'sm',

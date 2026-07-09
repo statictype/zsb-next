@@ -12,10 +12,6 @@ export const calendarMeta = sva({
   slots: ['meta', 'year', 'dot', 'accent'],
   base: {
     meta: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'md',
       marginTop: 'md',
       fontFamily: 'body',
       fontSize: 'xs',

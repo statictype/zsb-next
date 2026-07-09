@@ -1,7 +1,7 @@
 import { RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
-import { Container, Stack } from 'styled-system/jsx'
+import { Container, Stack, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Accordion } from '@/components/ui/Accordion/Accordion'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -61,10 +61,10 @@ function VenueDetails({ venue, year }: { venue: TopVenue; year: number }) {
 
       {venue.children.map((child) => (
         <Stack key={child.name} className={styles.child} gap="sm">
-          <p className={styles.childHead}>
+          <Wrap as="p" align="baseline">
             <span className={styles.childName}>{child.name}</span>
             <span className={styles.childType}>{child.type}</span>
-          </p>
+          </Wrap>
           <VenuePlace venue={child} />
           <EventList events={child.events} year={year} />
         </Stack>
@@ -78,7 +78,7 @@ function VenueDetails({ venue, year }: { venue: TopVenue; year: number }) {
 function VenuePlace({ venue }: { venue: VenueNode }) {
   if (!venue.address && !venue.mapUrl) return null
   return (
-    <p className={styles.place}>
+    <Wrap as="p" className={styles.place} gap="md">
       {venue.address && <span>{venue.address}</span>}
       {venue.mapUrl && (
         <Button asChild variant="link">
@@ -87,7 +87,7 @@ function VenuePlace({ venue }: { venue: VenueNode }) {
           </a>
         </Button>
       )}
-    </p>
+    </Wrap>
   )
 }
 
@@ -101,13 +101,13 @@ function EventList({ events, year }: { events: VenueEvent[]; year: number }) {
           </Link>
           <span className={styles.eventWhen}>{event.when}</span>
           {event.types.length > 0 && (
-            <ul className={styles.chips}>
+            <Wrap as="ul" listStyle="none">
               {event.types.map((t) => (
                 <li key={t.slug}>
                   <Badge tone="outline">{t.title}</Badge>
                 </li>
               ))}
-            </ul>
+            </Wrap>
           )}
         </Stack>
       ))}

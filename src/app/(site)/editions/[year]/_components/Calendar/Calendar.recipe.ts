@@ -44,7 +44,6 @@ export const calendar = sva({
     'events',
     'event',
     'eventBody',
-    'eventTop',
     'eventTime',
     'eventName',
     'nameButton',
@@ -71,10 +70,6 @@ export const calendar = sva({
     headerMain: { minWidth: '0' },
 
     counts: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'md',
       marginTop: 'sm',
     },
     count: {
@@ -187,10 +182,6 @@ export const calendar = sva({
     },
     runName: { textStyle: 'boardTitle' },
     runFoot: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'md',
       marginTop: 'auto',
       paddingTop: 'sm',
     },
@@ -332,7 +323,6 @@ export const calendar = sva({
         '[data-poster=true] &': { paddingRight: '[calc(220px + token(spacing.lg))]' },
       },
     },
-    eventTop: { display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 'sm' },
     eventTime: {
       fontFamily: 'display',
       fontSize: 'sm',

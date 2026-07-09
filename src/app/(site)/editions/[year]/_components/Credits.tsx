@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Container, Stack } from 'styled-system/jsx'
+import { Container, Stack, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import type { CreditEntry } from '@/types/edition'
 import { credits as creditsRecipe } from './Credits.recipe'
@@ -46,11 +46,11 @@ export function Credits({ credits }: CreditsProps) {
             {partners.map((credit) => (
               <Stack key={credit.label} className={s.partnersBlock} gap="sm">
                 <span className={s.partnersLabel}>{credit.label}</span>
-                <div className={s.partnersList}>
+                <Wrap className={s.partnersList} align="center" rowGap="xs">
                   {credit.value.split('\n').map((name) => (
                     <span key={name}>{name}</span>
                   ))}
-                </div>
+                </Wrap>
               </Stack>
             ))}
           </Stack>

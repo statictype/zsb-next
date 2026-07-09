@@ -1,4 +1,4 @@
-import { css, cx } from 'styled-system/css'
+import { Wrap } from 'styled-system/jsx'
 import { Badge } from '@/components/ui/Badge/Badge'
 import type { EventTypeTag } from '@/types/edition'
 
@@ -6,7 +6,6 @@ import type { EventTypeTag } from '@/types/edition'
 // Ongoing run cards, and the event modal (STRUCT-1). Renders nothing when there
 // are no types, so an empty list never leaves a phantom flex gap. `className`
 // carries call-site spacing (e.g. the modal body's marginTop).
-const list = css({ layerStyle: 'chipRow' })
 
 export function TypeChips({
   types,
@@ -17,12 +16,12 @@ export function TypeChips({
 }) {
   if (types.length === 0) return null
   return (
-    <ul className={cx(list, className)}>
+    <Wrap as="ul" className={className} listStyle="none">
       {types.map((t) => (
         <li key={t.slug}>
           <Badge tone="outline">{t.title}</Badge>
         </li>
       ))}
-    </ul>
+    </Wrap>
   )
 }

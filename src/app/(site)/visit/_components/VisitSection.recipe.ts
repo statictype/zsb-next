@@ -81,12 +81,8 @@ export const amenityStrip = sva({
   slots: ['strip', 'item', 'icon'],
   base: {
     strip: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 'md',
       paddingTop: 'sm',
       borderTop: 'hairline',
-      md: { display: 'flex', flexWrap: 'wrap' },
     },
     item: {
       fontFamily: 'body',

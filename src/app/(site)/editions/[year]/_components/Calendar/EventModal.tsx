@@ -2,7 +2,7 @@
 
 import { RiArrowLeftLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
-import { HStack } from 'styled-system/jsx'
+import { HStack, Wrap } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
@@ -75,7 +75,7 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
         {event.description && <p className={s.description}>{event.description}</p>}
 
         {(event.ticketUrl || event.facebookUrl) && (
-          <div className={s.links}>
+          <Wrap className={s.links} gap="md">
             {event.ticketUrl && (
               <Button asChild variant="link">
                 <a href={event.ticketUrl} target="_blank" rel="noreferrer">
@@ -90,7 +90,7 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
                 </a>
               </Button>
             )}
-          </div>
+          </Wrap>
         )}
       </div>
     </Dialog>

@@ -19,7 +19,6 @@ export const artistsTable = sva({
     'num',
     'name',
     'footer',
-    'meta',
     'metaItem',
     'barcode',
   ],
@@ -85,12 +84,6 @@ export const artistsTable = sva({
       background: 'highlight',
       color: 'black',
       md: { paddingInline: 'md' },
-    },
-    meta: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      gap: 'md',
-      justifyContent: 'flex-start',
     },
     metaItem: {
       fontSize: '2xs',

@@ -31,7 +31,6 @@ export const featuredEvents = sva({
     'venue',
     'venueName',
     'venueParent',
-    'chips',
   ],
   base: {
     header: {
@@ -154,10 +153,6 @@ export const featuredEvents = sva({
       },
     },
     venue: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'sm',
       fontFamily: 'body',
       fontSize: 'sm',
     },
@@ -173,13 +168,6 @@ export const featuredEvents = sva({
       letterSpacing: 'label',
       fontSize: '2xs',
       _before: { content: '"↳ "' },
-    },
-    chips: {
-      listStyle: 'none',
-      display: 'flex',
-      flexWrap: 'wrap',
-      gap: 'sm',
-      marginTop: 'xs',
     },
   },
 })

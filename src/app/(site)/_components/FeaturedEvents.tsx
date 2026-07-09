@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
-import { Container, HStack } from 'styled-system/jsx'
+import { Container, HStack, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -113,20 +113,20 @@ function FeaturedCard({
               {event.name}
             </Link>
           </h3>
-          <p className={styles.venue}>
+          <Wrap as="p" className={styles.venue}>
             <span className={styles.venueName}>{event.venue.name}</span>
             {event.venue.partOf && (
               <span className={styles.venueParent}>{event.venue.partOf.name}</span>
             )}
-          </p>
+          </Wrap>
           {event.types.length > 0 && (
-            <ul className={styles.chips}>
+            <Wrap as="ul" listStyle="none" marginTop="xs">
               {event.types.slice(0, 2).map((t) => (
                 <li key={t.slug}>
                   <Badge>{t.title}</Badge>
                 </li>
               ))}
-            </ul>
+            </Wrap>
           )}
         </div>
       </Card>

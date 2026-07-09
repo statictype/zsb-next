@@ -1,4 +1,5 @@
 import { cx } from 'styled-system/css'
+import { Wrap } from 'styled-system/jsx'
 import type { EventVenue } from '@/types/edition'
 import { venueLine } from './VenueLine.recipe'
 
@@ -16,9 +17,9 @@ export function VenueLine({
 }) {
   const s = venueLine({ size })
   return (
-    <p className={cx(s.venue, className)}>
+    <Wrap as="p" className={cx(s.venue, className)}>
       <span className={s.name}>{venue.name}</span>
       {venue.partOf && <span className={s.parent}>{venue.partOf.name}</span>}
-    </p>
+    </Wrap>
   )
 }
