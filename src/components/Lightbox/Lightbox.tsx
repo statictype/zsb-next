@@ -182,7 +182,6 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
 
   return (
     <Dialog open={isOpen} onClose={onClose} ariaLabel="Image lightbox" presentation="fullscreen">
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- lightbox click and drag are product gestures; keyboard and close live on the Dialog and its buttons */}
       <Center
         className={s.lightbox}
         onClick={onClose}

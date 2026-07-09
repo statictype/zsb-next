@@ -4,7 +4,6 @@ import {
   type PortableTextMarkComponentProps,
 } from '@portabletext/react'
 import { notFound } from 'next/navigation'
-import { css } from 'styled-system/css'
 import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
