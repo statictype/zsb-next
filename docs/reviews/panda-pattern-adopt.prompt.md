@@ -135,9 +135,7 @@ baseline: {
   justify={{ md: 'space-between' }}
   pt="lg"
 >
-  <span className={css({ textStyle: 'footerMeta', letterSpacing: 'label' })}>
-    © {year} Bucharest Sculpture Days
-  </span>
+  <Text variant="label">© {year} Bucharest Sculpture Days</Text>
   <HStack gap="lg">…</HStack>
 </Stack>
 ```
@@ -145,6 +143,9 @@ baseline: {
 `delta`: the top rule is now a `Divider` (visually equivalent); type unchanged;
 `textAlign` dropped in favour of `Stack` alignment. **Exact props come from the
 catalog entry, not this sketch** — the sketch shows the *shape* of the move.
+
+Leaf type now goes through the `Text` pattern (`variant="label"`, …) instead of
+`css({ textStyle })` — superseded by G1/T4 (grill 2026-07-09).
 
 ## Idempotency
 
