@@ -2,6 +2,7 @@
 
 import { RiAlertLine, RiRefreshLine } from '@remixicon/react'
 import Link from 'next/link'
+import { Center } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { errorPage } from './error.recipe'
 
@@ -14,7 +15,7 @@ export default function ErrorPage({
   reset: () => void
 }) {
   return (
-    <div className={styles.page}>
+    <Center className={styles.page} flexDirection="column">
       <div className={styles.noise} />
       <div className={styles.glow} />
 
@@ -38,6 +39,6 @@ export default function ErrorPage({
           </Button>
         </div>
       </div>
-    </div>
+    </Center>
   )
 }

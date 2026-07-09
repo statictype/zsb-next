@@ -1,15 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Edition loading skeleton — co-located slot recipe.
- *
- * The Suspense fallback for an edition page: pulsing "bone" placeholders laid
- * out roughly like the real hero / manifesto / artists / venues / carousel
- * sections. `bone` is the shared `skeleton` layer style (surface + shimmer
- * sweep, same mechanism as the image skeleton); the size slots are combined
- * onto it via `cx`. The carousel height inlines the former `--carousel-height` stepped
- * var (this was its last consumer).
- */
 export const editionLoading = sva({
   slots: [
     'page',
@@ -34,11 +24,6 @@ export const editionLoading = sva({
     hero: {
       height: 'svh',
       minHeight: '[600px]',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 'lg',
       paddingInline: 'gutter',
     },
     heroEyebrow: { width: '[200px]', height: '[28px]' },

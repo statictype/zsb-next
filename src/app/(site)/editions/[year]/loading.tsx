@@ -1,5 +1,5 @@
 import { cx } from 'styled-system/css'
-import { Stack } from 'styled-system/jsx'
+import { Center, Stack } from 'styled-system/jsx'
 import { editionLoading } from './loading.recipe'
 
 const styles = editionLoading()
@@ -7,14 +7,12 @@ const styles = editionLoading()
 export default function EditionLoading() {
   return (
     <main className={styles.page}>
-      {/* Hero skeleton */}
-      <div className={styles.hero}>
+      <Center className={styles.hero} flexDirection="column" gap="lg">
         <div className={cx(styles.bone, styles.heroEyebrow)} />
         <div className={cx(styles.bone, styles.heroYear)} />
         <div className={cx(styles.bone, styles.heroTheme)} />
-      </div>
+      </Center>
 
-      {/* Manifesto skeleton */}
       <div className={styles.section}>
         <div className={cx(styles.bone, styles.sectionTitle)} />
         <Stack>
@@ -26,7 +24,6 @@ export default function EditionLoading() {
         </Stack>
       </div>
 
-      {/* Artists skeleton */}
       <div className={styles.section}>
         <div className={cx(styles.bone, styles.sectionTitle)} />
         <div className={styles.artistGrid}>
@@ -41,7 +38,6 @@ export default function EditionLoading() {
         </div>
       </div>
 
-      {/* Venues skeleton */}
       <div className={styles.section}>
         <div className={cx(styles.bone, styles.sectionTitle)} />
         <Stack>
@@ -51,7 +47,6 @@ export default function EditionLoading() {
         </Stack>
       </div>
 
-      {/* Carousel skeleton */}
       <div className={styles.section}>
         <div className={cx(styles.bone, styles.carousel)} />
       </div>

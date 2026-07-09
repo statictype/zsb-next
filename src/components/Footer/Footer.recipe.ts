@@ -14,8 +14,6 @@ export const footer = sva({
   slots: [
     'footer',
     'inner',
-    'primary',
-    'cols',
     'badge',
     'navCol',
     'colTitle',
@@ -38,27 +36,6 @@ export const footer = sva({
     },
     inner: {
       layerStyle: 'sectionInner',
-    },
-
-    primary: {
-      alignItems: 'center',
-      md: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        rowGap: 'xl',
-        columnGap: '2xl',
-      },
-    },
-    cols: {
-      alignItems: 'center',
-      alignSelf: 'stretch',
-      md: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        gap: '2xl',
-        alignSelf: 'auto',
-      },
     },
     badge: {
       flexShrink: 0,

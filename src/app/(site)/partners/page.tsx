@@ -1,7 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
-import { Container, Stack } from 'styled-system/jsx'
+import { Center, Container, Stack } from 'styled-system/jsx'
 import { button, section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -120,7 +120,7 @@ function PartnersShell({
             the ask entirely rather than render a CTA that goes nowhere. */}
         {contactEmail && (
           <section className={cx(section({ ground: 'dark' }), styles.partnerCta)}>
-            <div className={styles.partnerCtaInner}>
+            <Center className={styles.partnerCtaInner} flexDirection="column">
               <div className={styles.partnerCtaBadge}>
                 <PartnerBadge />
               </div>
@@ -139,7 +139,7 @@ function PartnersShell({
               >
                 {ctaLabel} <RiArrowRightLine size={14} />
               </a>
-            </div>
+            </Center>
           </section>
         )}
       </main>

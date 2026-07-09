@@ -53,17 +53,11 @@ export const partnersPage = sva({
       filter: '[grayscale(100%)]',
     },
 
-    // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
-    // `partnerCtaInner` is the rail.
     partnerCta: {
       borderTop: 'hairline',
     },
     partnerCtaInner: {
       layerStyle: 'sectionInner',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
       textAlign: 'center',
     },
     partnerCtaBadge: { marginBottom: '2xl' },

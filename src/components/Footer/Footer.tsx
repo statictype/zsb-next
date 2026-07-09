@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
-import { HStack, Stack } from 'styled-system/jsx'
+import { Center, HStack, Stack } from 'styled-system/jsx'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Button } from '@/components/ui/Button/Button'
@@ -57,12 +57,24 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
   return (
     <footer className={s.footer}>
       <Stack className={s.inner} gap="xl">
-        <Stack className={s.primary} gap="lg">
+        <Center
+          flexDirection={{ base: 'column', md: 'row' }}
+          alignItems="center"
+          justifyContent={{ md: 'flex-start' }}
+          rowGap={{ base: 'lg', md: 'xl' }}
+          columnGap={{ base: 'lg', md: '2xl' }}
+        >
           <div className={s.badge}>
             <PartnerBadge size="footer" />
           </div>
 
-          <Stack className={s.cols} gap="lg">
+          <Center
+            flexDirection={{ base: 'column', md: 'row' }}
+            alignItems={{ base: 'center', md: 'flex-start' }}
+            justifyContent={{ base: 'center', md: 'flex-start' }}
+            gap={{ base: 'lg', md: '2xl' }}
+            alignSelf={{ base: 'stretch', md: 'auto' }}
+          >
             <nav className={s.navCol} aria-label="Footer">
               <h2 className={s.colTitle}>Connect</h2>
               {contactHref && <FooterLink href={contactHref}>Contact</FooterLink>}
@@ -83,10 +95,10 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
                 ))}
               </div>
             )}
-          </Stack>
+          </Center>
 
           <span className={s.stamp}>{catalogStamp}</span>
-        </Stack>
+        </Center>
 
         <HStack
           className={s.baseline}

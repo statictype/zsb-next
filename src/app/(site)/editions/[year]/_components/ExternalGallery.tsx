@@ -1,6 +1,6 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
-import { Container, HStack, Stack } from 'styled-system/jsx'
+import { Center, Container, HStack, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
@@ -71,18 +71,23 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
                 </HStack>
               </Stack>
 
-              <div className={styles.cardRight} aria-hidden>
-                <div className={styles.plate}>
-                  <div data-part="monogram">
+              <Center
+                className={styles.cardRight}
+                display={{ base: 'none', lg: 'flex' }}
+                flexDirection="column"
+                aria-hidden
+              >
+                <Center className={styles.plate}>
+                  <Center data-part="monogram" flexDirection="column" gap="xs">
                     <span data-part="zsb">ZSB</span>
                     <span data-part="year">2021</span>
-                  </div>
+                  </Center>
                   <div data-part="meta">
                     <span>Edition 01</span>
                     <span>Digital</span>
                   </div>
-                </div>
-              </div>
+                </Center>
+              </Center>
             </div>
           </a>
         </Card>

@@ -1,22 +1,11 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Error boundary — co-located slot recipe.
- *
- * Full-screen centered error state on the brand-black ground, with a faint
- * SVG-noise wash + a blurred pink glow. The shared Button primitive owns both
- * actions; this recipe only owns the boundary layout and decorative chrome.
- */
 export const errorPage = sva({
   slots: ['page', 'noise', 'glow', 'content', 'icon', 'title', 'message', 'actions'],
   base: {
     page: {
       position: 'relative',
       minHeight: 'svh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
       background: 'black',
       overflow: 'hidden',
       paddingBlock: 'xl',

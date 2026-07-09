@@ -88,33 +88,19 @@ export const externalGallery = sva({
       '@media (max-width: 540px)': { display: 'none' },
     },
 
-    // Quiet edition plate — solid type on a hairline panel, desktop only.
     cardRight: {
-      display: 'none',
       lg: {
         position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
         minHeight: '[420px]',
         padding: '2xl',
         borderLeft: 'hairline',
-        // Barely-there lift for the plate panel.
         background: '[rgb(255 255 255 / 0.015)]',
       },
     },
     plate: {
       position: 'absolute',
       inset: '0',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
       '& [data-part="monogram"]': {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 'xs',
         fontFamily: 'display',
         lineHeight: 'display',
         textTransform: 'uppercase',

@@ -18,7 +18,6 @@ export const navigation = sva({
     'desktopNav',
     'desktopNavLink',
     'mobileShell',
-    'mobileNav',
     'mobileNavLink',
     'navLink',
   ],
@@ -55,16 +54,7 @@ export const navigation = sva({
       position: 'relative',
       width: 'full',
       height: 'full',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
       background: 'black',
-    },
-    mobileNav: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: 'md',
     },
     // Sizing (fontSize/padding) deliberately lives in the per-context slots
     // below, not here: base + override would emit two conflicting atomic

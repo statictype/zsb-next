@@ -5,6 +5,7 @@ import { RiCloseLine } from '@remixicon/react'
 import Link from 'next/link'
 import { type ReactNode, Suspense, useState } from 'react'
 import { cx } from 'styled-system/css'
+import { Center } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
 import { navigation, navigationSwap } from './Navigation.recipe'
@@ -41,7 +42,7 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
         ariaLabel="Site navigation"
         presentation="fullscreen"
       >
-        <div className={s.mobileShell}>
+        <Center className={s.mobileShell}>
           <div className={cx(s.logo, s.dialogLogo)}>
             <Link href="/" onClick={closeMenu}>
               {logo}
@@ -57,7 +58,7 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
           >
             <NavigationIcon open={isOpen} />
           </Button>
-          <nav className={s.mobileNav} aria-label="Mobile navigation">
+          <Center as="nav" flexDirection="column" gap="md" aria-label="Mobile navigation">
             <Suspense
               fallback={
                 <NavLinksList pathname={null} className={mobileLinkClass} onNavigate={closeMenu} />
@@ -65,8 +66,8 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
             >
               <NavLinks className={mobileLinkClass} onNavigate={closeMenu} />
             </Suspense>
-          </nav>
-        </div>
+          </Center>
+        </Center>
       </Dialog>
     </>
   )

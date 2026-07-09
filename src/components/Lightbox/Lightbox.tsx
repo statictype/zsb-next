@@ -4,6 +4,7 @@ import { RiArrowLeftLine, RiArrowRightLine, RiCloseLine } from '@remixicon/react
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { css, cx } from 'styled-system/css'
+import { Center } from 'styled-system/jsx'
 import { token } from 'styled-system/tokens'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { skeleton } from '@/components/skeleton'
@@ -182,7 +183,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
   return (
     <Dialog open={isOpen} onClose={onClose} ariaLabel="Image lightbox" presentation="fullscreen">
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- lightbox click and drag are product gestures; keyboard and close live on the Dialog and its buttons */}
-      <div
+      <Center
         className={s.lightbox}
         onClick={onClose}
         onPointerDown={onPointerDown}
@@ -255,7 +256,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
             ))}
           </div>
         )}
-      </div>
+      </Center>
     </Dialog>
   )
 }

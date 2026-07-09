@@ -23,9 +23,6 @@ export const partnerBadge = sva({
     },
     body: {
       position: 'relative',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
       width: 'full',
       height: 'full',
       willChange: 'transform',
