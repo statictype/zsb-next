@@ -105,6 +105,7 @@ export const tokens = {
     xs: { value: 'clamp(4px, 4px, 4px)' },
     sm: { value: 'clamp(8px, 8px, 8px)' },
     hairlineOverlap: { value: 'calc({borderWidths.hairline} * -1)' },
+    dialogInset: { value: 'calc({borderWidths.focus} * -1)' },
     navLogoTopMd: { value: '24px' },
     navDesktopTop: { value: '32px' },
     navDesktopTopLg: { value: '40px' },
@@ -126,8 +127,8 @@ export const tokens = {
     gutter: { value: 'clamp(16px, -7.30px + 6.2136vw, 112px)' },
     // Shared grid gutter (`--grid-gap`).
     gridGap: { value: 'clamp(16px, -0.50px + 4.4013vw, 84px)' },
-    // The archive card's image-bleeds-under-content overlap (negated at the
-    // call site: `marginTop: '[calc(token(spacing.cardOverlap) * -1)]'`).
+    // The archive card's image-bleeds-under-content overlap — the root grid's
+    // overlap row height (`EditionCard.recipe.ts`), not a call-site calc.
     cardOverlap: { value: '3rem' },
   },
   radii: {
@@ -200,10 +201,9 @@ export const tokens = {
     // full letterbox column height) so it can't reach into the close
     // button's corner.
     lightboxNavHit: { value: '240px' },
-    // Invisible click-target expansion (a `::before` hit-slop) beyond a
-    // control's visible box — the close button uses it to stay easy to hit
-    // without visually growing past its icon.
-    hitSlop: { value: '16px' },
+    // The lightbox center track's max rendered width at `md`+ (viewport minus
+    // the two nav letterbox columns) — an `Image` `sizes` hint, not layout.
+    lightboxFrameMax: { value: 'calc(100vw - ({sizes.lightboxNavColumn} * 2))' },
     // The transparent square hit target shared by Button's `icon` variant and
     // the carousel prev/next/autoplay controls — distinct from `touch` (the
     // WCAG minimum), this is the DS's own icon-button footprint.
@@ -212,6 +212,14 @@ export const tokens = {
     // step.
     dialogPanel: { value: '540px' },
     dialogPanelWide: { value: '760px' },
+    // The Calendar event row's desktop hover-reveal poster column.
+    calendarPoster: { value: '220px' },
+    // The edition hero's reserved left gutter (`lg`+) where the theme tape
+    // sits, beside the image track rather than overlaid on it.
+    heroTapeColumn: { value: '200px' },
+    // The hero image track's max rendered width at `lg`+ (viewport minus the
+    // tape column) — an `Image` `sizes` hint, not layout.
+    heroImageMax: { value: 'calc(100vw - {sizes.heroTapeColumn})' },
   },
   assets: {
     brushStrokeX: { value: 'polygon(0 0, 100% 0, 100% 38%, 68% 58%, 0 100%)' },

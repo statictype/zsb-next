@@ -29,7 +29,7 @@ interface EditionCardProps {
   href: string
   size?: EditionCardSize
   /** Entrance delay forwarded to the theme tape (the archive grid's
-   *  `--card-index` stagger). */
+   *  per-card stagger). */
   themeDelay?: string | undefined
   className?: string | undefined
 }

@@ -82,10 +82,13 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
 
   return (
     <section
-      id={PROGRAM_SECTION_ID}
       className={cx(section({ ground: 'dark' }), s.section)}
       aria-labelledby="calendar-heading"
     >
+      {/* Zero-size anchor, past the section's own top padding — a shared link
+          scrolls here instead of landing on blank padding. Nav clearance
+          comes from the page shell's `scroll-padding-top` (globals.css). */}
+      <div id={PROGRAM_SECTION_ID} />
       <HashScroller id={PROGRAM_SECTION_ID} />
       <Container>
         <Stack gap="xl">
@@ -288,7 +291,7 @@ function ArchiveCollapse({
 
 function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
   return (
-    <Stack as="li" className={s.event} data-poster={!!event.image}>
+    <li className={s.event} data-poster={!!event.image}>
       <Stack className={s.eventBody} gap="sm">
         <Wrap>
           {event.startTime && (
@@ -325,6 +328,6 @@ function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
           <Figure image={event.image} sizes="(min-width: 1280px) 240px, 70vw" />
         </div>
       )}
-    </Stack>
+    </li>
   )
 }

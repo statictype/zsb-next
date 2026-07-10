@@ -553,6 +553,8 @@ The fixed xs/sm endpoint pairs cannot be both “near-flat” and non-flat; the 
 
 ## 5. Calc audit (C1)
 
+**Status: completed** — 10 of 12 sites adopted; 2 escalated (see below), left unchanged pending grill.
+
 | Site | Restructure design | Delta/escalation |
 | --- | --- | --- |
 | `src/design-system/recipes/dialog.ts:27` | Replace the negative focus calc with named `outlineOffsets.dialogInset=-2px`; keep the blessed inward ring. | none |
@@ -561,16 +563,16 @@ The fixed xs/sm endpoint pairs cannot be both “near-flat” and non-flat; the 
 | `src/components/Lightbox/Lightbox.tsx:24` | Lightbox root becomes `[lightboxNavColumn minmax(0,1fr) lightboxNavColumn]`; Image `sizes` uses the center-track max token, not viewport subtraction. | same rendered center width; browser hint becomes token-led |
 | `src/components/Lightbox/Lightbox.recipe.ts:35` | Frame occupies grid column 2 at width full; nav buttons occupy columns 1/3. | none |
 | `src/components/Lightbox/Lightbox.recipe.ts:64` | Replace symmetric negative inset with a 48px Button hit-area wrapper/pseudo grid cell; visible icon remains centered. | none |
-| `src/components/Navigation/Navigation.recipe.ts:94` | Two-label roll uses a two-row overflow track and `translateY(-50%)`; no custom-property multiplication. | inspect: 50% must match the current 110% optical offset; recommendation is conform and accept the 10% tightening only after grill |
-| `src/app/(site)/about/page.recipe.ts:63` | Sticky aside sits in a page grid whose top padding is nav clearance plus section gap; sticky `top: xl` inside that containing block. | none |
+| `src/components/Navigation/Navigation.recipe.ts:94` | Two-label roll uses a two-row overflow track and `translateY(-50%)`; no custom-property multiplication. | **ESCALATED, unchanged** — inspect: 50% must match the current 110% optical offset; recommendation is conform and accept the 10% tightening only after grill |
+| `src/app/(site)/about/page.recipe.ts:63` | Sticky aside sits in a page grid whose top padding is nav clearance plus section gap; sticky `top: xl` inside that containing block. | **ESCALATED, unchanged** — `position: sticky`'s `top` offset resolves against the nearest scrolling ancestor's viewport (there is none here but the document itself), not an ancestor's `padding-top`; no scroll-container currently wraps this page. Adding padding to `statementInner` (or any non-scrolling ancestor) would not reproduce today's stop-below-nav behavior. Needs a decision: introduce a real scroll-container (site-wide implications) or keep the nav-clearance calc as a named derived token (`dialogInset`/`lightboxFrameMax` pattern) instead. |
 | `src/app/(site)/editions/page.tsx:32` | Use indexed animation-delay tokens/classes generated for card positions, based on `durations.stagger=60ms`; no runtime calc string. | visible: current 120ms cadence halves; sanctioned clock consolidation |
 | `src/app/(site)/editions/[year]/_components/Calendar/Calendar.recipe.ts:60` | Move `id="program"` to a zero-size anchor before the section content; give it the page-shell nav scroll padding. | none |
 | `src/app/(site)/editions/[year]/_components/Calendar/Calendar.recipe.ts:312` | Desktop event row becomes `minmax(0,1fr) posterColumn` grid; body owns column 1, poster column 2. Replace raw 220px with `sizes.calendarPoster`. | none |
 | `src/app/(site)/editions/[year]/_components/Hero.tsx:27` | Hero stage becomes a desktop grid with a 200px tape/nav column plus flexible image track; Figure fills its grid area and `sizes` references the named track token. | none |
 
-Raw constants audited independently: `220px` becomes `sizes.calendarPoster`; the editions `120ms` stagger conforms to the existing 60ms token; Hero's `200px` becomes `sizes.heroTapeColumn`. The comment-only calc in `EditionTheme.tsx:36` is not an executable site and is deleted when the delay API changes.
+Raw constants audited independently: `220px` becomes `sizes.calendarPoster`; the editions stagger conforms to `durations.stagger` (60ms) via a plain per-card literal, not a token-driven calc; Hero's `200px` becomes `sizes.heroTapeColumn`. The comment-only calc in `EditionTheme.tsx:36` is not an executable site and was updated (no longer describes a calc expression) when the delay API changed.
 
-**Reconciliation:** 12 executable sites / 12 executable grep hits (13 textual hits including the EditionTheme comment).
+**Reconciliation:** 12 executable sites / 12 executable grep hits (13 textual hits including the EditionTheme comment). 10 adopted; 2 escalated unchanged (Navigation roll, About sticky — see rows above).
 
 ## 6. Motion census (M1)
 
@@ -741,7 +743,6 @@ The catalog is not frozen until these are grilled.
 - G1 cleanup of remaining `css({…})` calls that do not carry a censused declaration.
 - Removing stale explanatory comments while Phase 2 touches their files.
 - Brand-guide prose, lint rules, and CI enforcement (E2).
-- Deleting dead tokens and legacy names; Phase 3 owns deletion.
 
 ## Final count reconciliation
 

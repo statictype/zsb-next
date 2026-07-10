@@ -1,4 +1,3 @@
-import { type CSSProperties } from 'react'
 import { css } from 'styled-system/css'
 import { Container, Grid } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
@@ -27,9 +26,10 @@ export default function EditionsPage() {
   )
 }
 
-// The per-card stagger for the theme tape's entrance (reads `--card-index` off
-// the slot). The tape's `tapeIn` is the card's reveal motion.
-const THEME_STAGGER = 'calc(var(--card-index, 0) * 120ms + 120ms)'
+// One stagger beat per card position for the theme tape's entrance, mirroring
+// `durations.stagger` (60ms) — a plain literal per card, not a runtime calc
+// string. The tape's `tapeIn` is the card's reveal motion.
+const STAGGER_STEP_MS = 60
 
 async function CachedEditionsList({ options }: { options: DynamicFetchOptions }) {
   'use cache'
@@ -44,17 +44,12 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
           const isFeature = index === 0
 
           return (
-            <div
-              key={edition.year}
-              className={styles.slot}
-              data-feature={isFeature || undefined}
-              style={{ '--card-index': index } as CSSProperties}
-            >
+            <div key={edition.year} className={styles.slot} data-feature={isFeature || undefined}>
               <EditionCard
                 edition={edition}
                 href={`/editions/${edition.year}`}
                 size={isFeature ? 'lg' : 'md'}
-                themeDelay={THEME_STAGGER}
+                themeDelay={`${(index + 1) * STAGGER_STEP_MS}ms`}
                 className={styles.card}
               />
             </div>

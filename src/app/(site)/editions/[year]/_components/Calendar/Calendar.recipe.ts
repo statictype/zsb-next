@@ -47,8 +47,6 @@ export const calendar = sva({
   base: {
     section: {
       // ground + rhythm come from `section({ ground: 'dark' })` in the component.
-      // Shared links land on #program; offset past the tall top padding.
-      scrollMarginTop: '[calc(token(spacing.lg) - token(spacing.sectionY))]',
       // Agenda date-marker column width — tracks the responsive `4xl` spacing
       // ramp so the column and the timeline spine (`agenda::before` `left`) stay
       // in lockstep and scale monotonically with the section rhythm.
@@ -236,6 +234,9 @@ export const calendar = sva({
 
     // ---- Event row ----
     event: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'md',
       paddingBlock: 'md',
       borderTop: 'hairline',
       position: 'relative',
@@ -244,12 +245,19 @@ export const calendar = sva({
         '& a': { color: 'action' },
         '& img': { filter: '[grayscale(0%) contrast(1)]', transform: 'scale(1.03)' },
       },
+      '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
+        // Only rows with a poster get the reserved column — body owns column
+        // 1, poster column 2 (still absolutely positioned within it for the
+        // hover reveal, so it doesn't grow the row's height).
+        '&[data-poster=true]': {
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1fr) calendarPoster',
+          columnGap: 'lg',
+        },
+      },
     },
     eventBody: {
       minWidth: '0',
-      '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
-        '[data-poster=true] &': { paddingRight: '[calc(220px + token(spacing.lg))]' },
-      },
     },
     eventTime: {
       color: 'white',
@@ -293,9 +301,10 @@ export const calendar = sva({
       },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
         position: 'absolute',
+        gridColumn: '2',
         top: 'md',
         right: '0',
-        width: '[220px]',
+        width: 'calendarPoster',
         maxWidth: '[none]',
         opacity: 0,
         transform: 'translateX(20px)',

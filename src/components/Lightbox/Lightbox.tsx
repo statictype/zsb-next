@@ -4,7 +4,6 @@ import { RiArrowLeftLine, RiArrowRightLine, RiCloseLine } from '@remixicon/react
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { css, cx } from 'styled-system/css'
-import { Center } from 'styled-system/jsx'
 import { token } from 'styled-system/tokens'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { skeleton } from '@/components/skeleton'
@@ -18,10 +17,10 @@ export interface LightboxImage {
   caption?: string
 }
 
-// Mirrors `Lightbox.recipe.ts`'s frame geometry (`lightboxFrameWidth` and two
-// `lightboxNavColumn`s) so the browser's image selection agrees with the
+// Mirrors `Lightbox.recipe.ts`'s frame geometry (`lightboxFrameWidth` and the
+// grid's center track) so the browser's image selection agrees with the
 // frame's actual rendered width.
-const SIZES = `(min-width: ${token('sizes.breakpoint-md')}) calc(100vw - (${token('sizes.lightboxNavColumn')} * 2)), ${token('sizes.lightboxFrameWidth')}`
+const SIZES = `(min-width: ${token('sizes.breakpoint-md')}) ${token('sizes.lightboxFrameMax')}, ${token('sizes.lightboxFrameWidth')}`
 
 interface LightboxProps {
   images: LightboxImage[]
@@ -182,7 +181,8 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
 
   return (
     <Dialog open={isOpen} onClose={onClose} ariaLabel="Image lightbox" presentation="fullscreen">
-      <Center
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- backdrop click closes; the close Button is the accessible path */}
+      <div
         className={s.lightbox}
         onClick={onClose}
         onPointerDown={onPointerDown}
@@ -223,7 +223,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
           <>
             <Button
               variant="icon"
-              className={cx(s.nav, css({ left: '0' }))}
+              className={cx(s.nav, css({ gridColumn: '1' }))}
               onClick={(e) => {
                 e.stopPropagation()
                 onPrev()
@@ -234,7 +234,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
             </Button>
             <Button
               variant="icon"
-              className={cx(s.nav, css({ right: '0' }))}
+              className={cx(s.nav, css({ gridColumn: '3' }))}
               onClick={(e) => {
                 e.stopPropagation()
                 onNext()
@@ -255,7 +255,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
             ))}
           </div>
         )}
-      </Center>
+      </div>
     </Dialog>
   )
 }

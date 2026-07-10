@@ -26,6 +26,10 @@
 
   html {
     scroll-behavior: smooth;
+    /* Clears the fixed nav on anchor-jump/scrollIntoView targets sitewide —
+       the "page shell" nav-scroll allowance the calc audit's anchor sites
+       rely on instead of a per-element scroll-margin calc. */
+    scroll-padding-top: var(--sizes-nav);
   }
 
   body {

@@ -19,20 +19,25 @@ export const lightbox = sva({
   base: {
     lightbox: {
       position: 'relative',
+      display: 'grid',
+      gridTemplateColumns: '1fr',
+      placeItems: 'center',
       width: 'full',
       height: 'full',
       background: 'surface.scrim',
       cursor: 'zoom-out',
       touchAction: 'none',
       overscrollBehavior: 'contain',
+      // Letterbox columns: each nav arrow owns one full column beside the frame.
+      md: { gridTemplateColumns: 'lightboxNavColumn minmax(0, 1fr) lightboxNavColumn' },
     },
     frame: {
       position: 'relative',
       width: 'lightboxFrameWidth',
       height: '[85vh]',
       willChange: 'transform, opacity',
-      // Leaves one `lightboxNavColumn` clear on each side for the nav arrows.
-      md: { width: '[calc(100vw - (token(sizes.lightboxNavColumn) * 2))]', height: '[90vh]' },
+      // Fills the grid's center track, clear of the two nav columns.
+      md: { gridColumn: '2', width: 'full', height: '[90vh]' },
     },
     // Drag prevention comes from the Image's `draggable={false}` attribute.
     image: {
@@ -48,21 +53,17 @@ export const lightbox = sva({
     // viewer already sits at the global `lightbox` layer via Dialog) — it
     // sits above the arrows (`nav`) so a near-miss between the two always
     // resolves to close, never a navigation.
+    // Sized to the WCAG touch target directly — Button's own centering keeps
+    // the visible icon centered as the box grows past its default hitTarget.
     close: {
       position: 'absolute',
       top: 'md',
       right: 'md',
+      width: 'touch',
+      height: 'touch',
       zIndex: '20',
       _hover: { transform: 'rotate(90deg)' },
       md: { top: 'lg', right: 'lg' },
-      // Hit-slop: grows the clickable area beyond the visible icon without
-      // shifting it (the pseudo-element expands symmetrically around the
-      // button's own box).
-      _before: {
-        content: '""',
-        position: 'absolute',
-        inset: '[calc({sizes.hitSlop} * -1)]',
-      },
     },
     // Type is the shared `Eyebrow` recipe (body/xs/uppercase/wide/muted),
     // applied at the call site; the slot owns only placement.
@@ -74,14 +75,10 @@ export const lightbox = sva({
       pointerEvents: 'none',
     },
     // Arrows: desktop-only, each owns a generous but bounded vertical click
-    // zone (`lightboxNavHit`), centered on the frame — tall enough to be an
-    // easy target, short enough to stay clear of the close button's corner.
-    // Side (left/right) is set per-arrow at the call site; the hover lift is
-    // Button's own `icon` variant.
+    // zone (`lightboxNavHit`) — its letterbox grid column centers it on the
+    // frame via the root's `placeItems: center`. Column (1 or 3) is set per-
+    // arrow at the call site; the hover lift is Button's own `icon` variant.
     nav: {
-      position: 'absolute',
-      top: '[50%]',
-      translate: '[0 -50%]',
       width: 'lightboxNavColumn',
       height: 'lightboxNavHit',
       zIndex: '10',

@@ -33,7 +33,7 @@ interface EditionThemeProps {
    *  "upcoming" plate. */
   muted?: boolean | undefined
   /** Entrance delay for the `tapeIn` reveal — a fixed value (the hero) or a
-   *  stagger expression (`calc(var(--card-index)…)` on the editions cards). */
+   *  per-card stagger value (the editions cards). */
   delay?: string | undefined
   /** cx escape for container positioning only (e.g. the hero's tuck under the
    *  nav). Not for tape identity — that's all baked in. */

@@ -8,9 +8,12 @@ export const editionCard = sva({
     root: {
       height: 'full',
       overflow: 'visible',
+      display: 'grid',
+      gridTemplateRows: 'auto token(spacing.cardOverlap) auto',
     },
     media: {
       position: 'relative',
+      gridRow: '1 / 3',
       width: 'full',
       overflow: 'hidden',
       background: 'gray.900',
@@ -48,7 +51,7 @@ export const editionCard = sva({
     content: {
       position: 'relative',
       zIndex: '1',
-      marginTop: '[calc(token(spacing.cardOverlap) * -1)]',
+      gridRow: '2 / 4',
       padding: 'md',
     },
     details: {
