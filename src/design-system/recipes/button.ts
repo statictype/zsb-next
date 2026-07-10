@@ -49,8 +49,7 @@ export const button = defineRecipe({
         background: 'transparent',
         borderWidth: '0',
         color: 'heading',
-        ...colorShift,
-        _hover: { _enabled: { color: 'action', transform: 'translateY(-2px)' } },
+        _hover: { color: 'action', transform: 'translateY(-2px)' },
       },
     },
     size: {

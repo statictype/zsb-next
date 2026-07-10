@@ -22,7 +22,7 @@ export const calendarFilters = sva({
       cursor: 'pointer',
       transition: 'interactive',
       '& svg': { transition: 'interactive' },
-      '&:hover:not(:disabled)': { color: 'action', '& svg': { transform: 'rotate(-90deg)' } },
+      _hover: { color: 'action', '& svg': { transform: 'rotate(-90deg)' } },
     },
 
     filterRow: {

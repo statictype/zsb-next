@@ -108,7 +108,7 @@ export const designSystemPreset = definePreset({
   globalCss: {
     body: { textStyle: 'body', color: 'body', background: 'surface' },
     ':focus-visible': { outline: 'focus', outlineOffset: 'token(spacing.xs)' },
-    ':disabled, [aria-disabled=true]': { opacity: 0.5, cursor: 'not-allowed' },
+    ':disabled, [aria-disabled=true], [data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
     // The one reduced-motion rule: states still change, they just snap.
     '@media (prefers-reduced-motion: reduce)': {
       '*, *::before, *::after': {

@@ -19,11 +19,6 @@ export const linkList = sva({
       // instead of relayouting the row.
       transition: 'develop',
       _hover: { transform: 'translateX(token(spacing.md))' },
-      '&[aria-disabled=true]': {
-        cursor: 'default',
-        opacity: '0.45',
-        _hover: { transform: 'none' },
-      },
     },
     year: {
       fontVariantNumeric: 'tabular-nums',

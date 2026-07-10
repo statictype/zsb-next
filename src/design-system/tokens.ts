@@ -26,6 +26,11 @@ const grayRamp = Object.fromEntries(
 export const conditions = {
   motionSafe: '@media (prefers-reduced-motion: no-preference)',
   motionReduce: '@media (prefers-reduced-motion: reduce)',
+  // Panda's own hover/active, narrowed: a disabled element (native,
+  // aria, or Ark's data-disabled) can never express a hover/active
+  // state, so recipes never write their own guards.
+  hover: '&:is(:hover, [data-hover]):not(:disabled, [aria-disabled=true], [data-disabled])',
+  active: '&:is(:active, [data-active]):not(:disabled, [aria-disabled=true], [data-disabled])',
 } as const
 
 // Mirror the stepped breakpoints from globals.css (mobile-first).
