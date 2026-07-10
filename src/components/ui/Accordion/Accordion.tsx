@@ -20,7 +20,6 @@ interface AccordionProps {
   id?: string | undefined
   items: AccordionItem[]
   multiple?: boolean
-  triggerTypography?: 'standard' | 'display'
   className?: string | undefined
 }
 
@@ -28,14 +27,8 @@ interface AccordionProps {
  * The site's one-piece disclosure list. Ark owns state, IDs, keyboard behavior,
  * and ARIA; Panda owns the anatomy-aligned visual contract.
  */
-export function Accordion({
-  id,
-  items,
-  multiple = false,
-  triggerTypography = 'standard',
-  className,
-}: AccordionProps) {
-  const styles = accordion({ triggerTypography })
+export function Accordion({ id, items, multiple = false, className }: AccordionProps) {
+  const styles = accordion()
 
   return (
     <ArkAccordion.Root
@@ -50,11 +43,7 @@ export function Accordion({
       {items.map((item) => {
         const trigger = (
           <ArkAccordion.ItemTrigger className={styles.itemTrigger}>
-            {triggerTypography === 'display' ? (
-              <Text variant="heading">{item.trigger}</Text>
-            ) : (
-              item.trigger
-            )}
+            <Text variant="heading">{item.trigger}</Text>
             {item.meta !== undefined && (
               <Text variant="label" data-accordion-meta>
                 {item.meta}

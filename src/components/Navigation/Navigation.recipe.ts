@@ -56,18 +56,11 @@ export const navigation = sva({
       height: 'full',
       background: 'black',
     },
-    // Sizing (fontSize/padding) deliberately lives in the per-context slots
-    // below, not here: base + override would emit two conflicting atomic
-    // utilities on one element, and the winner follows global stylesheet
-    // order — which reshuffles as unrelated styles come and go.
     navLink: {
       display: 'block',
-      fontFamily: 'display',
-      textTransform: 'uppercase',
       textDecoration: 'none',
       color: 'muted',
       border: 'hairline',
-      letterSpacing: 'label',
       transitionProperty: 'colors',
       transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
@@ -105,14 +98,12 @@ export const navigation = sva({
         { transform: 'none' },
     },
     desktopNavLink: {
-      fontSize: 'sm',
       paddingBlock: 'sm',
       paddingInline: 'md',
       marginRight: 'hairlineOverlap',
       '&:last-child': { marginRight: '0' },
     },
     mobileNavLink: {
-      fontSize: 'md',
       paddingBlock: 'md',
       paddingInline: 'xl',
     },

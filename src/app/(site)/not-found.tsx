@@ -45,11 +45,7 @@ const content = css({
 })
 
 const code = css({
-  fontFamily: 'display',
-  fontSize: '[clamp(120px, 25vw, 280px)]',
-  lineHeight: 'display',
   color: 'white',
-  letterSpacing: '[-6px]',
 })
 
 const divider = css({
@@ -108,9 +104,9 @@ export default function NotFound() {
       <div className={cx(glow, glowChartreuse)} />
 
       <div className={content}>
-        <div className={cx(code, enter)} style={beat(0)}>
+        <Text as="div" variant="display" className={cx(code, enter)} style={beat(0)}>
           404
-        </div>
+        </Text>
         <div className={cx(divider, enter)} style={beat(2)} />
         <Text as="h1" variant="heading" className={cx(title, enter)} style={beat(4)}>
           This space is empty

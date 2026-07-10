@@ -19,9 +19,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
       <div className={styles.themeHeader}>
-        <SectionHeading case="sentence" flush>
-          {theme}
-        </SectionHeading>
+        <SectionHeading flush>{theme}</SectionHeading>
       </div>
       <Grid
         className={styles.inner}

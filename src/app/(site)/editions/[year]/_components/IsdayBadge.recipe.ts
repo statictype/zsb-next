@@ -12,12 +12,7 @@ export const isdayBadge = sva({
       paddingInline: 'md',
     },
     title: {
-      fontFamily: 'body',
-      fontWeight: 'light',
-      fontSize: 'lg',
       color: 'action',
-      letterSpacing: 'tight',
-      lineHeight: 'heading',
     },
     subtitle: {
       color: 'body',

@@ -1,4 +1,5 @@
 import { definePattern, definePreset } from '@pandacss/dev'
+import { manifestoTitle, navigationLabel } from './patterns/typography'
 import { editorialSplit } from './recipes/editorial-split'
 import { recipes } from './recipes/index'
 import {
@@ -32,6 +33,8 @@ export const designSystemPreset = definePreset({
         defaultValues: { maxWidth: 'maxWidth', px: 'gutter', position: 'static' },
       },
       editorialSplit,
+      manifestoTitle,
+      navigationLabel,
       text: definePattern({
         jsxName: 'Text',
         jsxElement: 'span',

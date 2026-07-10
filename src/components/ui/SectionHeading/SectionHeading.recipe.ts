@@ -7,13 +7,9 @@ export const sectionHeading = cva({
     marginBottom: 'xl',
   },
   variants: {
-    case: {
-      upper: {},
-      sentence: { textTransform: 'none' },
-    },
     flush: {
       true: { marginBottom: '0' },
     },
   },
-  defaultVariants: { case: 'upper', flush: false },
+  defaultVariants: { flush: false },
 })

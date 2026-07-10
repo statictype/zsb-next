@@ -61,10 +61,15 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
           <Center as="nav" flexDirection="column" gap="md" aria-label="Mobile navigation">
             <Suspense
               fallback={
-                <NavLinksList pathname={null} className={mobileLinkClass} onNavigate={closeMenu} />
+                <NavLinksList
+                  pathname={null}
+                  className={mobileLinkClass}
+                  context="mobile"
+                  onNavigate={closeMenu}
+                />
               }
             >
-              <NavLinks className={mobileLinkClass} onNavigate={closeMenu} />
+              <NavLinks className={mobileLinkClass} context="mobile" onNavigate={closeMenu} />
             </Suspense>
           </Center>
         </Center>

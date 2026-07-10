@@ -9,7 +9,9 @@ export function IsdayBadge({ className }: { className?: string | undefined }) {
   return (
     <Card ground="onLight" className={cx(s.card, className)}>
       <Center className={s.inner} flexDirection="column">
-        <div className={s.title}>#ISDAY</div>
+        <Text as="div" variant="lead" className={s.title}>
+          #ISDAY
+        </Text>
         <Text as="div" variant="label" className={s.subtitle}>
           International Sculpture Day
         </Text>

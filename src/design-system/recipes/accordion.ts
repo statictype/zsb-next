@@ -45,20 +45,4 @@ export const accordion = defineSlotRecipe({
       transitionDuration: 'fast',
     },
   },
-  variants: {
-    triggerTypography: {
-      standard: {
-        itemTrigger: {
-          fontFamily: 'body',
-          fontSize: 'md',
-          fontWeight: 'bold',
-          lineHeight: 'tight',
-        },
-      },
-      display: {
-        itemTrigger: {},
-      },
-    },
-  },
-  defaultVariants: { triggerTypography: 'standard' },
 })

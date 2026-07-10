@@ -25,12 +25,7 @@ export const manifesto = sva({
         alignItems: 'start',
       },
     },
-    // The manifesto headline owns its own display treatment — deliberately not
-    // the `sectionTitle` / `SectionHeading` role (which is smaller + uppercase).
     title: {
-      fontFamily: 'display',
-      fontSize: { base: 'lg', xl: 'lg', '3xl': 'xl' },
-      lineHeight: { base: 'tight', md: 'display', '4xl': 'tight' },
       color: 'black',
       textWrap: '[pretty]',
     },

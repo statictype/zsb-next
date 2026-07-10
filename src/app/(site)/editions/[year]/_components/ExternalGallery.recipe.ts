@@ -54,10 +54,6 @@ export const externalGallery = sva({
     },
     ctaUrl: {
       marginLeft: 'auto',
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'lowercase',
-      letterSpacing: 'subtle',
       color: 'muted',
       whiteSpace: 'nowrap',
       overflow: 'hidden',

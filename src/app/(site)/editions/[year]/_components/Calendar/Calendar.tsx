@@ -292,7 +292,11 @@ function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
     <Stack as="li" className={s.event} data-poster={!!event.image}>
       <Stack className={s.eventBody} gap="sm">
         <Wrap>
-          {event.startTime && <span className={s.eventTime}>{event.startTime}</span>}
+          {event.startTime && (
+            <Text variant="label" className={s.eventTime}>
+              {event.startTime}
+            </Text>
+          )}
           <TypeChips types={event.types} />
           {event.image && (
             <Text variant="label" className={s.posterTag}>

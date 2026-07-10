@@ -43,7 +43,6 @@ export function VenuesView({ year, sections }: { year: number; sections: VenueTy
               <Accordion
                 id={`venues-${slugify(section.type)}`}
                 className={styles.venues}
-                triggerTypography="display"
                 items={section.venues.map((venue) => ({
                   id: slugify(venue.name),
                   trigger: venue.name,

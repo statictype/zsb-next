@@ -72,7 +72,9 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
                   <span aria-hidden>
                     <RiArrowRightUpLine size={18} />
                   </span>
-                  <span className={styles.ctaUrl}>{prettyHost(href)}</span>
+                  <Text variant="label" className={styles.ctaUrl}>
+                    {prettyHost(href)}
+                  </Text>
                 </HStack>
               </Stack>
 

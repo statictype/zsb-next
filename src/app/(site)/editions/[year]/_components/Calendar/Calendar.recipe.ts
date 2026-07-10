@@ -278,11 +278,8 @@ export const calendar = sva({
       },
     },
     eventTime: {
-      fontFamily: 'display',
-      fontSize: 'sm',
       color: 'white',
       fontVariantNumeric: 'tabular-nums',
-      letterSpacing: 'subtle',
     },
     eventName: {},
     // The name link; its ::after stretches the hit target over the whole row.
