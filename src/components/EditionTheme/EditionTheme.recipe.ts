@@ -71,9 +71,7 @@ export const editionTheme = sva({
       margin: '0',
     },
     highlight: {
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transition: 'interactive',
     },
   },
   variants: {

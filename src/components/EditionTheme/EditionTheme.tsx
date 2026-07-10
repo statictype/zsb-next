@@ -32,8 +32,8 @@ interface EditionThemeProps {
   /** De-emphasizes the whole heading (lead + theme text) — the rail's
    *  "upcoming" plate. */
   muted?: boolean | undefined
-  /** Entrance delay for the `tapeIn` reveal — a fixed value (the hero) or a
-   *  per-card stagger value (the editions cards). */
+  /** Entrance delay for the `tapeIn` reveal — the edition hero's beat in its
+   *  image → vignette → tape cascade. */
   delay?: string | undefined
   /** cx escape for container positioning only (e.g. the hero's tuck under the
    *  nav). Not for tape identity — that's all baked in. */

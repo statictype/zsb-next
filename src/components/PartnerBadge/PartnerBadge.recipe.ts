@@ -5,8 +5,8 @@ import { sva } from 'styled-system/css'
  *
  * Size variants keep the badge and center icon geometry together, so parent
  * layouts choose the placement context without reaching into the badge internals.
- * The elastic hover-scale lives on `body` below (a tokenized spring), which is
- * what lets the component itself stay a server component.
+ * The hover-scale lives on `body` below, which is what lets the component
+ * itself stay a server component.
  */
 export const partnerBadge = sva({
   slots: ['wrap', 'link', 'body', 'textRing', 'arrow', 'icon'],
@@ -25,19 +25,9 @@ export const partnerBadge = sva({
       position: 'relative',
       width: 'full',
       height: 'full',
-      willChange: 'transform',
-      // Elastic hover-scale (formerly two gsap.to calls): a springy bezier
-      // everywhere, upgraded to a `linear()` elastic — overshoot + one
-      // bounce-back — where supported. `body` fills the link, so hovering
-      // anywhere on the badge triggers it.
-      transition: 'transform',
-      transitionDuration: 'reveal',
-      transitionTimingFunction: 'elastic',
-      '@supports (transition-timing-function: linear(0, 1))': {
-        transitionTimingFunction: 'elasticLinear',
-      },
+      // `body` fills the link, so hovering anywhere on the badge scales it.
+      transition: 'develop',
       _hover: { transform: 'scale(1.12)' },
-      _motionReduce: { transitionDuration: 'instant' },
     },
     textRing: {
       position: 'absolute',

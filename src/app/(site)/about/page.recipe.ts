@@ -62,7 +62,6 @@ export const aboutPage = sva({
       background: 'white',
       border: 'hairline',
       _hover: { '& img': { filter: '[grayscale(0%)]', transform: 'scale(1.03)' } },
-      _motionReduce: { '& img': { transform: 'none' } },
     },
     authorPhoto: {
       position: 'relative',
@@ -74,10 +73,7 @@ export const aboutPage = sva({
       objectFit: 'cover',
       background: 'gray.200',
       filter: '[grayscale(100%) contrast(1.02)]',
-      transitionProperty: '[filter, transform]',
-      transitionDuration: 'normal',
-      transitionTimingFunction: 'quint',
-      _motionReduce: { transitionDuration: 'instant' },
+      transition: 'develop',
     },
     authorCaption: {
       borderTop: 'primary',

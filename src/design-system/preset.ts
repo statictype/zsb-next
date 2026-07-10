@@ -19,6 +19,32 @@ import {
 export const designSystemPreset = definePreset({
   name: 'zsb-design-system',
   conditions: { extend: conditions },
+  // The motion contract: two verbs, one easing. `interactive` is state
+  // feedback (hovers, glyph nudges); `develop` is movement/reveal (image
+  // develops, label rolls, panel slides). Call sites say which verb, never
+  // the physics — raw transition longhands belong to this preset only.
+  utilities: {
+    extend: {
+      transition: {
+        values: ['interactive', 'develop', 'none'],
+        // Panda merges (not replaces) the built-in value names into the
+        // type union; anything but the three verbs is a deliberate no-op so
+        // a legacy name can never smuggle its own physics back in.
+        transform(value: string, { token }) {
+          if (value === 'none') return { transition: 'none' }
+          if (value !== 'interactive' && value !== 'develop') return {}
+          return {
+            transitionProperty:
+              value === 'interactive'
+                ? 'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, opacity, transform'
+                : 'opacity, transform, translate, scale, filter',
+            transitionDuration: token(`durations.${value === 'interactive' ? 'fast' : 'normal'}`),
+            transitionTimingFunction: token('easings.quint'),
+          }
+        },
+      },
+    },
+  },
   patterns: {
     extend: {
       stack: { defaultValues: { gap: 'md' } },
@@ -83,6 +109,15 @@ export const designSystemPreset = definePreset({
     body: { textStyle: 'body', color: 'body', background: 'surface' },
     ':focus-visible': { outline: 'focus', outlineOffset: 'token(spacing.xs)' },
     ':disabled, [aria-disabled=true]': { opacity: 0.5, cursor: 'not-allowed' },
+    // The one reduced-motion rule: states still change, they just snap.
+    '@media (prefers-reduced-motion: reduce)': {
+      '*, *::before, *::after': {
+        animationDuration: '0.01ms!',
+        animationIterationCount: '1!',
+        animationDelay: '0ms!',
+        transitionDuration: '0.01ms!',
+      },
+    },
   },
 })
 

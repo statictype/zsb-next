@@ -68,9 +68,7 @@ export const calendar = sva({
       border: 'hairline',
       cursor: 'pointer',
       fontVariantNumeric: 'tabular-nums',
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transition: 'interactive',
       _hover: { color: 'white', borderColor: 'white' },
       // On → the chartreuse "active" fill.
       '&[data-on=true]': {
@@ -79,7 +77,6 @@ export const calendar = sva({
         borderColor: 'highlight',
         _hover: { color: 'black', background: 'highlight', borderColor: 'highlight' },
       },
-      _motionReduce: { transitionDuration: 'instant' },
     },
 
     // ---- Ongoing band — exhibition card grid ----
@@ -97,7 +94,6 @@ export const calendar = sva({
         content: '""',
         layerStyle: 'gradientBorder',
         padding: '[token(borderWidths.hairlineThin)]',
-        transitionDuration: 'fast',
       },
       _hover: {
         '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
@@ -108,14 +104,9 @@ export const calendar = sva({
       // Past de-emphasis (live edition only).
       '&[data-past=true]': {
         opacity: 0.42,
-        transitionProperty: '[opacity]',
-        transitionDuration: 'fast',
-        transitionTimingFunction: 'quint',
+        transition: 'interactive',
       },
       '&[data-past=true]:hover': { opacity: 1 },
-      _motionReduce: {
-        '&:hover::before': { animation: 'none' },
-      },
     },
     runMedia: {
       position: 'relative',
@@ -125,9 +116,7 @@ export const calendar = sva({
       '& img': {
         objectFit: 'cover',
         filter: '[token(assets.developRest)]',
-        transitionProperty: '[filter, transform]',
-        transitionDuration: 'normal',
-        transitionTimingFunction: 'quint',
+        transition: 'develop',
       },
     },
     runContent: {
@@ -155,9 +144,7 @@ export const calendar = sva({
       paddingBottom: 'xs',
       borderBottom: 'hairline',
       cursor: 'pointer',
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transition: 'interactive',
       _hover: { color: 'action', borderColor: 'action' },
     },
 
@@ -184,9 +171,7 @@ export const calendar = sva({
       _first: { borderTop: 'none', paddingTop: '0' },
       '&[data-past=true]': {
         opacity: 0.42,
-        transitionProperty: '[opacity]',
-        transitionDuration: 'fast',
-        transitionTimingFunction: 'quint',
+        transition: 'interactive',
       },
       '&[data-past=true]:hover': { opacity: 1 },
       md: {
@@ -272,12 +257,9 @@ export const calendar = sva({
       border: 'none',
       padding: '0',
       cursor: 'pointer',
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transition: 'interactive',
       _after: { content: '""', position: 'absolute', inset: '0', zIndex: '1' },
       _focusVisible: { color: 'action' },
-      _motionReduce: { transitionDuration: 'instant' },
     },
     eventDesc: {
       maxWidth: 'measure',
@@ -295,9 +277,7 @@ export const calendar = sva({
       '& img': {
         objectFit: 'cover',
         filter: '[grayscale(100%) contrast(1.1)]',
-        transitionProperty: '[filter, transform]',
-        transitionDuration: 'normal',
-        transitionTimingFunction: 'quint',
+        transition: 'develop',
       },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
         position: 'absolute',
@@ -308,29 +288,17 @@ export const calendar = sva({
         maxWidth: '[none]',
         opacity: 0,
         transform: 'translateX(20px)',
-        transition:
-          '[opacity {durations.fast} {easings.quint}, transform {durations.normal} {easings.quint}]',
+        transition: 'develop',
         pointerEvents: 'none',
         zIndex: '3',
         '[data-poster=true]:hover &': { opacity: 1, transform: 'translateX(0)' },
-      },
-      _motionReduce: {
-        '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
-          transitionProperty: '[opacity]',
-          transitionDuration: 'fast',
-          transitionTimingFunction: 'quint',
-          transform: 'none',
-          '[data-poster=true]:hover &': { transform: 'none' },
-        },
       },
     },
     posterTag: {
       display: 'none',
       alignItems: 'center',
       gap: 'sm',
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transition: 'interactive',
       _before: { content: '""', width: '[7px]', height: '[9px]', background: 'current' },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
         display: 'inline-flex',

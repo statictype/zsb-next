@@ -33,11 +33,8 @@ export const venuesView = sva({
     eventName: {
       color: 'white',
       width: 'fit',
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transition: 'interactive',
       _hover: { color: 'action' },
-      _motionReduce: { transitionDuration: 'instant' },
     },
     eventWhen: {
       fontVariantNumeric: 'tabular-nums',

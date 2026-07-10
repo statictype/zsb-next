@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import type { CSSProperties } from 'react'
-import { css, cx } from 'styled-system/css'
+import { cx } from 'styled-system/css'
 import { Container, Grid, HStack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
@@ -67,12 +66,9 @@ function FeaturedCard({
   const stamp = String(index + 1).padStart(2, '0')
 
   return (
-    // The stagger delay rides --i; the whole frame is the hit target via the
-    // name link's stretched ::after (see .cardLink in the CSS).
-    <li
-      className={cx(styles.card, css({ animationStyle: 'enter' }))}
-      style={{ '--i': index } as CSSProperties}
-    >
+    // The whole frame is the hit target via the name link's stretched
+    // ::after (see .cardLink in the CSS).
+    <li className={styles.card}>
       <Card
         as="article"
         ground="onDark"

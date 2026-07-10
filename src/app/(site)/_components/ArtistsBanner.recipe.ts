@@ -21,7 +21,6 @@ export const artistsBanner = sva({
       paddingBlock: { base: 'xl', md: '2xl' },
       paddingInline: 'gutter',
       scrollMarginTop: '[token(sizes.nav)]',
-      transition: '[all {durations.normal} {easings.quint}]',
       // Brand corner wash — fades in on hover.
       _before: {
         content: '""',
@@ -30,9 +29,7 @@ export const artistsBanner = sva({
         background:
           '[linear-gradient(135deg, color-mix(in oklch, token(colors.pink) 8%, transparent) 0%, transparent 50%, color-mix(in oklch, token(colors.chartreuse) 5%, transparent) 100%)]',
         opacity: '0',
-        transitionProperty: '[opacity]',
-        transitionDuration: 'fast',
-        transitionTimingFunction: 'quint',
+        transition: 'interactive',
       },
       _hover: {
         _before: { opacity: '1' },
@@ -58,9 +55,7 @@ export const artistsBanner = sva({
       background: '[linear-gradient(90deg, token(colors.action) 0%, token(colors.highlight) 100%)]',
       transformOrigin: 'left',
       transform: 'scaleX(0)',
-      transitionProperty: '[transform]',
-      transitionDuration: 'normal',
-      transitionTimingFunction: 'quint',
+      transition: 'develop',
     },
   },
 })

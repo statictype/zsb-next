@@ -28,9 +28,6 @@ interface EditionCardProps {
   edition: EditionCardData
   href: string
   size?: EditionCardSize
-  /** Entrance delay forwarded to the theme tape (the archive grid's
-   *  per-card stagger). */
-  themeDelay?: string | undefined
   className?: string | undefined
 }
 
@@ -41,13 +38,7 @@ interface EditionCardProps {
  * are gated `status != "upcoming"`). The imageless plate in the footer rail
  * is `EditionRailCard`, which shares the `EditionTheme` tape, not this card.
  */
-export function EditionCard({
-  edition,
-  href,
-  size = 'md',
-  themeDelay,
-  className,
-}: EditionCardProps) {
+export function EditionCard({ edition, href, size = 'md', className }: EditionCardProps) {
   const styles = editionCard({ size })
   // `dateTape` composes "date · venue"; split off just the date and read
   // `venueLine` directly for the venue, rather than re-parsing it back out.
@@ -72,7 +63,6 @@ export function EditionCard({
           interactive
           theme={edition.theme}
           themeHighlight={edition.themeHighlight}
-          delay={themeDelay}
         />
         <Divider />
         <HStack justify="space-between">

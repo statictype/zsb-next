@@ -16,8 +16,7 @@ export const checkbox = defineSlotRecipe({
       background: 'transparent',
       border: 'hairline',
       cursor: 'pointer',
-      transition:
-        'color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}, background {durations.fast} {easings.quint}',
+      transition: 'interactive',
       '&[data-hover]': { color: 'white', borderColor: 'white' },
       '&[data-state=checked]': {
         color: 'white',
@@ -32,7 +31,6 @@ export const checkbox = defineSlotRecipe({
         fontVariantNumeric: 'tabular-nums',
         opacity: 0.6,
       },
-      _motionReduce: { transition: 'none' },
     },
     control: {
       width: '14px',
@@ -45,7 +43,7 @@ export const checkbox = defineSlotRecipe({
       borderStyle: 'solid',
       borderColor: 'currentColor',
       opacity: 0.5,
-      transition: 'opacity {durations.fast} {easings.quint}',
+      transition: 'interactive',
       '&[data-hover]': { opacity: 0.8 },
       '&[data-state=checked]': {
         opacity: 1,
@@ -53,7 +51,6 @@ export const checkbox = defineSlotRecipe({
         color: 'action',
         borderColor: 'white',
       },
-      _motionReduce: { transition: 'none' },
     },
     indicator: { display: 'inline-flex' },
     label: { cursor: 'inherit' },

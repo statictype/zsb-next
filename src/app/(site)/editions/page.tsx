@@ -26,11 +26,6 @@ export default function EditionsPage() {
   )
 }
 
-// One stagger beat per card position for the theme tape's entrance, mirroring
-// `durations.stagger` (60ms) — a plain literal per card, not a runtime calc
-// string. The tape's `tapeIn` is the card's reveal motion.
-const STAGGER_STEP_MS = 60
-
 async function CachedEditionsList({ options }: { options: DynamicFetchOptions }) {
   'use cache'
   // Already status-filtered and year-desc in the query, so index 0 is the
@@ -49,7 +44,6 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
                 edition={edition}
                 href={`/editions/${edition.year}`}
                 size={isFeature ? 'lg' : 'md'}
-                themeDelay={`${(index + 1) * STAGGER_STEP_MS}ms`}
                 className={styles.card}
               />
             </div>

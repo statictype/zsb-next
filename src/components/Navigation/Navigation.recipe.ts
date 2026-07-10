@@ -60,9 +60,7 @@ export const navigation = sva({
       display: 'block',
       textDecoration: 'none',
       border: 'hairline',
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transition: 'interactive',
       // Label roll — the muted label exits up while an identical pink copy
       // enters from below, clipped by a mask snug to the line box so nothing
       // leaks into the link's padding.
@@ -71,10 +69,7 @@ export const navigation = sva({
         '--nav-roll-offset': 'token(sizes.navRollOffset)',
         display: 'block',
         position: 'relative',
-        transitionProperty: 'common',
-        transitionDuration: 'normal',
-        transitionTimingFunction: 'quint',
-        _motionReduce: { transitionDuration: 'instant' },
+        transition: 'develop',
       },
       '& [data-nav-copy]': {
         position: 'absolute',
@@ -84,10 +79,6 @@ export const navigation = sva({
       },
       '&:hover [data-nav-label], &:focus-visible [data-nav-label]': {
         transform: 'translateY(calc(var(--nav-roll-offset) * -1))',
-      },
-      _motionReduce: {
-        '&:hover [data-nav-label], &:focus-visible [data-nav-label]': { transform: 'none' },
-        _hover: { color: 'action' },
       },
       // Active tab gets the highlight fill; siblings stay outlined. The roll
       // is suppressed — hover is a preview of elsewhere, not of here.
@@ -126,9 +117,7 @@ export const navigation = sva({
         background: 'black',
         border: 'hairline',
         pointerEvents: 'none',
-        transitionProperty: 'colors',
-        transitionDuration: 'fast',
-        transitionTimingFunction: 'quint',
+        transition: 'interactive',
       },
       '& > *': { position: 'relative', zIndex: '1' },
       color: 'white',
@@ -166,9 +155,7 @@ export const navigationSwap = sva({
       alignItems: 'center',
       justifyContent: 'center',
       color: 'current',
-      transitionProperty: 'common',
-      transitionDuration: 'normal',
-      transitionTimingFunction: 'quint',
+      transition: 'develop',
       '&[hidden]': { display: 'inline-flex!' },
       '&[data-type=off]': { flexDirection: 'column', gap: 'xs' },
       '&[data-type=off] > span': {
@@ -178,7 +165,6 @@ export const navigationSwap = sva({
         background: 'current',
       },
       '& svg': { width: 'full', height: 'full' },
-      _motionReduce: { transitionDuration: 'instant' },
     },
   },
 })

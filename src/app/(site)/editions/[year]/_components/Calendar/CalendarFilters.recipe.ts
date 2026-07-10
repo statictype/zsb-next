@@ -20,14 +20,8 @@ export const calendarFilters = sva({
       paddingBlock: 'xs',
       paddingInline: '0',
       cursor: 'pointer',
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
-      '& svg': {
-        transitionProperty: '[transform]',
-        transitionDuration: 'normal',
-        transitionTimingFunction: 'quint',
-      },
+      transition: 'interactive',
+      '& svg': { transition: 'interactive' },
       '&:hover:not(:disabled)': { color: 'action', '& svg': { transform: 'rotate(-90deg)' } },
     },
 

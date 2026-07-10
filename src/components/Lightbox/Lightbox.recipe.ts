@@ -42,9 +42,7 @@ export const lightbox = sva({
     // Drag prevention comes from the Image's `draggable={false}` attribute.
     image: {
       objectFit: 'contain',
-      transitionProperty: '[opacity]',
-      transitionDuration: 'normal',
-      transitionTimingFunction: 'quint',
+      transition: 'develop',
       userSelect: 'none',
     },
 

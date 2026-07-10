@@ -15,11 +15,15 @@ export const linkList = sva({
       alignItems: 'center',
       gap: { base: 'sm', md: 'md' },
       paddingBlock: 'lg',
-      transitionProperty: '[padding-left]',
-      transitionDuration: 'normal',
-      transitionTimingFunction: 'quint',
-      _hover: { paddingLeft: 'md' },
-      '&[aria-disabled=true]': { cursor: 'default', opacity: '0.45', _hover: { paddingLeft: '0' } },
+      // The hover indent rides transform (not padding) so it composites
+      // instead of relayouting the row.
+      transition: 'develop',
+      _hover: { transform: 'translateX(token(spacing.md))' },
+      '&[aria-disabled=true]': {
+        cursor: 'default',
+        opacity: '0.45',
+        _hover: { transform: 'none' },
+      },
     },
     year: {
       fontVariantNumeric: 'tabular-nums',
@@ -27,9 +31,7 @@ export const linkList = sva({
     body: { minWidth: '0', display: 'flex', flexDirection: 'column', gap: 'xs' },
     title: {
       display: 'block',
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transition: 'interactive',
       'a:hover &': { color: 'action' },
     },
     excerpt: {
@@ -46,8 +48,7 @@ export const linkList = sva({
     arrow: {
       display: 'flex',
       flexShrink: '0',
-      transition:
-        '[color {durations.fast} {easings.quint}, transform {durations.normal} {easings.quint}]',
+      transition: 'interactive',
       'a:hover &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
   },

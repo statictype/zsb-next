@@ -29,13 +29,9 @@ export const featuredEvents = sva({
     },
 
     card: {
-      // The shared `enter` animation style owns the stagger from `--i`.
       _hover: {
         '& img': { filter: '[grayscale(0%) contrast(1)]', transform: 'scale(1.04)' },
         '& a': { color: 'action' },
-      },
-      _motionReduce: {
-        '& img': { transitionDuration: 'instant', transform: 'none' },
       },
     },
 
@@ -47,9 +43,7 @@ export const featuredEvents = sva({
       '& img': {
         objectFit: 'cover',
         filter: '[grayscale(100%) contrast(1.1)]',
-        transitionProperty: '[filter, transform]',
-        transitionDuration: 'normal',
-        transitionTimingFunction: 'quint',
+        transition: 'develop',
       },
     },
     // Image-less card: a tonal stage for the vast faded day numeral.
@@ -113,9 +107,7 @@ export const featuredEvents = sva({
       font: '[inherit]',
       color: '[inherit]',
       textDecoration: 'none',
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transition: 'interactive',
       _after: { content: '""', position: 'absolute', inset: '0', zIndex: '3' },
       _focusVisible: { color: 'action' },
     },

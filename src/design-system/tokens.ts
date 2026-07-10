@@ -89,8 +89,7 @@ export const tokens = {
   },
   // The 6-step fluid scale (375→1920px viewport), all `clamp()`.
   fontSizes: {
-    badgeRing: { value: '40px' },
-    badge: { value: '10px' },
+    partnerBadgeRing: { value: '40px' },
     xs: { value: 'clamp(10px, 9.76px + 0.0647vw, 11px)' },
     sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
     base: { value: '16px' },
@@ -241,21 +240,10 @@ export const tokens = {
     galleryDevelopRest: { value: 'brightness(0.9) contrast(1)' },
     galleryDevelopHover: { value: 'brightness(1) contrast(1.1)' },
   },
-  lineHeights: {
-    display: { value: '1' },
-    heading: { value: '1.38' },
-    tight: { value: '1.16' },
-    body: { value: '1.56' },
-    loose: { value: '1.9' },
-    // Badge's own tight, single-line-chip line-height.
-    badge: { value: '1.3' },
-  },
   letterSpacings: {
     tight: { value: '-0.02em' },
-    subtle: { value: '0.6px' },
     label: { value: '1.2px' },
-    wide: { value: '4px' },
-    badgeRing: { value: '8px' },
+    partnerBadgeRing: { value: '8px' },
   },
   fontWeights: {
     light: { value: '300' },
@@ -266,22 +254,14 @@ export const tokens = {
     black: { value: '900' },
   },
   durations: {
-    instant: { value: '0s' }, // the reduced-motion kill switch
-    stagger: { value: '60ms' },
     fast: { value: '200ms' },
     normal: { value: '300ms' },
-    medium: { value: '400ms' },
-    slow: { value: '500ms' },
-    reveal: { value: '600ms' },
     entrance: { value: '900ms' },
     sweep: { value: '1600ms' },
   },
+  // `quint` is the one transition easing (via the `transition` utility);
+  // `expo` belongs to the `enter` entrance animation only.
   easings: {
-    elastic: { value: 'cubic-bezier(0.34, 1.56, 0.64, 1)' },
-    elasticLinear: {
-      value:
-        'linear(0, 0.43 5%, 0.85 10%, 1.11 15%, 1.2 20%, 1.18 25%, 1.1 30%, 1.03 35%, 0.98 42.5%, 0.96 47.5%, 0.99 60%, 1.005 70%, 1)',
-    },
     expo: { value: 'cubic-bezier(0.16, 1, 0.3, 1)' },
     quint: { value: 'cubic-bezier(0.23, 1, 0.32, 1)' },
   },
@@ -292,32 +272,20 @@ export const tokens = {
     card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
     badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
     modal: { value: '0 30px 80px rgb(0 0 0 / 0.5)' },
-    // The hero frame's grounding lift — modal's geometry pulled tighter
-    // (negative spread) and darker, sized for photography on black.
     frame: { value: '0 30px 80px -30px rgb(0 0 0 / 0.7)' },
-    // The theme tape's pinned-paper elevation (badge's recipe, heavier hand).
     tape: {
       value: 'inset 0 1px 0 rgb(255 255 255 / 0.08), 0 14px 32px -6px rgb(0 0 0 / 0.55)',
     },
-    // Legibility halo for type sitting directly on photography.
     text: { value: '0 1px 8px rgb(0 0 0 / 0.55)' },
   },
   gradients: {
-    // The hero's photographic vignette. The near-black stops are the legacy
-    // `canvas` color (#0E0B10, the brand's warm magenta tint) — kept ONLY
-    // here, where it multiplies over imagery; every opaque dark ground is
-    // `black` (ZSB-70).
     heroVignette: {
       value:
         'linear-gradient(115deg, rgb(14 11 16 / 0.55) 0%, rgb(14 11 16 / 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgb(14 11 16 / 0.5) 100%)',
     },
-    // The archive card's media scrim — top + bottom darkening for the year
-    // badge/gradient legibility over card imagery.
     cardScrim: {
       value: 'linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))',
     },
-    // The homepage carousel slide's radial vignette — darkens the frame edges
-    // without a directional cast (unlike `heroVignette`).
     carouselVignette: {
       value: 'radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.45) 100%)',
     },
@@ -347,8 +315,6 @@ export const semanticTokens = {
     navToggle: { value: '1011' },
     lightbox: { value: '1020' },
     draftBadge: { value: '1030' },
-    // Local stacking inside an `isolation: isolate` (or positioned) subtree:
-    // numeric by design — media base, scrim, content, floating accents.
     '0': { value: '0' },
     '1': { value: '1' },
     '2': { value: '2' },
@@ -375,6 +341,8 @@ export const semanticTokens = {
   },
 } as const
 
+// Reduced-motion is handled once by the global kill in preset.ts, not per
+// style.
 export const animationStyles = {
   enter: {
     DEFAULT: {
@@ -383,9 +351,7 @@ export const animationStyles = {
         animationDuration: 'entrance',
         animationTimingFunction: 'expo',
         animationFillMode: 'both',
-        animationDelay: 'calc(var(--i, 0) * {durations.stagger})',
         '--enter-y': '30px',
-        _motionReduce: { animation: 'none' },
       },
     },
     fade: {
@@ -395,7 +361,6 @@ export const animationStyles = {
         animationTimingFunction: 'expo',
         animationFillMode: 'both',
         '--enter-y': '0px',
-        _motionReduce: { animation: 'none' },
       },
     },
     zoom: {
@@ -406,7 +371,6 @@ export const animationStyles = {
         animationFillMode: 'both',
         '--enter-y': '0px',
         '--enter-scale': '1.06',
-        _motionReduce: { animation: 'none' },
       },
     },
     snappy: {
@@ -416,7 +380,6 @@ export const animationStyles = {
         animationTimingFunction: 'expo',
         animationFillMode: 'both',
         '--enter-y': '30px',
-        _motionReduce: { animation: 'none' },
       },
     },
   },
@@ -426,7 +389,6 @@ export const animationStyles = {
       animationDuration: '32s',
       animationTimingFunction: 'linear',
       animationIterationCount: 'infinite',
-      _motionReduce: { animationPlayState: 'paused' },
     },
   },
   shimmer: {
@@ -435,7 +397,6 @@ export const animationStyles = {
       animationDuration: 'sweep',
       animationTimingFunction: 'ease-in-out',
       animationIterationCount: 'infinite',
-      _motionReduce: { animation: 'none' },
     },
   },
   gradientBorder: {
@@ -444,7 +405,6 @@ export const animationStyles = {
       animationDuration: '2s',
       animationTimingFunction: 'linear',
       animationIterationCount: 'infinite',
-      _motionReduce: { animation: 'none' },
     },
   },
   tape: {
@@ -454,7 +414,6 @@ export const animationStyles = {
       animationTimingFunction: 'expo',
       animationFillMode: 'forwards',
       animationDelay: 'var(--tape-delay, 0s)',
-      _motionReduce: { animation: 'none' },
     },
   },
 } as const
@@ -609,33 +568,13 @@ export const textStyles = {
     ringType: {
       value: {
         fontFamily: 'body',
-        fontSize: 'badgeRing',
+        fontSize: 'partnerBadgeRing',
         fontWeight: 'semibold',
-        letterSpacing: 'badgeRing',
+        letterSpacing: 'partnerBadgeRing',
       },
     },
   },
 
-  // Legacy styles — thin copies of the canonical styles above, kept only so
-  // existing recipe references still resolve. Die in Phase 2.
-  pageTitle: {
-    value: {
-      fontFamily: 'display',
-      fontSize: 'xl',
-      lineHeight: '1',
-      letterSpacing: '-0.02em',
-      textTransform: 'uppercase',
-    },
-  },
-  sectionTitle: {
-    value: {
-      fontFamily: 'display',
-      fontSize: 'lg',
-      lineHeight: '1.16',
-      letterSpacing: '-0.02em',
-      textTransform: 'uppercase',
-    },
-  },
   cardTitle: {
     value: {
       fontFamily: 'display',
@@ -643,68 +582,6 @@ export const textStyles = {
       lineHeight: '1.16',
       letterSpacing: '-0.02em',
       textTransform: 'uppercase',
-    },
-  },
-  // Item title on the dark schedule board — the agenda event rows and the
-  // Ongoing run cards.
-  boardTitle: {
-    value: {
-      fontFamily: 'display',
-      fontSize: 'md',
-      lineHeight: '1.16',
-      letterSpacing: '-0.02em',
-      textTransform: 'uppercase',
-      color: 'white',
-    },
-  },
-  labelDisplay: {
-    value: {
-      fontFamily: 'display',
-      textTransform: 'uppercase',
-      lineHeight: 'tight',
-      letterSpacing: 'tight',
-    },
-  },
-  metaLabel: {
-    value: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      fontWeight: 'semibold',
-      lineHeight: '1.3',
-      letterSpacing: '1.2px',
-      textTransform: 'uppercase',
-      color: 'muted',
-    },
-  },
-  footerMeta: {
-    value: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      fontWeight: 'semibold',
-      lineHeight: '1.3',
-      letterSpacing: '1.2px',
-      textTransform: 'uppercase',
-      color: 'muted',
-    },
-  },
-  // The homepage hero's larger, lighter intro — absorbed into the canonical
-  // `lead` role.
-  leadLarge: {
-    value: {
-      fontFamily: 'body',
-      fontSize: 'md',
-      fontWeight: 'light',
-      lineHeight: '1.56',
-      textWrap: 'pretty',
-    },
-  },
-  prose: {
-    value: {
-      fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: '1.56',
-      textWrap: 'pretty',
-      color: 'body',
     },
   },
 } as const
@@ -773,9 +650,7 @@ export const layerStyles = {
   // The hairline-gradient hover ring (Calendar runs + gallery tiles): paint
   // the action→highlight sweep, then mask everything except the padding ring
   // (content-box XOR). Applied on a `::before`; the call site supplies
-  // `content`, the ring width (padding) and its duration — `transitionProperty`
-  // and `transitionTimingFunction` are identical at both call sites, so they
-  // live here instead of being restated at each one.
+  // `content` and the ring width (padding).
   gradientBorder: {
     value: {
       position: 'absolute',
@@ -791,6 +666,7 @@ export const layerStyles = {
       zIndex: '2',
       pointerEvents: 'none',
       transitionProperty: '[opacity]',
+      transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
     },
   },
@@ -832,15 +708,14 @@ export const layerStyles = {
     value: { content: '""', width: 'lg', height: '2px', background: 'current', flexShrink: '0' },
   },
   // The disclosure chevron shared by Accordion/Collapsible: flex + rotate on
-  // `data-state=open` + motion-reduce kill. `transitionDuration` and layout
-  // deltas stay at the call sites.
+  // `data-state=open`. Layout deltas stay at the call sites.
   disclosureIndicator: {
     value: {
       display: 'inline-flex',
       transitionProperty: '[transform]',
+      transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
       '&[data-state=open]': { transform: 'rotate(180deg)' },
-      _motionReduce: { transition: 'none' },
     },
   },
   // Visually-hidden but still in the accessibility tree — the standard

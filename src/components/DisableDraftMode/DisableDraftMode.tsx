@@ -26,9 +26,7 @@ export function DisableDraftMode() {
         color: 'surface',
         borderRadius: 'pill',
         boxShadow: 'badge',
-        transitionProperty: '[transform]',
-        transitionDuration: 'fast',
-        transitionTimingFunction: 'expo',
+        transition: 'interactive',
         _hover: { transform: 'translateY(-1px)' },
       })}
     >

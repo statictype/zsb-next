@@ -43,7 +43,7 @@ export const card = defineRecipe({
     interactive: {
       true: {
         cursor: 'pointer',
-        transition: 'border-color {durations.fast} {easings.quint}',
+        transition: 'interactive',
         _hover: { borderColor: 'action' },
       },
     },

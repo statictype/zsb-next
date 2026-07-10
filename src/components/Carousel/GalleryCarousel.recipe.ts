@@ -28,9 +28,7 @@ export const galleryCarousel = sva({
       // exception: image placeholder fallback, raised-dark surface
       background: 'gray.900',
       '& img': {
-        transitionProperty: '[filter, transform]',
-        transitionDuration: 'normal',
-        transitionTimingFunction: 'quint',
+        transition: 'develop',
         filter: '[token(assets.galleryDevelopRest)]',
       },
       _hover: {
@@ -42,7 +40,6 @@ export const galleryCarousel = sva({
         content: '""',
         layerStyle: 'gradientBorder',
         padding: '[token(borderWidths.gradientRing)]',
-        transitionDuration: 'fast',
       },
     },
     // Drag prevention comes from the Figure's `draggable={false}` attribute.

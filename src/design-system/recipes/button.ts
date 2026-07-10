@@ -19,8 +19,7 @@ export const button = defineRecipe({
     justifyContent: 'center',
     cursor: 'pointer',
     border: 'none',
-    transition:
-      'color {durations.fast} {easings.quint}, background-color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}, filter {durations.fast} {easings.quint}',
+    transition: 'interactive',
   },
   variants: {
     variant: {
@@ -50,8 +49,6 @@ export const button = defineRecipe({
         background: 'transparent',
         borderWidth: '0',
         color: 'heading',
-        transition:
-          'color {durations.fast} {easings.quint}, transform {durations.normal} {easings.quint}',
         ...colorShift,
         _hover: { _enabled: { color: 'action', transform: 'translateY(-2px)' } },
       },

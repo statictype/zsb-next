@@ -34,9 +34,7 @@ export const editionCard = sva({
       background: 'gray.900',
       filter: '[token(assets.developRest)]',
       transform: 'scale(1.01)',
-      transitionProperty: '[filter, transform]',
-      transitionDuration: 'normal',
-      transitionTimingFunction: 'quint',
+      transition: 'develop',
       'a:hover &, a:focus-visible &': {
         filter: '[token(assets.developHover)]',
         transform: 'scale(1.05)',
@@ -64,15 +62,11 @@ export const editionCard = sva({
     cta: {
       flexShrink: '0',
       color: 'heading',
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transition: 'interactive',
       'a:hover &': { color: 'action' },
     },
     ctaIcon: {
-      transitionProperty: '[transform]',
-      transitionDuration: 'normal',
-      transitionTimingFunction: 'quint',
+      transition: 'interactive',
       'a:hover &': { transform: 'translate(2px, -2px)' },
     },
   },

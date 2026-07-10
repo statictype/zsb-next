@@ -27,9 +27,7 @@ export const mediaKitStrip = sva({
     image: {
       objectFit: 'cover',
       background: 'gray.900',
-      transitionProperty: '[transform]',
-      transitionDuration: 'normal',
-      transitionTimingFunction: 'quint',
+      transition: 'develop',
     },
   },
 })

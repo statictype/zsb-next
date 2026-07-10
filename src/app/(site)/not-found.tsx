@@ -1,6 +1,5 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import Link from 'next/link'
-import type { CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 
@@ -73,14 +72,8 @@ const cta = css({
   border: 'hairline',
   paddingBlock: 'md',
   paddingInline: 'lg',
-  transitionProperty: 'colors',
-  transitionDuration: 'normal',
-  transitionTimingFunction: 'quint',
-  '& svg': {
-    transitionProperty: '[transform]',
-    transitionDuration: 'normal',
-    transitionTimingFunction: 'quint',
-  },
+  transition: 'interactive',
+  '& svg': { transition: 'interactive' },
   _hover: {
     borderColor: 'action',
     color: 'action',
@@ -90,10 +83,6 @@ const cta = css({
 
 const enter = css({ animationStyle: 'enter' })
 
-// The entrance cascade rides the shared `enter` stagger (`--i` × 60ms),
-// spaced two beats apart, instead of five bespoke delays.
-const beat = (i: number) => ({ '--i': i }) as CSSProperties
-
 export default function NotFound() {
   return (
     <div className={page}>
@@ -101,18 +90,18 @@ export default function NotFound() {
       <div className={cx(glow, glowPink)} />
       <div className={cx(glow, glowChartreuse)} />
 
-      <div className={content}>
-        <Text as="div" variant="display" className={cx(code, enter)} style={beat(0)}>
+      <div className={cx(content, enter)}>
+        <Text as="div" variant="display" className={code}>
           404
         </Text>
-        <div className={cx(divider, enter)} style={beat(2)} />
-        <Text as="h1" variant="heading" className={cx(title, enter)} style={beat(4)}>
+        <div className={divider} />
+        <Text as="h1" variant="heading" className={title}>
           This space is empty
         </Text>
-        <Text as="p" variant="label" className={cx(subtitle, enter)} style={beat(6)}>
+        <Text as="p" variant="label" className={subtitle}>
           Like an exhibition between shows
         </Text>
-        <Link href="/" className={cx(cta, enter)} style={beat(8)}>
+        <Link href="/" className={cta}>
           <Text variant="label" display="contents">
             Return Home <RiArrowRightLine size={14} />
           </Text>

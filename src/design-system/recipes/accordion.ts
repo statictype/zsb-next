@@ -23,9 +23,8 @@ export const accordion = defineSlotRecipe({
       background: 'transparent',
       textAlign: 'left',
       cursor: 'pointer',
-      transition: 'color {durations.fast} {easings.quint}',
+      transition: 'interactive',
       _hover: { color: 'action' },
-      _motionReduce: { transition: 'none' },
       '& [data-accordion-meta]': {
         marginLeft: 'auto',
         color: 'muted',
@@ -40,7 +39,6 @@ export const accordion = defineSlotRecipe({
     itemIndicator: {
       layerStyle: 'disclosureIndicator',
       flexShrink: '0',
-      transitionDuration: 'fast',
     },
   },
 })
