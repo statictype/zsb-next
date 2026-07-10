@@ -88,168 +88,174 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
     >
       <HashScroller id={PROGRAM_SECTION_ID} />
       <Container>
-        <HStack as="header" className={s.header} justify="space-between" gap="md">
-          <div className={s.headerMain}>
-            <SectionHeading id="calendar-heading" flush>
-              Calendar
-            </SectionHeading>
-            <CalendarMeta year={year} label={windowLabel} />
-            {ended ? (
-              // A finished edition leads with a short recap + follow CTAs; its
-              // archive agenda collapses below (ZSB-45). Applies to every
-              // finished edition, judged client-side like the rest of the board.
-              <Stack className={s.recap}>
-                <Text as="p" variant="body">
-                  That was{' '}
-                  <Text as="strong" variant="body" className={s.recapMark}>
-                    ZSB {year}
-                  </Text>
-                  {theme ? ` — ${theme}` : ''}.
-                </Text>
-                <FollowLinks label="Follow for what’s next" socials={socials} />
+        <Stack gap="xl">
+          <HStack as="header" justify="space-between" gap="md">
+            <Stack className={s.headerMain} gap="sm">
+              <Stack gap="md">
+                <SectionHeading id="calendar-heading" flush>
+                  Calendar
+                </SectionHeading>
+                <CalendarMeta year={year} label={windowLabel} />
               </Stack>
-            ) : (
-              <Wrap className={s.counts} gap="md">
-                <Text variant="label" className={s.count} aria-live="polite">
-                  {countLabel}
-                </Text>
-                {showPastControl && (
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className={s.pastToggle}
-                    data-on={showPast}
-                    aria-pressed={showPast}
-                    onClick={() => setShowPast(!showPast)}
-                  >
-                    <RiHistoryLine size={15} aria-hidden />
-                    {showPast ? 'Hide' : 'Show'} {past} past {past === 1 ? 'event' : 'events'}
-                  </Button>
-                )}
-              </Wrap>
-            )}
-          </div>
-          <CalendarShare />
-        </HStack>
+              {ended ? (
+                // A finished edition leads with a short recap + follow CTAs; its
+                // archive agenda collapses below (ZSB-45). Applies to every
+                // finished edition, judged client-side like the rest of the board.
+                <Stack className={s.recap}>
+                  <Text as="p" variant="body">
+                    That was{' '}
+                    <Text as="strong" variant="body" className={s.recapMark}>
+                      ZSB {year}
+                    </Text>
+                    {theme ? ` — ${theme}` : ''}.
+                  </Text>
+                  <FollowLinks label="Follow for what’s next" socials={socials} />
+                </Stack>
+              ) : (
+                <Wrap gap="md">
+                  <Text variant="label" className={s.count} aria-live="polite">
+                    {countLabel}
+                  </Text>
+                  {showPastControl && (
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className={s.pastToggle}
+                      data-on={showPast}
+                      aria-pressed={showPast}
+                      onClick={() => setShowPast(!showPast)}
+                    >
+                      <RiHistoryLine size={15} aria-hidden />
+                      {showPast ? 'Hide' : 'Show'} {past} past {past === 1 ? 'event' : 'events'}
+                    </Button>
+                  )}
+                </Wrap>
+              )}
+            </Stack>
+            <CalendarShare />
+          </HStack>
 
-        {/* On a finished edition the filters and the board fold into the archive
+          {/* On a finished edition the filters and the board fold into the archive
             Collapsible together (ZSB-45), so filtering still works once expanded;
             a live edition renders them inline. */}
-        <ArchiveCollapse ended={ended} count={events.length}>
-          {showFilterBar && (
-            <CalendarFilters
-              filterOptions={filterOptions}
-              filters={filters}
-              canReset={canReset}
-              onToggleVenue={toggleVenue}
-              onToggleType={toggleType}
-              onReset={reset}
-            />
-          )}
-
-          {visible.length === 0 ? (
-            <Stack className={s.empty} role="status">
-              <Text as="p" variant="heading" className={s.emptyText}>
-                No events match these filters.
-              </Text>
-              <Button variant="link" className={s.emptyClear} onClick={reset}>
-                <Text variant="label">Show all events</Text>
-              </Button>
-            </Stack>
-          ) : (
-            // Ongoing exhibitions sit on top as a card grid; the one-off events
-            // follow below as the day-by-day agenda (ZSB-49).
-            <div className={s.layout}>
-              {onView.length > 0 && (
-                <>
-                  <Divider />
-                  <section className={s.band} aria-label="Ongoing throughout the edition">
-                    <Text as="h3" variant="label" className={s.bandLabel}>
-                      Ongoing
-                    </Text>
-                    <Grid as="ul" minChildWidth="300px" gap="md" listStyle="none">
-                      {onView.map((run) => {
-                        const runEnd = run.endDate ?? run.startDate
-                        const past = liveClock !== null && runEnd < liveClock
-                        // Every run carries its own span — runs cover different
-                        // stretches of the edition, so a shared band range read as
-                        // "everything runs these dates" (ZSB-48).
-                        const runRange = formatShortRange(run.startDate, runEnd)
-                        return (
-                          <li key={run.key} className={s.run} data-past={past}>
-                            {run.image && (
-                              <div className={s.runMedia}>
-                                <Figure
-                                  image={run.image}
-                                  sizes="(min-width: 1280px) 360px, (min-width: 768px) 45vw, 90vw"
-                                />
-                              </div>
-                            )}
-                            <Stack className={s.runContent} gap="sm">
-                              <TypeChips types={run.types} />
-                              <Text as="h4" variant="heading">
-                                <Link
-                                  className={s.nameButton}
-                                  href={`/editions/${year}/events/${run.slug}`}
-                                  scroll={false}
-                                >
-                                  {run.name}
-                                </Link>
-                              </Text>
-                              <VenueLine venue={run.venue} />
-                              <Wrap className={s.runFoot} gap="md">
-                                {runRange && <Text variant="label">{runRange}</Text>}
-                              </Wrap>
-                            </Stack>
-                          </li>
-                        )
-                      })}
-                    </Grid>
-                  </section>
-                </>
+          <ArchiveCollapse ended={ended} count={events.length}>
+            <Stack gap="2xl">
+              {showFilterBar && (
+                <CalendarFilters
+                  filterOptions={filterOptions}
+                  filters={filters}
+                  canReset={canReset}
+                  onToggleVenue={toggleVenue}
+                  onToggleType={toggleType}
+                  onReset={reset}
+                />
               )}
 
-              {days.length > 0 && (
-                <ol className={s.agenda}>
-                  {days.map((day) => (
-                    <Stack
-                      as="li"
-                      key={day.iso}
-                      className={s.day}
-                      data-past={liveClock !== null && day.iso < liveClock}
-                    >
-                      <HStack
-                        className={s.marker}
-                        flexDirection={{ base: 'row', md: 'column' }}
-                        alignItems={{ base: 'baseline', md: 'flex-end' }}
-                        gap={{ base: 'md', md: 'sm' }}
-                      >
-                        <span className={s.markerNode} aria-hidden />
-                        <span className={s.markerDay}>{day.token.dayPadded}</span>
-                        <HStack
-                          as="span"
-                          flexDirection={{ base: 'row', md: 'column' }}
-                          alignItems={{ base: 'baseline', md: 'flex-end' }}
-                          gap={{ md: 'xs' }}
-                        >
-                          <Text variant="label">{day.token.month}</Text>
-                          <Text variant="label" className={s.markerWeekday}>
-                            {day.token.weekday}
-                          </Text>
-                        </HStack>
-                      </HStack>
-                      <ul className={s.events}>
-                        {day.events.map((event) => (
-                          <EventRow key={event.key} event={event} year={year} />
-                        ))}
-                      </ul>
+              {visible.length === 0 ? (
+                <Stack className={s.empty} role="status">
+                  <Text as="p" variant="heading" className={s.emptyText}>
+                    No events match these filters.
+                  </Text>
+                  <Button variant="link" className={s.emptyClear} onClick={reset}>
+                    <Text variant="label">Show all events</Text>
+                  </Button>
+                </Stack>
+              ) : (
+                // Ongoing exhibitions sit on top as a card grid; the one-off events
+                // follow below as the day-by-day agenda (ZSB-49).
+                <Stack className={s.layout} gap="2xl">
+                  {onView.length > 0 && (
+                    <Stack gap="lg">
+                      <Divider />
+                      <Stack as="section" gap="md" aria-label="Ongoing throughout the edition">
+                        <Text as="h3" variant="label" className={s.bandLabel}>
+                          Ongoing
+                        </Text>
+                        <Grid as="ul" minChildWidth="300px" gap="md" listStyle="none">
+                          {onView.map((run) => {
+                            const runEnd = run.endDate ?? run.startDate
+                            const past = liveClock !== null && runEnd < liveClock
+                            // Every run carries its own span — runs cover different
+                            // stretches of the edition, so a shared band range read as
+                            // "everything runs these dates" (ZSB-48).
+                            const runRange = formatShortRange(run.startDate, runEnd)
+                            return (
+                              <li key={run.key} className={s.run} data-past={past}>
+                                {run.image && (
+                                  <div className={s.runMedia}>
+                                    <Figure
+                                      image={run.image}
+                                      sizes="(min-width: 1280px) 360px, (min-width: 768px) 45vw, 90vw"
+                                    />
+                                  </div>
+                                )}
+                                <Stack className={s.runContent} gap="sm">
+                                  <TypeChips types={run.types} />
+                                  <Text as="h4" variant="heading">
+                                    <Link
+                                      className={s.nameButton}
+                                      href={`/editions/${year}/events/${run.slug}`}
+                                      scroll={false}
+                                    >
+                                      {run.name}
+                                    </Link>
+                                  </Text>
+                                  <VenueLine venue={run.venue} />
+                                  <Wrap className={s.runFoot} gap="md">
+                                    {runRange && <Text variant="label">{runRange}</Text>}
+                                  </Wrap>
+                                </Stack>
+                              </li>
+                            )
+                          })}
+                        </Grid>
+                      </Stack>
                     </Stack>
-                  ))}
-                </ol>
+                  )}
+
+                  {days.length > 0 && (
+                    <ol className={s.agenda}>
+                      {days.map((day) => (
+                        <Stack
+                          as="li"
+                          key={day.iso}
+                          className={s.day}
+                          data-past={liveClock !== null && day.iso < liveClock}
+                        >
+                          <HStack
+                            className={s.marker}
+                            flexDirection={{ base: 'row', md: 'column' }}
+                            alignItems={{ base: 'baseline', md: 'flex-end' }}
+                            gap={{ base: 'md', md: 'sm' }}
+                          >
+                            <span className={s.markerNode} aria-hidden />
+                            <span className={s.markerDay}>{day.token.dayPadded}</span>
+                            <HStack
+                              as="span"
+                              flexDirection={{ base: 'row', md: 'column' }}
+                              alignItems={{ base: 'baseline', md: 'flex-end' }}
+                              gap={{ md: 'xs' }}
+                            >
+                              <Text variant="label">{day.token.month}</Text>
+                              <Text variant="label" className={s.markerWeekday}>
+                                {day.token.weekday}
+                              </Text>
+                            </HStack>
+                          </HStack>
+                          <ul className={s.events}>
+                            {day.events.map((event) => (
+                              <EventRow key={event.key} event={event} year={year} />
+                            ))}
+                          </ul>
+                        </Stack>
+                      ))}
+                    </ol>
+                  )}
+                </Stack>
               )}
-            </div>
-          )}
-        </ArchiveCollapse>
+            </Stack>
+          </ArchiveCollapse>
+        </Stack>
       </Container>
     </section>
   )

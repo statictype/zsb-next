@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const errorPage = sva({
-  slots: ['page', 'noise', 'glow', 'content', 'icon', 'title', 'message', 'actions'],
+  slots: ['page', 'noise', 'glow', 'content', 'icon', 'actions'],
   base: {
     page: {
       position: 'relative',
@@ -41,14 +41,7 @@ export const errorPage = sva({
       width: '[56px]',
       height: '[56px]',
       border: 'hairline',
-      marginBottom: 'xl',
       color: 'action',
-    },
-    title: {
-      marginBottom: 'md',
-    },
-    message: {
-      marginBottom: '2xl',
     },
     actions: { display: 'flex', gap: 'md', justifyContent: 'center', flexWrap: 'wrap' },
   },

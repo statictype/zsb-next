@@ -8,7 +8,6 @@ export const externalGallery = sva({
     'cardLeft',
     'titleHighlight',
     'description',
-    'cta',
     'ctaLabel',
     'ctaUrl',
     'cardRight',
@@ -23,7 +22,6 @@ export const externalGallery = sva({
     header: {
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      marginBottom: 'xl',
     },
     card: {
       maxWidth: 'maxWidth',
@@ -40,9 +38,6 @@ export const externalGallery = sva({
       maxWidth: 'measure',
     },
 
-    cta: {
-      paddingTop: 'lg',
-    },
     ctaLabel: {
       color: 'white',
     },

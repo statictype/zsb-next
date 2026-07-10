@@ -24,7 +24,7 @@ export const linkList = sva({
     year: {
       fontVariantNumeric: 'tabular-nums',
     },
-    body: { minWidth: '0' },
+    body: { minWidth: '0', display: 'flex', flexDirection: 'column', gap: 'xs' },
     title: {
       display: 'block',
       transitionProperty: 'colors',
@@ -34,7 +34,6 @@ export const linkList = sva({
     },
     excerpt: {
       display: 'block',
-      marginTop: 'xs',
       maxWidth: 'measure',
     },
     tags: {

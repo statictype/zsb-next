@@ -23,79 +23,81 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
       <Container>
-        <HStack
-          className={styles.header}
-          flexDirection={{ base: 'column', md: 'row' }}
-          alignItems={{ base: 'stretch', md: 'flex-end' }}
-          justify={{ md: 'space-between' }}
-          gap="md"
-        >
-          <SectionHeading flush>Archive</SectionHeading>
-          <Text variant="label">{theme}</Text>
-        </HStack>
-
-        <Card asChild ground="onDark" interactive>
-          <a
-            className={styles.card}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${linkLabel} — opens ${href} in a new tab`}
+        <Stack gap="xl">
+          <HStack
+            className={styles.header}
+            flexDirection={{ base: 'column', md: 'row' }}
+            alignItems={{ base: 'stretch', md: 'flex-end' }}
+            justify={{ md: 'space-between' }}
+            gap="md"
           >
-            <Grid gap="0" gridTemplateColumns={{ lg: '1.4fr 1fr' }}>
-              <Stack className={styles.cardLeft}>
-                <Badge>{tag}</Badge>
+            <SectionHeading flush>Archive</SectionHeading>
+            <Text variant="label">{theme}</Text>
+          </HStack>
 
-                <SectionHeading as="h3" flush>
-                  {titleParts ? (
-                    <>
-                      {titleParts.before}
-                      <span className={styles.titleHighlight}>{titleParts.match}</span>
-                      {titleParts.after}
-                    </>
-                  ) : (
-                    title
-                  )}
-                </SectionHeading>
+          <Card asChild ground="onDark" interactive>
+            <a
+              className={styles.card}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${linkLabel} — opens ${href} in a new tab`}
+            >
+              <Grid gap="0" gridTemplateColumns={{ lg: '1.4fr 1fr' }}>
+                <Stack className={styles.cardLeft}>
+                  <Badge>{tag}</Badge>
 
-                <Text as="p" variant="body" className={styles.description}>
-                  {description}
-                </Text>
+                  <SectionHeading as="h3" flush>
+                    {titleParts ? (
+                      <>
+                        {titleParts.before}
+                        <span className={styles.titleHighlight}>{titleParts.match}</span>
+                        {titleParts.after}
+                      </>
+                    ) : (
+                      title
+                    )}
+                  </SectionHeading>
 
-                <Divider mt="md" />
-                <HStack className={styles.cta} gap="md">
-                  <Text variant="label" className={styles.ctaLabel}>
-                    {linkLabel}
+                  <Text as="p" variant="body" className={styles.description}>
+                    {description}
                   </Text>
-                  <span aria-hidden>
-                    <RiArrowRightUpLine size={18} />
-                  </span>
-                  <Text variant="label" className={styles.ctaUrl}>
-                    {prettyHost(href)}
-                  </Text>
-                </HStack>
-              </Stack>
 
-              <Center
-                className={styles.cardRight}
-                display={{ base: 'none', lg: 'flex' }}
-                flexDirection="column"
-                aria-hidden
-              >
-                <Center className={styles.plate}>
-                  <Center data-part="monogram" flexDirection="column" gap="xs">
-                    <span data-part="zsb">ZSB</span>
-                    <span data-part="year">2021</span>
+                  <Divider />
+                  <HStack gap="md">
+                    <Text variant="label" className={styles.ctaLabel}>
+                      {linkLabel}
+                    </Text>
+                    <span aria-hidden>
+                      <RiArrowRightUpLine size={18} />
+                    </span>
+                    <Text variant="label" className={styles.ctaUrl}>
+                      {prettyHost(href)}
+                    </Text>
+                  </HStack>
+                </Stack>
+
+                <Center
+                  className={styles.cardRight}
+                  display={{ base: 'none', lg: 'flex' }}
+                  flexDirection="column"
+                  aria-hidden
+                >
+                  <Center className={styles.plate}>
+                    <Center data-part="monogram" flexDirection="column" gap="xs">
+                      <span data-part="zsb">ZSB</span>
+                      <span data-part="year">2021</span>
+                    </Center>
+                    <Text as="div" variant="label" data-part="meta">
+                      <span>Edition 01</span>
+                      <span>Digital</span>
+                    </Text>
                   </Center>
-                  <Text as="div" variant="label" data-part="meta">
-                    <span>Edition 01</span>
-                    <span>Digital</span>
-                  </Text>
                 </Center>
-              </Center>
-            </Grid>
-          </a>
-        </Card>
+              </Grid>
+            </a>
+          </Card>
+        </Stack>
       </Container>
     </section>
   )

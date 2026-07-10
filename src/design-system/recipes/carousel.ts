@@ -65,7 +65,7 @@ export const carousel = defineSlotRecipe({
       },
       rail: {
         itemGroup: { cursor: 'grab', touchAction: 'pan-x' },
-        control: { paddingInline: 'gutter', marginBottom: 'lg' },
+        control: { paddingInline: 'gutter' },
         item: { '& > [data-carousel-slide-content]': { height: '100%' } },
       },
     },

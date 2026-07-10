@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { Container } from 'styled-system/jsx'
+import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -102,31 +102,33 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
         {appearances.length > 0 && (
           <section className={section()}>
             <Container>
-              <SectionHeading>Press appearances</SectionHeading>
+              <Stack gap="xl">
+                <SectionHeading>Press appearances</SectionHeading>
 
-              <LinkList>
-                {appearances.map((item) => {
-                  if (!item.medium || !item.url) return null
-                  return (
-                    <LinkListItem
-                      key={item._id}
-                      year={item.year}
-                      title={item.title}
-                      href={item.url}
-                      excerpt={item.excerpt}
-                      external
-                      tags={[
-                        <Badge key="tag" tone="outline">
-                          {item.tag}
-                        </Badge>,
-                        <Badge key="medium" tone="outline">
-                          {MEDIUM_LABEL[item.medium]}
-                        </Badge>,
-                      ]}
-                    />
-                  )
-                })}
-              </LinkList>
+                <LinkList>
+                  {appearances.map((item) => {
+                    if (!item.medium || !item.url) return null
+                    return (
+                      <LinkListItem
+                        key={item._id}
+                        year={item.year}
+                        title={item.title}
+                        href={item.url}
+                        excerpt={item.excerpt}
+                        external
+                        tags={[
+                          <Badge key="tag" tone="outline">
+                            {item.tag}
+                          </Badge>,
+                          <Badge key="medium" tone="outline">
+                            {MEDIUM_LABEL[item.medium]}
+                          </Badge>,
+                        ]}
+                      />
+                    )
+                  })}
+                </LinkList>
+              </Stack>
             </Container>
           </section>
         )}
@@ -134,19 +136,21 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
         {releases.length > 0 && (
           <section className={section()}>
             <Container>
-              <SectionHeading>Press releases</SectionHeading>
+              <Stack gap="xl">
+                <SectionHeading>Press releases</SectionHeading>
 
-              <LinkList>
-                {releases.map((release) => (
-                  <LinkListItem
-                    key={release._id}
-                    year={release.publishedAt.slice(0, 4)}
-                    title={release.title}
-                    href={release.pdfUrl ?? undefined}
-                    external
-                  />
-                ))}
-              </LinkList>
+                <LinkList>
+                  {releases.map((release) => (
+                    <LinkListItem
+                      key={release._id}
+                      year={release.publishedAt.slice(0, 4)}
+                      title={release.title}
+                      href={release.pdfUrl ?? undefined}
+                      external
+                    />
+                  ))}
+                </LinkList>
+              </Stack>
             </Container>
           </section>
         )}

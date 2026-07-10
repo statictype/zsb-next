@@ -39,7 +39,7 @@ export const footer = sva({
     colTitle: {
       width: 'full',
       textAlign: 'center',
-      md: { marginBottom: 'xs', width: 'fit', textAlign: 'left' },
+      md: { width: 'fit', textAlign: 'left' },
     },
     // Footer-link typography layered onto the Button link variant.
     link: {
@@ -51,12 +51,10 @@ export const footer = sva({
       border: 'hairline',
       paddingBlock: 'sm',
       paddingInline: 'md',
-      marginTop: 'lg',
-      md: { marginLeft: 'auto', marginTop: '0' },
+      md: { marginLeft: 'auto' },
     },
 
     baseline: {
-      paddingTop: 'lg',
       textAlign: 'center',
       md: { textAlign: 'left' },
     },

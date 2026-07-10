@@ -413,6 +413,8 @@ A row is one type-bearing site; the “decls” column is the number of grep dec
 
 ## 3. Rhythm census (R1)
 
+**Status: completed** — all parent-gap rows and Divider-adjacent moves adopted (out-of-scope files skipped); 5 declarations escalated: `accordion.itemContent.paddingBottom`, `collapsible.content.paddingBottom`, `calendar.day._first.paddingTop`, `calendarFilters.filterRowLabel.md.paddingTop`, `manifesto.content.paddingTop`.
+
 | Declaration | Route | Exact owner |
 | --- | --- | --- |
 | `src/app/(site)/_components/FeaturedEvents.recipe.ts:24 featuredEvents.base.header.marginBottom marginBottom='xl'` | **parent gap** | new/existing Stack around `featuredEvents.base.header.marginBottom`; gap `'xl'` |
@@ -516,6 +518,8 @@ A row is one type-bearing site; the “decls” column is the number of grep dec
 **Reconciliation:** 81 executable declarations plus 1 comment-only hit / 82 textual recipe grep hits. `paddingBlock`, JSX margin props, and inline social-image margins are outside this census; the Divider table records the required C9 call-site moves.
 
 ## 4. Spacing ladder (R2)
+
+**Status: completed** — ladder clamp tokens adopted verbatim in `tokens.ts`; responsive-object spacing semantic tokens removed. One-off map untouched (component tokens already in place).
 
 For endpoints `a` at 375px and `b` at 1920px: slope coefficient `v=(b-a)/15.45`; intercept `i=a-3.75v`; emit `clamp(a, i px + v vw, b)`.
 

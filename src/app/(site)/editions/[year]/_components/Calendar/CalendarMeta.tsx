@@ -16,7 +16,7 @@ export function CalendarMeta({
 }) {
   const s = calendarMeta()
   return (
-    <Wrap as="p" className={s.meta} gap="md">
+    <Wrap as="p" gap="md">
       <Text variant="label" className={s.year}>
         {year}
       </Text>

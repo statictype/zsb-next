@@ -4,7 +4,6 @@ export const aboutPage = sva({
   slots: [
     'placeImage',
     'placeImageImg',
-    'carouselSection',
     'statement',
     'statementInner',
     'statementAside',
@@ -28,13 +27,6 @@ export const aboutPage = sva({
       background: 'gray.900',
     },
 
-    // Dark ground + rhythm from `section({ ground: 'dark' })` in the component;
-    // the carousel is the full-bleed band (no rail), so it spans the shell.
-    carouselSection: {
-      // Cancel the carousel controls' top margin — the section owns the rhythm.
-      '& > :first-child': { marginTop: '0' },
-    },
-
     // Curator letter — signed editorial spread on light. Ground (light) +
     // rhythm (lg) from `section()` in the component; `statementInner` is the rail.
     statement: {
@@ -42,6 +34,9 @@ export const aboutPage = sva({
     },
     statementInner: {
       layerStyle: 'sectionInner',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '2xl',
       lg: {
         display: 'grid',
         gridTemplateColumns: 'minmax(260px, 340px) minmax(0, 1fr)',
@@ -54,11 +49,9 @@ export const aboutPage = sva({
       },
     },
     statementAside: {
-      marginBottom: '2xl',
       lg: {
         position: 'sticky',
         top: '[calc(token(sizes.nav) + token(spacing.xl))]',
-        marginBottom: '0',
       },
     },
     statementByline: {
@@ -87,7 +80,6 @@ export const aboutPage = sva({
       _motionReduce: { transitionDuration: 'instant' },
     },
     authorCaption: {
-      paddingTop: 'sm',
       borderTop: 'primary',
     },
     statementLetter: { maxWidth: 'measure' },

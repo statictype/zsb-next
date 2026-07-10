@@ -9,6 +9,9 @@ export const collapsible = defineSlotRecipe({
     root: {
       width: '100%',
       borderTop: 'hairline',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'md',
     },
     trigger: {
       width: '100%',
@@ -33,7 +36,7 @@ export const collapsible = defineSlotRecipe({
         fontVariantNumeric: 'tabular-nums',
       },
     },
-    content: { paddingTop: 'md', paddingBottom: 'lg' },
+    content: { paddingBottom: 'lg' },
     indicator: {
       layerStyle: 'disclosureIndicator',
       marginLeft: 'auto',

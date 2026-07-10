@@ -26,7 +26,6 @@ export const homePage = sva({
     'upcomingInner',
     'upcomingLead',
     'upcomingEyebrow',
-    'upcomingBadge',
     'lastEdition',
     'lastEditionMedia',
   ],
@@ -78,14 +77,12 @@ export const homePage = sva({
     heroBadge: {
       order: '3',
       alignSelf: 'center',
-      marginTop: 'md',
       zIndex: '10',
       lg: {
         gridColumn: '2',
         gridRow: '1',
         justifySelf: 'end',
         alignSelf: 'start',
-        marginTop: '0',
       },
     },
 
@@ -94,7 +91,6 @@ export const homePage = sva({
     // rails, so they own the gutter.
     editionsHead: {
       layerStyle: 'sectionInner',
-      marginBottom: '2xl',
       width: 'full',
     },
     editionsSubtext: {
@@ -119,13 +115,11 @@ export const homePage = sva({
     upcomingEyebrow: {
       color: 'highlight',
     },
-    upcomingBadge: { marginTop: 'sm' },
     lastEdition: {
       alignItems: 'flex-start',
       width: 'full',
       maxWidth: 'narrowColumn',
-      paddingTop: 'lg',
-      lg: { flex: '[0 0 42%]', maxWidth: '[460px]', paddingTop: '0' },
+      lg: { flex: '[0 0 42%]', maxWidth: '[460px]' },
     },
     lastEditionMedia: { position: 'relative', width: 'full' },
   },

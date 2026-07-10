@@ -1,4 +1,4 @@
-import { Container, Text } from 'styled-system/jsx'
+import { Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Accordion } from '@/components/ui/Accordion/Accordion'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -22,21 +22,23 @@ export function VisitFaq({ entries }: VisitFaqProps) {
   return (
     <section className={section({ ground: 'dark' })} aria-labelledby="visit-faq-title">
       <Container>
-        <SectionHeading id="visit-faq-title">Good to know</SectionHeading>
-        <Accordion
-          id="visit-faq"
-          className={s.list}
-          items={entries.map((entry) => ({
-            id: entry.question,
-            trigger: entry.question,
-            triggerHeading: 'h3',
-            content: (
-              <Text as="p" variant="body" className={s.answer}>
-                {entry.answer}
-              </Text>
-            ),
-          }))}
-        />
+        <Stack gap="xl">
+          <SectionHeading id="visit-faq-title">Good to know</SectionHeading>
+          <Accordion
+            id="visit-faq"
+            className={s.list}
+            items={entries.map((entry) => ({
+              id: entry.question,
+              trigger: entry.question,
+              triggerHeading: 'h3',
+              content: (
+                <Text as="p" variant="body" className={s.answer}>
+                  {entry.answer}
+                </Text>
+              ),
+            }))}
+          />
+        </Stack>
       </Container>
     </section>
   )

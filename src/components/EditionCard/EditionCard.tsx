@@ -65,7 +65,7 @@ export function EditionCard({
         />
         <Badge className={styles.year}>{edition.year}</Badge>
       </div>
-      <Stack className={styles.content}>
+      <Stack className={styles.content} gap="sm">
         <EditionTheme
           as="h2"
           size={size === 'lg' ? 'large' : 'normal'}
@@ -74,8 +74,8 @@ export function EditionCard({
           themeHighlight={edition.themeHighlight}
           delay={themeDelay}
         />
-        <Divider mt="sm" />
-        <HStack className={styles.meta} justify="space-between">
+        <Divider />
+        <HStack justify="space-between">
           <Text variant="caption" className={styles.details}>
             {edition.venueLine ? (
               <>

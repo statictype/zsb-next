@@ -104,9 +104,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 <Text as="p" variant="body">
                   {upcoming.dateTape}
                 </Text>
-                <div className={styles.upcomingBadge}>
-                  <PartnerBadge size="upcoming" />
-                </div>
+                <PartnerBadge size="upcoming" />
               </Stack>
 
               <Divider display={{ base: 'block', lg: 'none' }} />
@@ -168,35 +166,37 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
         {featured && <FeaturedSpotlight year={featured.year} events={featured.events} />}
 
         <section id="editions" className={cx(styles.panel, section({ ground: 'dark' }))}>
-          <Stack className={styles.editionsHead}>
-            <SectionHeading flush>Editions</SectionHeading>
-            <Text as="p" variant="caption" className={styles.editionsSubtext}>
-              {editionsIntro}
-            </Text>
-          </Stack>
-          <LinkList className={styles.editionList}>
-            {list.map((edition) => {
-              if (edition.status === 'upcoming') {
+          <Stack gap="2xl">
+            <Stack className={styles.editionsHead}>
+              <SectionHeading flush>Editions</SectionHeading>
+              <Text as="p" variant="caption" className={styles.editionsSubtext}>
+                {editionsIntro}
+              </Text>
+            </Stack>
+            <LinkList className={styles.editionList}>
+              {list.map((edition) => {
+                if (edition.status === 'upcoming') {
+                  return (
+                    <LinkListItem
+                      key={edition.year}
+                      year={edition.year}
+                      title={edition.theme}
+                      tags={[<Badge key="status">Coming soon</Badge>]}
+                      disabled
+                    />
+                  )
+                }
                 return (
                   <LinkListItem
                     key={edition.year}
                     year={edition.year}
                     title={edition.theme}
-                    tags={[<Badge key="status">Coming soon</Badge>]}
-                    disabled
+                    href={`/editions/${edition.year}`}
                   />
                 )
-              }
-              return (
-                <LinkListItem
-                  key={edition.year}
-                  year={edition.year}
-                  title={edition.theme}
-                  href={`/editions/${edition.year}`}
-                />
-              )
-            })}
-          </LinkList>
+              })}
+            </LinkList>
+          </Stack>
         </section>
 
         <ArtistsBanner />

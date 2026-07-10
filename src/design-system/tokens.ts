@@ -102,8 +102,8 @@ export const tokens = {
     // `0` is a real member of the scale: overriding a larger breakpoint's
     // padding, pinning an overlay edge (`inset: '0'`), collapsing a gap.
     '0': { value: '0px' },
-    xs: { value: '4px' },
-    sm: { value: '8px' },
+    xs: { value: 'clamp(4px, 4px, 4px)' },
+    sm: { value: 'clamp(8px, 8px, 8px)' },
     hairlineOverlap: { value: 'calc({borderWidths.hairline} * -1)' },
     navLogoTopMd: { value: '24px' },
     navDesktopTop: { value: '32px' },
@@ -111,8 +111,21 @@ export const tokens = {
     // Badge's own padding — not shared by anything else in the size scale.
     badgeX: { value: '12px' },
     badgeY: { value: '6px' },
-    lg: { value: 'clamp(24px, 18.78px + 1.6304vw, 48px)' },
-    xl: { value: 'clamp(32px, 23.3px + 2.7174vw, 72px)' },
+    md: { value: 'clamp(16px, 15.03px + 0.2589vw, 20px)' },
+    lg: { value: 'clamp(24px, 18.17px + 1.5534vw, 48px)' },
+    xl: { value: 'clamp(32px, 22.29px + 2.5890vw, 72px)' },
+    '2xl': { value: 'clamp(48px, 32.47px + 4.1424vw, 112px)' },
+    '3xl': { value: 'clamp(64px, 44.58px + 5.1780vw, 144px)' },
+    '4xl': { value: 'clamp(96px, 64.93px + 8.2848vw, 224px)' },
+    // The vertical rhythm of a standard section (`--section-padding-y`).
+    sectionY: { value: 'clamp(80px, 70.29px + 2.5890vw, 120px)' },
+    // Looser section rhythm for breathing-room sections (manifesto, About).
+    sectionYLg: { value: 'clamp(100px, 80.58px + 5.1780vw, 180px)' },
+    // The horizontal section gutter. Lives on the rail (`sectionInner`),
+    // not the section shell, so full-bleed children can escape it.
+    gutter: { value: 'clamp(16px, -7.30px + 6.2136vw, 112px)' },
+    // Shared grid gutter (`--grid-gap`).
+    gridGap: { value: 'clamp(16px, -0.50px + 4.4013vw, 84px)' },
     // The archive card's image-bleeds-under-content overlap (negated at the
     // call site: `marginTop: '[calc(token(spacing.cardOverlap) * -1)]'`).
     cardOverlap: { value: '3rem' },
@@ -351,70 +364,6 @@ export const semanticTokens = {
     },
     partnerBadgeUpcoming: { value: { base: '108px', md: '144px', xl: '187.5px' } },
     partnerBadgeUpcomingIcon: { value: { base: '30px', md: '39px', xl: '54px' } },
-  },
-  spacing: {
-    md: { value: { base: '16px', md: '20px' } },
-    // The vertical rhythm of a standard section (`--section-padding-y`).
-    sectionY: { value: { base: '80px', md: '100px', '2xl': '120px' } },
-    // Looser section rhythm for breathing-room sections (manifesto, About).
-    sectionYLg: { value: { base: '100px', md: '160px', '2xl': '180px' } },
-    // Shared grid gutter (`--grid-gap`).
-    gridGap: {
-      value: {
-        base: '16px',
-        md: '32px',
-        lg: '48px',
-        xl: '60px',
-        '2xl': '66px',
-        '3xl': '72px',
-        '4xl': '84px',
-      },
-    },
-    '3xl': {
-      value: {
-        base: '64px',
-        md: '80px',
-        lg: '96px',
-        xl: '112px',
-        '2xl': '120px',
-        '3xl': '128px',
-        '4xl': '144px',
-      },
-    },
-    // The horizontal section gutter. Lives on the rail (`sectionInner`),
-    // not the section shell, so full-bleed children can escape it.
-    gutter: {
-      value: {
-        base: '16px',
-        md: '40px',
-        lg: '80px',
-        '2xl': '88px',
-        '3xl': '96px',
-        '4xl': '112px',
-      },
-    },
-    '2xl': {
-      value: {
-        base: '48px',
-        md: '56px',
-        lg: '64px',
-        xl: '80px',
-        '2xl': '88px',
-        '3xl': '96px',
-        '4xl': '112px',
-      },
-    },
-    '4xl': {
-      value: {
-        base: '96px',
-        md: '112px',
-        lg: '128px',
-        xl: '160px',
-        '2xl': '176px',
-        '3xl': '192px',
-        '4xl': '224px',
-      },
-    },
   },
 } as const
 

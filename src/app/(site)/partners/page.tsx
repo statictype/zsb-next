@@ -75,17 +75,21 @@ function PartnersShell({
 
         <section className={section({ ground: 'dark' })}>
           <Container>
-            <SectionHeading>{eventTitle}</SectionHeading>
-            <Stack className={styles.eventBody}>
-              {eventBody.map((para) => (
-                <Text as="p" variant="body" key={para}>
-                  {para}
-                </Text>
-              ))}
+            <Stack gap="2xl">
+              <Stack gap="xl">
+                <SectionHeading>{eventTitle}</SectionHeading>
+                <Stack className={styles.eventBody}>
+                  {eventBody.map((para) => (
+                    <Text as="p" variant="body" key={para}>
+                      {para}
+                    </Text>
+                  ))}
+                </Stack>
+              </Stack>
+              <figure className={styles.eventImage}>
+                <Figure image={eventImage} sizes="100vw" className={styles.eventImageImg} />
+              </figure>
             </Stack>
-            <figure className={styles.eventImage}>
-              <Figure image={eventImage} sizes="100vw" className={styles.eventImageImg} />
-            </figure>
           </Container>
         </section>
 
@@ -128,21 +132,21 @@ function PartnersShell({
             the ask entirely rather than render a CTA that goes nowhere. */}
         {contactEmail && (
           <section className={cx(section({ ground: 'dark' }), styles.partnerCta)}>
-            <Center className={styles.partnerCtaInner} flexDirection="column">
-              <div className={styles.partnerCtaBadge}>
-                <PartnerBadge />
-              </div>
-              <Text as="h2" variant="display" className={styles.partnerCtaHeading}>
-                <AccentSplit
-                  text={ctaHeading}
-                  accent={ctaHeadingAccent}
-                  className={styles.partnerCtaAccent}
-                  lineBreak
-                />
-              </Text>
-              <Text as="p" variant="body" className={styles.partnerCtaBody}>
-                {ctaBody}
-              </Text>
+            <Center className={styles.partnerCtaInner} flexDirection="column" gap="2xl">
+              <PartnerBadge />
+              <Stack gap="lg" alignItems="center">
+                <Text as="h2" variant="display">
+                  <AccentSplit
+                    text={ctaHeading}
+                    accent={ctaHeadingAccent}
+                    className={styles.partnerCtaAccent}
+                    lineBreak
+                  />
+                </Text>
+                <Text as="p" variant="body" className={styles.partnerCtaBody}>
+                  {ctaBody}
+                </Text>
+              </Stack>
               <Button asChild variant="primary" size="lg">
                 <a href={`mailto:${contactEmail}`}>
                   {ctaLabel} <RiArrowRightLine size={14} />

@@ -3,18 +3,7 @@ import { sva } from 'styled-system/css'
 /** Archive image-card chrome only; the footer rail's imageless plate lives in
  *  EditionRailCard.recipe. */
 export const editionCard = sva({
-  slots: [
-    'root',
-    'media',
-    'image',
-    'year',
-    'content',
-    'meta',
-    'details',
-    'venue',
-    'cta',
-    'ctaIcon',
-  ],
+  slots: ['root', 'media', 'image', 'year', 'content', 'details', 'venue', 'cta', 'ctaIcon'],
   base: {
     root: {
       height: 'full',
@@ -61,9 +50,6 @@ export const editionCard = sva({
       zIndex: '1',
       marginTop: '[calc(token(spacing.cardOverlap) * -1)]',
       padding: 'md',
-    },
-    meta: {
-      paddingTop: 'md',
     },
     details: {
       minWidth: '0',

@@ -9,9 +9,6 @@ import { sva } from 'styled-system/css'
  */
 export const venuesView = sva({
   slots: [
-    'header',
-    'lede',
-    'group',
     'groupTitle',
     'venues',
     'events',
@@ -22,15 +19,8 @@ export const venuesView = sva({
     'childName',
   ],
   base: {
-    header: { marginBottom: 'xl' },
-    lede: {
-      marginTop: 'md',
-    },
-
-    group: { marginTop: '2xl' },
     groupTitle: {
       color: 'highlight',
-      paddingBottom: 'sm',
     },
     venues: { width: 'full' },
 

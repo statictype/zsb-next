@@ -25,6 +25,7 @@ export const editionTheme = sva({
       position: 'relative',
       display: 'inline-flex',
       flexDirection: 'column',
+      gap: 'md',
       alignSelf: 'flex-start',
       background: 'surface',
       // em-derived so padding tracks the font size across the ladder.
@@ -68,7 +69,6 @@ export const editionTheme = sva({
     // Absolute type — card-meta scale, not the tape ladder.
     meta: {
       margin: '0',
-      marginTop: 'md',
     },
     highlight: {
       transitionProperty: 'colors',

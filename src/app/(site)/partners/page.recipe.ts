@@ -9,15 +9,12 @@ export const partnersPage = sva({
     'whySculptureImg',
     'partnerCta',
     'partnerCtaInner',
-    'partnerCtaBadge',
-    'partnerCtaHeading',
     'partnerCtaAccent',
     'partnerCtaBody',
   ],
   base: {
     eventBody: {
       maxWidth: 'measure',
-      marginBottom: '2xl',
     },
     eventImage: {
       position: 'relative',
@@ -49,14 +46,9 @@ export const partnersPage = sva({
       layerStyle: 'sectionInner',
       textAlign: 'center',
     },
-    partnerCtaBadge: { marginBottom: '2xl' },
-    partnerCtaHeading: {
-      marginBottom: 'lg',
-    },
     partnerCtaAccent: { color: 'action' },
     partnerCtaBody: {
       maxWidth: 'measure',
-      marginBottom: '2xl',
     },
   },
 })

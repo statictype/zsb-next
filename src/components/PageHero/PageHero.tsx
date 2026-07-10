@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Container, Text } from 'styled-system/jsx'
+import { Container, Stack, Text } from 'styled-system/jsx'
 import { pageHero } from './PageHero.recipe'
 
 interface PageHeroProps {
@@ -17,14 +17,16 @@ export function PageHero({ title, lead, flush }: PageHeroProps) {
   return (
     <section className={styles.hero}>
       <Container>
-        <Text as="h1" variant="display" className={styles.title}>
-          {title}
-        </Text>
-        {lead != null && (
-          <Text as="p" variant="lead" className={styles.lead}>
-            {lead}
+        <Stack gap="xl">
+          <Text as="h1" variant="display" className={styles.title}>
+            {title}
           </Text>
-        )}
+          {lead != null && (
+            <Text as="p" variant="lead" className={styles.lead}>
+              {lead}
+            </Text>
+          )}
+        </Stack>
       </Container>
     </section>
   )

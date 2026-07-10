@@ -25,34 +25,38 @@ export function VenuesView({ year, sections }: { year: number; sections: VenueTy
       <Divider />
       <section className={section()} aria-labelledby="venues-heading">
         <Container>
-          <header className={styles.header}>
-            <SectionHeading id="venues-heading" flush>
-              Where it happens
-            </SectionHeading>
-            <Text as="p" variant="caption" className={styles.lede}>
-              The {year} programme, venue by venue.
-            </Text>
-          </header>
-
-          {sections.map((section) => (
-            <div key={section.type} className={styles.group}>
-              <Text as="h3" variant="caption" className={styles.groupTitle}>
-                {section.type}
+          <Stack gap="xl">
+            <Stack as="header" gap="md">
+              <SectionHeading id="venues-heading" flush>
+                Where it happens
+              </SectionHeading>
+              <Text as="p" variant="caption">
+                The {year} programme, venue by venue.
               </Text>
-              <Divider />
-              <Accordion
-                id={`venues-${slugify(section.type)}`}
-                className={styles.venues}
-                items={section.venues.map((venue) => ({
-                  id: slugify(venue.name),
-                  trigger: venue.name,
-                  triggerHeading: 'h4',
-                  meta: `${venue.totalEvents} ${venue.totalEvents === 1 ? 'event' : 'events'}`,
-                  content: <VenueDetails venue={venue} year={year} />,
-                }))}
-              />
-            </div>
-          ))}
+            </Stack>
+
+            <Stack gap="2xl">
+              {sections.map((section) => (
+                <Stack key={section.type} gap="sm">
+                  <Text as="h3" variant="caption" className={styles.groupTitle}>
+                    {section.type}
+                  </Text>
+                  <Divider />
+                  <Accordion
+                    id={`venues-${slugify(section.type)}`}
+                    className={styles.venues}
+                    items={section.venues.map((venue) => ({
+                      id: slugify(venue.name),
+                      trigger: venue.name,
+                      triggerHeading: 'h4',
+                      meta: `${venue.totalEvents} ${venue.totalEvents === 1 ? 'event' : 'events'}`,
+                      content: <VenueDetails venue={venue} year={year} />,
+                    }))}
+                  />
+                </Stack>
+              ))}
+            </Stack>
+          </Stack>
         </Container>
       </section>
     </>

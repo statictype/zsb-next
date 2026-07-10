@@ -10,13 +10,8 @@ import { sva } from 'styled-system/css'
  * documented dark-board exceptions.
  */
 export const calendarFilters = sva({
-  slots: ['filters', 'bar', 'reset', 'filterRow', 'filterRowLabel'],
+  slots: ['bar', 'reset', 'filterRow', 'filterRowLabel'],
   base: {
-    filters: {
-      marginBottom: '2xl',
-      paddingTop: 'lg',
-    },
-
     bar: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' },
     reset: {
       color: 'gray.300',

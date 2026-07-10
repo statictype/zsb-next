@@ -23,15 +23,12 @@ export const themeArtists = sva({
       flexDirection: 'column',
       alignItems: 'flex-start',
       paddingInline: 'gutter',
-      marginBottom: '3xl',
     },
     body: {
-      marginBottom: '2xl',
       lg: { alignSelf: 'start' },
       '& p': {
         textWrap: '[pretty]',
       },
-      '& p:last-child': { marginBottom: '0' },
     },
   },
 })

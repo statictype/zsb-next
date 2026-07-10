@@ -9,11 +9,8 @@ import { sva } from 'styled-system/css'
  * dark-board exceptions.
  */
 export const calendarMeta = sva({
-  slots: ['meta', 'year', 'dot', 'accent'],
+  slots: ['year', 'dot', 'accent'],
   base: {
-    meta: {
-      marginTop: 'md',
-    },
     year: { color: 'highlight' },
     dot: { width: '[4px]', height: '[4px]', background: 'gray.700', borderRadius: 'circle' },
     accent: { color: 'highlight' },

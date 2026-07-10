@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const isdayBadge = sva({
-  slots: ['card', 'inner', 'title', 'subtitle', 'pill', 'pillDot'],
+  slots: ['card', 'inner', 'title', 'pill', 'pillDot'],
   base: {
     card: { width: 'full' },
     inner: {
@@ -14,10 +14,7 @@ export const isdayBadge = sva({
     title: {
       color: 'action',
     },
-    subtitle: {
-      marginTop: 'xs',
-    },
-    pill: { marginTop: 'md', gap: 'sm' },
+    pill: { gap: 'sm' },
     pillDot: { width: '[6px]', height: '[6px]', background: 'highlight', borderRadius: 'circle' },
   },
 })

@@ -1,11 +1,9 @@
 import { sva } from 'styled-system/css'
 
 export const visitSection = sva({
-  slots: ['section', 'content', 'cta'],
+  slots: ['section', 'content'],
   base: {
     section: { width: 'full', paddingBlock: 'sectionY' },
-
-    cta: { paddingTop: 'md' },
   },
 })
 
@@ -37,22 +35,12 @@ export const visitInfoSummary = sva({
       flexWrap: 'wrap',
       md: { flexDirection: 'row', gap: 'xl' },
     },
-    icon: { color: 'action', marginBottom: 'xs' },
+    icon: { color: 'action' },
     value: {
       // exception: bright body on dark, lead-style emphasis
       color: 'gray.200',
       // Joined multi-line values (opening hours) render their own '\n' breaks.
       whiteSpace: 'pre-line',
-    },
-  },
-})
-
-export const amenityStrip = sva({
-  slots: ['strip'],
-  base: {
-    strip: {
-      paddingTop: 'sm',
-      borderTop: 'hairline',
     },
   },
 })

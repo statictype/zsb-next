@@ -2,7 +2,7 @@
 
 import { RiAlertLine, RiRefreshLine } from '@remixicon/react'
 import Link from 'next/link'
-import { Center, Text } from 'styled-system/jsx'
+import { Center, Stack, Text } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { errorPage } from './error.recipe'
 
@@ -19,18 +19,22 @@ export default function ErrorPage({
       <div className={styles.noise} />
       <div className={styles.glow} />
 
-      <div className={styles.content}>
-        <div className={styles.icon}>
-          <RiAlertLine size={24} />
-        </div>
-        <Text as="h1" variant="title" className={styles.title}>
-          Something broke
-        </Text>
-        <Text as="p" variant="caption" className={styles.message}>
-          An unexpected error occurred.
-          <br />
-          Try again or return to the homepage.
-        </Text>
+      <Stack className={styles.content} gap="2xl" alignItems="center">
+        <Stack gap="xl" alignItems="center">
+          <div className={styles.icon}>
+            <RiAlertLine size={24} />
+          </div>
+          <Stack gap="md">
+            <Text as="h1" variant="title">
+              Something broke
+            </Text>
+            <Text as="p" variant="caption">
+              An unexpected error occurred.
+              <br />
+              Try again or return to the homepage.
+            </Text>
+          </Stack>
+        </Stack>
         <div className={styles.actions}>
           <Button variant="secondary" onClick={reset}>
             <RiRefreshLine size={14} />
@@ -40,7 +44,7 @@ export default function ErrorPage({
             <Link href="/">Return Home</Link>
           </Button>
         </div>
-      </div>
+      </Stack>
     </Center>
   )
 }

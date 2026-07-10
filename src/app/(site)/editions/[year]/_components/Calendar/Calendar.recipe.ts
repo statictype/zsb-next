@@ -16,12 +16,9 @@ export const calendar = sva({
   slots: [
     'section',
     'layout',
-    'header',
     'headerMain',
-    'counts',
     'count',
     'pastToggle',
-    'band',
     'bandLabel',
     'run',
     'runMedia',
@@ -58,13 +55,8 @@ export const calendar = sva({
       '--marker-col': 'token(spacing.4xl)',
     },
     layout: { minWidth: '0' },
-
-    header: { marginBottom: 'xl' },
     headerMain: { minWidth: '0' },
 
-    counts: {
-      marginTop: 'sm',
-    },
     count: {
       color: 'white',
       fontVariantNumeric: 'tabular-nums',
@@ -93,13 +85,8 @@ export const calendar = sva({
     },
 
     // ---- Ongoing band — exhibition card grid ----
-    band: {
-      marginBottom: '2xl',
-      paddingTop: 'lg',
-    },
     bandLabel: {
       color: 'highlight',
-      marginBottom: 'md',
     },
     run: {
       display: 'flex',
@@ -152,7 +139,6 @@ export const calendar = sva({
     },
     runFoot: {
       marginTop: 'auto',
-      paddingTop: 'sm',
     },
 
     // ---- Empty state ----
@@ -347,7 +333,6 @@ export const calendar = sva({
     // ---- Finished-edition recap ----
     recap: {
       alignItems: 'flex-start',
-      marginTop: 'sm',
     },
     recapMark: { color: 'white' },
   },

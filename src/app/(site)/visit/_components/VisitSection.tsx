@@ -11,13 +11,12 @@ import {
   RiWheelchairLine,
 } from '@remixicon/react'
 import { css } from 'styled-system/css'
-import { Container, Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
+import { Container, Divider, Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { IconKey, VisitData } from '@/types/edition'
 import {
-  amenityStrip,
   transportList as transportListRecipe,
   visitImageFrame,
   visitInfoSummary,
@@ -48,7 +47,6 @@ export function VisitSection(props: VisitData = {}) {
   const s = visitSection()
   const imageStyles = visitImageFrame()
   const infoStyles = visitInfoSummary()
-  const amenityStyles = amenityStrip()
   const transportStyles = transportListRecipe()
 
   return (
@@ -93,17 +91,20 @@ export function VisitSection(props: VisitData = {}) {
               </Stack>
             </div>
 
-            <Wrap className={amenityStyles.strip} gap="md">
-              {amenities.map((item) => {
-                const Icon = ICONS[item.icon] ?? RiMapPinLine
-                return (
-                  <HStack key={item.label}>
-                    <Icon size={16} />
-                    <Text variant="label">{item.label}</Text>
-                  </HStack>
-                )
-              })}
-            </Wrap>
+            <Stack gap="sm">
+              <Divider />
+              <Wrap gap="md">
+                {amenities.map((item) => {
+                  const Icon = ICONS[item.icon] ?? RiMapPinLine
+                  return (
+                    <HStack key={item.label}>
+                      <Icon size={16} />
+                      <Text variant="label">{item.label}</Text>
+                    </HStack>
+                  )
+                })}
+              </Wrap>
+            </Stack>
 
             <Stack gap="sm">
               {transport.map((route) => (
@@ -121,7 +122,7 @@ export function VisitSection(props: VisitData = {}) {
             </Stack>
 
             {mapsUrl ? (
-              <div className={s.cta}>
+              <div>
                 <Button asChild variant="link">
                   <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
                     <RiMapPinLine size={16} />

@@ -13,7 +13,7 @@ export default function EditionLoading() {
         <div className={cx(styles.bone, styles.heroTheme)} />
       </Center>
 
-      <div className={styles.section}>
+      <Stack className={styles.section} gap="xl">
         <div className={cx(styles.bone, styles.sectionTitle)} />
         <Stack>
           <div className={cx(styles.bone, styles.manifestoLine)} />
@@ -22,9 +22,9 @@ export default function EditionLoading() {
           <div className={cx(styles.bone, styles.manifestoLine)} />
           <div className={cx(styles.bone, styles.manifestoLine)} />
         </Stack>
-      </div>
+      </Stack>
 
-      <div className={styles.section}>
+      <Stack className={styles.section} gap="xl">
         <div className={cx(styles.bone, styles.sectionTitle)} />
         <Grid columns={{ base: 2, md: 3, lg: 4 }} gap="md">
           <div className={cx(styles.bone, styles.artistCard)} />
@@ -36,16 +36,16 @@ export default function EditionLoading() {
           <div className={cx(styles.bone, styles.artistCard)} />
           <div className={cx(styles.bone, styles.artistCard)} />
         </Grid>
-      </div>
+      </Stack>
 
-      <div className={styles.section}>
+      <Stack className={styles.section} gap="xl">
         <div className={cx(styles.bone, styles.sectionTitle)} />
         <Stack>
           <div className={cx(styles.bone, styles.venueItem)} />
           <div className={cx(styles.bone, styles.venueItem)} />
           <div className={cx(styles.bone, styles.venueItem)} />
         </Stack>
-      </div>
+      </Stack>
 
       <div className={styles.section}>
         <div className={cx(styles.bone, styles.carousel)} />

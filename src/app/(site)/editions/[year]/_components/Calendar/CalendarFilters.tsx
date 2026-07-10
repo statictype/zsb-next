@@ -69,9 +69,9 @@ export function CalendarFilters({
 }: CalendarFiltersProps) {
   const s = calendarFilters()
   return (
-    <>
+    <Stack gap="lg">
       <Divider />
-      <Stack className={s.filters} role="group" aria-label="Filter the programme">
+      <Stack role="group" aria-label="Filter the programme">
         <div className={s.bar}>
           <Button
             variant="secondary"
@@ -105,6 +105,6 @@ export function CalendarFilters({
           />
         )}
       </Stack>
-    </>
+    </Stack>
   )
 }

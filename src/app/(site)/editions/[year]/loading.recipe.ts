@@ -35,7 +35,7 @@ export const editionLoading = sva({
       paddingBlock: 'sectionY',
       paddingInline: 'gutter',
     },
-    sectionTitle: { width: '[180px]', height: '[28px]', marginBottom: 'xl' },
+    sectionTitle: { width: '[180px]', height: '[28px]' },
 
     manifestoLine: {
       height: '[16px]',

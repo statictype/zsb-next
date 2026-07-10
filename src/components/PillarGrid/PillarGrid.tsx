@@ -31,7 +31,7 @@ export function PillarGrid({
   const titleVariant = titleScale === 'responsive' ? 'title' : 'heading'
 
   return (
-    <>
+    <Stack gap="0">
       <Divider />
       <Grid columns={{ base: 1, md: 2 }} gap="0">
         {items.map((item, index) => (
@@ -55,6 +55,6 @@ export function PillarGrid({
         ))}
       </Grid>
       {rhythm === 'bookend' && <Divider />}
-    </>
+    </Stack>
   )
 }
