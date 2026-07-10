@@ -1,6 +1,6 @@
 # Design-system Phase 1 frozen catalog
 
-Date: 2026-07-10. Authority: `docs/reviews/2026-07-09-ds-grill-findings.md`. Status: **draft pending Open-questions grill; all adoption surfaces pending**.
+Date: 2026-07-10. Authority: `docs/reviews/2026-07-09-ds-grill-findings.md`. Status: **Phase 3 deletion pass completed; adoption surfaces completed or intentionally left as documented escalations**.
 
 Phase-0 gate passed: `src/design-system/tokens.ts:91` contains the six-step scale, `src/design-system/tokens.ts:507` contains the seven sealed text styles, `src/design-system/preset.ts:35` defines `Text`, and `src/design-system/preset.ts:74` owns global focus/disabled rules.
 
@@ -8,18 +8,19 @@ Phase-0 gate passed: `src/design-system/tokens.ts:91` contains the six-step scal
 
 | Order | Surface | Status |
 | ---: | --- | --- |
-| 1 | Foundations and DS primitives | pending |
-| 2 | Shared chrome and UI | pending |
-| 3 | Home | pending |
-| 4 | Editions archive and navigation | pending |
-| 5 | Edition hero and editorial content | pending |
-| 6 | Calendar core | pending |
-| 7 | Event modal | pending |
-| 8 | Credits, external gallery, and ISDAY | pending |
-| 9 | Visit and venues | pending |
-| 10 | About and partners | pending |
-| 11 | Press, privacy, and error surfaces | pending |
-| 12 | Generated social images | pending / escalated |
+| 1 | Foundations and DS primitives | completed |
+| 2 | Shared chrome and UI | completed |
+| 3 | Home | completed |
+| 4 | Editions archive and navigation | completed |
+| 5 | Edition hero and editorial content | completed |
+| 6 | Calendar core | completed |
+| 7 | Event modal | completed |
+| 8 | Credits, external gallery, and ISDAY | completed |
+| 9 | Visit and venues | completed |
+| 10 | About and partners | completed |
+| 11 | Press, privacy, and error surfaces | completed |
+| 12 | Generated social images | completed |
+| 13 | Phase 3 deletion | completed |
 
 ## 1. Type census (T3/T4)
 
