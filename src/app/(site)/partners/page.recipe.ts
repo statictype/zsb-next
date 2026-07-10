@@ -18,7 +18,6 @@ export const partnersPage = sva({
     eventBody: {
       maxWidth: 'measure',
       marginBottom: '2xl',
-      '& p': {},
     },
     eventImage: {
       position: 'relative',
@@ -52,12 +51,10 @@ export const partnersPage = sva({
     },
     partnerCtaBadge: { marginBottom: '2xl' },
     partnerCtaHeading: {
-      color: 'white',
       marginBottom: 'lg',
     },
     partnerCtaAccent: { color: 'action' },
     partnerCtaBody: {
-      color: 'body',
       maxWidth: 'measure',
       marginBottom: '2xl',
     },

@@ -9,7 +9,7 @@ import { sva } from 'styled-system/css'
  * composes the shared snappy entrance animation style on the banner element.
  */
 export const cookieBanner = sva({
-  slots: ['banner', 'inner', 'copy', 'title', 'text', 'link', 'actions'],
+  slots: ['banner', 'inner', 'copy', 'link', 'actions'],
   base: {
     banner: {
       position: 'fixed',
@@ -18,7 +18,6 @@ export const cookieBanner = sva({
       bottom: 'md',
       zIndex: 'banner',
       background: 'surface',
-      color: 'heading',
       border: 'hairline',
       boxShadow: 'modal',
       // A dialog's modal machine sets `body { pointer-events: none }` while
@@ -34,14 +33,7 @@ export const cookieBanner = sva({
       marginInline: 'auto',
     },
     copy: { minWidth: '0' },
-    title: {
-      color: 'heading',
-    },
-    text: {
-      color: 'body',
-    },
     link: {
-      color: 'heading',
       textDecoration: 'underline',
       textUnderlineOffset: '3px',
       textDecorationColor: 'action',

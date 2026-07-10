@@ -40,7 +40,6 @@ export const calendarFilters = sva({
       md: { flexDirection: 'row', alignItems: 'baseline', gap: 'md' },
     },
     filterRowLabel: {
-      color: 'muted',
       md: { flexShrink: '0', width: '[56px]', paddingTop: 'md' },
     },
   },

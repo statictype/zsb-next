@@ -108,6 +108,9 @@ two focus deviations). Report each as
    deviations only (F1).
 10. `[bracketed]` raw literals in recipes — each remaining one is listed
     with its catalog exception row, or escalated.
+11. Empty slots or `: {}` style objects in surviving recipes — zero
+    (empty variant values excepted); a hit is a Phase 2 husk, escalated
+    against its surface.
 
 Any unexpected hit: **do not fix it here** — it's a missed Phase 2 item;
 escalate with the surface it belongs to.

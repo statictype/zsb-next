@@ -7,7 +7,7 @@ import { sva } from 'styled-system/css'
  * this recipe keeps event layout, typography, poster, and floating controls.
  */
 export const eventModal = sva({
-  slots: ['controls', 'poster', 'body', 'when', 'name', 'types', 'venue', 'description', 'links'],
+  slots: ['controls', 'poster', 'body', 'when', 'types', 'venue', 'description', 'links'],
   base: {
     // Floating bar over the dialog top: Back (left) + Share (right). The bar is
     // click-through; only the buttons themselves take pointer events.
@@ -51,8 +51,6 @@ export const eventModal = sva({
     when: {
       color: 'highlight',
     },
-    name: { color: 'white' },
-
     // Layout-only overrides — the chip list + venue line are the shared
     // `TypeChips` / `VenueLine` components; these slots add the modal's rhythm.
     types: { marginTop: 'sm' },
@@ -60,7 +58,6 @@ export const eventModal = sva({
 
     description: {
       marginTop: 'md',
-      color: 'body',
       whiteSpace: 'pre-line',
     },
 

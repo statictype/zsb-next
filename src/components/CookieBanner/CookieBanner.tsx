@@ -77,10 +77,10 @@ export function CookieBanner() {
                 gap={{ base: 'md', md: 'xl' }}
               >
                 <Stack className={s.copy} gap="xs">
-                  <Text as="p" variant="heading" id="cookie-consent-title" className={s.title}>
+                  <Text as="p" variant="heading" id="cookie-consent-title">
                     We use cookies
                   </Text>
-                  <Text as="p" variant="caption" className={s.text}>
+                  <Text as="p" variant="caption">
                     We use Google Analytics to understand how visitors use this site. No ads, no
                     tracking across other sites.{' '}
                     <Link href="/privacy" className={s.link}>

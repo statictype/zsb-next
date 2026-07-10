@@ -28,7 +28,7 @@ export const visitImageFrame = sva({
 })
 
 export const visitInfoSummary = sva({
-  slots: ['row', 'icon', 'label', 'value'],
+  slots: ['row', 'icon', 'value'],
   base: {
     row: {
       display: 'flex',
@@ -38,9 +38,6 @@ export const visitInfoSummary = sva({
       md: { flexDirection: 'row', gap: 'xl' },
     },
     icon: { color: 'action', marginBottom: 'xs' },
-    label: {
-      color: 'muted',
-    },
     value: {
       // exception: bright body on dark, lead-style emphasis
       color: 'gray.200',
@@ -51,32 +48,22 @@ export const visitInfoSummary = sva({
 })
 
 export const amenityStrip = sva({
-  slots: ['strip', 'item', 'icon'],
+  slots: ['strip'],
   base: {
     strip: {
       paddingTop: 'sm',
       borderTop: 'hairline',
     },
-    item: {
-      color: 'body',
-      lg: {},
-    },
-    icon: { color: 'muted' },
   },
 })
 
 export const transportList = sva({
-  slots: ['line', 'icon', 'from', 'dot', 'walk'],
+  slots: ['icon', 'from'],
   base: {
-    line: {
-      color: 'body',
-    },
-    icon: { color: 'muted', flexShrink: '0' },
+    icon: { flexShrink: '0' },
     from: {
       // exception: bright emphasis for city name
       color: 'gray.300',
     },
-    dot: { color: 'muted' },
-    walk: { color: 'muted' },
   },
 })

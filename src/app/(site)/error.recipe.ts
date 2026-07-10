@@ -45,11 +45,9 @@ export const errorPage = sva({
       color: 'action',
     },
     title: {
-      color: 'white',
       marginBottom: 'md',
     },
     message: {
-      color: 'body',
       marginBottom: '2xl',
     },
     actions: { display: 'flex', gap: 'md', justifyContent: 'center', flexWrap: 'wrap' },

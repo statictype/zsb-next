@@ -26,7 +26,6 @@ export const manifesto = sva({
       },
     },
     title: {
-      color: 'black',
       textWrap: '[pretty]',
     },
     // The highlighted substring inside the headline (the optional accent).
@@ -44,9 +43,6 @@ export const manifesto = sva({
         background:
           '[linear-gradient(180deg, token(colors.brushStroke) 0%, token(colors.brushStroke) 72%, transparent 100%)]',
         clipPath: 'token(assets.brushStrokeY)',
-      },
-      '& p': {
-        color: 'body',
       },
     },
   },

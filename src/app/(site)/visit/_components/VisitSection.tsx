@@ -77,9 +77,7 @@ export function VisitSection(props: VisitData = {}) {
             <div className={infoStyles.row}>
               <Stack gap="xs">
                 <RiMapPinLine size={18} className={infoStyles.icon} />
-                <Text variant="label" className={infoStyles.label}>
-                  Location
-                </Text>
+                <Text variant="label">Location</Text>
                 <Text variant="caption" className={infoStyles.value}>
                   {street}
                   <br />
@@ -88,9 +86,7 @@ export function VisitSection(props: VisitData = {}) {
               </Stack>
               <Stack gap="xs">
                 <RiTimeLine size={18} className={infoStyles.icon} />
-                <Text variant="label" className={infoStyles.label}>
-                  Opening Hours
-                </Text>
+                <Text variant="label">Opening Hours</Text>
                 <Text variant="caption" className={infoStyles.value}>
                   {hoursLines.join('\n')}
                 </Text>
@@ -101,8 +97,8 @@ export function VisitSection(props: VisitData = {}) {
               {amenities.map((item) => {
                 const Icon = ICONS[item.icon] ?? RiMapPinLine
                 return (
-                  <HStack key={item.label} className={amenityStyles.item}>
-                    <Icon size={16} className={amenityStyles.icon} />
+                  <HStack key={item.label}>
+                    <Icon size={16} />
                     <Text variant="label">{item.label}</Text>
                   </HStack>
                 )
@@ -111,21 +107,15 @@ export function VisitSection(props: VisitData = {}) {
 
             <Stack gap="sm">
               {transport.map((route) => (
-                <HStack key={route.from} className={transportStyles.line} flexWrap="wrap">
+                <HStack key={route.from} flexWrap="wrap">
                   <RiBusLine size={14} className={transportStyles.icon} />
                   <Text variant="body" className={transportStyles.from}>
                     {route.from}
                   </Text>
-                  <Text variant="caption" className={transportStyles.dot}>
-                    &middot;
-                  </Text>
+                  <Text variant="caption">&middot;</Text>
                   <Text variant="caption">{route.lines}</Text>
-                  <Text variant="caption" className={transportStyles.dot}>
-                    &middot;
-                  </Text>
-                  <Text variant="caption" className={transportStyles.walk}>
-                    {route.walk}
-                  </Text>
+                  <Text variant="caption">&middot;</Text>
+                  <Text variant="caption">{route.walk}</Text>
                 </HStack>
               ))}
             </Stack>

@@ -16,7 +16,6 @@ export const artistsBanner = sva({
       display: 'block',
       width: 'full',
       background: 'surface',
-      color: 'white',
       textDecoration: 'none',
       overflow: 'hidden',
       paddingBlock: { base: 'xl', md: '2xl' },
@@ -48,7 +47,6 @@ export const artistsBanner = sva({
       marginInline: 'auto',
     },
     subtext: {
-      color: 'body',
       maxWidth: { md: 'narrowColumn' },
     },
     accent: {

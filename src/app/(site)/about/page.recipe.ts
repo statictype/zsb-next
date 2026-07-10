@@ -13,10 +13,7 @@ export const aboutPage = sva({
     'authorPhoto',
     'authorPhotoImg',
     'authorCaption',
-    'authorName',
-    'authorRole',
     'statementLetter',
-    'letterBody',
   ],
   base: {
     placeImage: {
@@ -93,17 +90,6 @@ export const aboutPage = sva({
       paddingTop: 'sm',
       borderTop: 'primary',
     },
-    authorName: {
-      color: 'heading',
-    },
-    authorRole: {
-      color: 'muted',
-    },
     statementLetter: { maxWidth: 'measure' },
-    letterBody: {
-      '& p': {
-        color: 'body',
-      },
-    },
   },
 })

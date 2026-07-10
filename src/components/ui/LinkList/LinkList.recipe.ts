@@ -22,13 +22,11 @@ export const linkList = sva({
       '&[aria-disabled=true]': { cursor: 'default', opacity: '0.45', _hover: { paddingLeft: '0' } },
     },
     year: {
-      color: 'muted',
       fontVariantNumeric: 'tabular-nums',
     },
     body: { minWidth: '0' },
     title: {
       display: 'block',
-      color: 'heading',
       transitionProperty: 'colors',
       transitionDuration: 'normal',
       transitionTimingFunction: 'quint',
@@ -38,7 +36,6 @@ export const linkList = sva({
       display: 'block',
       marginTop: 'xs',
       maxWidth: 'measure',
-      color: 'muted',
     },
     tags: {
       display: 'flex',
@@ -50,7 +47,6 @@ export const linkList = sva({
     arrow: {
       display: 'flex',
       flexShrink: '0',
-      color: 'muted',
       // Recolor and travel on separate clocks — one shorthand, two durations.
       transition:
         '[color {durations.normal} {easings.quint}, transform {durations.medium} {easings.expo}]',

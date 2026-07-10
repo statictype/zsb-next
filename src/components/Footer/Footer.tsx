@@ -37,7 +37,7 @@ function FooterLink({ href, children }: { href: string; children: ReactNode }) {
 
 function LegalLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Button asChild variant="link" className={s.legalLink}>
+    <Button asChild variant="link">
       <Link href={href}>
         <Text variant="label">{children}</Text>
       </Link>
@@ -138,13 +138,13 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
             flexDirection={{ base: 'column', md: 'row' }}
             justify={{ md: 'space-between' }}
           >
-            <Text as="div" variant="label" className={s.copyright}>
+            <Text as="div" variant="label">
               &copy; {currentYear} Bucharest Sculpture Days
             </Text>
             <Wrap gap="lg">
               <LegalLink href="/privacy">Privacy Policy</LegalLink>
               <Text variant="label">
-                <CookieSettingsButton className={s.legalLink} />
+                <CookieSettingsButton />
               </Text>
             </Wrap>
           </HStack>

@@ -19,8 +19,6 @@ export const homePage = sva({
     'heroVisual',
     'heroPanel',
     'heroTitle',
-
-    'heroLead',
     'heroBadge',
     'editionsHead',
     'editionsSubtext',
@@ -28,10 +26,8 @@ export const homePage = sva({
     'upcomingInner',
     'upcomingLead',
     'upcomingEyebrow',
-    'upcomingDates',
     'upcomingBadge',
     'lastEdition',
-    'lastEditionLabel',
     'lastEditionMedia',
   ],
   base: {
@@ -66,7 +62,6 @@ export const homePage = sva({
     heroPanel: {
       order: '1',
       position: 'relative',
-      color: 'heading',
       minWidth: '0',
       lg: { gridColumn: '1', gridRow: '1' },
     },
@@ -80,7 +75,6 @@ export const homePage = sva({
       width: '[min-content]',
     },
 
-    heroLead: { color: 'body' },
     heroBadge: {
       order: '3',
       alignSelf: 'center',
@@ -104,7 +98,6 @@ export const homePage = sva({
       width: 'full',
     },
     editionsSubtext: {
-      color: 'body',
       maxWidth: 'measure',
     },
     editionList: {
@@ -120,15 +113,11 @@ export const homePage = sva({
     },
     upcomingLead: {
       alignItems: 'flex-start',
-      color: 'heading',
       minWidth: '0',
       lg: { flex: '[1 1 0]' },
     },
     upcomingEyebrow: {
       color: 'highlight',
-    },
-    upcomingDates: {
-      color: 'body',
     },
     upcomingBadge: { marginTop: 'sm' },
     lastEdition: {
@@ -138,7 +127,6 @@ export const homePage = sva({
       paddingTop: 'lg',
       lg: { flex: '[0 0 42%]', maxWidth: '[460px]', paddingTop: '0' },
     },
-    lastEditionLabel: {},
     lastEditionMedia: { position: 'relative', width: 'full' },
   },
 })

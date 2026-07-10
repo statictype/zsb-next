@@ -14,20 +14,17 @@ export const venuesView = sva({
     'group',
     'groupTitle',
     'venues',
-    'place',
     'events',
     'event',
     'eventName',
     'eventWhen',
     'child',
     'childName',
-    'childType',
   ],
   base: {
     header: { marginBottom: 'xl' },
     lede: {
       marginTop: 'md',
-      color: 'body',
     },
 
     group: { marginTop: '2xl' },
@@ -36,9 +33,6 @@ export const venuesView = sva({
       paddingBottom: 'sm',
     },
     venues: { width: 'full' },
-    place: {
-      color: 'muted',
-    },
 
     events: { listStyle: 'none', display: 'flex', flexDirection: 'column' },
     event: {
@@ -65,6 +59,5 @@ export const venuesView = sva({
     childName: {
       color: 'gray.300',
     },
-    childType: {},
   },
 })

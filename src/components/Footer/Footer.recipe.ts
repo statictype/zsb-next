@@ -11,22 +11,10 @@ import { sva } from 'styled-system/css'
  * footer's typographic treatment layered on top.
  */
 export const footer = sva({
-  slots: [
-    'footer',
-    'inner',
-    'badge',
-    'navCol',
-    'colTitle',
-    'link',
-    'stamp',
-    'baseline',
-    'copyright',
-    'legalLink',
-  ],
+  slots: ['footer', 'inner', 'badge', 'navCol', 'colTitle', 'link', 'stamp', 'baseline'],
   base: {
     footer: {
       background: 'surface',
-      color: 'heading',
       paddingBlock: 'xl',
       md: {
         paddingBlock: '2xl',
@@ -56,7 +44,6 @@ export const footer = sva({
     // Footer-link typography layered onto the Button link variant.
     link: {
       width: 'fit',
-      color: 'body',
     },
 
     stamp: {
@@ -73,7 +60,5 @@ export const footer = sva({
       textAlign: 'center',
       md: { textAlign: 'left' },
     },
-    copyright: { color: 'muted' },
-    legalLink: {},
   },
 })

@@ -38,9 +38,7 @@ export function PillarGrid({
           <Stack as="article" key={item.title} className={styles.item}>
             {numbered ? (
               <HStack alignItems="baseline" gap="md">
-                <Text variant="heading" className={styles.number}>
-                  {pad(index + 1)}
-                </Text>
+                <Text variant="heading">{pad(index + 1)}</Text>
                 <Text as={Title} variant={titleVariant} className={styles.title}>
                   {item.title}
                 </Text>

@@ -68,7 +68,7 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
         <Text as="p" variant="label" className={s.when}>
           {eventWhenLabel(event)}
         </Text>
-        <Text as="h2" variant="title" className={s.name}>
+        <Text as="h2" variant="title">
           {event.name}
         </Text>
 

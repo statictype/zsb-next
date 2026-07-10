@@ -30,9 +30,7 @@ export function ArtistsTable({
   return (
     <div className={cx(styles.root, className)}>
       <HStack className={styles.colHeader} justify="space-between">
-        <Text variant="label" className={styles.headerLabel}>
-          {headerLabel}
-        </Text>
+        <Text variant="label">{headerLabel}</Text>
         <Text variant="label">001&mdash;{padNum(artists.length, 3)}</Text>
       </HStack>
 
@@ -43,9 +41,7 @@ export function ArtistsTable({
               <Text variant="caption" className={styles.num}>
                 {padNum(i + 1, 3)}
               </Text>
-              <Text variant="label" className={styles.name}>
-                {artist.name}
-              </Text>
+              <Text variant="label">{artist.name}</Text>
             </HStack>
           ))}
         </div>
@@ -55,9 +51,7 @@ export function ArtistsTable({
               <Text variant="caption" className={styles.num}>
                 {padNum(mid + i + 1, 3)}
               </Text>
-              <Text variant="label" className={styles.name}>
-                {artist.name}
-              </Text>
+              <Text variant="label">{artist.name}</Text>
             </HStack>
           ))}
         </div>

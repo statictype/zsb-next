@@ -71,9 +71,7 @@ function VenueDetails({ venue, year }: { venue: TopVenue; year: number }) {
             <Text variant="caption" className={styles.childName}>
               {child.name}
             </Text>
-            <Text variant="label" className={styles.childType}>
-              {child.type}
-            </Text>
+            <Text variant="label">{child.type}</Text>
           </Wrap>
           <VenuePlace venue={child} />
           <EventList events={child.events} year={year} />
@@ -88,7 +86,7 @@ function VenueDetails({ venue, year }: { venue: TopVenue; year: number }) {
 function VenuePlace({ venue }: { venue: VenueNode }) {
   if (!venue.address && !venue.mapUrl) return null
   return (
-    <Wrap as="p" className={styles.place} gap="md">
+    <Wrap as="p" gap="md">
       {venue.address && <Text variant="caption">{venue.address}</Text>}
       {venue.mapUrl && (
         <Button asChild variant="link">

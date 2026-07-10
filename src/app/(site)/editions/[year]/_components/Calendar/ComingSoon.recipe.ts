@@ -9,12 +9,10 @@ export const comingSoon = sva({
       paddingTop: 'xl',
     },
     headline: {
-      color: 'white',
       maxWidth: '[18ch]',
     },
     body: {
       marginTop: 'md',
-      color: 'body',
       maxWidth: 'measure',
     },
   },

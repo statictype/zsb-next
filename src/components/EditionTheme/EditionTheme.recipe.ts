@@ -26,7 +26,6 @@ export const editionTheme = sva({
       display: 'inline-flex',
       flexDirection: 'column',
       alignSelf: 'flex-start',
-      color: 'heading',
       background: 'surface',
       // em-derived so padding tracks the font size across the ladder.
       padding: '[0.45em 0.6em]',
@@ -70,7 +69,6 @@ export const editionTheme = sva({
     meta: {
       margin: '0',
       marginTop: 'md',
-      color: 'body',
     },
     highlight: {
       transitionProperty: 'colors',
@@ -113,7 +111,7 @@ export const editionTheme = sva({
       // Static: the accent color at rest (see `accent`).
       false: {},
       // Interactive: white at rest, accent on the card/link hover.
-      true: { highlight: { color: '[inherit]', 'a:hover &': { color: 'action' } } },
+      true: { highlight: { 'a:hover &': { color: 'action' } } },
     },
     // Rest color of a static highlight: chartreuse marks active/current
     // elements (rail current card), pink is decorative accent (edition hero).

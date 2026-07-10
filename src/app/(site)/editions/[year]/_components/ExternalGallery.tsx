@@ -31,9 +31,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
           gap="md"
         >
           <SectionHeading flush>Archive</SectionHeading>
-          <Text variant="label" className={styles.count}>
-            {theme}
-          </Text>
+          <Text variant="label">{theme}</Text>
         </HStack>
 
         <Card asChild ground="onDark" interactive>

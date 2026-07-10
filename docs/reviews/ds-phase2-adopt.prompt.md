@@ -74,14 +74,22 @@ as no-op.
    don't substitute a different restructure.
 5. **Motion** — transitions snap to the two-speed rule per the motion
    census rows (`fast`/`normal` · `quint`).
-6. **Recipe dissolution** — per the dissolution map: delete slots that
+6. **Empty-husk cleanup** — unconditional, not gated on the dissolution
+   map: a slot emptied by the steps above dies completely — remove it
+   from the recipe's `slots` array and `base`, and drop every
+   `className` reference to it in consumer JSX. Emptied nested style
+   objects (`md: {}`, `'& p': {}`) die too. A recipe left with no
+   styled slots is deleted with its imports. Empty **variant values**
+   (`sm: {}`, `false: {}`) are API surface — leave them; only a
+   dissolution row retires a variant.
+7. **Recipe dissolution** — per the dissolution map: delete slots that
    emptied; if the recipe dissolves entirely, delete the file and its
    imports; if it survives as skin, convert sva → colocated
    `defineRecipe`/`defineSlotRecipe` with the map's `jsx` names, register
    it in the preset index the catalog designed, and convert every
    consumer to styled JSX form (G2). After any recipe/preset change:
    `pnpm panda codegen` before type-checking.
-7. **Ride-along** — comment strip (hard rule 4).
+8. **Ride-along** — comment strip (hard rule 4).
 
 ## Mechanics footguns (silent failures)
 
@@ -103,8 +111,10 @@ as no-op.
 `css({` in `.tsx`, no `className={` carrying a recipe/slot, no
 `fontSize|fontFamily|fontWeight|letterSpacing|textTransform` in recipes,
 no `margin(Top|Bottom)` in recipes, no legacy textStyle names, no
-`calc(` — each surviving hit must be a catalog-sanctioned exception
-(art/skin rows); list any such survivor next to its row id.
+`calc(`, no empty slots or `: {}` style objects in touched recipes
+(empty variant values excepted) — each surviving hit must be a
+catalog-sanctioned exception (art/skin rows); list any such survivor
+next to its row id.
 5. `pnpm format`.
 6. Update the catalog's **adoption-status table** row for this surface to
    `completed` (the one edit allowed outside the surface's files besides

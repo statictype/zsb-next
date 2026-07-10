@@ -59,7 +59,6 @@ export const navigation = sva({
     navLink: {
       display: 'block',
       textDecoration: 'none',
-      color: 'muted',
       border: 'hairline',
       transitionProperty: 'colors',
       transitionDuration: 'fast',

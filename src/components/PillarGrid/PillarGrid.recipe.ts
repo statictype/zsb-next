@@ -1,16 +1,12 @@
 import { sva } from 'styled-system/css'
 
 export const pillarGrid = sva({
-  slots: ['item', 'number', 'title', 'body'],
+  slots: ['item', 'title', 'body'],
   base: {
     item: {
       paddingBlock: 'xl',
       borderBottom: 'hairline',
     },
-    number: {
-      color: 'muted',
-    },
-    title: {},
     body: {
       maxWidth: 'measure',
     },

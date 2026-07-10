@@ -21,12 +21,8 @@ export function Credits({ credits }: CreditsProps) {
         <Grid columns={{ base: 1, md: 2, xl: 4 }} columnGap="lg" rowGap={{ base: 'lg', md: 'xl' }}>
           {primary.map((credit) => (
             <Stack key={credit.label} gap="sm">
-              <Text variant="label" className={s.label}>
-                {credit.label}
-              </Text>
-              <Text variant="heading" className={s.name}>
-                {credit.value}
-              </Text>
+              <Text variant="label">{credit.label}</Text>
+              <Text variant="heading">{credit.value}</Text>
               {credit.detail && (
                 <Text variant="caption" className={s.detail}>
                   {credit.detail}
@@ -75,9 +71,7 @@ export function Credits({ credits }: CreditsProps) {
         <Grid className={s.secondary} columns={{ base: 1, md: 4 }} gap="lg">
           {secondary.map((credit) => (
             <Stack key={credit.label} className={s.inline} gap="sm">
-              <Text variant="label" className={s.inlineLabel}>
-                {credit.label}
-              </Text>
+              <Text variant="label">{credit.label}</Text>
               <Text variant="caption" className={s.inlineNames}>
                 {credit.value}
               </Text>

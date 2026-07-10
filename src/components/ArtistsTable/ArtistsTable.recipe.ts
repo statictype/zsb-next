@@ -1,19 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const artistsTable = sva({
-  slots: [
-    'root',
-    'colHeader',
-    'headerLabel',
-    'body',
-    'column',
-    'entry',
-    'num',
-    'name',
-    'footer',
-    'metaItem',
-    'barcode',
-  ],
+  slots: ['root', 'colHeader', 'body', 'column', 'entry', 'num', 'footer', 'metaItem', 'barcode'],
   base: {
     root: { width: 'full' },
 
@@ -22,9 +10,7 @@ export const artistsTable = sva({
       paddingInline: 'md',
       background: 'highlight',
       color: 'black',
-      '& span:last-child': {},
     },
-    headerLabel: {},
 
     body: {
       width: 'full',
@@ -47,19 +33,13 @@ export const artistsTable = sva({
       '&:last-child': { borderBottomWidth: '0' },
     },
     num: {
-      color: 'muted',
       fontVariantNumeric: 'tabular-nums',
       minWidth: '[28px]',
       md: { minWidth: '[32px]' },
     },
-    name: {
-      color: 'body',
-    },
-
     footer: {
       padding: 'sm',
       background: 'highlight',
-      color: 'black',
       md: { paddingInline: 'md' },
     },
     metaItem: {

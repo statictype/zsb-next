@@ -4,7 +4,6 @@ export const externalGallery = sva({
   slots: [
     'section',
     'header',
-    'count',
     'card',
     'cardLeft',
     'titleHighlight',
@@ -26,10 +25,6 @@ export const externalGallery = sva({
       marginInline: 'auto',
       marginBottom: 'xl',
     },
-    count: {
-      color: 'muted',
-    },
-
     card: {
       maxWidth: 'maxWidth',
       marginInline: 'auto',
@@ -42,7 +37,6 @@ export const externalGallery = sva({
     },
     titleHighlight: { color: 'highlight' },
     description: {
-      color: 'body',
       maxWidth: 'measure',
     },
 

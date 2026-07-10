@@ -15,7 +15,6 @@ export const isdayBadge = sva({
       color: 'action',
     },
     subtitle: {
-      color: 'body',
       marginTop: 'xs',
     },
     pill: { marginTop: 'md', gap: 'sm' },

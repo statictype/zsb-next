@@ -9,14 +9,12 @@ import { sva } from 'styled-system/css'
  * documented dark-board exceptions.
  */
 export const venueLine = sva({
-  slots: ['venue', 'name', 'parent'],
+  slots: ['name', 'parent'],
   base: {
-    venue: {},
     name: {
       color: 'gray.300',
     },
     parent: {
-      color: 'muted',
       _before: { content: '"↳ "' },
     },
   },

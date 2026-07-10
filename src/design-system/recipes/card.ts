@@ -1,5 +1,5 @@
 import { defineRecipe } from '@pandacss/dev'
-import { groundLightVars } from './ground'
+import { groundDarkVars, groundLightVars } from './ground'
 
 /**
  * Card — the one unified card (ZSB-71).
@@ -20,13 +20,17 @@ export const card = defineRecipe({
     flexDirection: 'column',
     overflow: 'hidden',
     isolation: 'isolate',
-    color: 'inherit',
+    color: 'body',
     textDecoration: 'none',
   },
   variants: {
     /** The ground the hairline sits on — the same box language on either. */
     ground: {
-      onDark: { background: 'transparent', border: 'hairline' },
+      onDark: {
+        background: 'transparent',
+        border: 'hairline',
+        ...groundDarkVars,
+      },
       onLight: {
         background: 'surface',
         border: 'hairline',

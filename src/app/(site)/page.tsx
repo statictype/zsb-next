@@ -101,7 +101,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 <Text as="h1" variant="display" className={styles.heroTitle}>
                   <AccentSplit text={upcoming.theme} accent={upcoming.themeHighlight} lineBreak />
                 </Text>
-                <Text as="p" variant="body" className={styles.upcomingDates}>
+                <Text as="p" variant="body">
                   {upcoming.dateTape}
                 </Text>
                 <div className={styles.upcomingBadge}>
@@ -111,7 +111,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
 
               <Divider display={{ base: 'block', lg: 'none' }} />
               <Stack as="aside" className={styles.lastEdition}>
-                <Text as="p" variant="label" className={styles.lastEditionLabel}>
+                <Text as="p" variant="label">
                   From the last edition
                 </Text>
                 <div className={styles.lastEditionMedia}>
@@ -141,7 +141,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                   <AccentSplit text={title} accent={accent} lineBreak />
                 </Text>
                 <Stack gap="lg">
-                  <Text as="p" variant="lead" className={styles.heroLead}>
+                  <Text as="p" variant="lead">
                     {lead}
                   </Text>
                   {ctaLabel && ctaYear && (

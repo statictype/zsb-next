@@ -196,6 +196,8 @@ A row is one type-bearing site; the “decls” column is the number of grep dec
 
 ## 2. Ink census and ground mechanics
 
+**Status: completed** — ground mechanics implemented; all cascade rows adopted (out-of-scope files skipped).
+
 ### Ground implementation for Phase 2 step 0
 
 1. Expand `ground.ts` into dark/light variable maps. Dark supplies `surface=black`, `heading=white`, `body=gray.400`, `muted=gray.600`, `divider=gray.900`; light supplies `surface=white`, `heading=black`, `body=gray.700`, `muted=gray.600`, `divider=gray.200`. Keep the existing light `brushStroke=action` and hairline rebinding.

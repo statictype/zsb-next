@@ -55,7 +55,13 @@ export const designSystemPreset = definePreset({
           'textStyle',
         ],
         transform({ variant, ...rest }) {
-          return { textStyle: variant, ...rest }
+          const ink =
+            variant === 'display' || variant === 'title' || variant === 'heading'
+              ? 'heading'
+              : variant === 'label'
+                ? 'muted'
+                : 'body'
+          return { textStyle: variant, color: ink, ...rest }
         },
       }),
     },
@@ -74,6 +80,7 @@ export const designSystemPreset = definePreset({
     },
   },
   globalCss: {
+    body: { textStyle: 'body', color: 'body', background: 'surface' },
     ':focus-visible': { outline: 'focus', outlineOffset: 'token(spacing.xs)' },
     ':disabled, [aria-disabled=true]': { opacity: 0.5, cursor: 'not-allowed' },
   },

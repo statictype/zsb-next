@@ -34,7 +34,6 @@ export const carousel = defineSlotRecipe({
       justifyContent: 'center',
       border: 0,
       background: 'transparent',
-      color: 'heading',
       cursor: 'pointer',
       _hover: { color: 'action' },
     },

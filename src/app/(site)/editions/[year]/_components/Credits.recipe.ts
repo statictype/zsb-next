@@ -1,13 +1,7 @@
 import { sva } from 'styled-system/css'
 
-const labelBase = {
-  color: 'muted',
-} as const
-
 export const credits = sva({
   slots: [
-    'label',
-    'name',
     'detail',
     'logo',
     'badge',
@@ -17,17 +11,10 @@ export const credits = sva({
     'partnersList',
     'secondary',
     'inline',
-    'inlineLabel',
     'inlineNames',
   ],
   base: {
-    label: labelBase,
-
-    name: {
-      color: 'heading',
-    },
     detail: {
-      color: 'muted',
       // Authored multi-line strings render their own '\n' breaks.
       whiteSpace: 'pre-line',
     },
@@ -57,9 +44,8 @@ export const credits = sva({
     partnersBlock: {
       md: { gridColumn: 'span 2' },
     },
-    partnersLabel: { ...labelBase, color: 'action' },
+    partnersLabel: { color: 'action' },
     partnersList: {
-      color: 'body',
       '& span': {
         display: 'inline-flex',
         alignItems: 'center',
@@ -81,9 +67,7 @@ export const credits = sva({
       md: { gridColumn: 'span 2' },
       lg: { gridColumn: 'span 1' },
     },
-    inlineLabel: labelBase,
     inlineNames: {
-      color: 'muted',
       // Authored multi-line strings render their own '\n' breaks.
       whiteSpace: 'pre-line',
     },

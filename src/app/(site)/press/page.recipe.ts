@@ -4,6 +4,6 @@ import { sva } from 'styled-system/css'
 export const pressPage = sva({
   slots: ['page'],
   base: {
-    page: { background: 'surface', color: 'heading' },
+    page: { background: 'surface' },
   },
 })

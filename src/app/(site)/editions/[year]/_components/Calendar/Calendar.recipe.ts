@@ -26,9 +26,7 @@ export const calendar = sva({
     'run',
     'runMedia',
     'runContent',
-    'runName',
     'runFoot',
-    'runRange',
     'empty',
     'emptyText',
     'emptyClear',
@@ -37,20 +35,16 @@ export const calendar = sva({
     'marker',
     'markerNode',
     'markerDay',
-    'markerMeta',
-    'markerMonth',
     'markerWeekday',
     'events',
     'event',
     'eventBody',
     'eventTime',
-    'eventName',
     'nameButton',
     'eventDesc',
     'poster',
     'posterTag',
     'recap',
-    'recapLine',
     'recapMark',
   ],
   base: {
@@ -156,13 +150,9 @@ export const calendar = sva({
       flex: '1',
       minWidth: '0',
     },
-    runName: {},
     runFoot: {
       marginTop: 'auto',
       paddingTop: 'sm',
-    },
-    runRange: {
-      color: 'muted',
     },
 
     // ---- Empty state ----
@@ -250,8 +240,6 @@ export const calendar = sva({
       color: 'white',
       fontVariantNumeric: 'tabular-nums',
     },
-    markerMeta: {},
-    markerMonth: { color: 'muted' },
     markerWeekday: { color: 'action' },
     events: {
       listStyle: 'none',
@@ -281,11 +269,9 @@ export const calendar = sva({
       color: 'white',
       fontVariantNumeric: 'tabular-nums',
     },
-    eventName: {},
     // The name link; its ::after stretches the hit target over the whole row.
     nameButton: {
       font: '[inherit]',
-      color: '[inherit]',
       textAlign: 'left',
       textDecoration: 'none',
       background: 'transparent',
@@ -300,7 +286,6 @@ export const calendar = sva({
       _motionReduce: { transitionDuration: 'instant' },
     },
     eventDesc: {
-      color: 'body',
       maxWidth: 'measure',
       // Two-line teaser; Panda's lineClamp expands the full -webkit-box clamp.
       lineClamp: '2',
@@ -364,7 +349,6 @@ export const calendar = sva({
       alignItems: 'flex-start',
       marginTop: 'sm',
     },
-    recapLine: { color: 'body' },
     recapMark: { color: 'white' },
   },
 })

@@ -4,7 +4,7 @@ import { sva } from 'styled-system/css'
 export const editionsNav = sva({
   slots: ['band', 'card'],
   base: {
-    band: { background: 'surface', color: 'heading', paddingBlock: 'xl', overflow: 'clip' },
+    band: { background: 'surface', paddingBlock: 'xl', overflow: 'clip' },
     card: {
       width: 'fit',
       border: 'none',

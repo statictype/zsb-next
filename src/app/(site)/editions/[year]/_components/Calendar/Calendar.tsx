@@ -99,7 +99,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
               // archive agenda collapses below (ZSB-45). Applies to every
               // finished edition, judged client-side like the rest of the board.
               <Stack className={s.recap}>
-                <Text as="p" variant="body" className={s.recapLine}>
+                <Text as="p" variant="body">
                   That was{' '}
                   <Text as="strong" variant="body" className={s.recapMark}>
                     ZSB {year}
@@ -187,7 +187,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                             )}
                             <Stack className={s.runContent} gap="sm">
                               <TypeChips types={run.types} />
-                              <Text as="h4" variant="heading" className={s.runName}>
+                              <Text as="h4" variant="heading">
                                 <Link
                                   className={s.nameButton}
                                   href={`/editions/${year}/events/${run.slug}`}
@@ -198,11 +198,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                               </Text>
                               <VenueLine venue={run.venue} />
                               <Wrap className={s.runFoot} gap="md">
-                                {runRange && (
-                                  <Text variant="label" className={s.runRange}>
-                                    {runRange}
-                                  </Text>
-                                )}
+                                {runRange && <Text variant="label">{runRange}</Text>}
                               </Wrap>
                             </Stack>
                           </li>
@@ -232,14 +228,11 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                         <span className={s.markerDay}>{day.token.dayPadded}</span>
                         <HStack
                           as="span"
-                          className={s.markerMeta}
                           flexDirection={{ base: 'row', md: 'column' }}
                           alignItems={{ base: 'baseline', md: 'flex-end' }}
                           gap={{ md: 'xs' }}
                         >
-                          <Text variant="label" className={s.markerMonth}>
-                            {day.token.month}
-                          </Text>
+                          <Text variant="label">{day.token.month}</Text>
                           <Text variant="label" className={s.markerWeekday}>
                             {day.token.weekday}
                           </Text>
@@ -307,7 +300,7 @@ function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
         {/* The name links to the event's route (the modal opens over the
             edition); its stretched overlay makes the whole row the hit target
             (see `.nameButton` in the CSS). */}
-        <Text as="h4" variant="heading" className={s.eventName}>
+        <Text as="h4" variant="heading">
           <Link
             className={s.nameButton}
             href={`/editions/${year}/events/${event.slug}`}

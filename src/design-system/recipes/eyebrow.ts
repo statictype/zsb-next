@@ -14,7 +14,6 @@ export const eyebrow = defineRecipe({
     display: 'flex',
     alignItems: 'center',
     gap: '16px',
-    color: 'muted',
   },
   variants: {
     rule: {

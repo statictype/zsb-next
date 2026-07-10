@@ -103,18 +103,14 @@ function AboutShell({ view }: { view: AboutView }) {
                 </div>
               </div>
               <Stack as="figcaption" gap="xs" className={styles.authorCaption}>
-                <Text variant="heading" className={styles.authorName}>
-                  {curatorName}
-                </Text>
-                <Text variant="label" className={styles.authorRole}>
-                  {curatorRole}
-                </Text>
+                <Text variant="heading">{curatorName}</Text>
+                <Text variant="label">{curatorRole}</Text>
               </Stack>
             </Stack>
           </aside>
 
           <div className={styles.statementLetter}>
-            <Stack className={styles.letterBody}>
+            <Stack>
               {curatorLetter.map((para) => (
                 <Text as="p" variant="lead" key={para}>
                   {para}

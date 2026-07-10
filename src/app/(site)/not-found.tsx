@@ -58,12 +58,10 @@ const divider = css({
 })
 
 const title = css({
-  color: 'white',
   marginBottom: 'md',
 })
 
 const subtitle = css({
-  color: 'body',
   marginBottom: '2xl',
 })
 
