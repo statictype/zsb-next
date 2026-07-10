@@ -28,8 +28,8 @@ export const mediaKitStrip = sva({
       objectFit: 'cover',
       background: 'gray.900',
       transitionProperty: '[transform]',
-      transitionDuration: 'entrance',
-      transitionTimingFunction: 'expo',
+      transitionDuration: 'normal',
+      transitionTimingFunction: 'quint',
     },
   },
 })

@@ -40,7 +40,7 @@ export const collapsible = defineSlotRecipe({
     indicator: {
       layerStyle: 'disclosureIndicator',
       marginLeft: 'auto',
-      transitionDuration: 'normal',
+      transitionDuration: 'fast',
     },
   },
 })

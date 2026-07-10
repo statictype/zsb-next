@@ -48,7 +48,7 @@ export const featuredEvents = sva({
         objectFit: 'cover',
         filter: '[grayscale(100%) contrast(1.1)]',
         transitionProperty: '[filter, transform]',
-        transitionDuration: 'medium',
+        transitionDuration: 'normal',
         transitionTimingFunction: 'quint',
       },
     },

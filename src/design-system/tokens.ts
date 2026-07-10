@@ -832,9 +832,8 @@ export const layerStyles = {
     value: { content: '""', width: 'lg', height: '2px', background: 'current', flexShrink: '0' },
   },
   // The disclosure chevron shared by Accordion/Collapsible: flex + rotate on
-  // `data-state=open` + motion-reduce kill. `transitionDuration` (and
-  // color/flexShrink/marginLeft) stay call-site deltas — the two consumers
-  // deliberately run on different clocks.
+  // `data-state=open` + motion-reduce kill. `transitionDuration` and layout
+  // deltas stay at the call sites.
   disclosureIndicator: {
     value: {
       display: 'inline-flex',

@@ -97,7 +97,7 @@ export const calendar = sva({
         content: '""',
         layerStyle: 'gradientBorder',
         padding: '[token(borderWidths.hairlineThin)]',
-        transitionDuration: 'normal',
+        transitionDuration: 'fast',
       },
       _hover: {
         '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
@@ -109,7 +109,7 @@ export const calendar = sva({
       '&[data-past=true]': {
         opacity: 0.42,
         transitionProperty: '[opacity]',
-        transitionDuration: 'normal',
+        transitionDuration: 'fast',
         transitionTimingFunction: 'quint',
       },
       '&[data-past=true]:hover': { opacity: 1 },
@@ -126,7 +126,7 @@ export const calendar = sva({
         objectFit: 'cover',
         filter: '[token(assets.developRest)]',
         transitionProperty: '[filter, transform]',
-        transitionDuration: 'medium',
+        transitionDuration: 'normal',
         transitionTimingFunction: 'quint',
       },
     },
@@ -185,7 +185,7 @@ export const calendar = sva({
       '&[data-past=true]': {
         opacity: 0.42,
         transitionProperty: '[opacity]',
-        transitionDuration: 'normal',
+        transitionDuration: 'fast',
         transitionTimingFunction: 'quint',
       },
       '&[data-past=true]:hover': { opacity: 1 },
@@ -296,7 +296,7 @@ export const calendar = sva({
         objectFit: 'cover',
         filter: '[grayscale(100%) contrast(1.1)]',
         transitionProperty: '[filter, transform]',
-        transitionDuration: 'medium',
+        transitionDuration: 'normal',
         transitionTimingFunction: 'quint',
       },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
@@ -308,9 +308,8 @@ export const calendar = sva({
         maxWidth: '[none]',
         opacity: 0,
         transform: 'translateX(20px)',
-        transitionProperty: '[opacity, transform]',
-        transitionDuration: 'normal',
-        transitionTimingFunction: 'expo',
+        transition:
+          '[opacity {durations.fast} {easings.quint}, transform {durations.normal} {easings.quint}]',
         pointerEvents: 'none',
         zIndex: '3',
         '[data-poster=true]:hover &': { opacity: 1, transform: 'translateX(0)' },
@@ -318,7 +317,7 @@ export const calendar = sva({
       _motionReduce: {
         '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
           transitionProperty: '[opacity]',
-          transitionDuration: 'normal',
+          transitionDuration: 'fast',
           transitionTimingFunction: 'quint',
           transform: 'none',
           '[data-poster=true]:hover &': { transform: 'none' },

@@ -34,9 +34,9 @@ export const editionCard = sva({
       background: 'gray.900',
       filter: '[token(assets.developRest)]',
       transform: 'scale(1.01)',
-      // Develop and zoom on separate clocks — one shorthand, two durations.
-      transition:
-        '[filter {durations.reveal} {easings.expo}, transform {durations.entrance} {easings.expo}]',
+      transitionProperty: '[filter, transform]',
+      transitionDuration: 'normal',
+      transitionTimingFunction: 'quint',
       'a:hover &, a:focus-visible &': {
         filter: '[token(assets.developHover)]',
         transform: 'scale(1.05)',
@@ -65,14 +65,14 @@ export const editionCard = sva({
       flexShrink: '0',
       color: 'heading',
       transitionProperty: 'colors',
-      transitionDuration: 'normal',
-      transitionTimingFunction: 'expo',
+      transitionDuration: 'fast',
+      transitionTimingFunction: 'quint',
       'a:hover &': { color: 'action' },
     },
     ctaIcon: {
       transitionProperty: '[transform]',
       transitionDuration: 'normal',
-      transitionTimingFunction: 'expo',
+      transitionTimingFunction: 'quint',
       'a:hover &': { transform: 'translate(2px, -2px)' },
     },
   },

@@ -75,8 +75,8 @@ export const aboutPage = sva({
       background: 'gray.200',
       filter: '[grayscale(100%) contrast(1.02)]',
       transitionProperty: '[filter, transform]',
-      transitionDuration: 'slow',
-      transitionTimingFunction: 'expo',
+      transitionDuration: 'normal',
+      transitionTimingFunction: 'quint',
       _motionReduce: { transitionDuration: 'instant' },
     },
     authorCaption: {

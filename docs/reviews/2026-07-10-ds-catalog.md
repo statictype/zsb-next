@@ -576,6 +576,8 @@ Raw constants audited independently: `220px` becomes `sizes.calendarPoster`; the
 
 ## 6. Motion census (M1)
 
+**Status: completed for decided rows** — all non-open-question M1 rows were adopted; the PartnerBadge elastic rows remain escalated unchanged pending Open question 6.
+
 | Site | Class | Target | Delta |
 | --- | --- | --- | --- |
 | `src/app/(site)/_components/ArtistsBanner.recipe.ts:25 artistsBanner.base.root` (1 decls) | **movement** | `normal · quint` | from `transition='[all {durations.slow} {easings.expo}]'` |
@@ -636,7 +638,7 @@ Raw constants audited independently: `220px` becomes `sizes.calendarPoster`; the
 | `src/design-system/recipes/checkbox.ts:62 checkbox.base.control._motionReduce` (1 decls) | **reduced-motion** | keep `instant`/`none` kill switch | none |
 | `src/design-system/recipes/collapsible.ts:46 collapsible.base.indicator` (1 decls) | **paint** | `fast · quint` | from `transitionDuration='normal'` |
 
-**Reconciliation:** 119 cataloged declarations / 119 recipe grep declarations, across 57 sites. All `medium` (400ms), `slow` (500ms), `reveal` (600ms), `entrance` (900ms), `expo`, `ease`, and elastic transitions change as stated; `instant` remains 0s.
+**Reconciliation:** 119 cataloged declarations / 119 recipe grep declarations, across 57 sites. 115 decided declarations were adopted or verified no-op; 4 PartnerBadge elastic declarations remain escalated unchanged. All decided `medium` (400ms), `slow` (500ms), `reveal` (600ms), `entrance` (900ms), `expo`, and `ease` transitions changed as stated; `instant` remains 0s.
 
 ## 7. Recipe dissolution map (P1/G2)
 

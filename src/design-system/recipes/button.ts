@@ -20,7 +20,7 @@ export const button = defineRecipe({
     cursor: 'pointer',
     border: 'none',
     transition:
-      'color {durations.normal} ease, background-color {durations.normal} ease, border-color {durations.normal} ease, filter {durations.normal} ease',
+      'color {durations.fast} {easings.quint}, background-color {durations.fast} {easings.quint}, border-color {durations.fast} {easings.quint}, filter {durations.fast} {easings.quint}',
   },
   variants: {
     variant: {
@@ -50,7 +50,8 @@ export const button = defineRecipe({
         background: 'transparent',
         borderWidth: '0',
         color: 'heading',
-        transition: 'color {durations.normal} ease, transform {durations.normal} {easings.expo}',
+        transition:
+          'color {durations.fast} {easings.quint}, transform {durations.normal} {easings.quint}',
         ...colorShift,
         _hover: { _enabled: { color: 'action', transform: 'translateY(-2px)' } },
       },

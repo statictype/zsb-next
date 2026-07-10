@@ -23,7 +23,7 @@ export const credits = sva({
       filter: '[grayscale(100%)]',
       opacity: 0.8,
       transitionProperty: '[all]',
-      transitionDuration: 'medium',
+      transitionDuration: 'normal',
       transitionTimingFunction: 'quint',
       md: { height: '[60px]' },
       _hover: { filter: '[grayscale(0%)]', opacity: 1 },

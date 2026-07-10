@@ -73,7 +73,7 @@ export const navigation = sva({
         position: 'relative',
         transitionProperty: 'common',
         transitionDuration: 'normal',
-        transitionTimingFunction: 'expo',
+        transitionTimingFunction: 'quint',
         _motionReduce: { transitionDuration: 'instant' },
       },
       '& [data-nav-copy]': {
@@ -167,7 +167,7 @@ export const navigationSwap = sva({
       justifyContent: 'center',
       color: 'current',
       transitionProperty: 'common',
-      transitionDuration: 'fast',
+      transitionDuration: 'normal',
       transitionTimingFunction: 'quint',
       '&[hidden]': { display: 'inline-flex!' },
       '&[data-type=off]': { flexDirection: 'column', gap: 'xs' },

@@ -72,8 +72,8 @@ export const editionTheme = sva({
     },
     highlight: {
       transitionProperty: 'colors',
-      transitionDuration: 'medium',
-      transitionTimingFunction: 'expo',
+      transitionDuration: 'fast',
+      transitionTimingFunction: 'quint',
     },
   },
   variants: {

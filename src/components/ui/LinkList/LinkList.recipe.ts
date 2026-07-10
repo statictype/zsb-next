@@ -16,8 +16,8 @@ export const linkList = sva({
       gap: { base: 'sm', md: 'md' },
       paddingBlock: 'lg',
       transitionProperty: '[padding-left]',
-      transitionDuration: 'medium',
-      transitionTimingFunction: 'expo',
+      transitionDuration: 'normal',
+      transitionTimingFunction: 'quint',
       _hover: { paddingLeft: 'md' },
       '&[aria-disabled=true]': { cursor: 'default', opacity: '0.45', _hover: { paddingLeft: '0' } },
     },
@@ -28,7 +28,7 @@ export const linkList = sva({
     title: {
       display: 'block',
       transitionProperty: 'colors',
-      transitionDuration: 'normal',
+      transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
       'a:hover &': { color: 'action' },
     },
@@ -46,9 +46,8 @@ export const linkList = sva({
     arrow: {
       display: 'flex',
       flexShrink: '0',
-      // Recolor and travel on separate clocks — one shorthand, two durations.
       transition:
-        '[color {durations.normal} {easings.quint}, transform {durations.medium} {easings.expo}]',
+        '[color {durations.fast} {easings.quint}, transform {durations.normal} {easings.quint}]',
       'a:hover &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
   },
