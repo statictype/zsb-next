@@ -1,13 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/**
- * ArtistsBanner — co-located slot recipe.
- *
- * The compound hover (the accent bar draws, the corner wash fades in) lives in
- * one place: the `root` slot's `_hover`, targeting children by `data-part`. The
- * title is the shared `<SectionHeading>`. The brand-tinted corner wash and
- * accent gradient reference the pink/chartreuse anchors via `color-mix`.
- */
 export const artistsBanner = sva({
   slots: ['root', 'inner', 'subtext', 'accent'],
   base: {

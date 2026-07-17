@@ -1,16 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Home page — co-located slot recipe.
- *
- * Dark hero with the stage Carousel pinned right and the title crashing over its
- * left edge, an Upcoming-lead variant (next edition's theme + a demoted "from
- * the last edition" card), then the past-editions register. The hero title uses
- * the shared display type + entrance directly (it's not the standard PageHero
- * block — Carousel layout, min-content title). The `.editionBadge` pill →
- * `<Badge>`. Row hovers drive from the `<a>` via `a:hover &` (disabled rows are
- * `<div>`, so they never trigger the colour/arrow shift).
- */
 export const homePage = sva({
   slots: [
     'panel',
@@ -31,10 +20,6 @@ export const homePage = sva({
   ],
   base: {
     panel: { width: 'full', scrollMarginTop: '[token(sizes.nav)]' },
-
-    // Shell = the shared `pageHero` layerStyle (black ground + nav-clearing
-    // top padding + section bottom padding); the flex column, gutter, and
-    // full-viewport min-height are the hero's own additions.
     hero: {
       layerStyle: 'pageHero',
       position: 'relative',
@@ -66,9 +51,6 @@ export const homePage = sva({
     },
     // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
     heroTitle: {
-      // Entrance owned here, not split across the JSX: the shared `enter`
-      // style plus the title's own delay override sit together, so the
-      // animation-delay winner is legible in one place.
       animationStyle: 'enter',
       animationDelay: 'fast',
       width: '[min-content]',
@@ -85,10 +67,6 @@ export const homePage = sva({
         alignSelf: 'start',
       },
     },
-
-    // The editions section shell is `section({ ground: 'dark' })` (composed with
-    // the `panel` slot in the component); `editionsHead` + `editionList` are the
-    // rails, so they own the gutter.
     editionsHead: {
       layerStyle: 'sectionInner',
       width: 'full',

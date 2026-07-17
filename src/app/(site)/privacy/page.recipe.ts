@@ -1,12 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Privacy page — co-located slot recipe.
- *
- * The legible long-form privacy/cookies article on the dark ground. The
- * `article` styles its Portable-Text descendants (a/ul/li) via element
- * selectors. The shared PageHero owns the header.
- */
 export const privacyPage = sva({
   slots: ['article', 'settingsRow'],
   base: {

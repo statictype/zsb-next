@@ -13,7 +13,6 @@ export const credits = sva({
   ],
   base: {
     detail: {
-      // Authored multi-line strings render their own '\n' breaks.
       whiteSpace: 'pre-line',
     },
     logo: {
@@ -26,7 +25,6 @@ export const credits = sva({
       md: { height: '[60px]' },
       _hover: { filter: '[grayscale(0%)]', opacity: 1 },
     },
-    // ISDay badge fills the 4th column of the primary row from 1280 up.
     badge: { xl: { gridColumn: 4 } },
 
     partnersBlock: {
@@ -39,7 +37,6 @@ export const credits = sva({
         alignItems: 'center',
         whiteSpace: 'nowrap',
       },
-      // Middot separators between partner names.
       '& span:not(:last-child)::after': {
         content: '""',
         flex: 'none',

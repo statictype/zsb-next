@@ -3,12 +3,6 @@ import { defineRecipe } from '@pandacss/dev'
 const colorShift = { _hover: { color: 'action' } } as const
 const subtleHover = { _hover: { color: 'heading', borderColor: 'heading' } } as const
 
-/**
- * Button — the one action primitive (ADR 0019).
- * `variant` (primary | secondary | link | icon) × `size` (sm | md | lg).
- * `link` is the retired
- * `textLink` recipe (borderless inline link, e.g. footer links).
- */
 export const button = defineRecipe({
   jsx: ['Button'],
   className: 'btn',
