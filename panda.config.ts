@@ -6,10 +6,10 @@ export default defineConfig({
   preflight: false,
   presets: ['@pandacss/preset-base', designSystemPreset],
   include: ['./src/**/*.{ts,tsx}'],
-  exclude: [],
   jsxFramework: 'react',
   jsxStyleProps: 'all',
-  // Every style value is a token (or a deliberate, [bracketed] exception).
   strictTokens: true,
+  strictPropertyValues: true,
   outdir: 'styled-system',
+  validation: 'error',
 })
