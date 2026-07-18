@@ -20,8 +20,6 @@ export const carousel = defineSlotRecipe({
       alignItems: 'center',
       justifyContent: 'space-between',
       gap: 'md',
-      maxWidth: 'maxWidth',
-      marginInline: 'auto',
       '& [data-carousel-arrows]': { display: 'flex', alignItems: 'center', gap: 'sm' },
     },
     // Shared by prev/next/autoplay — all three are the same 44px transparent
@@ -52,6 +50,7 @@ export const carousel = defineSlotRecipe({
     mode: {
       stage: {
         root: { display: 'flex', flexDirection: 'column', gap: 'md' },
+        control: { maxWidth: 'maxWidth', marginInline: 'auto' },
         itemGroup: {
           width: '100%',
           aspectRatio: { base: '4 / 5', md: '16 / 9' },
