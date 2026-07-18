@@ -236,7 +236,7 @@ export const calendar = sva({
         // hover reveal, so it doesn't grow the row's height).
         '&[data-poster=true]': {
           display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1fr) calendarPoster',
+          gridTemplateColumns: 'minmax(0, 1fr) token(sizes.calendarPoster)',
           columnGap: 'lg',
         },
       },

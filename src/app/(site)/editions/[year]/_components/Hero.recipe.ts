@@ -33,7 +33,7 @@ export const hero = sva({
         // Reserves the tape's own column beside the image instead of
         // overlaying it; tapes stay absolutely positioned within this box.
         display: 'grid',
-        gridTemplateColumns: 'heroTapeColumn minmax(0, 1fr)',
+        gridTemplateColumns: 'token(sizes.heroTapeColumn) minmax(0, 1fr)',
       },
       // Tapes flush with the logo, image right-flush with the menu.
       '2xl': { maxWidth: '[none]', width: 'full', marginRight: '0' },

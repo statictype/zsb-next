@@ -21,6 +21,7 @@ export const lightbox = sva({
       position: 'relative',
       display: 'grid',
       gridTemplateColumns: '1fr',
+      gridTemplateRows: '1fr',
       placeItems: 'center',
       width: 'full',
       height: 'full',
@@ -29,7 +30,10 @@ export const lightbox = sva({
       touchAction: 'none',
       overscrollBehavior: 'contain',
       // Letterbox columns: each nav arrow owns one full column beside the frame.
-      md: { gridTemplateColumns: 'lightboxNavColumn minmax(0, 1fr) lightboxNavColumn' },
+      md: {
+        gridTemplateColumns:
+          'token(sizes.lightboxNavColumn) minmax(0, 1fr) token(sizes.lightboxNavColumn)',
+      },
     },
     frame: {
       position: 'relative',
@@ -81,7 +85,10 @@ export const lightbox = sva({
       height: 'lightboxNavHit',
       zIndex: '10',
       display: 'none',
-      md: { display: 'inline-flex' },
+      // Explicit row: auto-placement has already moved the cursor past the
+      // frame (column 2), so a column-only arrow would be bumped to an
+      // implicit row 2 and clipped below the dialog.
+      md: { display: 'inline-flex', gridRow: '1' },
     },
 
     // Off-screen N±1 prefetch of optimized variants.
