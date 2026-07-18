@@ -35,6 +35,7 @@ export const conditions = {
 
 // Mirror the stepped breakpoints from globals.css (mobile-first).
 export const breakpoints = {
+  sm: '637px',
   md: '768px',
   lg: '1024px',
   xl: '1280px',
@@ -98,8 +99,8 @@ export const tokens = {
     sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
     base: { value: '16px' },
     md: { value: 'clamp(17px, 15.54px + 0.3883vw, 23px)' },
-    lg: { value: 'clamp(26px, 18.72px + 1.9417vw, 56px)' },
-    xl: { value: 'clamp(46px, 35.32px + 2.8479vw, 90px)' },
+    lg: { value: 'clamp(31px, 23.72px + 1.9417vw, 56px)' },
+    xl: { value: 'clamp(46px, 25.32px + 2.8479vw, 80px)' },
   },
   spacing: {
     // `0` is a real member of the scale: overriding a larger breakpoint's
@@ -540,7 +541,7 @@ export const textStyles = {
       huge: {
         value: {
           fontFamily: 'display',
-          fontSize: { base: 'lg', md: 'lg', lg: 'xl', xl: 'xl' },
+          fontSize: { base: 'lg', sm: 'xl' },
           lineHeight: '1',
           letterSpacing: '0.007em',
           textTransform: 'lowercase',
