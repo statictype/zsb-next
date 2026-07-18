@@ -38,7 +38,7 @@ export function ArtistsTable({
         <div className={styles.column}>
           {firstHalf.map((artist, i) => (
             <HStack key={artist._id} className={styles.entry}>
-              <Text variant="caption" className={styles.num}>
+              <Text variant="label" className={styles.num}>
                 {padNum(i + 1, 3)}
               </Text>
               <Text variant="label">{artist.name}</Text>
@@ -48,7 +48,7 @@ export function ArtistsTable({
         <div className={styles.column}>
           {secondHalf.map((artist, i) => (
             <HStack key={artist._id} className={styles.entry}>
-              <Text variant="caption" className={styles.num}>
+              <Text variant="label" className={styles.num}>
                 {padNum(mid + i + 1, 3)}
               </Text>
               <Text variant="label">{artist.name}</Text>

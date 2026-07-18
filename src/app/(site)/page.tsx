@@ -107,7 +107,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 <PartnerBadge size="upcoming" />
               </Stack>
 
-              <Divider display={{ base: 'block', lg: 'none' }} />
+              <Divider />
               <Stack as="aside" className={styles.lastEdition}>
                 <Text as="p" variant="label">
                   From the last edition
@@ -138,7 +138,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 <Text as="h1" variant="display" className={styles.heroTitle}>
                   <AccentSplit text={title} accent={accent} lineBreak />
                 </Text>
-                <Stack gap="lg">
+                <Stack gap="lg" alignItems="flex-start">
                   <Text as="p" variant="lead">
                     {lead}
                   </Text>

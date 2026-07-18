@@ -66,7 +66,7 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
 
   return (
     <>
-      <Divider display={{ base: 'none', md: 'block' }} />
+      <Divider />
       <footer className={s.footer}>
         <Stack className={s.inner} gap="xl">
           <Center
@@ -96,9 +96,6 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
                 rowGap="sm"
                 columnGap="md"
               >
-                <Text as="h2" variant="label" className={s.colTitle}>
-                  Connect
-                </Text>
                 {contactHref && <FooterLink href={contactHref}>Contact</FooterLink>}
                 {CONNECT_LINKS.map((link) => (
                   <FooterLink key={link.label} href={link.href}>
@@ -115,9 +112,6 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
                   rowGap="sm"
                   columnGap="md"
                 >
-                  <Text as="h2" variant="label" className={s.colTitle}>
-                    Follow
-                  </Text>
                   {socials.map((link) => (
                     <FooterLink key={link.label} href={link.href}>
                       {link.label}

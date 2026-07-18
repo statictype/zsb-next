@@ -120,7 +120,6 @@ function PartnersShell({
 
             <PillarGrid
               items={whyPoints.map((point) => ({ title: point.title, body: point.text }))}
-              numbered
               titleLevel="h3"
               rhythm="pair"
               titleScale="responsive"
