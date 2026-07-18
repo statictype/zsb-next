@@ -18,7 +18,7 @@ export const manifestoTitle = definePattern({
     return {
       fontFamily: 'display',
       fontSize: { base: 'lg', xl: 'lg', '3xl': 'xl' },
-      lineHeight: { base: 'tight', md: 'display', '4xl': 'tight' },
+      lineHeight: 1.14,
       ...props,
     }
   },

@@ -92,7 +92,6 @@ export const tokens = {
     display: { value: 'var(--font-dela-gothic), sans-serif' },
     body: { value: 'var(--font-montserrat), sans-serif' },
   },
-  // The 6-step fluid scale (375→1920px viewport), all `clamp()`.
   fontSizes: {
     partnerBadgeRing: { value: '40px' },
     xs: { value: 'clamp(10px, 9.76px + 0.0647vw, 11px)' },
@@ -461,6 +460,14 @@ export const textStyles = {
       textWrap: 'pretty',
     },
   },
+  manifesto: {
+    value: {
+      fontFamily: 'display',
+      fontSize: 'xl',
+      lineHeight: '1.1',
+      letterSpacing: '-0.02em',
+    },
+  },
   body: {
     value: {
       fontFamily: 'body',
@@ -497,12 +504,12 @@ export const textStyles = {
     },
   },
   calendar: {
-    markerDayType: {
-      value: {
-        fontFamily: 'display',
-        fontSize: 'lg',
-        lineHeight: '0.8',
-      },
+    value: {
+      fontFamily: 'body',
+      fontSize: 'md',
+      lineHeight: '1.4',
+      letterSpacing: '-0.018em',
+      fontWeight: 'semibold',
     },
   },
   externalGallery: {
@@ -560,7 +567,7 @@ export const textStyles = {
       rail: {
         value: {
           fontFamily: 'display',
-          fontSize: { base: 'xl', md: 'xl', lg: 'lg', xl: 'xl', '4xl': 'xl' },
+          fontSize: { base: 'md', lg: 'lg' },
           lineHeight: '1',
           letterSpacing: '0.01em',
           textTransform: 'lowercase',

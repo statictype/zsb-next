@@ -1,12 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Manifesto — co-located slot recipe.
- *
- * First consumer of the `sectionLight` layerStyle. Uses the looser `sectionYLg`
- * rhythm token. The title is a single column that becomes a 2-column grid at lg+;
- * the body sits behind the shared ground-aware brush-stroke rule.
- */
 export const manifesto = sva({
   slots: ['section', 'container', 'title', 'titleHighlight', 'content', 'text'],
   base: {
@@ -27,6 +20,7 @@ export const manifesto = sva({
     },
     title: {
       textWrap: '[pretty]',
+      color: 'black',
     },
     // The highlighted substring inside the headline (the optional accent).
     titleHighlight: { display: 'inline', color: 'action' },

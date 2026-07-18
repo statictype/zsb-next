@@ -27,7 +27,7 @@ export function Credits({ credits }: CreditsProps) {
             {primary.map((credit) => (
               <Stack key={credit.label} gap="sm">
                 <Text variant="label">{credit.label}</Text>
-                <Text variant="heading">{credit.value}</Text>
+                <Text variant="lead">{credit.value}</Text>
                 {credit.detail && (
                   <Text variant="caption" className={s.detail}>
                     {credit.detail}

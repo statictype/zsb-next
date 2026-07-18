@@ -3,7 +3,6 @@ import { Grid, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
-import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { Edition } from '@/types/edition'
 import { themeArtists } from './ThemeArtists.recipe'
 
@@ -20,7 +19,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
       <Stack gap="3xl">
         <div className={styles.themeHeader}>
-          <SectionHeading flush>{theme}</SectionHeading>
+          <Text variant="heading">{theme}</Text>
         </div>
         <Grid
           className={styles.inner}

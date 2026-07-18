@@ -16,6 +16,9 @@ export const editorialSplit = definePattern({
         gridTemplateColumns: '1fr 1fr',
         ...props.xl,
       },
+      '4xl': {
+        gridTemplateColumns: '1.1fr 0.9fr',
+      },
     }
   },
 })

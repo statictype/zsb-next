@@ -1,5 +1,5 @@
 import { cx } from 'styled-system/css'
-import { ManifestoTitle, Text } from 'styled-system/jsx'
+import { Text } from 'styled-system/jsx'
 import { editorialSplit } from 'styled-system/patterns'
 import { section } from 'styled-system/recipes'
 import { splitFirstMatch } from '@/lib/split-first-match'
@@ -20,7 +20,7 @@ export function Manifesto({ title, body, accent }: ManifestoProps) {
   return (
     <section className={cx(section({ ground: 'light', rhythm: 'lg' }), s.section)}>
       <div className={cx(editorialSplit(), s.container)}>
-        <ManifestoTitle className={s.title}>
+        <Text variant="manifesto" className={s.title}>
           {titleParts ? (
             <>
               {titleParts.before}
@@ -30,7 +30,7 @@ export function Manifesto({ title, body, accent }: ManifestoProps) {
           ) : (
             title
           )}
-        </ManifestoTitle>
+        </Text>
         <div className={s.content}>
           <div className={s.text}>
             <Text as="p" variant="lead">

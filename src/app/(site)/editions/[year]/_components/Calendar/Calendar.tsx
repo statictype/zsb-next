@@ -174,7 +174,13 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                         <Text as="h3" variant="label" className={s.bandLabel}>
                           Ongoing
                         </Text>
-                        <Grid as="ul" minChildWidth="300px" gap="md" listStyle="none">
+                        <Grid
+                          as="ul"
+                          minChildWidth="300px"
+                          gap="md"
+                          columns={{ base: 1, md: 2, lg: 3, '4xl': 4 }}
+                          listStyle="none"
+                        >
                           {onView.map((run) => {
                             const runEnd = run.endDate ?? run.startDate
                             const past = liveClock !== null && runEnd < liveClock
@@ -194,7 +200,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                                 )}
                                 <Stack className={s.runContent} gap="sm">
                                   <TypeChips types={run.types} />
-                                  <Text as="h4" variant="heading">
+                                  <Text as="h4" variant="calendar">
                                     <Link
                                       className={s.nameButton}
                                       href={`/editions/${year}/events/${run.slug}`}

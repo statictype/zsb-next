@@ -205,7 +205,7 @@ export const calendar = sva({
       },
     },
     markerDay: {
-      textStyle: 'calendar.markerDayType',
+      textStyle: 'heading',
       color: 'white',
       fontVariantNumeric: 'tabular-nums',
     },

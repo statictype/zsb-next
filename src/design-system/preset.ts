@@ -88,7 +88,17 @@ export const designSystemPreset = definePreset({
         properties: {
           variant: {
             type: 'enum',
-            value: ['display', 'title', 'heading', 'lead', 'body', 'caption', 'label'],
+            value: [
+              'display',
+              'title',
+              'heading',
+              'lead',
+              'body',
+              'caption',
+              'label',
+              'calendar',
+              'manifesto',
+            ],
           },
         },
         defaultValues: { variant: 'body' },
