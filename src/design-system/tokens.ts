@@ -94,12 +94,12 @@ export const tokens = {
   },
   fontSizes: {
     partnerBadgeRing: { value: '40px' },
-    xs: { value: 'clamp(10px, 9.76px + 0.0647vw, 11px)' },
+    xs: { value: 'clamp(9px, 8.76px + 0.0647vw, 10px)' },
     sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
     base: { value: '16px' },
-    md: { value: 'clamp(19px, 17.54px + 0.3883vw, 25px)' },
+    md: { value: 'clamp(17px, 15.54px + 0.3883vw, 23px)' },
     lg: { value: 'clamp(26px, 18.72px + 1.9417vw, 56px)' },
-    xl: { value: 'clamp(48px, 37.32px + 2.8479vw, 92px)' },
+    xl: { value: 'clamp(46px, 35.32px + 2.8479vw, 90px)' },
   },
   spacing: {
     // `0` is a real member of the scale: overriding a larger breakpoint's
@@ -506,10 +506,10 @@ export const textStyles = {
   calendar: {
     value: {
       fontFamily: 'body',
-      fontSize: 'md',
+      fontSize: 'base',
       lineHeight: '1.4',
       letterSpacing: '-0.018em',
-      fontWeight: 'semibold',
+      fontWeight: 'bold',
     },
   },
   externalGallery: {

@@ -52,7 +52,11 @@ export const carousel = defineSlotRecipe({
     mode: {
       stage: {
         root: { display: 'flex', flexDirection: 'column', gap: 'md' },
-        control: { maxWidth: 'maxWidth', marginInline: 'auto' },
+        control: {
+          width: '100%',
+          maxWidth: 'maxWidth',
+          marginInline: 'auto',
+        },
         itemGroup: {
           width: '100%',
           aspectRatio: { base: '4 / 5', md: '16 / 9' },

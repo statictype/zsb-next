@@ -14,6 +14,18 @@ export const editionCard = sva({
       // them, bumping content into an implicit column); minmax(0, 1fr) keeps
       // the tape's max-content from inflating the track past the card.
       gridTemplateColumns: 'minmax(0, 1fr)',
+      // Gradient hover ring (masked to the hairline edge), as on Calendar runs.
+      _before: {
+        content: '""',
+        layerStyle: 'gradientBorder',
+        padding: '[token(borderWidths.hairlineThin)]',
+      },
+      // Pin the hairline at rest colour so Card's interactive hover doesn't
+      // warm it under the ring — stacked they read as one thick border.
+      _hover: {
+        borderColor: 'divider',
+        '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
+      },
     },
     media: {
       position: 'relative',
@@ -47,8 +59,8 @@ export const editionCard = sva({
     },
     year: {
       position: 'absolute',
-      top: 'md',
-      left: 'md',
+      top: 'lg',
+      right: 'lg',
       zIndex: '2',
     },
     content: {
@@ -56,12 +68,9 @@ export const editionCard = sva({
       zIndex: '1',
       gridColumn: '1',
       gridRow: '2 / 4',
-      padding: 'md',
+      padding: 'lg',
     },
-    details: {
-      minWidth: '0',
-      textWrap: '[pretty]',
-    },
+
     // Keeps the venue name from breaking mid-phrase — a narrow card wraps
     // before the whole name, not between its words.
     venue: { whiteSpace: 'nowrap' },

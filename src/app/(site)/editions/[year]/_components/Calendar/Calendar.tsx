@@ -200,7 +200,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                                 )}
                                 <Stack className={s.runContent} gap="sm">
                                   <TypeChips types={run.types} />
-                                  <Text as="h4" variant="calendar">
+                                  <Text as="h4" variant="calendar" color="white">
                                     <Link
                                       className={s.nameButton}
                                       href={`/editions/${year}/events/${run.slug}`}
@@ -315,7 +315,7 @@ function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
         {/* The name links to the event's route (the modal opens over the
             edition); its stretched overlay makes the whole row the hit target
             (see `.nameButton` in the CSS). */}
-        <Text as="h4" variant="heading">
+        <Text as="h4" variant="calendar" color="white">
           <Link
             className={s.nameButton}
             href={`/editions/${year}/events/${event.slug}`}

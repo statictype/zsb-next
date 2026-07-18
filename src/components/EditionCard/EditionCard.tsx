@@ -65,8 +65,8 @@ export function EditionCard({ edition, href, size = 'md', className }: EditionCa
           themeHighlight={edition.themeHighlight}
         />
         <Divider />
-        <HStack justify="space-between">
-          <Text variant="caption" className={styles.details}>
+        <HStack justify="space-between" paddingBlockStart="lg">
+          <Text variant="label">
             {edition.venueLine ? (
               <>
                 {date} · <span className={styles.venue}>{edition.venueLine}</span>

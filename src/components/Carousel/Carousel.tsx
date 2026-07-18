@@ -178,7 +178,7 @@ export function Carousel({
 
           return (
             <Stack
-              gap={mode === 'rail' ? 'lg' : '0'}
+              gap="lg"
               onPointerEnter={(event) => {
                 if (event.pointerType === 'touch') return
                 setHovered(true)

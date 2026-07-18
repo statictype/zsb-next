@@ -51,7 +51,7 @@ export function Button({
         variant === 'link' ? (
           child.props.children
         ) : (
-          <Text variant="label" display="contents">
+          <Text variant="label" color="white" display="contents">
             {child.props.children}
           </Text>
         ),

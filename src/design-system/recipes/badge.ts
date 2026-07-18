@@ -14,6 +14,12 @@ export const badge = defineRecipe({
     borderWidth: 'hairlineThin',
     borderStyle: 'solid',
     borderColor: 'highlight',
+    fontFamily: 'body',
+    fontSize: 'xs',
+    fontWeight: 'medium',
+    lineHeight: '1.3',
+    letterSpacing: '1.2px',
+    textTransform: 'uppercase',
   },
   variants: {
     tone: {

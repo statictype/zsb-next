@@ -11,10 +11,6 @@ export const themeArtists = sva({
       position: 'relative',
       zIndex: '1',
       paddingInline: 'gutter',
-      maxWidth: 'narrowColumn',
-      lg: {
-        maxWidth: 'maxWidth',
-      },
       '4xl': { paddingLeft: '2xl' },
     },
 

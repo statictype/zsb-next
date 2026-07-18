@@ -19,20 +19,20 @@ export const button = defineRecipe({
     variant: {
       primary: {
         bg: 'transparent',
-        color: 'action',
+        color: 'white',
         border: 'primary',
         _hover: { bg: 'action', color: 'white' },
       },
       secondary: {
         bg: 'transparent',
-        color: 'muted',
+        color: 'white',
         border: 'hairline',
         ...subtleHover,
       },
       link: {
         display: 'inline',
         bg: 'transparent',
-        color: 'muted',
+        color: 'white',
         ...colorShift,
         _hover: { ...colorShift._hover, textDecoration: 'underline' },
       },

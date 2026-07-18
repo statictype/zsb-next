@@ -34,7 +34,7 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
 
   return (
     <EditionsListShell>
-      <Grid columns={{ base: 1, lg: 2 }}>
+      <Grid columns={{ base: 1, lg: 2 }} gap="lg">
         {editions.map((edition, index) => {
           const isFeature = index === 0
 
