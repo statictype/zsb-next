@@ -447,10 +447,9 @@ export const textStyles = {
   heading: {
     value: {
       fontFamily: 'display',
-      fontSize: 'md',
-      lineHeight: '1.16',
+      fontSize: 'lg',
+      lineHeight: '1.1',
       letterSpacing: '-0.02em',
-      textTransform: 'uppercase',
     },
   },
   lead: {
@@ -466,7 +465,7 @@ export const textStyles = {
     value: {
       fontFamily: 'body',
       fontSize: 'base',
-      lineHeight: '1.56',
+      lineHeight: '1.7',
       textWrap: 'pretty',
     },
   },
@@ -481,7 +480,7 @@ export const textStyles = {
     value: {
       fontFamily: 'body',
       fontSize: 'xs',
-      fontWeight: 'semibold',
+      fontWeight: 'normal',
       lineHeight: '1.3',
       letterSpacing: '1.2px',
       textTransform: 'uppercase',

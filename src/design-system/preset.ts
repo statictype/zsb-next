@@ -61,6 +61,27 @@ export const designSystemPreset = definePreset({
       editorialSplit,
       manifestoTitle,
       navigationLabel,
+      // Stock pattern only sets `borderColor`, leaving `borderStyle` unset —
+      // with `preflight: false` (no UA border reset) that left every bare
+      // `<Divider />` invisible. Draw it with the same `hairline` composite
+      // border token every other rule in the app already uses, rather than
+      // re-deriving width/style/color by hand.
+      divider: definePattern({
+        properties: {
+          orientation: { type: 'enum', value: ['horizontal', 'vertical'] },
+        },
+        defaultValues: { orientation: 'horizontal' },
+        transform(props, { map }) {
+          const { orientation, ...rest } = props
+          return {
+            width: map(orientation, (v) => (v === 'vertical' ? undefined : '100%')),
+            height: map(orientation, (v) => (v === 'horizontal' ? undefined : '100%')),
+            borderBottom: map(orientation, (v) => (v === 'horizontal' ? 'hairline' : undefined)),
+            borderRight: map(orientation, (v) => (v === 'vertical' ? 'hairline' : undefined)),
+            ...rest,
+          }
+        },
+      }),
       text: definePattern({
         jsxName: 'Text',
         jsxElement: 'span',
