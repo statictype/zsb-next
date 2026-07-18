@@ -32,8 +32,10 @@ export const carousel = defineSlotRecipe({
       justifyContent: 'center',
       border: 0,
       background: 'transparent',
+      color: 'heading',
       cursor: 'pointer',
       _hover: { color: 'action' },
+      _disabled: { opacity: 0.5, cursor: 'not-allowed' },
     },
     indicatorGroup: { display: 'flex', alignItems: 'center', gap: '10px' },
     indicator: {
