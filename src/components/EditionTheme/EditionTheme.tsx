@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { cx } from 'styled-system/css'
-import { HStack, Text } from 'styled-system/jsx'
+import { Text } from 'styled-system/jsx'
 import { splitFirstMatch } from '@/lib/split-first-match'
 import { editionTheme } from './EditionTheme.recipe'
 
@@ -64,7 +64,7 @@ export function EditionTheme({
       className={cx(styles.root, className)}
       style={delay ? ({ '--tape-delay': delay } as CSSProperties) : undefined}
     >
-      <HStack as={Tag} className={styles.heading} alignItems="baseline">
+      <Tag className={styles.heading}>
         {/* The trailing space is invisible to flex layout but keeps the
             heading's accessible name from fusing lead and theme ("2026 the…"
             instead of "2026the…"). */}
@@ -79,7 +79,7 @@ export function EditionTheme({
         ) : (
           theme
         )}
-      </HStack>
+      </Tag>
       {meta ? (
         <Text as="p" variant="caption" className={styles.meta}>
           {meta}

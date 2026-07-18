@@ -27,6 +27,7 @@ export const editionTheme = sva({
       flexDirection: 'column',
       gap: 'md',
       alignSelf: 'flex-start',
+      color: 'heading',
       background: 'surface',
       // em-derived so padding tracks the font size across the ladder.
       padding: '[0.45em 0.6em]',
@@ -54,8 +55,14 @@ export const editionTheme = sva({
         translate: '[0 0]',
       },
     },
+    // Gapless flex: the split-on-highlight spans must read as one word
+    // (#digitalfield, not "#digital field"). `fontSize: inherit` kills the
+    // UA's h1/h2 scale factor (no preflight) — the ladder lives on root.
     heading: {
+      display: 'flex',
+      alignItems: 'baseline',
       margin: '0',
+      fontSize: '[inherit]',
     },
     lead: {
       display: 'inline-flex',

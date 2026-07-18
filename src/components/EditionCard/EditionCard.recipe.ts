@@ -10,9 +10,14 @@ export const editionCard = sva({
       overflow: 'visible',
       display: 'grid',
       gridTemplateRows: 'auto token(spacing.cardOverlap) auto',
+      // Both children are placed explicitly (auto-placement refuses to overlap
+      // them, bumping content into an implicit column); minmax(0, 1fr) keeps
+      // the tape's max-content from inflating the track past the card.
+      gridTemplateColumns: 'minmax(0, 1fr)',
     },
     media: {
       position: 'relative',
+      gridColumn: '1',
       gridRow: '1 / 3',
       width: 'full',
       overflow: 'hidden',
@@ -49,6 +54,7 @@ export const editionCard = sva({
     content: {
       position: 'relative',
       zIndex: '1',
+      gridColumn: '1',
       gridRow: '2 / 4',
       padding: 'md',
     },
