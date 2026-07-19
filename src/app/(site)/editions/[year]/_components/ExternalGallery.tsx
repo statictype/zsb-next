@@ -3,10 +3,10 @@ import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
 import { Center, Container, Divider, Grid, HStack, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
+import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
-import { splitFirstMatch } from '@/lib/split-first-match'
 import type { ExternalGalleryData } from '@/types/edition'
 
 const styles = externalGallery()
@@ -18,7 +18,6 @@ interface ExternalGalleryProps {
 
 export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
   const { tag, title, highlight, description, linkLabel, href } = gallery
-  const titleParts = highlight ? splitFirstMatch(title, highlight) : null
 
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
@@ -48,15 +47,11 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
                   <Badge>{tag}</Badge>
 
                   <SectionHeading as="h3" flush>
-                    {titleParts ? (
-                      <>
-                        {titleParts.before}
-                        <span className={styles.titleHighlight}>{titleParts.match}</span>
-                        {titleParts.after}
-                      </>
-                    ) : (
-                      title
-                    )}
+                    <AccentSplit
+                      text={title}
+                      accent={highlight}
+                      className={styles.titleHighlight}
+                    />
                   </SectionHeading>
 
                   <Text as="p" variant="body" className={styles.description}>
