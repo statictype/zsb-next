@@ -1,5 +1,5 @@
-import { LockIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { LockIcon } from '../../icons'
 import { metaDescriptionField } from '../shared/metaDescriptionField'
 import { ogImageField } from '../shared/ogImageField'
 

@@ -1,5 +1,5 @@
-import { ImageIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { ImageIcon } from '../../icons'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 const POSITIONS = [

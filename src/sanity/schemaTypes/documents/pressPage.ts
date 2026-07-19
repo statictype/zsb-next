@@ -1,5 +1,5 @@
-import { DocumentsIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { DocumentsIcon } from '../../icons'
 import { metaDescriptionField } from '../shared/metaDescriptionField'
 import { ogImageField } from '../shared/ogImageField'
 

@@ -1,5 +1,5 @@
-import { HeartIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { HeartIcon } from '../../icons'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 import { metaDescriptionField } from '../shared/metaDescriptionField'
 import { ogImageField } from '../shared/ogImageField'

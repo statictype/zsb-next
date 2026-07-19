@@ -1,3 +1,4 @@
+import type { StructureResolver } from 'sanity/structure'
 import {
   CaseIcon,
   CogIcon,
@@ -13,8 +14,7 @@ import {
   TagsIcon,
   TransferIcon,
   UsersIcon,
-} from '@sanity/icons'
-import type { StructureResolver } from 'sanity/structure'
+} from './icons'
 import { isSingletonType, singletonListItem } from './lib/singleton'
 
 export const structure: StructureResolver = (S) =>

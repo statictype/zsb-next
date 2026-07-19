@@ -1,7 +1,7 @@
-import { PinIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
 import { slugify } from '../../../lib/slugify'
 import { apiVersion } from '../../env'
+import { PinIcon } from '../../icons'
 
 // A place, saved once and reused across editions (its own document, not retyped
 // per edition) — ADR 0014. Events reference the *most specific* venue they

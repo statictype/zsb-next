@@ -1,5 +1,5 @@
-import { CaseIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { CaseIcon } from '../../icons'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 export const organization = defineType({

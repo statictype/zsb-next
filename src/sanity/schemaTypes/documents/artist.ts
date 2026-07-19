@@ -1,6 +1,6 @@
-import { UserIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { ArtistEditionsField } from '../../components/ArtistEditionsField'
+import { UserIcon } from '../../icons'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 export const artist = defineType({

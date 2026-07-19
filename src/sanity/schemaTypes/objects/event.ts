@@ -1,6 +1,6 @@
-import { CalendarIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { slugify } from '../../../lib/slugify'
+import { CalendarIcon } from '../../icons'
 import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
 
 // The building block of the program. Events are nested in the edition (one list

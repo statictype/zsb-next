@@ -1,5 +1,5 @@
-import { HomeIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { HomeIcon } from '../../icons'
 import { metaDescriptionField } from '../shared/metaDescriptionField'
 import { ogImageField } from '../shared/ogImageField'
 import { isSubstringOf } from '../shared/substringValidator'
