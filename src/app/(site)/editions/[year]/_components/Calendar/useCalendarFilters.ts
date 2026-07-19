@@ -4,8 +4,8 @@ import {
   type CalendarFilterOptions,
   type CalendarFilters,
   DEFAULT_FILTERS,
+  filterUrl,
   parseFilters,
-  serializeFilters,
   toggleSelection,
 } from '@calendar/calendar-filters'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -37,12 +37,11 @@ export function useCalendarFilters(filterOptions: CalendarFilterOptions): UseCal
   const venueSlugs = filterOptions.venues.map((o) => o.slug)
   const typeSlugs = filterOptions.types.map((o) => o.slug)
 
-  // Write the next filter state to the URL (replacing, no scroll jump),
-  // preserving any unrelated params; `useSearchParams` re-reads once it lands.
-  const commit = (next: CalendarFilters) => {
-    const query = serializeFilters(next, search)
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
-  }
+  // Write the next filter state to the URL (replacing, no scroll jump);
+  // `useSearchParams` re-reads once it lands. The URL itself is built by the
+  // pure `filterUrl`, tested beside the codec.
+  const commit = (next: CalendarFilters) =>
+    router.replace(filterUrl(pathname, search, next), { scroll: false })
 
   const toggleVenue = (slug: string) =>
     commit({ ...filters, venues: toggleSelection(filters.venues, slug, venueSlugs) })

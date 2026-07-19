@@ -2,6 +2,8 @@ import {
   applyFilters,
   computeFilterOptions,
   DEFAULT_FILTERS,
+  deriveCalendarView,
+  filterUrl,
   hasActiveFilters,
   hasPastEvents,
   hasUpcomingEvents,
@@ -252,5 +254,115 @@ describe('parseFilters / serializeFilters', () => {
     const params = new URLSearchParams(query)
     expect(params.get('utm')).toBe('fb')
     expect(params.get('venue')).toBe('cfp')
+  })
+})
+
+describe('filterUrl', () => {
+  const PATH = '/editions/2026'
+  const ALL_VENUES = ['combinatul-fondului-plastic', 'galeria-simeza']
+
+  it('produces the bare pathname at the default filters', () => {
+    expect(filterUrl(PATH, '', DEFAULT_FILTERS)).toBe(PATH)
+  })
+
+  it('carries unrelated params through a venue toggle', () => {
+    const next = {
+      ...DEFAULT_FILTERS,
+      venues: toggleSelection(null, 'galeria-simeza', ALL_VENUES),
+    }
+    expect(filterUrl(PATH, 'utm=fb', next)).toBe(
+      '/editions/2026?utm=fb&venue=combinatul-fondului-plastic',
+    )
+  })
+
+  it('collapses a reset to the bare pathname', () => {
+    expect(filterUrl(PATH, 'venue=galeria-simeza&past=1', DEFAULT_FILTERS)).toBe(PATH)
+  })
+
+  it('keeps unrelated params through a reset', () => {
+    expect(filterUrl(PATH, 'utm=fb&venue=galeria-simeza', DEFAULT_FILTERS)).toBe(
+      '/editions/2026?utm=fb',
+    )
+  })
+
+  it('round-trips a toggle through the URL back to the same filters', () => {
+    const next = {
+      ...DEFAULT_FILTERS,
+      venues: toggleSelection(null, 'galeria-simeza', ALL_VENUES),
+      showPast: true,
+    }
+    const url = filterUrl(PATH, '', next)
+    expect(parseFilters(new URL(url, 'https://x.test').search)).toEqual(next)
+  })
+})
+
+describe('deriveCalendarView — ended / liveClock / labels', () => {
+  const mixed = [
+    ev({ key: 'past', startDate: '2026-04-10', venue: { name: 'Galeria Simeza', type: 'venue' } }),
+    ev({ key: 'future', startDate: '2026-04-20', venue: { name: CFP, type: 'venue' } }),
+  ]
+
+  it('judges a live edition live, with the clock exposed for past-greying', () => {
+    const view = deriveCalendarView(mixed, DEFAULT_FILTERS, '2026-04-15')
+    expect(view.ended).toBe(false)
+    expect(view.liveClock).toBe('2026-04-15')
+    expect(view.windowLabel).toBe('10–20 Apr')
+    expect(view.countLabel).toBe('1 upcoming event')
+  })
+
+  it('judges a finished edition ended, clock nulled, archive-total label', () => {
+    const view = deriveCalendarView(mixed, DEFAULT_FILTERS, '2026-05-01')
+    expect(view.ended).toBe(true)
+    expect(view.liveClock).toBeNull()
+    expect(view.countLabel).toBe('2 events')
+  })
+
+  it('judges ended/live on the whole edition — filtering to past-only keeps the live greying', () => {
+    const view = deriveCalendarView(
+      mixed,
+      { ...DEFAULT_FILTERS, venues: ['galeria-simeza'], showPast: true },
+      '2026-04-15',
+    )
+    expect(view.visible.map((e) => e.key)).toEqual(['past'])
+    expect(view.ended).toBe(false)
+    expect(view.liveClock).toBe('2026-04-15')
+  })
+
+  it('counts "X of Y" only when the venue/type filters narrow the upcoming set', () => {
+    const twoUpcoming = [
+      ev({ key: 'a', startDate: '2026-04-20', venue: { name: CFP, type: 'venue' } }),
+      ev({ key: 'b', startDate: '2026-04-21', venue: { name: 'Galeria Simeza', type: 'venue' } }),
+    ]
+    const all = deriveCalendarView(twoUpcoming, DEFAULT_FILTERS, '2026-04-15')
+    expect(all.countLabel).toBe('2 upcoming events')
+    const narrowed = deriveCalendarView(
+      twoUpcoming,
+      { ...DEFAULT_FILTERS, venues: ['galeria-simeza'] },
+      '2026-04-15',
+    )
+    expect(narrowed.countLabel).toBe('1 of 2 upcoming events')
+  })
+
+  it('spans the window label across months and stretches it over run end dates', () => {
+    const events = [
+      ev({ key: 'run', startDate: '2026-04-26', endDate: '2026-05-11' }),
+      ev({ key: 'day', startDate: '2026-04-28' }),
+    ]
+    expect(deriveCalendarView(events, DEFAULT_FILTERS, '2026-04-15').windowLabel).toBe(
+      '26 Apr – 11 May',
+    )
+  })
+
+  it('treats everything as upcoming before the clock resolves, no window judgement', () => {
+    const view = deriveCalendarView(mixed, DEFAULT_FILTERS, null)
+    expect(view.ended).toBe(false)
+    expect(view.liveClock).toBeNull()
+    expect(view.countLabel).toBe('2 upcoming events')
+  })
+
+  it('handles an eventless edition — no window label, zero-count label', () => {
+    const view = deriveCalendarView([], DEFAULT_FILTERS, '2026-04-15')
+    expect(view.windowLabel).toBeUndefined()
+    expect(view.countLabel).toBe('0 events')
   })
 })

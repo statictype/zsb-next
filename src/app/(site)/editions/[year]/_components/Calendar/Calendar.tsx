@@ -1,30 +1,24 @@
 'use client'
 
 import { calendar } from '@calendar/Calendar.recipe'
+import { ArchiveCollapse, CalendarBoard } from '@calendar/CalendarBoard'
 import { CalendarFilters } from '@calendar/CalendarFilters'
 import { CalendarMeta } from '@calendar/CalendarMeta'
+import { CalendarRecap } from '@calendar/CalendarRecap'
 import { CalendarShare, PROGRAM_SECTION_ID } from '@calendar/CalendarShare'
 import { type CalendarFilterOptions, deriveCalendarView } from '@calendar/calendar-filters'
-import { FollowLinks, type SocialLink } from '@calendar/FollowLinks'
+import type { SocialLink } from '@calendar/FollowLinks'
 import { HashScroller } from '@calendar/HashScroller'
-import { TypeChips } from '@calendar/TypeChips'
 import { useCalendarFilters } from '@calendar/useCalendarFilters'
-import { VenueLine } from '@calendar/VenueLine'
 import { RiHistoryLine } from '@remixicon/react'
-import Link from 'next/link'
-import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
-import { Container, Divider, Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
+import { Container, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
-import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
-import { Collapsible } from '@/components/ui/Collapsible/Collapsible'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
-import { editionWindow, formatShortRange } from '@/lib/edition-dates'
 import { useTodayIso } from '@/lib/use-today-iso'
-import type { CalendarEvent, CalendarListEvent } from '@/types/edition'
+import type { CalendarEvent } from '@/types/edition'
 
-// No variants — one shared instance for the component + its module-level helpers.
 const s = calendar()
 
 interface CalendarProps {
@@ -40,45 +34,18 @@ interface CalendarProps {
   socials?: SocialLink[]
 }
 
+/**
+ * The interactive shell: the client clock, the URL filter store, one
+ * `deriveCalendarView` call, and composition. Everything it renders below the
+ * header is a pure piece (`CalendarBoard`, `CalendarRecap`) of the derived view.
+ */
 export function Calendar({ year, events, filterOptions, theme, socials = [] }: CalendarProps) {
   const todayIso = useTodayIso()
   const { filters, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(filterOptions)
-
-  const {
-    visible,
-    onView,
-    days,
-    upcoming,
-    upcomingMatching,
-    past,
-    showPast,
-    showPastControl,
-    canReset,
-  } = deriveCalendarView(events, filters, todayIso)
-
-  // Edition window + live/ended judged on the WHOLE edition, never the filtered
-  // subset — filtering to past-only on a live edition must keep the live "past"
-  // greying, not flip the board into clean-archive mode.
-  const [editionStart, editionEnd] = editionWindow(events)
-  const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
-  // Non-null exactly while the edition is live; the `past` checks below read
-  // it so narrowing flows instead of needing `todayIso!` assertions.
-  const liveClock = ended ? null : todayIso
+  const view = deriveCalendarView(events, filters, todayIso)
+  const { ended, windowLabel, countLabel, past, showPast, showPastControl, canReset } = view
 
   const showFilterBar = filterOptions.venues.length > 1 || filterOptions.types.length > 1
-
-  const windowLabel =
-    editionStart && editionEnd ? formatShortRange(editionStart, editionEnd) : undefined
-
-  // "X of Y upcoming events", collapsing to "Y upcoming events" when the venue/
-  // type filters aren't narrowing anything. A finished edition (nothing upcoming)
-  // falls back to a plain archive total — its recap treatment is ZSB-45.
-  const countLabel =
-    upcoming === 0
-      ? `${events.length} ${events.length === 1 ? 'event' : 'events'}`
-      : upcomingMatching === upcoming
-        ? `${upcoming} upcoming ${upcoming === 1 ? 'event' : 'events'}`
-        : `${upcomingMatching} of ${upcoming} upcoming events`
 
   return (
     <section
@@ -101,19 +68,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                 <CalendarMeta year={year} label={windowLabel} />
               </Stack>
               {ended ? (
-                // A finished edition leads with a short recap + follow CTAs; its
-                // archive agenda collapses below (ZSB-45). Applies to every
-                // finished edition, judged client-side like the rest of the board.
-                <Stack className={s.recap}>
-                  <Text as="p" variant="body">
-                    That was{' '}
-                    <Text as="strong" variant="body" className={s.recapMark}>
-                      ZSB {year}
-                    </Text>
-                    {theme ? ` — ${theme}` : ''}.
-                  </Text>
-                  <FollowLinks label="Follow for what’s next" socials={socials} />
-                </Stack>
+                <CalendarRecap year={year} theme={theme} socials={socials} />
               ) : (
                 <Wrap gap="md">
                   <Text variant="label" className={s.count} aria-live="polite">
@@ -153,187 +108,11 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                   onReset={reset}
                 />
               )}
-
-              {visible.length === 0 ? (
-                <Stack className={s.empty} role="status">
-                  <Text as="p" variant="heading" className={s.emptyText}>
-                    No events match these filters.
-                  </Text>
-                  <Button variant="link" className={s.emptyClear} onClick={reset}>
-                    <Text variant="label">Show all events</Text>
-                  </Button>
-                </Stack>
-              ) : (
-                // Ongoing exhibitions sit on top as a card grid; the one-off events
-                // follow below as the day-by-day agenda (ZSB-49).
-                <Stack className={s.layout} gap="2xl">
-                  {onView.length > 0 && (
-                    <Stack gap="lg">
-                      <Divider />
-                      <Stack as="section" gap="md" aria-label="Ongoing throughout the edition">
-                        <Text as="h3" variant="label" className={s.bandLabel}>
-                          Ongoing
-                        </Text>
-                        <Grid
-                          as="ul"
-                          minChildWidth="300px"
-                          gap="md"
-                          columns={{ base: 1, md: 2, lg: 3, '4xl': 4 }}
-                          listStyle="none"
-                        >
-                          {onView.map((run) => {
-                            const runEnd = run.endDate ?? run.startDate
-                            const past = liveClock !== null && runEnd < liveClock
-                            // Every run carries its own span — runs cover different
-                            // stretches of the edition, so a shared band range read as
-                            // "everything runs these dates" (ZSB-48).
-                            const runRange = formatShortRange(run.startDate, runEnd)
-                            return (
-                              <li key={run.key} className={s.run} data-past={past}>
-                                {run.image && (
-                                  <div className={s.runMedia}>
-                                    <Figure
-                                      image={run.image}
-                                      sizes="(min-width: 1280px) 360px, (min-width: 768px) 45vw, 90vw"
-                                    />
-                                  </div>
-                                )}
-                                <Stack className={s.runContent} gap="sm">
-                                  <TypeChips types={run.types} />
-                                  <Text as="h4" variant="calendar" color="white">
-                                    <Link
-                                      className={s.nameButton}
-                                      href={`/editions/${year}/events/${run.slug}`}
-                                      scroll={false}
-                                    >
-                                      {run.name}
-                                    </Link>
-                                  </Text>
-                                  <VenueLine venue={run.venue} />
-                                  <Wrap className={s.runFoot} gap="md">
-                                    {runRange && <Text variant="label">{runRange}</Text>}
-                                  </Wrap>
-                                </Stack>
-                              </li>
-                            )
-                          })}
-                        </Grid>
-                      </Stack>
-                    </Stack>
-                  )}
-
-                  {days.length > 0 && (
-                    <ol className={s.agenda}>
-                      {days.map((day) => (
-                        <Stack
-                          as="li"
-                          key={day.iso}
-                          className={s.day}
-                          data-past={liveClock !== null && day.iso < liveClock}
-                        >
-                          <HStack
-                            className={s.marker}
-                            flexDirection={{ base: 'row', md: 'column' }}
-                            alignItems={{ base: 'baseline', md: 'flex-end' }}
-                            gap={{ base: 'md', md: 'sm' }}
-                          >
-                            <span className={s.markerNode} aria-hidden />
-                            <span className={s.markerDay}>{day.token.dayPadded}</span>
-                            <HStack
-                              as="span"
-                              flexDirection={{ base: 'row', md: 'column' }}
-                              alignItems={{ base: 'baseline', md: 'flex-end' }}
-                              gap={{ md: 'xs' }}
-                            >
-                              <Text variant="label">{day.token.month}</Text>
-                              <Text variant="label" className={s.markerWeekday}>
-                                {day.token.weekday}
-                              </Text>
-                            </HStack>
-                          </HStack>
-                          <ul className={s.events}>
-                            {day.events.map((event) => (
-                              <EventRow key={event.key} event={event} year={year} />
-                            ))}
-                          </ul>
-                        </Stack>
-                      ))}
-                    </ol>
-                  )}
-                </Stack>
-              )}
+              <CalendarBoard view={view} year={year} onReset={reset} />
             </Stack>
           </ArchiveCollapse>
         </Stack>
       </Container>
     </section>
-  )
-}
-
-// On a finished edition the full board is kept as the historical record but
-// folded behind a Collapsible so the recap leads (ZSB-45); live/upcoming editions
-// render the board directly without mounting a redundant Collapsible.
-function ArchiveCollapse({
-  ended,
-  count,
-  children,
-}: {
-  ended: boolean
-  count: number
-  children: ReactNode
-}) {
-  if (!ended) return <>{children}</>
-  return (
-    <Collapsible
-      id="calendar-archive"
-      closedLabel="View full programme"
-      openLabel="Hide full programme"
-      meta={`${count} ${count === 1 ? 'event' : 'events'}`}
-    >
-      {children}
-    </Collapsible>
-  )
-}
-
-function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
-  return (
-    <li className={s.event} data-poster={!!event.image}>
-      <Stack className={s.eventBody} gap="sm">
-        <Wrap>
-          {event.startTime && (
-            <Text variant="label" className={s.eventTime}>
-              {event.startTime}
-            </Text>
-          )}
-          <TypeChips types={event.types} />
-          {event.image && (
-            <Text variant="label" className={s.posterTag}>
-              Poster
-            </Text>
-          )}
-        </Wrap>
-        {/* The name links to the event's route (the modal opens over the
-            edition); its stretched overlay makes the whole row the hit target
-            (see `.nameButton` in the CSS). */}
-        <Text as="h4" variant="calendar" color="white">
-          <Link
-            className={s.nameButton}
-            href={`/editions/${year}/events/${event.slug}`}
-            scroll={false}
-          >
-            {event.name}
-          </Link>
-        </Text>
-        <VenueLine venue={event.venue} />
-        <Text as="p" variant="caption" className={s.eventDesc}>
-          {event.description}
-        </Text>
-      </Stack>
-      {event.image && (
-        <div className={s.poster}>
-          <Figure image={event.image} sizes="(min-width: 1280px) 240px, 70vw" />
-        </div>
-      )}
-    </li>
   )
 }
