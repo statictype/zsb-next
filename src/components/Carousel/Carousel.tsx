@@ -4,6 +4,7 @@ import { Carousel as ArkCarousel } from '@ark-ui/react/carousel'
 import { RiArrowLeftLine, RiArrowRightLine, RiPauseLine, RiPlayLine } from '@remixicon/react'
 import { type ReactNode, useId, useRef, useState, useSyncExternalStore } from 'react'
 import { cx } from 'styled-system/css'
+import { Stack } from 'styled-system/jsx'
 import { carousel } from 'styled-system/recipes'
 import { token } from 'styled-system/tokens'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
@@ -176,7 +177,8 @@ export function Carousel({
           )
 
           return (
-            <div
+            <Stack
+              gap="lg"
               onPointerEnter={(event) => {
                 if (event.pointerType === 'touch') return
                 setHovered(true)
@@ -216,7 +218,7 @@ export function Carousel({
                 ))}
               </ArkCarousel.ItemGroup>
               {mode === 'stage' && controls}
-            </div>
+            </Stack>
           )
         }}
       </ArkCarousel.Context>

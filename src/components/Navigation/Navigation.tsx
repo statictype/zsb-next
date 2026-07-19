@@ -34,8 +34,10 @@ export function Navigation() {
       </div>
 
       <nav className={s.desktopNav} aria-label="Primary navigation">
-        <Suspense fallback={<NavLinksList pathname={null} className={desktopLinkClass} />}>
-          <NavLinks className={desktopLinkClass} />
+        <Suspense
+          fallback={<NavLinksList pathname={null} className={desktopLinkClass} context="desktop" />}
+        >
+          <NavLinks className={desktopLinkClass} context="desktop" />
         </Suspense>
       </nav>
 

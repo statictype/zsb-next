@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useSyncExternalStore } from 'react'
 import { createPortal } from 'react-dom'
 import { css, cx } from 'styled-system/css'
+import { HStack, Stack, Text } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { CONSENT_COOKIE, CONSENT_REOPEN_EVENT, GA_MEASUREMENT_ID } from '@/lib/constants'
 import { cookieBanner } from './CookieBanner.recipe'
@@ -68,20 +69,26 @@ export function CookieBanner() {
               aria-labelledby="cookie-consent-title"
               className={cx(s.banner, css({ animationStyle: 'enter.snappy' }))}
             >
-              <div className={s.inner}>
-                <div className={s.copy}>
-                  <p id="cookie-consent-title" className={s.title}>
+              <HStack
+                className={s.inner}
+                flexDirection={{ base: 'column', md: 'row' }}
+                alignItems={{ base: 'stretch', md: 'center' }}
+                justify={{ md: 'space-between' }}
+                gap={{ base: 'md', md: 'xl' }}
+              >
+                <Stack className={s.copy} gap="xs">
+                  <Text as="p" variant="heading" id="cookie-consent-title">
                     We use cookies
-                  </p>
-                  <p className={s.text}>
+                  </Text>
+                  <Text as="p" variant="caption">
                     We use Google Analytics to understand how visitors use this site. No ads, no
                     tracking across other sites.{' '}
                     <Link href="/privacy" className={s.link}>
                       Read our privacy policy
                     </Link>
                     .
-                  </p>
-                </div>
+                  </Text>
+                </Stack>
                 <div className={s.actions}>
                   <Button variant="secondary" size="sm" onClick={reject}>
                     Reject
@@ -90,7 +97,7 @@ export function CookieBanner() {
                     Accept
                   </Button>
                 </div>
-              </div>
+              </HStack>
             </div>,
             document.body,
           )

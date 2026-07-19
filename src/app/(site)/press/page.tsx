@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -83,74 +84,74 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
       />
       {appearances.length > 0 && <JsonLd data={pressAppearancesJsonLd(appearances)} />}
       <main className={styles.page}>
-        {/* ===== Hero ===== */}
         <PageHero
           flush
           title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
           lead={hero.lead}
         />
 
-        {/* ===== Media Kit Strip ===== */}
         {kit.length > 0 && (
           <section id="media-kit" className={section()}>
-            <div className={styles.kitHeader}>
+            <Container mb="2xl">
               <SectionHeading flush>Media kit</SectionHeading>
-            </div>
+            </Container>
             <MediaKitStrip items={kit} />
           </section>
         )}
 
-        {/* ===== Appearances ===== */}
         {appearances.length > 0 && (
           <section className={section()}>
-            <div className={styles.appearancesInner}>
-              <SectionHeading>Press appearances</SectionHeading>
+            <Container>
+              <Stack gap="xl">
+                <SectionHeading>Press appearances</SectionHeading>
 
-              <LinkList>
-                {appearances.map((item) => {
-                  if (!item.medium || !item.url) return null
-                  return (
-                    <LinkListItem
-                      key={item._id}
-                      year={item.year}
-                      title={item.title}
-                      href={item.url}
-                      excerpt={item.excerpt}
-                      external
-                      tags={[
-                        <Badge key="tag" tone="outline">
-                          {item.tag}
-                        </Badge>,
-                        <Badge key="medium" tone="outline">
-                          {MEDIUM_LABEL[item.medium]}
-                        </Badge>,
-                      ]}
-                    />
-                  )
-                })}
-              </LinkList>
-            </div>
+                <LinkList>
+                  {appearances.map((item) => {
+                    if (!item.medium || !item.url) return null
+                    return (
+                      <LinkListItem
+                        key={item._id}
+                        year={item.year}
+                        title={item.title}
+                        href={item.url}
+                        excerpt={item.excerpt}
+                        external
+                        tags={[
+                          <Badge key="tag" tone="outline">
+                            {item.tag}
+                          </Badge>,
+                          <Badge key="medium" tone="outline">
+                            {MEDIUM_LABEL[item.medium]}
+                          </Badge>,
+                        ]}
+                      />
+                    )
+                  })}
+                </LinkList>
+              </Stack>
+            </Container>
           </section>
         )}
 
-        {/* ===== Releases ===== */}
         {releases.length > 0 && (
           <section className={section()}>
-            <div className={styles.releasesInner}>
-              <SectionHeading>Press releases</SectionHeading>
+            <Container>
+              <Stack gap="xl">
+                <SectionHeading>Press releases</SectionHeading>
 
-              <LinkList>
-                {releases.map((release) => (
-                  <LinkListItem
-                    key={release._id}
-                    year={release.publishedAt.slice(0, 4)}
-                    title={release.title}
-                    href={release.pdfUrl ?? undefined}
-                    external
-                  />
-                ))}
-              </LinkList>
-            </div>
+                <LinkList>
+                  {releases.map((release) => (
+                    <LinkListItem
+                      key={release._id}
+                      year={release.publishedAt.slice(0, 4)}
+                      title={release.title}
+                      href={release.pdfUrl ?? undefined}
+                      external
+                    />
+                  ))}
+                </LinkList>
+              </Stack>
+            </Container>
           </section>
         )}
       </main>

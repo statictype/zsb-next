@@ -1,4 +1,5 @@
 import { cx } from 'styled-system/css'
+import { Center, Grid, Stack } from 'styled-system/jsx'
 import { editionLoading } from './loading.recipe'
 
 const styles = editionLoading()
@@ -6,29 +7,26 @@ const styles = editionLoading()
 export default function EditionLoading() {
   return (
     <main className={styles.page}>
-      {/* Hero skeleton */}
-      <div className={styles.hero}>
+      <Center className={styles.hero} flexDirection="column" gap="lg">
         <div className={cx(styles.bone, styles.heroEyebrow)} />
         <div className={cx(styles.bone, styles.heroYear)} />
         <div className={cx(styles.bone, styles.heroTheme)} />
-      </div>
+      </Center>
 
-      {/* Manifesto skeleton */}
-      <div className={styles.section}>
+      <Stack className={styles.section} gap="xl">
         <div className={cx(styles.bone, styles.sectionTitle)} />
-        <div className={styles.manifesto}>
+        <Stack>
           <div className={cx(styles.bone, styles.manifestoLine)} />
           <div className={cx(styles.bone, styles.manifestoLine)} />
           <div className={cx(styles.bone, styles.manifestoLine)} />
           <div className={cx(styles.bone, styles.manifestoLine)} />
           <div className={cx(styles.bone, styles.manifestoLine)} />
-        </div>
-      </div>
+        </Stack>
+      </Stack>
 
-      {/* Artists skeleton */}
-      <div className={styles.section}>
+      <Stack className={styles.section} gap="xl">
         <div className={cx(styles.bone, styles.sectionTitle)} />
-        <div className={styles.artistGrid}>
+        <Grid columns={{ base: 2, md: 3, lg: 4 }} gap="md">
           <div className={cx(styles.bone, styles.artistCard)} />
           <div className={cx(styles.bone, styles.artistCard)} />
           <div className={cx(styles.bone, styles.artistCard)} />
@@ -37,20 +35,18 @@ export default function EditionLoading() {
           <div className={cx(styles.bone, styles.artistCard)} />
           <div className={cx(styles.bone, styles.artistCard)} />
           <div className={cx(styles.bone, styles.artistCard)} />
-        </div>
-      </div>
+        </Grid>
+      </Stack>
 
-      {/* Venues skeleton */}
-      <div className={styles.section}>
+      <Stack className={styles.section} gap="xl">
         <div className={cx(styles.bone, styles.sectionTitle)} />
-        <div className={styles.venueRow}>
+        <Stack>
           <div className={cx(styles.bone, styles.venueItem)} />
           <div className={cx(styles.bone, styles.venueItem)} />
           <div className={cx(styles.bone, styles.venueItem)} />
-        </div>
-      </div>
+        </Stack>
+      </Stack>
 
-      {/* Carousel skeleton */}
       <div className={styles.section}>
         <div className={cx(styles.bone, styles.carousel)} />
       </div>

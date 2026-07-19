@@ -1,5 +1,5 @@
-import { type CSSProperties } from 'react'
 import { css } from 'styled-system/css'
+import { Container, Grid } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
@@ -26,10 +26,6 @@ export default function EditionsPage() {
   )
 }
 
-// The per-card stagger for the theme tape's entrance (reads `--card-index` off
-// the slot). The tape's `tapeIn` is the card's reveal motion.
-const THEME_STAGGER = 'calc(var(--card-index, 0) * 120ms + 120ms)'
-
 async function CachedEditionsList({ options }: { options: DynamicFetchOptions }) {
   'use cache'
   // Already status-filtered and year-desc in the query, so index 0 is the
@@ -38,28 +34,22 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
 
   return (
     <EditionsListShell>
-      <div className={styles.grid}>
+      <Grid columns={{ base: 1, lg: 2 }} gap="lg">
         {editions.map((edition, index) => {
           const isFeature = index === 0
 
           return (
-            <div
-              key={edition.year}
-              className={styles.slot}
-              data-feature={isFeature || undefined}
-              style={{ '--card-index': index } as CSSProperties}
-            >
+            <div key={edition.year} className={styles.slot} data-feature={isFeature || undefined}>
               <EditionCard
                 edition={edition}
                 href={`/editions/${edition.year}`}
                 size={isFeature ? 'lg' : 'md'}
-                themeDelay={THEME_STAGGER}
                 className={styles.card}
               />
             </div>
           )
         })}
-      </div>
+      </Grid>
     </EditionsListShell>
   )
 }
@@ -78,7 +68,7 @@ function EditionsListShell({ children }: { children?: React.ReactNode }) {
       />
 
       <section className={section({ ground: 'dark' })}>
-        <div className={styles.inner}>{children}</div>
+        <Container>{children}</Container>
       </section>
     </main>
   )

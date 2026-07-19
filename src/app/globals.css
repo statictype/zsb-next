@@ -14,8 +14,7 @@
 
 /* ---- Reset + base element styles ----
    Wrapped in @layer base so Panda recipes/utilities win over them. The body
-   reads the Panda token vars directly (the OKLCH brand black/white, body font,
-   responsive base size, body leading). */
+   ground (background/ink/type) is owned by Panda globalCss. */
 @layer base {
   *,
   *::before,
@@ -27,15 +26,14 @@
 
   html {
     scroll-behavior: smooth;
+    /* Clears the fixed nav on anchor-jump/scrollIntoView targets sitewide —
+       the "page shell" nav-scroll allowance the calc audit's anchor sites
+       rely on instead of a per-element scroll-margin calc. */
+    scroll-padding-top: var(--sizes-nav);
   }
 
   body {
-    background-color: var(--colors-black);
-    color: var(--colors-white);
-    font-family: var(--fonts-body);
-    font-size: var(--font-sizes-base);
     overflow-x: hidden;
-    line-height: var(--line-heights-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-optical-sizing: auto;

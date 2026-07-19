@@ -2,6 +2,7 @@ import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 import { linkList } from './LinkList.recipe'
 
 export function LinkList({
@@ -37,10 +38,18 @@ export function LinkListItem({
   const styles = linkList()
   const content = (
     <>
-      <span className={styles.year}>{year}</span>
+      <Text variant="label" className={styles.year}>
+        {year}
+      </Text>
       <span className={styles.body}>
-        <span className={styles.title}>{title}</span>
-        {excerpt ? <span className={styles.excerpt}>{excerpt}</span> : null}
+        <Text variant="heading" className={styles.title}>
+          {title}
+        </Text>
+        {excerpt ? (
+          <Text variant="caption" className={styles.excerpt}>
+            {excerpt}
+          </Text>
+        ) : null}
       </span>
       {tags.length > 0 ? <span className={styles.tags}>{tags}</span> : null}
       {!disabled ? (

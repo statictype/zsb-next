@@ -17,10 +17,10 @@ export interface LightboxImage {
   caption?: string
 }
 
-// Mirrors `Lightbox.recipe.ts`'s frame geometry (`lightboxFrameWidth` and two
-// `lightboxNavColumn`s) so the browser's image selection agrees with the
+// Mirrors `Lightbox.recipe.ts`'s frame geometry (`lightboxFrameWidth` and the
+// grid's center track) so the browser's image selection agrees with the
 // frame's actual rendered width.
-const SIZES = `(min-width: ${token('sizes.breakpoint-md')}) calc(100vw - (${token('sizes.lightboxNavColumn')} * 2)), ${token('sizes.lightboxFrameWidth')}`
+const SIZES = `(min-width: ${token('sizes.breakpoint-md')}) ${token('sizes.lightboxFrameMax')}, ${token('sizes.lightboxFrameWidth')}`
 
 interface LightboxProps {
   images: LightboxImage[]
@@ -165,11 +165,10 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
   const verticalProgress = Math.min(1, drag.y / VERTICAL_FADE_DISTANCE)
   const backdropAlpha = 0.95 * (1 - verticalProgress * 0.5)
   const normal = token('durations.normal')
+  const quint = token('easings.quint')
   const frameStyle = {
     transform: `translate3d(${drag.x}px, ${drag.y}px, 0)`,
-    transition: isDragging
-      ? 'none'
-      : `transform ${normal} ${token('easings.expo')}, opacity ${normal} ${token('easings.quint')}`,
+    transition: isDragging ? 'none' : `transform ${normal} ${quint}, opacity ${normal} ${quint}`,
     opacity: 1 - verticalProgress * 0.4,
   }
 
@@ -181,7 +180,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
 
   return (
     <Dialog open={isOpen} onClose={onClose} ariaLabel="Image lightbox" presentation="fullscreen">
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- lightbox click and drag are product gestures; keyboard and close live on the Dialog and its buttons */}
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- backdrop click closes; the close Button is the accessible path */}
       <div
         className={s.lightbox}
         onClick={onClose}
@@ -223,7 +222,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
           <>
             <Button
               variant="icon"
-              className={cx(s.nav, css({ left: '0' }))}
+              className={cx(s.nav, css({ gridColumn: '1' }))}
               onClick={(e) => {
                 e.stopPropagation()
                 onPrev()
@@ -234,7 +233,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
             </Button>
             <Button
               variant="icon"
-              className={cx(s.nav, css({ right: '0' }))}
+              className={cx(s.nav, css({ gridColumn: '3' }))}
               onClick={(e) => {
                 e.stopPropagation()
                 onNext()

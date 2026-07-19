@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import type { CSSProperties } from 'react'
-import { css, cx } from 'styled-system/css'
+import { cx } from 'styled-system/css'
+import { Container, Grid, HStack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -14,27 +14,24 @@ import { featuredEvents } from './FeaturedEvents.recipe'
 
 const styles = featuredEvents()
 
-// The homepage spotlight (ZSB-31): the few events the team has marked `featured`,
-// pulled off the schedule board (ZSB-28) and pinned up as poster cards. The look
-// only — which edition these come from and whether the section appears at all is
-// owned by ZSB-44; this component takes the chosen events and renders them. Each
-// card links to the event's route so the detail modal opens over the edition
-// (ADR 0015), exactly like a calendar row.
-
 interface FeaturedEventsProps {
   year: number
   events: CalendarEvent[]
 }
 
 export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
-  // No marked events → no section. (Presence is ultimately ZSB-44's call, but a
-  // component that renders an empty spotlight would be a bug regardless.)
   if (events.length === 0) return null
 
   return (
     <section className={section({ ground: 'dark' })} aria-labelledby="featured-heading">
-      <div className={styles.inner}>
-        <header className={styles.header}>
+      <Container>
+        <HStack
+          as="header"
+          className={styles.header}
+          alignItems="flex-end"
+          justify="space-between"
+          gap="md"
+        >
           <div className={styles.headerMain}>
             <Eyebrow className={styles.eyebrow}>Don&rsquo;t miss</Eyebrow>
             <SectionHeading id="featured-heading" flush>
@@ -44,14 +41,14 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
           <Button asChild variant="link">
             <Link href={`/editions/${year}#program`}>Full calendar</Link>
           </Button>
-        </header>
+        </HStack>
 
-        <ul className={styles.grid}>
+        <Grid as="ul" columns={{ base: 1, md: 2, lg: 3 }} listStyle="none">
           {events.map((event, i) => (
             <FeaturedCard key={event.key} event={event} year={year} index={i} />
           ))}
-        </ul>
-      </div>
+        </Grid>
+      </Container>
     </section>
   )
 }
@@ -69,12 +66,9 @@ function FeaturedCard({
   const stamp = String(index + 1).padStart(2, '0')
 
   return (
-    // The stagger delay rides --i; the whole frame is the hit target via the
-    // name link's stretched ::after (see .cardLink in the CSS).
-    <li
-      className={cx(styles.card, css({ animationStyle: 'enter' }))}
-      style={{ '--i': index } as CSSProperties}
-    >
+    // The whole frame is the hit target via the name link's stretched
+    // ::after (see .cardLink in the CSS).
+    <li className={styles.card}>
       <Card
         as="article"
         ground="onDark"
@@ -100,26 +94,32 @@ function FeaturedCard({
         </span>
 
         <div className={styles.caption}>
-          <p className={styles.when}>{eventWhenLabelShort(event)}</p>
+          <Text as="p" variant="label" className={styles.when}>
+            {eventWhenLabelShort(event)}
+          </Text>
           <h3 className={styles.name}>
             <Link className={styles.cardLink} href={`/editions/${year}/events/${event.slug}`}>
               {event.name}
             </Link>
           </h3>
-          <p className={styles.venue}>
-            <span className={styles.venueName}>{event.venue.name}</span>
+          <Wrap as="p">
+            <Text variant="caption" className={styles.venueName}>
+              {event.venue.name}
+            </Text>
             {event.venue.partOf && (
-              <span className={styles.venueParent}>{event.venue.partOf.name}</span>
+              <Text variant="label" className={styles.venueParent}>
+                {event.venue.partOf.name}
+              </Text>
             )}
-          </p>
+          </Wrap>
           {event.types.length > 0 && (
-            <ul className={styles.chips}>
+            <Wrap as="ul" listStyle="none" marginTop="xs">
               {event.types.slice(0, 2).map((t) => (
                 <li key={t.slug}>
                   <Badge>{t.title}</Badge>
                 </li>
               ))}
-            </ul>
+            </Wrap>
           )}
         </div>
       </Card>

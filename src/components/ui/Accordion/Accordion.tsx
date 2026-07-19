@@ -4,6 +4,7 @@ import { Accordion as ArkAccordion } from '@ark-ui/react/accordion'
 import { RiArrowDownSLine } from '@remixicon/react'
 import type { ReactNode } from 'react'
 import { css, cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 import { accordion } from 'styled-system/recipes'
 
 export interface AccordionItem {
@@ -19,7 +20,6 @@ interface AccordionProps {
   id?: string | undefined
   items: AccordionItem[]
   multiple?: boolean
-  triggerTypography?: 'standard' | 'display'
   className?: string | undefined
 }
 
@@ -27,14 +27,8 @@ interface AccordionProps {
  * The site's one-piece disclosure list. Ark owns state, IDs, keyboard behavior,
  * and ARIA; Panda owns the anatomy-aligned visual contract.
  */
-export function Accordion({
-  id,
-  items,
-  multiple = false,
-  triggerTypography = 'standard',
-  className,
-}: AccordionProps) {
-  const styles = accordion({ triggerTypography })
+export function Accordion({ id, items, multiple = false, className }: AccordionProps) {
+  const styles = accordion()
 
   return (
     <ArkAccordion.Root
@@ -49,8 +43,12 @@ export function Accordion({
       {items.map((item) => {
         const trigger = (
           <ArkAccordion.ItemTrigger className={styles.itemTrigger}>
-            {item.trigger}
-            {item.meta !== undefined && <span data-accordion-meta>{item.meta}</span>}
+            <Text variant="heading">{item.trigger}</Text>
+            {item.meta !== undefined && (
+              <Text variant="label" data-accordion-meta>
+                {item.meta}
+              </Text>
+            )}
             <ArkAccordion.ItemIndicator className={styles.itemIndicator}>
               <RiArrowDownSLine size={20} aria-hidden />
             </ArkAccordion.ItemIndicator>

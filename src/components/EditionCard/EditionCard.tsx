@@ -1,6 +1,7 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
+import { Divider, HStack, Stack, Text } from 'styled-system/jsx'
 import type { RecipeVariantProps } from 'styled-system/types'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
@@ -27,9 +28,6 @@ interface EditionCardProps {
   edition: EditionCardData
   href: string
   size?: EditionCardSize
-  /** Entrance delay forwarded to the theme tape (the archive grid's
-   *  `--card-index` stagger). */
-  themeDelay?: string | undefined
   className?: string | undefined
 }
 
@@ -40,13 +38,7 @@ interface EditionCardProps {
  * are gated `status != "upcoming"`). The imageless plate in the footer rail
  * is `EditionRailCard`, which shares the `EditionTheme` tape, not this card.
  */
-export function EditionCard({
-  edition,
-  href,
-  size = 'md',
-  themeDelay,
-  className,
-}: EditionCardProps) {
+export function EditionCard({ edition, href, size = 'md', className }: EditionCardProps) {
   const styles = editionCard({ size })
   // `dateTape` composes "date · venue"; split off just the date and read
   // `venueLine` directly for the venue, rather than re-parsing it back out.
@@ -64,17 +56,17 @@ export function EditionCard({
         />
         <Badge className={styles.year}>{edition.year}</Badge>
       </div>
-      <div className={styles.content}>
+      <Stack className={styles.content} gap="sm">
         <EditionTheme
           as="h2"
           size={size === 'lg' ? 'large' : 'normal'}
           interactive
           theme={edition.theme}
           themeHighlight={edition.themeHighlight}
-          delay={themeDelay}
         />
-        <div className={styles.meta}>
-          <span className={styles.details}>
+        <Divider />
+        <HStack justify="space-between" paddingBlockStart="lg">
+          <Text variant="label">
             {edition.venueLine ? (
               <>
                 {date} · <span className={styles.venue}>{edition.venueLine}</span>
@@ -82,13 +74,13 @@ export function EditionCard({
             ) : (
               edition.dateTape
             )}
-          </span>
-          <span className={styles.cta} aria-hidden>
-            View edition
+          </Text>
+          <HStack as="span" className={styles.cta} aria-hidden>
+            <Text variant="label">View edition</Text>
             <RiArrowRightUpLine size={16} className={styles.ctaIcon} />
-          </span>
-        </div>
-      </div>
+          </HStack>
+        </HStack>
+      </Stack>
     </Card>
   )
 }

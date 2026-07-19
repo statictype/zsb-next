@@ -1,33 +1,9 @@
 import { sva } from 'styled-system/css'
 
-/**
- * VisitSection — co-located slot recipe.
- *
- * Dark split layout shell for the Visit lead section. The block recipes below
- * keep image, info, amenity, and transport styling separate without splitting
- * this small page into tiny JSX components.
- *
- * `infoValue`/`transportFrom` keep the legacy raw-gray exceptions (bright body
- * on dark, lead-style emphasis). The unused `eyebrow`/`headline` rules were
- * dropped, not ported.
- */
 export const visitSection = sva({
-  slots: ['section', 'inner', 'splitLayout', 'content', 'cta'],
+  slots: ['section', 'content'],
   base: {
     section: { width: 'full', paddingBlock: 'sectionY' },
-    inner: { layerStyle: 'sectionInner' },
-
-    splitLayout: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      gap: '2xl',
-      alignItems: 'center',
-      lg: { gridTemplateColumns: '5fr 6fr', gap: 'gridGap' },
-    },
-
-    content: { display: 'flex', flexDirection: 'column', gap: 'lg' },
-
-    cta: { paddingTop: 'md' },
   },
 })
 
@@ -50,7 +26,7 @@ export const visitImageFrame = sva({
 })
 
 export const visitInfoSummary = sva({
-  slots: ['row', 'block', 'icon', 'label', 'value'],
+  slots: ['row', 'icon', 'value'],
   base: {
     row: {
       display: 'flex',
@@ -59,74 +35,23 @@ export const visitInfoSummary = sva({
       flexWrap: 'wrap',
       md: { flexDirection: 'row', gap: 'xl' },
     },
-    block: { display: 'flex', flexDirection: 'column', gap: 'xs' },
-    icon: { color: 'action', marginBottom: 'xs' },
-    label: {
-      fontFamily: 'body',
-      fontSize: 'xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      color: 'muted',
-      fontWeight: 'semibold',
-    },
+    icon: { color: 'action' },
     value: {
-      fontFamily: 'body',
-      fontSize: 'sm',
       // exception: bright body on dark, lead-style emphasis
       color: 'gray.200',
-      lineHeight: 'body',
       // Joined multi-line values (opening hours) render their own '\n' breaks.
       whiteSpace: 'pre-line',
     },
   },
 })
 
-export const amenityStrip = sva({
-  slots: ['strip', 'item', 'icon'],
-  base: {
-    strip: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 'md',
-      paddingTop: 'sm',
-      borderTop: 'hairline',
-      md: { display: 'flex', flexWrap: 'wrap' },
-    },
-    item: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'sm',
-      fontFamily: 'body',
-      fontSize: 'xs',
-      color: 'body',
-      textTransform: 'uppercase',
-      letterSpacing: 'wide',
-      lg: { fontSize: '2xs' },
-    },
-    icon: { color: 'muted' },
-  },
-})
-
 export const transportList = sva({
-  slots: ['list', 'line', 'icon', 'from', 'dot', 'walk'],
+  slots: ['icon', 'from'],
   base: {
-    list: { display: 'flex', flexDirection: 'column', gap: 'sm' },
-    line: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'sm',
-      fontFamily: 'body',
-      fontSize: 'xs',
-      color: 'body',
-      flexWrap: 'wrap',
-    },
-    icon: { color: 'muted', flexShrink: '0' },
+    icon: { flexShrink: '0' },
     from: {
       // exception: bright emphasis for city name
       color: 'gray.300',
-      fontWeight: 'semibold',
     },
-    dot: { color: 'muted' },
-    walk: { color: 'muted' },
   },
 })

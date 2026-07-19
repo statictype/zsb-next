@@ -1,6 +1,6 @@
 import { RiMapPinLine } from '@remixicon/react'
 import Link from 'next/link'
-import { cx } from 'styled-system/css'
+import { Container, Divider, Stack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Accordion } from '@/components/ui/Accordion/Accordion'
 import { Badge } from '@/components/ui/Badge/Badge'
@@ -21,34 +21,45 @@ const styles = venuesView()
 // modal (reusing ZSB-40).
 export function VenuesView({ year, sections }: { year: number; sections: VenueTypeSection[] }) {
   return (
-    <section className={cx(section(), styles.section)} aria-labelledby="venues-heading">
-      <div className={styles.inner}>
-        <header className={styles.header}>
-          <SectionHeading id="venues-heading" flush>
-            Where it happens
-          </SectionHeading>
-          <p className={styles.lede}>The {year} programme, venue by venue.</p>
-        </header>
+    <>
+      <Divider />
+      <section className={section()} aria-labelledby="venues-heading">
+        <Container>
+          <Stack gap="xl">
+            <Stack as="header" gap="md">
+              <SectionHeading id="venues-heading" flush>
+                Where it happens
+              </SectionHeading>
+              <Text as="p" variant="caption">
+                The {year} programme, venue by venue.
+              </Text>
+            </Stack>
 
-        {sections.map((section) => (
-          <div key={section.type} className={styles.group}>
-            <h3 className={styles.groupTitle}>{section.type}</h3>
-            <Accordion
-              id={`venues-${slugify(section.type)}`}
-              className={styles.venues}
-              triggerTypography="display"
-              items={section.venues.map((venue) => ({
-                id: slugify(venue.name),
-                trigger: venue.name,
-                triggerHeading: 'h4',
-                meta: `${venue.totalEvents} ${venue.totalEvents === 1 ? 'event' : 'events'}`,
-                content: <VenueDetails venue={venue} year={year} />,
-              }))}
-            />
-          </div>
-        ))}
-      </div>
-    </section>
+            <Stack gap="2xl">
+              {sections.map((section) => (
+                <Stack key={section.type} gap="sm">
+                  <Text as="h3" variant="caption" className={styles.groupTitle}>
+                    {section.type}
+                  </Text>
+                  <Divider />
+                  <Accordion
+                    id={`venues-${slugify(section.type)}`}
+                    className={styles.venues}
+                    items={section.venues.map((venue) => ({
+                      id: slugify(venue.name),
+                      trigger: venue.name,
+                      triggerHeading: 'h4',
+                      meta: `${venue.totalEvents} ${venue.totalEvents === 1 ? 'event' : 'events'}`,
+                      content: <VenueDetails venue={venue} year={year} />,
+                    }))}
+                  />
+                </Stack>
+              ))}
+            </Stack>
+          </Stack>
+        </Container>
+      </section>
+    </>
   )
 }
 
@@ -59,14 +70,16 @@ function VenueDetails({ venue, year }: { venue: TopVenue; year: number }) {
       {venue.events.length > 0 && <EventList events={venue.events} year={year} />}
 
       {venue.children.map((child) => (
-        <div key={child.name} className={styles.child}>
-          <p className={styles.childHead}>
-            <span className={styles.childName}>{child.name}</span>
-            <span className={styles.childType}>{child.type}</span>
-          </p>
+        <Stack key={child.name} className={styles.child} gap="sm">
+          <Wrap as="p" align="baseline">
+            <Text variant="caption" className={styles.childName}>
+              {child.name}
+            </Text>
+            <Text variant="label">{child.type}</Text>
+          </Wrap>
           <VenuePlace venue={child} />
           <EventList events={child.events} year={year} />
-        </div>
+        </Stack>
       ))}
     </>
   )
@@ -77,16 +90,18 @@ function VenueDetails({ venue, year }: { venue: TopVenue; year: number }) {
 function VenuePlace({ venue }: { venue: VenueNode }) {
   if (!venue.address && !venue.mapUrl) return null
   return (
-    <p className={styles.place}>
-      {venue.address && <span>{venue.address}</span>}
+    <Wrap as="p" gap="md">
+      {venue.address && <Text variant="caption">{venue.address}</Text>}
       {venue.mapUrl && (
         <Button asChild variant="link">
           <a href={venue.mapUrl} target="_blank" rel="noreferrer">
-            <RiMapPinLine size={14} aria-hidden /> Map
+            <Text variant="caption" display="contents">
+              <RiMapPinLine size={14} aria-hidden /> Map
+            </Text>
           </a>
         </Button>
       )}
-    </p>
+    </Wrap>
   )
 }
 
@@ -94,21 +109,25 @@ function EventList({ events, year }: { events: VenueEvent[]; year: number }) {
   return (
     <ul className={styles.events}>
       {events.map((event) => (
-        <li key={event.key} className={styles.event}>
+        <Stack as="li" key={event.key} className={styles.event} gap="sm">
           <Link className={styles.eventName} href={`/editions/${year}/events/${event.slug}`}>
-            {event.name}
+            <Text variant="heading" display="contents">
+              {event.name}
+            </Text>
           </Link>
-          <span className={styles.eventWhen}>{event.when}</span>
+          <Text variant="label" className={styles.eventWhen}>
+            {event.when}
+          </Text>
           {event.types.length > 0 && (
-            <ul className={styles.chips}>
+            <Wrap as="ul" listStyle="none">
               {event.types.map((t) => (
                 <li key={t.slug}>
                   <Badge tone="outline">{t.title}</Badge>
                 </li>
               ))}
-            </ul>
+            </Wrap>
           )}
-        </li>
+        </Stack>
       ))}
     </ul>
   )

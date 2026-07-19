@@ -3,26 +3,34 @@ import { sva } from 'styled-system/css'
 /** Archive image-card chrome only; the footer rail's imageless plate lives in
  *  EditionRailCard.recipe. */
 export const editionCard = sva({
-  slots: [
-    'root',
-    'media',
-    'image',
-    'year',
-    'content',
-    'meta',
-    'details',
-    'venue',
-    'cta',
-    'ctaIcon',
-  ],
+  slots: ['root', 'media', 'image', 'year', 'content', 'details', 'venue', 'cta', 'ctaIcon'],
   base: {
     root: {
       height: 'full',
       overflow: 'visible',
-      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
+      display: 'grid',
+      gridTemplateRows: 'auto token(spacing.cardOverlap) auto',
+      // Both children are placed explicitly (auto-placement refuses to overlap
+      // them, bumping content into an implicit column); minmax(0, 1fr) keeps
+      // the tape's max-content from inflating the track past the card.
+      gridTemplateColumns: 'minmax(0, 1fr)',
+      // Gradient hover ring (masked to the hairline edge), as on Calendar runs.
+      _before: {
+        content: '""',
+        layerStyle: 'gradientBorder',
+        padding: '[token(borderWidths.hairlineThin)]',
+      },
+      // Pin the hairline at rest colour so Card's interactive hover doesn't
+      // warm it under the ring — stacked they read as one thick border.
+      _hover: {
+        borderColor: 'divider',
+        '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
+      },
     },
     media: {
       position: 'relative',
+      gridColumn: '1',
+      gridRow: '1 / 3',
       width: 'full',
       overflow: 'hidden',
       background: 'gray.900',
@@ -43,9 +51,7 @@ export const editionCard = sva({
       background: 'gray.900',
       filter: '[token(assets.developRest)]',
       transform: 'scale(1.01)',
-      // Develop and zoom on separate clocks — one shorthand, two durations.
-      transition:
-        '[filter {durations.reveal} {easings.expo}, transform {durations.entrance} {easings.expo}]',
+      transition: 'develop',
       'a:hover &, a:focus-visible &': {
         filter: '[token(assets.developHover)]',
         transform: 'scale(1.05)',
@@ -53,64 +59,29 @@ export const editionCard = sva({
     },
     year: {
       position: 'absolute',
-      top: 'md',
-      left: 'md',
+      top: 'lg',
+      right: 'lg',
       zIndex: '2',
     },
     content: {
       position: 'relative',
       zIndex: '1',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
-      marginTop: '[calc(token(spacing.cardOverlap) * -1)]',
-      padding: 'md',
+      gridColumn: '1',
+      gridRow: '2 / 4',
+      padding: 'lg',
     },
-    // One row: the unlabeled date/venue line on the left, the "View edition"
-    // cue on the right. Spacing above the row comes from `content`'s own
-    // gap; the hairline is the row's own top border.
-    meta: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 'sm',
-      marginTop: 'sm',
-      paddingTop: 'md',
-      borderTop: 'hairline',
-      color: 'body',
-    },
-    details: {
-      minWidth: '0',
-      fontSize: 'sm',
-      lineHeight: 'body',
-      letterSpacing: 'subtle',
-      textWrap: '[pretty]',
-    },
+
     // Keeps the venue name from breaking mid-phrase — a narrow card wraps
     // before the whole name, not between its words.
     venue: { whiteSpace: 'nowrap' },
-    // The card's own link already carries the accessible name (tape + meta);
-    // this cue is a purely visual affordance, hidden from the a11y tree.
     cta: {
-      display: 'flex',
-      alignItems: 'center',
       flexShrink: '0',
-      gap: 'sm',
-      fontFamily: 'body',
-      fontSize: 'xs',
-      fontWeight: 'semibold',
-      letterSpacing: 'label',
-      textTransform: 'uppercase',
       color: 'heading',
-      transitionProperty: 'colors',
-      transitionDuration: 'normal',
-      transitionTimingFunction: 'expo',
+      transition: 'interactive',
       'a:hover &': { color: 'action' },
     },
     ctaIcon: {
-      transitionProperty: '[transform]',
-      transitionDuration: 'normal',
-      transitionTimingFunction: 'expo',
+      transition: 'interactive',
       'a:hover &': { transform: 'translate(2px, -2px)' },
     },
   },

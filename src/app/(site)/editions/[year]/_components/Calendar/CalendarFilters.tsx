@@ -1,6 +1,7 @@
 'use client'
 
 import { RiResetLeftLine } from '@remixicon/react'
+import { Divider, Stack, Text, Wrap } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 import { calendarFilters } from './CalendarFilters.recipe'
@@ -37,11 +38,11 @@ function FilterChips({
 }) {
   const s = calendarFilters()
   return (
-    <div className={s.filterRow}>
-      <span className={s.filterRowLabel} id={labelId}>
+    <Stack className={s.filterRow} gap="sm">
+      <Text variant="label" className={s.filterRowLabel} id={labelId}>
         {label}
-      </span>
-      <ul className={s.chips} aria-labelledby={labelId}>
+      </Text>
+      <Wrap as="ul" listStyle="none" aria-labelledby={labelId}>
         {options.map((option) => (
           <li key={option.slug}>
             <Checkbox
@@ -53,8 +54,8 @@ function FilterChips({
             />
           </li>
         ))}
-      </ul>
-    </div>
+      </Wrap>
+    </Stack>
   )
 }
 
@@ -68,39 +69,42 @@ export function CalendarFilters({
 }: CalendarFiltersProps) {
   const s = calendarFilters()
   return (
-    <div className={s.filters} role="group" aria-label="Filter the programme">
-      <div className={s.bar}>
-        <Button
-          variant="secondary"
-          size="sm"
-          className={s.reset}
-          onClick={onReset}
-          disabled={!canReset}
-        >
-          <RiResetLeftLine size={14} aria-hidden />
-          Reset
-        </Button>
-      </div>
+    <Stack gap="lg">
+      <Divider />
+      <Stack role="group" aria-label="Filter the programme">
+        <div className={s.bar}>
+          <Button
+            variant="secondary"
+            size="sm"
+            className={s.reset}
+            onClick={onReset}
+            disabled={!canReset}
+          >
+            <RiResetLeftLine size={14} aria-hidden />
+            Reset
+          </Button>
+        </div>
 
-      {filterOptions.venues.length > 1 && (
-        <FilterChips
-          labelId="filter-venue"
-          label="Venue"
-          options={filterOptions.venues}
-          selection={filters.venues}
-          onToggle={onToggleVenue}
-        />
-      )}
+        {filterOptions.venues.length > 1 && (
+          <FilterChips
+            labelId="filter-venue"
+            label="Venue"
+            options={filterOptions.venues}
+            selection={filters.venues}
+            onToggle={onToggleVenue}
+          />
+        )}
 
-      {filterOptions.types.length > 1 && (
-        <FilterChips
-          labelId="filter-type"
-          label="Type"
-          options={filterOptions.types}
-          selection={filters.types}
-          onToggle={onToggleType}
-        />
-      )}
-    </div>
+        {filterOptions.types.length > 1 && (
+          <FilterChips
+            labelId="filter-type"
+            label="Type"
+            options={filterOptions.types}
+            selection={filters.types}
+            onToggle={onToggleType}
+          />
+        )}
+      </Stack>
+    </Stack>
   )
 }

@@ -1,5 +1,6 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
+import { Center, Container, Divider, Grid, HStack, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
@@ -21,65 +22,83 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
 
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
-      <div className={styles.inner}>
-        <div className={styles.header}>
-          <SectionHeading flush>Archive</SectionHeading>
-          <div className={styles.count}>{theme}</div>
-        </div>
-
-        <Card asChild ground="onDark" interactive>
-          <a
-            className={styles.card}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${linkLabel} — opens ${href} in a new tab`}
+      <Container>
+        <Stack gap="xl">
+          <HStack
+            className={styles.header}
+            flexDirection={{ base: 'column', md: 'row' }}
+            alignItems={{ base: 'stretch', md: 'flex-end' }}
+            justify={{ md: 'space-between' }}
+            gap="md"
           >
-            <div className={styles.cardInner}>
-              <div className={styles.cardLeft}>
-                <Badge>{tag}</Badge>
+            <SectionHeading flush>Archive</SectionHeading>
+            <Text variant="label">{theme}</Text>
+          </HStack>
 
-                <SectionHeading as="h3" flush>
-                  {titleParts ? (
-                    <>
-                      {titleParts.before}
-                      <span className={styles.titleHighlight}>{titleParts.match}</span>
-                      {titleParts.after}
-                    </>
-                  ) : (
-                    title
-                  )}
-                </SectionHeading>
+          <Card asChild ground="onDark" interactive>
+            <a
+              className={styles.card}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${linkLabel} — opens ${href} in a new tab`}
+            >
+              <Grid gap="0" gridTemplateColumns={{ lg: '1.4fr 1fr' }}>
+                <Stack className={styles.cardLeft}>
+                  <Badge>{tag}</Badge>
 
-                <p className={styles.description}>{description}</p>
+                  <SectionHeading as="h3" flush>
+                    {titleParts ? (
+                      <>
+                        {titleParts.before}
+                        <span className={styles.titleHighlight}>{titleParts.match}</span>
+                        {titleParts.after}
+                      </>
+                    ) : (
+                      title
+                    )}
+                  </SectionHeading>
 
-                <div className={styles.cta}>
-                  <span className={styles.ctaLabel}>{linkLabel}</span>
-                  <span aria-hidden>
-                    <RiArrowRightUpLine size={18} />
-                  </span>
-                  <span className={styles.ctaUrl}>{prettyHost(href)}</span>
-                </div>
-              </div>
+                  <Text as="p" variant="body" className={styles.description}>
+                    {description}
+                  </Text>
 
-              {/* Quiet edition plate — the old animated monogram, stripped of every
-                gradient and the drifting grid. Solid type on a hairline panel. */}
-              <div className={styles.cardRight} aria-hidden>
-                <div className={styles.plate}>
-                  <div data-part="monogram">
-                    <span data-part="zsb">ZSB</span>
-                    <span data-part="year">2021</span>
-                  </div>
-                  <div data-part="meta">
-                    <span>Edition 01</span>
-                    <span>Digital</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </a>
-        </Card>
-      </div>
+                  <Divider />
+                  <HStack gap="md">
+                    <Text variant="label" className={styles.ctaLabel}>
+                      {linkLabel}
+                    </Text>
+                    <span aria-hidden>
+                      <RiArrowRightUpLine size={18} />
+                    </span>
+                    <Text variant="label" className={styles.ctaUrl}>
+                      {prettyHost(href)}
+                    </Text>
+                  </HStack>
+                </Stack>
+
+                <Center
+                  className={styles.cardRight}
+                  display={{ base: 'none', lg: 'flex' }}
+                  flexDirection="column"
+                  aria-hidden
+                >
+                  <Center className={styles.plate}>
+                    <Center data-part="monogram" flexDirection="column" gap="xs">
+                      <span data-part="zsb">ZSB</span>
+                      <span data-part="year">2021</span>
+                    </Center>
+                    <Text as="div" variant="label" data-part="meta">
+                      <span>Edition 01</span>
+                      <span>Digital</span>
+                    </Text>
+                  </Center>
+                </Center>
+              </Grid>
+            </a>
+          </Card>
+        </Stack>
+      </Container>
     </section>
   )
 }

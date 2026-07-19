@@ -11,7 +11,6 @@ export const carousel = defineSlotRecipe({
       scrollbarWidth: 'none',
       scrollBehavior: 'smooth',
       '&::-webkit-scrollbar': { display: 'none' },
-      _focusVisible: { outline: 'primary', outlineOffset: '2px' },
       '&[data-dragging]': { cursor: 'grabbing' },
       _motionReduce: { scrollBehavior: 'auto' },
     },
@@ -21,8 +20,6 @@ export const carousel = defineSlotRecipe({
       alignItems: 'center',
       justifyContent: 'space-between',
       gap: 'md',
-      maxWidth: 'maxWidth',
-      marginInline: 'auto',
       '& [data-carousel-arrows]': { display: 'flex', alignItems: 'center', gap: 'sm' },
     },
     // Shared by prev/next/autoplay — all three are the same 44px transparent
@@ -39,7 +36,6 @@ export const carousel = defineSlotRecipe({
       cursor: 'pointer',
       _hover: { color: 'action' },
       _disabled: { opacity: 0.5, cursor: 'not-allowed' },
-      _focusVisible: { outline: 'primary', outlineOffset: '2px' },
     },
     indicatorGroup: { display: 'flex', alignItems: 'center', gap: '10px' },
     indicator: {
@@ -50,13 +46,17 @@ export const carousel = defineSlotRecipe({
       background: 'muted',
       cursor: 'pointer',
       '&[data-current]': { width: '28px', background: 'highlight' },
-      _focusVisible: { outline: 'primary', outlineOffset: '4px' },
     },
   },
   variants: {
     mode: {
       stage: {
         root: { display: 'flex', flexDirection: 'column', gap: 'md' },
+        control: {
+          width: '100%',
+          maxWidth: 'maxWidth',
+          marginInline: 'auto',
+        },
         itemGroup: {
           width: '100%',
           aspectRatio: { base: '4 / 5', md: '16 / 9' },
@@ -70,7 +70,7 @@ export const carousel = defineSlotRecipe({
       },
       rail: {
         itemGroup: { cursor: 'grab', touchAction: 'pan-x' },
-        control: { paddingInline: 'gutter', marginBottom: 'lg' },
+        control: { paddingInline: 'gutter' },
         item: { '& > [data-carousel-slide-content]': { height: '100%' } },
       },
     },

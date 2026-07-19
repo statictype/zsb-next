@@ -1,4 +1,5 @@
 import { css } from 'styled-system/css'
+import { Container, Divider, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { CalendarMeta } from './CalendarMeta'
@@ -15,29 +16,36 @@ export function ComingSoon({ year, socials }: { year: number; socials: SocialLin
   const s = comingSoon()
   return (
     <section className={section({ ground: 'dark' })} aria-labelledby="calendar-heading">
-      <div className={s.inner}>
-        <header className={s.header}>
-          <SectionHeading id="calendar-heading" flush>
-            Calendar
-          </SectionHeading>
-          <CalendarMeta year={year} label="Coming soon" tone="accent" />
-        </header>
+      <Container>
+        <Stack gap="xl">
+          <Stack as="header" gap="md">
+            <SectionHeading id="calendar-heading" flush>
+              Calendar
+            </SectionHeading>
+            <CalendarMeta year={year} label="Coming soon" tone="accent" />
+          </Stack>
 
-        <div className={s.notice}>
-          <p className={s.headline}>The programme is taking shape.</p>
-          <p className={s.body}>
-            Talks, openings, exhibitions and workshops across the city are being finalised. The full
-            calendar lands here soon.
-          </p>
+          <Divider />
+          <div>
+            <Stack gap="md">
+              <Text as="p" variant="title" className={s.headline}>
+                The programme is taking shape.
+              </Text>
+              <Text as="p" variant="body" className={s.body}>
+                Talks, openings, exhibitions and workshops across the city are being finalised. The
+                full calendar lands here soon.
+              </Text>
+            </Stack>
 
-          <FollowLinks
-            label="Follow for updates"
-            socials={socials}
-            layout="stack"
-            className={css({ marginTop: 'xl' })}
-          />
-        </div>
-      </div>
+            <FollowLinks
+              label="Follow for updates"
+              socials={socials}
+              layout="stack"
+              className={css({ marginTop: 'xl' })}
+            />
+          </div>
+        </Stack>
+      </Container>
     </section>
   )
 }

@@ -2,6 +2,7 @@
 
 import { useIsPresentationTool } from 'next-sanity/hooks'
 import { css } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 
 /**
  * Small "Exit preview" button rendered when draft mode is enabled.
@@ -23,20 +24,13 @@ export function DisableDraftMode() {
         paddingInline: 'md',
         background: 'heading',
         color: 'surface',
-        fontFamily: 'body',
-        fontSize: 'sm',
-        fontWeight: 'semibold',
-        letterSpacing: 'label',
-        textTransform: 'uppercase',
         borderRadius: 'pill',
         boxShadow: 'badge',
-        transitionProperty: '[transform]',
-        transitionDuration: 'fast',
-        transitionTimingFunction: 'expo',
+        transition: 'interactive',
         _hover: { transform: 'translateY(-1px)' },
       })}
     >
-      Exit preview
+      <Text variant="label">Exit preview</Text>
     </a>
   )
 }

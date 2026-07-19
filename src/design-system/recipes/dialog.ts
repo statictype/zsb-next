@@ -24,7 +24,7 @@ export const dialog = defineSlotRecipe({
       minWidth: 0,
       _focusVisible: {
         outline: 'focus',
-        outlineOffset: '[calc(token(borderWidths.focus) * -1)]',
+        outlineOffset: 'dialogInset',
       },
     },
     title: { layerStyle: 'srOnly' },
@@ -36,7 +36,7 @@ export const dialog = defineSlotRecipe({
         positioner: { zIndex: 'modal', padding: 'lg', overflowY: 'auto' },
         content: {
           maxWidth: 'dialogPanel',
-          maxHeight: 'calc(100dvh - 2 * token(spacing.lg))',
+          maxHeight: 'full',
           display: 'flex',
           flexDirection: 'column',
           background: 'black',

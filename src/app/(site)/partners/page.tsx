@@ -1,7 +1,8 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
-import { button, section } from 'styled-system/recipes'
+import { Center, Container, Grid, Stack, Text } from 'styled-system/jsx'
+import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
@@ -9,6 +10,7 @@ import { Figure } from '@/components/Figure/Figure'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { PillarGrid } from '@/components/PillarGrid/PillarGrid'
+import { Button } from '@/components/ui/Button/Button'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata } from '@/lib/seo'
@@ -72,27 +74,37 @@ function PartnersShell({
         />
 
         <section className={section({ ground: 'dark' })}>
-          <div className={styles.inner}>
-            <SectionHeading>{eventTitle}</SectionHeading>
-            <div className={styles.eventBody}>
-              {eventBody.map((para) => (
-                <p key={para}>{para}</p>
-              ))}
-            </div>
-            <figure className={styles.eventImage}>
-              <Figure image={eventImage} sizes="100vw" className={styles.eventImageImg} />
-            </figure>
-          </div>
+          <Container>
+            <Stack gap="2xl">
+              <Stack gap="xl">
+                <SectionHeading>{eventTitle}</SectionHeading>
+                <Stack className={styles.eventBody}>
+                  {eventBody.map((para) => (
+                    <Text as="p" variant="body" key={para}>
+                      {para}
+                    </Text>
+                  ))}
+                </Stack>
+              </Stack>
+              <figure className={styles.eventImage}>
+                <Figure image={eventImage} sizes="100vw" className={styles.eventImageImg} />
+              </figure>
+            </Stack>
+          </Container>
         </section>
 
         <section className={section({ ground: 'light' })}>
-          <div className={styles.inner}>
-            <div className={styles.whySculptureTop}>
+          <Container>
+            <Grid
+              columns={{ base: 1, lg: 2 }}
+              gap={{ base: '2xl', lg: '3xl' }}
+              alignItems={{ lg: 'end' }}
+              marginBottom="3xl"
+            >
               <div>
                 <Eyebrow rule className={css({ marginBottom: 'xl' })}>
                   {whyEyebrow}
                 </Eyebrow>
-                {/* Wider than prose measure so the editorial heading keeps its intended two-line rhythm. */}
                 <SectionHeading flush className={css({ maxWidth: '[700px]' })}>
                   {whyTitle}
                 </SectionHeading>
@@ -104,42 +116,42 @@ function PartnersShell({
                   className={styles.whySculptureImg}
                 />
               </div>
-            </div>
+            </Grid>
 
             <PillarGrid
               items={whyPoints.map((point) => ({ title: point.title, body: point.text }))}
-              numbered
               titleLevel="h3"
               rhythm="pair"
               titleScale="responsive"
             />
-          </div>
+          </Container>
         </section>
 
         {/* No contact email in settings would mean a broken `mailto:` — hide
             the ask entirely rather than render a CTA that goes nowhere. */}
         {contactEmail && (
           <section className={cx(section({ ground: 'dark' }), styles.partnerCta)}>
-            <div className={styles.partnerCtaInner}>
-              <div className={styles.partnerCtaBadge}>
-                <PartnerBadge />
-              </div>
-              <h2 className={styles.partnerCtaHeading}>
-                <AccentSplit
-                  text={ctaHeading}
-                  accent={ctaHeadingAccent}
-                  className={styles.partnerCtaAccent}
-                  lineBreak
-                />
-              </h2>
-              <p className={styles.partnerCtaBody}>{ctaBody}</p>
-              <a
-                href={`mailto:${contactEmail}`}
-                className={button({ variant: 'primary', size: 'lg' })}
-              >
-                {ctaLabel} <RiArrowRightLine size={14} />
-              </a>
-            </div>
+            <Center className={styles.partnerCtaInner} flexDirection="column" gap="2xl">
+              <PartnerBadge />
+              <Stack gap="lg" alignItems="center">
+                <Text as="h2" variant="display">
+                  <AccentSplit
+                    text={ctaHeading}
+                    accent={ctaHeadingAccent}
+                    className={styles.partnerCtaAccent}
+                    lineBreak
+                  />
+                </Text>
+                <Text as="p" variant="body" className={styles.partnerCtaBody}>
+                  {ctaBody}
+                </Text>
+              </Stack>
+              <Button asChild variant="primary" size="lg">
+                <a href={`mailto:${contactEmail}`}>
+                  {ctaLabel} <RiArrowRightLine size={14} />
+                </a>
+              </Button>
+            </Center>
           </section>
         )}
       </main>

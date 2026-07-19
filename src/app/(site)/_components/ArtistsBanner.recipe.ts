@@ -1,28 +1,18 @@
 import { sva } from 'styled-system/css'
 
-/**
- * ArtistsBanner — co-located slot recipe.
- *
- * The compound hover (the accent bar draws, the corner wash fades in) lives in
- * one place: the `root` slot's `_hover`, targeting children by `data-part`. The
- * title is the shared `<SectionHeading>`. The brand-tinted corner wash and
- * accent gradient reference the pink/chartreuse anchors via `color-mix`.
- */
 export const artistsBanner = sva({
-  slots: ['root', 'inner', 'left', 'subtext', 'accent'],
+  slots: ['root', 'inner', 'subtext', 'accent'],
   base: {
     root: {
       position: 'relative',
       display: 'block',
       width: 'full',
       background: 'surface',
-      color: 'white',
       textDecoration: 'none',
       overflow: 'hidden',
       paddingBlock: { base: 'xl', md: '2xl' },
       paddingInline: 'gutter',
       scrollMarginTop: '[token(sizes.nav)]',
-      transition: '[all {durations.slow} {easings.expo}]',
       // Brand corner wash — fades in on hover.
       _before: {
         content: '""',
@@ -31,9 +21,7 @@ export const artistsBanner = sva({
         background:
           '[linear-gradient(135deg, color-mix(in oklch, token(colors.pink) 8%, transparent) 0%, transparent 50%, color-mix(in oklch, token(colors.chartreuse) 5%, transparent) 100%)]',
         opacity: '0',
-        transitionProperty: '[opacity]',
-        transitionDuration: 'slow',
-        transitionTimingFunction: 'expo',
+        transition: 'interactive',
       },
       _hover: {
         _before: { opacity: '1' },
@@ -46,18 +34,8 @@ export const artistsBanner = sva({
       width: 'full',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      display: 'flex',
-      flexDirection: { base: 'column', md: 'row' },
-      justifyContent: { md: 'space-between' },
-      alignItems: { md: 'center' },
-      gap: 'lg',
     },
-    left: { display: 'flex', flexDirection: 'column', gap: 'sm' },
     subtext: {
-      fontFamily: 'body',
-      fontSize: 'sm',
-      lineHeight: 'body',
-      color: 'body',
       maxWidth: { md: 'narrowColumn' },
     },
     accent: {
@@ -69,9 +47,7 @@ export const artistsBanner = sva({
       background: '[linear-gradient(90deg, token(colors.action) 0%, token(colors.highlight) 100%)]',
       transformOrigin: 'left',
       transform: 'scaleX(0)',
-      transitionProperty: '[transform]',
-      transitionDuration: 'slow',
-      transitionTimingFunction: 'expo',
+      transition: 'develop',
     },
   },
 })

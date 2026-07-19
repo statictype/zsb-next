@@ -1,3 +1,4 @@
+import { Divider, Grid, Stack, Text } from 'styled-system/jsx'
 import { pillarGrid } from './PillarGrid.recipe'
 
 export interface PillarGridItem {
@@ -7,42 +8,38 @@ export interface PillarGridItem {
 
 interface PillarGridProps {
   items: readonly PillarGridItem[]
-  numbered?: boolean | undefined
   titleLevel?: 'h2' | 'h3' | undefined
   rhythm?: 'bookend' | 'pair' | undefined
   titleTone?: 'heading' | 'highlight' | undefined
   titleScale?: 'standard' | 'responsive' | undefined
 }
 
-function pad(n: number): string {
-  return String(n).padStart(2, '0')
-}
-
 export function PillarGrid({
   items,
-  numbered = false,
   titleLevel: Title = 'h2',
   rhythm = 'bookend',
   titleTone = 'heading',
-  titleScale = 'standard',
 }: PillarGridProps) {
-  const styles = pillarGrid({ rhythm, titleTone, titleScale })
+  const styles = pillarGrid({ rhythm, titleTone })
 
   return (
-    <div className={styles.grid}>
-      {items.map((item, index) => (
-        <article key={item.title} className={styles.item}>
-          {numbered ? (
-            <div className={styles.head}>
-              <span className={styles.number}>{pad(index + 1)}</span>
-              <Title className={styles.title}>{item.title}</Title>
-            </div>
-          ) : (
-            <Title className={styles.title}>{item.title}</Title>
-          )}
-          <p className={styles.body}>{item.body}</p>
-        </article>
-      ))}
-    </div>
+    <Stack gap="0">
+      <Divider />
+      <Grid columns={{ base: 1, md: 2 }} gap="0">
+        {items.map((item) => (
+          <Stack as="article" key={item.title} className={styles.item}>
+            {
+              <Text as={Title} variant={'heading'} className={styles.title}>
+                {item.title}
+              </Text>
+            }
+            <Text as="p" variant="body" className={styles.body}>
+              {item.body}
+            </Text>
+          </Stack>
+        ))}
+      </Grid>
+      {rhythm === 'bookend' && <Divider />}
+    </Stack>
   )
 }

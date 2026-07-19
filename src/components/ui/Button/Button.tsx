@@ -1,5 +1,12 @@
-import { type ButtonHTMLAttributes, cloneElement, isValidElement, type ReactElement } from 'react'
+import {
+  type ButtonHTMLAttributes,
+  cloneElement,
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+} from 'react'
 import { cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 import { type ButtonVariantProps, button } from 'styled-system/recipes'
 
 /**
@@ -21,7 +28,7 @@ type NativeButtonProps = ButtonOwnProps &
 
 type ButtonAsChildProps = ButtonOwnProps & {
   asChild: true
-  children: ReactElement<{ className?: string | undefined }>
+  children: ReactElement<{ children?: ReactNode; className?: string | undefined }>
   type?: never
 }
 
@@ -37,8 +44,30 @@ export function Button({
 }: ButtonProps) {
   const cls = cx(button({ variant, size }), className)
   if (asChild && isValidElement(rest.children)) {
-    const child = rest.children as ReactElement<{ className?: string }>
-    return cloneElement(child, { className: cx(cls, child.props.className) })
+    const child = rest.children as ReactElement<{ children?: ReactNode; className?: string }>
+    return cloneElement(child, {
+      className: cx(cls, child.props.className),
+      children:
+        variant === 'link' ? (
+          child.props.children
+        ) : (
+          <Text variant="label" color="white" display="contents">
+            {child.props.children}
+          </Text>
+        ),
+    })
   }
-  return <button type={type} className={cls} {...rest} />
+  const children =
+    variant === 'link' ? (
+      rest.children
+    ) : (
+      <Text variant="label" display="contents">
+        {rest.children}
+      </Text>
+    )
+  return (
+    <button type={type} className={cls} {...rest}>
+      {children}
+    </button>
+  )
 }

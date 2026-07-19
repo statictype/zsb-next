@@ -1,6 +1,7 @@
 import { RiEmpathizeFill } from '@remixicon/react'
 import Link from 'next/link'
 import { useId } from 'react'
+import { Center } from 'styled-system/jsx'
 import { partnerBadge } from './PartnerBadge.recipe'
 
 interface PartnerBadgeProps {
@@ -14,7 +15,7 @@ export function PartnerBadge({ size = 'standard' }: PartnerBadgeProps = {}) {
   return (
     <div className={s.wrap}>
       <Link href="/partners" className={s.link} aria-label="Become a partner">
-        <div className={s.body}>
+        <Center className={s.body}>
           <div className={s.textRing}>
             <svg viewBox="0 0 500 500" aria-hidden="true">
               <defs>
@@ -33,7 +34,7 @@ export function PartnerBadge({ size = 'standard' }: PartnerBadgeProps = {}) {
           <span className={s.arrow}>
             <RiEmpathizeFill className={s.icon} />
           </span>
-        </div>
+        </Center>
       </Link>
     </div>
   )

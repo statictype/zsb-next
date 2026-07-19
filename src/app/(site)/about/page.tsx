@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
-import { css, cx } from 'styled-system/css'
+import { cx } from 'styled-system/css'
+import { Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
@@ -68,30 +69,28 @@ function AboutShell({ view }: { view: AboutView }) {
       <Manifesto title={manifestoTitle} body={manifestoBody} />
 
       {carousel && (
-        <section className={cx(section({ ground: 'dark' }), styles.carouselSection)}>
+        <section className={section({ ground: 'dark' })}>
           <GalleryCarousel slides={carousel} eyebrow={carouselEyebrow} />
         </section>
       )}
 
       <section className={section({ ground: 'dark' })}>
-        <div className={styles.inner}>
+        <Container>
           <PillarGrid
             items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
             titleTone="highlight"
           />
-        </div>
+        </Container>
       </section>
 
       <section className={cx(section({ ground: 'light', rhythm: 'lg' }), styles.statement)}>
         <div className={styles.statementInner}>
-          <aside className={styles.statementAside}>
-            <Eyebrow rule className={css({ marginBottom: 'xl' })}>
-              {curatorEyebrow}
-            </Eyebrow>
+          <Stack as="aside" className={styles.statementAside} gap="xl">
+            <Eyebrow rule>{curatorEyebrow}</Eyebrow>
 
             <SectionHeading>{curatorHeadline}</SectionHeading>
 
-            <figure className={styles.statementByline}>
+            <Stack as="figure" className={styles.statementByline} gap="sm">
               <div className={styles.authorPhotoFrame}>
                 <div className={styles.authorPhoto}>
                   <Figure
@@ -101,19 +100,21 @@ function AboutShell({ view }: { view: AboutView }) {
                   />
                 </div>
               </div>
-              <figcaption className={styles.authorCaption}>
-                <span className={styles.authorName}>{curatorName}</span>
-                <span className={styles.authorRole}>{curatorRole}</span>
-              </figcaption>
-            </figure>
-          </aside>
+              <Stack as="figcaption" gap="xs" className={styles.authorCaption}>
+                <Text variant="heading">{curatorName}</Text>
+                <Text variant="label">{curatorRole}</Text>
+              </Stack>
+            </Stack>
+          </Stack>
 
           <div className={styles.statementLetter}>
-            <div className={styles.letterBody}>
+            <Stack>
               {curatorLetter.map((para) => (
-                <p key={para}>{para}</p>
+                <Text as="p" variant="lead" key={para}>
+                  {para}
+                </Text>
               ))}
-            </div>
+            </Stack>
           </div>
         </div>
       </section>

@@ -9,34 +9,20 @@ import { sva } from 'styled-system/css'
  * documented dark-board exceptions.
  */
 export const venueLine = sva({
-  slots: ['venue', 'name', 'parent'],
+  slots: ['name', 'parent'],
   base: {
-    venue: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      gap: 'sm',
-      fontFamily: 'body',
-    },
     name: {
       color: 'gray.300',
-      textTransform: 'uppercase',
-      letterSpacing: 'subtle',
-      fontWeight: 'medium',
     },
     parent: {
-      color: 'muted',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontSize: '2xs',
       _before: { content: '"↳ "' },
     },
   },
   variants: {
     // `sm` — the compact board list; `md` — the roomier modal body.
     size: {
-      sm: { venue: { fontSize: 'xs' } },
-      md: { venue: { fontSize: 'sm' } },
+      sm: {},
+      md: {},
     },
   },
   defaultVariants: { size: 'sm' },

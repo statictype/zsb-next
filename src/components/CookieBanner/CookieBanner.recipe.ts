@@ -9,7 +9,7 @@ import { sva } from 'styled-system/css'
  * composes the shared snappy entrance animation style on the banner element.
  */
 export const cookieBanner = sva({
-  slots: ['banner', 'inner', 'copy', 'title', 'text', 'link', 'actions'],
+  slots: ['banner', 'inner', 'copy', 'link', 'actions'],
   base: {
     banner: {
       position: 'fixed',
@@ -18,10 +18,8 @@ export const cookieBanner = sva({
       bottom: 'md',
       zIndex: 'banner',
       background: 'surface',
-      color: 'heading',
       border: 'hairline',
       boxShadow: 'modal',
-      fontFamily: 'body',
       // A dialog's modal machine sets `body { pointer-events: none }` while
       // open (everything not part of that dialog's own layer). The banner is
       // a global fixture portalled straight to <body>, so it inherits that
@@ -29,34 +27,13 @@ export const cookieBanner = sva({
       pointerEvents: 'auto',
     },
     inner: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       paddingBlock: 'md',
       paddingInline: 'lg',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      md: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 'xl',
-      },
     },
-    copy: { display: 'flex', flexDirection: 'column', gap: 'xs', minWidth: '0' },
-    title: {
-      fontFamily: 'display',
-      fontSize: 'sm',
-      color: 'heading',
-      letterSpacing: 'tight',
-    },
-    text: {
-      fontSize: 'xs',
-      lineHeight: 'body',
-      color: 'body',
-    },
+    copy: { minWidth: '0' },
     link: {
-      color: 'heading',
       textDecoration: 'underline',
       textUnderlineOffset: '3px',
       textDecorationColor: 'action',

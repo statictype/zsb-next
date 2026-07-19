@@ -11,76 +11,23 @@ import { sva } from 'styled-system/css'
  * footer's typographic treatment layered on top.
  */
 export const footer = sva({
-  slots: [
-    'footer',
-    'inner',
-    'primary',
-    'cols',
-    'badge',
-    'navCol',
-    'colTitle',
-    'link',
-    'stamp',
-    'baseline',
-    'copyright',
-    'legal',
-    'legalLink',
-  ],
+  slots: ['footer', 'inner', 'badge', 'navCol', 'colTitle', 'link', 'stamp', 'baseline'],
   base: {
     footer: {
       background: 'surface',
-      color: 'heading',
       paddingBlock: 'xl',
       md: {
         paddingBlock: '2xl',
-        borderTop: 'hairline',
       },
     },
     inner: {
       layerStyle: 'sectionInner',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'xl',
-    },
-
-    primary: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: 'lg',
-      md: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        rowGap: 'xl',
-        columnGap: '2xl',
-      },
-    },
-    cols: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: 'lg',
-      alignSelf: 'stretch',
-      md: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        gap: '2xl',
-        alignSelf: 'auto',
-      },
     },
     badge: {
       flexShrink: 0,
     },
 
     navCol: {
-      display: 'flex',
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      alignItems: 'baseline',
-      justifyContent: 'center',
-      rowGap: 'sm',
-      columnGap: 'md',
       md: {
         flexDirection: 'column',
         flexWrap: 'nowrap',
@@ -92,51 +39,24 @@ export const footer = sva({
     colTitle: {
       width: 'full',
       textAlign: 'center',
-      textStyle: 'footerMeta',
-      letterSpacing: 'wide',
-      md: { marginBottom: 'xs', width: 'fit', textAlign: 'left' },
+      md: { width: 'fit', textAlign: 'left' },
     },
     // Footer-link typography layered onto the Button link variant.
     link: {
       width: 'fit',
-      fontFamily: 'body',
-      fontSize: 'sm',
-      fontWeight: 'medium',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      color: 'body',
     },
 
     stamp: {
       flexShrink: 0,
-      textStyle: 'footerMeta',
-      letterSpacing: 'wide',
       border: 'hairline',
       paddingBlock: 'sm',
       paddingInline: 'md',
-      marginTop: 'lg',
-      md: { marginLeft: 'auto', marginTop: '0' },
+      md: { marginLeft: 'auto' },
     },
 
     baseline: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
-      paddingTop: 'lg',
-      borderTop: 'hairline',
-      textStyle: 'footerMeta',
-      letterSpacing: 'label',
-      alignItems: 'center',
       textAlign: 'center',
-      md: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        textAlign: 'left',
-      },
+      md: { textAlign: 'left' },
     },
-    copyright: { color: 'muted' },
-    legal: { display: 'flex', gap: 'lg' },
-    legalLink: { textStyle: 'footerMeta', letterSpacing: 'label' },
   },
 })

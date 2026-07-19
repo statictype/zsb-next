@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
+import { Center, Divider, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Button } from '@/components/ui/Button/Button'
@@ -21,15 +22,25 @@ function FooterLink({ href, children }: { href: string; children: ReactNode }) {
   const external = href === '#' || href.startsWith('http') || href.startsWith('mailto:')
   return (
     <Button asChild variant="link" className={s.link}>
-      {external ? <a href={href}>{children}</a> : <Link href={href}>{children}</Link>}
+      {external ? (
+        <a href={href}>
+          <Text variant="label">{children}</Text>
+        </a>
+      ) : (
+        <Link href={href}>
+          <Text variant="label">{children}</Text>
+        </Link>
+      )}
     </Button>
   )
 }
 
 function LegalLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Button asChild variant="link" className={s.legalLink}>
-      <Link href={href}>{children}</Link>
+    <Button asChild variant="link">
+      <Link href={href}>
+        <Text variant="label">{children}</Text>
+      </Link>
     </Button>
   )
 }
@@ -54,48 +65,84 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
   const catalogStamp = `ZSB · 2021—${currentYear}`
 
   return (
-    <footer className={s.footer}>
-      <div className={s.inner}>
-        <div className={s.primary}>
-          <div className={s.badge}>
-            <PartnerBadge size="footer" />
-          </div>
+    <>
+      <Divider />
+      <footer className={s.footer}>
+        <Stack className={s.inner} gap="xl">
+          <Center
+            flexDirection={{ base: 'column', md: 'row' }}
+            alignItems="center"
+            justifyContent={{ md: 'flex-start' }}
+            rowGap={{ base: 'lg', md: 'xl' }}
+            columnGap={{ base: 'lg', md: '2xl' }}
+          >
+            <div className={s.badge}>
+              <PartnerBadge size="footer" />
+            </div>
 
-          <div className={s.cols}>
-            <nav className={s.navCol} aria-label="Footer">
-              <h2 className={s.colTitle}>Connect</h2>
-              {contactHref && <FooterLink href={contactHref}>Contact</FooterLink>}
-              {CONNECT_LINKS.map((link) => (
-                <FooterLink key={link.label} href={link.href}>
-                  {link.label}
-                </FooterLink>
-              ))}
-            </nav>
-
-            {socials.length > 0 && (
-              <div className={s.navCol}>
-                <h2 className={s.colTitle}>Follow</h2>
-                {socials.map((link) => (
+            <Center
+              flexDirection={{ base: 'column', md: 'row' }}
+              alignItems={{ base: 'center', md: 'flex-start' }}
+              justifyContent={{ base: 'center', md: 'flex-start' }}
+              gap={{ base: 'lg', md: '2xl' }}
+              alignSelf={{ base: 'stretch', md: 'auto' }}
+            >
+              <Wrap
+                as="nav"
+                className={s.navCol}
+                aria-label="Footer"
+                align="baseline"
+                justify="center"
+                rowGap="sm"
+                columnGap="md"
+              >
+                {contactHref && <FooterLink href={contactHref}>Contact</FooterLink>}
+                {CONNECT_LINKS.map((link) => (
                   <FooterLink key={link.label} href={link.href}>
                     {link.label}
                   </FooterLink>
                 ))}
-              </div>
-            )}
-          </div>
+              </Wrap>
 
-          <span className={s.stamp}>{catalogStamp}</span>
-        </div>
+              {socials.length > 0 && (
+                <Wrap
+                  className={s.navCol}
+                  align="baseline"
+                  justify="center"
+                  rowGap="sm"
+                  columnGap="md"
+                >
+                  {socials.map((link) => (
+                    <FooterLink key={link.label} href={link.href}>
+                      {link.label}
+                    </FooterLink>
+                  ))}
+                </Wrap>
+              )}
+            </Center>
 
-        <div className={s.baseline}>
-          <div className={s.copyright}>&copy; {currentYear} Bucharest Sculpture Days</div>
-          <div className={s.legal}>
-            <LegalLink href="/privacy">Privacy Policy</LegalLink>
-            <CookieSettingsButton className={s.legalLink} />
-          </div>
-        </div>
-      </div>
-    </footer>
+            <Text variant="label" className={s.stamp}>
+              {catalogStamp}
+            </Text>
+          </Center>
+
+          <Divider />
+          <HStack
+            className={s.baseline}
+            flexDirection={{ base: 'column', md: 'row' }}
+            justify={{ md: 'space-between' }}
+          >
+            <Text as="div" variant="label">
+              &copy; {currentYear} Bucharest Sculpture Days
+            </Text>
+            <Wrap gap="lg">
+              <LegalLink href="/privacy">Privacy Policy</LegalLink>
+              <CookieSettingsButton />
+            </Wrap>
+          </HStack>
+        </Stack>
+      </footer>
+    </>
   )
 }
 

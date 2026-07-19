@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Code style
+
+**No useless comments.** Do not add comments that restate the code, justify a value, or narrate intent a reader can infer. The only acceptable comment is a non-inferable, load-bearing "why" (an external constraint or gotcha not visible in the code). Default to zero.
+
 ## Stack
 
 Next.js 16 (App Router, `cacheComponents: true`, `reactCompiler: true`), React 19, TypeScript (`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`), Panda CSS, embedded Sanity Studio. Package manager is **pnpm**.

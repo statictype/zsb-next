@@ -9,6 +9,9 @@ export const collapsible = defineSlotRecipe({
     root: {
       width: '100%',
       borderTop: 'hairline',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'md',
     },
     trigger: {
       width: '100%',
@@ -21,16 +24,10 @@ export const collapsible = defineSlotRecipe({
       background: 'transparent',
       cursor: 'pointer',
       textAlign: 'left',
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
       color: 'action',
       _hover: {
         '& [data-collapsible-label]': { textDecoration: 'underline', textUnderlineOffset: '3px' },
       },
-      _focusVisible: { outline: 'focus', outlineOffset: '2px' },
       '& [data-collapsible-label=open]': { display: 'none' },
       '&[data-state=open] [data-collapsible-label=closed]': { display: 'none' },
       '&[data-state=open] [data-collapsible-label=open]': { display: 'inline' },
@@ -39,12 +36,10 @@ export const collapsible = defineSlotRecipe({
         fontVariantNumeric: 'tabular-nums',
       },
     },
-    content: { paddingTop: 'md', paddingBottom: 'lg' },
+    content: { paddingBottom: 'lg' },
     indicator: {
       layerStyle: 'disclosureIndicator',
       marginLeft: 'auto',
-      color: 'inherit',
-      transitionDuration: 'normal',
     },
   },
 })

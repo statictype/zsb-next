@@ -1,12 +1,11 @@
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 import { sectionHeading } from './SectionHeading.recipe'
 
 interface SectionHeadingProps {
   /** Heading level — defaults to `h2`. */
   as?: 'h2' | 'h3' | undefined
-  /** `upper` (the `sectionTitle` uppercase default) or `sentence`. */
-  case?: 'upper' | 'sentence' | undefined
   /** Drop the bottom margin (0) when a parent header owns the title→content gap.
    *  Defaults to the standard `xl`. */
   flush?: boolean | undefined
@@ -23,15 +22,14 @@ interface SectionHeadingProps {
  */
 export function SectionHeading({
   as: Tag = 'h2',
-  case: textCase = 'upper',
   flush = false,
   id,
   className,
   children,
 }: SectionHeadingProps) {
   return (
-    <Tag id={id} className={cx(sectionHeading({ case: textCase, flush }), className)}>
+    <Text as={Tag} variant="title" id={id} className={cx(sectionHeading({ flush }), className)}>
       {children}
-    </Tag>
+    </Text>
   )
 }

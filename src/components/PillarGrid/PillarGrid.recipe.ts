@@ -1,47 +1,19 @@
 import { sva } from 'styled-system/css'
 
-/**
- * PillarGrid — shared editorial pillar grid.
- *
- * About and Partners share the same two-column pillar system, but keep distinct
- * border rhythms: About uses bookended cells inside a dark band, Partners uses
- * paired cells in a light grid. The recipe owns those two rhythms explicitly.
- */
 export const pillarGrid = sva({
-  slots: ['grid', 'item', 'head', 'number', 'title', 'body'],
+  slots: ['item', 'title', 'body'],
   base: {
-    grid: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      borderTop: 'hairline',
-      md: { gridTemplateColumns: '1fr 1fr' },
-    },
     item: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
       paddingBlock: 'xl',
       borderBottom: 'hairline',
     },
-    head: { display: 'flex', alignItems: 'baseline', gap: 'md' },
-    number: {
-      fontFamily: 'display',
-      fontSize: 'md',
-      color: 'muted',
-      letterSpacing: 'tight',
-    },
-    title: {
-      textStyle: 'labelDisplay',
-    },
     body: {
-      textStyle: 'prose',
       maxWidth: 'measure',
     },
   },
   variants: {
     rhythm: {
       bookend: {
-        grid: { borderBottom: 'hairline' },
         item: {
           '&:last-child': { borderBottom: 'none' },
           md: {
@@ -72,10 +44,7 @@ export const pillarGrid = sva({
       heading: { title: { color: 'heading' } },
       highlight: { title: { color: 'highlight' } },
     },
-    titleScale: {
-      standard: { title: { fontSize: 'lg' } },
-      responsive: { title: { fontSize: { base: 'lg', xl: 'xl' } } },
-    },
+    titleScale: { standard: {}, responsive: {} },
   },
   defaultVariants: {
     rhythm: 'bookend',

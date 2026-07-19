@@ -4,7 +4,7 @@ import {
   type PortableTextMarkComponentProps,
 } from '@portabletext/react'
 import { notFound } from 'next/navigation'
-import { css } from 'styled-system/css'
+import { Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
@@ -30,15 +30,35 @@ type PrivacyLinkMark = NonNullable<PrivacyView['body'][number]['markDefs']>[numb
 
 const portableTextComponents: PortableTextComponents = {
   block: {
-    h2: ({ children }) => <h2>{children}</h2>,
-    normal: ({ children }) => <p>{children}</p>,
+    h2: ({ children }) => (
+      <Text as="h2" variant="title">
+        {children}
+      </Text>
+    ),
+    normal: ({ children }) => (
+      <Text as="p" variant="body">
+        {children}
+      </Text>
+    ),
   },
   list: {
-    bullet: ({ children }) => <ul>{children}</ul>,
-    number: ({ children }) => <ol>{children}</ol>,
+    bullet: ({ children }) => (
+      <Stack as="ul" gap="sm">
+        {children}
+      </Stack>
+    ),
+    number: ({ children }) => (
+      <Stack as="ol" gap="sm">
+        {children}
+      </Stack>
+    ),
   },
   marks: {
-    strong: ({ children }) => <strong>{children}</strong>,
+    strong: ({ children }) => (
+      <Text as="strong" variant="body">
+        {children}
+      </Text>
+    ),
     em: ({ children }) => <em>{children}</em>,
     link: ({ value, children }: PortableTextMarkComponentProps<PrivacyLinkMark>) => {
       const href = value?.href ?? '#'
@@ -78,21 +98,33 @@ function PrivacyShell({ view }: { view: PrivacyView }) {
         />
 
         <section className={section({ ground: 'dark' })}>
-          <div className={css({ layerStyle: 'sectionInner' })}>
-            <article className={styles.article}>
-              {body.length > 0 && <PortableText value={body} components={portableTextComponents} />}
+          <Container>
+            <Stack as="article" className={styles.article} gap="xl">
+              <Stack gap="lg">
+                {body.length > 0 && (
+                  <PortableText value={body} components={portableTextComponents} />
+                )}
 
-              <h2>Change your mind</h2>
-              <p>You can withdraw or update your consent at any time:</p>
-              <div className={styles.settingsRow}>
-                <CookieSettingsButton />
-              </div>
+                <Text as="h2" variant="title">
+                  Change your mind
+                </Text>
+                <Stack gap="xs">
+                  <Text as="p" variant="body">
+                    You can withdraw or update your consent at any time:
+                  </Text>
+                  <div className={styles.settingsRow}>
+                    <CookieSettingsButton />
+                  </div>
+                </Stack>
+              </Stack>
 
               {updatedAt && (
-                <p className={styles.updated}>Last updated: {formatUpdatedAt(updatedAt)}.</p>
+                <Text as="p" variant="label">
+                  Last updated: {formatUpdatedAt(updatedAt)}.
+                </Text>
               )}
-            </article>
-          </div>
+            </Stack>
+          </Container>
         </section>
       </main>
     </>

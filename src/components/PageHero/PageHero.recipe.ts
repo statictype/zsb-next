@@ -1,26 +1,14 @@
 import { sva } from 'styled-system/css'
 
-/**
- * PageHero — co-located slot recipe.
- *
- * The shared dark title block every top-level page opens with: it clears the
- * fixed nav (the `pageHero` layerStyle owns the full padding, so the page-top
- * offset is deterministic) and animates the title in. Folds together what used
- * to be `shared.pageHero` + `sectionInner` + `pageTitle` + `lead` repeated on
- * every static page. `title` carries the shared entrance animation; `lead` adds
- * its `max-width`/top margin.
- */
 export const pageHero = sva({
-  slots: ['hero', 'inner', 'title', 'lead'],
+  slots: ['hero', 'title', 'lead'],
   base: {
     hero: { layerStyle: 'pageHero' },
-    inner: { layerStyle: 'sectionInner' },
     title: {
-      textStyle: 'pageTitle',
       animationStyle: 'enter',
       animationDelay: 'fast',
     },
-    lead: { textStyle: 'lead', color: 'body', maxWidth: 'measure', marginTop: 'xl' },
+    lead: { maxWidth: 'measure' },
   },
   variants: {
     // Drop the hero's bottom padding when a section follows directly — the

@@ -1,5 +1,6 @@
 'use client'
 
+import { Text } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { CONSENT_COOKIE, CONSENT_REOPEN_EVENT } from '@/lib/constants'
 
@@ -11,7 +12,7 @@ export function CookieSettingsButton({ className }: { className?: string | undef
 
   return (
     <Button variant="link" className={className} onClick={reopen}>
-      Cookie Settings
+      <Text variant="label">Cookie Settings</Text>
     </Button>
   )
 }

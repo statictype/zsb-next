@@ -28,7 +28,13 @@ export const hero = sva({
       position: 'relative',
       width: 'full',
       marginInline: 'auto',
-      lg: { maxWidth: 'maxWidth' },
+      lg: {
+        maxWidth: 'maxWidth',
+        // Reserves the tape's own column beside the image instead of
+        // overlaying it; tapes stay absolutely positioned within this box.
+        display: 'grid',
+        gridTemplateColumns: 'token(sizes.heroTapeColumn) minmax(0, 1fr)',
+      },
       // Tapes flush with the logo, image right-flush with the menu.
       '2xl': { maxWidth: '[none]', width: 'full', marginRight: '0' },
     },
@@ -43,6 +49,7 @@ export const hero = sva({
       filter: '[token(assets.grayscaleSubtle)]',
       boxShadow: 'frame',
       md: { aspectRatio: '2 / 1' },
+      lg: { gridColumn: '2' },
       _after: {
         content: '""',
         position: 'absolute',

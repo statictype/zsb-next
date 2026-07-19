@@ -1,15 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Edition loading skeleton — co-located slot recipe.
- *
- * The Suspense fallback for an edition page: pulsing "bone" placeholders laid
- * out roughly like the real hero / manifesto / artists / venues / carousel
- * sections. `bone` is the shared `skeleton` layer style (surface + shimmer
- * sweep, same mechanism as the image skeleton); the size slots are combined
- * onto it via `cx`. The carousel height inlines the former `--carousel-height` stepped
- * var (this was its last consumer).
- */
 export const editionLoading = sva({
   slots: [
     'page',
@@ -20,11 +10,8 @@ export const editionLoading = sva({
     'heroTheme',
     'section',
     'sectionTitle',
-    'manifesto',
     'manifestoLine',
-    'artistGrid',
     'artistCard',
-    'venueRow',
     'venueItem',
     'carousel',
   ],
@@ -36,11 +23,6 @@ export const editionLoading = sva({
     hero: {
       height: 'svh',
       minHeight: '[600px]',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 'lg',
       paddingInline: 'gutter',
     },
     heroEyebrow: { width: '[200px]', height: '[28px]' },
@@ -53,9 +35,8 @@ export const editionLoading = sva({
       paddingBlock: 'sectionY',
       paddingInline: 'gutter',
     },
-    sectionTitle: { width: '[180px]', height: '[28px]', marginBottom: 'xl' },
+    sectionTitle: { width: '[180px]', height: '[28px]' },
 
-    manifesto: { display: 'flex', flexDirection: 'column', gap: 'md' },
     manifestoLine: {
       height: '[16px]',
       '&:nth-child(1)': { width: '[90%]' },
@@ -65,16 +46,8 @@ export const editionLoading = sva({
       '&:nth-child(5)': { width: '[60%]' },
     },
 
-    artistGrid: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(2, 1fr)',
-      gap: 'md',
-      md: { gridTemplateColumns: 'repeat(3, 1fr)' },
-      lg: { gridTemplateColumns: 'repeat(4, 1fr)' },
-    },
     artistCard: { aspectRatio: '3 / 4' },
 
-    venueRow: { display: 'flex', flexDirection: 'column', gap: 'md' },
     venueItem: { height: '[80px]', borderBottom: 'hairline' },
 
     carousel: {

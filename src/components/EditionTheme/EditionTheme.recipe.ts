@@ -25,10 +25,8 @@ export const editionTheme = sva({
       position: 'relative',
       display: 'inline-flex',
       flexDirection: 'column',
+      gap: 'md',
       alignSelf: 'flex-start',
-      fontFamily: 'display',
-      lineHeight: 'display',
-      letterSpacing: 'tight',
       color: 'heading',
       background: 'surface',
       // em-derived so padding tracks the font size across the ladder.
@@ -37,7 +35,6 @@ export const editionTheme = sva({
       rotate: '[-0.45deg]',
       transformOrigin: 'top left',
       boxShadow: 'tape',
-      textTransform: 'lowercase',
       // The tape entrance — on every instance.
       opacity: '0',
       translate: '[-12px 18px]',
@@ -58,22 +55,20 @@ export const editionTheme = sva({
         translate: '[0 0]',
       },
     },
-    // The heading row: lead + theme text, laid out exactly like the old
-    // single-element tape (type inherits from root). `fontSize: inherit`
-    // kills the UA's h1/h2 scale factor — the ladder lives on root.
+    // Gapless flex: the split-on-highlight spans must read as one word
+    // (#digitalfield, not "#digital field"). `fontSize: inherit` kills the
+    // UA's h1/h2 scale factor (no preflight) — the ladder lives on root.
     heading: {
       display: 'flex',
       alignItems: 'baseline',
       margin: '0',
       fontSize: '[inherit]',
     },
-    // The stamped lead (rail badges): vertically centered in the band, with a
-    // small gap to the theme text.
     lead: {
       display: 'inline-flex',
       alignItems: 'center',
-      alignSelf: 'center',
       gap: 'xs',
+      alignSelf: 'center',
       marginRight: '[0.6em]',
     },
     // The meta line (edition hero's date/venue): a second row inside the
@@ -81,19 +76,9 @@ export const editionTheme = sva({
     // Absolute type — card-meta scale, not the tape ladder.
     meta: {
       margin: '0',
-      marginTop: 'md',
-      fontFamily: 'body',
-      fontSize: 'sm',
-      lineHeight: 'heading',
-      fontWeight: 'regular',
-      letterSpacing: 'subtle',
-      textTransform: 'none',
-      color: 'body',
     },
     highlight: {
-      transitionProperty: 'colors',
-      transitionDuration: 'medium',
-      transitionTimingFunction: 'expo',
+      transition: 'interactive',
     },
   },
   variants: {
@@ -102,14 +87,14 @@ export const editionTheme = sva({
       // ground always covers it, even for long single-token themes. `large` /
       // `normal` render inside constrained list/featured cards, so they cap at
       // the card width.
-      huge: { root: { fontSize: { base: 'xl', md: '3xl', lg: '4xl', xl: '5xl' } } },
+      huge: { root: { textStyle: 'editionTheme.tapeType.huge' } },
       large: {
-        root: { maxWidth: 'full', fontSize: { base: 'xl', md: '3xl', lg: '3xl', xl: '4xl' } },
+        root: { maxWidth: 'full', textStyle: 'editionTheme.tapeType.large' },
       },
       normal: {
         root: {
           maxWidth: 'full',
-          fontSize: { base: 'xl', md: '3xl', lg: 'xl', xl: '2xl', '4xl': '3xl' },
+          textStyle: 'editionTheme.tapeType.normal',
         },
       },
       // The editions rail plate — two steps up from `normal`'s ladder (the
@@ -121,7 +106,7 @@ export const editionTheme = sva({
       rail: {
         root: {
           maxWidth: 'full',
-          fontSize: { base: '4xl', md: '5xl', lg: '3xl', xl: '4xl', '4xl': '5xl' },
+          textStyle: 'editionTheme.tapeType.rail',
           paddingTop: '[0.8em]',
           paddingLeft: '0',
         },
@@ -131,7 +116,7 @@ export const editionTheme = sva({
       // Static: the accent color at rest (see `accent`).
       false: {},
       // Interactive: white at rest, accent on the card/link hover.
-      true: { highlight: { color: '[inherit]', 'a:hover &': { color: 'action' } } },
+      true: { highlight: { 'a:hover &': { color: 'action' } } },
     },
     // Rest color of a static highlight: chartreuse marks active/current
     // elements (rail current card), pink is decorative accent (edition hero).

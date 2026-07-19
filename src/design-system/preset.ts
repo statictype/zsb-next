@@ -1,4 +1,5 @@
-import { definePreset } from '@pandacss/dev'
+import { definePattern, definePreset } from '@pandacss/dev'
+import { manifestoTitle, navigationLabel } from './patterns/typography'
 import { editorialSplit } from './recipes/editorial-split'
 import { recipes } from './recipes/index'
 import {
@@ -12,23 +13,116 @@ import {
   tokens,
 } from './tokens'
 
-// Raw-value policy (`strictTokens` is ON — see panda.config.ts): every style
-// value must be a token — no exceptions. Anything that recurs is a token or
-// composition — shadows (card/badge/modal/frame/tape), the hero vignette
-// gradient, the skeleton + gradient-border layer styles.
-//
-// `[bracketed]` literals still scattered through the recipes are migration
-// backlog, not sanctioned art direction. Resolve every one: snap to the
-// nearest token (accept a small visual delta) or refactor/recompose (extract
-// a layerStyle, merge near-duplicate slots, derive one value from another via
-// a token-backed CSS var instead of hardcoding both). There is no load-bearing
-// exception that stays raw — a bracket is debt to remove, never a value to
-// keep and explain. New values follow the same test: second occurrence →
-// token.
+// `strictTokens` is ON (panda.config.ts): every value is a token; remaining
+// `[bracketed]` literals in recipes are migration backlog to tokenize, not
+// sanctioned exceptions.
 export const designSystemPreset = definePreset({
   name: 'zsb-design-system',
   conditions: { extend: conditions },
-  patterns: { extend: { editorialSplit } },
+  // The motion contract: two verbs, one easing. `interactive` is state
+  // feedback (hovers, glyph nudges); `develop` is movement/reveal (image
+  // develops, label rolls, panel slides). Call sites say which verb, never
+  // the physics — raw transition longhands belong to this preset only.
+  utilities: {
+    extend: {
+      transition: {
+        values: ['interactive', 'develop', 'none'],
+        // Panda merges (not replaces) the built-in value names into the
+        // type union; anything but the three verbs is a deliberate no-op so
+        // a legacy name can never smuggle its own physics back in.
+        transform(value: string, { token }) {
+          if (value === 'none') return { transition: 'none' }
+          if (value !== 'interactive' && value !== 'develop') return {}
+          return {
+            transitionProperty:
+              value === 'interactive'
+                ? 'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, opacity, transform'
+                : 'opacity, transform, translate, scale, filter',
+            transitionDuration: token(`durations.${value === 'interactive' ? 'fast' : 'normal'}`),
+            transitionTimingFunction: token('easings.quint'),
+          }
+        },
+      },
+    },
+  },
+  patterns: {
+    extend: {
+      stack: { defaultValues: { gap: 'md' } },
+      hstack: { defaultValues: { gap: 'sm' } },
+      wrap: { defaultValues: { gap: 'sm', align: 'center' } },
+      grid: {
+        defaultValues: (props) => ({
+          gap: props.columnGap || props.rowGap ? undefined : 'gridGap',
+        }),
+      },
+      container: {
+        defaultValues: { maxWidth: 'maxWidth', px: 'gutter', position: 'static' },
+      },
+      editorialSplit,
+      manifestoTitle,
+      navigationLabel,
+      // Stock pattern only sets `borderColor`, leaving `borderStyle` unset —
+      // with `preflight: false` (no UA border reset) that left every bare
+      // `<Divider />` invisible. Draw it with the same `hairline` composite
+      // border token every other rule in the app already uses, rather than
+      // re-deriving width/style/color by hand.
+      divider: definePattern({
+        properties: {
+          orientation: { type: 'enum', value: ['horizontal', 'vertical'] },
+        },
+        defaultValues: { orientation: 'horizontal' },
+        transform(props, { map }) {
+          const { orientation, ...rest } = props
+          return {
+            width: map(orientation, (v) => (v === 'vertical' ? undefined : '100%')),
+            height: map(orientation, (v) => (v === 'horizontal' ? undefined : '100%')),
+            borderBottom: map(orientation, (v) => (v === 'horizontal' ? 'hairline' : undefined)),
+            borderRight: map(orientation, (v) => (v === 'vertical' ? 'hairline' : undefined)),
+            ...rest,
+          }
+        },
+      }),
+      text: definePattern({
+        jsxName: 'Text',
+        jsxElement: 'span',
+        properties: {
+          variant: {
+            type: 'enum',
+            value: [
+              'display',
+              'title',
+              'heading',
+              'lead',
+              'body',
+              'caption',
+              'label',
+              'calendar',
+              'manifesto',
+            ],
+          },
+        },
+        defaultValues: { variant: 'body' },
+        blocklist: [
+          'fontSize',
+          'fontFamily',
+          'fontWeight',
+          'letterSpacing',
+          'lineHeight',
+          'textTransform',
+          'textStyle',
+        ],
+        transform({ variant, ...rest }) {
+          const ink =
+            variant === 'display' || variant === 'title' || variant === 'heading'
+              ? 'heading'
+              : variant === 'label'
+                ? 'muted'
+                : 'body'
+          return { textStyle: variant, color: ink, ...rest }
+        },
+      }),
+    },
+  },
   // Mirror the stepped breakpoints from globals.css (mobile-first).
   theme: {
     extend: {
@@ -37,17 +131,23 @@ export const designSystemPreset = definePreset({
       tokens,
       semanticTokens,
       animationStyles,
-      // Typography utilities. Pure type — margins / max-width belong at the
-      // call site. Tag/kicker treatments are NOT here: they are the Badge /
-      // Eyebrow recipes.
       textStyles,
-      // Page-shell layout as layerStyles. The section *shell* (vertical
-      // rhythm + ground) is the `section` recipe; `sectionInner` is the
-      // content rail — it owns the horizontal gutter, so full-bleed children
-      // placed outside the rail span the shell. `pageHero` defers its gutter
-      // to the rail too (its inner is a `sectionInner`).
       layerStyles,
       recipes,
+    },
+  },
+  globalCss: {
+    body: { textStyle: 'body', color: 'body', background: 'surface' },
+    ':focus-visible': { outline: 'focus', outlineOffset: 'token(spacing.xs)' },
+    ':disabled, [aria-disabled=true], [data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
+    // The one reduced-motion rule: states still change, they just snap.
+    '@media (prefers-reduced-motion: reduce)': {
+      '*, *::before, *::after': {
+        animationDuration: '0.01ms!',
+        animationIterationCount: '1!',
+        animationDelay: '0ms!',
+        transitionDuration: '0.01ms!',
+      },
     },
   },
 })

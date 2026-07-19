@@ -18,7 +18,6 @@ export const navigation = sva({
     'desktopNav',
     'desktopNavLink',
     'mobileShell',
-    'mobileNav',
     'mobileNavLink',
     'navLink',
   ],
@@ -55,33 +54,13 @@ export const navigation = sva({
       position: 'relative',
       width: 'full',
       height: 'full',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
       background: 'black',
     },
-    mobileNav: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: 'md',
-    },
-    // Sizing (fontSize/padding) deliberately lives in the per-context slots
-    // below, not here: base + override would emit two conflicting atomic
-    // utilities on one element, and the winner follows global stylesheet
-    // order — which reshuffles as unrelated styles come and go.
     navLink: {
       display: 'block',
-      fontFamily: 'display',
-      textTransform: 'uppercase',
       textDecoration: 'none',
-      color: 'muted',
       border: 'hairline',
-      letterSpacing: 'label',
-      transitionProperty: 'colors',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
-      _focusVisible: { outline: 'focus', outlineOffset: 'xs' },
+      transition: 'interactive',
       // Label roll — the muted label exits up while an identical pink copy
       // enters from below, clipped by a mask snug to the line box so nothing
       // leaks into the link's padding.
@@ -90,10 +69,7 @@ export const navigation = sva({
         '--nav-roll-offset': 'token(sizes.navRollOffset)',
         display: 'block',
         position: 'relative',
-        transitionProperty: 'common',
-        transitionDuration: 'normal',
-        transitionTimingFunction: 'expo',
-        _motionReduce: { transitionDuration: 'instant' },
+        transition: 'develop',
       },
       '& [data-nav-copy]': {
         position: 'absolute',
@@ -104,10 +80,6 @@ export const navigation = sva({
       '&:hover [data-nav-label], &:focus-visible [data-nav-label]': {
         transform: 'translateY(calc(var(--nav-roll-offset) * -1))',
       },
-      _motionReduce: {
-        '&:hover [data-nav-label], &:focus-visible [data-nav-label]': { transform: 'none' },
-        _hover: { color: 'action' },
-      },
       // Active tab gets the highlight fill; siblings stay outlined. The roll
       // is suppressed — hover is a preview of elsewhere, not of here.
       '&[data-active=true]': { background: 'highlight', color: 'black' },
@@ -116,14 +88,12 @@ export const navigation = sva({
         { transform: 'none' },
     },
     desktopNavLink: {
-      fontSize: 'sm',
       paddingBlock: 'sm',
       paddingInline: 'md',
       marginRight: 'hairlineOverlap',
       '&:last-child': { marginRight: '0' },
     },
     mobileNavLink: {
-      fontSize: 'lg',
       paddingBlock: 'md',
       paddingInline: 'xl',
     },
@@ -147,9 +117,7 @@ export const navigation = sva({
         background: 'black',
         border: 'hairline',
         pointerEvents: 'none',
-        transitionProperty: 'colors',
-        transitionDuration: 'fast',
-        transitionTimingFunction: 'quint',
+        transition: 'interactive',
       },
       '& > *': { position: 'relative', zIndex: '1' },
       color: 'white',
@@ -186,20 +154,17 @@ export const navigationSwap = sva({
       height: 'navIcon',
       alignItems: 'center',
       justifyContent: 'center',
-      color: 'current',
-      transitionProperty: 'common',
-      transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      color: 'white',
+      transition: 'develop',
       '&[hidden]': { display: 'inline-flex!' },
       '&[data-type=off]': { flexDirection: 'column', gap: 'xs' },
       '&[data-type=off] > span': {
         display: 'block',
         width: 'navGlyph',
         height: 'navGlyphStroke',
-        background: 'current',
+        background: 'white',
       },
       '& svg': { width: 'full', height: 'full' },
-      _motionReduce: { transitionDuration: 'instant' },
     },
   },
 })

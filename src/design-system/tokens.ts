@@ -1,16 +1,3 @@
-/**
- * Gray ramp generated from ONE anchor (ZSB-70 palette rationalisation).
- *
- * The legacy palette had ~18 hand-picked grays (incl. 350/750/850 half-steps).
- * Measuring them in OKLCH showed a single systematic ramp: a magenta-leaning
- * hue (~345°) at very low chroma, varying only in lightness. So we regenerate
- * it from a fixed hue + chroma and step the L — preserving the brand's warm
- * tint while collapsing the source of truth to a handful of numbers.
- *
- * These are SOLID (not alpha) on purpose: grays sit on text over media
- * (scrims, galleries, Hero), where translucency would read through the image.
- * Alpha is reserved for adaptive solid-surface roles (dividers/overlays) later.
- */
 const GRAY_HUE = 345
 const GRAY_CHROMA = 0.005
 const GRAY_L: Record<string, number> = {
@@ -36,10 +23,13 @@ const grayRamp = Object.fromEntries(
 export const conditions = {
   motionSafe: '@media (prefers-reduced-motion: no-preference)',
   motionReduce: '@media (prefers-reduced-motion: reduce)',
+
+  hover: '&:is(:hover, [data-hover]):not(:disabled, [aria-disabled=true], [data-disabled])',
+  active: '&:is(:active, [data-active]):not(:disabled, [aria-disabled=true], [data-disabled])',
 } as const
 
-// Mirror the stepped breakpoints from globals.css (mobile-first).
 export const breakpoints = {
+  sm: '637px',
   md: '768px',
   lg: '1024px',
   xl: '1280px',
@@ -49,12 +39,6 @@ export const breakpoints = {
 } as const
 
 export const keyframes = {
-  // The one entrance reveal. Parameterized by CSS vars (`--enter-y` /
-  // `--enter-scale` / `--enter-blur`) set by animation-style variants; built
-  // from→to with `animation-fill-mode: both` so the element rests in its
-  // visible final state and reduced-motion is just `animation: none`.
-  // Folds in the former fadeSlideUp / fadeIn / dialogIn / cardIn /
-  // imageReveal / cardReveal.
   enter: {
     from: {
       opacity: '0',
@@ -64,17 +48,13 @@ export const keyframes = {
     },
     to: { opacity: '1', translate: '0 0', scale: '1', filter: 'blur(0px)' },
   },
-  // The diagonal sticky-tape entrance (translate x+y beneath a static
-  // rotate). Kept distinct from `enter` — Hero/EditionTheme tapes need it.
+
   tapeIn: { to: { opacity: '1', translate: '0 0' } },
-  // PartnerBadge's continuously-rotating text ring.
   spin: { to: { transform: 'rotate(-360deg)' } },
-  // Carousel item's animated gradient hover border.
   gradientBorderShift: {
     '0%': { backgroundPosition: '0% 50%' },
     '100%': { backgroundPosition: '200% 50%' },
   },
-  // Loading-skeleton sweep (edition loading bones + the shared skeleton).
   shimmer: {
     '0%': { transform: 'translateX(-100%)' },
     '100%': { transform: 'translateX(100%)' },
@@ -84,55 +64,50 @@ export const keyframes = {
 export const tokens = {
   colors: {
     gray: grayRamp,
-    // Brand anchors, authored in OKLCH (measured from the legacy hexes).
     pink: { value: 'oklch(61.6% 0.2527 355)' },
     chartreuse: { value: 'oklch(87.9% 0.1981 115)' },
-    // One true black. The former magenta-tinted `black` and the pure
-    // `black` are merged here — every dark ground is the same `#000`.
+
     black: { value: 'oklch(0% 0 0)' },
     white: { value: '#fff' },
-    // CSS keywords admitted as tokens: unstyling (button resets, ghost
-    // fills) and inheriting glyph color are recurring, deliberate moves.
+
     transparent: { value: 'transparent' },
     current: { value: 'currentColor' },
   },
   fonts: {
-    // Reference the next/font CSS variables already set on <html>.
     display: { value: 'var(--font-dela-gothic), sans-serif' },
     body: { value: 'var(--font-montserrat), sans-serif' },
   },
-  // Static + already-fluid (clamp) scales port as plain tokens.
-  // Stepped-responsive ones live in semanticTokens below.
   fontSizes: {
-    badgeRing: { value: '40px' },
-    // Badge's own fixed size — deliberately not the stepped `xs` scale (Badge
-    // is documented as one size, not a responsive one).
-    badge: { value: '10px' },
-    md: { value: 'clamp(19px, 18.35px + 0.2038vw, 22px)' },
-    lg: { value: 'clamp(22px, 21.35px + 0.2038vw, 25px)' },
-    xl: { value: 'clamp(26px, 24.26px + 0.5435vw, 34px)' },
-    '2xl': { value: 'clamp(32px, 28.96px + 0.9511vw, 46px)' },
-    '3xl': { value: 'clamp(40px, 36.52px + 1.087vw, 56px)' },
-    '4xl': { value: 'clamp(48px, 42.35px + 1.766vw, 74px)' },
-    '5xl': { value: 'clamp(58px, 50.61px + 2.31vw, 92px)' },
+    partnerBadgeRing: { value: '40px' },
+    xs: { value: 'clamp(9px, 8.76px + 0.0647vw, 10px)' },
+    sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
+    base: { value: '16px' },
+    md: { value: 'clamp(17px, 15.54px + 0.3883vw, 23px)' },
+    lg: { value: 'clamp(26px, 18.72px + 1.9417vw, 56px)' },
+    xl: { value: 'clamp(46px, 25.32px + 2.8479vw, 80px)' },
   },
   spacing: {
-    // `0` is a real member of the scale: overriding a larger breakpoint's
-    // padding, pinning an overlay edge (`inset: '0'`), collapsing a gap.
     '0': { value: '0px' },
-    xs: { value: '4px' },
-    sm: { value: '8px' },
+    xs: { value: 'clamp(4px, 4px, 4px)' },
+    sm: { value: 'clamp(8px, 8px, 8px)' },
     hairlineOverlap: { value: 'calc({borderWidths.hairline} * -1)' },
+    dialogInset: { value: 'calc({borderWidths.focus} * -1)' },
     navLogoTopMd: { value: '24px' },
     navDesktopTop: { value: '32px' },
     navDesktopTopLg: { value: '40px' },
-    // Badge's own padding — not shared by anything else in the size scale.
     badgeX: { value: '12px' },
     badgeY: { value: '6px' },
-    lg: { value: 'clamp(24px, 18.78px + 1.6304vw, 48px)' },
-    xl: { value: 'clamp(32px, 23.3px + 2.7174vw, 72px)' },
-    // The archive card's image-bleeds-under-content overlap (negated at the
-    // call site: `marginTop: '[calc(token(spacing.cardOverlap) * -1)]'`).
+    md: { value: 'clamp(16px, 15.03px + 0.2589vw, 20px)' },
+    lg: { value: 'clamp(24px, 18.17px + 1.5534vw, 48px)' },
+    xl: { value: 'clamp(32px, 22.29px + 2.5890vw, 72px)' },
+    '2xl': { value: 'clamp(48px, 32.47px + 4.1424vw, 112px)' },
+    '3xl': { value: 'clamp(64px, 44.58px + 5.1780vw, 144px)' },
+    '4xl': { value: 'clamp(96px, 64.93px + 8.2848vw, 224px)' },
+    sectionY: { value: 'clamp(80px, 70.29px + 2.5890vw, 120px)' },
+    sectionYLg: { value: 'clamp(100px, 80.58px + 5.1780vw, 180px)' },
+
+    gutter: { value: 'clamp(16px, -7.30px + 6.2136vw, 112px)' },
+    gridGap: { value: 'clamp(16px, -0.50px + 4.4013vw, 84px)' },
     cardOverlap: { value: '3rem' },
   },
   radii: {
@@ -140,8 +115,6 @@ export const tokens = {
     circle: { value: '50%' },
   },
   borders: {
-    // `none` as a token: buttons/fieldsets keep their UA border (preflight
-    // is off), so stripping it is a deliberate, recurring act.
     none: { value: 'none' },
     hairline: {
       value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.divider}' },
@@ -152,7 +125,6 @@ export const tokens = {
     primary: {
       value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.action}' },
     },
-    // The one focus ring (`outline: 'focus'` + an outlineOffset at the site).
     focus: {
       value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.chartreuse}' },
     },
@@ -161,23 +133,16 @@ export const tokens = {
     '0': { value: '0px' },
     hairline: { value: '1px' },
     focus: { value: '2px' },
-    // The gradientBorder hover ring's width (gallery tiles).
     gradientRing: { value: '2px' },
-    // The sub-pixel hairline: Calendar's tighter gradient ring weight, and
-    // Badge's own border (same value, different mechanism — named neutrally
+
     // so both can share it).
     hairlineThin: { value: '0.5px' },
   },
   sizes: {
-    // Structural fractions/keywords, tokenized so `strictTokens` can hold
-    // without bracket noise on every overlay and full-bleed frame.
     '0': { value: '0px' },
     full: { value: '100%' },
     fit: { value: 'fit-content' },
-    // NB no `screen` size token: preset-base hardcodes `screen: 100vh` in its
-    // height utilities, shadowing any theme token of that name. Fullscreen
-    // shells use the preset's own `svh` value (100svh) instead.
-    // Minimum comfortable touch target (WCAG 2.5.8-ish; the nav toggle).
+
     touch: { value: '48px' },
     navLogoBase: { value: '40px' },
     navLogoLg: { value: '56px' },
@@ -186,73 +151,46 @@ export const tokens = {
     navGlyph: { value: '18px' },
     navGlyphStroke: { value: '2px' },
     navRollOffset: { value: '110%' },
-    // The comfortable prose measure (leads, FAQ bodies, link lists).
     measure: { value: '60ch' },
-    // The site content rail (`.sectionInner` max-width).
     maxWidth: { value: '1800px' },
-    // Narrow single-column cap (mobile stat blocks, banners, error/edition
-    // copy) — recurs as an unnamed ~500-525px literal across several
-    // recipes; 520px is its most common value.
+
     narrowColumn: { value: '520px' },
     brushStroke: { value: '3px' },
-    // The lightbox's desktop letterbox column — each nav arrow owns one full
-    // column beside the frame. The frame's `md`+ width is derived from this
-    // (100vw minus two columns) instead of restating the pixel math.
     lightboxNavColumn: { value: '80px' },
-    // The lightbox frame's base (pre-`md`) width fraction of the viewport.
     lightboxFrameWidth: { value: '90vw' },
-    // The nav arrows' vertical click zone — generous, but bounded (not the
-    // full letterbox column height) so it can't reach into the close
-    // button's corner.
+
     lightboxNavHit: { value: '240px' },
-    // Invisible click-target expansion (a `::before` hit-slop) beyond a
-    // control's visible box — the close button uses it to stay easy to hit
-    // without visually growing past its icon.
-    hitSlop: { value: '16px' },
-    // The transparent square hit target shared by Button's `icon` variant and
-    // the carousel prev/next/autoplay controls — distinct from `touch` (the
-    // WCAG minimum), this is the DS's own icon-button footprint.
+
+    lightboxFrameMax: { value: 'calc(100vw - ({sizes.lightboxNavColumn} * 2))' },
+
     hitTarget: { value: '44px' },
-    // The modal dialog's `panel` presentation width, and its `md`+ two-column
-    // step.
+
     dialogPanel: { value: '540px' },
     dialogPanelWide: { value: '760px' },
+    calendarPoster: { value: '220px' },
+
+    heroTapeColumn: { value: '200px' },
+
+    heroImageMax: { value: 'calc(100vw - {sizes.heroTapeColumn})' },
   },
   assets: {
     brushStrokeX: { value: 'polygon(0 0, 100% 0, 100% 38%, 68% 58%, 0 100%)' },
     brushStrokeY: { value: 'polygon(0 0, 100% 0, 58% 68%, 38% 100%, 0 100%)' },
-    // The hero frame's grayscale grade — photography desaturated just enough
-    // to sit on the dark ground without going fully mono.
+
     grayscaleSubtle: { value: 'grayscale(0.3)' },
-    // Full desaturation — the rail's "upcoming" plate, muted flat rather than
-    // graded like `grayscaleSubtle`.
+
     grayscaleFull: { value: 'grayscale(1)' },
-    // The card-media "develop" treatment — fully desaturated + dimmed at
-    // rest, warming back to color + full brightness on hover/focus. Shared by
-    // EditionCard and Calendar's run cards.
+
     developRest: { value: 'grayscale(1) brightness(0.7)' },
     developHover: { value: 'grayscale(0.3) brightness(1)' },
-    // The gallery rail item's develop treatment — same rest/hover pairing
-    // shape as `developRest`/`developHover`, tuned with contrast instead of
-    // desaturation.
+
     galleryDevelopRest: { value: 'brightness(0.9) contrast(1)' },
     galleryDevelopHover: { value: 'brightness(1) contrast(1.1)' },
   },
-  lineHeights: {
-    display: { value: '1' },
-    heading: { value: '1.38' },
-    tight: { value: '1.16' },
-    body: { value: '1.56' },
-    loose: { value: '1.9' },
-    // Badge's own tight, single-line-chip line-height.
-    badge: { value: '1.3' },
-  },
   letterSpacings: {
     tight: { value: '-0.02em' },
-    subtle: { value: '0.6px' },
     label: { value: '1.2px' },
-    wide: { value: '4px' },
-    badgeRing: { value: '8px' },
+    partnerBadgeRing: { value: '8px' },
   },
   fontWeights: {
     light: { value: '300' },
@@ -263,63 +201,35 @@ export const tokens = {
     black: { value: '900' },
   },
   durations: {
-    // Reduced-motion kill switch: `transitionDuration: 'instant'` under
-    // `_motionReduce` ends a transition without re-declaring the shorthand.
-    instant: { value: '0s' },
-    stagger: { value: '60ms' },
     fast: { value: '200ms' },
     normal: { value: '300ms' },
-    medium: { value: '400ms' },
-    slow: { value: '500ms' },
-    reveal: { value: '600ms' },
-    // Slow entrances/reveals (the fadeSlideUp / tape / image-reveal family)
-    // and the skeleton sweep — collapsed off the scattered 0.8–1.3s / 1.6–1.8s
-    // literals. Continuous loops (spin/glow/etc.) keep their own literal speed.
     entrance: { value: '900ms' },
     sweep: { value: '1600ms' },
   },
+
   easings: {
-    elastic: { value: 'cubic-bezier(0.34, 1.56, 0.64, 1)' },
-    elasticLinear: {
-      value:
-        'linear(0, 0.43 5%, 0.85 10%, 1.11 15%, 1.2 20%, 1.18 25%, 1.1 30%, 1.03 35%, 0.98 42.5%, 0.96 47.5%, 0.99 60%, 1.005 70%, 1)',
-    },
     expo: { value: 'cubic-bezier(0.16, 1, 0.3, 1)' },
     quint: { value: 'cubic-bezier(0.23, 1, 0.32, 1)' },
   },
-  // Primitive shadows the audit found inlined (ad-hoc opacities): the
-  // Card's faint lift, the Badge's pinned-paper elevation, and the one
-  // floating-panel lift shared by the modal dialog + cookie banner.
+
   shadows: {
     card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
     badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
     modal: { value: '0 30px 80px rgb(0 0 0 / 0.5)' },
-    // The hero frame's grounding lift — modal's geometry pulled tighter
-    // (negative spread) and darker, sized for photography on black.
     frame: { value: '0 30px 80px -30px rgb(0 0 0 / 0.7)' },
-    // The theme tape's pinned-paper elevation (badge's recipe, heavier hand).
     tape: {
       value: 'inset 0 1px 0 rgb(255 255 255 / 0.08), 0 14px 32px -6px rgb(0 0 0 / 0.55)',
     },
-    // Legibility halo for type sitting directly on photography.
     text: { value: '0 1px 8px rgb(0 0 0 / 0.55)' },
   },
   gradients: {
-    // The hero's photographic vignette. The near-black stops are the legacy
-    // `canvas` color (#0E0B10, the brand's warm magenta tint) — kept ONLY
-    // here, where it multiplies over imagery; every opaque dark ground is
-    // `black` (ZSB-70).
     heroVignette: {
       value:
         'linear-gradient(115deg, rgb(14 11 16 / 0.55) 0%, rgb(14 11 16 / 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgb(14 11 16 / 0.5) 100%)',
     },
-    // The archive card's media scrim — top + bottom darkening for the year
-    // badge/gradient legibility over card imagery.
     cardScrim: {
       value: 'linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))',
     },
-    // The homepage carousel slide's radial vignette — darkens the frame edges
-    // without a directional cast (unlike `heroVignette`).
     carouselVignette: {
       value: 'radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.45) 100%)',
     },
@@ -341,7 +251,6 @@ export const semanticTokens = {
     brushStroke: { value: '{colors.highlight}' },
   },
   zIndex: {
-    // Global chrome stacking — semantic, page-wide.
     nav: { value: '100' },
     banner: { value: '200' },
     overlay: { value: '1000' },
@@ -349,8 +258,6 @@ export const semanticTokens = {
     navToggle: { value: '1011' },
     lightbox: { value: '1020' },
     draftBadge: { value: '1030' },
-    // Local stacking inside an `isolation: isolate` (or positioned) subtree:
-    // numeric by design — media base, scrim, content, floating accents.
     '0': { value: '0' },
     '1': { value: '1' },
     '2': { value: '2' },
@@ -358,13 +265,6 @@ export const semanticTokens = {
     '4': { value: '4' },
     '10': { value: '10' },
     '20': { value: '20' },
-  },
-  // Stepped-responsive tokens: faithful to the :root media-query overrides.
-  fontSizes: {
-    base: { value: { base: '16px', lg: '15px', '4xl': '16px' } },
-    '2xs': { value: { base: '8px', lg: '9px', '4xl': '10px' } },
-    xs: { value: { base: '10px', lg: '11px' } },
-    sm: { value: { base: '12px', '4xl': '13px' } },
   },
   sizes: {
     // Fixed-nav height — the page-top offset every hero clears.
@@ -382,70 +282,6 @@ export const semanticTokens = {
     partnerBadgeUpcoming: { value: { base: '108px', md: '144px', xl: '187.5px' } },
     partnerBadgeUpcomingIcon: { value: { base: '30px', md: '39px', xl: '54px' } },
   },
-  spacing: {
-    md: { value: { base: '16px', md: '20px' } },
-    // The vertical rhythm of a standard section (`--section-padding-y`).
-    sectionY: { value: { base: '80px', md: '100px', '2xl': '120px' } },
-    // Looser section rhythm for breathing-room sections (manifesto, About).
-    sectionYLg: { value: { base: '100px', md: '160px', '2xl': '180px' } },
-    // Shared grid gutter (`--grid-gap`).
-    gridGap: {
-      value: {
-        base: '16px',
-        md: '32px',
-        lg: '48px',
-        xl: '60px',
-        '2xl': '66px',
-        '3xl': '72px',
-        '4xl': '84px',
-      },
-    },
-    '3xl': {
-      value: {
-        base: '64px',
-        md: '80px',
-        lg: '96px',
-        xl: '112px',
-        '2xl': '120px',
-        '3xl': '128px',
-        '4xl': '144px',
-      },
-    },
-    // The horizontal section gutter. Lives on the rail (`sectionInner`),
-    // not the section shell, so full-bleed children can escape it.
-    gutter: {
-      value: {
-        base: '16px',
-        md: '40px',
-        lg: '80px',
-        '2xl': '88px',
-        '3xl': '96px',
-        '4xl': '112px',
-      },
-    },
-    '2xl': {
-      value: {
-        base: '48px',
-        md: '56px',
-        lg: '64px',
-        xl: '80px',
-        '2xl': '88px',
-        '3xl': '96px',
-        '4xl': '112px',
-      },
-    },
-    '4xl': {
-      value: {
-        base: '96px',
-        md: '112px',
-        lg: '128px',
-        xl: '160px',
-        '2xl': '176px',
-        '3xl': '192px',
-        '4xl': '224px',
-      },
-    },
-  },
 } as const
 
 export const animationStyles = {
@@ -456,9 +292,7 @@ export const animationStyles = {
         animationDuration: 'entrance',
         animationTimingFunction: 'expo',
         animationFillMode: 'both',
-        animationDelay: 'calc(var(--i, 0) * {durations.stagger})',
         '--enter-y': '30px',
-        _motionReduce: { animation: 'none' },
       },
     },
     fade: {
@@ -468,7 +302,6 @@ export const animationStyles = {
         animationTimingFunction: 'expo',
         animationFillMode: 'both',
         '--enter-y': '0px',
-        _motionReduce: { animation: 'none' },
       },
     },
     zoom: {
@@ -479,7 +312,6 @@ export const animationStyles = {
         animationFillMode: 'both',
         '--enter-y': '0px',
         '--enter-scale': '1.06',
-        _motionReduce: { animation: 'none' },
       },
     },
     snappy: {
@@ -489,7 +321,6 @@ export const animationStyles = {
         animationTimingFunction: 'expo',
         animationFillMode: 'both',
         '--enter-y': '30px',
-        _motionReduce: { animation: 'none' },
       },
     },
   },
@@ -499,7 +330,6 @@ export const animationStyles = {
       animationDuration: '32s',
       animationTimingFunction: 'linear',
       animationIterationCount: 'infinite',
-      _motionReduce: { animationPlayState: 'paused' },
     },
   },
   shimmer: {
@@ -508,7 +338,6 @@ export const animationStyles = {
       animationDuration: 'sweep',
       animationTimingFunction: 'ease-in-out',
       animationIterationCount: 'infinite',
-      _motionReduce: { animation: 'none' },
     },
   },
   gradientBorder: {
@@ -517,7 +346,6 @@ export const animationStyles = {
       animationDuration: '2s',
       animationTimingFunction: 'linear',
       animationIterationCount: 'infinite',
-      _motionReduce: { animation: 'none' },
     },
   },
   tape: {
@@ -527,111 +355,183 @@ export const animationStyles = {
       animationTimingFunction: 'expo',
       animationFillMode: 'forwards',
       animationDelay: 'var(--tape-delay, 0s)',
-      _motionReduce: { animation: 'none' },
     },
   },
 } as const
 
-// Typography utilities. Pure type — margins / max-width belong at the call
-// site. Tag/kicker treatments are NOT here: they are the Badge / Eyebrow
-// recipes.
 export const textStyles = {
-  sectionTitle: {
-    value: {
-      fontFamily: 'display',
-      fontSize: { base: 'xl', md: '2xl' },
-      lineHeight: 'display',
-      textTransform: 'uppercase',
-    },
-  },
-  // textStyles are typography-only — the entrance animation (the legacy
-  // `.pageTitle` `fadeSlideUp`) is applied at the call site via
-  // `css({ animation: 'fadeSlideUp 1s {easings.expo} 0.2s both' })`.
-  pageTitle: {
-    value: {
-      fontFamily: 'display',
-      fontSize: 'clamp(40px, 4.75vw, 100px)',
-      lineHeight: '1',
-      textTransform: 'uppercase',
-    },
-  },
-  cardTitle: {
+  display: {
     value: {
       fontFamily: 'display',
       fontSize: 'xl',
-      lineHeight: 'heading',
-      letterSpacing: 'tight',
+      lineHeight: '1',
+      letterSpacing: '-0.02em',
       textTransform: 'uppercase',
     },
   },
-  // Item title on the dark schedule board — the agenda event rows and the
-  // Ongoing run cards. Body face (not display), set tight.
-  boardTitle: {
-    value: {
-      fontFamily: 'body',
-      fontWeight: 'bold',
-      fontSize: 'base',
-      lineHeight: 'tight',
-      letterSpacing: 'tight',
-      color: 'white',
-    },
-  },
-  labelDisplay: {
+  title: {
     value: {
       fontFamily: 'display',
+      fontSize: 'lg',
+      lineHeight: '1.16',
+      letterSpacing: '-0.02em',
       textTransform: 'uppercase',
-      lineHeight: 'tight',
-      letterSpacing: 'tight',
     },
   },
-  metaLabel: {
+  heading: {
     value: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      letterSpacing: 'label',
-      fontWeight: 'semibold',
-      color: 'muted',
-    },
-  },
-  footerMeta: {
-    value: {
-      fontFamily: 'body',
-      fontSize: '2xs',
-      textTransform: 'uppercase',
-      fontWeight: 'semibold',
-      color: 'muted',
+      fontFamily: 'display',
+      fontSize: 'lg',
+      lineHeight: '1.1',
+      letterSpacing: '-0.02em',
     },
   },
   lead: {
     value: {
       fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: 'body',
-      textWrap: 'pretty',
-    },
-  },
-  // The homepage hero's larger, lighter intro — the one place a lead is
-  // emphasised over the canonical `lead` role.
-  leadLarge: {
-    value: {
-      fontFamily: 'body',
       fontSize: 'md',
       fontWeight: 'light',
-      lineHeight: 'body',
+      lineHeight: '1.56',
       textWrap: 'pretty',
     },
   },
-  prose: {
-    value: { fontFamily: 'body', fontSize: 'base', lineHeight: 'body', color: 'body' },
+  manifesto: {
+    value: {
+      fontFamily: 'display',
+      fontSize: 'xl',
+      lineHeight: '1.1',
+      letterSpacing: '-0.02em',
+    },
+  },
+  body: {
+    value: {
+      fontFamily: 'body',
+      fontSize: 'base',
+      lineHeight: '1.7',
+      textWrap: 'pretty',
+    },
+  },
+  caption: {
+    value: {
+      fontFamily: 'body',
+      fontSize: 'sm',
+      lineHeight: '1.38',
+    },
+  },
+  label: {
+    value: {
+      fontFamily: 'body',
+      fontSize: 'xs',
+      fontWeight: 'normal',
+      lineHeight: '1.3',
+      letterSpacing: '1.2px',
+      textTransform: 'uppercase',
+    },
+  },
+
+  featuredEvents: {
+    watermarkType: {
+      value: {
+        fontFamily: 'display',
+        fontSize: 'clamp(120px, 32vw, 260px)',
+        lineHeight: '1',
+      },
+    },
+  },
+  calendar: {
+    value: {
+      fontFamily: 'body',
+      fontSize: 'base',
+      lineHeight: '1.4',
+      letterSpacing: '-0.018em',
+      fontWeight: 'bold',
+    },
+  },
+  externalGallery: {
+    plateType: {
+      monogram: {
+        value: {
+          fontFamily: 'display',
+          lineHeight: '1',
+          textTransform: 'uppercase',
+        },
+      },
+      zsb: {
+        value: {
+          fontSize: 'clamp(56px, 7vw, 104px)',
+          letterSpacing: '-2px',
+        },
+      },
+      year: {
+        value: {
+          fontSize: 'clamp(36px, 4.5vw, 64px)',
+          letterSpacing: '-1px',
+        },
+      },
+    },
+  },
+  editionTheme: {
+    tapeType: {
+      huge: {
+        value: {
+          fontFamily: 'display',
+          fontSize: { base: 'lg', sm: 'xl' },
+          lineHeight: '1',
+          letterSpacing: '0.007em',
+          textTransform: 'lowercase',
+        },
+      },
+      large: {
+        value: {
+          fontFamily: 'display',
+          fontSize: { base: 'lg', md: 'lg', lg: 'lg', xl: 'xl' },
+          lineHeight: '1',
+          letterSpacing: '0.007em',
+          textTransform: 'lowercase',
+        },
+      },
+      normal: {
+        value: {
+          fontFamily: 'display',
+          fontSize: { base: 'md', md: 'lg' },
+          lineHeight: '1',
+          letterSpacing: '0.007em',
+          textTransform: 'lowercase',
+        },
+      },
+      rail: {
+        value: {
+          fontFamily: 'display',
+          fontSize: { base: 'md', lg: 'lg' },
+          lineHeight: '1',
+          letterSpacing: '0.01em',
+          textTransform: 'lowercase',
+        },
+      },
+    },
+  },
+  partnerBadge: {
+    ringType: {
+      value: {
+        fontFamily: 'body',
+        fontSize: 'partnerBadgeRing',
+        fontWeight: 'semibold',
+        letterSpacing: 'partnerBadgeRing',
+      },
+    },
+  },
+
+  cardTitle: {
+    value: {
+      fontFamily: 'display',
+      fontSize: 'md',
+      lineHeight: '1.16',
+      letterSpacing: '-0.02em',
+      textTransform: 'uppercase',
+    },
   },
 } as const
 
-// Page-shell layout as layerStyles. The section *shell* (vertical rhythm
-// + ground) is now the `section` recipe; `sectionInner` is the content
-// rail — it owns the horizontal gutter, so full-bleed children placed
-// outside the rail span the shell. `pageHero` defers its gutter to the
-// rail too (its inner is a `sectionInner`).
 export const layerStyles = {
   sectionInner: {
     value: { maxWidth: 'maxWidth', marginInline: 'auto', paddingInline: 'gutter' },
@@ -642,18 +542,14 @@ export const layerStyles = {
       filter: '[grayscale(100%) contrast(1.05)]',
     },
   },
-  // The edition hero tape's bottom offset + width cap, stepped in tandem
-  // across breakpoints so the two ramps live in one named place instead of
-  // two parallel brackets at the call site.
+
   heroTapeOffset: {
     value: {
       bottom: { base: '8%', md: '10%', lg: '11%' },
       maxWidth: { base: '94%', md: '72%', lg: '62%', xl: '58%' },
     },
   },
-  // The edition hero tape's horizontal nudge — tucks it under the nav on
-  // mobile, then pulls it flush with the logo from `lg` as the tape's own
-  // em-based padding grows with its `huge` fontSize ladder.
+
   heroTapeNudge: {
     value: {
       marginLeft: { base: '10px', md: '18px', lg: '-36px', xl: '-40px' },
@@ -670,9 +566,7 @@ export const layerStyles = {
       paddingBottom: { base: '2xl', md: '3xl' },
     },
   },
-  // The one loading-placeholder surface: gray.800 base with the `shimmer`
-  // sweep riding on `::after`. Shared by the image skeleton (`css()` helper
-  // positions it absolutely) and the edition-loading bones.
+
   skeleton: {
     value: {
       position: 'relative',
@@ -688,12 +582,7 @@ export const layerStyles = {
       },
     },
   },
-  // The hairline-gradient hover ring (Calendar runs + gallery tiles): paint
-  // the action→highlight sweep, then mask everything except the padding ring
-  // (content-box XOR). Applied on a `::before`; the call site supplies
-  // `content`, the ring width (padding) and its duration — `transitionProperty`
-  // and `transitionTimingFunction` are identical at both call sites, so they
-  // live here instead of being restated at each one.
+
   gradientBorder: {
     value: {
       position: 'absolute',
@@ -709,12 +598,11 @@ export const layerStyles = {
       zIndex: '2',
       pointerEvents: 'none',
       transitionProperty: '[opacity]',
+      transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
     },
   },
-  // The gallery rail slide's width+height, ramped in tandem across
-  // breakpoints (same bundling rationale as `heroTapeOffset`) plus the
-  // landscape-phone height override.
+
   galleryRailFrame: {
     value: {
       width: {
@@ -736,39 +624,25 @@ export const layerStyles = {
       '@media (max-width: 767px) and (orientation: landscape)': { height: '[73vh]' },
     },
   },
-  // Horizontal wrap of pill/badge chips (calendar type tags, filter chips):
-  // the list surface only — the chips themselves are their own primitives.
-  chipRow: {
-    value: { listStyle: 'none', display: 'flex', flexWrap: 'wrap', gap: 'sm' },
-  },
-  // The brush-stroke rule's shared boilerplate (EditionTheme's top rule,
-  // Manifesto's left rule) — content/position/opacity are identical; axis
-  // (height vs width, position sides, gradient direction, clipPath) stays
-  // at each call site.
+
   brushStrokeRule: {
     value: { content: '""', position: 'absolute', opacity: '0.85' },
   },
-  // The small horizontal kicker rule (Eyebrow's `rule` variant) — a
-  // `::before` dash sized off the shared `lg` spacing step rather than a
-  // one-off pixel value.
+
   ruleLine: {
     value: { content: '""', width: 'lg', height: '2px', background: 'current', flexShrink: '0' },
   },
-  // The disclosure chevron shared by Accordion/Collapsible: flex + rotate on
-  // `data-state=open` + motion-reduce kill. `transitionDuration` (and
-  // color/flexShrink/marginLeft) stay call-site deltas — the two consumers
-  // deliberately run on different clocks.
+
   disclosureIndicator: {
     value: {
       display: 'inline-flex',
       transitionProperty: '[transform]',
+      transitionDuration: 'fast',
       transitionTimingFunction: 'quint',
       '&[data-state=open]': { transform: 'rotate(180deg)' },
-      _motionReduce: { transition: 'none' },
     },
   },
-  // Visually-hidden but still in the accessibility tree — the standard
-  // sr-only recipe, named once instead of hand-rolled at each call site.
+
   srOnly: {
     value: {
       position: 'absolute',
@@ -782,6 +656,4 @@ export const layerStyles = {
       borderWidth: '0',
     },
   },
-  // NB layerStyles carry the surface look only — positioning/stacking beyond
-  // the mechanism itself stays at the call site.
 } as const

@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { cx } from 'styled-system/css'
+import { Text } from 'styled-system/jsx'
 import { splitFirstMatch } from '@/lib/split-first-match'
 import { editionTheme } from './EditionTheme.recipe'
 
@@ -31,8 +32,8 @@ interface EditionThemeProps {
   /** De-emphasizes the whole heading (lead + theme text) — the rail's
    *  "upcoming" plate. */
   muted?: boolean | undefined
-  /** Entrance delay for the `tapeIn` reveal — a fixed value (the hero) or a
-   *  stagger expression (`calc(var(--card-index)…)` on the editions cards). */
+  /** Entrance delay for the `tapeIn` reveal — the edition hero's beat in its
+   *  image → vignette → tape cascade. */
   delay?: string | undefined
   /** cx escape for container positioning only (e.g. the hero's tuck under the
    *  nav). Not for tape identity — that's all baked in. */
@@ -79,7 +80,11 @@ export function EditionTheme({
           theme
         )}
       </Tag>
-      {meta ? <p className={styles.meta}>{meta}</p> : null}
+      {meta ? (
+        <Text as="p" variant="caption" className={styles.meta}>
+          {meta}
+        </Text>
+      ) : null}
     </div>
   )
 }

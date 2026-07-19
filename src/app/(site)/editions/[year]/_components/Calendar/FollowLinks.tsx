@@ -1,6 +1,5 @@
-import { cx } from 'styled-system/css'
+import { Stack, Text, Wrap } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
-import { followLinks } from './FollowLinks.recipe'
 
 export interface SocialLink {
   label: string
@@ -23,21 +22,33 @@ export function FollowLinks({
   className?: string | undefined
 }) {
   if (socials.length === 0) return null
-  const s = followLinks({ layout })
+  const links = (
+    <Wrap as="ul" gap="md" listStyle="none">
+      {socials.map((social) => (
+        <li key={social.label}>
+          <Button asChild variant="link">
+            <a href={social.href} target="_blank" rel="noreferrer">
+              {social.label}
+            </a>
+          </Button>
+        </li>
+      ))}
+    </Wrap>
+  )
+
+  if (layout === 'stack') {
+    return (
+      <Stack className={className} gap="md" alignItems="flex-start">
+        <Text variant="label">{label}</Text>
+        {links}
+      </Stack>
+    )
+  }
+
   return (
-    <div className={cx(s.follow, className)}>
-      <span className={s.label}>{label}</span>
-      <ul className={s.links}>
-        {socials.map((social) => (
-          <li key={social.label}>
-            <Button asChild variant="link">
-              <a href={social.href} target="_blank" rel="noreferrer">
-                {social.label}
-              </a>
-            </Button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Wrap className={className} gap="md">
+      <Text variant="label">{label}</Text>
+      {links}
+    </Wrap>
   )
 }

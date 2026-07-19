@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { NavigationLabel } from 'styled-system/jsx'
 
 const NAV_ITEMS = [
   { label: 'Home', href: '/' },
@@ -21,6 +22,7 @@ function isSectionActive(pathname: string, href: string): boolean {
 
 type NavLinksProps = {
   className: string | undefined
+  context: 'desktop' | 'mobile'
   onNavigate?: (() => void) | undefined
 }
 
@@ -31,6 +33,7 @@ type NavLinksProps = {
 export function NavLinksList({
   pathname,
   className,
+  context,
   onNavigate,
 }: NavLinksProps & { pathname: string | null }) {
   return NAV_ITEMS.map((item) => {
@@ -47,12 +50,12 @@ export function NavLinksList({
         {...(onNavigate ? { onClick: onNavigate } : {})}
       >
         <span data-nav-mask>
-          <span data-nav-label>
+          <NavigationLabel context={context} data-nav-label>
             {item.label}
-            <span aria-hidden data-nav-copy>
+            <NavigationLabel context={context} aria-hidden data-nav-copy>
               {item.label}
-            </span>
-          </span>
+            </NavigationLabel>
+          </NavigationLabel>
         </span>
       </Link>
     )
