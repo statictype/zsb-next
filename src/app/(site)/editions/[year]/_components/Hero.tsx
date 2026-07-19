@@ -1,6 +1,6 @@
+import { hero } from '@edition-components/Hero.recipe'
 import { css, cx } from 'styled-system/css'
 import { token } from 'styled-system/tokens'
-import { hero } from '@/app/(site)/editions/[year]/_components/Hero.recipe'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import type { Edition } from '@/types/edition'

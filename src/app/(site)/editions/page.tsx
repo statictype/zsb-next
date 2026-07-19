@@ -1,7 +1,7 @@
+import { editionsPage } from '@site/editions/page.recipe'
 import { css } from 'styled-system/css'
 import { Container, Grid } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
-import { editionsPage } from '@/app/(site)/editions/page.recipe'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
 import { PageHero } from '@/components/PageHero/PageHero'

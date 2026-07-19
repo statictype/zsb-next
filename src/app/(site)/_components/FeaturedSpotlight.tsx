@@ -1,6 +1,6 @@
 'use client'
 
-import { FeaturedEvents } from '@/app/(site)/_components/FeaturedEvents'
+import { FeaturedEvents } from '@site-components/FeaturedEvents'
 import { isPastEvent } from '@/lib/edition-dates'
 import { useTodayIso } from '@/lib/use-today-iso'
 import type { CalendarEvent } from '@/types/edition'

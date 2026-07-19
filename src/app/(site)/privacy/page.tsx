@@ -3,10 +3,10 @@ import {
   type PortableTextComponents,
   type PortableTextMarkComponentProps,
 } from '@portabletext/react'
+import { privacyPage } from '@site/privacy/page.recipe'
 import { notFound } from 'next/navigation'
 import { Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
-import { privacyPage } from '@/app/(site)/privacy/page.recipe'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { DraftAware } from '@/components/DraftAware/DraftAware'

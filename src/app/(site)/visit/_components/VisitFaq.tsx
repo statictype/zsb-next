@@ -1,6 +1,6 @@
+import { visitFaq } from '@site/visit/_components/VisitFaq.recipe'
 import { Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
-import { visitFaq } from '@/app/(site)/visit/_components/VisitFaq.recipe'
 import { Accordion } from '@/components/ui/Accordion/Accordion'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { FaqEntry } from '@/lib/seo'

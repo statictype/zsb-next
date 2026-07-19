@@ -1,5 +1,5 @@
+import { venueLine } from '@calendar/VenueLine.recipe'
 import { Text, Wrap } from 'styled-system/jsx'
-import { venueLine } from '@/app/(site)/editions/[year]/_components/Calendar/VenueLine.recipe'
 import type { EventVenue } from '@/types/edition'
 
 // The venue name + its rolled-up parent, shared by the agenda rows, the Ongoing

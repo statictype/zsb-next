@@ -1,6 +1,6 @@
 'use client'
 
-import { mediaKitStrip } from '@/app/(site)/press/_components/MediaKitStrip.recipe'
+import { mediaKitStrip } from '@site/press/_components/MediaKitStrip.recipe'
 import { LightboxCarousel } from '@/components/Carousel/LightboxCarousel'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'

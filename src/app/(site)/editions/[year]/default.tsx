@@ -1,4 +1,4 @@
-import { CachedEdition } from '@/app/(site)/editions/[year]/edition-content'
+import { CachedEdition } from '@edition/edition-content'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 
 // Fallback for the implicit `children` slot when the `@modal` slot is active and

@@ -1,4 +1,4 @@
-import { CachedEdition } from '@/app/(site)/editions/[year]/edition-content'
+import { CachedEdition } from '@edition/edition-content'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { getAllEditionYearParams, getEditionForMetadata } from '@/data/editions'
 import { editionMetadata } from '@/lib/seo'

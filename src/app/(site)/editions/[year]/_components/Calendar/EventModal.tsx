@@ -1,16 +1,12 @@
 'use client'
 
+import { eventModal } from '@calendar/EventModal.recipe'
+import { TypeChips } from '@calendar/TypeChips'
+import { shareCopied, shareIcon, useShareLink } from '@calendar/useShareLink'
+import { VenueLine } from '@calendar/VenueLine'
 import { RiArrowLeftLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
 import { HStack, Stack, Text, Wrap } from 'styled-system/jsx'
-import { eventModal } from '@/app/(site)/editions/[year]/_components/Calendar/EventModal.recipe'
-import { TypeChips } from '@/app/(site)/editions/[year]/_components/Calendar/TypeChips'
-import {
-  shareCopied,
-  shareIcon,
-  useShareLink,
-} from '@/app/(site)/editions/[year]/_components/Calendar/useShareLink'
-import { VenueLine } from '@/app/(site)/editions/[year]/_components/Calendar/VenueLine'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'

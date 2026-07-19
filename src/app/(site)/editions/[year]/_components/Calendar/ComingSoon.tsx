@@ -1,12 +1,9 @@
+import { CalendarMeta } from '@calendar/CalendarMeta'
+import { comingSoon } from '@calendar/ComingSoon.recipe'
+import { FollowLinks, type SocialLink } from '@calendar/FollowLinks'
 import { css } from 'styled-system/css'
 import { Container, Divider, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
-import { CalendarMeta } from '@/app/(site)/editions/[year]/_components/Calendar/CalendarMeta'
-import { comingSoon } from '@/app/(site)/editions/[year]/_components/Calendar/ComingSoon.recipe'
-import {
-  FollowLinks,
-  type SocialLink,
-} from '@/app/(site)/editions/[year]/_components/Calendar/FollowLinks'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 
 // Stands in for the calendar on a live edition whose events aren't announced

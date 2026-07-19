@@ -1,7 +1,7 @@
+import { artistsBanner } from '@site-components/ArtistsBanner.recipe'
 import Link from 'next/link'
 import { css } from 'styled-system/css'
 import { HStack, Stack, Text } from 'styled-system/jsx'
-import { artistsBanner } from '@/app/(site)/_components/ArtistsBanner.recipe'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { getAllEditionYears } from '@/data/editions'

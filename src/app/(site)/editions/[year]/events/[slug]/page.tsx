@@ -1,6 +1,6 @@
+import { RoutedEventModal } from '@calendar/RoutedEventModal'
+import { CachedEdition, loadEdition } from '@edition/edition-content'
 import { notFound } from 'next/navigation'
-import { RoutedEventModal } from '@/app/(site)/editions/[year]/_components/Calendar/RoutedEventModal'
-import { CachedEdition, loadEdition } from '@/app/(site)/editions/[year]/edition-content'
 import { getAllEventParams, getEditionForMetadata } from '@/data/editions'
 import { eventMetadata } from '@/lib/seo'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'

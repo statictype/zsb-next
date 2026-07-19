@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import {
   applyFilters,
   computeFilterOptions,
@@ -11,7 +10,8 @@ import {
   resolveShowPast,
   serializeFilters,
   toggleSelection,
-} from '@/app/(site)/editions/[year]/_components/Calendar/calendar-filters'
+} from '@calendar/calendar-filters'
+import { describe, expect, it } from 'vitest'
 import { rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
 

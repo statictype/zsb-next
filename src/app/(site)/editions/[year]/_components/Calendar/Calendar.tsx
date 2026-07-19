@@ -1,30 +1,21 @@
 'use client'
 
+import { calendar } from '@calendar/Calendar.recipe'
+import { CalendarFilters } from '@calendar/CalendarFilters'
+import { CalendarMeta } from '@calendar/CalendarMeta'
+import { CalendarShare, PROGRAM_SECTION_ID } from '@calendar/CalendarShare'
+import { type CalendarFilterOptions, deriveCalendarView } from '@calendar/calendar-filters'
+import { FollowLinks, type SocialLink } from '@calendar/FollowLinks'
+import { HashScroller } from '@calendar/HashScroller'
+import { TypeChips } from '@calendar/TypeChips'
+import { useCalendarFilters } from '@calendar/useCalendarFilters'
+import { VenueLine } from '@calendar/VenueLine'
 import { RiHistoryLine } from '@remixicon/react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { Container, Divider, Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
-import { calendar } from '@/app/(site)/editions/[year]/_components/Calendar/Calendar.recipe'
-import { CalendarFilters } from '@/app/(site)/editions/[year]/_components/Calendar/CalendarFilters'
-import { CalendarMeta } from '@/app/(site)/editions/[year]/_components/Calendar/CalendarMeta'
-import {
-  CalendarShare,
-  PROGRAM_SECTION_ID,
-} from '@/app/(site)/editions/[year]/_components/Calendar/CalendarShare'
-import {
-  type CalendarFilterOptions,
-  deriveCalendarView,
-} from '@/app/(site)/editions/[year]/_components/Calendar/calendar-filters'
-import {
-  FollowLinks,
-  type SocialLink,
-} from '@/app/(site)/editions/[year]/_components/Calendar/FollowLinks'
-import { HashScroller } from '@/app/(site)/editions/[year]/_components/Calendar/HashScroller'
-import { TypeChips } from '@/app/(site)/editions/[year]/_components/Calendar/TypeChips'
-import { useCalendarFilters } from '@/app/(site)/editions/[year]/_components/Calendar/useCalendarFilters'
-import { VenueLine } from '@/app/(site)/editions/[year]/_components/Calendar/VenueLine'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { Collapsible } from '@/components/ui/Collapsible/Collapsible'

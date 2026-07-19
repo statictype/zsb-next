@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { Dela_Gothic_One, Montserrat } from 'next/font/google'
 import { SITE_NAME, SITE_URL } from '@/lib/constants'
-import '@/app/globals.css'
-import '@/app/panda.css'
+import '@app/globals.css'
+import '@app/panda.css'
 
 const delaGothic = Dela_Gothic_One({
   weight: '400',

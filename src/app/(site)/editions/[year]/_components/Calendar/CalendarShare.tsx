@@ -1,11 +1,7 @@
 'use client'
 
+import { shareCopied, shareIcon, useShareLink } from '@calendar/useShareLink'
 import { cx } from 'styled-system/css'
-import {
-  shareCopied,
-  shareIcon,
-  useShareLink,
-} from '@/app/(site)/editions/[year]/_components/Calendar/useShareLink'
 import { Button } from '@/components/ui/Button/Button'
 
 // The anchor the shared link lands on — the Calendar `<section>` carries this
