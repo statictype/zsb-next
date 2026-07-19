@@ -173,7 +173,7 @@ Either way, the order that matters is **Site settings first** — the footer and
 2. **Homepage** — hero, CTA target, slideshow, editions intro.
 3. **About** · 4. **Partners** · 5. **Visit** · 6. **Press** · 7. **Privacy** — the static pages, in any order.
 
-Then create the **edition** document(s): set `status` to **Upcoming** while it's a previewable draft, **Live** once the page is ready (the public route gates on `status != "upcoming"` — see [`CONTEXT.md` → Edition status](../CONTEXT.md)). Every year lives in Sanity; no static file is needed.
+Then create the **edition** document(s): set `status` to **Announced** while it's a previewable draft, **Live** once the page is ready (the public route gates on `status == "live"` — see [`CONTEXT.md` → Edition status](../CONTEXT.md)). Every year lives in Sanity; no static file is needed.
 
 ## Editor UX principles
 

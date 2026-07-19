@@ -12,9 +12,9 @@ Every edition lives in Sanity as an `edition` document — there are no static e
 
 ### Edition status
 
-Every Sanity-backed edition carries a `status: 'upcoming' | 'live'`. An **upcoming** edition is one whose theme is announced but whose page isn't ready yet — it shows on the homepage editions list as a "Coming soon" row, not a link. A **live** edition is one with a viewable `/editions/YYYY` page; it shows on the homepage and in the footer's Explore column. Curators flip the status from upcoming → live when the program is finalised.
+Every Sanity-backed edition carries a `status: 'announced' | 'live'`. An **announced** edition is one whose theme is announced but whose page isn't ready yet — it shows on the homepage editions list as a "Coming soon" row, not a link. A **live** edition is one with a viewable `/editions/YYYY` page; it shows on the homepage and in the footer's Explore column. Curators flip the status from announced → live when the program is finalised. (The value was named `upcoming` until X1, 2026-07-19 — renamed because it borrowed the temporal vocabulary of the derived Latest/Upcoming pair below while meaning something else: publication state, not position in time.)
 
-The value is `live`, deliberately **not** `published`: "published" is reserved for Sanity's own document publish/draft lifecycle, which is orthogonal to this field. A document can be published in Sanity while its edition is still `upcoming`. The route gate is written `status != "upcoming"` (rather than `== "live"`) so the public page stays reachable through any future value migration; `upcoming` is the single special-cased value.
+The value is `live`, deliberately **not** `published`: "published" is reserved for Sanity's own document publish/draft lifecycle, which is orthogonal to this field. A document can be published in Sanity while its edition is still `announced`. Every reachability gate tests the stable value — `status == "live"` — never the other one, so a rename of any non-live value is a non-event and any unknown or legacy status degrades to "not linkable", the correct failure mode for a gate.
 
 ## Program & Calendar
 
@@ -50,9 +50,9 @@ The two derived editions the homepage and Visit page lean on, instead of a store
 
 Each surface decides *which* of them it shows via its **own** control — there is no global site-state:
 
-- **Editions list** (homepage) follows each edition's **status** (`upcoming` → coming-soon row, `live` → link).
+- **Editions list** (homepage) follows each edition's **status** (`live` → link, anything else → coming-soon row).
 - **Home hero** has a switch — *lead with Latest* or *lead with Upcoming*; leading with Upcoming demotes Latest to a compact secondary presence (its slideshow + CTA kept, integrated).
-- **Homepage featured events** are just the events **marked featured** on the newest **live** edition, past ones hidden — controlled in that edition's event section, nowhere else. (Newest *live*, not highest-year: an `upcoming` edition's page isn't linkable yet, so featuring its events would point at a 404.)
+- **Homepage featured events** are just the events **marked featured** on the newest **live** edition, past ones hidden — controlled in that edition's event section, nowhere else. (Newest *live*, not highest-year: an `announced` edition's page isn't linkable yet, so featuring its events would point at a 404.)
 - **Visit venues view** has its own, separate Latest/Upcoming switch.
 - **Edition calendar** shows the agenda when the edition has events (else the coming-soon block); a *finished* edition shows a recap summary + social CTAs with its archive agenda collapsed.
 

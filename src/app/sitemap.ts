@@ -36,9 +36,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getAllEventParams(),
   ])
 
-  // SITEMAP_QUERY.editions is already status-filtered (`!= "upcoming"`), the
+  // SITEMAP_QUERY.editions is already status-filtered (`== "live"`), the
   // same gate as the edition page — the sitemap never advertises a year that
-  // would 404 while an upcoming edition exists between editions.
+  // would 404 while an announced edition exists between editions.
   const editions = meta?.editions ?? []
   const editionUpdatedByYear = new Map(editions.map((e) => [String(e.year), e._updatedAt]))
   const pageUpdatedById = new Map(meta?.pages.map((p) => [p._id, p._updatedAt]) ?? [])

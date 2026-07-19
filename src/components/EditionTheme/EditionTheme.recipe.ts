@@ -126,7 +126,7 @@ export const editionTheme = sva({
       action: {},
     },
     // De-emphasizes the whole heading (lead + theme text) — the rail's
-    // "upcoming" plate. Separate from `accent`/`interactive`, which only ever
+    // "announced" plate. Separate from `accent`/`interactive`, which only ever
     // affect the highlight span.
     muted: {
       true: { heading: { color: 'muted' } },

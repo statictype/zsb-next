@@ -56,7 +56,7 @@ export const homepage = defineType({
       type: 'reference',
       to: [{ type: 'edition' }],
       group: 'hero',
-      // Only live editions have a reachable page; an upcoming edition's route
+      // Only live editions have a reachable page; an announced edition's route
       // is a hard 404, so the picker is filtered to live editions to keep the
       // hero button from ever linking to a dead page.
       options: { filter: 'status == "live"' },

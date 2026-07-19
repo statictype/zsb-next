@@ -29,7 +29,7 @@ export const editionRailCard = sva({
       current: {
         root: { cursor: 'default' },
       },
-      upcoming: {
+      announced: {
         root: {
           // Left raw: adding an `opacity` token scale would make Panda's
           // opacity utility strict repo-wide, for every existing raw opacity

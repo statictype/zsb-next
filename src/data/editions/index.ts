@@ -117,7 +117,7 @@ export async function getHeroUpcoming(options: DynamicFetchOptions): Promise<Upc
 
 /**
  * The homepage featured spotlight's source (ZSB-44): the `featured`-marked events
- * of the newest **live** edition (its routes are reachable, unlike an upcoming
+ * of the newest **live** edition (its routes are reachable, unlike an announced
  * one). `undefined` when there's no live physical edition or nothing is marked.
  * Past events are hidden client-side by the consumer, not here.
  */
@@ -134,7 +134,7 @@ export async function getFeaturedEvents(
   return featured.length ? { year: edition.year, events: featured } : undefined
 }
 
-/** Every edition year, upcoming included — the "N editions" counts on the
+/** Every edition year, announced included — the "N editions" counts on the
  *  /artists page and the homepage banner. */
 export async function getAllEditionYears(): Promise<number[]> {
   'use cache'
@@ -144,14 +144,14 @@ export async function getAllEditionYears(): Promise<number[]> {
 
 /**
  * Live edition years as route params — the generateStaticParams enumeration
- * shared by the edition page and its opengraph-image route. Upcoming is
- * excluded: its page is gated `status != "upcoming"`, so prerendering that
+ * shared by the edition page and its opengraph-image route. Only live years
+ * qualify: the page is gated `status == "live"`, so prerendering any other
  * year would bake a 404.
  */
 export async function getAllEditionYearParams(): Promise<{ year: string }[]> {
   'use cache'
   const rows = await getEditionYearsFromSanity()
-  return rows.filter((row) => row.status !== 'upcoming').map((row) => ({ year: String(row.year) }))
+  return rows.filter((row) => row.status === 'live').map((row) => ({ year: String(row.year) }))
 }
 
 /**
@@ -188,7 +188,7 @@ export async function getAllEventParams(): Promise<{ year: string; slug: string 
 
 /**
  * Edition list for the homepage cards, newest first. `status` (where an editor
- * flips an upcoming → live row) lives in Sanity, so this is a straight pass of
+ * flips an announced → live row) lives in Sanity, so this is a straight pass of
  * the Sanity list (already year-desc from the query).
  */
 export async function getEditionListItems(
