@@ -1,6 +1,3 @@
-// Gray ramp generated from a fixed hue + chroma, stepping L. Solid (not alpha)
-// on purpose: grays sit on text over media, where translucency would read
-// through the image.
 const GRAY_HUE = 345
 const GRAY_CHROMA = 0.005
 const GRAY_L: Record<string, number> = {
@@ -26,14 +23,11 @@ const grayRamp = Object.fromEntries(
 export const conditions = {
   motionSafe: '@media (prefers-reduced-motion: no-preference)',
   motionReduce: '@media (prefers-reduced-motion: reduce)',
-  // Panda's own hover/active, narrowed: a disabled element (native,
-  // aria, or Ark's data-disabled) can never express a hover/active
-  // state, so recipes never write their own guards.
+
   hover: '&:is(:hover, [data-hover]):not(:disabled, [aria-disabled=true], [data-disabled])',
   active: '&:is(:active, [data-active]):not(:disabled, [aria-disabled=true], [data-disabled])',
 } as const
 
-// Mirror the stepped breakpoints from globals.css (mobile-first).
 export const breakpoints = {
   sm: '637px',
   md: '768px',
@@ -45,8 +39,6 @@ export const breakpoints = {
 } as const
 
 export const keyframes = {
-  // The one entrance reveal, parameterized by CSS vars (`--enter-y` /
-  // `--enter-scale` / `--enter-blur`) set by the animation-style variants.
   enter: {
     from: {
       opacity: '0',
@@ -56,17 +48,13 @@ export const keyframes = {
     },
     to: { opacity: '1', translate: '0 0', scale: '1', filter: 'blur(0px)' },
   },
-  // The diagonal sticky-tape entrance (translate x+y beneath a static
-  // rotate). Kept distinct from `enter` — Hero/EditionTheme tapes need it.
+
   tapeIn: { to: { opacity: '1', translate: '0 0' } },
-  // PartnerBadge's continuously-rotating text ring.
   spin: { to: { transform: 'rotate(-360deg)' } },
-  // Carousel item's animated gradient hover border.
   gradientBorderShift: {
     '0%': { backgroundPosition: '0% 50%' },
     '100%': { backgroundPosition: '200% 50%' },
   },
-  // Loading-skeleton sweep (edition loading bones + the shared skeleton).
   shimmer: {
     '0%': { transform: 'translateX(-100%)' },
     '100%': { transform: 'translateX(100%)' },
@@ -76,20 +64,16 @@ export const keyframes = {
 export const tokens = {
   colors: {
     gray: grayRamp,
-    // Brand anchors, authored in OKLCH (measured from the legacy hexes).
     pink: { value: 'oklch(61.6% 0.2527 355)' },
     chartreuse: { value: 'oklch(87.9% 0.1981 115)' },
-    // One true black. The former magenta-tinted `black` and the pure
-    // `black` are merged here — every dark ground is the same `#000`.
+
     black: { value: 'oklch(0% 0 0)' },
     white: { value: '#fff' },
-    // CSS keywords admitted as tokens: unstyling (button resets, ghost
-    // fills) and inheriting glyph color are recurring, deliberate moves.
+
     transparent: { value: 'transparent' },
     current: { value: 'currentColor' },
   },
   fonts: {
-    // Reference the next/font CSS variables already set on <html>.
     display: { value: 'var(--font-dela-gothic), sans-serif' },
     body: { value: 'var(--font-montserrat), sans-serif' },
   },
@@ -103,8 +87,6 @@ export const tokens = {
     xl: { value: 'clamp(46px, 25.32px + 2.8479vw, 80px)' },
   },
   spacing: {
-    // `0` is a real member of the scale: overriding a larger breakpoint's
-    // padding, pinning an overlay edge (`inset: '0'`), collapsing a gap.
     '0': { value: '0px' },
     xs: { value: 'clamp(4px, 4px, 4px)' },
     sm: { value: 'clamp(8px, 8px, 8px)' },
@@ -113,7 +95,6 @@ export const tokens = {
     navLogoTopMd: { value: '24px' },
     navDesktopTop: { value: '32px' },
     navDesktopTopLg: { value: '40px' },
-    // Badge's own padding — not shared by anything else in the size scale.
     badgeX: { value: '12px' },
     badgeY: { value: '6px' },
     md: { value: 'clamp(16px, 15.03px + 0.2589vw, 20px)' },
@@ -122,17 +103,11 @@ export const tokens = {
     '2xl': { value: 'clamp(48px, 32.47px + 4.1424vw, 112px)' },
     '3xl': { value: 'clamp(64px, 44.58px + 5.1780vw, 144px)' },
     '4xl': { value: 'clamp(96px, 64.93px + 8.2848vw, 224px)' },
-    // The vertical rhythm of a standard section (`--section-padding-y`).
     sectionY: { value: 'clamp(80px, 70.29px + 2.5890vw, 120px)' },
-    // Looser section rhythm for breathing-room sections (manifesto, About).
     sectionYLg: { value: 'clamp(100px, 80.58px + 5.1780vw, 180px)' },
-    // The horizontal section gutter. Lives on the rail (`sectionInner`),
-    // not the section shell, so full-bleed children can escape it.
+
     gutter: { value: 'clamp(16px, -7.30px + 6.2136vw, 112px)' },
-    // Shared grid gutter (`--grid-gap`).
     gridGap: { value: 'clamp(16px, -0.50px + 4.4013vw, 84px)' },
-    // The archive card's image-bleeds-under-content overlap — the root grid's
-    // overlap row height (`EditionCard.recipe.ts`), not a call-site calc.
     cardOverlap: { value: '3rem' },
   },
   radii: {
@@ -140,8 +115,6 @@ export const tokens = {
     circle: { value: '50%' },
   },
   borders: {
-    // `none` as a token: buttons/fieldsets keep their UA border (preflight
-    // is off), so stripping it is a deliberate, recurring act.
     none: { value: 'none' },
     hairline: {
       value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.divider}' },
@@ -152,7 +125,6 @@ export const tokens = {
     primary: {
       value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.action}' },
     },
-    // The one focus ring (`outline: 'focus'` + an outlineOffset at the site).
     focus: {
       value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.chartreuse}' },
     },
@@ -161,23 +133,16 @@ export const tokens = {
     '0': { value: '0px' },
     hairline: { value: '1px' },
     focus: { value: '2px' },
-    // The gradientBorder hover ring's width (gallery tiles).
     gradientRing: { value: '2px' },
-    // The sub-pixel hairline: Calendar's tighter gradient ring weight, and
-    // Badge's own border (same value, different mechanism — named neutrally
+
     // so both can share it).
     hairlineThin: { value: '0.5px' },
   },
   sizes: {
-    // Structural fractions/keywords, tokenized so `strictTokens` can hold
-    // without bracket noise on every overlay and full-bleed frame.
     '0': { value: '0px' },
     full: { value: '100%' },
     fit: { value: 'fit-content' },
-    // NB no `screen` size token: preset-base hardcodes `screen: 100vh` in its
-    // height utilities, shadowing any theme token of that name. Fullscreen
-    // shells use the preset's own `svh` value (100svh) instead.
-    // Minimum comfortable touch target (WCAG 2.5.8-ish; the nav toggle).
+
     touch: { value: '48px' },
     navLogoBase: { value: '40px' },
     navLogoLg: { value: '56px' },
@@ -186,62 +151,39 @@ export const tokens = {
     navGlyph: { value: '18px' },
     navGlyphStroke: { value: '2px' },
     navRollOffset: { value: '110%' },
-    // The comfortable prose measure (leads, FAQ bodies, link lists).
     measure: { value: '60ch' },
-    // The site content rail (`.sectionInner` max-width).
     maxWidth: { value: '1800px' },
-    // Narrow single-column cap (mobile stat blocks, banners, error/edition
-    // copy) — recurs as an unnamed ~500-525px literal across several
-    // recipes; 520px is its most common value.
+
     narrowColumn: { value: '520px' },
     brushStroke: { value: '3px' },
-    // The lightbox's desktop letterbox column — each nav arrow owns one full
-    // column beside the frame. The frame's `md`+ width is derived from this
-    // (100vw minus two columns) instead of restating the pixel math.
     lightboxNavColumn: { value: '80px' },
-    // The lightbox frame's base (pre-`md`) width fraction of the viewport.
     lightboxFrameWidth: { value: '90vw' },
-    // The nav arrows' vertical click zone — generous, but bounded (not the
-    // full letterbox column height) so it can't reach into the close
-    // button's corner.
+
     lightboxNavHit: { value: '240px' },
-    // The lightbox center track's max rendered width at `md`+ (viewport minus
-    // the two nav letterbox columns) — an `Image` `sizes` hint, not layout.
+
     lightboxFrameMax: { value: 'calc(100vw - ({sizes.lightboxNavColumn} * 2))' },
-    // The transparent square hit target shared by Button's `icon` variant and
-    // the carousel prev/next/autoplay controls — distinct from `touch` (the
-    // WCAG minimum), this is the DS's own icon-button footprint.
+
     hitTarget: { value: '44px' },
-    // The modal dialog's `panel` presentation width, and its `md`+ two-column
-    // step.
+
     dialogPanel: { value: '540px' },
     dialogPanelWide: { value: '760px' },
-    // The Calendar event row's desktop hover-reveal poster column.
     calendarPoster: { value: '220px' },
-    // The edition hero's reserved left gutter (`lg`+) where the theme tape
-    // sits, beside the image track rather than overlaid on it.
+
     heroTapeColumn: { value: '200px' },
-    // The hero image track's max rendered width at `lg`+ (viewport minus the
-    // tape column) — an `Image` `sizes` hint, not layout.
+
     heroImageMax: { value: 'calc(100vw - {sizes.heroTapeColumn})' },
   },
   assets: {
     brushStrokeX: { value: 'polygon(0 0, 100% 0, 100% 38%, 68% 58%, 0 100%)' },
     brushStrokeY: { value: 'polygon(0 0, 100% 0, 58% 68%, 38% 100%, 0 100%)' },
-    // The hero frame's grayscale grade — photography desaturated just enough
-    // to sit on the dark ground without going fully mono.
+
     grayscaleSubtle: { value: 'grayscale(0.3)' },
-    // Full desaturation — the rail's "upcoming" plate, muted flat rather than
-    // graded like `grayscaleSubtle`.
+
     grayscaleFull: { value: 'grayscale(1)' },
-    // The card-media "develop" treatment — fully desaturated + dimmed at
-    // rest, warming back to color + full brightness on hover/focus. Shared by
-    // EditionCard and Calendar's run cards.
+
     developRest: { value: 'grayscale(1) brightness(0.7)' },
     developHover: { value: 'grayscale(0.3) brightness(1)' },
-    // The gallery rail item's develop treatment — same rest/hover pairing
-    // shape as `developRest`/`developHover`, tuned with contrast instead of
-    // desaturation.
+
     galleryDevelopRest: { value: 'brightness(0.9) contrast(1)' },
     galleryDevelopHover: { value: 'brightness(1) contrast(1.1)' },
   },
@@ -264,15 +206,12 @@ export const tokens = {
     entrance: { value: '900ms' },
     sweep: { value: '1600ms' },
   },
-  // `quint` is the one transition easing (via the `transition` utility);
-  // `expo` belongs to the `enter` entrance animation only.
+
   easings: {
     expo: { value: 'cubic-bezier(0.16, 1, 0.3, 1)' },
     quint: { value: 'cubic-bezier(0.23, 1, 0.32, 1)' },
   },
-  // Primitive shadows the audit found inlined (ad-hoc opacities): the
-  // Card's faint lift, the Badge's pinned-paper elevation, and the one
-  // floating-panel lift shared by the modal dialog + cookie banner.
+
   shadows: {
     card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
     badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
@@ -312,7 +251,6 @@ export const semanticTokens = {
     brushStroke: { value: '{colors.highlight}' },
   },
   zIndex: {
-    // Global chrome stacking — semantic, page-wide.
     nav: { value: '100' },
     banner: { value: '200' },
     overlay: { value: '1000' },
@@ -346,8 +284,6 @@ export const semanticTokens = {
   },
 } as const
 
-// Reduced-motion is handled once by the global kill in preset.ts, not per
-// style.
 export const animationStyles = {
   enter: {
     DEFAULT: {
@@ -423,8 +359,6 @@ export const animationStyles = {
   },
 } as const
 
-// The 7 sealed textStyles — pure type, no color. Ink cascades from the
-// surface (ground/section owns heading/body/muted ink).
 export const textStyles = {
   display: {
     value: {
@@ -598,11 +532,6 @@ export const textStyles = {
   },
 } as const
 
-// Page-shell layout as layerStyles. The section *shell* (vertical rhythm
-// + ground) is now the `section` recipe; `sectionInner` is the content
-// rail — it owns the horizontal gutter, so full-bleed children placed
-// outside the rail span the shell. `pageHero` defers its gutter to the
-// rail too (its inner is a `sectionInner`).
 export const layerStyles = {
   sectionInner: {
     value: { maxWidth: 'maxWidth', marginInline: 'auto', paddingInline: 'gutter' },
@@ -613,18 +542,14 @@ export const layerStyles = {
       filter: '[grayscale(100%) contrast(1.05)]',
     },
   },
-  // The edition hero tape's bottom offset + width cap, stepped in tandem
-  // across breakpoints so the two ramps live in one named place instead of
-  // two parallel brackets at the call site.
+
   heroTapeOffset: {
     value: {
       bottom: { base: '8%', md: '10%', lg: '11%' },
       maxWidth: { base: '94%', md: '72%', lg: '62%', xl: '58%' },
     },
   },
-  // The edition hero tape's horizontal nudge — tucks it under the nav on
-  // mobile, then pulls it flush with the logo from `lg` as the tape's own
-  // em-based padding grows with its `huge` fontSize ladder.
+
   heroTapeNudge: {
     value: {
       marginLeft: { base: '10px', md: '18px', lg: '-36px', xl: '-40px' },
@@ -641,9 +566,7 @@ export const layerStyles = {
       paddingBottom: { base: '2xl', md: '3xl' },
     },
   },
-  // The one loading-placeholder surface: gray.800 base with the `shimmer`
-  // sweep riding on `::after`. Shared by the image skeleton (`css()` helper
-  // positions it absolutely) and the edition-loading bones.
+
   skeleton: {
     value: {
       position: 'relative',
@@ -659,10 +582,7 @@ export const layerStyles = {
       },
     },
   },
-  // The hairline-gradient hover ring (Calendar runs + gallery tiles): paint
-  // the action→highlight sweep, then mask everything except the padding ring
-  // (content-box XOR). Applied on a `::before`; the call site supplies
-  // `content` and the ring width (padding).
+
   gradientBorder: {
     value: {
       position: 'absolute',
@@ -682,9 +602,7 @@ export const layerStyles = {
       transitionTimingFunction: 'quint',
     },
   },
-  // The gallery rail slide's width+height, ramped in tandem across
-  // breakpoints (same bundling rationale as `heroTapeOffset`) plus the
-  // landscape-phone height override.
+
   galleryRailFrame: {
     value: {
       width: {
@@ -706,21 +624,15 @@ export const layerStyles = {
       '@media (max-width: 767px) and (orientation: landscape)': { height: '[73vh]' },
     },
   },
-  // The brush-stroke rule's shared boilerplate (EditionTheme's top rule,
-  // Manifesto's left rule) — content/position/opacity are identical; axis
-  // (height vs width, position sides, gradient direction, clipPath) stays
-  // at each call site.
+
   brushStrokeRule: {
     value: { content: '""', position: 'absolute', opacity: '0.85' },
   },
-  // The small horizontal kicker rule (Eyebrow's `rule` variant) — a
-  // `::before` dash sized off the shared `lg` spacing step rather than a
-  // one-off pixel value.
+
   ruleLine: {
     value: { content: '""', width: 'lg', height: '2px', background: 'current', flexShrink: '0' },
   },
-  // The disclosure chevron shared by Accordion/Collapsible: flex + rotate on
-  // `data-state=open`. Layout deltas stay at the call sites.
+
   disclosureIndicator: {
     value: {
       display: 'inline-flex',
@@ -730,8 +642,7 @@ export const layerStyles = {
       '&[data-state=open]': { transform: 'rotate(180deg)' },
     },
   },
-  // Visually-hidden but still in the accessibility tree — the standard
-  // sr-only recipe, named once instead of hand-rolled at each call site.
+
   srOnly: {
     value: {
       position: 'absolute',
@@ -745,6 +656,4 @@ export const layerStyles = {
       borderWidth: '0',
     },
   },
-  // NB layerStyles carry the surface look only — positioning/stacking beyond
-  // the mechanism itself stays at the call site.
 } as const
