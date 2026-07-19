@@ -29,21 +29,19 @@ export async function getEdition(
 }
 
 /**
- * The Latest/Upcoming edition pair for the current request (ADR 0016): the
- * edition list derived against Bucharest's today, read at cache-fill time —
- * fixed when the surface's cache fills and refreshed on revalidation (which
- * includes the editor flipping a surface switch); the surfaces aren't
- * date-critical to the minute, so the fill-time snapshot is deliberate. The one
- * place that owns "which editions are latest/upcoming right now" — the Visit and
- * home-hero surfaces each resolve their own switch against this shared pair, so
- * they can't drift. Lightweight (list items, not full editions); a caller loads
- * the one it picks via `getEdition`.
+ * The Latest/Upcoming edition pair (ADR 0016), judged against the server
+ * fill-time clock (yearly tier, `lib/today.ts`). The one place that owns
+ * "which editions are latest/upcoming right now" — Visit and home-hero
+ * resolve their switches against this shared pair, so they can't drift.
+ * Lightweight (list items, not full editions); `todayIso` is injectable
+ * for tests.
  */
 export async function getLatestAndUpcoming(
   options: DynamicFetchOptions,
+  todayIso: string = todayInBucharest(),
 ): Promise<DerivedEditions<EditionListItem>> {
   const list = await getEditionListItems(options)
-  return deriveEditions(list, todayInBucharest())
+  return deriveEditions(list, todayIso)
 }
 
 /** The Visit page's venues view: the resolved edition's year plus its events
@@ -112,7 +110,8 @@ export async function getHeroUpcoming(options: DynamicFetchOptions): Promise<Upc
  * The homepage featured spotlight's source (ZSB-44): the `featured`-marked events
  * of the newest **live** edition (its routes are reachable, unlike an announced
  * one). `undefined` when there's no live physical edition or nothing is marked.
- * Past events are hidden client-side by the consumer, not here.
+ * Picking the edition is the yearly-tier server decision; `FeaturedSpotlight`
+ * hides past events client-side (daily tier, `lib/today.ts`).
  */
 export async function getFeaturedEvents(
   options: DynamicFetchOptions,

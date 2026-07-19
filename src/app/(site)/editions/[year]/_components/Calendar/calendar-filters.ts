@@ -88,8 +88,7 @@ export function hasPastEvents(events: CalendarEvent[], todayIso: string): boolea
 // Whether past events should be shown, given the explicit choice (if any) and
 // the edition shape. Default: hide on a live edition (it has upcoming events),
 // show on a finished one (nothing upcoming — otherwise the calendar is empty).
-// `todayIso` is `null` before the client clock resolves; until then we don't
-// judge time, so nothing is hidden (the prerendered shell shows every event).
+// `todayIso === null`: null-clock convention (`lib/today.ts`), hide nothing.
 export function resolveShowPast(
   filters: CalendarFilters,
   events: CalendarEvent[],
@@ -285,13 +284,11 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
   return { onView, days }
 }
 
-// Headline counts (ZSB-47). Upcoming/past split is judged client-side, so
-// before the clock resolves (`todayIso === null`) everything counts as
-// "upcoming" and no past affordance shows — matching the all-events shell,
-// regardless of the venue/type selection (avoids an "X of Y" flash before we
-// even know what's past). `upcomingMatching` reacts to the venue/type
-// filters once the clock has resolved; `upcoming`/`past` are whole-edition
-// totals, independent of the selection.
+// Headline counts (ZSB-47). Before the clock resolves (null-clock convention,
+// `lib/today.ts`) everything counts as "upcoming" and no past affordance shows
+// — matching the all-events shell, avoiding an "X of Y" flash. Once resolved,
+// `upcomingMatching` reacts to the venue/type filters; `upcoming`/`past` are
+// whole-edition totals, independent of the selection.
 export function deriveCalendarView(
   events: CalendarEvent[],
   filters: CalendarFilters,
