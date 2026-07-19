@@ -1,5 +1,6 @@
 import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { type DerivedEditions, deriveEditions, resolveLeadEdition } from '@/lib/derive-editions'
+import { todayInBucharest } from '@/lib/today'
 import { groupVenuesByType, type VenueTypeSection } from '@/lib/venues'
 import {
   type EditionListItem,
@@ -27,20 +28,12 @@ export async function getEdition(
   return getEditionFromSanity(year, options)
 }
 
-// Local "today" as ISO `YYYY-MM-DD`. Read inside `getLatestAndUpcoming` — itself
-// called within a surface's cache boundary — so the latest/upcoming split is
-// fixed at cache-fill time and refreshes on revalidation (which includes the
-// editor flipping a surface switch). The surfaces aren't date-critical to the
-// minute, so this fill-time snapshot is the deliberate, simple choice (ADR 0016).
-function todayIso(): string {
-  const d = new Date()
-  const pad = (n: number) => String(n).padStart(2, '0')
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
-}
-
 /**
  * The Latest/Upcoming edition pair for the current request (ADR 0016): the
- * edition list derived against today's date, read at cache-fill time. The one
+ * edition list derived against Bucharest's today, read at cache-fill time —
+ * fixed when the surface's cache fills and refreshed on revalidation (which
+ * includes the editor flipping a surface switch); the surfaces aren't
+ * date-critical to the minute, so the fill-time snapshot is deliberate. The one
  * place that owns "which editions are latest/upcoming right now" — the Visit and
  * home-hero surfaces each resolve their own switch against this shared pair, so
  * they can't drift. Lightweight (list items, not full editions); a caller loads
@@ -50,7 +43,7 @@ export async function getLatestAndUpcoming(
   options: DynamicFetchOptions,
 ): Promise<DerivedEditions<EditionListItem>> {
   const list = await getEditionListItems(options)
-  return deriveEditions(list, todayIso())
+  return deriveEditions(list, todayInBucharest())
 }
 
 /** The Visit page's venues view: the resolved edition's year plus its events
