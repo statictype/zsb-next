@@ -30,7 +30,7 @@ interface EditionThemeProps {
    *  edition hero). No effect when `interactive`. */
   accent?: 'highlight' | 'action' | undefined
   /** De-emphasizes the whole heading (lead + theme text) — the rail's
-   *  "upcoming" plate. */
+   *  "announced" plate. */
   muted?: boolean | undefined
   /** Entrance delay for the `tapeIn` reveal — the edition hero's beat in its
    *  image → vignette → tape cascade. */

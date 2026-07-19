@@ -2,9 +2,9 @@ import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { EditionRailCard } from '@/components/EditionsNav/EditionRailCard'
 
-// "Upcoming plates never link" is enforced at the type level (`RailPlacement`
-// makes `href` unrepresentable on upcoming), so there is no runtime test for
-// the href-on-upcoming case — it doesn't compile.
+// "Announced plates never link" is enforced at the type level (`RailPlacement`
+// makes `href` unrepresentable on announced), so there is no runtime test for
+// the href-on-announced case — it doesn't compile.
 describe('EditionRailCard', () => {
   const edition = { year: 2026, theme: 'the weight of light', themeHighlight: 'light' }
 
@@ -29,8 +29,8 @@ describe('EditionRailCard', () => {
     expect(screen.getByRole('link')).toHaveAttribute('aria-current', 'page')
   })
 
-  it('renders upcoming editions as inert "Soon" plates without the highlight', () => {
-    render(<EditionRailCard edition={edition} status="upcoming" />)
+  it('renders announced editions as inert "Soon" plates without the highlight', () => {
+    render(<EditionRailCard edition={edition} status="announced" />)
 
     expect(screen.getByText('Soon')).toBeInTheDocument()
     expect(screen.queryByRole('link')).toBeNull()

@@ -45,17 +45,17 @@ export const edition = defineType({
       name: 'status',
       title: 'Status',
       description:
-        'Upcoming editions show on the homepage with a "Coming soon" badge instead of a link. Switch to Live once the edition page is ready and should be reachable. ("Live" is distinct from Sanity\'s own publish/draft state — a published document can still be an Upcoming edition.)',
+        'Announced editions show on the homepage with a "Coming soon" badge instead of a link. Switch to Live once the edition page is ready and should be reachable. ("Live" is distinct from Sanity\'s own publish/draft state — a published document can still be an Announced edition.)',
       type: 'string',
       group: 'hero',
       options: {
         list: [
-          { title: 'Upcoming', value: 'upcoming' },
+          { title: 'Announced', value: 'announced' },
           { title: 'Live', value: 'live' },
         ],
         layout: 'radio',
       },
-      initialValue: 'upcoming',
+      initialValue: 'announced',
       validation: (rule) => rule.required(),
     }),
     defineField({

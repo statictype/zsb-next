@@ -34,8 +34,8 @@ interface EditionCardProps {
 /**
  * The archive edition card (/editions): image, year badge, theme tape, an
  * unlabeled date/venue line, and a decorative "View edition" cue. Always a
- * live link — upcoming editions never reach the archive grid (their pages
- * are gated `status != "upcoming"`). The imageless plate in the footer rail
+ * live link — announced editions never reach the archive grid (their pages
+ * are gated `status == "live"`). The imageless plate in the footer rail
  * is `EditionRailCard`, which shares the `EditionTheme` tape, not this card.
  */
 export function EditionCard({ edition, href, size = 'md', className }: EditionCardProps) {

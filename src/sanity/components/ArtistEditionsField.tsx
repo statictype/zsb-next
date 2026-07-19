@@ -7,7 +7,7 @@ import { apiVersion } from '@/sanity/env'
 interface ReferencingEdition {
   _id: string
   year: number | null
-  status: 'upcoming' | 'live' | null
+  status: 'announced' | 'live' | null
 }
 
 // Published editions only — drafts would duplicate rows and only matter while
@@ -78,7 +78,7 @@ export function ArtistEditionsField() {
             </Text>
             {edition.status ? (
               <Badge tone={edition.status === 'live' ? 'positive' : 'caution'} fontSize={0}>
-                {edition.status === 'live' ? 'Live' : 'Upcoming'}
+                {edition.status === 'live' ? 'Live' : 'Announced'}
               </Badge>
             ) : null}
           </Flex>

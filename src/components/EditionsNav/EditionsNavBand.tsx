@@ -35,9 +35,9 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
         slides={editions.map((edition) => {
           const href = `/editions/${edition.year}`
           const placement: RailPlacement =
-            edition.status === 'upcoming'
-              ? { status: 'upcoming' }
-              : { status: pathname === href ? 'current' : 'live', href }
+            edition.status === 'live'
+              ? { status: pathname === href ? 'current' : 'live', href }
+              : { status: 'announced' }
           return {
             id: String(edition.year),
             content: <EditionRailCard edition={edition} {...placement} className={styles.card} />,

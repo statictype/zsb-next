@@ -21,7 +21,7 @@ export interface EditionListItem {
   year: number
   theme: string
   themeHighlight?: string
-  status: 'upcoming' | 'live'
+  status: 'announced' | 'live'
   /** ISO `YYYY-MM-DD` edition start, when set — lets the latest/upcoming
    *  derivation (ADR 0016) place this edition. Absent for the online 2021. */
   dateStart?: string
@@ -71,14 +71,14 @@ export async function getHeroEditionLeadFromSanity(
  *  whether the edition has a reachable page. */
 export interface EditionYearRow {
   year: number
-  status: 'live' | 'upcoming'
+  status: 'live' | 'announced'
 }
 
 /**
  * Cached year+status rows. Drafts never introduce or remove a year (year is
  * set on creation and rarely changes), so we hardcode published here. Two
  * consumers, two views: the "N editions" counts read every row, the
- * generateStaticParams enumeration filters out upcoming.
+ * generateStaticParams enumeration keeps only live.
  */
 export async function getEditionYearsFromSanity(): Promise<EditionYearRow[]> {
   'use cache'
@@ -126,7 +126,7 @@ export async function getSitemapMetadataFromSanity() {
 /**
  * Lightweight edition list for the homepage cards. Returns just
  * `{ year, theme, themeHighlight, status }` per edition. Editor may want to preview an
- * upcoming-edition draft on the homepage, so this respects the
+ * announced-edition draft on the homepage, so this respects the
  * perspective the caller resolved.
  */
 export async function getEditionsListFromSanity(
@@ -141,7 +141,7 @@ export async function getEditionsListFromSanity(
         year: entry.year,
         theme: entry.theme,
         themeHighlight: entry.themeHighlight ?? '',
-        status: entry.status === 'upcoming' ? ('upcoming' as const) : ('live' as const),
+        status: entry.status === 'live' ? ('live' as const) : ('announced' as const),
         dateStart: entry.dateStart,
       }),
     ]

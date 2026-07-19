@@ -175,7 +175,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
             </Stack>
             <LinkList className={styles.editionList}>
               {list.map((edition) => {
-                if (edition.status === 'upcoming') {
+                if (edition.status !== 'live') {
                   return (
                     <LinkListItem
                       key={edition.year}

@@ -205,9 +205,9 @@ export const ARTIST_BY_SLUG_QUERY = defineQuery(`
 `)
 
 // Every edition's year + status, one row per edition. Serves two different
-// views: the "N editions" counts (all years, upcoming included) and the
-// generateStaticParams enumeration (upcoming filtered out — its page is gated
-// `status != "upcoming"`, so prerendering it would bake a 404).
+// views: the "N editions" counts (all years, announced included) and the
+// generateStaticParams enumeration (filtered to live — a non-live page is
+// gated `status == "live"`, so prerendering it would bake a 404).
 export const EDITION_YEARS_QUERY = defineQuery(`
   *[_type == "edition" && defined(year)] | order(year desc){ year, status }
 `)
@@ -219,11 +219,11 @@ export const EDITION_YEARS_QUERY = defineQuery(`
 // carries, but can't drop to just the stored slug field: an event without an
 // editor-set slug gets one derived from name/date/venue at read time, so the
 // derivation's inputs have to be fetched too. Reused by the opengraph-image
-// route. `status != "upcoming"` matches the route gate — an upcoming
+// route. `status == "live"` matches the route gate — a non-live
 // edition's events have no reachable page, so they're excluded rather than
 // prerendered and discarded.
 export const EVENT_PATHS_QUERY = defineQuery(`
-  *[_type == "edition" && defined(year) && status != "upcoming"]{
+  *[_type == "edition" && defined(year) && status == "live"]{
     year,
     events[]{
       "slug": slug.current,
@@ -240,7 +240,7 @@ export const EVENT_PATHS_QUERY = defineQuery(`
 // index reflects the collection, so its freshest member dates it).
 export const SITEMAP_QUERY = defineQuery(`
   {
-    "editions": *[_type == "edition" && defined(year) && status != "upcoming"]
+    "editions": *[_type == "edition" && defined(year) && status == "live"]
       | order(year desc){ year, _updatedAt },
     "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{
       _id,
@@ -256,7 +256,7 @@ export const SITEMAP_QUERY = defineQuery(`
 // Status-filtered and year-desc like the page itself, so row 0 is the
 // newest live edition (the feature card).
 export const EDITION_CARDS_QUERY = defineQuery(`
-  *[_type == "edition" && defined(year) && status != "upcoming"] | order(year desc) {
+  *[_type == "edition" && defined(year) && status == "live"] | order(year desc) {
     year,
     theme,
     themeHighlight,
@@ -268,14 +268,12 @@ export const EDITION_CARDS_QUERY = defineQuery(`
   }
 `)
 
-// Only live editions have a viewable page. "Upcoming" is the single
-// special-case status (shows on the homepage with a "Coming soon" badge,
-// no dedicated route); everything else is reachable. Matched as
-// `!= "upcoming"` rather than `== "live"` so the public route never 404s
-// during the published→live value migration. Fetching an upcoming edition
-// returns null so the route 404s.
+// Only live editions have a viewable page — the gate tests the stable value
+// (`== "live"`), so any other status (announced, legacy values, future
+// additions) is unreachable by default. Fetching a non-live edition returns
+// null so the route 404s.
 export const EDITION_BY_YEAR_QUERY = defineQuery(`
-  *[_type == "edition" && year == $year && status != "upcoming"][0] {
+  *[_type == "edition" && year == $year && status == "live"][0] {
     _id,
     year,
     title,
