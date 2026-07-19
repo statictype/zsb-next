@@ -7,13 +7,7 @@ import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
 import type { EditionListItem } from '@/sanity/lib/editions'
 
-/**
- * Where a rail plate stands relative to the visitor. A union rather than
- * independent `status`/`href` props: announced editions have no reachable route
- * (it's gated `status == "live"`), so "announced but linked" is a compile
- * error here instead of a runtime guard.
- */
-export type RailPlacement =
+type RailPlacement =
   | { status: 'live' | 'current'; href: string }
   | { status: 'announced'; href?: never }
 
@@ -29,14 +23,6 @@ type EditionRailCardProps = RailPlacement & {
   style?: CSSProperties | undefined
 }
 
-/**
- * One plate in the editions rail: a borderless Card wrapping the shared
- * EditionTheme tape, with the year/status badges stamped inside the band via
- * the tape's `lead` slot — one solid object, no satellite elements. Live
- * plates link and take the theme substring hover; the edition being viewed is
- * an inert link with a "Viewing" badge; announced editions are muted "Soon"
- * plates with no link and no highlight.
- */
 export function EditionRailCard({ edition, status, href, className, style }: EditionRailCardProps) {
   const styles = editionRailCard({ status })
   const interactive = status === 'live'

@@ -2,6 +2,7 @@ import { RoutedEventModal } from '@calendar/RoutedEventModal'
 import { CachedEdition, loadEdition } from '@edition/edition-content'
 import { notFound } from 'next/navigation'
 import { getAllEventParams, getEditionForMetadata } from '@/data/editions'
+import { editionHref } from '@/lib/edition-href'
 import { eventMetadata } from '@/lib/seo'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
@@ -41,7 +42,7 @@ export default async function EventPage(props: PageProps<'/editions/[year]/event
   return (
     <>
       <CachedEdition year={Number(year)} options={options} />
-      <RoutedEventModal event={event} intercepted={false} editionHref={`/editions/${year}`} />
+      <RoutedEventModal event={event} intercepted={false} editionHref={editionHref(Number(year))} />
     </>
   )
 }

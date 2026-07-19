@@ -10,15 +10,10 @@ import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
 import type { Edition } from '@/types/edition'
 
-/** The slice of `Edition` the archive card reads. Derived with `Pick` so it
- *  can't drift from the domain type — a fetched `Edition` satisfies it
- *  structurally and passes straight through. Both `dateTape` (composed
- *  "date · venue") and `venueLine` are read: the tape gives the date, the
- *  line gives the venue directly instead of re-parsing it back out. */
 export type EditionCardData = Pick<
   Edition,
   'year' | 'theme' | 'themeHighlight' | 'dateTape' | 'venueLine' | 'heroImage' | 'thumbImage'
->
+> & { href: string }
 
 /** Bound to the recipe's variants: renaming or removing a size there
  *  resurfaces here as a type error, not a silently ignored prop. */
@@ -31,13 +26,6 @@ interface EditionCardProps {
   className?: string | undefined
 }
 
-/**
- * The archive edition card (/editions): image, year badge, theme tape, an
- * unlabeled date/venue line, and a decorative "View edition" cue. Always a
- * live link — announced editions never reach the archive grid (their pages
- * are gated `status == "live"`). The imageless plate in the footer rail
- * is `EditionRailCard`, which shares the `EditionTheme` tape, not this card.
- */
 export function EditionCard({ edition, href, size = 'md', className }: EditionCardProps) {
   const styles = editionCard({ size })
   // `dateTape` composes "date · venue"; split off just the date and read

@@ -2,6 +2,7 @@ import type { EDITION_BY_YEAR_QUERY_RESULT, EDITION_CARDS_QUERY_RESULT } from '@
 import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { definedFields } from '@/lib/defined-fields'
 import { composeDateTape, dayToken } from '@/lib/edition-dates'
+import { editionHref } from '@/lib/edition-href'
 import { slugify } from '@/lib/slugify'
 import { rollUpVenue } from '@/lib/venues'
 import { mapCarousel } from '@/sanity/lib/carousel'
@@ -132,6 +133,7 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
 export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): EditionCardData {
   return definedFields({
     year: raw.year,
+    href: editionHref(raw.year),
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
     dateTape: composeDateTape(raw),

@@ -1,6 +1,7 @@
 import { RoutedEventModal } from '@calendar/RoutedEventModal'
 import { loadEdition } from '@edition/edition-content'
 import { notFound } from 'next/navigation'
+import { editionHref } from '@/lib/edition-href'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
 
@@ -16,5 +17,5 @@ export default async function InterceptedEventModal(
   const event = findEvent(edition, slug)
   if (!event) notFound()
 
-  return <RoutedEventModal event={event} intercepted editionHref={`/editions/${year}`} />
+  return <RoutedEventModal event={event} intercepted editionHref={editionHref(Number(year))} />
 }

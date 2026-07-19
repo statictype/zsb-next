@@ -1,4 +1,5 @@
 import { defineLocations } from 'sanity/presentation'
+import { editionHref } from '@/lib/edition-href'
 
 export const locations = {
   homepage: defineLocations({
@@ -43,7 +44,7 @@ export const locations = {
         locations: [
           {
             title: doc.theme ? `${year} · ${doc.theme}` : String(year),
-            href: `/editions/${year}`,
+            href: editionHref(year),
           },
           { title: 'All editions', href: '/editions' },
         ],
