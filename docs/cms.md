@@ -2,11 +2,11 @@
 
 How content authoring works in this project. Read this first when adding a schema, debugging an editor experience issue, or wiring a new page to Sanity.
 
-For the rollout that built this system, see [`cms-rollout-plan.archived.md`](./plans/completed/cms-rollout-plan.archived.md) (archived — the rollout is complete and this doc captures the final state). For decision rationale, see [`adr/`](./adr/).
+For historical rollout material, see the adjacent wiki at `../zsb-wiki/`. This document captures the current production CMS architecture.
 
 ## Overview
 
-Sanity is the source of truth for content. The Studio is embedded at `/studio` in this same Next.js app — schema + GROQ + the React component that reads them all change in a single PR ([ADR 0006](./adr/0006-embedded-sanity-studio.md)).
+Sanity is the source of truth for content. The Studio is embedded at `/studio` in this same Next.js app — schema + GROQ + the React component that reads them all change in a single PR.
 
 What's authored in Sanity, what's static:
 
@@ -18,7 +18,7 @@ What's authored in Sanity, what's static:
 | Homepage | Sanity singleton `homepage` (shipped) — copy, CTA, slideshow, editions intro |
 | Homepage editions list | Derived from `*[_type=="edition"] \| order(year desc)` with `edition.status` controlling each row |
 | About, Partners, Visit | Sanity singletons (shipped) — paragraph-array prose |
-| Privacy | Sanity singleton `privacyPage` (shipped) — Portable Text body (the only PT-using page; see [ADR 0007](./adr/0007-plain-paragraphs-over-portable-text.md)) |
+| Privacy | Sanity singleton `privacyPage` (shipped) — Portable Text body, the only PT-using page |
 | Press page (hero + media-kit eyebrow) | Sanity singleton `pressPage` (shipped) |
 | Press appearances, releases | Sanity docs `pressAppearance`, `pressRelease` (shipped) |
 | Press kit assets (posters, covers) | `pressKit` object on each Edition doc (shipped) |
@@ -91,7 +91,7 @@ src/
 
 Default: **plain paragraph arrays** (`array of strings`). One Sanity field per content block (hero copy, body, pillars). The renderer treats each entry as a `<p>`.
 
-Exception: **`privacyPage.body` uses Portable Text** because it needs inline `<strong>` (cookie names) and `<a>` (legal links) which paragraph arrays can't carry. See [ADR 0007](./adr/0007-plain-paragraphs-over-portable-text.md).
+Exception: **`privacyPage.body` uses Portable Text** because it needs inline `<strong>` (cookie names) and `<a>` (legal links) which paragraph arrays can't carry.
 
 If you're tempted to add Portable Text to a new schema, ask whether the page actually needs inline formatting that can't be modeled as separate fields (a "headline" field + a "body" field + a "links" array is usually cleaner than one big PT blob).
 
@@ -140,7 +140,7 @@ Singletons are pinned at the top because editors visit them less often than they
 
 ## Singleton pattern
 
-Sanity has no `singleton: true` schema option. We enforce singletons in three places ([ADR 0009](./adr/0009-singleton-pattern.md)):
+Sanity has no `singleton: true` schema option. We enforce singletons in three places:
 
 1. **Structure tree** (`src/sanity/structure.ts` via `singletonListItem(S, type, title)`): renders the doc directly with a fixed `documentId === type`. Editors can't navigate to a "list view" of singletons.
 2. **`document.actions`** (in `sanity.config.ts`): strips `delete` / `unpublish` / `duplicate` actions for singleton types. Editors can't accidentally destroy the homepage.
@@ -200,9 +200,9 @@ Wired via `next-sanity` v13 + the route-group split (`app/(site)/` vs `app/studi
 
 ### How draft-mode-aware fetching works
 
-Cache Components forbids reading request data (`draftMode()`, `cookies()`) inside `'use cache'` boundaries, so each draft-previewable page is split in two across the cache line: a **Dynamic** half that reads the request and a **Cached** half keyed on its result. The full rationale — why this split is the unavoidable cost of being static-by-default *and* draft-previewable — is in [ADR 0012](./adr/0012-cache-components-three-layer-fetch.md). The split itself is mandatory; two seams keep it from becoming per-page boilerplate:
+Cache Components forbids reading request data (`draftMode()`, `cookies()`) inside `'use cache'` boundaries, so each draft-previewable page is split in two across the cache line: a **Dynamic** half that reads the request and a **Cached** half keyed on its result. The split itself is mandatory; two seams keep it from becoming per-page boilerplate:
 
-- **`<DraftAware cached={…} fallback={…} />`** (`src/components/DraftAware/`) owns the Dynamic half — the `draftMode()` branch, the published-default short-circuit (public path stays fully static), the Suspense wrapper, and the options resolution. A page supplies only its cached leaf and its fallback. The `'use cache'` leaf **stays lexically in the page** (closing over nothing but the serializable `options` prop) — see ADR 0012 for why hoisting it into the harness would break the cache key.
+- **`<DraftAware cached={…} fallback={…} />`** (`src/components/DraftAware/`) owns the Dynamic half — the `draftMode()` branch, the published-default short-circuit (public path stays fully static), the Suspense wrapper, and the options resolution. A page supplies only its cached leaf and its fallback. The `'use cache'` leaf **stays lexically in the page** so the cache key remains local and serializable.
 - **`queryData(query, options, params?)`** (`live.ts`) is the single bridge from `DynamicFetchOptions` to `sanityFetch`; every fetcher routes through it.
 
 ```tsx
@@ -269,7 +269,7 @@ For HTML cache invalidation (visitors hitting a deeply cached response, not just
 
 ## Editions: all in Sanity
 
-`src/data/editions/index.ts` is the gateway. `getEdition(year, options)` is a thin pass-through to the Sanity fetch; `getAllEditionYears()` reads the years from Sanity. Every year — including 2021, the online-only edition migrated in ZSB-20 ([ADR 0018](adr/retired/0018-2021-as-normal-edition-optional-program.md)) — is an `edition` document. To add a brand-new year, author it in Sanity; there are no static edition files.
+`src/data/editions/index.ts` is the gateway. `getEdition(year, options)` is a thin pass-through to the Sanity fetch; `getAllEditionYears()` reads the years from Sanity. Every year — including 2021, the online-only edition migrated in ZSB-20 — is an `edition` document. To add a brand-new year, author it in Sanity; there are no static edition files.
 
 ## Environment variables
 

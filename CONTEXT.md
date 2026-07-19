@@ -6,7 +6,7 @@ Canonical domain terms used across data, types, and components. When you introdu
 
 ## Edition
 
-A single year of the event, modelled as one `Edition` shape in `src/types/edition.ts`. An edition has a hero, manifesto, theme + artists, credits, and an **optional program** (events → calendar). The **program** is gated by `hasProgram`: a physical edition has one; the inaugural online-only **2021** does not, so its page renders no program block — just a static link to its off-site photo gallery (`EXTERNAL_GALLERY_BY_YEAR` in `edition-content.tsx`). "Online-only" is deliberately *not* a separate type or Sanity concept (ADR 0018).
+A single year of the event, modelled as one `Edition` shape in `src/types/edition.ts`. An edition has a hero, manifesto, theme + artists, credits, and an **optional program** (events → calendar). The **program** is gated by `hasProgram`: a physical edition has one; the inaugural online-only **2021** does not, so its page renders no program block — just a static link to its off-site photo gallery (`EXTERNAL_GALLERY_BY_YEAR` in `edition-content.tsx`). "Online-only" is deliberately *not* a separate type or Sanity concept.
 
 Every edition lives in Sanity as an `edition` document — there are no static editions. `src/data/editions/index.ts` (`getEdition`) is the gateway, a thin pass to the Sanity fetch; the dynamic route `src/app/(site)/editions/[year]/` renders what it returns.
 
@@ -18,13 +18,13 @@ The value is `live`, deliberately **not** `published`: "published" is reserved f
 
 ## Program & Calendar
 
-The terms below come from the **Program & Calendar** project (Linear ZSB-25…38). They replaced the old hand-arranged two-column program (`ProgramData` / `ProgramBlock`) and the inline venue list, both removed in ZSB-38 once every edition was migrated. Design rationale: [ADR 0014](./docs/adr/0014-event-venue-content-model.md).
+The terms below come from the **Program & Calendar** project (Linear ZSB-25…38). They replaced the old hand-arranged two-column program (`ProgramData` / `ProgramBlock`) and the inline venue list, both removed in ZSB-38 once every edition was migrated.
 
 ### Event
 
 The single building block of an edition's program — a thing that happens at a time, in a place, of one or more kinds. Each edition owns its list of events (nested in the edition document, not separate documents). An event has: a **name**; a **start date**; an optional **start time** (a local Bucharest `HH:mm`, present only when the time matters, e.g. an 18:00 opening); an optional **end date** (for multi-day runs); one or more **event types**; a **venue** (required — every event has one; the films and online talks all happen at CFP); optional Facebook / ticket links; a short **description**; an optional **image**; an optional **OG override** image; and a **featured** mark. Durations are shown by the site, never typed by editors.
 
-An event is **individually shareable**: it has its own URL (`/editions/<year>/events/<key>`, keyed by the array `_key` — no slug, still a nested object) that opens as a modal over the calendar on in-app navigation and as a full page on a direct load, with its own Open Graph card (override image → poster + ZSB badge → generated text card). This reverses the original "no per-event link" stance — see [ADR 0015](./docs/adr/0015-per-event-route-and-modal.md).
+An event is **individually shareable**: it has its own URL (`/editions/<year>/events/<key>`, keyed by the array `_key` — no slug, still a nested object) that opens as a modal over the calendar on in-app navigation and as a full page on a direct load, with its own Open Graph card (override image → poster + ZSB badge → generated text card).
 
 ### Venue
 
@@ -34,7 +34,7 @@ Every event's venue carries a **rolled-up identity** (`rollUp`: the parent venue
 
 ### Event type / Venue type
 
-Team-managed taxonomies, each its own Sanity document (`eventType`, `venueType`) so the team can add to them without a developer. Event types (Opening, Talk, Workshop, Film…) drive the calendar's filter chips; venue types (partner gallery, studio…) group the venues view. This supersedes the legacy `ProgramBlockType` enum — see [ADR 0014](./docs/adr/0014-event-venue-content-model.md).
+Team-managed taxonomies, each its own Sanity document (`eventType`, `venueType`) so the team can add to them without a developer. Event types (Opening, Talk, Workshop, Film…) drive the calendar's filter chips; venue types (partner gallery, studio…) group the venues view. This supersedes the legacy `ProgramBlockType` enum.
 
 ### Calendar
 
@@ -48,7 +48,7 @@ The separate area of the calendar for **multi-day runs** (exhibitions and the li
 
 The two derived editions the homepage and Visit page lean on, instead of a stored "current edition" pointer. **Latest** is the most recent edition that has taken place; **Upcoming** is the next one. They're computed (no manual setting), and past-ness is judged client-side on the cached pages (like the calendar).
 
-Each surface decides *which* of them it shows via its **own** control — there is no global site-state ([ADR 0016]):
+Each surface decides *which* of them it shows via its **own** control — there is no global site-state:
 
 - **Editions list** (homepage) follows each edition's **status** (`upcoming` → coming-soon row, `live` → link).
 - **Home hero** has a switch — *lead with Latest* or *lead with Upcoming*; leading with Upcoming demotes Latest to a compact secondary presence (its slideshow + CTA kept, integrated).
@@ -56,10 +56,4 @@ Each surface decides *which* of them it shows via its **own** control — there 
 - **Visit venues view** has its own, separate Latest/Upcoming switch.
 - **Edition calendar** shows the agenda when the edition has events (else the coming-soon block); a *finished* edition shows a recap summary + social CTAs with its archive agenda collapsed.
 
-(The old `siteSettings.currentEdition` field is removed once the Visit venues view — its one consumer — moves to the Visit switch (ZSB-46). See [ADR 0016].)
-
-[ADR 0016]: ./docs/adr/0016-decoupled-edition-surface-controls.md
-
-### Program callout
-
-An optional edition-level banner (the "Sculptors for the Future" educational-programme callout today), rendered alongside the calendar. Lifted out of the legacy `ProgramData` so it survives the removal of the old program model.
+(The old `siteSettings.currentEdition` field is removed once the Visit venues view — its one consumer — moves to the Visit switch (ZSB-46).)

@@ -29,9 +29,8 @@ Next.js 16 (App Router, `cacheComponents: true`, `reactCompiler: true`), React 1
 - **Domain vocabulary** (Edition, Program, Event, Venue, Latest/Upcoming, status values): `CONTEXT.md`
 - **CMS/Studio architecture, singleton pattern, draft-mode fetching, adding a page**: `docs/cms.md`
 - **Testing layers, what's deliberately untested, seeded-test pattern**: `docs/testing.md`
-- **Individual design decisions with tradeoffs**: `docs/adr/` (`docs/adr/retired/` for superseded ones)
+- **Historical prompts, audits, completed plans, and raw decision records**: adjacent `../zsb-wiki/`
 - **Design-system tokens/recipes**: `src/design-system/preset.ts`
-- **Miscellaneous debugging notes and rationale**: `journal/`
 
 ## MCP
 

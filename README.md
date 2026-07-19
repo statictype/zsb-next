@@ -48,7 +48,8 @@ src/
   lib/                  # constants, seo, hooks, date/format utils
   types/                # Shared TypeScript types (Edition, ImageData)
 scripts/                # Image + Sanity migration/seed utilities
-docs/                   # Architecture (cms.md), ADRs (+ retired/), specs, plans/completed/
+docs/                   # Current operational docs (CMS architecture, testing)
+../zsb-wiki/            # Historical prompts, audits, plans, notes, and raw archives
 ```
 
 ## Key Concepts
