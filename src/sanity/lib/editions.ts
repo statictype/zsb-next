@@ -3,6 +3,7 @@ import 'server-only'
 import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { definedFields } from '@/lib/defined-fields'
 import type { EditionLead } from '@/lib/derive-editions'
+import { editionHref } from '@/lib/edition-href'
 import { deriveEventSlugs, mapEdition, mapEditionCard } from '@/sanity/lib/editions-mappers'
 import { type DynamicFetchOptions, PUBLISHED, queryData } from '@/sanity/lib/live'
 import {
@@ -22,6 +23,8 @@ export interface EditionListItem {
   theme: string
   themeHighlight?: string
   status: 'announced' | 'live'
+
+  href?: string
   /** ISO `YYYY-MM-DD` edition start, when set — lets the latest/upcoming
    *  derivation (ADR 0016) place this edition. Absent for the online 2021. */
   dateStart?: string
@@ -136,12 +139,14 @@ export async function getEditionsListFromSanity(
   const data = await queryData(EDITIONS_LIST_QUERY, options)
   return (data ?? []).flatMap((entry) => {
     if (!entry.year || !entry.theme) return []
+    const status = entry.status === 'live' ? ('live' as const) : ('announced' as const)
     return [
       definedFields({
         year: entry.year,
         theme: entry.theme,
         themeHighlight: entry.themeHighlight ?? '',
-        status: entry.status === 'live' ? ('live' as const) : ('announced' as const),
+        status,
+        href: status === 'live' ? editionHref(entry.year) : undefined,
         dateStart: entry.dateStart,
       }),
     ]

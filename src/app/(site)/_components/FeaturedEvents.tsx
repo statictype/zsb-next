@@ -10,6 +10,7 @@ import { Card } from '@/components/ui/Card/Card'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { dayToken, eventWhenLabelShort } from '@/lib/edition-dates'
+import { editionHref } from '@/lib/edition-href'
 import type { CalendarEvent } from '@/types/edition'
 
 const styles = featuredEvents()
@@ -39,7 +40,7 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
             </SectionHeading>
           </div>
           <Button asChild variant="link">
-            <Link href={`/editions/${year}#program`}>Full calendar</Link>
+            <Link href={`${editionHref(year)}#program`}>Full calendar</Link>
           </Button>
         </HStack>
 

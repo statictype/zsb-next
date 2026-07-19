@@ -42,7 +42,7 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
             <div key={edition.year} className={styles.slot} data-feature={isFeature || undefined}>
               <EditionCard
                 edition={edition}
-                href={`/editions/${edition.year}`}
+                href={edition.href}
                 size={isFeature ? 'lg' : 'md'}
                 className={styles.card}
               />

@@ -1,6 +1,7 @@
 import type { SanityImageSource } from '@sanity/image-url'
 import type { Metadata } from 'next'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
+import { editionHref } from '@/lib/edition-href'
 import { urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import type { CalendarEvent, Edition } from '@/types/edition'
@@ -111,7 +112,7 @@ export function editionMetadata(edition: Edition): Metadata {
   const theme = edition.theme
   const description = edition.metaDescription || truncate(edition.manifesto.body, 155)
   const title = `${edition.year} — ${theme}`
-  const path = `/editions/${edition.year}`
+  const path = editionHref(edition.year)
 
   return {
     title,
@@ -185,7 +186,7 @@ export function editionEventJsonLd(edition: Edition) {
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     ...(edition.heroImage.src && { image: [edition.heroImage.src] }),
-    url: `${SITE_URL}/editions/${edition.year}`,
+    url: `${SITE_URL}${editionHref(edition.year)}`,
     // Single Place when there's one location, an array for the multi-site case;
     // both are valid schema.org and degrade gracefully for consumers that read
     // only the first.
@@ -286,7 +287,7 @@ export function editionBreadcrumbJsonLd(edition: Edition) {
         '@type': 'ListItem',
         position: 2,
         name: `${edition.year} — ${theme}`,
-        item: `${SITE_URL}/editions/${edition.year}`,
+        item: `${SITE_URL}${editionHref(edition.year)}`,
       },
     ],
   }

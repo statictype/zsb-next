@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { getAllEventParams } from '@/data/editions'
 import { SITE_URL } from '@/lib/constants'
+import { editionHref } from '@/lib/edition-href'
 import { getSitemapMetadataFromSanity } from '@/sanity/lib/editions'
 
 function lastMod(iso: string | null | undefined): Date | undefined {
@@ -45,7 +46,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const updatedAt = (id: string) => lastMod(pageUpdatedById.get(id))
 
   const editionEntries = editions.map((e) =>
-    entry(`/editions/${e.year}`, lastMod(e._updatedAt), 'yearly', 0.8),
+    entry(editionHref(e.year), lastMod(e._updatedAt), 'yearly', 0.8),
   )
 
   // Event pages are canonical, prerendered URLs (ADR 0015). Events have no

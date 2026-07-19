@@ -22,6 +22,7 @@ import {
   type UpcomingHero,
 } from '@/data/editions'
 import { SITE_DESCRIPTION } from '@/lib/constants'
+import { editionHref } from '@/lib/edition-href'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
 import { type EditionListItem } from '@/sanity/lib/editions'
@@ -117,7 +118,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 </div>
                 {ctaLabel && ctaYear && (
                   <Button asChild variant="primary" size="lg">
-                    <Link href={`/editions/${ctaYear}`}>
+                    <Link href={editionHref(ctaYear)}>
                       {ctaLabel} <RiArrowRightLine size={14} />
                     </Link>
                   </Button>
@@ -144,7 +145,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                   </Text>
                   {ctaLabel && ctaYear && (
                     <Button asChild variant="primary" size="lg">
-                      <Link href={`/editions/${ctaYear}`}>
+                      <Link href={editionHref(ctaYear)}>
                         {ctaLabel} <RiArrowRightLine size={14} />
                       </Link>
                     </Button>
@@ -174,27 +175,24 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
               </Text>
             </Stack>
             <LinkList className={styles.editionList}>
-              {list.map((edition) => {
-                if (edition.status !== 'live') {
-                  return (
-                    <LinkListItem
-                      key={edition.year}
-                      year={edition.year}
-                      title={edition.theme}
-                      tags={[<Badge key="status">Coming soon</Badge>]}
-                      disabled
-                    />
-                  )
-                }
-                return (
+              {list.map((edition) =>
+                edition.href ? (
                   <LinkListItem
                     key={edition.year}
                     year={edition.year}
                     title={edition.theme}
-                    href={`/editions/${edition.year}`}
+                    href={edition.href}
                   />
-                )
-              })}
+                ) : (
+                  <LinkListItem
+                    key={edition.year}
+                    year={edition.year}
+                    title={edition.theme}
+                    tags={[<Badge key="status">Coming soon</Badge>]}
+                    disabled
+                  />
+                ),
+              )}
             </LinkList>
           </Stack>
         </section>

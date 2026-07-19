@@ -2,24 +2,14 @@
 
 import { usePathname } from 'next/navigation'
 import { Carousel } from '@/components/Carousel/Carousel'
-import { EditionRailCard, type RailPlacement } from '@/components/EditionsNav/EditionRailCard'
+import { EditionRailCard } from '@/components/EditionsNav/EditionRailCard'
 import { editionsNav } from '@/components/EditionsNav/EditionsNav.recipe'
 import type { EditionListItem } from '@/sanity/lib/editions'
 
 const styles = editionsNav()
 
-/** What the band reads off each edition — a strict slice of the data layer's
- *  `EditionListItem`, so the server side hands the fetched list over unmapped
- *  and the contract can't drift from the query shape. */
-export type EditionEntry = Pick<EditionListItem, 'year' | 'theme' | 'themeHighlight' | 'status'>
+export type EditionEntry = Pick<EditionListItem, 'year' | 'theme' | 'themeHighlight' | 'href'>
 
-/**
- * The editions rail: a horizontally draggable band of EditionRailCard plates
- * inside the shared Carousel. It pairs with the footer below it — pure black,
- * no boxed border. The band owns *placement*: it turns each entry's status +
- * the current pathname into a `RailPlacement` (live link / inert "Viewing" /
- * non-linked "Soon"), and the plate renders it.
- */
 export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
   const pathname = usePathname()
 
@@ -33,11 +23,12 @@ export function EditionsNavBand({ editions }: { editions: EditionEntry[] }) {
         loop={false}
         eyebrow="Our journey"
         slides={editions.map((edition) => {
-          const href = `/editions/${edition.year}`
-          const placement: RailPlacement =
-            edition.status === 'live'
-              ? { status: pathname === href ? 'current' : 'live', href }
-              : { status: 'announced' }
+          const placement = edition.href
+            ? ({
+                status: pathname === edition.href ? 'current' : 'live',
+                href: edition.href,
+              } as const)
+            : ({ status: 'announced' } as const)
           return {
             id: String(edition.year),
             content: <EditionRailCard edition={edition} {...placement} className={styles.card} />,

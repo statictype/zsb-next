@@ -10,6 +10,7 @@ describe('EditionCard', () => {
     dateTape: '10–20 May 2026 · Combinatul Fondului Plastic',
     venueLine: 'Combinatul Fondului Plastic',
     heroImage: { src: '/img/hero.jpg', alt: 'Hero' },
+    href: '/editions/2026',
   }
 
   it('renders the composed date/venue line', () => {
