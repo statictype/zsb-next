@@ -6,10 +6,10 @@ import Link from 'next/link'
 import { type ReactNode, Suspense, useState } from 'react'
 import { cx } from 'styled-system/css'
 import { Center } from 'styled-system/jsx'
+import { navigation, navigationSwap } from '@/components/Navigation/Navigation.recipe'
+import { NavLinks, NavLinksList } from '@/components/Navigation/NavLinks'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
-import { navigation, navigationSwap } from './Navigation.recipe'
-import { NavLinks, NavLinksList } from './NavLinks'
 
 const s = navigation()
 const mobileLinkClass = cx(s.navLink, s.mobileNavLink)

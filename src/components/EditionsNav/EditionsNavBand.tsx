@@ -2,9 +2,9 @@
 
 import { usePathname } from 'next/navigation'
 import { Carousel } from '@/components/Carousel/Carousel'
+import { EditionRailCard, type RailPlacement } from '@/components/EditionsNav/EditionRailCard'
+import { editionsNav } from '@/components/EditionsNav/EditionsNav.recipe'
 import type { EditionListItem } from '@/sanity/lib/editions'
-import { EditionRailCard, type RailPlacement } from './EditionRailCard'
-import { editionsNav } from './EditionsNav.recipe'
 
 const styles = editionsNav()
 

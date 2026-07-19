@@ -3,15 +3,19 @@
 import { RiArrowLeftLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
 import { HStack, Stack, Text, Wrap } from 'styled-system/jsx'
+import { eventModal } from '@/app/(site)/editions/[year]/_components/Calendar/EventModal.recipe'
+import { TypeChips } from '@/app/(site)/editions/[year]/_components/Calendar/TypeChips'
+import {
+  shareCopied,
+  shareIcon,
+  useShareLink,
+} from '@/app/(site)/editions/[year]/_components/Calendar/useShareLink'
+import { VenueLine } from '@/app/(site)/editions/[year]/_components/Calendar/VenueLine'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
 import { eventWhenLabel } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
-import { eventModal } from './EventModal.recipe'
-import { TypeChips } from './TypeChips'
-import { shareCopied, shareIcon, useShareLink } from './useShareLink'
-import { VenueLine } from './VenueLine'
 
 // The Back/Share controls are plain secondary <Button>s floating over the
 // dialog top; the click-through bar (`controls` slot) re-enables

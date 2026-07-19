@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { NavLinksList } from './NavLinks'
+import { NavLinksList } from '@/components/Navigation/NavLinks'
 
 describe('NavLinksList', () => {
   it('uses aria-current only for exact page matches', () => {

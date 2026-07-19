@@ -1,8 +1,8 @@
 import 'server-only'
 
+import { PUBLISHED, queryData } from '@/sanity/lib/live'
+import { ARTIST_INDEX_QUERY } from '@/sanity/lib/queries'
 import type { ArtistListItem } from '@/types/edition'
-import { PUBLISHED, queryData } from './live'
-import { ARTIST_INDEX_QUERY } from './queries'
 
 /**
  * All artists as `{ _id, name }`, surname-ordered (by `sortName`, falling back

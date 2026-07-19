@@ -1,7 +1,7 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
-import { LockIcon } from '../../icons'
-import { metaDescriptionField } from '../shared/metaDescriptionField'
-import { ogImageField } from '../shared/ogImageField'
+import { LockIcon } from '@/sanity/icons'
+import { metaDescriptionField } from '@/sanity/schemaTypes/shared/metaDescriptionField'
+import { ogImageField } from '@/sanity/schemaTypes/shared/ogImageField'
 
 export const privacyPage = defineType({
   name: 'privacyPage',

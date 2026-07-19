@@ -1,8 +1,8 @@
 import { cx } from 'styled-system/css'
 import { Center, Stack, Text } from 'styled-system/jsx'
+import { isdayBadge } from '@/app/(site)/editions/[year]/_components/IsdayBadge.recipe'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
-import { isdayBadge } from './IsdayBadge.recipe'
 
 export function IsdayBadge({ className }: { className?: string | undefined }) {
   const s = isdayBadge()

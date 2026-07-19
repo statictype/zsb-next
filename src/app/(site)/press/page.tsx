@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation'
 import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
+import { MediaKitStrip } from '@/app/(site)/press/_components/MediaKitStrip'
+import { pressPage } from '@/app/(site)/press/page.recipe'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
@@ -21,8 +23,6 @@ import {
 } from '@/sanity/lib/press'
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 import type { MediaKitStripItem } from '@/types/edition'
-import { MediaKitStrip } from './_components/MediaKitStrip'
-import { pressPage } from './page.recipe'
 
 const styles = pressPage()
 

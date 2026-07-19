@@ -1,6 +1,6 @@
 import { defineField, defineType } from 'sanity'
-import { ImageIcon } from '../../icons'
-import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { ImageIcon } from '@/sanity/icons'
+import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
 
 const POSITIONS = [
   { title: 'Top', value: 'top' },

@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { renderToString } from 'react-dom/server'
 import { describe, expect, it, vi } from 'vitest'
-import { Dialog } from './Dialog'
+import { Dialog } from '@/components/ui/Dialog/Dialog'
 
 function DialogHarness({ accessibleLabel = false }: { accessibleLabel?: boolean }) {
   const [open, setOpen] = useState(false)

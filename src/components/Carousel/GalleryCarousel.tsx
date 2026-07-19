@@ -1,10 +1,10 @@
 'use client'
 
 import { css } from 'styled-system/css'
+import { galleryCarousel } from '@/components/Carousel/GalleryCarousel.recipe'
+import { LightboxCarousel } from '@/components/Carousel/LightboxCarousel'
 import { Figure } from '@/components/Figure/Figure'
 import type { CarouselLayout, CarouselSlide as GallerySlide } from '@/types/edition'
-import { galleryCarousel } from './GalleryCarousel.recipe'
-import { LightboxCarousel } from './LightboxCarousel'
 
 const placement = css({ marginTop: '3xl' })
 

@@ -16,10 +16,10 @@
  *   pnpm exec tsx scripts/sanity-backfill-artist-sortname.ts --dry  # preview
  */
 
-import './_load-env'
+import '@scripts/_load-env'
 
 import { createClient } from '@sanity/client'
-import { surnameSortKey } from '../src/lib/format-utils'
+import { surnameSortKey } from '@/lib/format-utils'
 
 interface ArtistDoc {
   _id: string

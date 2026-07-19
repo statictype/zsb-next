@@ -8,7 +8,7 @@ import {
   parseFilters,
   serializeFilters,
   toggleSelection,
-} from './calendar-filters'
+} from '@/app/(site)/editions/[year]/_components/Calendar/calendar-filters'
 
 // Filter state lives in the URL as real search params (ZSB-54): read with
 // `useSearchParams`, written with `router.replace`. The calendar renders inside

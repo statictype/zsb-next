@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
-import { linkList } from './LinkList.recipe'
+import { linkList } from '@/components/ui/LinkList/LinkList.recipe'
 
 export function LinkList({
   children,

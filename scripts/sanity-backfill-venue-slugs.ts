@@ -16,10 +16,10 @@
  *   pnpm exec tsx scripts/sanity-backfill-venue-slugs.ts         # apply
  */
 
-import './_load-env'
+import '@scripts/_load-env'
 
 import { createClient } from '@sanity/client'
-import { slugify } from '../src/lib/slugify'
+import { slugify } from '@/lib/slugify'
 
 interface VenueDoc {
   _id: string

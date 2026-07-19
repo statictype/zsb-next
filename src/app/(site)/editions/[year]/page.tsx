@@ -1,8 +1,8 @@
+import { CachedEdition } from '@/app/(site)/editions/[year]/edition-content'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { getAllEditionYearParams, getEditionForMetadata } from '@/data/editions'
 import { editionMetadata } from '@/lib/seo'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
-import { CachedEdition } from './edition-content'
 
 export async function generateStaticParams() {
   return getAllEditionYearParams()

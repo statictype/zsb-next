@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation'
+import { RoutedEventModal } from '@/app/(site)/editions/[year]/_components/Calendar/RoutedEventModal'
+import { CachedEdition, loadEdition } from '@/app/(site)/editions/[year]/edition-content'
 import { getAllEventParams, getEditionForMetadata } from '@/data/editions'
 import { eventMetadata } from '@/lib/seo'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
-import { RoutedEventModal } from '../../_components/Calendar/RoutedEventModal'
-import { CachedEdition, loadEdition } from '../../edition-content'
 
 // Title + description for a shared event link; the share card (og:image) is the
 // sibling opengraph-image route. Resolves perspective and caches nothing —

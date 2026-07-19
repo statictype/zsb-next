@@ -1,9 +1,9 @@
 'use client'
 
+import { homepageCarousel } from '@/components/Carousel/HomepageCarousel.recipe'
+import { LightboxCarousel } from '@/components/Carousel/LightboxCarousel'
 import { Figure } from '@/components/Figure/Figure'
 import type { HeroImage } from '@/types/edition'
-import { homepageCarousel } from './HomepageCarousel.recipe'
-import { LightboxCarousel } from './LightboxCarousel'
 
 export function HomepageCarousel({
   images,

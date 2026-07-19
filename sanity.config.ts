@@ -2,11 +2,11 @@ import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { presentationTool } from 'sanity/presentation'
 import { structureTool } from 'sanity/structure'
-import { apiVersion, dataset, projectId } from './src/sanity/env'
-import { locations } from './src/sanity/lib/presentation'
-import { isSingletonType, SINGLETON_TYPES } from './src/sanity/lib/singleton'
-import { schemaTypes } from './src/sanity/schemaTypes'
-import { structure } from './src/sanity/structure'
+import { apiVersion, dataset, projectId } from '@/sanity/env'
+import { locations } from '@/sanity/lib/presentation'
+import { isSingletonType, SINGLETON_TYPES } from '@/sanity/lib/singleton'
+import { schemaTypes } from '@/sanity/schemaTypes'
+import { structure } from '@/sanity/structure'
 
 const LOCKED_SINGLETON_ACTIONS = new Set(['unpublish', 'delete', 'duplicate'])
 

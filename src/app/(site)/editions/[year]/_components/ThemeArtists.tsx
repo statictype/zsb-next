@@ -1,10 +1,10 @@
 import { cx } from 'styled-system/css'
 import { Grid, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
+import { themeArtists } from '@/app/(site)/editions/[year]/_components/ThemeArtists.recipe'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
 import type { Edition } from '@/types/edition'
-import { themeArtists } from './ThemeArtists.recipe'
 
 const styles = themeArtists()
 

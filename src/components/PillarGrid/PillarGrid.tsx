@@ -1,5 +1,5 @@
 import { Divider, Grid, Stack, Text } from 'styled-system/jsx'
-import { pillarGrid } from './PillarGrid.recipe'
+import { pillarGrid } from '@/components/PillarGrid/PillarGrid.recipe'
 
 export interface PillarGridItem {
   title: string

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { EditionCard } from './EditionCard'
+import { EditionCard } from '@/components/EditionCard/EditionCard'
 
 describe('EditionCard', () => {
   const edition = {

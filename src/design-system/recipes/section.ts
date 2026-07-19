@@ -1,5 +1,5 @@
 import { defineRecipe } from '@pandacss/dev'
-import { groundDarkVars, groundLightVars } from './ground'
+import { groundDarkVars, groundLightVars } from '@/design-system/recipes/ground'
 
 export const section = defineRecipe({
   jsx: ['Section'],

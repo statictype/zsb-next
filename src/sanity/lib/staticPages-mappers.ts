@@ -7,6 +7,8 @@ import type {
 import { SITE_NAME } from '@/lib/constants'
 import { definedFields } from '@/lib/defined-fields'
 import type { FaqEntry } from '@/lib/seo'
+import { mapCarousel } from '@/sanity/lib/carousel'
+import { toImageData } from '@/sanity/lib/image'
 import type {
   Amenity,
   CarouselSlide,
@@ -15,8 +17,6 @@ import type {
   TransportRoute,
   VisitData,
 } from '@/types/edition'
-import { mapCarousel } from './carousel'
-import { toImageData } from './image'
 
 type AboutPageRaw = NonNullable<ABOUT_PAGE_QUERY_RESULT>
 /**

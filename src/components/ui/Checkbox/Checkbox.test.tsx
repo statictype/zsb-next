@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { describe, expect, it, vi } from 'vitest'
-import { Checkbox } from './Checkbox'
+import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 
 describe('Checkbox', () => {
   it('translates Ark interaction into a controlled boolean callback', async () => {

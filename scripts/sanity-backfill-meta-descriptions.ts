@@ -17,7 +17,7 @@
  *   pnpm exec tsx scripts/sanity-backfill-meta-descriptions.ts --force  # overwrite
  */
 
-import './_load-env'
+import '@scripts/_load-env'
 
 import { createClient } from '@sanity/client'
 

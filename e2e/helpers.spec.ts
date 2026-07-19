@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { openFullProgramme } from './helpers'
+import { openFullProgramme } from '@e2e/helpers'
 
 test('openFullProgramme waits for a streamed archive before opening it', async ({ page }) => {
   await page.setContent('<main id="app"></main>')

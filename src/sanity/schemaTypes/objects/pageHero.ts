@@ -1,5 +1,5 @@
 import { defineField, defineType } from 'sanity'
-import { isSubstringOf } from '../shared/substringValidator'
+import { isSubstringOf } from '@/sanity/schemaTypes/shared/substringValidator'
 
 /**
  * Shared page-hero shape used on About, Partners, Visit, Privacy.

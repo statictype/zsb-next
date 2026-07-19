@@ -1,5 +1,5 @@
 import { defineField, defineType } from 'sanity'
-import { TagsIcon } from '../../icons'
+import { TagsIcon } from '@/sanity/icons'
 
 // A team-managed venue category (partner venue, partner gallery, artist
 // studio…). A venue holds one reference to these. Same taxonomy-as-documents

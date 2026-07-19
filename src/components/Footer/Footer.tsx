@@ -2,11 +2,11 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { Center, Divider, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
+import { footer } from '@/components/Footer/Footer.recipe'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Button } from '@/components/ui/Button/Button'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
-import { footer } from './Footer.recipe'
 
 const s = footer()
 

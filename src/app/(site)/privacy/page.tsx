@@ -6,6 +6,7 @@ import {
 import { notFound } from 'next/navigation'
 import { Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
+import { privacyPage } from '@/app/(site)/privacy/page.recipe'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -13,7 +14,6 @@ import { PageHero } from '@/components/PageHero/PageHero'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getPrivacyPage, type PrivacyView } from '@/sanity/lib/staticPages'
-import { privacyPage } from './page.recipe'
 
 const styles = privacyPage()
 

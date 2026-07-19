@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Container, Stack, Text } from 'styled-system/jsx'
-import { pageHero } from './PageHero.recipe'
+import { pageHero } from '@/components/PageHero/PageHero.recipe'
 
 interface PageHeroProps {
   /** The page title. Usually an <AccentSplit>, but any node is accepted. */

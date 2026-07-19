@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { definedFields } from './defined-fields'
+import { definedFields } from '@/lib/defined-fields'
 
 describe('definedFields', () => {
   it('strips null and undefined keys', () => {

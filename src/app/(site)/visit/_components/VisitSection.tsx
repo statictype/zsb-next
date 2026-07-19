@@ -12,16 +12,16 @@ import {
 } from '@remixicon/react'
 import { css } from 'styled-system/css'
 import { Container, Divider, Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
-import { Figure } from '@/components/Figure/Figure'
-import { Button } from '@/components/ui/Button/Button'
-import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
-import type { IconKey, VisitData } from '@/types/edition'
 import {
   transportList as transportListRecipe,
   visitImageFrame,
   visitInfoSummary,
   visitSection,
-} from './VisitSection.recipe'
+} from '@/app/(site)/visit/_components/VisitSection.recipe'
+import { Figure } from '@/components/Figure/Figure'
+import { Button } from '@/components/ui/Button/Button'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
+import type { IconKey, VisitData } from '@/types/edition'
 
 // Fixed icon set mirrored from the amenity schema. Editors pick an
 // icon key; this is the renderer-side mapping.

@@ -1,5 +1,5 @@
 import { defineConfig } from '@pandacss/dev'
-import designSystemPreset from './src/design-system/preset'
+import designSystemPreset from '@/design-system/preset'
 
 export default defineConfig({
   // The element reset lives in globals.css (`@layer base`).

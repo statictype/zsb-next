@@ -1,6 +1,4 @@
 import { describe, expect, it } from 'vitest'
-import { rollUpVenue } from '@/lib/venues'
-import type { CalendarEvent, EventVenue } from '@/types/edition'
 import {
   applyFilters,
   computeFilterOptions,
@@ -13,7 +11,9 @@ import {
   resolveShowPast,
   serializeFilters,
   toggleSelection,
-} from './calendar-filters'
+} from '@/app/(site)/editions/[year]/_components/Calendar/calendar-filters'
+import { rollUpVenue } from '@/lib/venues'
+import type { CalendarEvent, EventVenue } from '@/types/edition'
 
 const CFP = 'Combinatul Fondului Plastic'
 

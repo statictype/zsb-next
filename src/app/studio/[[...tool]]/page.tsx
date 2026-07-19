@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import { Suspense } from 'react'
-import { Studio } from './Studio'
+import { Studio } from '@/app/studio/[[...tool]]/Studio'
 
 export { metadata, viewport } from 'next-sanity/studio'
 

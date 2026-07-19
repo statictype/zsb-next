@@ -6,7 +6,7 @@ import {
   normalizePartners,
   normalizePrivacy,
   type VisitPage,
-} from './staticPages-mappers'
+} from '@/sanity/lib/staticPages-mappers'
 
 // buildFaq / mapVisit only read a handful of fields off the page; the cast
 // keeps fixtures small without reconstructing the full generated query type.

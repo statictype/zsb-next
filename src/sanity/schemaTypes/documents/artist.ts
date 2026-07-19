@@ -1,7 +1,7 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
-import { ArtistEditionsField } from '../../components/ArtistEditionsField'
-import { UserIcon } from '../../icons'
-import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { ArtistEditionsField } from '@/sanity/components/ArtistEditionsField'
+import { UserIcon } from '@/sanity/icons'
+import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
 
 export const artist = defineType({
   name: 'artist',

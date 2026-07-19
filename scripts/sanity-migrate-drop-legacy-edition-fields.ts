@@ -17,7 +17,7 @@
  *   pnpm exec tsx scripts/sanity-migrate-drop-legacy-edition-fields.ts --dry  # preview
  */
 
-import './_load-env'
+import '@scripts/_load-env'
 
 import { createClient } from '@sanity/client'
 

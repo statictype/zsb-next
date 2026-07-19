@@ -1,17 +1,17 @@
 import 'server-only'
 
 import type { PRESS_APPEARANCES_QUERY_RESULT, PRESS_RELEASES_QUERY_RESULT } from '@/../sanity.types'
-import type { MediaKitStripItem } from '@/types/edition'
-import { type DynamicFetchOptions, queryData } from './live'
-import { flattenKit, normalizePressPage, type PressPageView } from './press-mappers'
+import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
+import { flattenKit, normalizePressPage, type PressPageView } from '@/sanity/lib/press-mappers'
 import {
   EDITIONS_PRESS_KIT_QUERY,
   PRESS_APPEARANCES_QUERY,
   PRESS_PAGE_QUERY,
   PRESS_RELEASES_QUERY,
-} from './queries'
+} from '@/sanity/lib/queries'
+import type { MediaKitStripItem } from '@/types/edition'
 
-export type { PressPageView } from './press-mappers'
+export type { PressPageView } from '@/sanity/lib/press-mappers'
 export type PressAppearance = PRESS_APPEARANCES_QUERY_RESULT[number]
 export type PressRelease = PRESS_RELEASES_QUERY_RESULT[number]
 

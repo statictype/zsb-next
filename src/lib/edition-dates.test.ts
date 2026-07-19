@@ -11,7 +11,7 @@ import {
   formatShortRange,
   isMultiDayRun,
   isPastEvent,
-} from './edition-dates'
+} from '@/lib/edition-dates'
 
 describe('dateParts', () => {
   it('parses a YYYY-MM-DD string without a Date object', () => {

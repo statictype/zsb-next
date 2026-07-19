@@ -1,8 +1,8 @@
 import 'server-only'
 
 import type { SITE_SETTINGS_QUERY_RESULT } from '@/../sanity.types'
-import { type DynamicFetchOptions, queryData } from './live'
-import { SITE_SETTINGS_QUERY } from './queries'
+import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
+import { SITE_SETTINGS_QUERY } from '@/sanity/lib/queries'
 
 export type SiteSettings = NonNullable<SITE_SETTINGS_QUERY_RESULT>
 

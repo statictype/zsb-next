@@ -1,5 +1,5 @@
 import { defineField, defineType } from 'sanity'
-import { LinkIcon } from '../../icons'
+import { LinkIcon } from '@/sanity/icons'
 
 /**
  * Press coverage of ZSB — a single article, video, or audio segment.

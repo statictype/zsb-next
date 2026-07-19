@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { cx } from 'styled-system/css'
 import { Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
+import { aboutPage } from '@/app/(site)/about/page.recipe'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -15,7 +16,6 @@ import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { type AboutView, getAboutPage } from '@/sanity/lib/staticPages'
-import { aboutPage } from './page.recipe'
 
 const styles = aboutPage()
 

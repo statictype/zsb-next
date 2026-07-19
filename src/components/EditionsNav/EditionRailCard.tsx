@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { cx } from 'styled-system/css'
+import { editionRailCard } from '@/components/EditionsNav/EditionRailCard.recipe'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
 import type { EditionListItem } from '@/sanity/lib/editions'
-import { editionRailCard } from './EditionRailCard.recipe'
 
 /**
  * Where a rail plate stands relative to the visitor. A union rather than

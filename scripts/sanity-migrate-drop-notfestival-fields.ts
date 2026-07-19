@@ -16,7 +16,7 @@
  *   pnpm exec tsx scripts/sanity-migrate-drop-notfestival-fields.ts
  */
 
-import './_load-env'
+import '@scripts/_load-env'
 
 import { createClient } from '@sanity/client'
 

@@ -6,6 +6,25 @@ import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { Container, Divider, Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
+import { calendar } from '@/app/(site)/editions/[year]/_components/Calendar/Calendar.recipe'
+import { CalendarFilters } from '@/app/(site)/editions/[year]/_components/Calendar/CalendarFilters'
+import { CalendarMeta } from '@/app/(site)/editions/[year]/_components/Calendar/CalendarMeta'
+import {
+  CalendarShare,
+  PROGRAM_SECTION_ID,
+} from '@/app/(site)/editions/[year]/_components/Calendar/CalendarShare'
+import {
+  type CalendarFilterOptions,
+  deriveCalendarView,
+} from '@/app/(site)/editions/[year]/_components/Calendar/calendar-filters'
+import {
+  FollowLinks,
+  type SocialLink,
+} from '@/app/(site)/editions/[year]/_components/Calendar/FollowLinks'
+import { HashScroller } from '@/app/(site)/editions/[year]/_components/Calendar/HashScroller'
+import { TypeChips } from '@/app/(site)/editions/[year]/_components/Calendar/TypeChips'
+import { useCalendarFilters } from '@/app/(site)/editions/[year]/_components/Calendar/useCalendarFilters'
+import { VenueLine } from '@/app/(site)/editions/[year]/_components/Calendar/VenueLine'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { Collapsible } from '@/components/ui/Collapsible/Collapsible'
@@ -13,16 +32,6 @@ import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { editionWindow, formatShortRange } from '@/lib/edition-dates'
 import { useTodayIso } from '@/lib/use-today-iso'
 import type { CalendarEvent, CalendarListEvent } from '@/types/edition'
-import { calendar } from './Calendar.recipe'
-import { CalendarFilters } from './CalendarFilters'
-import { CalendarMeta } from './CalendarMeta'
-import { CalendarShare, PROGRAM_SECTION_ID } from './CalendarShare'
-import { type CalendarFilterOptions, deriveCalendarView } from './calendar-filters'
-import { FollowLinks, type SocialLink } from './FollowLinks'
-import { HashScroller } from './HashScroller'
-import { TypeChips } from './TypeChips'
-import { useCalendarFilters } from './useCalendarFilters'
-import { VenueLine } from './VenueLine'
 
 // No variants — one shared instance for the component + its module-level helpers.
 const s = calendar()

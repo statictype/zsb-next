@@ -2,7 +2,7 @@ import { RiEmpathizeFill } from '@remixicon/react'
 import Link from 'next/link'
 import { useId } from 'react'
 import { Center } from 'styled-system/jsx'
-import { partnerBadge } from './PartnerBadge.recipe'
+import { partnerBadge } from '@/components/PartnerBadge/PartnerBadge.recipe'
 
 interface PartnerBadgeProps {
   size?: 'standard' | 'footer' | 'hero' | 'upcoming' | undefined

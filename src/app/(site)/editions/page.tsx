@@ -1,13 +1,13 @@
 import { css } from 'styled-system/css'
 import { Container, Grid } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
+import { editionsPage } from '@/app/(site)/editions/page.recipe'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { getEditionCards } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
-import { editionsPage } from './page.recipe'
 
 const styles = editionsPage()
 

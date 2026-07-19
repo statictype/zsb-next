@@ -2,7 +2,7 @@ import { Badge, Card, Flex, Spinner, Stack, Text } from '@sanity/ui'
 import { useEffect, useState } from 'react'
 import { useClient, useFormValue } from 'sanity'
 import { IntentLink } from 'sanity/router'
-import { apiVersion } from '../env'
+import { apiVersion } from '@/sanity/env'
 
 interface ReferencingEdition {
   _id: string

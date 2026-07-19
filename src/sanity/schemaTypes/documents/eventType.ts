@@ -1,5 +1,5 @@
 import { defineField, defineType } from 'sanity'
-import { TagIcon } from '../../icons'
+import { TagIcon } from '@/sanity/icons'
 
 // A team-managed event category (Opening, Talk, Workshop, Film…). Events hold
 // an array of references to these (an event can carry more than one). Stored as

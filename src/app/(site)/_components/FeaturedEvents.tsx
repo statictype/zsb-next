@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { cx } from 'styled-system/css'
 import { Container, Grid, HStack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
+import { featuredEvents } from '@/app/(site)/_components/FeaturedEvents.recipe'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
@@ -10,7 +11,6 @@ import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { dayToken, eventWhenLabelShort } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
-import { featuredEvents } from './FeaturedEvents.recipe'
 
 const styles = featuredEvents()
 

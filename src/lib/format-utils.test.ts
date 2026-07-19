@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { padNum, splitInHalf, surnameSortKey } from './format-utils'
+import { padNum, splitInHalf, surnameSortKey } from '@/lib/format-utils'
 
 describe('padNum', () => {
   it('left-pads to the default width of 2', () => {

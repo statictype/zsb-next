@@ -1,6 +1,6 @@
 import { defineField, defineType } from 'sanity'
-import { CaseIcon } from '../../icons'
-import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { CaseIcon } from '@/sanity/icons'
+import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
 
 export const organization = defineType({
   name: 'organization',

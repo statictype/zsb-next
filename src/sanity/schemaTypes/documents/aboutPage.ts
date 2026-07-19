@@ -1,8 +1,8 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
-import { InfoOutlineIcon } from '../../icons'
-import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
-import { metaDescriptionField } from '../shared/metaDescriptionField'
-import { ogImageField } from '../shared/ogImageField'
+import { InfoOutlineIcon } from '@/sanity/icons'
+import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
+import { metaDescriptionField } from '@/sanity/schemaTypes/shared/metaDescriptionField'
+import { ogImageField } from '@/sanity/schemaTypes/shared/ogImageField'
 
 export const aboutPage = defineType({
   name: 'aboutPage',

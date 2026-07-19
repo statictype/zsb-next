@@ -1,8 +1,8 @@
 import { type ImageProps } from 'next/image'
+import { FallbackImage } from '@/components/Figure/FallbackImage'
 import { skeleton } from '@/components/skeleton'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import type { ImageData } from '@/types/edition'
-import { FallbackImage } from './FallbackImage'
 
 /**
  * The render mirror of {@link toImageData}: takes a runtime `ImageData` and

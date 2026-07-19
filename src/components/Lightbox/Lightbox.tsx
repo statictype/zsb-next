@@ -5,12 +5,12 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { css, cx } from 'styled-system/css'
 import { token } from 'styled-system/tokens'
+import { lightbox as lightboxRecipe } from '@/components/Lightbox/Lightbox.recipe'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { skeleton } from '@/components/skeleton'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
-import { lightbox as lightboxRecipe } from './Lightbox.recipe'
 
 export interface LightboxImage {
   src: string

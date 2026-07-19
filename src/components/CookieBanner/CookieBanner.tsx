@@ -6,9 +6,9 @@ import { useSyncExternalStore } from 'react'
 import { createPortal } from 'react-dom'
 import { css, cx } from 'styled-system/css'
 import { HStack, Stack, Text } from 'styled-system/jsx'
+import { cookieBanner } from '@/components/CookieBanner/CookieBanner.recipe'
 import { Button } from '@/components/ui/Button/Button'
 import { CONSENT_COOKIE, CONSENT_REOPEN_EVENT, GA_MEASUREMENT_ID } from '@/lib/constants'
-import { cookieBanner } from './CookieBanner.recipe'
 
 type Consent = 'granted' | 'denied' | 'unset'
 

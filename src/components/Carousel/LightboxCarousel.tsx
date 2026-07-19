@@ -2,8 +2,8 @@
 
 import type { ReactNode } from 'react'
 import { useState } from 'react'
+import { Carousel, type CarouselSlide } from '@/components/Carousel/Carousel'
 import { Lightbox, type LightboxImage } from '@/components/Lightbox/Lightbox'
-import { Carousel, type CarouselSlide } from './Carousel'
 
 interface LightboxCarouselProps {
   id?: string | undefined

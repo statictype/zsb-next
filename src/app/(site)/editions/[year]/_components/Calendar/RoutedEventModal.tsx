@@ -1,8 +1,8 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { EventModal } from '@/app/(site)/editions/[year]/_components/Calendar/EventModal'
 import type { CalendarEvent } from '@/types/edition'
-import { EventModal } from './EventModal'
 
 // Bridges the route-driven event detail (ADR 0015) to the presentational
 // `EventModal`, supplying a close handler that matches how the modal was opened:

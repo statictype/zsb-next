@@ -1,8 +1,8 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
-import { HomeIcon } from '../../icons'
-import { metaDescriptionField } from '../shared/metaDescriptionField'
-import { ogImageField } from '../shared/ogImageField'
-import { isSubstringOf } from '../shared/substringValidator'
+import { HomeIcon } from '@/sanity/icons'
+import { metaDescriptionField } from '@/sanity/schemaTypes/shared/metaDescriptionField'
+import { ogImageField } from '@/sanity/schemaTypes/shared/ogImageField'
+import { isSubstringOf } from '@/sanity/schemaTypes/shared/substringValidator'
 
 export const homepage = defineType({
   name: 'homepage',

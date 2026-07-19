@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { splitFirstMatch } from './split-first-match'
+import { splitFirstMatch } from '@/lib/split-first-match'
 
 describe('splitFirstMatch', () => {
   it('splits around only the first exact match', () => {

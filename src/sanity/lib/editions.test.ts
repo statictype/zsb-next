@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mapCredits, mapEdition, mapEvents } from './editions-mappers'
+import { mapCredits, mapEdition, mapEvents } from '@/sanity/lib/editions-mappers'
 
 type RawEvents = Parameters<typeof mapEvents>[0]
 type RawCredits = Parameters<typeof mapCredits>[0]

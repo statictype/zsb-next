@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import { describe, expect, it } from 'vitest'
-import { Lightbox, type LightboxImage } from './Lightbox'
+import { Lightbox, type LightboxImage } from '@/components/Lightbox/Lightbox'
 
 const images: LightboxImage[] = [
   { src: 'https://example.com/a.jpg', caption: 'Alpha' },

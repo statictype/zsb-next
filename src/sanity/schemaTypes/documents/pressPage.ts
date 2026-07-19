@@ -1,7 +1,7 @@
 import { defineField, defineType } from 'sanity'
-import { DocumentsIcon } from '../../icons'
-import { metaDescriptionField } from '../shared/metaDescriptionField'
-import { ogImageField } from '../shared/ogImageField'
+import { DocumentsIcon } from '@/sanity/icons'
+import { metaDescriptionField } from '@/sanity/schemaTypes/shared/metaDescriptionField'
+import { ogImageField } from '@/sanity/schemaTypes/shared/ogImageField'
 
 export const pressPage = defineType({
   name: 'pressPage',

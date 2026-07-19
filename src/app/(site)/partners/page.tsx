@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
 import { Center, Container, Grid, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
+import { partnersPage } from '@/app/(site)/partners/page.recipe'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
@@ -17,7 +18,6 @@ import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
 import { getPartnersPage, type PartnersView } from '@/sanity/lib/staticPages'
-import { partnersPage } from './page.recipe'
 
 const styles = partnersPage()
 

@@ -1,8 +1,8 @@
 import { cx } from 'styled-system/css'
 import { Grid, HStack, Text, Wrap } from 'styled-system/jsx'
+import { artistsTable } from '@/components/ArtistsTable/ArtistsTable.recipe'
 import { padNum, splitInHalf } from '@/lib/format-utils'
 import type { ArtistListItem } from '@/types/edition'
-import { artistsTable } from './ArtistsTable.recipe'
 
 const styles = artistsTable()
 

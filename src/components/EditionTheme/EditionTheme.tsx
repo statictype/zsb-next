@@ -1,8 +1,8 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
+import { editionTheme } from '@/components/EditionTheme/EditionTheme.recipe'
 import { splitFirstMatch } from '@/lib/split-first-match'
-import { editionTheme } from './EditionTheme.recipe'
 
 interface EditionThemeProps {
   /** The edition theme line (e.g. "the weight of light"). */

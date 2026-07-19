@@ -14,8 +14,8 @@ import {
   TagsIcon,
   TransferIcon,
   UsersIcon,
-} from './icons'
-import { isSingletonType, singletonListItem } from './lib/singleton'
+} from '@/sanity/icons'
+import { isSingletonType, singletonListItem } from '@/sanity/lib/singleton'
 
 export const structure: StructureResolver = (S) =>
   S.list()

@@ -16,7 +16,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createClient } from '@sanity/client'
-import { getAllEditionYears, getEdition } from '../src/data/editions'
+import { getAllEditionYears, getEdition } from '@/data/editions'
 
 if (typeof process.loadEnvFile === 'function') {
   try {

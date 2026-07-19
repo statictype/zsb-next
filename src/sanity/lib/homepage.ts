@@ -2,10 +2,10 @@ import 'server-only'
 
 import type { HOMEPAGE_QUERY_RESULT } from '@/../sanity.types'
 import { definedFields } from '@/lib/defined-fields'
+import { urlFor } from '@/sanity/lib/image'
+import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
+import { HOMEPAGE_QUERY } from '@/sanity/lib/queries'
 import type { HeroImage } from '@/types/edition'
-import { urlFor } from './image'
-import { type DynamicFetchOptions, queryData } from './live'
-import { HOMEPAGE_QUERY } from './queries'
 
 type RawHomepage = NonNullable<HOMEPAGE_QUERY_RESULT>
 

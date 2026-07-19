@@ -1,7 +1,7 @@
 import { DraftAware } from '@/components/DraftAware/DraftAware'
+import { EditionsNavBand } from '@/components/EditionsNav/EditionsNavBand'
 import { getEditionListItems } from '@/data/editions'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
-import { EditionsNavBand } from './EditionsNavBand'
 
 /**
  * Full-width "browse the editions" band, placed just above the footer on the
