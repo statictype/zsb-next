@@ -3,9 +3,8 @@
 // Visit venues view (ZSB-46) derive identically — and so it unit-tests cleanly.
 //
 // "Latest" = the most recent edition that has taken place (or is taking place);
-// "Upcoming" = the next edition still ahead. Past-ness is judged against
-// `todayIso`, which on the cached homepage / Visit page is resolved client-side
-// (ADR 0012) — so this takes the date as an argument and never reads the clock.
+// "Upcoming" = the next edition still ahead. A yearly-tier fact (`lib/today.ts`)
+// — takes the date as an argument and never reads the clock.
 
 /** Which of the two derived editions a surface's switch leads with. */
 export type EditionLead = 'latest' | 'upcoming'
@@ -37,10 +36,8 @@ function startOf(edition: DerivableEdition): string {
  * strings compare lexicographically, so no date parsing is needed. Recency is
  * ordered by `year`, which is unique per edition.
  *
- * `todayIso === null` is the pre-hydration server snapshot (the clock isn't
- * known yet): nothing can be proven to be in the future, so everything counts
- * as "taken place" — latest is the newest edition, upcoming is null. The client
- * re-derives with the real date once it mounts (the same split the calendar uses).
+ * `todayIso === null` (null-clock convention, `lib/today.ts`): everything
+ * counts as "taken place" — latest is the newest edition, upcoming is null.
  */
 export function deriveEditions<T extends DerivableEdition>(
   editions: readonly T[],
