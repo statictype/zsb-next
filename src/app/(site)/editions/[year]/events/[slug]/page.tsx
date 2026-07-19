@@ -1,7 +1,7 @@
 import { RoutedEventModal } from '@calendar/RoutedEventModal'
-import { CachedEdition, loadEdition } from '@edition/edition-content'
+import { CachedEdition } from '@edition/edition-content'
 import { notFound } from 'next/navigation'
-import { getAllEventParams, getEditionForMetadata } from '@/data/editions'
+import { getAllEventParams, getEdition, getEditionForMetadata } from '@/data/editions'
 import { editionHref } from '@/lib/edition-href'
 import { eventMetadata } from '@/lib/seo'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
@@ -35,7 +35,7 @@ export async function generateStaticParams() {
 // instead, so this renders only when the slot can't (cold load).
 export default async function EventPage(props: PageProps<'/editions/[year]/events/[slug]'>) {
   const [{ year, slug }, options] = await Promise.all([props.params, getDynamicFetchOptions()])
-  const edition = await loadEdition(Number(year), options)
+  const edition = await getEdition(Number(year), options)
   const event = findEvent(edition, slug)
   if (!event) notFound()
 

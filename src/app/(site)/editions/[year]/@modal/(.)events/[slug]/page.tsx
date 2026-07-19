@@ -1,6 +1,6 @@
 import { RoutedEventModal } from '@calendar/RoutedEventModal'
-import { loadEdition } from '@edition/edition-content'
 import { notFound } from 'next/navigation'
+import { getEdition } from '@/data/editions'
 import { editionHref } from '@/lib/edition-href'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
@@ -13,7 +13,7 @@ export default async function InterceptedEventModal(
   props: PageProps<'/editions/[year]/events/[slug]'>,
 ) {
   const [{ year, slug }, options] = await Promise.all([props.params, getDynamicFetchOptions()])
-  const edition = await loadEdition(Number(year), options)
+  const edition = await getEdition(Number(year), options)
   const event = findEvent(edition, slug)
   if (!event) notFound()
 

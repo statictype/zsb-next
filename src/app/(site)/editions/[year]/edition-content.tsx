@@ -15,7 +15,7 @@ import { getEdition } from '@/data/editions'
 import { editionBreadcrumbJsonLd, editionEventJsonLd } from '@/lib/seo'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
-import type { Edition, ExternalGalleryData } from '@/types/edition'
+import type { ExternalGalleryData } from '@/types/edition'
 
 // The off-site photo galleries a few historical editions link to instead of a
 // program. Static, not editor content (ADR 0018): a closed fact per edition. The
@@ -34,13 +34,15 @@ const EXTERNAL_GALLERY_BY_YEAR: Record<number, ExternalGalleryData> = {
 }
 
 // The edition page body, shared by the edition route (`[year]/page.tsx`) and the
-// per-event route (`events/[key]/page.tsx`), which renders this plus the modal
-// (ADR 0015). It's a single `'use cache'` function imported by both, so the one
-// cache entry — keyed on (year, options) — is reused across the edition page and
-// every prerendered event page. The directive stays lexical here and closes over
-// nothing but its serializable props, so it's free of the closure-as-cache-key
-// hazard ADR 0012 warns about; extracting it to this module (rather than inlining
-// per page) is what lets the two routes share the entry.
+// per-event route (`events/[slug]/page.tsx`), which renders this plus the modal
+// (ADR 0015). Its `'use cache'` caches the rendered body — one entry, keyed on
+// (year, options), reused across the edition page and every prerendered event
+// page. Data-cache sharing is not this layer's job: that lives in
+// `getEditionFromSanity`, the data leaf behind `getEdition`. The directive stays
+// lexical here and closes over nothing but its serializable props, so it's free
+// of the closure-as-cache-key hazard ADR 0012 warns about; extracting it to this
+// module (rather than inlining per page) is what lets the two routes share the
+// entry.
 export async function CachedEdition({
   year,
   options,
@@ -107,21 +109,6 @@ export async function CachedEdition({
       <Credits credits={edition.credits} />
     </main>
   )
-}
-
-/**
- * The edition data behind the per-event modal route. A separate `'use cache'`
- * leaf from {@link CachedEdition} (which caches the rendered body): this returns
- * the plain edition so the route can pick one event out of `events` by `_key`.
- * Keyed on (year, options) — not the event key — so all of a year's event pages
- * share the single entry.
- */
-export async function loadEdition(
-  year: number,
-  options: DynamicFetchOptions,
-): Promise<Edition | undefined> {
-  'use cache'
-  return getEdition(year, options)
 }
 
 // Site-wide socials (Instagram, then Facebook — same order as the footer),
