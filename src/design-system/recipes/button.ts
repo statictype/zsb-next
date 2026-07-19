@@ -33,6 +33,9 @@ export const button = defineRecipe({
         display: 'inline',
         bg: 'transparent',
         color: 'white',
+
+        textDecorationColor: 'action',
+        textUnderlineOffset: '4px',
         ...colorShift,
         _hover: { ...colorShift._hover, textDecoration: 'underline' },
       },

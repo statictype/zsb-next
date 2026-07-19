@@ -137,9 +137,7 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
             </Text>
             <Wrap gap="lg">
               <LegalLink href="/privacy">Privacy Policy</LegalLink>
-              <Text variant="label">
-                <CookieSettingsButton />
-              </Text>
+              <CookieSettingsButton />
             </Wrap>
           </HStack>
         </Stack>
