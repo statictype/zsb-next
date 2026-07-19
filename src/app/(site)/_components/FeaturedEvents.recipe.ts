@@ -15,7 +15,6 @@ export const featuredEvents = sva({
     'when',
     'name',
     'cardLink',
-    'venue',
     'venueName',
     'venueParent',
   ],
@@ -111,7 +110,6 @@ export const featuredEvents = sva({
       _after: { content: '""', position: 'absolute', inset: '0', zIndex: '3' },
       _focusVisible: { color: 'action' },
     },
-    venue: {},
     venueName: {
       color: 'gray.300',
     },

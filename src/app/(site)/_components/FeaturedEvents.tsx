@@ -102,7 +102,7 @@ function FeaturedCard({
               {event.name}
             </Link>
           </h3>
-          <Wrap as="p" className={styles.venue}>
+          <Wrap as="p">
             <Text variant="caption" className={styles.venueName}>
               {event.venue.name}
             </Text>

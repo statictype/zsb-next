@@ -99,7 +99,7 @@ export const tokens = {
     sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
     base: { value: '16px' },
     md: { value: 'clamp(17px, 15.54px + 0.3883vw, 23px)' },
-    lg: { value: 'clamp(31px, 23.72px + 1.9417vw, 56px)' },
+    lg: { value: 'clamp(26px, 18.72px + 1.9417vw, 56px)' },
     xl: { value: 'clamp(46px, 25.32px + 2.8479vw, 80px)' },
   },
   spacing: {
