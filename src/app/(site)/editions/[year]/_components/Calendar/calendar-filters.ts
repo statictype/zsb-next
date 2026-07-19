@@ -9,7 +9,14 @@
 // edition page is cached, so "what's past" is judged against the visitor's
 // own clock, never at build time.
 
-import { type DayToken, dayToken, isMultiDayRun, isPastEvent } from '@/lib/edition-dates'
+import {
+  type DayToken,
+  dayToken,
+  editionWindow,
+  formatShortRange,
+  isMultiDayRun,
+  isPastEvent,
+} from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 
 // ---- Per-filter selection algebra ----
@@ -203,6 +210,15 @@ export function serializeFilters(filters: CalendarFilters, base = ''): string {
   return params.toString()
 }
 
+// The URL a filter change navigates to: the next filters serialized over the
+// current `search` (unrelated params survive), collapsing to the bare pathname
+// at the default so the clean URL stays canonical. `useCalendarFilters` is
+// just `router.replace` around this.
+export function filterUrl(pathname: string, search: string, next: CalendarFilters): string {
+  const query = serializeFilters(next, search)
+  return query ? `${pathname}?${query}` : pathname
+}
+
 // ---- Derived view ----
 // Everything the board renders, in one call — replaces what used to be 7
 // separate call sites (applyFilters, buildSchedule, resolveShowPast,
@@ -235,6 +251,16 @@ export interface CalendarView extends Schedule {
   /** Whether the past-events toggle should render at all. */
   showPastControl: boolean
   canReset: boolean
+  /** The edition is over — the board leads with the recap and folds into the
+   *  archive Collapsible (ZSB-45). */
+  ended: boolean
+  /** Non-null exactly while the edition is live; the board's past-greying
+   *  reads it so narrowing flows instead of needing `todayIso!` assertions. */
+  liveClock: string | null
+  /** Short human span of the whole edition window, when it has one. */
+  windowLabel: string | undefined
+  /** Headline count line — "X of Y upcoming events" and its collapsed forms. */
+  countLabel: string
 }
 
 // Untimed events sort before timed ones (empty string < "18:00"); ties break
@@ -322,6 +348,25 @@ export function deriveCalendarView(
     }
   }
 
+  // Edition window + live/ended judged on the WHOLE edition, never the filtered
+  // subset — filtering to past-only on a live edition must keep the live "past"
+  // greying, not flip the board into clean-archive mode.
+  const [editionStart, editionEnd] = editionWindow(events)
+  const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
+  const liveClock = ended ? null : todayIso
+  const windowLabel =
+    editionStart && editionEnd ? formatShortRange(editionStart, editionEnd) : undefined
+
+  // "X of Y upcoming events", collapsing to "Y upcoming events" when the venue/
+  // type filters aren't narrowing anything. A finished edition (nothing upcoming)
+  // falls back to a plain archive total — its recap treatment is ZSB-45.
+  const countLabel =
+    upcoming === 0
+      ? `${events.length} ${events.length === 1 ? 'event' : 'events'}`
+      : upcomingMatching === upcoming
+        ? `${upcoming} upcoming ${upcoming === 1 ? 'event' : 'events'}`
+        : `${upcomingMatching} of ${upcoming} upcoming events`
+
   return {
     visible,
     onView,
@@ -332,5 +377,9 @@ export function deriveCalendarView(
     showPast,
     showPastControl,
     canReset,
+    ended,
+    liveClock,
+    windowLabel,
+    countLabel,
   }
 }
