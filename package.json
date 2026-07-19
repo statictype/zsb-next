@@ -54,7 +54,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
     "babel-plugin-react-compiler": "^1.0.0",
-    "eslint": "^10.7.0",
+    "eslint": "^9.39.5",
     "eslint-config-next": "^16.2.10",
     "eslint-plugin-react-compiler": "19.1.0-rc.2",
     "jsdom": "^29.1.1",
