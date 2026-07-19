@@ -1,7 +1,7 @@
 import { definePattern, definePreset } from '@pandacss/dev'
-import { manifestoTitle, navigationLabel } from './patterns/typography'
-import { editorialSplit } from './recipes/editorial-split'
-import { recipes } from './recipes/index'
+import { manifestoTitle, navigationLabel } from '@/design-system/patterns/typography'
+import { recipes } from '@/design-system/recipes'
+import { editorialSplit } from '@/design-system/recipes/editorial-split'
 import {
   animationStyles,
   breakpoints,
@@ -11,7 +11,7 @@ import {
   semanticTokens,
   textStyles,
   tokens,
-} from './tokens'
+} from '@/design-system/tokens'
 
 // `strictTokens` is ON (panda.config.ts): every value is a token; remaining
 // `[bracketed]` literals in recipes are migration backlog to tokenize, not

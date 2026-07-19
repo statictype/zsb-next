@@ -1,9 +1,9 @@
-import { CalendarIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
-import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
-import { metaDescriptionField } from '../shared/metaDescriptionField'
-import { ogImageField } from '../shared/ogImageField'
-import { isSubstringOf } from '../shared/substringValidator'
+import { CalendarIcon } from '@/sanity/icons'
+import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
+import { metaDescriptionField } from '@/sanity/schemaTypes/shared/metaDescriptionField'
+import { ogImageField } from '@/sanity/schemaTypes/shared/ogImageField'
+import { isSubstringOf } from '@/sanity/schemaTypes/shared/substringValidator'
 
 // Conditional required: an `upcoming` edition can be saved with only
 // year, status, and theme set; everything else is filled in over time

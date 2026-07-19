@@ -1,9 +1,9 @@
 'use client'
 
+import { FeaturedEvents } from '@site-components/FeaturedEvents'
 import { isPastEvent } from '@/lib/edition-dates'
 import { useTodayIso } from '@/lib/use-today-iso'
 import type { CalendarEvent } from '@/types/edition'
-import { FeaturedEvents } from './FeaturedEvents'
 
 // ZSB-44 owns which events the spotlight shows; FeaturedEvents stays look-only.
 // This thin client wrapper hides past events against the visitor's own clock —

@@ -4,9 +4,9 @@ import { definedFields } from '@/lib/defined-fields'
 import { composeDateTape, dayToken } from '@/lib/edition-dates'
 import { slugify } from '@/lib/slugify'
 import { rollUpVenue } from '@/lib/venues'
+import { mapCarousel } from '@/sanity/lib/carousel'
+import { requireImageData, toImageData } from '@/sanity/lib/image'
 import type { CalendarEvent, CreditEntry, Edition } from '@/types/edition'
-import { mapCarousel } from './carousel'
-import { requireImageData, toImageData } from './image'
 
 export type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
 

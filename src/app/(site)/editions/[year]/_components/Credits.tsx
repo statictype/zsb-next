@@ -1,9 +1,9 @@
+import { credits as creditsRecipe } from '@edition-components/Credits.recipe'
+import { IsdayBadge } from '@edition-components/IsdayBadge'
 import Image from 'next/image'
 import { Container, Divider, Grid, Stack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import type { CreditEntry } from '@/types/edition'
-import { credits as creditsRecipe } from './Credits.recipe'
-import { IsdayBadge } from './IsdayBadge'
 
 interface CreditsProps {
   credits: CreditEntry[]

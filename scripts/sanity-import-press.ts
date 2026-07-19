@@ -17,7 +17,7 @@
  *   pnpm exec tsx scripts/sanity-import-press.ts --only releases
  */
 
-import './_load-env'
+import '@scripts/_load-env'
 
 import { createClient, type SanityClient } from '@sanity/client'
 

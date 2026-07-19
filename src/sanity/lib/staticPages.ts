@@ -1,14 +1,13 @@
 import 'server-only'
 
 import type { FaqEntry } from '@/lib/seo'
-import type { VisitData } from '@/types/edition'
-import { type DynamicFetchOptions, queryData } from './live'
+import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
 import {
   ABOUT_PAGE_QUERY,
   PARTNERS_PAGE_QUERY,
   PRIVACY_PAGE_QUERY,
   VISIT_PAGE_QUERY,
-} from './queries'
+} from '@/sanity/lib/queries'
 import {
   type AboutView,
   buildFaq,
@@ -19,9 +18,10 @@ import {
   type PartnersView,
   type PrivacyView,
   type VisitPage,
-} from './staticPages-mappers'
+} from '@/sanity/lib/staticPages-mappers'
+import type { VisitData } from '@/types/edition'
 
-export type { AboutView, PartnersView, PrivacyView } from './staticPages-mappers'
+export type { AboutView, PartnersView, PrivacyView } from '@/sanity/lib/staticPages-mappers'
 
 /** The visit page reshaped to what the route renders (ADR 0013): the venue
  *  section + merged FAQ derived here, with the metadata fields kept top-level so

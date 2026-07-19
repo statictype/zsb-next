@@ -1,4 +1,5 @@
 import { RiMapPinLine } from '@remixicon/react'
+import { venuesView } from '@site/visit/_components/VenuesView.recipe'
 import Link from 'next/link'
 import { Container, Divider, Stack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
@@ -8,7 +9,6 @@ import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { slugify } from '@/lib/slugify'
 import type { TopVenue, VenueEvent, VenueNode, VenueTypeSection } from '@/lib/venues'
-import { venuesView } from './VenuesView.recipe'
 
 const styles = venuesView()
 

@@ -1,10 +1,10 @@
 'use client'
 
 import { RiAlertLine, RiRefreshLine } from '@remixicon/react'
+import { errorPage } from '@site/error.recipe'
 import Link from 'next/link'
 import { Center, Stack, Text } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
-import { errorPage } from './error.recipe'
 
 const styles = errorPage()
 

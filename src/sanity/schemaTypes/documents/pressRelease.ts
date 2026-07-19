@@ -1,5 +1,5 @@
-import { TransferIcon } from '@sanity/icons'
 import { defineField, defineType } from 'sanity'
+import { TransferIcon } from '@/sanity/icons'
 
 const LANGUAGES = [
   { title: 'English', value: 'EN' },

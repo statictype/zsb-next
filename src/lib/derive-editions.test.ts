@@ -4,7 +4,7 @@ import {
   type DerivedEditions,
   deriveEditions,
   resolveLeadEdition,
-} from './derive-editions'
+} from '@/lib/derive-editions'
 
 // A few editions around a known "today" of 2026-03-01:
 //   2024 / 2025 — past;  2026 — future (run-up);  2021 — online, no dateStart.

@@ -1,3 +1,4 @@
+import { editionsPage } from '@site/editions/page.recipe'
 import { css } from 'styled-system/css'
 import { Container, Grid } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
@@ -7,7 +8,6 @@ import { PageHero } from '@/components/PageHero/PageHero'
 import { getEditionCards } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
-import { editionsPage } from './page.recipe'
 
 const styles = editionsPage()
 

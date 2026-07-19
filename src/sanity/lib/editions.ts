@@ -3,9 +3,8 @@ import 'server-only'
 import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { definedFields } from '@/lib/defined-fields'
 import type { EditionLead } from '@/lib/derive-editions'
-import type { Edition } from '@/types/edition'
-import { deriveEventSlugs, mapEdition, mapEditionCard } from './editions-mappers'
-import { type DynamicFetchOptions, PUBLISHED, queryData } from './live'
+import { deriveEventSlugs, mapEdition, mapEditionCard } from '@/sanity/lib/editions-mappers'
+import { type DynamicFetchOptions, PUBLISHED, queryData } from '@/sanity/lib/live'
 import {
   EDITION_BY_YEAR_QUERY,
   EDITION_CARDS_QUERY,
@@ -15,7 +14,8 @@ import {
   HERO_EDITION_QUERY,
   SITEMAP_QUERY,
   VISIT_EDITION_QUERY,
-} from './queries'
+} from '@/sanity/lib/queries'
+import type { Edition } from '@/types/edition'
 
 export interface EditionListItem {
   year: number

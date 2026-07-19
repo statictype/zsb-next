@@ -1,4 +1,4 @@
-import { imageFieldWithAlt } from './imageFieldWithAlt'
+import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
 
 /**
  * Optional per-document social share image (Open Graph / Twitter). When set it

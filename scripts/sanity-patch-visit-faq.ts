@@ -12,7 +12,7 @@
  *   pnpm exec tsx scripts/sanity-patch-visit-faq.ts --force  # overwrite existing
  */
 
-import './_load-env'
+import '@scripts/_load-env'
 
 import { createClient } from '@sanity/client'
 

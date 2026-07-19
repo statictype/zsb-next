@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
-import { Accordion } from './Accordion'
+import { Accordion } from '@/components/ui/Accordion/Accordion'
 
 const items = [
   { id: 'one', trigger: 'First question', triggerHeading: 'h3' as const, content: 'First answer' },

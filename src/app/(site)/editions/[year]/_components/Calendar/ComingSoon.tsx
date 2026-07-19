@@ -1,10 +1,10 @@
+import { CalendarMeta } from '@calendar/CalendarMeta'
+import { comingSoon } from '@calendar/ComingSoon.recipe'
+import { FollowLinks, type SocialLink } from '@calendar/FollowLinks'
 import { css } from 'styled-system/css'
 import { Container, Divider, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
-import { CalendarMeta } from './CalendarMeta'
-import { comingSoon } from './ComingSoon.recipe'
-import { FollowLinks, type SocialLink } from './FollowLinks'
 
 // Stands in for the calendar on a live edition whose events aren't announced
 // yet (ZSB-34) — in practice only ever the forthcoming edition, since a past

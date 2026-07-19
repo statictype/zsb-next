@@ -1,6 +1,6 @@
+import { editionLoading } from '@edition/loading.recipe'
 import { cx } from 'styled-system/css'
 import { Center, Grid, Stack } from 'styled-system/jsx'
-import { editionLoading } from './loading.recipe'
 
 const styles = editionLoading()
 

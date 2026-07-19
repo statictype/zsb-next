@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { groupVenuesByType, rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
-import { groupVenuesByType, rollUpVenue } from './venues'
 
 const CFP = { name: 'Combinatul Fondului Plastic', type: 'Partner venue' }
 

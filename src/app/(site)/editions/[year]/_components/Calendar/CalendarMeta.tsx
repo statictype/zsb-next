@@ -1,5 +1,5 @@
+import { calendarMeta } from '@calendar/CalendarMeta.recipe'
 import { Text, Wrap } from 'styled-system/jsx'
-import { calendarMeta } from './CalendarMeta.recipe'
 
 // The board header's meta line — the edition year, then an optional trailing
 // label after a dot separator (the date window on the live board, "Coming soon"

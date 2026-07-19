@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mapCarousel } from './carousel'
+import { mapCarousel } from '@/sanity/lib/carousel'
 
 function img(n: number) {
   return {

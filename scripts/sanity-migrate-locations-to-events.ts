@@ -37,7 +37,7 @@
  *   pnpm exec tsx scripts/sanity-migrate-locations-to-events.ts         # apply
  */
 
-import './_load-env'
+import '@scripts/_load-env'
 
 import { createClient } from '@sanity/client'
 

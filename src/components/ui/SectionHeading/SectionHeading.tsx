@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
-import { sectionHeading } from './SectionHeading.recipe'
+import { sectionHeading } from '@/components/ui/SectionHeading/SectionHeading.recipe'
 
 interface SectionHeadingProps {
   /** Heading level — defaults to `h2`. */

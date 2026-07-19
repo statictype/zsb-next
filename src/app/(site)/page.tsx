@@ -1,4 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
+import { homePage } from '@site/page.recipe'
+import { ArtistsBanner } from '@site-components/ArtistsBanner'
+import { FeaturedSpotlight } from '@site-components/FeaturedSpotlight'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cx } from 'styled-system/css'
@@ -25,9 +28,6 @@ import { type EditionListItem } from '@/sanity/lib/editions'
 import { getHomepage, type HomeView } from '@/sanity/lib/homepage'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import type { CalendarEvent } from '@/types/edition'
-import { ArtistsBanner } from './_components/ArtistsBanner'
-import { FeaturedSpotlight } from './_components/FeaturedSpotlight'
-import { homePage } from './page.recipe'
 
 const styles = homePage()
 

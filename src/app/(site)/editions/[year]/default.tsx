@@ -1,5 +1,5 @@
+import { CachedEdition } from '@edition/edition-content'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
-import { CachedEdition } from './edition-content'
 
 // Fallback for the implicit `children` slot when the `@modal` slot is active and
 // Next can't recover children's state (parallel routes — without this the

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { expectErrorClean, trackErrors } from './helpers'
+import { expectErrorClean, trackErrors } from '@e2e/helpers'
 
 test.describe('site smoke', () => {
   test('2021 edition renders its archive link and is error-clean', async ({ page }) => {

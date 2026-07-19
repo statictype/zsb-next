@@ -2,8 +2,8 @@ import { cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import { editorialSplit } from 'styled-system/patterns'
 import { section } from 'styled-system/recipes'
+import { manifesto as styles } from '@/components/Manifesto/Manifesto.recipe'
 import { splitFirstMatch } from '@/lib/split-first-match'
-import { manifesto as styles } from './Manifesto.recipe'
 
 interface ManifestoProps {
   title: string

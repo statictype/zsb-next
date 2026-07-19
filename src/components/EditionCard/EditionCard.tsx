@@ -3,12 +3,12 @@ import Link from 'next/link'
 import { cx } from 'styled-system/css'
 import { Divider, HStack, Stack, Text } from 'styled-system/jsx'
 import type { RecipeVariantProps } from 'styled-system/types'
+import { editionCard } from '@/components/EditionCard/EditionCard.recipe'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Card } from '@/components/ui/Card/Card'
 import type { Edition } from '@/types/edition'
-import { editionCard } from './EditionCard.recipe'
 
 /** The slice of `Edition` the archive card reads. Derived with `Pick` so it
  *  can't drift from the domain type — a fetched `Edition` satisfies it

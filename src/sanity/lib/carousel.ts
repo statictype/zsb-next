@@ -1,5 +1,5 @@
+import { requireImageData, type SanityImageField } from '@/sanity/lib/image'
 import type { CarouselImage, CarouselLayout, CarouselSlide } from '@/types/edition'
-import { requireImageData, type SanityImageField } from './image'
 
 const LAYOUT_VALUES: readonly CarouselLayout[] = [
   'full',

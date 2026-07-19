@@ -1,8 +1,8 @@
-import { PinIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
-import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
-import { metaDescriptionField } from '../shared/metaDescriptionField'
-import { ogImageField } from '../shared/ogImageField'
+import { PinIcon } from '@/sanity/icons'
+import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
+import { metaDescriptionField } from '@/sanity/schemaTypes/shared/metaDescriptionField'
+import { ogImageField } from '@/sanity/schemaTypes/shared/ogImageField'
 
 export const visitPage = defineType({
   name: 'visitPage',

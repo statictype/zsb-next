@@ -1,5 +1,9 @@
 'use client'
 
+import { eventModal } from '@calendar/EventModal.recipe'
+import { TypeChips } from '@calendar/TypeChips'
+import { shareCopied, shareIcon, useShareLink } from '@calendar/useShareLink'
+import { VenueLine } from '@calendar/VenueLine'
 import { RiArrowLeftLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
 import { HStack, Stack, Text, Wrap } from 'styled-system/jsx'
@@ -8,10 +12,6 @@ import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
 import { eventWhenLabel } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
-import { eventModal } from './EventModal.recipe'
-import { TypeChips } from './TypeChips'
-import { shareCopied, shareIcon, useShareLink } from './useShareLink'
-import { VenueLine } from './VenueLine'
 
 // The Back/Share controls are plain secondary <Button>s floating over the
 // dialog top; the click-through bar (`controls` slot) re-enables

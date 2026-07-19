@@ -48,9 +48,8 @@ pnpm exec vitest run src/lib/seo.test.ts    # a single file
 Two Vitest **projects** (`unit` node, `component` jsdom) under one config. Notable
 pieces, each there for a reason:
 
-- **`vite-tsconfig-paths`** resolves the `@/*` alias; **`@vitejs/plugin-react`**
-  enables JSX. We pin `@vitejs/plugin-react@5` to match the Vite that Vitest 4
-  bundles.
+- **Vite's native `resolve.tsconfigPaths`** resolves the `@/*` alias;
+  **`@vitejs/plugin-react`** enables JSX for component tests.
 - **No React Compiler in tests.** It's a build-time optimization; components
   behave correctly without it, and tests exercise behaviour, not compiler output.
 - **`server-only` / `client-only` are aliased** to `test/empty-module.ts` so the

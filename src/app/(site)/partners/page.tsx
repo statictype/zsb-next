@@ -1,4 +1,5 @@
 import { RiArrowRightLine } from '@remixicon/react'
+import { partnersPage } from '@site/partners/page.recipe'
 import { notFound } from 'next/navigation'
 import { css, cx } from 'styled-system/css'
 import { Center, Container, Grid, Stack, Text } from 'styled-system/jsx'
@@ -17,7 +18,6 @@ import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
 import { getPartnersPage, type PartnersView } from '@/sanity/lib/staticPages'
-import { partnersPage } from './page.recipe'
 
 const styles = partnersPage()
 

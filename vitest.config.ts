@@ -1,16 +1,16 @@
 import { fileURLToPath } from 'node:url'
 import react from '@vitejs/plugin-react'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import { defineConfig } from 'vitest/config'
 
 const emptyModule = fileURLToPath(new URL('./test/empty-module.ts', import.meta.url))
 
 export default defineConfig({
-  // tsconfigPaths resolves the `@/*` alias; react enables JSX for component
-  // tests. We deliberately don't run babel-plugin-react-compiler here — it's a
-  // build-time optimization, and tests exercise behaviour, not compiler output.
-  plugins: [tsconfigPaths(), react()],
+  // React enables JSX for component tests. We deliberately don't run
+  // babel-plugin-react-compiler here — it's a build-time optimization, and
+  // tests exercise behaviour, not compiler output.
+  plugins: [react()],
   resolve: {
+    tsconfigPaths: true,
     alias: {
       // Let `server-only` / `client-only` modules import under the test runner.
       'server-only': emptyModule,

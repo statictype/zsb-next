@@ -22,6 +22,17 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@e2e/*": ["./e2e/*"],
+      "@calendar/*": ["./src/app/(site)/editions/[year]/_components/Calendar/*"],
+      "@edition/*": ["./src/app/(site)/editions/[year]/*"],
+      "@edition-components/*": ["./src/app/(site)/editions/[year]/_components/*"],
+      "@root/*": ["./*"],
+      "@scripts/*": ["./scripts/*"],
+      "@site/*": ["./src/app/(site)/*"],
+      "@site-components/*": ["./src/app/(site)/_components/*"],
+      "@studio/*": ["./src/app/studio/[[...tool]]/*"],
+      "@test/*": ["./test/*"],
       "styled-system": ["./styled-system"],
       "styled-system/*": ["./styled-system/*"]
     }

@@ -1,9 +1,9 @@
+import { hero } from '@edition-components/Hero.recipe'
 import { css, cx } from 'styled-system/css'
 import { token } from 'styled-system/tokens'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import type { Edition } from '@/types/edition'
-import { hero } from './Hero.recipe'
 
 const styles = hero()
 

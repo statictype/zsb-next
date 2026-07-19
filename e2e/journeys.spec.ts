@@ -6,7 +6,7 @@ import {
   firstEditionHref,
   openFullProgramme,
   trackErrors,
-} from './helpers'
+} from '@e2e/helpers'
 
 // User-journey coverage for the pages reworked in the Panda migration. These are
 // deliberately a black box: assertions go through accessible roles/names, text,

@@ -1,17 +1,17 @@
 'use client'
 
-import { RiResetLeftLine } from '@remixicon/react'
-import { Divider, Stack, Text, Wrap } from 'styled-system/jsx'
-import { Button } from '@/components/ui/Button/Button'
-import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
-import { calendarFilters } from './CalendarFilters.recipe'
+import { calendarFilters } from '@calendar/CalendarFilters.recipe'
 import {
   type CalendarFilterOptions,
   type FilterOption,
   type FilterSelection,
   type CalendarFilters as Filters,
   isSelected,
-} from './calendar-filters'
+} from '@calendar/calendar-filters'
+import { RiResetLeftLine } from '@remixicon/react'
+import { Divider, Stack, Text, Wrap } from 'styled-system/jsx'
+import { Button } from '@/components/ui/Button/Button'
+import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 
 interface CalendarFiltersProps {
   filterOptions: CalendarFilterOptions

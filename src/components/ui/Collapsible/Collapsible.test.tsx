@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
-import { Collapsible } from './Collapsible'
+import { Collapsible } from '@/components/ui/Collapsible/Collapsible'
 
 describe('Collapsible', () => {
   it('starts closed, keeps archive content mounted, and exposes both state labels', async () => {

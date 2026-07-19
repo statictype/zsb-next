@@ -1,8 +1,8 @@
 'use client'
 
+import { shareCopied, shareIcon, useShareLink } from '@calendar/useShareLink'
 import { cx } from 'styled-system/css'
 import { Button } from '@/components/ui/Button/Button'
-import { shareCopied, shareIcon, useShareLink } from './useShareLink'
 
 // The anchor the shared link lands on — the Calendar `<section>` carries this
 // id, so opening a shared link scrolls straight to the programme rather than

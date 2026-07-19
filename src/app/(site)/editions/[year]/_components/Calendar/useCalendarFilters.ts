@@ -1,6 +1,5 @@
 'use client'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import {
   type CalendarFilterOptions,
   type CalendarFilters,
@@ -8,7 +7,8 @@ import {
   parseFilters,
   serializeFilters,
   toggleSelection,
-} from './calendar-filters'
+} from '@calendar/calendar-filters'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 // Filter state lives in the URL as real search params (ZSB-54): read with
 // `useSearchParams`, written with `router.replace`. The calendar renders inside

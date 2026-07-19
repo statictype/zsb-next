@@ -16,7 +16,7 @@ import {
   organizationJsonLd,
   pressAppearancesJsonLd,
   visitFaqJsonLd,
-} from './seo'
+} from '@/lib/seo'
 
 // A minimal event at a venue. `parent` sets the bigger place it sits inside (a
 // studio inside CFP) — which is what the JSON-LD rolls Places up to.

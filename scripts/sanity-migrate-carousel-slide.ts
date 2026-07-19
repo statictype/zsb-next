@@ -20,7 +20,7 @@
  *   pnpm exec tsx scripts/sanity-migrate-carousel-slide.ts --dry  # preview
  */
 
-import './_load-env'
+import '@scripts/_load-env'
 
 import { createClient } from '@sanity/client'
 

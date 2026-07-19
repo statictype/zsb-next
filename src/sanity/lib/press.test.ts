@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { flattenKit } from './press-mappers'
+import { flattenKit } from '@/sanity/lib/press-mappers'
 
 type RawKit = Parameters<typeof flattenKit>[0]
 

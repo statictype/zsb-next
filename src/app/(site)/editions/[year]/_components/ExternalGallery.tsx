@@ -1,3 +1,4 @@
+import { externalGallery } from '@edition-components/ExternalGallery.recipe'
 import { RiArrowRightUpLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
 import { Center, Container, Divider, Grid, HStack, Stack, Text } from 'styled-system/jsx'
@@ -7,7 +8,6 @@ import { Card } from '@/components/ui/Card/Card'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { splitFirstMatch } from '@/lib/split-first-match'
 import type { ExternalGalleryData } from '@/types/edition'
-import { externalGallery } from './ExternalGallery.recipe'
 
 const styles = externalGallery()
 

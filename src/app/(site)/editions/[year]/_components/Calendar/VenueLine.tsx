@@ -1,6 +1,6 @@
+import { venueLine } from '@calendar/VenueLine.recipe'
 import { Text, Wrap } from 'styled-system/jsx'
 import type { EventVenue } from '@/types/edition'
-import { venueLine } from './VenueLine.recipe'
 
 // The venue name + its rolled-up parent, shared by the agenda rows, the Ongoing
 // run cards, and the event modal (DS-1). `size` picks the board vs. modal scale;

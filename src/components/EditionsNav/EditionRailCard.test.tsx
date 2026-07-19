@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { EditionRailCard } from './EditionRailCard'
+import { EditionRailCard } from '@/components/EditionsNav/EditionRailCard'
 
 // "Upcoming plates never link" is enforced at the type level (`RailPlacement`
 // makes `href` unrepresentable on upcoming), so there is no runtime test for

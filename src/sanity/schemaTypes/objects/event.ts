@@ -1,7 +1,7 @@
-import { CalendarIcon } from '@sanity/icons'
 import { defineArrayMember, defineField, defineType } from 'sanity'
-import { slugify } from '../../../lib/slugify'
-import { imageFieldWithAlt } from '../shared/imageFieldWithAlt'
+import { slugify } from '@/lib/slugify'
+import { CalendarIcon } from '@/sanity/icons'
+import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
 
 // The building block of the program. Events are nested in the edition (one list
 // per edition), not standalone documents — an event has no life outside its
