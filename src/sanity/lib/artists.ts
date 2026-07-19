@@ -1,7 +1,7 @@
 import 'server-only'
 
 import { PUBLISHED, queryData } from '@/sanity/lib/live'
-import { ARTIST_INDEX_QUERY } from '@/sanity/lib/queries'
+import { ARTIST_INDEX_QUERY, ARTIST_INDEX_QUERY_TAGS } from '@/sanity/lib/queries'
 import type { ArtistListItem } from '@/types/edition'
 
 /**
@@ -13,5 +13,5 @@ import type { ArtistListItem } from '@/types/edition'
  */
 export async function getArtistIndex(): Promise<ArtistListItem[]> {
   'use cache'
-  return (await queryData(ARTIST_INDEX_QUERY, PUBLISHED)) ?? []
+  return (await queryData(ARTIST_INDEX_QUERY, PUBLISHED, { tags: ARTIST_INDEX_QUERY_TAGS })) ?? []
 }

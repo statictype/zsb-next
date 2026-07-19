@@ -2,7 +2,7 @@ import 'server-only'
 
 import type { SITE_SETTINGS_QUERY_RESULT } from '@/../sanity.types'
 import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
-import { SITE_SETTINGS_QUERY } from '@/sanity/lib/queries'
+import { SITE_SETTINGS_QUERY, SITE_SETTINGS_QUERY_TAGS } from '@/sanity/lib/queries'
 
 export type SiteSettings = NonNullable<SITE_SETTINGS_QUERY_RESULT>
 
@@ -17,5 +17,5 @@ export type SiteSettings = NonNullable<SITE_SETTINGS_QUERY_RESULT>
  */
 export async function getSiteSettings(options: DynamicFetchOptions): Promise<SiteSettings | null> {
   'use cache'
-  return (await queryData(SITE_SETTINGS_QUERY, options)) ?? null
+  return (await queryData(SITE_SETTINGS_QUERY, options, { tags: SITE_SETTINGS_QUERY_TAGS })) ?? null
 }

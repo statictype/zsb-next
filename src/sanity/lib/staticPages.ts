@@ -4,9 +4,13 @@ import type { FaqEntry } from '@/lib/seo'
 import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
 import {
   ABOUT_PAGE_QUERY,
+  ABOUT_PAGE_QUERY_TAGS,
   PARTNERS_PAGE_QUERY,
+  PARTNERS_PAGE_QUERY_TAGS,
   PRIVACY_PAGE_QUERY,
+  PRIVACY_PAGE_QUERY_TAGS,
   VISIT_PAGE_QUERY,
+  VISIT_PAGE_QUERY_TAGS,
 } from '@/sanity/lib/queries'
 import {
   type AboutView,
@@ -48,19 +52,19 @@ export interface VisitPageData {
 
 export async function getAboutPage(options: DynamicFetchOptions): Promise<AboutView | null> {
   'use cache'
-  const raw = await queryData(ABOUT_PAGE_QUERY, options)
+  const raw = await queryData(ABOUT_PAGE_QUERY, options, { tags: ABOUT_PAGE_QUERY_TAGS })
   return raw ? normalizeAbout(raw) : null
 }
 
 export async function getPartnersPage(options: DynamicFetchOptions): Promise<PartnersView | null> {
   'use cache'
-  const raw = await queryData(PARTNERS_PAGE_QUERY, options)
+  const raw = await queryData(PARTNERS_PAGE_QUERY, options, { tags: PARTNERS_PAGE_QUERY_TAGS })
   return raw ? normalizePartners(raw) : null
 }
 
 export async function getVisitPage(options: DynamicFetchOptions): Promise<VisitPageData | null> {
   'use cache'
-  const raw = await queryData(VISIT_PAGE_QUERY, options)
+  const raw = await queryData(VISIT_PAGE_QUERY, options, { tags: VISIT_PAGE_QUERY_TAGS })
   if (!raw) return null
   return {
     metaDescription: raw.metaDescription,
@@ -72,6 +76,6 @@ export async function getVisitPage(options: DynamicFetchOptions): Promise<VisitP
 
 export async function getPrivacyPage(options: DynamicFetchOptions): Promise<PrivacyView | null> {
   'use cache'
-  const raw = await queryData(PRIVACY_PAGE_QUERY, options)
+  const raw = await queryData(PRIVACY_PAGE_QUERY, options, { tags: PRIVACY_PAGE_QUERY_TAGS })
   return raw ? normalizePrivacy(raw) : null
 }

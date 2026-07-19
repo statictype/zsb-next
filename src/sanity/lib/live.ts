@@ -54,15 +54,27 @@ export async function getDynamicFetchOptions(): Promise<DynamicFetchOptions> {
  * editing in this app, so stega-encoded output is never wanted; `strict: true`
  * on `defineLive()` still requires the field on the underlying `sanityFetch`
  * call, so it's hardcoded here rather than threaded through our own options.
+ *
+ * `tags` (the query's co-located `_TAGS` list from `queries.ts`) are appended
+ * to the cache entry's `cacheTag()` call. Without them the entry carries only
+ * opaque per-query sync tags, which the revalidation webhook's type-level
+ * tags can never match — the webhook channel exists only through these.
  */
+export interface QueryExtras {
+  params?: QueryParams
+  tags?: string[]
+}
+
 export async function queryData<const QueryString extends string>(
   query: QueryString,
   options: DynamicFetchOptions,
-  params?: QueryParams,
+  extras: QueryExtras = {},
 ) {
+  const { params, tags } = extras
   const { data } = await sanityFetch({
     query,
     ...(params ? { params } : {}),
+    ...(tags ? { tags } : {}),
     perspective: options.perspective,
     stega: false,
   })
