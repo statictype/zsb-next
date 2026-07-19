@@ -4,14 +4,13 @@ import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { definedFields } from '@/lib/defined-fields'
 import type { EditionLead } from '@/lib/derive-editions'
 import { editionHref } from '@/lib/edition-href'
-import { deriveEventSlugs, mapEdition, mapEditionCard } from '@/sanity/lib/editions-mappers'
+import { mapEdition, mapEditionCard } from '@/sanity/lib/editions-mappers'
 import { type DynamicFetchOptions, PUBLISHED, queryData } from '@/sanity/lib/live'
 import {
   EDITION_BY_YEAR_QUERY,
   EDITION_CARDS_QUERY,
   EDITION_YEARS_QUERY,
   EDITIONS_LIST_QUERY,
-  EVENT_PATHS_QUERY,
   HERO_EDITION_QUERY,
   SITEMAP_QUERY,
   VISIT_EDITION_QUERY,
@@ -99,22 +98,6 @@ export async function getEditionCardsFromSanity(
   'use cache'
   const data = await queryData(EDITION_CARDS_QUERY, options)
   return (data ?? []).map(mapEditionCard)
-}
-
-/**
- * Every (year, slug) pair for every event across every edition, in one query —
- * the sparse projection behind `getAllEventParams`. Runs events through the
- * same `deriveEventSlugs` (ADR 0015) `mapEvents` uses, so an event without an
- * editor-set slug still resolves to its real, derived one rather than being
- * silently dropped. Published-only, same as `getEditionYearsFromSanity`:
- * static params don't preview drafts.
- */
-export async function getEventPathsFromSanity(): Promise<{ year: string; slug: string }[]> {
-  'use cache'
-  const data = await queryData(EVENT_PATHS_QUERY, PUBLISHED)
-  return (data ?? []).flatMap((entry) =>
-    deriveEventSlugs(entry.events ?? []).map((slug) => ({ year: String(entry.year), slug })),
-  )
 }
 
 /**

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { mapCredits, mapEdition, mapEvents } from '@/sanity/lib/editions-mappers'
+import { findEvent } from '@/types/edition'
 
 type RawEvents = Parameters<typeof mapEvents>[0]
 type RawCredits = Parameters<typeof mapCredits>[0]
@@ -193,5 +194,35 @@ describe('mapEdition', () => {
   it('defaults hasProgram to true for docs predating the field, honours an explicit false', () => {
     expect(mapEdition(rawEdition()).hasProgram).toBe(true)
     expect(mapEdition(rawEdition({ hasProgram: false })).hasProgram).toBe(false)
+  })
+})
+
+// The slugs `mapEvents` stamps are the only event identity — static params
+// enumerate them and `findEvent` resolves them, so the loop must close on the
+// same mapped objects (ADR 0015, D4).
+describe('event slug round trip — derive then resolve', () => {
+  const edition = mapEdition(
+    rawEdition({
+      events: events(
+        ev({ _key: 'a', slug: 'My Special Night!' }),
+        ev({ _key: 'b' }),
+        ev({ _key: 'c' }),
+        ev({ _key: 'd' }),
+      ),
+    }),
+  )
+
+  it('resolves an editor override slug back to its event', () => {
+    expect(findEvent(edition, 'my-special-night')?.key).toBe('a')
+  })
+
+  it('resolves -2/-3 deduped slugs back to distinct events', () => {
+    expect(findEvent(edition, '15-may-cfp-opening')?.key).toBe('b')
+    expect(findEvent(edition, '15-may-cfp-opening-2')?.key).toBe('c')
+    expect(findEvent(edition, '15-may-cfp-opening-3')?.key).toBe('d')
+  })
+
+  it('returns null for an unknown slug', () => {
+    expect(findEvent(edition, '15-may-cfp-opening-4')).toBeNull()
   })
 })

@@ -21,10 +21,7 @@ function dateSlugPart(iso: string): string {
   return token ? `${token.day}-${token.month.toLowerCase()}` : slugify(iso)
 }
 
-// The minimal shape slug derivation needs — satisfied by both the full
-// per-event query result (mapEvents) and `EVENT_PATHS_QUERY`'s sparse
-// projection (getEventPathsFromSanity), so both go through the one
-// implementation below.
+// The minimal shape slug derivation needs from a raw event.
 export interface EventSlugInput {
   slug?: string | null
   name: string
@@ -57,9 +54,9 @@ function uniqueEventSlugs(bases: string[]): string[] {
 /**
  * Every event's final slug, in order — editor override (slugified) first,
  * else the auto-derived one, deduped across the edition. The one
- * implementation of ADR 0015's slug rule; `mapEvents` and the static-params
- * sparse query (`getEventPathsFromSanity`) both call this rather than each
- * growing their own copy.
+ * implementation of ADR 0015's slug rule: `mapEvents` stamps its output onto
+ * the mapped events, and everything downstream (routes, static params,
+ * `findEvent`) reads the stamped slug rather than re-deriving.
  */
 export function deriveEventSlugs(events: EventSlugInput[]): string[] {
   return uniqueEventSlugs(events.map((e) => (e.slug ? slugify(e.slug) : deriveEventSlug(e))))
