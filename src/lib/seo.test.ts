@@ -49,6 +49,7 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
     themeHighlight: 'Ground',
     title: 'ZSB 2024 — Common Ground',
     heroImage: { src: 'https://cdn.example/hero.jpg', alt: 'hero' },
+    dateRange: '16 April – 11 May 2024',
     dateTape: '16 April – 11 May 2024 · Bucharest',
     dateStart: '2024-04-16',
     dateEnd: '2024-05-11',

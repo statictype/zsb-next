@@ -12,7 +12,14 @@ import type { Edition } from '@/types/edition'
 
 export type EditionCardData = Pick<
   Edition,
-  'year' | 'theme' | 'themeHighlight' | 'dateTape' | 'venueLine' | 'heroImage' | 'thumbImage'
+  | 'year'
+  | 'theme'
+  | 'themeHighlight'
+  | 'dateRange'
+  | 'dateTape'
+  | 'venueLine'
+  | 'heroImage'
+  | 'thumbImage'
 > & { href: string }
 
 /** Bound to the recipe's variants: renaming or removing a size there
@@ -28,9 +35,6 @@ interface EditionCardProps {
 
 export function EditionCard({ edition, href, size = 'md', className }: EditionCardProps) {
   const styles = editionCard({ size })
-  // `dateTape` composes "date · venue"; split off just the date and read
-  // `venueLine` directly for the venue, rather than re-parsing it back out.
-  const date = edition.dateTape.split(' · ')[0]
 
   return (
     <Card as={Link} href={href} ground="onDark" interactive className={cx(styles.root, className)}>
@@ -57,10 +61,10 @@ export function EditionCard({ edition, href, size = 'md', className }: EditionCa
           <Text variant="label">
             {edition.venueLine ? (
               <>
-                {date} · <span className={styles.venue}>{edition.venueLine}</span>
+                {edition.dateRange} · <span className={styles.venue}>{edition.venueLine}</span>
               </>
             ) : (
-              edition.dateTape
+              edition.dateRange
             )}
           </Text>
           <HStack as="span" className={styles.cta} aria-hidden>

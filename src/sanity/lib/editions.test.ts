@@ -191,6 +191,10 @@ describe('mapEdition', () => {
     expect(mapEdition(rawEdition({ venueLine: 'CFP' })).dateTape).toBe('10–20 May 2026 · CFP')
   })
 
+  it('stamps dateRange as the venue-less range face', () => {
+    expect(mapEdition(rawEdition({ venueLine: 'CFP' })).dateRange).toBe('10–20 May 2026')
+  })
+
   it('defaults hasProgram to true for docs predating the field, honours an explicit false', () => {
     expect(mapEdition(rawEdition()).hasProgram).toBe(true)
     expect(mapEdition(rawEdition({ hasProgram: false })).hasProgram).toBe(false)

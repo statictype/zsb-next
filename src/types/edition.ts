@@ -187,6 +187,9 @@ export interface Edition {
   // Optional editor-set meta description; falls back to the truncated manifesto
   // body in editionMetadata.
   metaDescription?: string
+  // The human date range ("10–20 September 2026"), no venue. `dateTape` is this
+  // range plus the venue line; the two faces have distinct consumers.
+  dateRange: string
   dateTape: string
   // Raw ISO dates + venue name, kept alongside the composed `dateTape` so
   // the Event JSON-LD can emit machine-readable startDate/endDate/location.

@@ -38,6 +38,17 @@ export function formatDateRange(startIso: string, endIso: string): string | unde
   return `${s.d} ${MONTHS[s.m - 1]} ${s.y} – ${e.d} ${MONTHS[e.m - 1]} ${e.y}`
 }
 
+// The human date range face — "10–20 September 2026". Empty string if the
+// dates are missing (only possible on a malformed doc — live editions require
+// them).
+export function composeDateRange(raw: {
+  dateStart?: string | null
+  dateEnd?: string | null
+}): string {
+  if (!raw.dateStart || !raw.dateEnd) return ''
+  return formatDateRange(raw.dateStart, raw.dateEnd) ?? ''
+}
+
 // Compose the hero date tape from the typed fields. The mapper owns the `·`
 // glyph so it stays consistent across editions. Empty string if the dates are
 // missing (only possible on a malformed doc — live editions require them).
@@ -46,8 +57,7 @@ export function composeDateTape(raw: {
   dateEnd?: string | null
   venueLine?: string | null
 }): string {
-  if (!raw.dateStart || !raw.dateEnd) return ''
-  const range = formatDateRange(raw.dateStart, raw.dateEnd)
+  const range = composeDateRange(raw)
   if (!range) return ''
   return raw.venueLine ? `${range} · ${raw.venueLine}` : range
 }

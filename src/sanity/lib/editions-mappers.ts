@@ -1,7 +1,7 @@
 import type { EDITION_BY_YEAR_QUERY_RESULT, EDITION_CARDS_QUERY_RESULT } from '@/../sanity.types'
 import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { definedFields } from '@/lib/defined-fields'
-import { composeDateTape, dayToken } from '@/lib/edition-dates'
+import { composeDateRange, composeDateTape, dayToken } from '@/lib/edition-dates'
 import { editionHref } from '@/lib/edition-href'
 import { slugify } from '@/lib/slugify'
 import { rollUpVenue } from '@/lib/venues'
@@ -133,6 +133,7 @@ export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): Edition
     href: editionHref(raw.year),
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
+    dateRange: composeDateRange(raw),
     dateTape: composeDateTape(raw),
     venueLine: raw.venueLine ?? '',
     heroImage: requireImageData(raw.heroImage, 'heroImage'),
@@ -151,6 +152,7 @@ export function mapEdition(raw: SanityEdition): Edition {
     title: raw.title ?? '',
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
+    dateRange: composeDateRange(raw),
     dateTape: composeDateTape(raw),
     dateStart: raw.dateStart ?? '',
     dateEnd: raw.dateEnd ?? '',
