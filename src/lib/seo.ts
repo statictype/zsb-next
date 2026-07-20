@@ -1,30 +1,17 @@
-import type { SanityImageSource } from '@sanity/image-url'
 import type { Metadata } from 'next'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
 import { editionHref } from '@/lib/edition-href'
-import { urlFor } from '@/sanity/lib/image'
+import { OG_IMAGE_SIZE } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
-import type { CalendarEvent, Edition, EditionJsonLd } from '@/types/edition'
+import type { CalendarEvent, Edition, EditionJsonLd, ShareImage } from '@/types/edition'
 
-// An editor-set image field from Sanity (image object with optional alt).
-type ShareImageSource = { asset?: unknown; alt?: string | null } | null | undefined
-
-// Resolve a Sanity share-image override to a 1200×630 OpenGraph image entry,
-// or undefined when the editor left it empty (so the page falls back to the
-// default branded card via the root opengraph-image route).
-function shareImages(source: ShareImageSource): NonNullable<Metadata['openGraph']>['images'] {
-  if (!source?.asset) return undefined
+// Wrap a mapped share image into an OpenGraph image entry, or undefined when
+// the page has none (so it falls back to the default branded card via the root
+// opengraph-image route).
+function shareImages(image: ShareImage | undefined): NonNullable<Metadata['openGraph']>['images'] {
+  if (!image) return undefined
   return [
-    {
-      url: urlFor(source as SanityImageSource)
-        .width(1200)
-        .height(630)
-        .fit('crop')
-        .url(),
-      width: 1200,
-      height: 630,
-      alt: (source.alt ?? undefined) || SITE_NAME,
-    },
+    { url: image.url, width: OG_IMAGE_SIZE.width, height: OG_IMAGE_SIZE.height, alt: image.alt },
   ]
 }
 
@@ -37,8 +24,8 @@ export function pageMetadata(args: {
    */
   description: string
   path: string
-  /** Optional editor-set custom share image (Sanity image field). */
-  shareImage?: ShareImageSource
+  /** Optional editor-set custom share image, already mapped to the OG crop. */
+  shareImage?: ShareImage | undefined
 }): Metadata {
   const images = shareImages(args.shareImage)
   const description = args.description
@@ -65,7 +52,7 @@ export function pageMetadata(args: {
 // carries at least these can back a generateMetadata.
 interface PageMetaFields {
   metaDescription?: string | null
-  ogImage?: ShareImageSource
+  ogImage?: ShareImage | undefined
 }
 
 interface MakePageMetadataConfig {

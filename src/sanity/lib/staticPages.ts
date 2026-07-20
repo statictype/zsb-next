@@ -1,6 +1,8 @@
 import 'server-only'
 
+import { definedFields } from '@/lib/defined-fields'
 import type { FaqEntry } from '@/lib/seo'
+import { toShareImage } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
 import {
   ABOUT_PAGE_QUERY,
@@ -23,7 +25,7 @@ import {
   type PrivacyView,
   type VisitPage,
 } from '@/sanity/lib/staticPages-mappers'
-import type { VisitData } from '@/types/edition'
+import type { ShareImage, VisitData } from '@/types/edition'
 
 export type { AboutView, PartnersView, PrivacyView } from '@/sanity/lib/staticPages-mappers'
 
@@ -32,7 +34,7 @@ export type { AboutView, PartnersView, PrivacyView } from '@/sanity/lib/staticPa
  *  the singleton can still back `generateMetadata` (ZSB-66). */
 export interface VisitPageData {
   metaDescription: VisitPage['metaDescription']
-  ogImage: VisitPage['ogImage']
+  ogImage?: ShareImage
   section: VisitData
   faq: FaqEntry[]
 }
@@ -68,9 +70,9 @@ export async function getVisitPage(options: DynamicFetchOptions): Promise<VisitP
   if (!raw) return null
   return {
     metaDescription: raw.metaDescription,
-    ogImage: raw.ogImage,
     section: mapVisit(raw),
     faq: buildFaq(raw),
+    ...definedFields({ ogImage: toShareImage(raw.ogImage) }),
   }
 }
 

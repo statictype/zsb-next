@@ -1,6 +1,7 @@
 import { createImageUrlBuilder, type SanityImageSource } from '@sanity/image-url'
+import { SITE_NAME } from '@/lib/constants'
 import { dataset, projectId } from '@/sanity/env'
-import type { ImageData } from '@/types/edition'
+import type { ImageData, ShareImage } from '@/types/edition'
 
 const builder = createImageUrlBuilder({ projectId, dataset })
 
@@ -44,6 +45,27 @@ export function toImageData(field: SanityImageField | null | undefined): ImageDa
     src: urlFor(field as SanityImageSource).url(),
     alt: field.alt ?? '',
     ...(field.lqip ? { blurDataURL: field.lqip } : {}),
+  }
+}
+
+// The OpenGraph card dimensions every share image is cropped to.
+export const OG_IMAGE_SIZE = { width: 1200, height: 630 } as const
+
+/**
+ * Resolve a raw Sanity image field to a finished {@link ShareImage} — the
+ * 1200×630 OG crop baked into the URL — or `undefined` when the asset is
+ * absent (the page then falls back to the branded opengraph-image card). The
+ * alt coalesces to the site name so consumers never re-describe the fallback.
+ */
+export function toShareImage(field: SanityImageField | null | undefined): ShareImage | undefined {
+  if (!field?.asset) return undefined
+  return {
+    url: urlFor(field as SanityImageSource)
+      .width(OG_IMAGE_SIZE.width)
+      .height(OG_IMAGE_SIZE.height)
+      .fit('crop')
+      .url(),
+    alt: (field.alt ?? undefined) || SITE_NAME,
   }
 }
 

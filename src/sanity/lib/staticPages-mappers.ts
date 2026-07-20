@@ -8,12 +8,13 @@ import { SITE_NAME } from '@/lib/constants'
 import { definedFields } from '@/lib/defined-fields'
 import type { FaqEntry } from '@/lib/seo'
 import { mapCarousel } from '@/sanity/lib/carousel'
-import { toImageData } from '@/sanity/lib/image'
+import { toImageData, toShareImage } from '@/sanity/lib/image'
 import type {
   Amenity,
   CarouselSlide,
   IconKey,
   ImageData,
+  ShareImage,
   TransportRoute,
   VisitData,
 } from '@/types/edition'
@@ -40,7 +41,7 @@ export interface AboutView {
   placeImage?: ImageData
   curatorPortrait?: ImageData
   carousel?: CarouselSlide[]
-  ogImage?: NonNullable<AboutPageRaw['ogImage']>
+  ogImage?: ShareImage
   metaDescription?: string
 }
 type PartnersPageRaw = NonNullable<PARTNERS_PAGE_QUERY_RESULT>
@@ -58,7 +59,7 @@ export interface PartnersView {
   ctaLabel: string
   eventImage?: ImageData
   whyImage?: ImageData
-  ogImage?: NonNullable<PartnersPageRaw['ogImage']>
+  ogImage?: ShareImage
   metaDescription?: string
 }
 export type VisitPage = NonNullable<VISIT_PAGE_QUERY_RESULT>
@@ -69,7 +70,7 @@ export interface PrivacyView {
   hero: { title: string; titleAccent: string; lead: string }
   body: NonNullable<PrivacyPageRaw['body']>
   updatedAt: string
-  ogImage?: NonNullable<PrivacyPageRaw['ogImage']>
+  ogImage?: ShareImage
   metaDescription?: string
 }
 
@@ -100,7 +101,7 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
       placeImage: toImageData(raw.placeImage),
       curatorPortrait: toImageData(raw.curatorPortrait),
       carousel: mapCarousel(raw.carousel),
-      ogImage: raw.ogImage,
+      ogImage: toShareImage(raw.ogImage),
       metaDescription: raw.metaDescription,
     }),
   }
@@ -126,7 +127,7 @@ export function normalizePartners(raw: PartnersPageRaw): PartnersView {
     ...definedFields({
       eventImage: toImageData(raw.eventImage),
       whyImage: toImageData(raw.whyImage),
-      ogImage: raw.ogImage,
+      ogImage: toShareImage(raw.ogImage),
       metaDescription: raw.metaDescription,
     }),
   }
@@ -143,7 +144,7 @@ export function normalizePrivacy(raw: PrivacyPageRaw): PrivacyView {
     body: raw.body ?? [],
     updatedAt: raw.updatedAt ?? '',
     ...definedFields({
-      ogImage: raw.ogImage,
+      ogImage: toShareImage(raw.ogImage),
       metaDescription: raw.metaDescription,
     }),
   }

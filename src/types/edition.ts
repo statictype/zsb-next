@@ -8,6 +8,14 @@ export interface ImageData {
   blurDataURL?: string
 }
 
+// A finished OpenGraph share image: the pre-built 1200×630 crop URL plus its
+// alt. Distinct from ImageData because the crop is baked at map time — the
+// domain type carries a ready URL, not a Sanity source to size at the boundary.
+export interface ShareImage {
+  url: string
+  alt: string
+}
+
 // A homepage slideshow image: an ImageData plus where to anchor it in frame.
 export interface HeroImage extends ImageData {
   /** CSS object-position value, e.g. "top", "center", "bottom" */
