@@ -18,7 +18,7 @@ function sizesFor(layout: CarouselLayout, imgIndex: number): string {
 
 export function GalleryCarousel({ slides, eyebrow }: { slides: GallerySlide[]; eyebrow: string }) {
   const lightboxImages = slides.flatMap((slide) =>
-    slide.images.map((image) => ({ src: image.image.src, caption: image.caption })),
+    slide.images.map((image) => ({ image: image.image, caption: image.caption })),
   )
   const styles = galleryCarousel()
   const slideOffsets = slides.map((_, slideIndex) =>

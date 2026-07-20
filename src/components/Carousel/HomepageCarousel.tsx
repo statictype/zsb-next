@@ -21,7 +21,7 @@ export function HomepageCarousel({
       mode="stage"
       autoplay={interval}
       loop
-      lightboxImages={images.map((image) => ({ src: image.src }))}
+      lightboxImages={images.map((image) => ({ image }))}
       slides={(openLightbox) =>
         images.map((image, index) => ({
           id: `homepage-${index}`,

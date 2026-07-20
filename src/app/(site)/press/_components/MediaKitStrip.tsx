@@ -22,7 +22,7 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
       loop={false}
       eyebrow="Media"
       lightboxImages={items.map((item) => ({
-        src: item.image.src,
+        image: item.image,
         caption: `${item.year} · ${item.name}`,
       }))}
       slides={(openLightbox) =>
