@@ -5,9 +5,9 @@ import { describe, expect, it } from 'vitest'
 import { Lightbox, type LightboxImage } from '@/components/Lightbox/Lightbox'
 
 const images: LightboxImage[] = [
-  { src: 'https://example.com/a.jpg', caption: 'Alpha' },
-  { src: 'https://example.com/b.jpg', caption: 'Beta' },
-  { src: 'https://example.com/c.jpg', caption: 'Gamma' },
+  { image: { src: 'https://example.com/a.jpg', alt: 'Alpha' }, caption: 'Alpha' },
+  { image: { src: 'https://example.com/b.jpg', alt: 'Beta' }, caption: 'Beta' },
+  { image: { src: 'https://example.com/c.jpg', alt: 'Gamma' }, caption: 'Gamma' },
 ]
 
 function Harness() {

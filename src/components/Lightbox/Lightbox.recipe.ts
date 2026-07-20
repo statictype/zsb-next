@@ -1,21 +1,20 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Lightbox — co-located slot recipe.
- *
- * Full-screen image viewer with swipe/drag. The close + prev/next adopt the
- * `<Button variant="icon">` (white→action); their positioning and per-control
- * motion (close rotates, arrows use the icon variant's own lift) layer on via
- * the slot classes. The backdrop alpha + drag transform stay inline
- * (request-driven).
- * Bracketed values are viewer geometry: letterbox columns, viewport frames,
- * chrome offsets.
- *
- * Dialog owns modal state and the full-screen shell; this recipe owns only the
- * image-viewer layout, controls, and gesture feedback.
- */
+// Full-screen image viewer: layout, controls, and gesture feedback. Dialog owns
+// the modal state and shell; the backdrop alpha + drag transform stay inline.
 export const lightbox = sva({
-  slots: ['lightbox', 'frame', 'image', 'close', 'caption', 'nav', 'preload', 'preloadFrame'],
+  slots: [
+    'lightbox',
+    'frame',
+    'image',
+    'close',
+    'caption',
+    'nav',
+    'navPrev',
+    'navNext',
+    'preload',
+    'preloadFrame',
+  ],
   base: {
     lightbox: {
       position: 'relative',
@@ -29,7 +28,6 @@ export const lightbox = sva({
       cursor: 'zoom-out',
       touchAction: 'none',
       overscrollBehavior: 'contain',
-      // Letterbox columns: each nav arrow owns one full column beside the frame.
       md: {
         gridTemplateColumns:
           'token(sizes.lightboxNavColumn) minmax(0, 1fr) token(sizes.lightboxNavColumn)',
@@ -40,23 +38,15 @@ export const lightbox = sva({
       width: 'lightboxFrameWidth',
       height: '[85vh]',
       willChange: 'transform, opacity',
-      // Fills the grid's center track, clear of the two nav columns.
       md: { gridColumn: '2', width: 'full', height: '[90vh]' },
     },
-    // Drag prevention comes from the Image's `draggable={false}` attribute.
     image: {
       objectFit: 'contain',
       transition: 'develop',
       userSelect: 'none',
     },
 
-    // Positioned over the dark backdrop; Button supplies size + white→action.
-    // zIndex is local to the lightbox root's stacking context (the whole
-    // viewer already sits at the global `lightbox` layer via Dialog) — it
-    // sits above the arrows (`nav`) so a near-miss between the two always
-    // resolves to close, never a navigation.
-    // Sized to the WCAG touch target directly — Button's own centering keeps
-    // the visible icon centered as the box grows past its default hitTarget.
+    // zIndex above the arrows (`nav`) so a near-miss resolves to close, not nav.
     close: {
       position: 'absolute',
       top: 'md',
@@ -67,8 +57,6 @@ export const lightbox = sva({
       _hover: { transform: 'rotate(90deg)' },
       md: { top: 'lg', right: 'lg' },
     },
-    // Type is the shared `Eyebrow` recipe (body/xs/uppercase/wide/muted),
-    // applied at the call site; the slot owns only placement.
     caption: {
       position: 'absolute',
       bottom: 'lg',
@@ -76,20 +64,17 @@ export const lightbox = sva({
       transform: 'translateX(-50%)',
       pointerEvents: 'none',
     },
-    // Arrows: desktop-only, each owns a generous but bounded vertical click
-    // zone (`lightboxNavHit`) — its letterbox grid column centers it on the
-    // frame via the root's `placeItems: center`. Column (1 or 3) is set per-
-    // arrow at the call site; the hover lift is Button's own `icon` variant.
     nav: {
       width: 'lightboxNavColumn',
       height: 'lightboxNavHit',
       zIndex: '10',
       display: 'none',
-      // Explicit row: auto-placement has already moved the cursor past the
-      // frame (column 2), so a column-only arrow would be bumped to an
-      // implicit row 2 and clipped below the dialog.
+      // Explicit row: auto-placement has moved past the frame (column 2), so a
+      // column-only arrow lands on an implicit row 2, clipped below the dialog.
       md: { display: 'inline-flex', gridRow: '1' },
     },
+    navPrev: { gridColumn: '1' },
+    navNext: { gridColumn: '3' },
 
     // Off-screen N±1 prefetch of optimized variants.
     preload: {

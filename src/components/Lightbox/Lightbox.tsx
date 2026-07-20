@@ -3,32 +3,29 @@
 import { RiArrowLeftLine, RiArrowRightLine, RiCloseLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { css, cx } from 'styled-system/css'
+import { cx } from 'styled-system/css'
 import { token } from 'styled-system/tokens'
+import { Figure } from '@/components/Figure/Figure'
 import { lightbox as lightboxRecipe } from '@/components/Lightbox/Lightbox.recipe'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
-import { skeleton } from '@/components/skeleton'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
+import type { ImageData } from '@/types/edition'
 
 export interface LightboxImage {
-  src: string
+  image: ImageData
   caption?: string
 }
 
-// Mirrors `Lightbox.recipe.ts`'s frame geometry (`lightboxFrameWidth` and the
-// grid's center track) so the browser's image selection agrees with the
-// frame's actual rendered width.
+// Must match the recipe's frame geometry so the browser picks a variant sized
+// to the actual rendered width.
 const SIZES = `(min-width: ${token('sizes.breakpoint-md')}) ${token('sizes.lightboxFrameMax')}, ${token('sizes.lightboxFrameWidth')}`
 
 interface LightboxProps {
   images: LightboxImage[]
-  /** Flat index of the open image; `null` renders the lightbox closed. */
   index: number | null
   onClose: () => void
-  /** Fully controlled: arrows, arrow keys and swipes emit the wrapped-around
-   *  target index here — the math stays inside, callers just store it. */
   onIndexChange: (index: number) => void
 }
 
@@ -45,26 +42,19 @@ const SWIPE_NAV_THRESHOLD_RATIO = 0.2
 const SWIPE_NAV_MAX = 80
 const SWIPE_CLOSE_THRESHOLD_RATIO = 0.25
 const SWIPE_CLOSE_MAX = 150
-// Vertical drag distance (px) over which the backdrop/image fully fades
-// while dragging down to dismiss.
 const VERTICAL_FADE_DISTANCE = 300
 
-/** The one copy of the wrap-around math — arrows, arrow keys, swipe and the
- *  preload window all step through here. */
 function stepIndex(index: number, dir: 1 | -1, count: number): number {
   return (index + dir + count) % count
 }
 
 export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProps) {
-  const [loadedSrc, setLoadedSrc] = useState<string | null>(null)
   const [drag, setDrag] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const dragRef = useRef<DragState | null>(null)
 
   const isOpen = index !== null
-  // Remember the last open index (the store-previous-render-info pattern from
-  // the useState docs) so the Dialog's exit transition keeps showing the image
-  // that was open instead of snapping elsewhere once index goes null.
+  // Keep the exit transition on the image that was open once index goes null.
   const [lastIndex, setLastIndex] = useState(0)
   if (index !== null && index !== lastIndex) setLastIndex(index)
   const displayIndex = index ?? lastIndex
@@ -76,8 +66,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
     if (index !== null) onIndexChange(stepIndex(index, -1, images.length))
   }
 
-  // Derives the key handlers from `index` directly instead of closing over
-  // onNext/onPrev — render-scoped functions in the dep array would re-arm the
+  // Depend on `index`, not onNext/onPrev — render-scoped fns would re-arm the
   // listener every render.
   const count = images.length
   useEffect(() => {
@@ -98,14 +87,12 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
   if (!current) return null
   const caption = current.caption ?? ''
 
-  const loaded = loadedSrc === current.src
-
   const prevIndex = stepIndex(displayIndex, -1, images.length)
   const nextIndex = stepIndex(displayIndex, 1, images.length)
   const preloadSrcs = Array.from(
     new Set(
-      [images[prevIndex]?.src, images[nextIndex]?.src].filter(
-        (s): s is string => !!s && s !== current.src,
+      [images[prevIndex]?.image.src, images[nextIndex]?.image.src].filter(
+        (s): s is string => !!s && s !== current.image.src,
       ),
     ),
   )
@@ -140,7 +127,6 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
     if (d.axis === 'h') {
       setDrag({ x: d.dx, y: 0 })
     } else {
-      // Vertical: only downward drag translates; up clamps to 0
       setDrag({ x: 0, y: Math.max(0, d.dy) })
     }
   }
@@ -201,16 +187,11 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
 
         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- frame letterbox click closes; the close Button is the accessible path */}
         <div className={s.frame} style={frameStyle} onClick={onClose}>
-          {!loaded && <span aria-hidden className={skeleton} />}
-          <Image
-            key={current.src}
-            src={current.src}
-            alt={caption}
-            fill
+          <Figure
+            key={current.image.src}
+            image={current.image}
             sizes={SIZES}
             className={s.image}
-            style={{ opacity: loaded ? 1 : 0 }}
-            onLoad={() => setLoadedSrc(current.src)}
             onClick={stop}
             draggable={false}
           />
@@ -222,7 +203,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
           <>
             <Button
               variant="icon"
-              className={cx(s.nav, css({ gridColumn: '1' }))}
+              className={cx(s.nav, s.navPrev)}
               onClick={(e) => {
                 e.stopPropagation()
                 onPrev()
@@ -233,7 +214,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
             </Button>
             <Button
               variant="icon"
-              className={cx(s.nav, css({ gridColumn: '3' }))}
+              className={cx(s.nav, s.navNext)}
               onClick={(e) => {
                 e.stopPropagation()
                 onNext()
