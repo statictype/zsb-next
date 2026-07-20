@@ -4,7 +4,7 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
 import { editionHref } from '@/lib/edition-href'
 import { urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
-import type { CalendarEvent, Edition } from '@/types/edition'
+import type { CalendarEvent, Edition, EditionJsonLd } from '@/types/edition'
 
 // An editor-set image field from Sanity (image object with optional alt).
 type ShareImageSource = { asset?: unknown; alt?: string | null } | null | undefined
@@ -151,7 +151,7 @@ export function eventMetadata(year: number, event: CalendarEvent): Metadata {
   }
 }
 
-export function editionEventJsonLd(edition: Edition) {
+export function editionEventJsonLd(edition: EditionJsonLd) {
   const theme = edition.theme
   const start = edition.dateStart
   const end = edition.dateEnd
