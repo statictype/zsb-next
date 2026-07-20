@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { rollUpVenue } from '@/lib/venues'
-import type { CalendarEvent, Edition } from '@/types/edition'
+import type { CalendarEvent, Edition, EditionJsonLd } from '@/types/edition'
 
 // seo.ts imports the live data layer at module load; defineLive() throws
 // outside React Server Components, and the functions under test are pure and
@@ -67,9 +67,29 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
   }
 }
 
+// editionEventJsonLd reads only the EditionJsonLd slice, so its fixture
+// constructs only those fields — never a whole Edition.
+function makeEditionJsonLd(overrides: Partial<EditionJsonLd> = {}): EditionJsonLd {
+  return {
+    year: 2024,
+    theme: 'Common Ground',
+    dateStart: '2024-04-16',
+    dateEnd: '2024-05-11',
+    venueLine: 'Combinatul Fondului Plastic',
+    heroImage: { src: 'https://cdn.example/hero.jpg', alt: 'hero' },
+    manifesto: { title: 'A title', highlight: 'title', body: 'The manifesto body.' },
+    artists: [
+      { _id: 'artist-1', name: 'Mircea Roman' },
+      { _id: 'artist-2', name: 'Ana Rus' },
+    ],
+    events: [event('Combinatul Fondului Plastic'), event('Partner Venues')],
+    ...overrides,
+  }
+}
+
 describe('editionEventJsonLd', () => {
   it('emits a schema.org Event with the core fields', () => {
-    const ld = editionEventJsonLd(makeEdition())
+    const ld = editionEventJsonLd(makeEditionJsonLd())
     expect(ld['@type']).toBe('Event')
     expect(ld.name).toBe('Bucharest Sculpture Days 2024 — Common Ground')
     expect(ld.startDate).toBe('2024-04-16')
@@ -79,7 +99,7 @@ describe('editionEventJsonLd', () => {
   })
 
   it('maps artists to performers', () => {
-    const ld = editionEventJsonLd(makeEdition())
+    const ld = editionEventJsonLd(makeEditionJsonLd())
     expect(ld.performer).toEqual([
       { '@type': 'Person', name: 'Mircea Roman' },
       { '@type': 'Person', name: 'Ana Rus' },
@@ -88,7 +108,7 @@ describe('editionEventJsonLd', () => {
 
   it('emits one distinct Place per top-level venue, as an array when multi-site', () => {
     const ld = editionEventJsonLd(
-      makeEdition({
+      makeEditionJsonLd({
         // Two events roll up to CFP (one directly, one via a sub-venue), one to
         // a partner venue → two distinct Places.
         events: [
@@ -106,22 +126,22 @@ describe('editionEventJsonLd', () => {
   })
 
   it('uses a single Place object when there is one location', () => {
-    const ld = editionEventJsonLd(makeEdition({ events: [event('Sole Venue')] }))
+    const ld = editionEventJsonLd(makeEditionJsonLd({ events: [event('Sole Venue')] }))
     expect(Array.isArray(ld.location)).toBe(false)
     expect((ld.location as { '@type': string; name: string })['@type']).toBe('Place')
     expect((ld.location as { name: string }).name).toBe('Sole Venue')
   })
 
   it('falls back to venueLine then "Bucharest" when no events are authored', () => {
-    const fromLine = editionEventJsonLd(makeEdition({ events: [], venueLine: 'Some Hall' }))
+    const fromLine = editionEventJsonLd(makeEditionJsonLd({ events: [], venueLine: 'Some Hall' }))
     expect((fromLine.location as { name: string }).name).toBe('Some Hall')
 
-    const fallback = editionEventJsonLd(makeEdition({ events: [], venueLine: '' }))
+    const fallback = editionEventJsonLd(makeEditionJsonLd({ events: [], venueLine: '' }))
     expect((fallback.location as { name: string }).name).toBe('Bucharest')
   })
 
   it('omits start/end dates when they are empty', () => {
-    const ld = editionEventJsonLd(makeEdition({ dateStart: '', dateEnd: '' }))
+    const ld = editionEventJsonLd(makeEditionJsonLd({ dateStart: '', dateEnd: '' }))
     expect(ld).not.toHaveProperty('startDate')
     expect(ld).not.toHaveProperty('endDate')
   })

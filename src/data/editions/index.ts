@@ -74,13 +74,7 @@ export async function getVisitEdition(
 }
 
 /** The upcoming edition the home hero leads with (ZSB-44), once auto-derived. */
-export interface UpcomingHero {
-  year: number
-  theme: string
-  themeHighlight: string
-  /** Composed human date string, e.g. "10–20 September 2026". */
-  dateTape: string
-}
+export type UpcomingHero = Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'dateTape'>
 
 /**
  * The upcoming edition the home hero should lead with (ZSB-44) — returned only

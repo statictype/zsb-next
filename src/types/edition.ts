@@ -217,6 +217,27 @@ export function findEvent(edition: Edition | undefined, slug: string): CalendarE
   return edition?.events?.find((e) => e.slug === slug) ?? null
 }
 
+/**
+ * The edition-level Event structured data (`editionEventJsonLd`) reads only
+ * these fields. Pick-bound as a real function-parameter boundary: the JSON-LD
+ * builder can't reach past its slice, its test fixture constructs only these
+ * fields, and renaming an `Edition` field breaks it at compile time. One
+ * fetch/mapping pass still produces the full `Edition`, which satisfies this
+ * slice structurally.
+ */
+export type EditionJsonLd = Pick<
+  Edition,
+  | 'year'
+  | 'theme'
+  | 'dateStart'
+  | 'dateEnd'
+  | 'venueLine'
+  | 'heroImage'
+  | 'manifesto'
+  | 'artists'
+  | 'events'
+>
+
 // ---- Visit page ----
 
 // Closed icon set an editor can pick per amenity, mirrored from the amenity
