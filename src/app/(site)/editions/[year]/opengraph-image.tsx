@@ -39,7 +39,7 @@ export default async function Image({ params }: { params: Promise<{ year: string
   const [fonts, logo] = await Promise.all([loadOgFonts(), loadOgLogo(BRAND.heading)])
   // Fold diacritics — the OG fonts are basic-Latin subsets (see asciiFold).
   const theme = asciiFold(edition?.theme ?? '')
-  const dates = asciiFold(edition?.dateTape.split(' · ')[0] ?? '')
+  const dates = asciiFold(edition?.dateRange ?? '')
   const hero = edition?.heroImage.src
 
   return new ImageResponse(
