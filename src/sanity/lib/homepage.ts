@@ -2,10 +2,10 @@ import 'server-only'
 
 import type { HOMEPAGE_QUERY_RESULT } from '@/../sanity.types'
 import { definedFields } from '@/lib/defined-fields'
-import { urlFor } from '@/sanity/lib/image'
+import { toShareImage, urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
 import { HOMEPAGE_QUERY, HOMEPAGE_QUERY_TAGS } from '@/sanity/lib/queries'
-import type { HeroImage } from '@/types/edition'
+import type { HeroImage, ShareImage } from '@/types/edition'
 
 type RawHomepage = NonNullable<HOMEPAGE_QUERY_RESULT>
 
@@ -19,7 +19,7 @@ export interface HomeView {
   heroCtaEditionYear?: number
   editionsIntro: string
   slideshow: HeroImage[]
-  ogImage?: NonNullable<RawHomepage['ogImage']>
+  ogImage?: ShareImage
   metaDescription?: string
 }
 
@@ -59,7 +59,7 @@ function normalizeHomepage(raw: RawHomepage): HomeView {
     slideshow: mapSlideshow(raw.slideshow),
     ...definedFields({
       heroCtaEditionYear: raw.heroCtaEditionYear,
-      ogImage: raw.ogImage,
+      ogImage: toShareImage(raw.ogImage),
       metaDescription: raw.metaDescription,
     }),
   }
