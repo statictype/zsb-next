@@ -40,9 +40,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // SITEMAP_QUERY.editions is already status-filtered (`== "live"`), the
   // same gate as the edition page — the sitemap never advertises a year that
   // would 404 while an announced edition exists between editions.
-  const editions = meta?.editions ?? []
+  const editions = meta.editions
   const editionUpdatedByYear = new Map(editions.map((e) => [String(e.year), e._updatedAt]))
-  const pageUpdatedById = new Map(meta?.pages.map((p) => [p._id, p._updatedAt]) ?? [])
+  const pageUpdatedById = new Map(meta.pages.map((p) => [p._id, p._updatedAt]))
   const updatedAt = (id: string) => lastMod(pageUpdatedById.get(id))
 
   const editionEntries = editions.map((e) =>
@@ -63,7 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // The two index pages date themselves by their freshest member.
   const editionsListLastMod = newest(editions.map((e) => e._updatedAt))
-  const artistsLastMod = lastMod(meta?.lastArtistUpdate)
+  const artistsLastMod = lastMod(meta.lastArtistUpdate)
 
   return [
     entry('/', updatedAt('homepage'), 'monthly', 1),

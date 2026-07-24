@@ -95,7 +95,7 @@ export function VisitSection(props: VisitData = {}) {
               <Divider />
               <Wrap gap="md">
                 {amenities.map((item) => {
-                  const Icon = ICONS[item.icon] ?? RiMapPinLine
+                  const Icon = ICONS[item.icon]
                   return (
                     <HStack key={item.label}>
                       <Icon size={16} />

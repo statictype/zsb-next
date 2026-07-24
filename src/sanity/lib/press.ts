@@ -29,15 +29,12 @@ export async function getPressAppearances(
   options: DynamicFetchOptions,
 ): Promise<PressAppearance[]> {
   'use cache'
-  return (
-    (await queryData(PRESS_APPEARANCES_QUERY, options, { tags: PRESS_APPEARANCES_QUERY_TAGS })) ??
-    []
-  )
+  return await queryData(PRESS_APPEARANCES_QUERY, options, { tags: PRESS_APPEARANCES_QUERY_TAGS })
 }
 
 export async function getPressReleases(options: DynamicFetchOptions): Promise<PressRelease[]> {
   'use cache'
-  return (await queryData(PRESS_RELEASES_QUERY, options, { tags: PRESS_RELEASES_QUERY_TAGS })) ?? []
+  return await queryData(PRESS_RELEASES_QUERY, options, { tags: PRESS_RELEASES_QUERY_TAGS })
 }
 
 /**
@@ -49,8 +46,8 @@ export async function getEditionsPressKit(
   options: DynamicFetchOptions,
 ): Promise<MediaKitStripItem[]> {
   'use cache'
-  const editions =
-    (await queryData(EDITIONS_PRESS_KIT_QUERY, options, { tags: EDITIONS_PRESS_KIT_QUERY_TAGS })) ??
-    []
+  const editions = await queryData(EDITIONS_PRESS_KIT_QUERY, options, {
+    tags: EDITIONS_PRESS_KIT_QUERY_TAGS,
+  })
   return flattenKit(editions)
 }

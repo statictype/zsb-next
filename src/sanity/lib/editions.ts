@@ -100,7 +100,7 @@ export interface EditionYearRow {
  */
 export async function getEditionYearsFromSanity(): Promise<EditionYearRow[]> {
   'use cache'
-  return (await queryData(EDITION_YEARS_QUERY, PUBLISHED, { tags: EDITION_YEARS_QUERY_TAGS })) ?? []
+  return await queryData(EDITION_YEARS_QUERY, PUBLISHED, { tags: EDITION_YEARS_QUERY_TAGS })
 }
 
 /**
@@ -113,7 +113,7 @@ export async function getEditionCardsFromSanity(
 ): Promise<EditionCardData[]> {
   'use cache'
   const data = await queryData(EDITION_CARDS_QUERY, options, { tags: EDITION_CARDS_QUERY_TAGS })
-  return (data ?? []).map(mapEditionCard)
+  return data.map(mapEditionCard)
 }
 
 /**
@@ -136,7 +136,7 @@ export async function getEditionsListFromSanity(
 ): Promise<EditionListItem[]> {
   'use cache'
   const data = await queryData(EDITIONS_LIST_QUERY, options, { tags: EDITIONS_LIST_QUERY_TAGS })
-  return (data ?? []).flatMap((entry) => {
+  return data.flatMap((entry) => {
     if (!entry.year || !entry.theme) return []
     const status = entry.status === 'live' ? ('live' as const) : ('announced' as const)
     return [

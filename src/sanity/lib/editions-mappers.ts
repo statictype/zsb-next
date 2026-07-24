@@ -98,7 +98,7 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
   const out: CreditEntry[] = []
   if (!rows) return out
   for (const row of rows) {
-    if (row._type === 'creditOrg' && row.organization) {
+    if (row._type === 'creditOrg') {
       const org = row.organization
       const logo = toImageData(org.logo)
       const base = definedFields({
@@ -108,14 +108,14 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
         detail: row.detail,
       })
       out.push(logo ? { ...base, logo: logo.src, logoAlt: logo.alt } : { ...base })
-    } else if (row._type === 'creditOrgList' && row.organizations) {
+    } else if (row._type === 'creditOrgList') {
       out.push({
         type: row.type,
         label: row.label,
         value: row.organizations.map((o) => o.name).join('\n'),
       })
-    } else if (row._type === 'creditText') {
-      const names = row.names?.filter((n): n is string => Boolean(n?.trim())) ?? []
+    } else {
+      const names = row.names.filter((n) => n.trim() !== '')
       out.push({ type: row.type, label: row.label, value: names.join('\n') })
     }
   }

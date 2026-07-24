@@ -28,11 +28,11 @@ export interface HomeView {
 function mapSlideshow(slides: RawHomepage['slideshow']): HeroImage[] {
   const out: HeroImage[] = []
   for (const slide of slides ?? []) {
-    if (!slide.image?.asset) continue
+    if (!slide.image.asset) continue
     out.push({
       src: urlFor(slide.image).url(),
       alt: slide.image.alt ?? '',
-      position: slide.position ?? 'center',
+      position: slide.position,
       ...(slide.image.lqip ? { blurDataURL: slide.image.lqip } : {}),
     })
   }

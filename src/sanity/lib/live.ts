@@ -39,7 +39,7 @@ export async function getDynamicFetchOptions(): Promise<DynamicFetchOptions> {
   }
   const jar = await cookies()
   const perspective = await resolvePerspectiveFromCookies({ cookies: jar })
-  return { perspective: perspective ?? 'drafts' }
+  return { perspective }
 }
 
 /**

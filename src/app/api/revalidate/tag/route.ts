@@ -74,9 +74,9 @@ async function warmAffectedPages(origin: string, tags: string[]) {
   try {
     const paths = ['/', '/visit', '/editions']
     if (tags.some((tag) => tag === 'edition' || tag.startsWith('edition:'))) {
-      const rows = (await client.fetch(EDITION_YEARS_QUERY)) ?? []
+      const rows = await client.fetch(EDITION_YEARS_QUERY)
       for (const row of rows) {
-        if (row.year !== null && row.status === 'live') paths.push(editionHref(row.year))
+        if (row.status === 'live') paths.push(editionHref(row.year))
       }
     }
     await Promise.allSettled(

@@ -87,7 +87,7 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
     // Drafts bypass required-field validation, so strings can be missing even
     // where TypeGen marks them non-null — coalesce defensively.
     manifestoBody: raw.manifestoBody ?? '',
-    pillars: (raw.pillars ?? []).map((p) => ({ label: p.label ?? '', body: p.body ?? '' })),
+    pillars: (raw.pillars ?? []).map((p) => ({ label: p.label, body: p.body })),
     carouselEyebrow: raw.carouselEyebrow ?? 'Gallery',
     curatorEyebrow: raw.curatorEyebrow ?? '',
     curatorHeadline: raw.curatorHeadline ?? '',
@@ -119,7 +119,7 @@ export function normalizePartners(raw: PartnersPageRaw): PartnersView {
     eventBody: (raw.eventBody ?? []).filter(Boolean),
     whyEyebrow: raw.whyEyebrow ?? '',
     whyTitle: raw.whyTitle ?? '',
-    whyPoints: (raw.whyPoints ?? []).map((p) => ({ title: p.title ?? '', text: p.text ?? '' })),
+    whyPoints: (raw.whyPoints ?? []).map((p) => ({ title: p.title, text: p.text })),
     ctaHeading: raw.ctaHeading ?? '',
     ctaHeadingAccent: raw.ctaHeadingAccent ?? '',
     ctaBody: raw.ctaBody ?? '',

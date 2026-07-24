@@ -9,9 +9,16 @@ const config = [
     plugins: {
       'react-compiler': reactCompiler,
     },
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
       'react-compiler/react-compiler': 'error',
       'no-console': ['warn', { allow: ['error'] }],
+      '@typescript-eslint/no-unnecessary-condition': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',

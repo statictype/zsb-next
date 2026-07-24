@@ -107,7 +107,7 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
 
                 <LinkList>
                   {appearances.map((item) => {
-                    if (!item.medium || !item.url) return null
+                    if (!item.url) return null
                     return (
                       <LinkListItem
                         key={item._id}
