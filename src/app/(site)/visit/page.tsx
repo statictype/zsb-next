@@ -1,6 +1,7 @@
 import { VenuesView } from '@site/visit/_components/VenuesView'
 import { VisitFaq } from '@site/visit/_components/VisitFaq'
 import { VisitSection } from '@site/visit/_components/VisitSection'
+import { notFound } from 'next/navigation'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { getVisitEdition } from '@/data/editions'
@@ -17,10 +18,7 @@ export default function VisitRoute() {
   return (
     <>
       <main>
-        <DraftAware
-          cached={(options) => <CachedVisit options={options} />}
-          fallback={<VisitSection />}
-        />
+        <DraftAware cached={(options) => <CachedVisit options={options} />} fallback={null} />
       </main>
     </>
   )
@@ -29,10 +27,11 @@ export default function VisitRoute() {
 async function CachedVisit({ options }: { options: DynamicFetchOptions }) {
   'use cache'
   const [page, visitEdition] = await Promise.all([getVisitPage(options), getVisitEdition(options)])
-  const faq = page?.faq ?? []
+  if (!page) notFound()
+  const { faq } = page
   return (
     <>
-      <VisitSection {...(page?.section ?? {})} />
+      <VisitSection {...page.section} />
       {/* Venues view only when the resolved edition has a programme to show. */}
       {visitEdition ? (
         <VenuesView year={visitEdition.year} sections={visitEdition.sections} />

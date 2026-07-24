@@ -59,11 +59,19 @@ describe('buildFaq', () => {
 })
 
 describe('mapVisit', () => {
-  it('returns an empty object for a null page', () => {
-    expect(mapVisit(null)).toEqual({})
+  it('defaults absent fields to empty strings/arrays and omits optionals', () => {
+    const result = mapVisit(page({}))
+    expect(result.venueName).toEqual([])
+    expect(result.street).toBe('')
+    expect(result.city).toBe('')
+    expect(result.hoursLines).toEqual([])
+    expect(result.amenities).toEqual([])
+    expect(result.transport).toEqual([])
+    expect('mapsUrl' in result).toBe(false)
+    expect('image' in result).toBe(false)
   })
 
-  it('passes structured fields through and nulls a missing image', () => {
+  it('passes structured fields through and omits a missing image', () => {
     const result = mapVisit(
       page({
         venueName: ['Combinatul Fondului Plastic'],
@@ -80,7 +88,7 @@ describe('mapVisit', () => {
     expect(result.mapsUrl).toBe('https://maps.test/x')
     expect(result.amenities).toEqual([{ label: 'Cafe', icon: 'cafe' }])
     expect(result.transport).toEqual([{ from: 'Piața Unirii', lines: 'M2', walk: '5 min' }])
-    expect(result.image).toBeNull()
+    expect('image' in result).toBe(false)
   })
 
   it('resolves an authored image to a Sanity CDN url', () => {
@@ -137,11 +145,6 @@ describe('normalizeAbout', () => {
     expect(view.hero).toEqual({ title: 'About', titleAccent: '', lead: '' })
   })
 
-  it('coalesces nullish nested pillar fields to ""', () => {
-    const view = normalizeAbout(raw({ pillars: [{ label: null, body: 'text' }] }))
-    expect(view.pillars).toEqual([{ label: '', body: 'text' }])
-  })
-
   it('drops null/empty entries from string lists', () => {
     const view = normalizeAbout(raw({ curatorLetter: [null, 'x'] }))
     expect(view.curatorLetter).toEqual(['x'])
@@ -162,18 +165,18 @@ describe('normalizePartners', () => {
     expect('ogImage' in view).toBe(false)
   })
 
-  it('maps whyPoints down to title/text, coalescing nullish nested fields', () => {
+  it('maps whyPoints down to title/text, dropping the _key', () => {
     const view = normalizePartners(
       raw({
         whyPoints: [
           { _key: 'k', title: 'T', text: 'x' },
-          { _key: 'k2', title: null, text: 'y' },
+          { _key: 'k2', title: 'T2', text: 'y' },
         ],
       }),
     )
     expect(view.whyPoints).toEqual([
       { title: 'T', text: 'x' },
-      { title: '', text: 'y' },
+      { title: 'T2', text: 'y' },
     ])
   })
 

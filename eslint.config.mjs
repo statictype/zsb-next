@@ -41,6 +41,19 @@ const config = [
     },
   },
   {
+    files: ['src/types/**/*.ts'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'TSNullKeyword',
+          message:
+            'Domain types must not mirror Sanity nullability. Resolve absence in the mapper (see ABSENCE-HANDLING.md).',
+        },
+      ],
+    },
+  },
+  {
     ignores: [
       '.next/**',
       'out/**',

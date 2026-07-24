@@ -221,6 +221,7 @@ export interface Edition {
 
 /** Find one event in an edition by its URL `slug` (ADR 0015). Shared by the
  *  event page, the modal route, and the OG image. */
+// eslint-disable-next-line no-restricted-syntax -- absence-branching "not found" return, not a nullable field (see ABSENCE-HANDLING.md carve-outs)
 export function findEvent(edition: Edition | undefined, slug: string): CalendarEvent | null {
   return edition?.events?.find((e) => e.slug === slug) ?? null
 }
@@ -266,12 +267,12 @@ export interface TransportRoute {
 // The runtime shape of the Visit page, produced by mapVisit and rendered by
 // VisitSection.
 export interface VisitData {
-  venueName?: string[] | null
-  street?: string | null
-  city?: string | null
-  mapsUrl?: string | null
-  image?: ImageData | null
-  hoursLines?: string[] | null
-  amenities?: Amenity[] | null
-  transport?: TransportRoute[] | null
+  venueName: string[]
+  street: string
+  city: string
+  hoursLines: string[]
+  amenities: Amenity[]
+  transport: TransportRoute[]
+  mapsUrl?: string
+  image?: ImageData
 }

@@ -34,16 +34,16 @@ const ICONS: Record<IconKey, RemixiconComponentType> = {
   wifi: RiHomeWifiLine,
 }
 
-export function VisitSection(props: VisitData = {}) {
-  const venueName = props.venueName ?? []
-  const street = props.street ?? ''
-  const city = props.city ?? ''
-  const mapsUrl = props.mapsUrl ?? ''
-  const image = props.image
-  const hoursLines = props.hoursLines ?? []
-  const amenities = props.amenities ?? []
-  const transport = props.transport ?? []
-
+export function VisitSection({
+  venueName,
+  street,
+  city,
+  mapsUrl,
+  image,
+  hoursLines,
+  amenities,
+  transport,
+}: VisitData) {
   const s = visitSection()
   const imageStyles = visitImageFrame()
   const infoStyles = visitInfoSummary()

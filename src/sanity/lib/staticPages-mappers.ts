@@ -84,8 +84,6 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
       lead: raw.hero?.lead ?? '',
     },
     manifestoTitle: raw.manifestoTitle ?? '',
-    // Drafts bypass required-field validation, so strings can be missing even
-    // where TypeGen marks them non-null — coalesce defensively.
     manifestoBody: raw.manifestoBody ?? '',
     pillars: (raw.pillars ?? []).map((p) => ({ label: p.label, body: p.body })),
     carouselEyebrow: raw.carouselEyebrow ?? 'Gallery',
@@ -162,8 +160,8 @@ function asIconKey(value: string | null | undefined): IconKey | undefined {
  *  carousel.ts): drafts bypass schema validation and a schema edit can widen
  *  the icon union, so entries without a label or a renderer-known icon are
  *  dropped instead of cast through. */
-function mapAmenities(raw: VisitPage['amenities']): Amenity[] | null {
-  if (!raw) return null
+function mapAmenities(raw: VisitPage['amenities']): Amenity[] {
+  if (!raw) return []
   const out: Amenity[] = []
   for (const item of raw) {
     const icon = asIconKey(item.icon)
@@ -174,8 +172,8 @@ function mapAmenities(raw: VisitPage['amenities']): Amenity[] | null {
 
 /** Same boundary treatment for transport rows: all three fields or the row
  *  is dropped. */
-function mapTransport(raw: VisitPage['transport']): TransportRoute[] | null {
-  if (!raw) return null
+function mapTransport(raw: VisitPage['transport']): TransportRoute[] {
+  if (!raw) return []
   const out: TransportRoute[] = []
   for (const item of raw) {
     if (item.from && item.lines && item.walk) {
@@ -186,18 +184,18 @@ function mapTransport(raw: VisitPage['transport']): TransportRoute[] | null {
 }
 
 /** Project a VisitPage into the runtime shape VisitSection renders. */
-export function mapVisit(page: VisitPage | null): VisitData {
-  if (!page) return {}
-  const image = toImageData(page.image) ?? null
+export function mapVisit(page: VisitPage): VisitData {
   return {
-    venueName: page.venueName ?? null,
-    street: page.street ?? null,
-    city: page.city ?? null,
-    mapsUrl: page.mapsUrl ?? null,
-    image,
-    hoursLines: page.hoursLines ?? null,
+    venueName: page.venueName ?? [],
+    street: page.street ?? '',
+    city: page.city ?? '',
+    hoursLines: page.hoursLines ?? [],
     amenities: mapAmenities(page.amenities),
     transport: mapTransport(page.transport),
+    ...definedFields({
+      mapsUrl: page.mapsUrl,
+      image: toImageData(page.image),
+    }),
   }
 }
 
