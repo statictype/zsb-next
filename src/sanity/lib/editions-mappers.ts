@@ -99,6 +99,8 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
   if (!rows) return out
   for (const row of rows) {
     if (row._type === 'creditOrg') {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a dereferenced reference is null when it dangles (unpublished/deleted org); TypeGen types the deref non-null
+      if (!row.organization) continue
       const org = row.organization
       const logo = toImageData(org.logo)
       const base = definedFields({
@@ -115,7 +117,8 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
         value: row.organizations.map((o) => o.name).join('\n'),
       })
     } else {
-      const names = row.names.filter((n) => n.trim() !== '')
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a cleared entry in a primitive array is null at runtime; TypeGen types the elements non-null
+      const names = row.names?.filter((n): n is string => Boolean(n?.trim())) ?? []
       out.push({ type: row.type, label: row.label, value: names.join('\n') })
     }
   }

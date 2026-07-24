@@ -28,7 +28,8 @@ export interface HomeView {
 function mapSlideshow(slides: RawHomepage['slideshow']): HeroImage[] {
   const out: HeroImage[] = []
   for (const slide of slides ?? []) {
-    if (!slide.image.asset) continue
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a draft slide can omit its image; TypeGen types the field non-null
+    if (!slide.image?.asset) continue
     out.push({
       src: urlFor(slide.image).url(),
       alt: slide.image.alt ?? '',
