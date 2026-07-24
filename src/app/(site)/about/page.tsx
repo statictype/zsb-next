@@ -68,7 +68,7 @@ function AboutShell({ view }: { view: AboutView }) {
       </figure>
       <Manifesto title={manifestoTitle} body={manifestoBody} />
 
-      {carousel && (
+      {carousel.length > 0 && (
         <section className={section({ ground: 'dark' })}>
           <GalleryCarousel slides={carousel} eyebrow={carouselEyebrow} />
         </section>

@@ -214,8 +214,8 @@ export interface Edition {
   // The events-and-venues model (ADR 0014). The calendar, filters, featured and
   // venues view all read from this list; it replaced the old program/venues
   // format (ZSB-38).
-  events?: CalendarEvent[]
-  carousel?: CarouselSlide[]
+  events: CalendarEvent[]
+  carousel: CarouselSlide[]
   credits: CreditEntry[]
 }
 
@@ -223,7 +223,7 @@ export interface Edition {
  *  event page, the modal route, and the OG image. */
 // eslint-disable-next-line no-restricted-syntax -- absence-branching "not found" return, not a nullable field (see ABSENCE-HANDLING.md carve-outs)
 export function findEvent(edition: Edition | undefined, slug: string): CalendarEvent | null {
-  return edition?.events?.find((e) => e.slug === slug) ?? null
+  return edition?.events.find((e) => e.slug === slug) ?? null
 }
 
 /**

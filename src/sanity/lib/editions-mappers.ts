@@ -62,8 +62,8 @@ export function deriveEventSlugs(events: EventSlugInput[]): string[] {
   return uniqueEventSlugs(events.map((e) => (e.slug ? slugify(e.slug) : deriveEventSlug(e))))
 }
 
-export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
-  if (!raw?.length) return undefined
+export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] {
+  if (!raw?.length) return []
   const slugs = deriveEventSlugs(raw)
   return raw.map((e, i) =>
     definedFields({

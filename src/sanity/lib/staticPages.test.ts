@@ -117,9 +117,9 @@ describe('normalizeAbout', () => {
     expect(view.manifestoBody).toBe('')
     expect(view.pillars).toEqual([])
     expect(view.curatorLetter).toEqual([])
+    expect(view.carousel).toEqual([])
     expect(view.carouselEyebrow).toBe('Gallery') // the real default lives in the layer
     expect('placeImage' in view).toBe(false)
-    expect('carousel' in view).toBe(false)
     expect('metaDescription' in view).toBe(false)
   })
 

@@ -35,14 +35,13 @@ function mapCarouselImage(item: RawCarouselImage): CarouselImage {
 /**
  * Map raw `carouselSlide` documents into the runtime `CarouselSlide[]` the
  * <Carousel> renders. Drops slides whose layout is unknown or whose image
- * count doesn't match the layout (ADR 0010), and returns undefined when the
- * result is empty so callers can render conditionally. Shared by the editions
- * and the about page.
+ * count doesn't match the layout (ADR 0010). Shared by the editions and the
+ * about page; consumers render on `.length > 0`.
  */
 export function mapCarousel(
   slides: readonly RawCarouselSlide[] | null | undefined,
-): CarouselSlide[] | undefined {
-  if (!slides?.length) return undefined
+): CarouselSlide[] {
+  if (!slides?.length) return []
   const out: CarouselSlide[] = []
   for (const slide of slides) {
     const layout = asLayout(slide.layout)
@@ -56,5 +55,5 @@ export function mapCarousel(
       out.push({ layout, images: [images[0]!, images[1]!, images[2]!] })
     }
   }
-  return out.length ? out : undefined
+  return out
 }

@@ -62,6 +62,7 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
     ],
     hasProgram: true,
     events: [event('Combinatul Fondului Plastic'), event('Partner Venues')],
+    carousel: [],
     credits: [{ type: 'primary', label: 'Curator', value: 'Reka Csapo Dup' }],
     ...overrides,
   }

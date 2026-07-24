@@ -148,7 +148,7 @@ export function editionEventJsonLd(edition: EditionJsonLd) {
   // same key the calendar filters and the Visit venues view group by (ZSB-65),
   // so a studio inside CFP counts as CFP. Fall back to venueLine, then
   // "Bucharest", when no events are authored yet (the forthcoming edition).
-  const eventPlaces = (edition.events ?? []).map((e) => e.venue.rollUp.name)
+  const eventPlaces = edition.events.map((e) => e.venue.rollUp.name)
   const venueNames = [...new Set(eventPlaces.filter(Boolean))]
   const placeNames = venueNames.length > 0 ? venueNames : [edition.venueLine || 'Bucharest']
   const places = placeNames.map((name) => ({

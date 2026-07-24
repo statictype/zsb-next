@@ -55,9 +55,9 @@ describe('mapEvents — slug derivation (ADR 0015)', () => {
     ])
   })
 
-  it('returns undefined for a missing or empty list', () => {
-    expect(mapEvents(null as unknown as RawEvents)).toBeUndefined()
-    expect(mapEvents(events())).toBeUndefined()
+  it('returns [] for a missing or empty list', () => {
+    expect(mapEvents(null as unknown as RawEvents)).toEqual([])
+    expect(mapEvents(events())).toEqual([])
   })
 
   it('omits optional keys instead of spreading undefined into them', () => {
@@ -182,8 +182,8 @@ describe('mapEdition', () => {
     expect(edition.manifesto).toEqual({ title: '', highlight: '', body: '' })
     expect(edition.artists).toEqual([])
     expect(edition.credits).toEqual([])
-    expect('events' in edition).toBe(false)
-    expect('carousel' in edition).toBe(false)
+    expect(edition.events).toEqual([])
+    expect(edition.carousel).toEqual([])
     expect(edition.heroImage.src).toContain('abc123def456-1200x800.jpg')
   })
 
