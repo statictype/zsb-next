@@ -62,8 +62,8 @@ export function deriveEventSlugs(events: EventSlugInput[]): string[] {
   return uniqueEventSlugs(events.map((e) => (e.slug ? slugify(e.slug) : deriveEventSlug(e))))
 }
 
-export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] | undefined {
-  if (!raw?.length) return undefined
+export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] {
+  if (!raw?.length) return []
   const slugs = deriveEventSlugs(raw)
   return raw.map((e, i) =>
     definedFields({
@@ -98,7 +98,9 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
   const out: CreditEntry[] = []
   if (!rows) return out
   for (const row of rows) {
-    if (row._type === 'creditOrg' && row.organization) {
+    if (row._type === 'creditOrg') {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a dereferenced reference is null when it dangles (unpublished/deleted org); TypeGen types the deref non-null
+      if (!row.organization) continue
       const org = row.organization
       const logo = toImageData(org.logo)
       const base = definedFields({
@@ -108,13 +110,14 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
         detail: row.detail,
       })
       out.push(logo ? { ...base, logo: logo.src, logoAlt: logo.alt } : { ...base })
-    } else if (row._type === 'creditOrgList' && row.organizations) {
+    } else if (row._type === 'creditOrgList') {
       out.push({
         type: row.type,
         label: row.label,
         value: row.organizations.map((o) => o.name).join('\n'),
       })
-    } else if (row._type === 'creditText') {
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a cleared entry in a primitive array is null at runtime; TypeGen types the elements non-null
       const names = row.names?.filter((n): n is string => Boolean(n?.trim())) ?? []
       out.push({ type: row.type, label: row.label, value: names.join('\n') })
     }

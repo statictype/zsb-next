@@ -12,7 +12,7 @@ interface CheckboxProps {
   label: ReactNode
   checked: boolean
   onCheckedChange: (checked: boolean) => void
-  count?: number | undefined
+  count?: number
   className?: string | undefined
 }
 

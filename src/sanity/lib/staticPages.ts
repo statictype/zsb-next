@@ -47,9 +47,6 @@ export interface VisitPageData {
  * render). A present singleton is normalized into a *total* view-model by the
  * mappers in `staticPages-mappers.ts` (which stay dependency-free of the live
  * data layer, so their tests need no mocking) so the page is a pure renderer.
- * `getVisitPage` keeps its own venue/FAQ projection (those fields are
- * genuinely optional — the renderer branches on them — so it stays
- * null-based, not a total view-model).
  */
 
 export async function getAboutPage(options: DynamicFetchOptions): Promise<AboutView | null> {

@@ -9,7 +9,7 @@ export type FigurePassthroughProps = Pick<
 >
 
 type FigureProps = {
-  image: ImageData | null | undefined
+  image?: ImageData | undefined
   sizes: string
 } & FigurePassthroughProps
 

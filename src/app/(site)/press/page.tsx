@@ -31,7 +31,7 @@ export const generateMetadata = makePageMetadata(getPressPage, {
   path: '/press',
 })
 
-type Medium = NonNullable<PressAppearance['medium']>
+type Medium = PressAppearance['medium']
 
 const MEDIUM_LABEL: Record<Medium, string> = {
   article: 'Article',
@@ -107,7 +107,7 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
 
                 <LinkList>
                   {appearances.map((item) => {
-                    if (!item.medium || !item.url) return null
+                    if (!item.url) return null
                     return (
                       <LinkListItem
                         key={item._id}

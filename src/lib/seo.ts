@@ -3,7 +3,13 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
 import { editionHref } from '@/lib/edition-href'
 import { OG_IMAGE_SIZE } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
-import type { CalendarEvent, Edition, EditionJsonLd, ShareImage } from '@/types/edition'
+import type {
+  CalendarEvent,
+  Edition,
+  EditionJsonLd,
+  PressAppearance,
+  ShareImage,
+} from '@/types/edition'
 
 // Wrap a mapped share image into an OpenGraph image entry, or undefined when
 // the page has none (so it falls back to the default branded card via the root
@@ -148,7 +154,7 @@ export function editionEventJsonLd(edition: EditionJsonLd) {
   // same key the calendar filters and the Visit venues view group by (ZSB-65),
   // so a studio inside CFP counts as CFP. Fall back to venueLine, then
   // "Bucharest", when no events are authored yet (the forthcoming edition).
-  const eventPlaces = (edition.events ?? []).map((e) => e.venue.rollUp.name)
+  const eventPlaces = edition.events.map((e) => e.venue.rollUp.name)
   const venueNames = [...new Set(eventPlaces.filter(Boolean))]
   const placeNames = venueNames.length > 0 ? venueNames : [edition.venueLine || 'Bucharest']
   const places = placeNames.map((name) => ({
@@ -226,17 +232,14 @@ export function organizationJsonLd(args: { sameAs?: Array<string | null | undefi
   }
 }
 
-interface PressAppearanceForJsonLd {
-  medium: 'article' | 'video' | 'audio' | null
-  title: string | null
-  year: number | null
-  url: string | null
-  excerpt?: string | null
-}
+type PressAppearanceForJsonLd = Pick<
+  PressAppearance,
+  'medium' | 'title' | 'year' | 'url' | 'excerpt'
+>
 
 export function pressAppearancesJsonLd(appearances: PressAppearanceForJsonLd[]) {
   const items = appearances
-    .filter((a) => a.url && a.title && a.medium)
+    .filter((a) => a.url)
     .map((a, i) => {
       const type =
         a.medium === 'video' ? 'VideoObject' : a.medium === 'audio' ? 'AudioObject' : 'Article'
@@ -244,10 +247,10 @@ export function pressAppearancesJsonLd(appearances: PressAppearanceForJsonLd[]) 
         '@type': type,
         name: a.title,
         url: a.url,
+        datePublished: `${a.year}`,
         about: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
       }
       if (a.excerpt) item.description = a.excerpt
-      if (a.year) item.datePublished = `${a.year}`
       return { '@type': 'ListItem', position: i + 1, item }
     })
   return {

@@ -8,7 +8,7 @@ import { manifesto as styles } from '@/components/Manifesto/Manifesto.recipe'
 interface ManifestoProps {
   title: string
   body: string
-  accent?: string | undefined
+  accent?: string
 }
 
 export function Manifesto({ title, body, accent }: ManifestoProps) {

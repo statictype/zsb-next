@@ -23,7 +23,7 @@ type ButtonOwnProps = ButtonVariantProps & { className?: string | undefined }
 
 type NativeButtonProps = ButtonOwnProps &
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> & {
-    asChild?: false | undefined
+    asChild?: false
   }
 
 type ButtonAsChildProps = ButtonOwnProps & {
@@ -44,7 +44,10 @@ export function Button({
 }: ButtonProps) {
   const cls = cx(button({ variant, size }), className)
   if (asChild && isValidElement(rest.children)) {
-    const child = rest.children as ReactElement<{ children?: ReactNode; className?: string }>
+    const child = rest.children as ReactElement<{
+      children?: ReactNode
+      className?: string | undefined
+    }>
     return cloneElement(child, {
       className: cx(cls, child.props.className),
       children:

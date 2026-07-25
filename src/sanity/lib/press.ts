@@ -13,11 +13,16 @@ import {
   PRESS_RELEASES_QUERY,
   PRESS_RELEASES_QUERY_TAGS,
 } from '@/sanity/lib/queries'
-import type { MediaKitStripItem } from '@/types/edition'
+import type { MediaKitStripItem, PressAppearance } from '@/types/edition'
 
 export type { PressPageView } from '@/sanity/lib/press-mappers'
-export type PressAppearance = PRESS_APPEARANCES_QUERY_RESULT[number]
+export type { PressAppearance } from '@/types/edition'
 export type PressRelease = PRESS_RELEASES_QUERY_RESULT[number]
+
+// Raw fields are schema-required (non-null) except excerpt.
+function mapPressAppearance(raw: PRESS_APPEARANCES_QUERY_RESULT[number]): PressAppearance {
+  return { ...raw, excerpt: raw.excerpt ?? '' }
+}
 
 export async function getPressPage(options: DynamicFetchOptions): Promise<PressPageView | null> {
   'use cache'
@@ -29,15 +34,15 @@ export async function getPressAppearances(
   options: DynamicFetchOptions,
 ): Promise<PressAppearance[]> {
   'use cache'
-  return (
-    (await queryData(PRESS_APPEARANCES_QUERY, options, { tags: PRESS_APPEARANCES_QUERY_TAGS })) ??
-    []
-  )
+  const rows = await queryData(PRESS_APPEARANCES_QUERY, options, {
+    tags: PRESS_APPEARANCES_QUERY_TAGS,
+  })
+  return rows.map(mapPressAppearance)
 }
 
 export async function getPressReleases(options: DynamicFetchOptions): Promise<PressRelease[]> {
   'use cache'
-  return (await queryData(PRESS_RELEASES_QUERY, options, { tags: PRESS_RELEASES_QUERY_TAGS })) ?? []
+  return await queryData(PRESS_RELEASES_QUERY, options, { tags: PRESS_RELEASES_QUERY_TAGS })
 }
 
 /**
@@ -49,8 +54,8 @@ export async function getEditionsPressKit(
   options: DynamicFetchOptions,
 ): Promise<MediaKitStripItem[]> {
   'use cache'
-  const editions =
-    (await queryData(EDITIONS_PRESS_KIT_QUERY, options, { tags: EDITIONS_PRESS_KIT_QUERY_TAGS })) ??
-    []
+  const editions = await queryData(EDITIONS_PRESS_KIT_QUERY, options, {
+    tags: EDITIONS_PRESS_KIT_QUERY_TAGS,
+  })
   return flattenKit(editions)
 }

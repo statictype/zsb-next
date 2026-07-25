@@ -15,6 +15,6 @@ describe('findEvent', () => {
 
   it('returns null when the edition is undefined or has no events', () => {
     expect(findEvent(undefined, 'opening')).toBeNull()
-    expect(findEvent({} as Edition, 'opening')).toBeNull()
+    expect(findEvent({ events: [] as CalendarEvent[] } as Edition, 'opening')).toBeNull()
   })
 })

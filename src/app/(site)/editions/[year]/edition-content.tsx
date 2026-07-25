@@ -64,7 +64,7 @@ export async function CachedEdition({
   // with events shows the calendar; one with none yet is the forthcoming one and
   // stands in with a "coming soon" block (ZSB-34). When absent (the online-only
   // 2021), no program block renders at all.
-  const events = edition.events ?? []
+  const events = edition.events
   const hasEvents = events.length > 0
   const externalGallery = EXTERNAL_GALLERY_BY_YEAR[edition.year]
 

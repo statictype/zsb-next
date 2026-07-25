@@ -69,7 +69,7 @@ export async function getVisitEdition(
   if (!chosen) return undefined
   const edition = await getEdition(chosen.year, options)
   if (!edition) return undefined
-  const sections = groupVenuesByType(edition.events ?? [])
+  const sections = groupVenuesByType(edition.events)
   return sections.length ? { year: edition.year, sections } : undefined
 }
 
@@ -115,7 +115,7 @@ export async function getFeaturedEvents(
   if (!newestLive) return undefined
   const edition = await getEdition(newestLive.year, options)
   if (!edition) return undefined
-  const featured = edition.events?.filter((e) => e.featured) ?? []
+  const featured = edition.events.filter((e) => e.featured)
   return featured.length ? { year: edition.year, events: featured } : undefined
 }
 

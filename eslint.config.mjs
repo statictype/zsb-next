@@ -9,9 +9,16 @@ const config = [
     plugins: {
       'react-compiler': reactCompiler,
     },
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
       'react-compiler/react-compiler': 'error',
       'no-console': ['warn', { allow: ['error'] }],
+      '@typescript-eslint/no-unnecessary-condition': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -29,6 +36,19 @@ const config = [
               message: 'CSS Modules are retired — use Panda CSS. See ADR 0017.',
             },
           ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/types/**/*.ts'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'TSNullKeyword',
+          message:
+            'Domain types must not mirror Sanity nullability. Resolve absence in the mapper (see ABSENCE-HANDLING.md).',
         },
       ],
     },

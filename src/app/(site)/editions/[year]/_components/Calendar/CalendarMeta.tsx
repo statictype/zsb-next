@@ -11,8 +11,8 @@ export function CalendarMeta({
   tone,
 }: {
   year: number
-  label?: string | undefined
-  tone?: 'body' | 'accent' | undefined
+  label?: string
+  tone?: 'body' | 'accent'
 }) {
   const s = calendarMeta()
   return (

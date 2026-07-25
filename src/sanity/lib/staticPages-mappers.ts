@@ -23,9 +23,9 @@ type AboutPageRaw = NonNullable<ABOUT_PAGE_QUERY_RESULT>
 /**
  * The About page as the route renders it (ADR 0013): a *total* view-model. The
  * data layer normalizes here so the Shell is a pure renderer — text coalesced to
- * `''`, lists to `[]`, and only the genuinely-optional members (images, the
- * carousel section, SEO) left absent. A missing singleton is a 404, not an empty
- * render, so this never represents "no page".
+ * `''`, lists to `[]`, and only the genuinely-optional members (images, SEO)
+ * left absent. A missing singleton is a 404, not an empty render, so this never
+ * represents "no page".
  */
 export interface AboutView {
   hero: { title: string; titleAccent: string; lead: string }
@@ -33,6 +33,7 @@ export interface AboutView {
   manifestoBody: string
   pillars: Array<{ label: string; body: string }>
   carouselEyebrow: string
+  carousel: CarouselSlide[]
   curatorEyebrow: string
   curatorHeadline: string
   curatorName: string
@@ -40,7 +41,6 @@ export interface AboutView {
   curatorLetter: string[]
   placeImage?: ImageData
   curatorPortrait?: ImageData
-  carousel?: CarouselSlide[]
   ogImage?: ShareImage
   metaDescription?: string
 }
@@ -84,30 +84,24 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
       lead: raw.hero?.lead ?? '',
     },
     manifestoTitle: raw.manifestoTitle ?? '',
-    // Drafts bypass required-field validation, so strings can be missing even
-    // where TypeGen marks them non-null — coalesce defensively.
     manifestoBody: raw.manifestoBody ?? '',
-    pillars: (raw.pillars ?? []).map((p) => ({ label: p.label ?? '', body: p.body ?? '' })),
+    pillars: (raw.pillars ?? []).map((p) => ({ label: p.label, body: p.body })),
     carouselEyebrow: raw.carouselEyebrow ?? 'Gallery',
     curatorEyebrow: raw.curatorEyebrow ?? '',
     curatorHeadline: raw.curatorHeadline ?? '',
     curatorName: raw.curatorName ?? '',
     curatorRole: raw.curatorRole ?? '',
     curatorLetter: (raw.curatorLetter ?? []).filter(Boolean),
-    // Genuinely-optional members stay absent (definedFields drops the nullish):
-    // images, the whole carousel section, and the SEO fields (which have their
-    // own computed fallbacks in makePageMetadata).
+    carousel: mapCarousel(raw.carousel),
     ...definedFields({
       placeImage: toImageData(raw.placeImage),
       curatorPortrait: toImageData(raw.curatorPortrait),
-      carousel: mapCarousel(raw.carousel),
       ogImage: toShareImage(raw.ogImage),
       metaDescription: raw.metaDescription,
     }),
   }
 }
 
-/** Reshape a raw Partners singleton into its total view-model (ADR 0013). */
 export function normalizePartners(raw: PartnersPageRaw): PartnersView {
   return {
     hero: {
@@ -119,7 +113,7 @@ export function normalizePartners(raw: PartnersPageRaw): PartnersView {
     eventBody: (raw.eventBody ?? []).filter(Boolean),
     whyEyebrow: raw.whyEyebrow ?? '',
     whyTitle: raw.whyTitle ?? '',
-    whyPoints: (raw.whyPoints ?? []).map((p) => ({ title: p.title ?? '', text: p.text ?? '' })),
+    whyPoints: (raw.whyPoints ?? []).map((p) => ({ title: p.title, text: p.text })),
     ctaHeading: raw.ctaHeading ?? '',
     ctaHeadingAccent: raw.ctaHeadingAccent ?? '',
     ctaBody: raw.ctaBody ?? '',
@@ -133,7 +127,6 @@ export function normalizePartners(raw: PartnersPageRaw): PartnersView {
   }
 }
 
-/** Reshape a raw Privacy singleton into its total view-model (ADR 0013). */
 export function normalizePrivacy(raw: PrivacyPageRaw): PrivacyView {
   return {
     hero: {
@@ -150,20 +143,14 @@ export function normalizePrivacy(raw: PrivacyPageRaw): PrivacyView {
   }
 }
 
-// ---- Visit page projections ----
-
 const ICON_KEYS: readonly IconKey[] = ['wheelchair', 'parking', 'cafe', 'paint', 'restroom', 'wifi']
 
 function asIconKey(value: string | null | undefined): IconKey | undefined {
   return value && (ICON_KEYS as readonly string[]).includes(value) ? (value as IconKey) : undefined
 }
 
-/** Validate raw amenities at the typegen boundary (like `asLayout` in
- *  carousel.ts): drafts bypass schema validation and a schema edit can widen
- *  the icon union, so entries without a label or a renderer-known icon are
- *  dropped instead of cast through. */
-function mapAmenities(raw: VisitPage['amenities']): Amenity[] | null {
-  if (!raw) return null
+function mapAmenities(raw: VisitPage['amenities']): Amenity[] {
+  if (!raw) return []
   const out: Amenity[] = []
   for (const item of raw) {
     const icon = asIconKey(item.icon)
@@ -172,10 +159,8 @@ function mapAmenities(raw: VisitPage['amenities']): Amenity[] | null {
   return out
 }
 
-/** Same boundary treatment for transport rows: all three fields or the row
- *  is dropped. */
-function mapTransport(raw: VisitPage['transport']): TransportRoute[] | null {
-  if (!raw) return null
+function mapTransport(raw: VisitPage['transport']): TransportRoute[] {
+  if (!raw) return []
   const out: TransportRoute[] = []
   for (const item of raw) {
     if (item.from && item.lines && item.walk) {
@@ -186,18 +171,18 @@ function mapTransport(raw: VisitPage['transport']): TransportRoute[] | null {
 }
 
 /** Project a VisitPage into the runtime shape VisitSection renders. */
-export function mapVisit(page: VisitPage | null): VisitData {
-  if (!page) return {}
-  const image = toImageData(page.image) ?? null
+export function mapVisit(page: VisitPage): VisitData {
   return {
-    venueName: page.venueName ?? null,
-    street: page.street ?? null,
-    city: page.city ?? null,
-    mapsUrl: page.mapsUrl ?? null,
-    image,
-    hoursLines: page.hoursLines ?? null,
+    venueName: page.venueName ?? [],
+    street: page.street ?? '',
+    city: page.city ?? '',
+    hoursLines: page.hoursLines ?? [],
     amenities: mapAmenities(page.amenities),
     transport: mapTransport(page.transport),
+    ...definedFields({
+      mapsUrl: page.mapsUrl,
+      image: toImageData(page.image),
+    }),
   }
 }
 

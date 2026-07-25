@@ -44,7 +44,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
         </Grid>
       </Stack>
 
-      {carousel && <GalleryCarousel slides={carousel} eyebrow={theme} />}
+      {carousel.length > 0 && <GalleryCarousel slides={carousel} eyebrow={theme} />}
     </section>
   )
 }

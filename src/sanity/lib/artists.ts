@@ -13,5 +13,5 @@ import type { ArtistListItem } from '@/types/edition'
  */
 export async function getArtistIndex(): Promise<ArtistListItem[]> {
   'use cache'
-  return (await queryData(ARTIST_INDEX_QUERY, PUBLISHED, { tags: ARTIST_INDEX_QUERY_TAGS })) ?? []
+  return await queryData(ARTIST_INDEX_QUERY, PUBLISHED, { tags: ARTIST_INDEX_QUERY_TAGS })
 }

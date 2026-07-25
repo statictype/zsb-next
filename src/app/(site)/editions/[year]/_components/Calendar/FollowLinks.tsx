@@ -18,7 +18,7 @@ export function FollowLinks({
 }: {
   label: string
   socials: SocialLink[]
-  layout?: 'inline' | 'stack' | undefined
+  layout?: 'inline' | 'stack'
   className?: string | undefined
 }) {
   if (socials.length === 0) return null

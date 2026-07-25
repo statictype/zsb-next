@@ -62,6 +62,7 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
     ],
     hasProgram: true,
     events: [event('Combinatul Fondului Plastic'), event('Partner Venues')],
+    carousel: [],
     credits: [{ type: 'primary', label: 'Curator', value: 'Reka Csapo Dup' }],
     ...overrides,
   }
@@ -207,22 +208,20 @@ describe('organizationJsonLd', () => {
 })
 
 describe('pressAppearancesJsonLd', () => {
-  it('filters out rows missing url, title, or medium', () => {
+  it('filters out rows with an empty url', () => {
     const ld = pressAppearancesJsonLd([
-      { medium: 'article', title: 'Real', year: 2024, url: 'https://a.test' },
-      { medium: null, title: 'No medium', year: 2024, url: 'https://b.test' },
-      { medium: 'video', title: null, year: 2024, url: 'https://c.test' },
-      { medium: 'audio', title: 'No url', year: 2024, url: null },
+      { medium: 'article', title: 'Real', year: 2024, url: 'https://a.test', excerpt: '' },
+      { medium: 'audio', title: 'No url', year: 2024, url: '', excerpt: '' },
     ])
     expect(ld.itemListElement).toHaveLength(1)
     expect(ld.itemListElement[0]).toMatchObject({ position: 1 })
   })
 
-  it('maps medium to the schema.org type and carries optional fields', () => {
+  it('maps medium to the schema.org type and includes the excerpt when set', () => {
     const ld = pressAppearancesJsonLd([
       { medium: 'video', title: 'V', year: 2023, url: 'https://v.test', excerpt: 'clip' },
-      { medium: 'audio', title: 'A', year: null, url: 'https://a.test' },
-      { medium: 'article', title: 'Art', year: 2022, url: 'https://art.test' },
+      { medium: 'audio', title: 'A', year: 2021, url: 'https://a.test', excerpt: '' },
+      { medium: 'article', title: 'Art', year: 2022, url: 'https://art.test', excerpt: '' },
     ])
     const types = ld.itemListElement.map((li) => (li.item as { '@type': string })['@type'])
     expect(types).toEqual(['VideoObject', 'AudioObject', 'Article'])
@@ -235,6 +234,7 @@ describe('pressAppearancesJsonLd', () => {
     expect(video.datePublished).toBe('2023')
 
     const audio = ld.itemListElement[1]!.item as Record<string, unknown>
-    expect(audio).not.toHaveProperty('datePublished')
+    expect(audio).not.toHaveProperty('description')
+    expect(audio.datePublished).toBe('2021')
   })
 })
