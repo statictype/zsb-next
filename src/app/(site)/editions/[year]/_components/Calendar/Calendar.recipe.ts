@@ -51,6 +51,16 @@ export const calendar = sva({
       // ramp so the column and the timeline spine (`agenda::before` `left`) stay
       // in lockstep and scale monotonically with the section rhythm.
       '--marker-col': 'token(spacing.4xl)',
+      // Shared horizontal axis for the agenda's first line (md+): the vertical
+      // centre of the day numeral, measured from the top of the day row —
+      // weekday line box (label: xs * 1.3) + column gap + half the numeral line
+      // box (heading: lg * 1.1). The timeline node and the first event row are
+      // both placed against it.
+      '--agenda-axis':
+        'calc(token(fontSizes.xs) * 1.3 + token(spacing.sm) + token(fontSizes.lg) * 0.55)',
+      // Half the Badge box: padding + hairline + half its line box.
+      '--agenda-badge-half':
+        'calc(token(spacing.badgeY) + token(borderWidths.hairlineThin) + token(fontSizes.xs) * 0.65)',
     },
     layout: { minWidth: '0' },
     headerMain: { minWidth: '0' },
@@ -181,7 +191,7 @@ export const calendar = sva({
         display: 'block',
         position: 'absolute',
         right: '-xs',
-        top: '[9px]',
+        top: '[calc(var(--agenda-axis) - 4px)]',
         width: '[8px]',
         height: '[8px]',
         background: 'white',
@@ -198,7 +208,14 @@ export const calendar = sva({
       listStyle: 'none',
       display: 'flex',
       flexDirection: 'column',
-      md: { paddingLeft: 'lg' },
+      md: {
+        paddingLeft: 'lg',
+        // Drops the first row's badge line onto the numeral's axis; replaces
+        // the row's own `md` top padding rather than adding to it.
+        '& > li:first-child': {
+          paddingTop: '[calc(var(--agenda-axis) - var(--agenda-badge-half))]',
+        },
+      },
     },
 
     // ---- Event row ----

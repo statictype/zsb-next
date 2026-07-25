@@ -120,18 +120,11 @@ export function CalendarBoard({ view, year, onReset }: CalendarBoardProps) {
                 gap={{ base: 'md', md: 'sm' }}
               >
                 <span className={s.markerNode} aria-hidden />
+                <Text variant="label" className={s.markerWeekday}>
+                  {day.token.weekday}
+                </Text>
                 <span className={s.markerDay}>{day.token.dayPadded}</span>
-                <HStack
-                  as="span"
-                  flexDirection={{ base: 'row', md: 'column' }}
-                  alignItems={{ base: 'baseline', md: 'flex-end' }}
-                  gap={{ md: 'xs' }}
-                >
-                  <Text variant="label">{day.token.month}</Text>
-                  <Text variant="label" className={s.markerWeekday}>
-                    {day.token.weekday}
-                  </Text>
-                </HStack>
+                <Text variant="label">{day.token.month}</Text>
               </HStack>
               <ul className={s.events}>
                 {day.events.map((event) => (
