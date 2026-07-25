@@ -7,22 +7,22 @@ import { editionTheme } from '@/components/EditionTheme/EditionTheme.recipe'
 interface EditionThemeProps {
   theme: string
 
-  lead?: ReactNode | undefined
+  lead?: ReactNode
 
   themeHighlight?: string | undefined
 
-  meta?: ReactNode | undefined
-  as?: 'h1' | 'h2' | undefined
+  meta?: ReactNode
+  as?: 'h1' | 'h2'
 
-  size?: 'huge' | 'large' | 'normal' | 'rail' | undefined
+  size?: 'huge' | 'large' | 'normal' | 'rail'
 
-  interactive?: boolean | undefined
+  interactive?: boolean
 
-  accent?: 'highlight' | 'action' | undefined
+  accent?: 'highlight' | 'action'
 
-  muted?: boolean | undefined
+  muted?: boolean
 
-  delay?: string | undefined
+  delay?: string
 
   className?: string | undefined
 }

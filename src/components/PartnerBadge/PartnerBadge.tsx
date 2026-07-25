@@ -5,7 +5,7 @@ import { Center } from 'styled-system/jsx'
 import { partnerBadge } from '@/components/PartnerBadge/PartnerBadge.recipe'
 
 interface PartnerBadgeProps {
-  size?: 'standard' | 'footer' | 'hero' | 'upcoming' | undefined
+  size?: 'standard' | 'footer' | 'hero' | 'upcoming'
 }
 
 export function PartnerBadge({ size = 'standard' }: PartnerBadgeProps = {}) {

@@ -23,7 +23,7 @@ function isSectionActive(pathname: string, href: string): boolean {
 type NavLinksProps = {
   className: string | undefined
   context: 'desktop' | 'mobile'
-  onNavigate?: (() => void) | undefined
+  onNavigate?: () => void
 }
 
 /**

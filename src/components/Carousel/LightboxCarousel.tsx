@@ -6,7 +6,7 @@ import { Carousel, type CarouselSlide } from '@/components/Carousel/Carousel'
 import { Lightbox, type LightboxImage } from '@/components/Lightbox/Lightbox'
 
 interface LightboxCarouselProps {
-  id?: string | undefined
+  id?: string
   label: string
   mode: 'stage' | 'rail'
   autoplay?: false | number

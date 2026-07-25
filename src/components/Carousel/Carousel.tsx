@@ -16,7 +16,7 @@ export interface CarouselSlide {
 }
 
 interface CarouselProps {
-  id?: string | undefined
+  id?: string
   slides: CarouselSlide[]
   label: string
   mode: 'stage' | 'rail'

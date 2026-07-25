@@ -8,10 +8,10 @@ export interface PillarGridItem {
 
 interface PillarGridProps {
   items: readonly PillarGridItem[]
-  titleLevel?: 'h2' | 'h3' | undefined
-  rhythm?: 'bookend' | 'pair' | undefined
-  titleTone?: 'heading' | 'highlight' | undefined
-  titleScale?: 'standard' | 'responsive' | undefined
+  titleLevel?: 'h2' | 'h3'
+  rhythm?: 'bookend' | 'pair'
+  titleTone?: 'heading' | 'highlight'
+  titleScale?: 'standard' | 'responsive'
 }
 
 export function PillarGrid({
