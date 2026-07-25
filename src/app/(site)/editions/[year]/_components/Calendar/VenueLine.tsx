@@ -11,7 +11,7 @@ export function VenueLine({
   className,
 }: {
   venue: EventVenue
-  size?: 'sm' | 'md' | undefined
+  size?: 'sm' | 'md'
   className?: string | undefined
 }) {
   const s = venueLine({ size })

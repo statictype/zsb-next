@@ -257,8 +257,8 @@ export interface CalendarView extends Schedule {
   /** Non-null exactly while the edition is live; the board's past-greying
    *  reads it so narrowing flows instead of needing `todayIso!` assertions. */
   liveClock: string | null
-  /** Short human span of the whole edition window, when it has one. */
-  windowLabel: string | undefined
+  /** Short human span of the whole edition window; '' when it has none. */
+  windowLabel: string
   /** Headline count line — "X of Y upcoming events" and its collapsed forms. */
   countLabel: string
 }
@@ -355,7 +355,7 @@ export function deriveCalendarView(
   const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
   const liveClock = ended ? null : todayIso
   const windowLabel =
-    editionStart && editionEnd ? formatShortRange(editionStart, editionEnd) : undefined
+    editionStart && editionEnd ? (formatShortRange(editionStart, editionEnd) ?? '') : ''
 
   // "X of Y upcoming events", collapsing to "Y upcoming events" when the venue/
   // type filters aren't narrowing anything. A finished edition (nothing upcoming)
