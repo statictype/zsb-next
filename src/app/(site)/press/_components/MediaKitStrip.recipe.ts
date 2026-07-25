@@ -9,9 +9,6 @@ export const mediaKitStrip = sva({
       aspectRatio: '3 / 4',
       // exception: image placeholder, raised-dark surface
       background: 'gray.900',
-      border: 'none',
-      padding: '0',
-      cursor: 'pointer',
       overflow: 'hidden',
       _hover: { '& img': { transform: 'scale(1.04)' } },
       md: { width: '[clamp(320px, 38vw, 460px)]' },

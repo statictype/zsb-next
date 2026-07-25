@@ -1,69 +1,171 @@
 import { defineRecipe } from '@pandacss/dev'
 
-const colorShift = { _hover: { color: 'action' } } as const
-const subtleHover = { _hover: { color: 'heading', borderColor: 'heading' } } as const
+/**
+ * The label roll — the resting label leaves upward while its duplicate arrives
+ * from below, clipped by a mask snug to the line box. Same gesture as the nav
+ * links, so an action and a destination answer a pointer the same way.
+ */
+const roll = {
+  '& [data-btn-mask]': {
+    display: 'block',
+    overflow: 'hidden',
+    // Carries the size variant's gap down to the label and its duplicate; `gap`
+    // does not inherit on its own.
+    gap: 'inherit',
+  },
+  '& [data-btn-label]': {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'inherit',
+    position: 'relative',
+    transition: 'develop',
+  },
+  '& [data-btn-copy]': {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'inherit',
+    position: 'absolute',
+    top: 'token(sizes.rollOffset)',
+    left: '0',
+    right: '0',
+  },
+  '&:is(:hover, :focus-visible):not(:disabled, [aria-disabled=true]) [data-btn-label]': {
+    transform: 'translateY(calc(token(sizes.rollOffset) * -1))',
+  },
+  // Pressed is a state, not a destination: nothing to preview, so it holds still.
+  '&[aria-pressed=true] [data-btn-label]': { transform: 'none' },
+} as const
+
+/** Selected reads the same on every control: the chartreuse fill (nav, badges). */
+const selected = {
+  '&[aria-pressed=true]': {
+    background: 'highlight',
+    borderColor: 'highlight',
+    color: 'black',
+    boxShadow: 'litEdge',
+  },
+} as const
+
+const labelType = {
+  fontFamily: 'body',
+  fontWeight: 'medium',
+  lineHeight: '1.3',
+  letterSpacing: 'label',
+  textTransform: 'uppercase',
+  whiteSpace: 'nowrap',
+} as const
 
 export const button = defineRecipe({
   jsx: ['Button'],
   className: 'btn',
-  description: 'The one action primitive — primary | secondary | link | icon (ADR 0019)',
+  description: 'The one action primitive — primary | secondary | quiet | icon | link | plain',
   base: {
+    position: 'relative',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    cursor: 'pointer',
+    isolation: 'isolate',
+    appearance: 'none',
+    borderRadius: 'none',
     border: 'none',
+    cursor: 'pointer',
     transition: 'interactive',
+    // A press moves the plate, on every variant.
+    _active: { transform: 'translateY(1px)' },
   },
   variants: {
     variant: {
+      /** The one loud action on a view: a 2px magenta edge that comes alive. */
       primary: {
-        bg: 'transparent',
-        color: 'white',
+        ...labelType,
+        ...roll,
+        background: 'transparent',
+        color: 'heading',
         border: 'primary',
-        _hover: { bg: 'action', color: 'white' },
+        '& [data-btn-copy]': { ...roll['& [data-btn-copy]'], color: 'action' },
+        // The gradient ring — the same attention device the cards use — sits on
+        // the border box at the border's own width, and the resting edge fades
+        // out underneath it: the edge starts travelling, it does not thicken.
+        _before: {
+          content: '""',
+          layerStyle: 'gradientBorder',
+          inset: '[calc(token(borderWidths.hairline) * -1)]',
+          padding: '[token(borderWidths.hairline)]',
+        },
+        _hover: {
+          borderColor: 'transparent',
+          '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
+        },
       },
+      /** The card's own language: a hairline box whose border takes the accent. */
       secondary: {
-        bg: 'transparent',
-        color: 'white',
+        ...labelType,
+        ...roll,
+        ...selected,
+        background: 'transparent',
+        color: 'heading',
         border: 'hairline',
-        ...subtleHover,
+        '& [data-btn-copy]': { ...roll['& [data-btn-copy]'], color: 'action' },
+        _hover: { borderColor: 'action' },
       },
-      link: {
-        display: 'inline',
-        bg: 'transparent',
-        color: 'white',
-
-        textDecorationColor: 'action',
-        textUnderlineOffset: '4px',
-        ...colorShift,
-        _hover: { ...colorShift._hover, textDecoration: 'underline' },
+      /** Chrome-less control for in-place work — reset, dismiss, toggle. */
+      quiet: {
+        ...labelType,
+        ...roll,
+        ...selected,
+        background: 'transparent',
+        color: 'body',
+        border: 'hairline',
+        borderColor: 'transparent',
+        '& [data-btn-copy]': { ...roll['& [data-btn-copy]'], color: 'action' },
+        _hover: { color: 'heading' },
       },
+      /** Square hit target, no chrome — lightbox and menu controls. */
       icon: {
+        background: 'transparent',
+        color: 'heading',
         width: 'hitTarget',
         height: 'hitTarget',
-        padding: '0',
+        _hover: { color: 'action' },
+      },
+      /** Inline text inside running copy. */
+      link: {
+        display: 'inline',
         background: 'transparent',
-        borderWidth: '0',
         color: 'heading',
-        _hover: { color: 'action', transform: 'translateY(-2px)' },
+        textDecorationColor: 'action',
+        textUnderlineOffset: '4px',
+        _hover: { color: 'action', textDecoration: 'underline' },
+      },
+      /** No chrome at all — a pressable surface that carries its own look. */
+      plain: {
+        display: 'block',
+        background: 'transparent',
+        color: 'current',
+        textAlign: 'left',
       },
     },
     size: {
       sm: {
-        gap: '5px',
-        paddingBlock: { base: '6px', md: '8px' },
-        paddingInline: { base: '16px', md: '20px' },
+        gap: '6px',
+        minHeight: '32px',
+        paddingBlock: 'sm',
+        paddingInline: 'md',
+        fontSize: 'xs',
       },
       md: {
-        gap: { base: '8px', md: '10px' },
-        paddingBlock: { base: '10px', md: '12px', lg: '14px', '2xl': '16px' },
-        paddingInline: { base: '24px', md: '28px', lg: '32px', '2xl': '36px' },
+        gap: '8px',
+        paddingBlock: { base: '12px', md: '14px' },
+        paddingInline: { base: '24px', md: '28px' },
+        fontSize: 'sm',
       },
       lg: {
-        gap: { base: '10px', md: '12px', lg: '14px' },
-        paddingBlock: { base: '12px', md: '16px', lg: '20px', '2xl': '24px' },
-        paddingInline: { base: '28px', md: '36px', lg: '44px', '2xl': '52px' },
+        gap: '10px',
+        paddingBlock: { base: '16px', md: '20px' },
+        paddingInline: { base: '32px', md: '40px' },
+        fontSize: 'base',
       },
       touch: {
         width: 'touch',
@@ -71,16 +173,11 @@ export const button = defineRecipe({
       },
     },
   },
-  // The `text` and `icon` variants are sizeless — neutralize the default size.
+  // The chrome-less variants are sizeless: they inherit the type around them.
   compoundVariants: [
-    {
-      variant: 'link',
-      css: { paddingBlock: '0', paddingInline: '0', gap: '0' },
-    },
-    {
-      variant: 'icon',
-      css: { padding: '0', gap: '0' },
-    },
+    { variant: 'link', css: { padding: '0', gap: '0', fontSize: 'inherit' } },
+    { variant: 'plain', css: { padding: '0', gap: '0', fontSize: 'inherit' } },
+    { variant: 'icon', css: { padding: '0', gap: '0' } },
   ],
   defaultVariants: { variant: 'primary', size: 'md' },
 })

@@ -1,7 +1,6 @@
 'use client'
 
-import { shareCopied, shareIcon, useShareLink } from '@calendar/useShareLink'
-import { cx } from 'styled-system/css'
+import { shareCopied, useShareLink } from '@calendar/useShareLink'
 import { Button } from '@/components/ui/Button/Button'
 
 // The anchor the shared link lands on — the Calendar `<section>` carries this
@@ -25,7 +24,7 @@ export function CalendarShare() {
     <Button
       variant="secondary"
       size="sm"
-      className={cx(shareIcon, copied && shareCopied)}
+      className={copied ? shareCopied : undefined}
       onClick={share}
       aria-live="polite"
     >

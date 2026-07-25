@@ -59,24 +59,10 @@ export const calendar = sva({
       color: 'white',
       fontVariantNumeric: 'tabular-nums',
     },
+    // Chrome, hover and the pressed (chartreuse) state come from the `secondary`
+    // Button; the count inside the label is the only local concern.
     pastToggle: {
-      minHeight: '[32px]',
-      paddingBlock: 'xs',
-      paddingInline: 'md',
-      color: 'gray.300',
-      background: 'transparent',
-      border: 'hairline',
-      cursor: 'pointer',
       fontVariantNumeric: 'tabular-nums',
-      transition: 'interactive',
-      _hover: { color: 'white', borderColor: 'white' },
-      // On → the chartreuse "active" fill.
-      '&[data-on=true]': {
-        color: 'black',
-        background: 'highlight',
-        borderColor: 'highlight',
-        _hover: { color: 'black', background: 'highlight', borderColor: 'highlight' },
-      },
     },
 
     // ---- Ongoing band — exhibition card grid ----

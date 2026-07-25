@@ -16,7 +16,7 @@ export const privacyPage = sva({
         padding: '0',
       },
       '& ol': { paddingInlineStart: 'lg' },
-      '& li': { paddingLeft: 'md', borderLeft: '[2px solid token(colors.divider)]' },
+      '& li': { paddingLeft: 'md', borderLeft: 'hairline' },
     },
     settingsRow: {
       padding: 'md',

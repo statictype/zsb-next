@@ -69,15 +69,11 @@ export function useShareLink(resolveUrl: () => string): ShareLink {
   }
 }
 
-// The look both share buttons layer onto the ghost <Button>, kept beside the
-// behavior they dress up. Icon nudge on hover:
-export const shareIcon = css({
-  '& svg': { transition: 'interactive' },
-  _hover: { '& svg': { transform: 'translateY(-2px)' } },
-})
-// Copied — settle into the chartreuse "confirmed" accent used across the board.
+// Copied — settle into the chartreuse "confirmed" accent used across the board,
+// the rolling label copy included, so the confirmation survives a hover.
 export const shareCopied = css({
   color: 'highlight',
   borderColor: 'highlight',
+  '& [data-btn-copy]': { color: 'highlight' },
   _hover: { color: 'highlight', borderColor: 'highlight' },
 })

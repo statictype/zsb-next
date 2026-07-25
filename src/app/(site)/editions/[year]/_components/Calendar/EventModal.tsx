@@ -2,10 +2,9 @@
 
 import { eventModal } from '@calendar/EventModal.recipe'
 import { TypeChips } from '@calendar/TypeChips'
-import { shareCopied, shareIcon, useShareLink } from '@calendar/useShareLink'
+import { shareCopied, useShareLink } from '@calendar/useShareLink'
 import { VenueLine } from '@calendar/VenueLine'
 import { RiArrowLeftLine } from '@remixicon/react'
-import { cx } from 'styled-system/css'
 import { HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
@@ -49,7 +48,7 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
         <Button
           variant="secondary"
           size="sm"
-          className={cx(shareIcon, copied && shareCopied)}
+          className={copied ? shareCopied : undefined}
           onClick={share}
           aria-live="polite"
         >

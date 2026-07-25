@@ -111,6 +111,7 @@ export const tokens = {
     cardOverlap: { value: '3rem' },
   },
   radii: {
+    none: { value: '0px' },
     pill: { value: '100px' },
     circle: { value: '50%' },
   },
@@ -123,7 +124,7 @@ export const tokens = {
       value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.chartreuse}' },
     },
     primary: {
-      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.action}' },
+      value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.action}' },
     },
     focus: {
       value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.chartreuse}' },
@@ -133,7 +134,7 @@ export const tokens = {
     '0': { value: '0px' },
     hairline: { value: '1px' },
     focus: { value: '2px' },
-    gradientRing: { value: '2px' },
+    gradientRing: { value: '1px' },
 
     // so both can share it).
     hairlineThin: { value: '0.5px' },
@@ -150,7 +151,10 @@ export const tokens = {
     navIcon: { value: '24px' },
     navGlyph: { value: '18px' },
     navGlyphStroke: { value: '2px' },
-    navRollOffset: { value: '110%' },
+
+    // Travel of the label roll — the distance the resting label leaves and the
+    // offset its duplicate waits at. Shared by the nav links and buttons.
+    rollOffset: { value: '110%' },
     measure: { value: '60ch' },
     maxWidth: { value: '1800px' },
 
@@ -213,6 +217,10 @@ export const tokens = {
   },
 
   shadows: {
+    // Depth on a black ground is made with light, not shade: a hairline of lit
+    // edge along the top, as on the tape.
+    litEdge: { value: 'inset 0 1px 0 rgb(255 255 255 / 0.18)' },
+
     card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
     badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
     modal: { value: '0 30px 80px rgb(0 0 0 / 0.5)' },

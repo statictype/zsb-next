@@ -6,13 +6,13 @@ import {
   type ReactNode,
 } from 'react'
 import { cx } from 'styled-system/css'
-import { Text } from 'styled-system/jsx'
 import { type ButtonVariantProps, button } from 'styled-system/recipes'
 
 /**
- * Button — the one action primitive (ADR 0019): primary | secondary | link |
- * icon × size. The `link` variant absorbs the retired `textLink`; `icon`
- * absorbs the retired `IconButton`.
+ * Button — the one action primitive (ADR 0019): primary | secondary | quiet |
+ * icon | link | plain × size. The `link` variant absorbs the retired
+ * `textLink`; `icon` absorbs the retired `IconButton`; `plain` is a pressable
+ * surface that carries its own look (a media plate, an image card).
  *
  * Renders a `<button>` by default. With **`asChild`** it renders *as* its single
  * child instead — merging the button className onto the call site's own
@@ -34,6 +34,24 @@ type ButtonAsChildProps = ButtonOwnProps & {
 
 type ButtonProps = NativeButtonProps | ButtonAsChildProps
 
+type Variant = NonNullable<ButtonVariantProps['variant']>
+
+const ROLLING: readonly Variant[] = ['primary', 'secondary', 'quiet']
+
+/** The label plus the duplicate that rolls in behind it; the recipe styles both. */
+function rollingLabel(children: ReactNode) {
+  return (
+    <span data-btn-mask>
+      <span data-btn-label>
+        {children}
+        <span data-btn-copy aria-hidden>
+          {children}
+        </span>
+      </span>
+    </span>
+  )
+}
+
 export function Button({
   variant,
   size,
@@ -43,6 +61,8 @@ export function Button({
   ...rest
 }: ButtonProps) {
   const cls = cx(button({ variant, size }), className)
+  const rolls = ROLLING.includes(variant ?? 'primary')
+
   if (asChild && isValidElement(rest.children)) {
     const child = rest.children as ReactElement<{
       children?: ReactNode
@@ -50,27 +70,14 @@ export function Button({
     }>
     return cloneElement(child, {
       className: cx(cls, child.props.className),
-      children:
-        variant === 'link' ? (
-          child.props.children
-        ) : (
-          <Text variant="label" color="white" display="contents">
-            {child.props.children}
-          </Text>
-        ),
+      children: rolls ? rollingLabel(child.props.children) : child.props.children,
     })
   }
-  const children =
-    variant === 'link' ? (
-      rest.children
-    ) : (
-      <Text variant="label" display="contents">
-        {rest.children}
-      </Text>
-    )
+
+  const { children, ...buttonProps } = rest
   return (
-    <button type={type} className={cls} {...rest}>
-      {children}
+    <button type={type} className={cls} {...buttonProps}>
+      {rolls ? rollingLabel(children) : children}
     </button>
   )
 }

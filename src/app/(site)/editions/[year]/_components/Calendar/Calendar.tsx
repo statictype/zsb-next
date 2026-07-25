@@ -79,7 +79,6 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                       variant="secondary"
                       size="sm"
                       className={s.pastToggle}
-                      data-on={showPast}
                       aria-pressed={showPast}
                       onClick={() => setShowPast(!showPast)}
                     >

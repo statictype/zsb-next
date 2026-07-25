@@ -66,7 +66,7 @@ export const navigation = sva({
       // leaks into the link's padding.
       '& [data-nav-mask]': { display: 'block', overflow: 'hidden' },
       '& [data-nav-label]': {
-        '--nav-roll-offset': 'token(sizes.navRollOffset)',
+        '--nav-roll-offset': 'token(sizes.rollOffset)',
         display: 'block',
         position: 'relative',
         transition: 'develop',
