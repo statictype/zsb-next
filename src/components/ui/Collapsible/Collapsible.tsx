@@ -8,7 +8,7 @@ import { Text } from 'styled-system/jsx'
 import { collapsible } from 'styled-system/recipes'
 
 interface CollapsibleProps {
-  id?: string | undefined
+  id?: string
   closedLabel: ReactNode
   openLabel: ReactNode
   meta?: ReactNode

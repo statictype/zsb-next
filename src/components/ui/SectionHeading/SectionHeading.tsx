@@ -5,12 +5,12 @@ import { sectionHeading } from '@/components/ui/SectionHeading/SectionHeading.re
 
 interface SectionHeadingProps {
   /** Heading level — defaults to `h2`. */
-  as?: 'h2' | 'h3' | undefined
+  as?: 'h2' | 'h3'
   /** Drop the bottom margin (0) when a parent header owns the title→content gap.
    *  Defaults to the standard `xl`. */
-  flush?: boolean | undefined
+  flush?: boolean
   /** Anchor id (e.g. an `aria-labelledby` target). */
-  id?: string | undefined
+  id?: string
   /** cx escape for true layout only — `maxWidth`, `gridArea`, etc. */
   className?: string | undefined
   children: ReactNode

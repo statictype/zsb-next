@@ -26,7 +26,7 @@ type CardOwnProps = CardVariantProps & { className?: string | undefined }
 
 type CardAsProps = CardOwnProps &
   HTMLAttributes<HTMLElement> & {
-    asChild?: false | undefined
+    asChild?: false
     /** Render element — defaults to a `div`; pass next/link's `Link` for a card link. */
     as?: ElementType
     /** Set when rendering as an anchor / next-link card. */
@@ -43,7 +43,7 @@ type CardProps = CardAsProps | CardAsChildProps
 export function Card({ ground, interactive, className, asChild, ...rest }: CardProps) {
   const cls = cx(card({ ground, interactive }), className)
   if (asChild && isValidElement(rest.children)) {
-    const child = rest.children as ReactElement<{ className?: string }>
+    const child = rest.children as ReactElement<{ className?: string | undefined }>
     return cloneElement(child, { className: cx(cls, child.props.className) })
   }
   const { as: Tag = 'div', ...domProps } = rest as CardAsProps

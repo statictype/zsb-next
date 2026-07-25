@@ -20,10 +20,10 @@ interface LinkListItemProps {
   year: number | string
   title: ReactNode
   href?: string | undefined
-  excerpt?: ReactNode | undefined
-  tags?: ReactNode[] | undefined
-  external?: boolean | undefined
-  disabled?: boolean | undefined
+  excerpt?: ReactNode
+  tags?: ReactNode[]
+  external?: boolean
+  disabled?: boolean
 }
 
 export function LinkListItem({

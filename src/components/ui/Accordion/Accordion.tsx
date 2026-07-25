@@ -13,11 +13,11 @@ export interface AccordionItem {
   trigger: ReactNode
   content: ReactNode
   meta?: ReactNode
-  triggerHeading?: 'h3' | 'h4' | undefined
+  triggerHeading?: 'h3' | 'h4'
 }
 
 interface AccordionProps {
-  id?: string | undefined
+  id?: string
   items: AccordionItem[]
   multiple?: boolean
   className?: string | undefined
