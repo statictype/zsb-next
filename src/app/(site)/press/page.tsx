@@ -31,7 +31,7 @@ export const generateMetadata = makePageMetadata(getPressPage, {
   path: '/press',
 })
 
-type Medium = NonNullable<PressAppearance['medium']>
+type Medium = PressAppearance['medium']
 
 const MEDIUM_LABEL: Record<Medium, string> = {
   article: 'Article',

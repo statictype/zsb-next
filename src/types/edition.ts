@@ -247,6 +247,18 @@ export type EditionJsonLd = Pick<
   | 'events'
 >
 
+// ---- Press ----
+
+export interface PressAppearance {
+  _id: string
+  medium: 'article' | 'audio' | 'video'
+  title: string
+  year: number
+  tag: string
+  url: string
+  excerpt: string
+}
+
 // ---- Visit page ----
 
 // Closed icon set an editor can pick per amenity, mirrored from the amenity

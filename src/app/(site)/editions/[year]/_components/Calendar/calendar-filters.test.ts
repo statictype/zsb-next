@@ -362,7 +362,7 @@ describe('deriveCalendarView — ended / liveClock / labels', () => {
 
   it('handles an eventless edition — no window label, zero-count label', () => {
     const view = deriveCalendarView([], DEFAULT_FILTERS, '2026-04-15')
-    expect(view.windowLabel).toBeUndefined()
+    expect(view.windowLabel).toBe('')
     expect(view.countLabel).toBe('0 events')
   })
 })
