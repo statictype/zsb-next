@@ -2,12 +2,12 @@ import { defineRecipe } from '@pandacss/dev'
 
 const roll = {
   '& [data-btn-mask]': {
-    display: 'block',
+    display: 'flex',
     overflow: 'hidden',
     gap: 'inherit',
   },
   '& [data-btn-label]': {
-    display: 'inline-flex',
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 'inherit',
@@ -94,7 +94,6 @@ export const button = defineRecipe({
         background: 'transparent',
         color: 'heading',
         border: 'hairline',
-        '& [data-btn-copy]': { ...roll['& [data-btn-copy]'], color: 'action' },
         _hover: { borderColor: 'action' },
       },
       quiet: {
