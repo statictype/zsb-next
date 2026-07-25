@@ -38,7 +38,6 @@ type Variant = NonNullable<ButtonVariantProps['variant']>
 
 const ROLLING: readonly Variant[] = ['primary', 'secondary', 'quiet']
 
-/** The label plus the duplicate that rolls in behind it; the recipe styles both. */
 function rollingLabel(children: ReactNode) {
   return (
     <span data-btn-mask>

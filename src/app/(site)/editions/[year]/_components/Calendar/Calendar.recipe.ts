@@ -59,8 +59,6 @@ export const calendar = sva({
       color: 'white',
       fontVariantNumeric: 'tabular-nums',
     },
-    // Chrome, hover and the pressed (chartreuse) state come from the `secondary`
-    // Button; the count inside the label is the only local concern.
     pastToggle: {
       fontVariantNumeric: 'tabular-nums',
     },

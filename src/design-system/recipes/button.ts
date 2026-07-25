@@ -1,16 +1,9 @@
 import { defineRecipe } from '@pandacss/dev'
 
-/**
- * The label roll — the resting label leaves upward while its duplicate arrives
- * from below, clipped by a mask snug to the line box. Same gesture as the nav
- * links, so an action and a destination answer a pointer the same way.
- */
 const roll = {
   '& [data-btn-mask]': {
     display: 'block',
     overflow: 'hidden',
-    // Carries the size variant's gap down to the label and its duplicate; `gap`
-    // does not inherit on its own.
     gap: 'inherit',
   },
   '& [data-btn-label]': {
@@ -34,11 +27,9 @@ const roll = {
   '&:is(:hover, :focus-visible):not(:disabled, [aria-disabled=true]) [data-btn-label]': {
     transform: 'translateY(calc(token(sizes.rollOffset) * -1))',
   },
-  // Pressed is a state, not a destination: nothing to preview, so it holds still.
   '&[aria-pressed=true] [data-btn-label]': { transform: 'none' },
 } as const
 
-/** Selected reads the same on every control: the chartreuse fill (nav, badges). */
 const selected = {
   '&[aria-pressed=true]': {
     background: 'highlight',
@@ -72,12 +63,10 @@ export const button = defineRecipe({
     border: 'none',
     cursor: 'pointer',
     transition: 'interactive',
-    // A press moves the plate, on every variant.
     _active: { transform: 'translateY(1px)' },
   },
   variants: {
     variant: {
-      /** The one loud action on a view: a 2px magenta edge that comes alive. */
       primary: {
         ...labelType,
         ...roll,
@@ -85,9 +74,8 @@ export const button = defineRecipe({
         color: 'heading',
         border: 'primary',
         '& [data-btn-copy]': { ...roll['& [data-btn-copy]'], color: 'action' },
-        // The gradient ring — the same attention device the cards use — sits on
-        // the border box at the border's own width, and the resting edge fades
-        // out underneath it: the edge starts travelling, it does not thicken.
+        // Sits on the border box at the border's own width, and the resting
+        // edge fades out under it, so the edge travels instead of thickening.
         _before: {
           content: '""',
           layerStyle: 'gradientBorder',
@@ -99,7 +87,6 @@ export const button = defineRecipe({
           '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
         },
       },
-      /** The card's own language: a hairline box whose border takes the accent. */
       secondary: {
         ...labelType,
         ...roll,
@@ -110,7 +97,6 @@ export const button = defineRecipe({
         '& [data-btn-copy]': { ...roll['& [data-btn-copy]'], color: 'action' },
         _hover: { borderColor: 'action' },
       },
-      /** Chrome-less control for in-place work — reset, dismiss, toggle. */
       quiet: {
         ...labelType,
         ...roll,
@@ -122,7 +108,6 @@ export const button = defineRecipe({
         '& [data-btn-copy]': { ...roll['& [data-btn-copy]'], color: 'action' },
         _hover: { color: 'heading' },
       },
-      /** Square hit target, no chrome — lightbox and menu controls. */
       icon: {
         background: 'transparent',
         color: 'heading',
@@ -130,7 +115,6 @@ export const button = defineRecipe({
         height: 'hitTarget',
         _hover: { color: 'action' },
       },
-      /** Inline text inside running copy. */
       link: {
         display: 'inline',
         background: 'transparent',
@@ -139,7 +123,6 @@ export const button = defineRecipe({
         textUnderlineOffset: '4px',
         _hover: { color: 'action', textDecoration: 'underline' },
       },
-      /** No chrome at all — a pressable surface that carries its own look. */
       plain: {
         display: 'block',
         background: 'transparent',
@@ -173,7 +156,7 @@ export const button = defineRecipe({
       },
     },
   },
-  // The chrome-less variants are sizeless: they inherit the type around them.
+  // The chrome-less variants are sizeless — neutralize the default size.
   compoundVariants: [
     { variant: 'link', css: { padding: '0', gap: '0', fontSize: 'inherit' } },
     { variant: 'plain', css: { padding: '0', gap: '0', fontSize: 'inherit' } },

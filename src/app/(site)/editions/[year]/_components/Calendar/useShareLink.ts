@@ -69,8 +69,7 @@ export function useShareLink(resolveUrl: () => string): ShareLink {
   }
 }
 
-// Copied — settle into the chartreuse "confirmed" accent used across the board,
-// the rolling label copy included, so the confirmation survives a hover.
+// Copied — settle into the chartreuse "confirmed" accent used across the board.
 export const shareCopied = css({
   color: 'highlight',
   borderColor: 'highlight',

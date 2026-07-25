@@ -151,9 +151,6 @@ export const tokens = {
     navIcon: { value: '24px' },
     navGlyph: { value: '18px' },
     navGlyphStroke: { value: '2px' },
-
-    // Travel of the label roll — the distance the resting label leaves and the
-    // offset its duplicate waits at. Shared by the nav links and buttons.
     rollOffset: { value: '110%' },
     measure: { value: '60ch' },
     maxWidth: { value: '1800px' },
@@ -217,8 +214,6 @@ export const tokens = {
   },
 
   shadows: {
-    // Depth on a black ground is made with light, not shade: a hairline of lit
-    // edge along the top, as on the tape.
     litEdge: { value: 'inset 0 1px 0 rgb(255 255 255 / 0.18)' },
 
     card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },

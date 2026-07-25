@@ -1,15 +1,5 @@
 import { defineSlotRecipe } from '@pandacss/dev'
 
-/**
- * The filter chip, on the system's two inks: a hairline at rest, the magenta
- * edge under the pointer, the chartreuse edge when selected.
- *
- * Every option is selected by default (`isSelected` is true on a null
- * selection), so "on" is the resting state of the whole bar and the informative
- * one is a chip switched off — the reason selection is an edge and not a fill.
- * The control is the only slot that fills, so the pointer (ring) and the state
- * (control) never say the same thing.
- */
 export const checkbox = defineSlotRecipe({
   className: 'checkbox',
   jsx: ['Checkbox'],
@@ -24,9 +14,8 @@ export const checkbox = defineSlotRecipe({
       gap: '9px',
       minHeight: '36px',
       padding: '8px 14px',
-      // The chip's own type context. Without it the root inherits body type and
-      // the label element carries a 16px/1.7 strut while the count span is a
-      // 10px/1.3 line box — two line boxes, centred separately, one visibly off.
+      // Without a type context here the label element inherits body type and
+      // carries a 16px/1.7 strut against the count's 10px/1.3 line box.
       fontSize: 'xs',
       lineHeight: '1.3',
       whiteSpace: 'nowrap',
@@ -35,15 +24,11 @@ export const checkbox = defineSlotRecipe({
       border: 'hairline',
       cursor: 'pointer',
       transition: 'interactive',
-      // Selected — the chartreuse edge every marked control in the system wears.
       '&[data-state=checked]': {
         color: 'white',
         borderColor: 'highlight',
       },
-      // Hover, from either state: the edge takes the action ink and the label
-      // comes up to white. Declared after `checked` so it wins on both props —
-      // hovering a selected chip offers to switch it off, and the filled
-      // control is what holds the state meanwhile.
+      // After `checked`, so hover wins on both props.
       '&[data-hover]': {
         color: 'white',
         borderColor: 'action',
@@ -52,8 +37,7 @@ export const checkbox = defineSlotRecipe({
         outline: 'focus',
         outlineOffset: '2px',
       },
-      // One step under the label in every state. 0.7, not the 0.6 it started
-      // at: that read 4.22:1 against the resting gray, under the 4.5 floor.
+      // Not 0.6: that read 4.22:1 against the resting gray.
       '& [data-checkbox-count]': {
         opacity: 0.7,
         fontVariantNumeric: 'tabular-nums',
@@ -72,7 +56,7 @@ export const checkbox = defineSlotRecipe({
       opacity: 0.5,
       transition: 'interactive',
       '&[data-hover]': { opacity: 0.8 },
-      // The one filled thing on the chip — so state survives a hover.
+      // The only slot that fills, so the state survives a hover.
       '&[data-state=checked]': {
         opacity: 1,
         background: 'action',
@@ -81,7 +65,6 @@ export const checkbox = defineSlotRecipe({
       },
     },
     indicator: { display: 'inline-flex' },
-    // Flex, so the label box is its text's line box and not a strut around it.
     label: { display: 'inline-flex', alignItems: 'center', cursor: 'inherit' },
   },
 })
