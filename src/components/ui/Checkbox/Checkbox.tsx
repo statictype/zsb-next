@@ -36,12 +36,12 @@ export function Checkbox({ id, label, checked, onCheckedChange, count, className
         </ArkCheckbox.Indicator>
       </ArkCheckbox.Control>
       <ArkCheckbox.Label className={styles.label}>
-        <Text variant="label" color="white">
+        <Text variant="label" color="current">
           {label}
         </Text>
       </ArkCheckbox.Label>
       {count != null && (
-        <Text variant="label" data-checkbox-count>
+        <Text variant="label" color="current" data-checkbox-count>
           {count}
         </Text>
       )}
