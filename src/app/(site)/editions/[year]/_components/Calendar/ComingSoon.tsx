@@ -1,7 +1,6 @@
 import { CalendarMeta } from '@calendar/CalendarMeta'
 import { comingSoon } from '@calendar/ComingSoon.recipe'
 import { FollowLinks, type SocialLink } from '@calendar/FollowLinks'
-import { css } from 'styled-system/css'
 import { Container, Divider, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -26,7 +25,7 @@ export function ComingSoon({ year, socials }: { year: number; socials: SocialLin
           </Stack>
 
           <Divider />
-          <div>
+          <Stack gap="xl">
             <Stack gap="md">
               <Text as="p" variant="title" className={s.headline}>
                 The programme is taking shape.
@@ -37,13 +36,8 @@ export function ComingSoon({ year, socials }: { year: number; socials: SocialLin
               </Text>
             </Stack>
 
-            <FollowLinks
-              label="Follow for updates"
-              socials={socials}
-              layout="stack"
-              className={css({ marginTop: 'xl' })}
-            />
-          </div>
+            <FollowLinks label="Follow for updates" socials={socials} layout="stack" />
+          </Stack>
         </Stack>
       </Container>
     </section>

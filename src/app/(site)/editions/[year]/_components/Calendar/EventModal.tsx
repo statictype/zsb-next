@@ -78,7 +78,7 @@ export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: 
 
               <TypeChips types={event.types} />
 
-              <VenueLine venue={event.venue} size="md" />
+              <VenueLine venue={event.venue} />
             </Stack>
 
             {event.description && (

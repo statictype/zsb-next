@@ -59,7 +59,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
       <HashScroller id={PROGRAM_SECTION_ID} />
       <Container>
         <Stack gap="xl">
-          <HStack as="header" justify="space-between" gap="md">
+          <HStack as="header" justify="space-between" alignItems="flex-start" gap="md">
             <Stack className={s.headerMain} gap="sm">
               <Stack gap="md">
                 <SectionHeading id="calendar-heading" flush>

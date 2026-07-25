@@ -5,12 +5,10 @@ import { sva } from 'styled-system/css'
  *
  * The date-by-date programme as a dark schedule board: header + counts, an
  * "Ongoing" exhibition card grid, the day-by-day agenda timeline, finished-edition
- * recap + shared archive Collapsible. Raw grays are the
- * documented dark-board exceptions; the card/gallery image filters are inlined
- * (were legacy `--card-*`/`--gallery-*` vars). State lives on data attributes:
- * `data-past` (runs/days), `data-on` (past toggle), `data-poster`
- * (event rows). The agenda's marker column is the `--marker-col` custom prop,
- * set responsively on the section.
+ * recap + shared archive Collapsible. Raw grays are the documented dark-board
+ * exceptions. State lives on data attributes: `data-past` (runs/days),
+ * `data-today` (the live day), `data-poster` (event rows). The agenda's marker
+ * column is the `--marker-col` custom prop, set responsively on the section.
  */
 export const calendar = sva({
   slots: [
@@ -26,7 +24,6 @@ export const calendar = sva({
     'runFoot',
     'empty',
     'emptyText',
-    'emptyClear',
     'agenda',
     'day',
     'marker',
@@ -61,12 +58,21 @@ export const calendar = sva({
       // Half the Badge box: padding + hairline + half its line box.
       '--agenda-badge-half':
         'calc(token(spacing.badgeY) + token(borderWidths.hairlineThin) + token(fontSizes.xs) * 0.65)',
+      // Diameter of the timeline's day node; its own offsets are derived from
+      // it, so the node stays centred on the spine at any size.
+      '--agenda-node': '8px',
     },
-    layout: { minWidth: '0' },
+    // The board's leading rule — one edge under the header whichever branch
+    // renders (empty notice, Ongoing band, or the agenda on its own).
+    layout: {
+      minWidth: '0',
+      borderTop: 'hairline',
+      paddingTop: 'lg',
+    },
     headerMain: { minWidth: '0' },
 
     count: {
-      color: 'white',
+      color: 'heading',
       fontVariantNumeric: 'tabular-nums',
     },
     pastToggle: {
@@ -80,24 +86,29 @@ export const calendar = sva({
     run: {
       display: 'flex',
       flexDirection: 'column',
-      background: 'black',
+      background: 'surface',
       border: 'hairline',
       position: 'relative',
-      // Gradient hover ring (masked to the hairline edge).
+      // Gradient hover ring, sitting on the border box at the border's own
+      // width while the resting edge fades out under it (the Button doctrine) —
+      // the edge travels instead of thickening.
       _before: {
         content: '""',
         layerStyle: 'gradientBorder',
-        padding: '[token(borderWidths.hairlineThin)]',
+        inset: '[calc(token(borderWidths.hairline) * -1)]',
+        padding: '[token(borderWidths.hairline)]',
       },
       _hover: {
+        borderColor: 'transparent',
         '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
         '& img': { filter: '[token(assets.developHover)]', transform: 'scale(1.03)' },
-        '& a': { color: 'white' },
+        '& a': { color: 'action' },
       },
-      '& a:focus-visible': { color: 'white' },
-      // Past de-emphasis (live edition only).
+      // Past de-emphasis (live edition only). 0.6 is the floor that keeps
+      // `body` copy at 4.9:1 on black — a touch device never gets the hover
+      // back, so the dimmed state has to be readable on its own.
       '&[data-past=true]': {
-        opacity: 0.42,
+        opacity: 0.6,
         transition: 'interactive',
       },
       '&[data-past=true]:hover': { opacity: 1 },
@@ -125,21 +136,10 @@ export const calendar = sva({
     // ---- Empty state ----
     empty: {
       alignItems: 'flex-start',
-      paddingBlock: '2xl',
-      borderTop: 'hairline',
+      paddingBlock: 'xl',
     },
     emptyText: {
       color: 'gray.300',
-    },
-    emptyClear: {
-      color: 'white',
-      background: 'transparent',
-      border: 'none',
-      paddingBottom: 'xs',
-      borderBottom: 'hairline',
-      cursor: 'pointer',
-      transition: 'interactive',
-      _hover: { color: 'action', borderColor: 'action' },
     },
 
     // ---- Agenda timeline ----
@@ -154,7 +154,7 @@ export const calendar = sva({
           top: 'sm',
           bottom: 'sm',
           left: 'var(--marker-col)',
-          width: '[1px]',
+          width: '[token(borderWidths.hairline)]',
           background: 'divider',
         },
       },
@@ -163,8 +163,9 @@ export const calendar = sva({
       paddingBlock: 'lg',
       borderTop: 'hairline',
       _first: { borderTop: 'none', paddingTop: '0' },
+      // See `run` — same floor, same reason.
       '&[data-past=true]': {
-        opacity: 0.42,
+        opacity: 0.6,
         transition: 'interactive',
       },
       '&[data-past=true]:hover': { opacity: 1 },
@@ -190,20 +191,26 @@ export const calendar = sva({
       md: {
         display: 'block',
         position: 'absolute',
-        right: '-xs',
-        top: '[calc(var(--agenda-axis) - 4px)]',
-        width: '[8px]',
-        height: '[8px]',
-        background: 'white',
+        // Centred on the spine, not on the column edge the spine starts at.
+        right: '[calc((var(--agenda-node) + token(borderWidths.hairline)) / -2)]',
+        top: '[calc(var(--agenda-axis) - var(--agenda-node) / 2)]',
+        width: '[var(--agenda-node)]',
+        height: '[var(--agenda-node)]',
+        background: 'heading',
         borderRadius: 'circle',
+        '[data-today=true] &': { background: 'highlight' },
       },
     },
     markerDay: {
       textStyle: 'heading',
-      color: 'white',
+      color: 'heading',
       fontVariantNumeric: 'tabular-nums',
     },
-    markerWeekday: { color: 'action' },
+    // The weekday reads with the month at label weight; chartreuse marks the
+    // one day that is today (magenta is the action ink — a date does nothing).
+    markerWeekday: {
+      '[data-today=true] &': { color: 'highlight' },
+    },
     events: {
       listStyle: 'none',
       display: 'flex',
@@ -229,7 +236,7 @@ export const calendar = sva({
       _first: { borderTop: 'none' },
       _hover: {
         '& a': { color: 'action' },
-        '& img': { filter: '[grayscale(0%) contrast(1)]', transform: 'scale(1.03)' },
+        '& img': { filter: '[token(assets.developHover)]', transform: 'scale(1.03)' },
       },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
         // Only rows with a poster get the reserved column — body owns column
@@ -246,7 +253,7 @@ export const calendar = sva({
       minWidth: '0',
     },
     eventTime: {
-      color: 'white',
+      color: 'heading',
       fontVariantNumeric: 'tabular-nums',
     },
     // The name link; its ::after stretches the hit target over the whole row.
@@ -277,7 +284,7 @@ export const calendar = sva({
       background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: '[grayscale(100%) contrast(1.1)]',
+        filter: '[token(assets.developRest)]',
         transition: 'develop',
       },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
@@ -311,6 +318,6 @@ export const calendar = sva({
     recap: {
       alignItems: 'flex-start',
     },
-    recapMark: { color: 'white' },
+    recapMark: { color: 'heading' },
   },
 })
