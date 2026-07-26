@@ -11,9 +11,7 @@ import type {
   ShareImage,
 } from '@/types/edition'
 
-// Wrap a mapped share image into an OpenGraph image entry, or undefined when
-// the page has none (so it falls back to the default branded card via the root
-// opengraph-image route).
+// Undefined lets Next fall back to the root opengraph-image route.
 function shareImages(image: ShareImage | undefined): NonNullable<Metadata['openGraph']>['images'] {
   if (!image) return undefined
   return [
@@ -23,14 +21,8 @@ function shareImages(image: ShareImage | undefined): NonNullable<Metadata['openG
 
 export function pageMetadata(args: {
   title?: string
-  /**
-   * The final meta description. Page singletons resolve this from Sanity
-   * (`page.metaDescription`, required) before calling; the two doc-less static
-   * pages (/artists, /editions) pass their own string.
-   */
   description: string
   path: string
-  /** Optional editor-set custom share image, already mapped to the OG crop. */
   shareImage?: ShareImage | undefined
 }): Metadata {
   const images = shareImages(args.shareImage)
@@ -39,9 +31,8 @@ export function pageMetadata(args: {
     ...(args.title !== undefined && { title: args.title }),
     description,
     alternates: { canonical: args.path },
-    // Only emit openGraph when overriding the image — re-declaring the global
-    // fields here because a page-level openGraph replaces the inherited one
-    // wholesale. With no override, the root opengraph-image card applies.
+    // A page-level openGraph replaces the inherited one wholesale, so the
+    // global fields have to be restated whenever the image is overridden.
     ...(images && {
       openGraph: {
         siteName: SITE_NAME,
@@ -54,8 +45,6 @@ export function pageMetadata(args: {
   }
 }
 
-// The metadata fields every page singleton projects. A fetcher whose result
-// carries at least these can back a generateMetadata.
 interface PageMetaFields {
   metaDescription?: string | null
   ogImage?: ShareImage | undefined
@@ -64,21 +53,12 @@ interface PageMetaFields {
 interface MakePageMetadataConfig {
   title: string
   path: string
-  /** Fallback when the document has no metaDescription. Defaults to SITE_DESCRIPTION. */
   description?: string
-  /** Optional override merged onto the result — e.g. the privacy page's robots. */
   robots?: Metadata['robots']
 }
 
-/**
- * Bind a page singleton's fetcher + its fixed title/path into a
- * `generateMetadata`, collapsing the resolve-perspective → fetch → map-meta
- * orchestration that was copy-pasted across the static pages into one seam.
- *
- * Safe under ADR 0012 (docs/adr/0012-cache-components-three-layer-fetch.md):
- * this caches nothing and hides no render `'use cache'` boundary — metadata
- * fetchers are already cached behind their own directive.
- */
+// Caches nothing and hides no render `'use cache'` boundary — keep it that way
+// (ADR 0012).
 export function makePageMetadata(
   fetcher: (options: DynamicFetchOptions) => Promise<PageMetaFields | null>,
   { title, path, description = SITE_DESCRIPTION, robots }: MakePageMetadataConfig,
@@ -115,17 +95,13 @@ export function editionMetadata(edition: Edition): Metadata {
       description,
       type: 'article',
       url: path,
-      // The share image is supplied by editions/[year]/opengraph-image (editor
-      // override or branded hero overlay); setting it here would duplicate it.
+      // No images: editions/[year]/opengraph-image supplies them.
     },
     alternates: { canonical: path },
   }
 }
 
-// A shared event link (ADR 0015) gets its own title + description so the
-// preview reads as the event, not the edition. The share image is supplied by
-// the event route's opengraph-image (override → poster → generated card,
-// ZSB-41); setting it here would duplicate it.
+// No images: the event route's opengraph-image supplies them.
 export function eventMetadata(year: number, event: CalendarEvent): Metadata {
   const title = event.name
   const description = truncate(event.description, 155)
@@ -149,11 +125,8 @@ export function editionEventJsonLd(edition: EditionJsonLd) {
   const start = edition.dateStart
   const end = edition.dateEnd
 
-  // ZSB is multi-site. Emit one schema.org Place per distinct top-level location
-  // across the edition's events — each venue's stamped rolled-up identity, the
-  // same key the calendar filters and the Visit venues view group by (ZSB-65),
-  // so a studio inside CFP counts as CFP. Fall back to venueLine, then
-  // "Bucharest", when no events are authored yet (the forthcoming edition).
+  // ZSB is multi-site. `rollUp` is the shared venue key: the calendar filters
+  // and the Visit venues view group by it too, so the three can't disagree.
   const eventPlaces = edition.events.map((e) => e.venue.rollUp.name)
   const venueNames = [...new Set(eventPlaces.filter(Boolean))]
   const placeNames = venueNames.length > 0 ? venueNames : [edition.venueLine || 'Bucharest']
@@ -172,17 +145,13 @@ export function editionEventJsonLd(edition: EditionJsonLd) {
     '@type': 'Event',
     name: `${SITE_NAME} ${edition.year} — ${theme}`,
     description: edition.manifesto.body,
-    // startDate is effectively required for Google Event rich results; both
-    // are stored as YYYY-MM-DD, which schema.org accepts as-is.
+    // Effectively required for Google Event rich results.
     ...(start && { startDate: start }),
     ...(end && { endDate: end }),
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     ...(edition.heroImage.src && { image: [edition.heroImage.src] }),
     url: `${SITE_URL}${editionHref(edition.year)}`,
-    // Single Place when there's one location, an array for the multi-site case;
-    // both are valid schema.org and degrade gracefully for consumers that read
-    // only the first.
     location: places.length === 1 ? places[0] : places,
     organizer: {
       '@type': 'Organization',
@@ -255,9 +224,8 @@ export interface FaqEntry {
   answer: string
 }
 
-// FAQPage structured data for the Visit page. Google requires every Q&A here
-// to be visibly present on the page, so this is built from the SAME merged
-// list the visible FAQ renders from — never a separate copy.
+// Google requires every Q&A here to be visible on the page, so callers must
+// pass the same list the visible FAQ renders from — never a separate copy.
 export function visitFaqJsonLd(entries: FaqEntry[]) {
   return {
     '@context': 'https://schema.org',
