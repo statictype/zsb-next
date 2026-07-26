@@ -1,6 +1,12 @@
 'use client'
 
-import { type RemixiconComponentType, RiCheckLine, RiLinkM, RiShareLine } from '@remixicon/react'
+import {
+  type RemixiconComponentType,
+  RiCheckLine,
+  RiErrorWarningLine,
+  RiLinkM,
+  RiShareLine,
+} from '@remixicon/react'
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import { css } from 'styled-system/css'
 
@@ -22,6 +28,8 @@ export interface ShareLink {
   share: () => Promise<void>
   /** The fallback copied the link just now (clears itself after a beat). */
   copied: boolean
+  /** The fallback couldn't copy — blocked clipboard (clears after a beat). */
+  failed: boolean
   /** Button label reflecting the current capability + state. */
   label: string
   /** Icon matching the label. */
@@ -32,14 +40,14 @@ export interface ShareLink {
 // (e.g. `window.location.href`) without re-running the hook on every change.
 export function useShareLink(resolveUrl: () => string): ShareLink {
   const canNativeShare = useSyncExternalStore(subscribeNoop, getCanShare, () => false)
-  const [copied, setCopied] = useState(false)
+  const [outcome, setOutcome] = useState<'idle' | 'copied' | 'failed'>('idle')
 
-  // Clear the "copied" confirmation after a beat.
+  // Clear the confirmation (or the failure) after a beat.
   useEffect(() => {
-    if (!copied) return
-    const id = window.setTimeout(() => setCopied(false), 2000)
+    if (outcome === 'idle') return
+    const id = window.setTimeout(() => setOutcome('idle'), 2000)
     return () => window.clearTimeout(id)
-  }, [copied])
+  }, [outcome])
 
   async function share() {
     const url = resolveUrl()
@@ -54,18 +62,35 @@ export function useShareLink(resolveUrl: () => string): ShareLink {
     }
     try {
       await navigator.clipboard.writeText(url)
-      setCopied(true)
+      setOutcome('copied')
     } catch {
-      // Clipboard blocked (insecure context / denied permission) — nothing more
-      // we can gracefully do; leave the button as-is.
+      // Clipboard blocked (insecure context / denied permission). Say so —
+      // a button that does nothing and reports nothing reads as broken.
+      setOutcome('failed')
     }
   }
+
+  const copied = outcome === 'copied'
+  const failed = outcome === 'failed'
 
   return {
     share,
     copied,
-    label: canNativeShare ? 'Share' : copied ? 'Link copied' : 'Copy link',
-    Icon: canNativeShare ? RiShareLine : copied ? RiCheckLine : RiLinkM,
+    failed,
+    label: canNativeShare
+      ? 'Share'
+      : failed
+        ? "Couldn't copy"
+        : copied
+          ? 'Link copied'
+          : 'Copy link',
+    Icon: canNativeShare
+      ? RiShareLine
+      : failed
+        ? RiErrorWarningLine
+        : copied
+          ? RiCheckLine
+          : RiLinkM,
   }
 }
 

@@ -25,5 +25,5 @@ export function RoutedEventModal({
     else router.push(editionHref)
   }
 
-  return <EventModal event={event} onClose={onClose} />
+  return <EventModal event={event} intercepted={intercepted} onClose={onClose} />
 }

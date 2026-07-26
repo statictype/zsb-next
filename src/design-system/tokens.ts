@@ -168,6 +168,7 @@ export const tokens = {
 
     dialogPanel: { value: '540px' },
     dialogPanelWide: { value: '760px' },
+    dialogPanelXl: { value: '1000px' },
     calendarPoster: { value: '220px' },
 
     heroTapeColumn: { value: '200px' },
