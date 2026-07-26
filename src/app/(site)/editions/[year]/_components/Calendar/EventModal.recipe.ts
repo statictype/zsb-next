@@ -1,6 +1,9 @@
 import { sva } from 'styled-system/css'
 
-const dismissBox = 'calc(token(spacing.sm) * 2 + 32px)'
+// The control bar's full height: an icon button inset by `sm` top and bottom.
+// The tallest control sets it, so the clearance never depends on which of them
+// renders.
+const dismissBox = 'calc(token(spacing.sm) * 2 + token(sizes.hitTarget))'
 
 /**
  * EventModal — co-located slot recipe.
@@ -10,15 +13,40 @@ const dismissBox = 'calc(token(spacing.sm) * 2 + 32px)'
  * row docked under it.
  */
 export const eventModal = sva({
-  slots: ['back', 'poster', 'body', 'content', 'when', 'name', 'description', 'actions', 'share'],
+  slots: [
+    'controls',
+    'steps',
+    'poster',
+    'body',
+    'content',
+    'when',
+    'name',
+    'description',
+    'actions',
+    'share',
+  ],
   base: {
-    back: {
+    // Leaving the panel (left) and moving through it (right), on one axis over
+    // the poster. Click-through, so only the controls themselves take the
+    // pointer — the poster underneath stays fully clickable.
+    controls: {
       position: 'absolute',
+      insetInline: 'sm',
       top: 'sm',
-      left: 'sm',
       zIndex: '2',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 'sm',
+      pointerEvents: 'none',
       color: 'heading',
       textShadow: 'text',
+      '& > *': { pointerEvents: 'auto' },
+    },
+    steps: {
+      display: 'flex',
+      alignItems: 'center',
+      pointerEvents: 'auto',
     },
 
     poster: {
@@ -99,8 +127,13 @@ export const eventModal = sva({
     },
   },
   variants: {
+    // The control bar spans the panel, not the poster. With a poster it only
+    // crosses the reading column once the panel goes horizontal; without one it
+    // sits over the column at every width.
     poster: {
-      true: {},
+      true: {
+        content: { md: { paddingTop: `[${dismissBox}]` } },
+      },
       false: {
         content: { paddingTop: `[${dismissBox}]` },
       },

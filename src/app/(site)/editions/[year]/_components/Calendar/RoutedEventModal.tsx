@@ -1,6 +1,7 @@
 'use client'
 
 import { EventModal } from '@calendar/EventModal'
+import type { EventSteps } from '@calendar/event-steps'
 import { useRouter } from 'next/navigation'
 import type { CalendarEvent } from '@/types/edition'
 
@@ -14,16 +15,20 @@ export function RoutedEventModal({
   event,
   intercepted,
   editionHref,
+  prev,
+  next,
 }: {
   event: CalendarEvent
   intercepted: boolean
   editionHref: string
-}) {
+} & EventSteps) {
   const router = useRouter()
   const onClose = () => {
     if (intercepted) router.back()
     else router.push(editionHref)
   }
 
-  return <EventModal event={event} intercepted={intercepted} onClose={onClose} />
+  return (
+    <EventModal event={event} intercepted={intercepted} prev={prev} next={next} onClose={onClose} />
+  )
 }

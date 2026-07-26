@@ -1,10 +1,18 @@
 'use client'
 
 import { eventModal } from '@calendar/EventModal.recipe'
+import type { EventSteps } from '@calendar/event-steps'
 import { TypeChips } from '@calendar/TypeChips'
 import { useShareLink } from '@calendar/useShareLink'
 import { VenueLine } from '@calendar/VenueLine'
-import { RiArrowLeftLine, RiExternalLinkLine } from '@remixicon/react'
+import {
+  RiArrowLeftLine,
+  RiArrowLeftSLine,
+  RiArrowRightSLine,
+  RiCloseLine,
+  RiExternalLinkLine,
+} from '@remixicon/react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { css } from 'styled-system/css'
 import { Stack, Text, Wrap } from 'styled-system/jsx'
@@ -33,17 +41,18 @@ function NewTab() {
 export function EventModal({
   event,
   intercepted,
+  prev,
+  next,
   onClose,
 }: {
   event: CalendarEvent
   intercepted: boolean
   onClose: () => void
-}) {
+} & EventSteps) {
   const {
     share,
-    copied,
-    failed,
     label: shareLabel,
+    status: shareStatus,
     Icon: ShareIcon,
   } = useShareLink(() => window.location.href)
   const [zoomed, setZoomed] = useState(false)
@@ -59,10 +68,42 @@ export function EventModal({
         presentation="panel"
         size={event.image ? 'wide' : 'default'}
       >
-        <Button variant="quiet" size="sm" className={s.back} onClick={onClose}>
-          <RiArrowLeftLine size={16} aria-hidden />
-          {intercepted ? 'Back to programme' : 'View full programme'}
-        </Button>
+        <div className={s.controls}>
+          <Button variant="quiet" size="sm" onClick={onClose}>
+            <RiArrowLeftLine size={16} aria-hidden />
+            {intercepted ? 'Back to programme' : 'View full programme'}
+          </Button>
+
+          <div className={s.steps}>
+            {prev && (
+              <Button asChild variant="icon">
+                <Link
+                  href={prev.href}
+                  replace
+                  scroll={false}
+                  aria-label={`Previous event: ${prev.name}`}
+                >
+                  <RiArrowLeftSLine size={22} aria-hidden />
+                </Link>
+              </Button>
+            )}
+            {next && (
+              <Button asChild variant="icon">
+                <Link
+                  href={next.href}
+                  replace
+                  scroll={false}
+                  aria-label={`Next event: ${next.name}`}
+                >
+                  <RiArrowRightSLine size={22} aria-hidden />
+                </Link>
+              </Button>
+            )}
+            <Button variant="icon" onClick={onClose} aria-label="Close">
+              <RiCloseLine size={22} aria-hidden />
+            </Button>
+          </div>
+        </div>
 
         {event.image && (
           <Button
@@ -119,11 +160,7 @@ export function EventModal({
               {shareLabel}
             </Button>
             <span role="status" className={srOnly}>
-              {failed
-                ? "Couldn't copy the link — copy it from the address bar."
-                : copied
-                  ? 'Link copied'
-                  : ''}
+              {shareStatus}
             </span>
           </Wrap>
         </div>

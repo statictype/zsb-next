@@ -310,6 +310,16 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
   return { onView, days }
 }
 
+// The whole edition in board reading order — the Ongoing runs, then the
+// day-by-day agenda — which is the sequence the event panel steps through.
+// Deliberately the unfiltered programme: the filters are client state on the
+// edition URL and never reach an event route, so a neighbour derived from them
+// would differ between a soft navigation and the same link opened cold.
+export function programmeOrder(events: CalendarEvent[]): CalendarEvent[] {
+  const { onView, days } = buildSchedule(events)
+  return [...onView, ...days.flatMap((day) => day.events)]
+}
+
 // Headline counts (ZSB-47). Before the clock resolves (null-clock convention,
 // `lib/today.ts`) everything counts as "upcoming" and no past affordance shows
 // — matching the all-events shell, avoiding an "X of Y" flash. Once resolved,

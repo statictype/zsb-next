@@ -32,6 +32,9 @@ export interface ShareLink {
   failed: boolean
   /** Button label reflecting the current capability + state. */
   label: string
+  /** Text for the call site's `role="status"` region — '' while idle. Kept
+   *  here so both share buttons word the outcome the same way. */
+  status: string
   /** Icon matching the label. */
   Icon: RemixiconComponentType
 }
@@ -91,6 +94,11 @@ export function useShareLink(resolveUrl: () => string): ShareLink {
         : copied
           ? RiCheckLine
           : RiLinkM,
+    status: failed
+      ? "Couldn't copy the link — copy it from the address bar."
+      : copied
+        ? 'Link copied'
+        : '',
   }
 }
 

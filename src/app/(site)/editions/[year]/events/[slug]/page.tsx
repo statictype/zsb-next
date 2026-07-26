@@ -1,3 +1,4 @@
+import { eventSteps } from '@calendar/event-steps'
 import { RoutedEventModal } from '@calendar/RoutedEventModal'
 import { CachedEdition } from '@edition/edition-content'
 import { notFound } from 'next/navigation'
@@ -42,7 +43,12 @@ export default async function EventPage(props: PageProps<'/editions/[year]/event
   return (
     <>
       <CachedEdition year={Number(year)} options={options} />
-      <RoutedEventModal event={event} intercepted={false} editionHref={editionHref(Number(year))} />
+      <RoutedEventModal
+        event={event}
+        intercepted={false}
+        editionHref={editionHref(Number(year))}
+        {...eventSteps(edition?.events ?? [], slug, Number(year))}
+      />
     </>
   )
 }

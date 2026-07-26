@@ -1,3 +1,4 @@
+import { eventSteps } from '@calendar/event-steps'
 import { RoutedEventModal } from '@calendar/RoutedEventModal'
 import { notFound } from 'next/navigation'
 import { getEdition } from '@/data/editions'
@@ -17,5 +18,12 @@ export default async function InterceptedEventModal(
   const event = findEvent(edition, slug)
   if (!event) notFound()
 
-  return <RoutedEventModal event={event} intercepted editionHref={editionHref(Number(year))} />
+  return (
+    <RoutedEventModal
+      event={event}
+      intercepted
+      editionHref={editionHref(Number(year))}
+      {...eventSteps(edition?.events ?? [], slug, Number(year))}
+    />
+  )
 }
