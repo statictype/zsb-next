@@ -69,11 +69,6 @@ export function EventModal({
         size={event.image ? 'wide' : 'default'}
       >
         <div className={s.controls}>
-          <Button variant="quiet" size="sm" onClick={onClose}>
-            <RiArrowLeftLine size={16} aria-hidden />
-            {intercepted ? 'Back to programme' : 'View full programme'}
-          </Button>
-
           <div className={s.steps}>
             {prev && (
               <Button asChild variant="icon">
@@ -99,10 +94,11 @@ export function EventModal({
                 </Link>
               </Button>
             )}
-            <Button variant="icon" onClick={onClose} aria-label="Close">
-              <RiCloseLine size={22} aria-hidden />
-            </Button>
           </div>
+
+          <Button variant="icon" onClick={onClose} aria-label="Close">
+            <RiCloseLine size={22} aria-hidden />
+          </Button>
         </div>
 
         {event.image && (
@@ -120,12 +116,14 @@ export function EventModal({
           <div className={s.content}>
             <Stack gap="lg">
               <Stack gap="md">
-                <h2 className={s.name}>{event.name}</h2>
-                <Stack gap="xs">
-                  <Text as="p" variant="calendar" className={s.when}>
-                    {eventWhenLabel(event)}
-                  </Text>
-                  <VenueLine venue={event.venue} />
+                <Stack gap="sm">
+                  <h2 className={s.name}>{event.name}</h2>
+                  <Stack gap="xs">
+                    <Text as="p" variant="calendar" className={s.when}>
+                      {eventWhenLabel(event)}
+                    </Text>
+                    <VenueLine venue={event.venue} />
+                  </Stack>
                 </Stack>
                 <TypeChips types={event.types} />
               </Stack>
@@ -138,31 +136,38 @@ export function EventModal({
             </Stack>
           </div>
 
-          <Wrap className={s.actions} gap="sm" align="center">
-            {event.ticketUrl && (
-              <Button asChild variant="primary" size="md">
-                <a href={event.ticketUrl} target="_blank" rel="noopener noreferrer">
-                  Tickets
-                  <NewTab />
-                </a>
+          <div className={s.footer}>
+            <Wrap className={s.actions} gap="md" align="center">
+              {event.ticketUrl && (
+                <Button asChild variant="primary" size="md">
+                  <a href={event.ticketUrl} target="_blank" rel="noopener noreferrer">
+                    Tickets
+                    <NewTab />
+                  </a>
+                </Button>
+              )}
+              {event.facebookUrl && (
+                <Button asChild variant="secondary" size="sm">
+                  <a href={event.facebookUrl} target="_blank" rel="noopener noreferrer">
+                    Facebook event
+                    <NewTab />
+                  </a>
+                </Button>
+              )}
+              <Button variant="quiet" size="sm" className={s.share} onClick={share}>
+                <ShareIcon size={15} aria-hidden />
+                {shareLabel}
               </Button>
-            )}
-            {event.facebookUrl && (
-              <Button asChild variant="secondary" size="sm">
-                <a href={event.facebookUrl} target="_blank" rel="noopener noreferrer">
-                  Facebook event
-                  <NewTab />
-                </a>
-              </Button>
-            )}
-            <Button variant="quiet" size="sm" className={s.share} onClick={share}>
-              <ShareIcon size={15} aria-hidden />
-              {shareLabel}
+              <span role="status" className={srOnly}>
+                {shareStatus}
+              </span>
+            </Wrap>
+
+            <Button variant="quiet" size="sm" onClick={onClose}>
+              <RiArrowLeftLine size={16} aria-hidden />
+              {intercepted ? 'Back to programme' : 'View full programme'}
             </Button>
-            <span role="status" className={srOnly}>
-              {shareStatus}
-            </span>
-          </Wrap>
+          </div>
         </div>
       </Dialog>
 

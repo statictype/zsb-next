@@ -1,9 +1,17 @@
 import { sva } from 'styled-system/css'
 
 // The control bar's full height: an icon button inset by `sm` top and bottom.
-// The tallest control sets it, so the clearance never depends on which of them
-// renders.
 const dismissBox = 'calc(token(spacing.sm) * 2 + token(sizes.hitTarget))'
+
+// Where the control bar crosses the reading column, the column both clears it
+// and fades under it. The poster gets that separation from its own scrim; the
+// column is black on black, so scrolled text would otherwise run into the
+// arrows. The fade spans exactly the bar's box, so an unscrolled column — whose
+// first line already starts below it — shows no fade at all.
+const clearsControls = {
+  paddingTop: `[${dismissBox}]`,
+  maskImage: `[linear-gradient(to bottom, transparent 0, black ${dismissBox})]`,
+} as const
 
 /**
  * EventModal — co-located slot recipe.
@@ -22,13 +30,15 @@ export const eventModal = sva({
     'when',
     'name',
     'description',
+    'footer',
     'actions',
     'share',
   ],
   base: {
-    // Leaving the panel (left) and moving through it (right), on one axis over
-    // the poster. Click-through, so only the controls themselves take the
-    // pointer — the poster underneath stays fully clickable.
+    // Moving through the programme (left) and leaving the panel (right), on one
+    // axis over the poster. Icon-only, so the bar fits the narrowest panel.
+    // Click-through, so only the controls themselves take the pointer — the
+    // poster underneath stays fully clickable.
     controls: {
       position: 'absolute',
       insetInline: 'sm',
@@ -43,6 +53,8 @@ export const eventModal = sva({
       textShadow: 'text',
       '& > *': { pointerEvents: 'auto' },
     },
+    // A matched pair, so the two arrows stay flush. Holds the slot even when
+    // neither renders, so close keeps its edge.
     steps: {
       display: 'flex',
       alignItems: 'center',
@@ -57,6 +69,9 @@ export const eventModal = sva({
       flexShrink: '0',
       overflow: 'hidden',
       background: 'black',
+      // A contained poster leaves black bars, so nothing marks where the plate
+      // ends and the reading column begins.
+      borderBlockEnd: 'hairline',
       // The counterpart to the lightbox's own `zoom-out`.
       cursor: 'zoom-in',
       // Show the whole poster, not a crop.
@@ -82,6 +97,17 @@ export const eventModal = sva({
         aspectRatio: 'auto',
         maxHeight: '[none]',
         alignSelf: 'stretch',
+        borderBlockEnd: 'none',
+        borderInlineEnd: 'hairline',
+        // Descriptions are short by schema, so panel height is set by three or
+        // four lines of text — which left a 3:4 poster boxed inside a column
+        // twice its width. The floor is the height at which the poster fills
+        // that column: 42% of the panel wide is 56% of the panel tall. Panel
+        // width is `dialogPanelXl` or the viewport less the positioner's
+        // padding, and the last term is the panel's own ceiling, so the floor
+        // can never force the positioner to scroll.
+        minHeight:
+          '[min(calc(token(sizes.dialogPanelXl) * 0.56), calc(56vw - token(spacing.lg) * 1.12), calc(100vh - token(spacing.lg) * 2))]',
       },
     },
 
@@ -116,11 +142,21 @@ export const eventModal = sva({
       maxWidth: 'measure',
     },
 
-    actions: {
+    // Acting on the event, then leaving it: two rows, one docked strip. Leaving
+    // takes its own row because its label is wider than the whole strip on a
+    // narrow panel, and it is the last thing in reading order, not the first.
+    footer: {
       flexShrink: '0',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: 'md',
       borderTop: 'hairline',
       paddingInline: 'lg',
       paddingBlock: 'md',
+    },
+    actions: {
+      width: 'full',
     },
     share: {
       marginInlineStart: 'auto',
@@ -132,10 +168,10 @@ export const eventModal = sva({
     // sits over the column at every width.
     poster: {
       true: {
-        content: { md: { paddingTop: `[${dismissBox}]` } },
+        content: { md: clearsControls },
       },
       false: {
-        content: { paddingTop: `[${dismissBox}]` },
+        content: clearsControls,
       },
     },
   },
