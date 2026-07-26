@@ -3,13 +3,9 @@
 import { shareCopied, useShareLink } from '@calendar/useShareLink'
 import { css } from 'styled-system/css'
 import { Button } from '@/components/ui/Button/Button'
+import { PROGRAM_SECTION_ID } from '@/lib/edition-href'
 
 const srOnly = css({ layerStyle: 'srOnly' })
-
-// The anchor the shared link lands on — the Calendar `<section>` carries this
-// id, so opening a shared link scrolls straight to the programme rather than
-// the top of the edition page.
-export const PROGRAM_SECTION_ID = 'program'
 
 // Share the calendar exactly as it's being viewed. The active filters already
 // live in the URL (ZSB-29), so there's nothing to serialize here — we read

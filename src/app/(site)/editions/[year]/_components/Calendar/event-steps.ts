@@ -11,6 +11,9 @@ export interface EventStep {
 export interface EventSteps {
   prev?: EventStep | undefined
   next?: EventStep | undefined
+  /** This event's 0-based position in the programme, alongside `total`. */
+  index?: number | undefined
+  total?: number | undefined
 }
 
 // The event panel's neighbours in the programme. Both event routes — the
@@ -25,5 +28,5 @@ export function eventSteps(events: CalendarEvent[], slug: string, year: number):
   const step = (event: CalendarEvent | undefined): EventStep | undefined =>
     event ? { href: `${editionHref(year)}/events/${event.slug}`, name: event.name } : undefined
 
-  return { prev: step(order[at - 1]), next: step(order[at + 1]) }
+  return { prev: step(order[at - 1]), next: step(order[at + 1]), index: at, total: order.length }
 }

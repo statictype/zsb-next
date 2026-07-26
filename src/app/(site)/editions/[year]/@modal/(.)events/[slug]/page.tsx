@@ -2,14 +2,11 @@ import { eventSteps } from '@calendar/event-steps'
 import { RoutedEventModal } from '@calendar/RoutedEventModal'
 import { notFound } from 'next/navigation'
 import { getEdition } from '@/data/editions'
-import { editionHref } from '@/lib/edition-href'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
 
-// Soft navigation from the calendar (a `<Link>` to the event URL) is intercepted
-// here and rendered into the `@modal` slot, over the already-mounted edition
-// (ADR 0015). `(.)` intercepts the sibling `events/[slug]` segment at this level.
-// Hard loads bypass interception and hit the real route instead.
+// `(.)` intercepts the sibling `events/[slug]` segment, so a soft navigation
+// renders here over the mounted edition. Hard loads hit the real route.
 export default async function InterceptedEventModal(
   props: PageProps<'/editions/[year]/events/[slug]'>,
 ) {
@@ -21,8 +18,7 @@ export default async function InterceptedEventModal(
   return (
     <RoutedEventModal
       event={event}
-      intercepted
-      editionHref={editionHref(Number(year))}
+      year={Number(year)}
       {...eventSteps(edition?.events ?? [], slug, Number(year))}
     />
   )

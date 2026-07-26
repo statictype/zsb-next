@@ -196,6 +196,60 @@ export function editionEventJsonLd(edition: EditionJsonLd) {
   }
 }
 
+export function eventJsonLd(year: number, event: CalendarEvent) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: event.name,
+    description: event.description,
+    startDate: event.startTime ? `${event.startDate}T${event.startTime}` : event.startDate,
+    ...(event.endDate && { endDate: event.endDate }),
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    ...(event.image && { image: [event.image.src] }),
+    url: `${SITE_URL}/editions/${year}/events/${event.slug}`,
+    location: {
+      '@type': 'Place',
+      name: event.venue.name,
+      address: {
+        '@type': 'PostalAddress',
+        ...(event.venue.address && { streetAddress: event.venue.address }),
+        addressLocality: 'Bucharest',
+        addressCountry: 'RO',
+      },
+    },
+    organizer: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    ...(event.ticketUrl && { offers: { '@type': 'Offer', url: event.ticketUrl } }),
+    superEvent: {
+      '@type': 'Event',
+      name: `${SITE_NAME} ${year}`,
+      url: `${SITE_URL}${editionHref(year)}`,
+    },
+  }
+}
+
+export function eventBreadcrumbJsonLd(year: number, theme: string, event: CalendarEvent) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: `${year} — ${theme}`,
+        item: `${SITE_URL}${editionHref(year)}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: event.name,
+        item: `${SITE_URL}/editions/${year}/events/${event.slug}`,
+      },
+    ],
+  }
+}
+
 export interface FaqEntry {
   question: string
   answer: string

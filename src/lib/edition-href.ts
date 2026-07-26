@@ -8,3 +8,9 @@
 export function editionHref(year: number): string {
   return `/editions/${year}`
 }
+
+export const PROGRAM_SECTION_ID = 'program'
+
+export function editionProgramHref(year: number): string {
+  return `${editionHref(year)}#${PROGRAM_SECTION_ID}`
+}
