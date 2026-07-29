@@ -18,8 +18,9 @@ export const visitImageFrame = sva({
     },
     frame: {
       position: 'relative',
-      aspectRatio: '4 / 5',
+      aspectRatio: '1 / 1',
       overflow: 'hidden',
+      md: { aspectRatio: '4 / 5' },
     },
     image: { objectFit: 'cover', background: 'gray.900' },
   },

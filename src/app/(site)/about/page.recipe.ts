@@ -17,7 +17,7 @@ export const aboutPage = sva({
   base: {
     placeImage: {
       position: 'relative',
-      aspectRatio: '4 / 5',
+      aspectRatio: '1 / 1',
       overflow: 'hidden',
       border: 'hairline',
       md: { aspectRatio: '16 / 9' },

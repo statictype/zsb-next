@@ -86,7 +86,7 @@ export const tokens = {
 
     detail: { value: 'clamp(28px, 18.4px + 1.5vw, 40px)' },
     lg: { value: 'clamp(26px, 18.72px + 1.9417vw, 56px)' },
-    xl: { value: 'clamp(46px, 25.32px + 2.8479vw, 80px)' },
+    xl: { value: 'clamp(42px, 25.32px + 2.8479vw, 80px)' },
   },
   spacing: {
     '0': { value: '0px' },

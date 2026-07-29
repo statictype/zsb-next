@@ -12,9 +12,11 @@ export const homePage = sva({
     'editionsHead',
     'editionsSubtext',
     'editionList',
+    'editionPrefix',
     'upcomingInner',
     'upcomingLead',
     'upcomingEyebrow',
+    'upcomingBadge',
     'lastEdition',
     'lastEditionMedia',
   ],
@@ -58,7 +60,7 @@ export const homePage = sva({
 
     heroBadge: {
       order: '3',
-      alignSelf: 'center',
+      justifySelf: 'center',
       zIndex: '10',
       lg: {
         gridColumn: '2',
@@ -79,6 +81,11 @@ export const homePage = sva({
       borderBottom: 'hairline',
       width: 'full',
     },
+    editionPrefix: {
+      color: 'muted',
+      transition: 'interactive',
+      'a:hover &': { color: 'current' },
+    },
     upcomingInner: {
       position: 'relative',
       maxWidth: 'maxWidth',
@@ -92,6 +99,10 @@ export const homePage = sva({
     },
     upcomingEyebrow: {
       color: 'highlight',
+    },
+    upcomingBadge: {
+      alignSelf: 'center',
+      lg: { alignSelf: 'flex-start' },
     },
     lastEdition: {
       alignItems: 'flex-start',

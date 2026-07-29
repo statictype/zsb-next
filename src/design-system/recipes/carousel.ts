@@ -59,7 +59,7 @@ export const carousel = defineSlotRecipe({
         },
         itemGroup: {
           width: '100%',
-          aspectRatio: { base: '4 / 5', md: '16 / 9' },
+          aspectRatio: { base: '1 / 1', md: '16 / 9' },
           background: 'black',
         },
         item: {

@@ -105,7 +105,9 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 <Text as="p" variant="body">
                   {upcoming.dateTape}
                 </Text>
-                <PartnerBadge size="upcoming" />
+                <div className={styles.upcomingBadge}>
+                  <PartnerBadge size="upcoming" />
+                </div>
               </Stack>
 
               <Divider />
@@ -175,24 +177,31 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
               </Text>
             </Stack>
             <LinkList className={styles.editionList}>
-              {list.map((edition) =>
-                edition.href ? (
+              {list.map((edition) => {
+                const year = (
+                  <>
+                    <span className={styles.editionPrefix}>ZSB</span> {edition.year}
+                  </>
+                )
+                return edition.href ? (
                   <LinkListItem
                     key={edition.year}
-                    year={edition.year}
+                    emphasis="year"
+                    year={year}
                     title={edition.theme}
                     href={edition.href}
                   />
                 ) : (
                   <LinkListItem
                     key={edition.year}
-                    year={edition.year}
+                    emphasis="year"
+                    year={year}
                     title={edition.theme}
                     tags={[<Badge key="status">Coming soon</Badge>]}
                     disabled
                   />
-                ),
-              )}
+                )
+              })}
             </LinkList>
           </Stack>
         </section>
