@@ -1,89 +1,60 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## Comments: the budget is zero
 
-# ⛔ COMMENTS: THE BUDGET IS ZERO
+This overrides your defaults and any skill or style guide that says otherwise.
 
-**Read this before writing a single line. It overrides your defaults and any
-skill, style guide, or habit that says otherwise.**
+A comment survives only if it states a fact **true of the world outside this
+file** that a competent reader **cannot recover** from the code, the types, the
+tests, or `git log` — a browser or vendor constraint, a load-bearing ordering
+dependency. Everything else goes, including in files
+whose neighbours are full of comments.
 
-The default number of comments in a change is **zero**. Not "few". Zero. You
-must be able to name the specific reader who would be wrong without the comment
-before you write it.
+Delete on sight: restatement of the code; section-header banners; **design
+narration** (what a layout, spacing, or colour "reads as" — the largest source
+of bloat in this repo); justification of a chosen value; a tradeoff you already
+resolved; JSDoc repeating a type or prop name; `(ZSB-41)` / `(ADR 0015)`
+provenance; anything that goes stale when the code beside it changes.
 
-## The only comment that survives
+Module and component doc blocks: none by default. Write one only when the
+module's role in the system is invisible from the file — "both event routes
+render this; changing the shape breaks the OG card". Two sentences, never about
+layout or props.
 
-A fact that is **true of the world outside this file** and that a competent
-reader **cannot recover** by reading the code, the types, the tests, or
-`git log`. In practice: a browser/framework bug, a vendor API constraint, a
-regulatory rule, a load-bearing ordering dependency, a value derived from a
-measurement taken elsewhere.
+## Props and absence
 
-If it fails that test, delete it. There is no second category.
+Absence is resolved once, in the mapper. Full rules and rationale:
+`../zsb-wiki/src/content/wiki/plans/absence-handling-refactor.archived.md`.
 
-## Delete on sight
-
-- **Restatement.** `// Fetch the user` above `fetchUser()`.
-- **Section headers.** `// ---- Helpers ----`, `// ---- Styles ----`. Structure
-  is the file's job, not a banner's.
-- **Design narration.** Explaining what a layout, spacing, or colour choice
-  "reads as", what it "says", or why it looks right. The rendered UI is the
-  argument. This is the single largest source of comment bloat in this repo.
-- **Justifying a value.** `// 42% so the poster fills the column`. Pick the
-  value; the reader can measure.
-- **Naming a tradeoff you already resolved.** The chosen branch is in the code.
-- **Restating a type or a prop's name** in a JSDoc `@param` or a doc block.
-- **Ticket and ADR tourism.** `(ZSB-41)`, `(ADR 0015)` sprinkled as provenance.
-  Cite one only when the reader must open it to change the code safely.
-- **Anything that would go stale** if the code next to it changed.
-
-## Component and module doc blocks
-
-Default to none. A component's name, props, and JSX say what it is.
-
-Write one only when the module's **role in the system** is genuinely not
-visible from the file — e.g. "both event routes render this; changing the
-shape breaks the OG card". Two sentences maximum. Never describe the layout,
-the visual result, or the props.
-
-## Editing existing files
-
-You are not licensed to add comments because neighbouring comments exist. Match
-the code, not the commentary. Removing a stale or useless comment is always an
-acceptable part of a change.
-
-## The check before you commit
-
-Reread the diff and delete every comment you cannot defend under the rule
-above. Expect to delete most of what you wrote. A reviewer treats an
-unnecessary comment as a defect, the same as dead code.
+- Never add `| undefined` to a prop type. Exception: pass-through of an optional
+  domain field, where the call site is `prop={x}` and `x` is already
+  `T | undefined`.
+- Never make a required prop optional to switch layout or behaviour. That is a
+  variant prop with `defaultVariants`.
+- Never pass `undefined` to a custom component's prop. Both arms of a branch are
+  real values; a caller that does not branch omits the prop. Carved out:
+  `className`, `style`, `aria-*`, `data-*`, and tests.
+- Arrays are `?: T[]` with a `= []` default.
 
 ## Stack
 
-Next.js 16 (App Router, `cacheComponents: true`, `reactCompiler: true`), React 19, TypeScript (`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`), Panda CSS, embedded Sanity Studio. Package manager is **pnpm**.
+Next.js 16 (App Router, `cacheComponents`, `reactCompiler`), React 19, TypeScript
+(`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`), Panda CSS,
+embedded Sanity Studio. pnpm.
 
 ## Commands
 
-- `pnpm dev` — dev server (localhost:3000). **Do not start this; the user runs it themselves.**
-- `pnpm build` — production build; the canonical type-check (don't run unprompted — prefer `typecheck`)
-- `pnpm typecheck` — `tsc --noEmit`, faster signal than a full build
-- `pnpm lint` / `pnpm lint:fix` — ESLint, scoped to `./src`
-- `pnpm format` / `pnpm format:check` — Biome (formatting only)
-- `pnpm test` / `pnpm test:watch` — Vitest
-- `pnpm vitest run path/to/file.test.ts` — a single test file
-- `pnpm test:e2e` — Playwright smoke suite
-- `pnpm typegen` — regenerate `sanity.types.ts`; run after any schema or GROQ change
-- `pnpm panda codegen` — regenerate `styled-system/`; run after touching the design-system preset
-- `pnpm images:unused` — find unreferenced files under `public/img/`
+- `pnpm dev` — **never run it**; the user has it running.
+- `pnpm build` — never run it unprompted; `pnpm typecheck` is the signal.
+- `pnpm typegen` — after any schema or GROQ change.
+- `pnpm panda codegen` — after touching `src/design-system/`.
+- `pnpm images:unused` — unreferenced files under `public/img/`.
+- Also: `lint`, `lint:fix`, `format`, `test`, `test:e2e`.
 
 ## Where to look
 
-- **Domain vocabulary** (Edition, Program, Event, Venue, Latest/Upcoming, status values): `CONTEXT.md`
-- **CMS/Studio architecture, singleton pattern, draft-mode fetching, adding a page**: `docs/cms.md`
-- **Testing layers, what's deliberately untested, seeded-test pattern**: `docs/testing.md`
-- **Historical prompts, audits, completed plans, and raw decision records**: adjacent `../zsb-wiki/`
-- **Design-system tokens/recipes**: `src/design-system/preset.ts`
-
-## MCP
-
-At the start of a Next.js task, call the `init` tool from `next-devtools-mcp` first to load current Next 16 context.
+- Domain vocabulary (Edition, Program, Event, Venue, Latest/Upcoming, status): `CONTEXT.md`
+- CMS/Studio, singletons, draft-mode fetching, adding a page: `docs/cms.md`
+- Testing layers, the seeded-test pattern, what is deliberately untested: `docs/testing.md`
+- Design tokens and recipes: `src/design-system/preset.ts`
+- Past plans, audits, decision records: `../zsb-wiki/`

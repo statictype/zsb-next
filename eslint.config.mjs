@@ -2,6 +2,12 @@ import nextConfig from 'eslint-config-next'
 import nextTypescript from 'eslint-config-next/typescript'
 import reactCompiler from 'eslint-plugin-react-compiler'
 
+const customComponentProp =
+  'JSXOpeningElement[name.name=/^[A-Z]/] > JSXAttribute[name.name!=/^(aria-|data-|style$|className$)/] > JSXExpressionContainer'
+
+const noUndefinedProp =
+  'Never pass `undefined` to a custom component prop. Both arms of a branch resolve to real values; a caller that does not branch omits the prop.'
+
 const config = [
   ...nextConfig,
   ...nextTypescript,
@@ -49,6 +55,27 @@ const config = [
           selector: 'TSNullKeyword',
           message:
             'Domain types must not mirror Sanity nullability. Resolve absence in the mapper (see ABSENCE-HANDLING.md).',
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/**/*.tsx'],
+    ignores: ['src/**/*.test.tsx'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: `${customComponentProp} > Identifier[name="undefined"]`,
+          message: noUndefinedProp,
+        },
+        {
+          selector: `${customComponentProp} > ConditionalExpression > Identifier.consequent[name="undefined"]`,
+          message: noUndefinedProp,
+        },
+        {
+          selector: `${customComponentProp} > ConditionalExpression > Identifier.alternate[name="undefined"]`,
+          message: noUndefinedProp,
         },
       ],
     },

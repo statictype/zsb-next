@@ -52,11 +52,11 @@ export function EditionRailCard({ edition, status, href, className, style }: Edi
         interactive={interactive}
         muted={isAnnounced}
         theme={edition.theme}
-        themeHighlight={isAnnounced ? undefined : edition.themeHighlight}
+        themeHighlight={edition.themeHighlight}
         className={styles.tape}
         lead={
           <>
-            <Badge tone={isAnnounced ? 'muted' : undefined}>{edition.year}</Badge>
+            <Badge tone={isAnnounced ? 'muted' : 'highlight'}>{edition.year}</Badge>
             {statusBadge ? (
               <>
                 {' '}
