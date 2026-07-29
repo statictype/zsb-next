@@ -239,6 +239,9 @@ export const tokens = {
     carouselVignette: {
       value: 'radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.45) 100%)',
     },
+    stageScrim: {
+      value: 'linear-gradient(180deg, transparent, rgb(0 0 0 / 0.55))',
+    },
   },
 } as const
 
