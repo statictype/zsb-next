@@ -169,7 +169,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
         {featured && <FeaturedSpotlight year={featured.year} events={featured.events} />}
 
         <section id="editions" className={cx(styles.panel, section({ ground: 'dark' }))}>
-          <Stack gap="2xl">
+          <div className={styles.editionsLayout}>
             <Stack className={styles.editionsHead}>
               <SectionHeading flush>Editions</SectionHeading>
               <Text as="p" variant="caption" className={styles.editionsSubtext}>
@@ -203,7 +203,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 )
               })}
             </LinkList>
-          </Stack>
+          </div>
         </section>
 
         <ArtistsBanner />
