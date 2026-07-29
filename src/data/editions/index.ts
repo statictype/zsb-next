@@ -119,24 +119,14 @@ export async function getFeaturedEvents(
   return featured.length ? { year: edition.year, events: featured } : undefined
 }
 
-/** Every edition year, announced included — the "N editions" counts on the
- *  /artists page and the homepage banner. */
-export async function getAllEditionYears(): Promise<number[]> {
-  'use cache'
-  const rows = await getEditionYearsFromSanity()
-  return rows.map((row) => row.year)
-}
-
 /**
  * Live edition years as route params — the generateStaticParams enumeration
- * shared by the edition page and its opengraph-image route. Only live years
- * qualify: the page is gated `status == "live"`, so prerendering any other
- * year would bake a 404.
+ * shared by the edition page and its opengraph-image route.
  */
 export async function getAllEditionYearParams(): Promise<{ year: string }[]> {
   'use cache'
   const rows = await getEditionYearsFromSanity()
-  return rows.filter((row) => row.status === 'live').map((row) => ({ year: String(row.year) }))
+  return rows.map((row) => ({ year: String(row.year) }))
 }
 
 /**

@@ -3,13 +3,12 @@ import { artistsBanner } from '@site-components/ArtistsBanner.recipe'
 import Link from 'next/link'
 import { Text } from 'styled-system/jsx'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
-import { getAllEditionYears } from '@/data/editions'
+import { EDITIONS_HELD } from '@/lib/constants'
 import { getArtistIndex } from '@/sanity/lib/artists'
 
 export async function ArtistsBanner() {
-  const [artists, editionYears] = await Promise.all([getArtistIndex(), getAllEditionYears()])
+  const artists = await getArtistIndex()
   const artistCount = artists.length
-  const editionCount = editionYears.length
 
   const s = artistsBanner()
 
@@ -21,7 +20,7 @@ export async function ArtistsBanner() {
         </SectionHeading>
         <div className={s.body}>
           <Text as="p" variant="caption" className={s.subtext}>
-            {artistCount} artists. {editionCount} editions. One sustained question: what sculpture
+            {artistCount} artists. {EDITIONS_HELD} editions. One sustained question: what sculpture
             makes visible that nothing else can.
           </Text>
           <span className={s.action} data-part="action">

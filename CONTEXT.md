@@ -16,6 +16,14 @@ Every Sanity-backed edition carries a `status: 'announced' | 'live'`. An **annou
 
 The value is `live`, deliberately **not** `published`: "published" is reserved for Sanity's own document publish/draft lifecycle, which is orthogonal to this field. A document can be published in Sanity while its edition is still `announced`. Every reachability gate tests the stable value — `status == "live"` — never the other one, so a rename of any non-live value is a non-event and any unknown or legacy status degrades to "not linkable", the correct failure mode for a gate.
 
+## Artist
+
+A person who has shown work at the event, saved once as an `artist` document and reused across editions. `edition.artists` is the only field in the schema that references one; an artist's editions are read back through that reverse reference (`ArtistEditionsField`).
+
+An artist becomes **public** when a live edition lists them. `ARTIST_INDEX_QUERY` gates on `_id in *[_type == "edition" && status == "live"].artists[]._ref`, so an artist added only to an announced edition appears nowhere on the site until that edition is flipped to live — announcing the lineup is the curator's decision, not a side effect of filling in the edition document. The gate makes the `/artists` table and the homepage banner's artist count the same set by construction. Because the result depends on `edition` documents, the query subscribes to the `edition` revalidation tag as well as `artist`.
+
+The **"N editions" count** beside those artists is not derived. It is `EDITIONS_HELD` in `src/lib/constants.ts` — editions that have taken place, which is fewer than the edition documents in Sanity whenever a future edition is announced. Bump it by hand after an edition runs.
+
 ## Program & Calendar
 
 The terms below come from the **Program & Calendar** project (Linear ZSB-25…38). They replaced the old hand-arranged two-column program (`ProgramData` / `ProgramBlock`) and the inline venue list, both removed in ZSB-38 once every edition was migrated.
