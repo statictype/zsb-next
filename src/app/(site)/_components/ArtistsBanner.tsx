@@ -1,8 +1,7 @@
+import { RiArrowRightUpLine } from '@remixicon/react'
 import { artistsBanner } from '@site-components/ArtistsBanner.recipe'
 import Link from 'next/link'
-import { css } from 'styled-system/css'
-import { HStack, Stack, Text } from 'styled-system/jsx'
-import { Badge } from '@/components/ui/Badge/Badge'
+import { Text } from 'styled-system/jsx'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { getAllEditionYears } from '@/data/editions'
 import { getArtistIndex } from '@/sanity/lib/artists'
@@ -16,25 +15,23 @@ export async function ArtistsBanner() {
 
   return (
     <Link href="/artists" className={s.root}>
-      <HStack
-        className={s.inner}
-        flexDirection={{ base: 'column', md: 'row' }}
-        alignItems={{ base: 'stretch', md: 'center' }}
-        justify={{ md: 'space-between' }}
-        gap="lg"
-      >
-        <Stack gap="sm">
-          <Badge className={css({ marginBottom: 'md' })}>Index</Badge>
-          <SectionHeading as="h2" flush>
-            Artists
-          </SectionHeading>
+      <div className={s.inner}>
+        <SectionHeading as="h2" flush>
+          Artists
+        </SectionHeading>
+        <div className={s.body}>
           <Text as="p" variant="caption" className={s.subtext}>
             {artistCount} artists. {editionCount} editions. One sustained question: what sculpture
             makes visible that nothing else can.
           </Text>
-        </Stack>
-        <span>Explore</span>
-      </HStack>
+          <span className={s.action} data-part="action">
+            Explore
+            <span className={s.arrow} data-part="arrow" aria-hidden>
+              <RiArrowRightUpLine size={14} />
+            </span>
+          </span>
+        </div>
+      </div>
       <div className={s.accent} data-part="accent" />
     </Link>
   )
