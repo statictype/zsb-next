@@ -146,8 +146,8 @@ export const button = defineRecipe({
       lg: {
         gap: '10px',
         paddingBlock: { base: '16px', md: '20px' },
-        paddingInline: { base: '32px', md: '40px' },
-        fontSize: 'base',
+        paddingInline: { base: '28px', md: '40px' },
+        fontSize: { base: 'sm', md: 'base' },
       },
       touch: {
         width: 'touch',
