@@ -19,7 +19,6 @@ export const eventDetail = sva({
     layout: {
       display: 'grid',
       minWidth: '0',
-      md: { gridTemplateColumns: '[minmax(0, 42%) minmax(0, 1fr)]' },
     },
 
     poster: {
@@ -36,7 +35,7 @@ export const eventDetail = sva({
       // The poster is flush to the panel edge, which clips at `overflow:
       // hidden` — the global 4px-offset ring would lose its outer sides.
       _focusVisible: { outlineOffset: 'dialogInset' },
-      md: {
+      lg: {
         aspectRatio: 'auto',
         maxHeight: '[none]',
         borderBlockEnd: 'none',
@@ -46,7 +45,6 @@ export const eventDetail = sva({
 
     column: {
       display: 'grid',
-      alignContent: '[safe center]',
       minWidth: '0',
       padding: 'lg',
       xl: { padding: 'xl' },
@@ -55,7 +53,7 @@ export const eventDetail = sva({
     facts: { display: 'grid', gap: 'lg' },
 
     name: {
-      textStyle: 'heading',
+      textStyle: 'detailTitle',
       color: 'heading',
       textWrap: 'balance',
     },
@@ -95,23 +93,33 @@ export const eventDetail = sva({
     },
   },
   variants: {
+    poster: {
+      true: {
+        layout: { lg: { gridTemplateColumns: '[minmax(0, 38%) minmax(0, 1fr)]' } },
+      },
+      false: {
+        column: { justifyItems: 'center' },
+        facts: { width: 'full', maxWidth: 'measure' },
+      },
+    },
     shell: {
       modal: {
-        layout: {
-          minHeight: '0',
-          overflowY: 'auto',
-          overscrollBehavior: 'contain',
-          md: { overflow: 'hidden' },
-        },
-        column: {
-          md: { overflowY: 'auto', overscrollBehavior: 'contain' },
-        },
         facts: { animationStyle: 'enter.snappy', animationDelay: 'fast' },
+
+        layout: { lg: { minHeight: '0', overflow: 'hidden' } },
+        column: {
+          lg: {
+            alignContent: '[safe center]',
+            overflowY: 'auto',
+            overscrollBehavior: 'contain',
+          },
+        },
       },
       page: {
-        layout: { md: { minHeight: '[min(70vh, 720px)]' } },
+        layout: { lg: { minHeight: '[min(70vh, 720px)]' } },
+        column: { lg: { alignContent: '[safe center]' } },
       },
     },
   },
-  defaultVariants: { shell: 'modal' },
+  defaultVariants: { shell: 'modal', poster: false },
 })

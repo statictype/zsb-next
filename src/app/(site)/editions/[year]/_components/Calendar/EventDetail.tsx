@@ -41,7 +41,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
   } = useShareLink(() => window.location.href)
   const [zoomed, setZoomed] = useState(false)
 
-  const s = eventDetail({ shell })
+  const s = eventDetail({ shell, poster: !!event.image })
   const Name = shell === 'page' ? 'h1' : 'h2'
 
   return (
@@ -54,7 +54,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
             onClick={() => setZoomed(true)}
             aria-label={`View the poster for ${event.name} full size`}
           >
-            <Figure image={event.image} sizes="(min-width: 768px) 42vw, 100vw" />
+            <Figure image={event.image} sizes="(min-width: 1024px) 38vw, 100vw" />
           </Button>
         )}
 
@@ -83,6 +83,14 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
 
       <div className={s.actions}>
         <div className={s.act}>
+          {event.facebookUrl && (
+            <Button asChild variant="secondary" size="sm">
+              <a href={event.facebookUrl} target="_blank" rel="noopener noreferrer">
+                Event
+                <NewTab />
+              </a>
+            </Button>
+          )}
           {event.ticketUrl ? (
             <Button asChild variant="secondary" size="sm">
               <a href={event.ticketUrl} target="_blank" rel="noopener noreferrer">
@@ -94,14 +102,6 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
             <Text as="p" variant="label" className={s.freeEntry}>
               Free entry
             </Text>
-          )}
-          {event.facebookUrl && (
-            <Button asChild variant="secondary" size="sm">
-              <a href={event.facebookUrl} target="_blank" rel="noopener noreferrer">
-                Facebook event
-                <NewTab />
-              </a>
-            </Button>
           )}
         </div>
 

@@ -18,15 +18,15 @@ export const eventLoading = sva({
     detail: {
       display: 'grid',
       border: 'hairline',
-      md: {
-        gridTemplateColumns: '[minmax(0, 42%) minmax(0, 1fr)]',
+      lg: {
+        gridTemplateColumns: '[minmax(0, 38%) minmax(0, 1fr)]',
         minHeight: '[min(70vh, 720px)]',
       },
     },
     poster: {
       aspectRatio: '3 / 4',
       maxHeight: '[52dvh]',
-      md: { aspectRatio: 'auto', maxHeight: '[none]' },
+      lg: { aspectRatio: 'auto', maxHeight: '[none]' },
     },
     column: {
       display: 'grid',
@@ -35,7 +35,7 @@ export const eventLoading = sva({
       padding: 'lg',
       xl: { padding: 'xl' },
     },
-    name: { width: '[80%]', height: '[44px]' },
+    name: { width: '[80%]', height: '[36px]' },
     meta: { width: '[220px]', height: '[20px]' },
     line: {
       height: '[14px]',

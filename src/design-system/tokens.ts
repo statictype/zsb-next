@@ -83,6 +83,8 @@ export const tokens = {
     sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
     base: { value: '16px' },
     md: { value: 'clamp(17px, 15.54px + 0.3883vw, 23px)' },
+
+    detail: { value: 'clamp(28px, 18.4px + 1.5vw, 40px)' },
     lg: { value: 'clamp(26px, 18.72px + 1.9417vw, 56px)' },
     xl: { value: 'clamp(46px, 25.32px + 2.8479vw, 80px)' },
   },
@@ -259,7 +261,10 @@ export const semanticTokens = {
     banner: { value: '200' },
     overlay: { value: '1000' },
     modal: { value: '1010' },
-    navToggle: { value: '1011' },
+    // Above the banner, below every dialog. The mobile menu draws its own close
+    // control inside its dialog (`dialogToggle`), so this never has to outrank
+    // the modal layer — and must not, or it lands on other dialogs' controls.
+    navToggle: { value: '300' },
     lightbox: { value: '1020' },
     draftBadge: { value: '1030' },
     '0': { value: '0' },
@@ -387,6 +392,14 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: 'lg',
       lineHeight: '1.1',
+      letterSpacing: '-0.02em',
+    },
+  },
+  detailTitle: {
+    value: {
+      fontFamily: 'display',
+      fontSize: 'detail',
+      lineHeight: '1.12',
       letterSpacing: '-0.02em',
     },
   },
