@@ -17,8 +17,11 @@ export function LinkList({
 }
 
 interface LinkListItemProps {
-  year: number | string
+  year: ReactNode
   title: ReactNode
+  /** Which of the two carries the row: the title, or the year with the title
+   *  demoted to a label under it. */
+  emphasis?: 'title' | 'year'
   href?: string | undefined
   excerpt?: ReactNode
   tags?: ReactNode[]
@@ -29,22 +32,31 @@ interface LinkListItemProps {
 export function LinkListItem({
   year,
   title,
+  emphasis = 'title',
   href,
   excerpt,
   tags = [],
   external = false,
   disabled = false,
 }: LinkListItemProps) {
-  const styles = linkList()
+  const styles = linkList({ emphasis })
+  const leadsWithYear = emphasis === 'year'
   const content = (
     <>
-      <Text variant="label" className={styles.year}>
-        {year}
-      </Text>
+      {leadsWithYear ? null : (
+        <Text variant="label" className={styles.year}>
+          {year}
+        </Text>
+      )}
       <span className={styles.body}>
         <Text variant="heading" className={styles.title}>
-          {title}
+          {leadsWithYear ? year : title}
         </Text>
+        {leadsWithYear ? (
+          <Text variant="label" className={styles.subtitle}>
+            {title}
+          </Text>
+        ) : null}
         {excerpt ? (
           <Text variant="caption" className={styles.excerpt}>
             {excerpt}

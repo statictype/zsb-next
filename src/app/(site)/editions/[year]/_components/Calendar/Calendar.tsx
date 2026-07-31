@@ -5,7 +5,7 @@ import { ArchiveCollapse, CalendarBoard } from '@calendar/CalendarBoard'
 import { CalendarFilters } from '@calendar/CalendarFilters'
 import { CalendarMeta } from '@calendar/CalendarMeta'
 import { CalendarRecap } from '@calendar/CalendarRecap'
-import { CalendarShare, PROGRAM_SECTION_ID } from '@calendar/CalendarShare'
+import { CalendarShare } from '@calendar/CalendarShare'
 import { type CalendarFilterOptions, deriveCalendarView } from '@calendar/calendar-filters'
 import type { SocialLink } from '@calendar/FollowLinks'
 import { HashScroller } from '@calendar/HashScroller'
@@ -16,6 +16,7 @@ import { Container, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
+import { PROGRAM_SECTION_ID } from '@/lib/edition-href'
 import { useTodayIso } from '@/lib/use-today-iso'
 import type { CalendarEvent } from '@/types/edition'
 
@@ -59,7 +60,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
       <HashScroller id={PROGRAM_SECTION_ID} />
       <Container>
         <Stack gap="xl">
-          <HStack as="header" justify="space-between" gap="md">
+          <HStack as="header" justify="space-between" alignItems="flex-start" gap="md">
             <Stack className={s.headerMain} gap="sm">
               <Stack gap="md">
                 <SectionHeading id="calendar-heading" flush>
@@ -79,7 +80,6 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                       variant="secondary"
                       size="sm"
                       className={s.pastToggle}
-                      data-on={showPast}
                       aria-pressed={showPast}
                       onClick={() => setShowPast(!showPast)}
                     >

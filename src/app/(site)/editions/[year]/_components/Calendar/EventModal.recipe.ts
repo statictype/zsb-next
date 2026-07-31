@@ -1,58 +1,51 @@
 import { sva } from 'styled-system/css'
 
-/**
- * EventModal — co-located slot recipe.
- *
- * Product content inside the shared panel Dialog. Dialog owns the modal shell;
- * this recipe keeps event layout, typography, poster, and floating controls.
- */
 export const eventModal = sva({
-  slots: ['controls', 'poster', 'body', 'when', 'description'],
+  slots: ['shell', 'chrome', 'steps', 'count'],
   base: {
-    // Floating bar over the dialog top: Back (left) + Share (right). The bar is
-    // click-through; only the buttons themselves take pointer events.
-    controls: {
-      position: 'absolute',
-      top: 'sm',
-      left: 'sm',
-      right: 'sm',
-      zIndex: '2',
-      pointerEvents: 'none',
-      '& > *': { pointerEvents: 'auto' },
-    },
+    shell: {
+      display: 'grid',
 
-    poster: {
-      position: 'relative',
-      width: 'full',
-      aspectRatio: '3 / 4',
-      maxHeight: '[46vh]',
-      flexShrink: '0',
-      overflow: 'hidden',
-      background: 'black',
-      // Show the whole poster, not a crop.
-      '& img': { objectFit: 'contain' },
-      md: { width: '[320px]', aspectRatio: 'auto', maxHeight: '[none]', alignSelf: 'stretch' },
-    },
-
-    body: {
-      display: 'flex',
-      flex: '1',
-      minHeight: '0',
-      flexDirection: 'column',
-      gap: 'xs',
-      // Clear the floating control bar. Its bottom edge sits at `top` (sm) plus
-      // the ~sm-Button height (~34px); `3xl` stays safely above that at every
-      // breakpoint, so the clearance never depends on measuring the button.
-      paddingTop: '3xl',
-      paddingInline: 'lg',
-      paddingBottom: 'lg',
+      gridTemplateRows: '[auto 1fr auto]',
+      height: 'full',
       overflowY: 'auto',
+      overscrollBehavior: 'contain',
+      background: 'surface',
+      color: 'body',
+      // The `fullscreen` dialog has a transparent backdrop, so the shell has to
+      // paint its own ground and arrive on its own.
+      animationStyle: 'enter.fade',
+      lg: {
+        gridTemplateRows: '[auto minmax(0, 1fr) auto]',
+        overflow: 'hidden',
+      },
     },
-    when: {
-      color: 'highlight',
+
+    chrome: {
+      position: 'sticky',
+      top: '0',
+      zIndex: '1',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 'sm',
+      background: 'surface',
+      borderBottom: 'hairline',
+      paddingInline: 'sm',
+      paddingBlock: 'xs',
+      md: { paddingInline: 'md' },
     },
-    description: {
-      whiteSpace: 'pre-line',
+    steps: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'xs',
+    },
+    count: {
+      display: 'none',
+      fontVariantNumeric: 'tabular-nums',
+      whiteSpace: 'nowrap',
+      paddingInline: 'xs',
+      sm: { display: 'block' },
     },
   },
 })

@@ -1,69 +1,153 @@
 import { defineRecipe } from '@pandacss/dev'
 
-const colorShift = { _hover: { color: 'action' } } as const
-const subtleHover = { _hover: { color: 'heading', borderColor: 'heading' } } as const
+const roll = {
+  '& [data-btn-mask]': {
+    display: 'flex',
+    overflow: 'hidden',
+    gap: 'inherit',
+  },
+  '& [data-btn-label]': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'inherit',
+    position: 'relative',
+    transition: 'develop',
+  },
+  '& [data-btn-copy]': {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'inherit',
+    position: 'absolute',
+    top: 'token(sizes.rollOffset)',
+    left: '0',
+    right: '0',
+  },
+  '&:is(:hover, :focus-visible):not(:disabled, [aria-disabled=true]) [data-btn-label]': {
+    transform: 'translateY(calc(token(sizes.rollOffset) * -1))',
+  },
+  '&[aria-pressed=true] [data-btn-label]': { transform: 'none' },
+} as const
+
+const selected = {
+  '&[aria-pressed=true]': {
+    background: 'highlight',
+    borderColor: 'highlight',
+    color: 'black',
+    boxShadow: 'litEdge',
+  },
+} as const
+
+const labelType = {
+  fontFamily: 'body',
+  fontWeight: 'medium',
+  lineHeight: '1.3',
+  letterSpacing: 'label',
+  textTransform: 'uppercase',
+  whiteSpace: 'nowrap',
+} as const
 
 export const button = defineRecipe({
   jsx: ['Button'],
   className: 'btn',
-  description: 'The one action primitive — primary | secondary | link | icon (ADR 0019)',
+  description: 'The one action primitive — primary | secondary | quiet | icon | link | plain',
   base: {
+    position: 'relative',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    cursor: 'pointer',
+    isolation: 'isolate',
+    appearance: 'none',
+    borderRadius: 'none',
     border: 'none',
+    cursor: 'pointer',
     transition: 'interactive',
+    _active: { transform: 'translateY(1px)' },
   },
   variants: {
     variant: {
       primary: {
-        bg: 'transparent',
-        color: 'white',
+        ...labelType,
+        ...roll,
+        background: 'transparent',
+        color: 'heading',
         border: 'primary',
-        _hover: { bg: 'action', color: 'white' },
+        '& [data-btn-copy]': { ...roll['& [data-btn-copy]'], color: 'action' },
+        // Sits on the border box at the border's own width, and the resting
+        // edge fades out under it, so the edge travels instead of thickening.
+        _before: {
+          content: '""',
+          layerStyle: 'gradientBorder',
+          inset: '[calc(token(borderWidths.hairline) * -1)]',
+          padding: '[token(borderWidths.hairline)]',
+        },
+        _hover: {
+          borderColor: 'transparent',
+          '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
+        },
       },
       secondary: {
-        bg: 'transparent',
-        color: 'white',
+        ...labelType,
+        ...roll,
+        ...selected,
+        background: 'transparent',
+        color: 'heading',
         border: 'hairline',
-        ...subtleHover,
+        _hover: { borderColor: 'action' },
+      },
+      quiet: {
+        ...labelType,
+        ...roll,
+        ...selected,
+        background: 'transparent',
+        color: 'body',
+        border: 'hairline',
+        borderColor: 'transparent',
+        '& [data-btn-copy]': { ...roll['& [data-btn-copy]'], color: 'action' },
+        _hover: { color: 'heading' },
+      },
+      icon: {
+        background: 'transparent',
+        color: 'heading',
+        width: 'hitTarget',
+        height: 'hitTarget',
+        _hover: { color: 'action' },
       },
       link: {
         display: 'inline',
-        bg: 'transparent',
-        color: 'white',
-
+        background: 'transparent',
+        color: 'heading',
         textDecorationColor: 'action',
         textUnderlineOffset: '4px',
-        ...colorShift,
-        _hover: { ...colorShift._hover, textDecoration: 'underline' },
+        _hover: { color: 'action', textDecoration: 'underline' },
       },
-      icon: {
-        width: 'hitTarget',
-        height: 'hitTarget',
-        padding: '0',
+      plain: {
+        display: 'block',
         background: 'transparent',
-        borderWidth: '0',
-        color: 'heading',
-        _hover: { color: 'action', transform: 'translateY(-2px)' },
+        color: 'current',
+        textAlign: 'left',
       },
     },
     size: {
       sm: {
-        gap: '5px',
-        paddingBlock: { base: '6px', md: '8px' },
-        paddingInline: { base: '16px', md: '20px' },
+        gap: '6px',
+        minHeight: '32px',
+        paddingBlock: 'sm',
+        paddingInline: 'md',
+        fontSize: 'xs',
       },
       md: {
-        gap: { base: '8px', md: '10px' },
-        paddingBlock: { base: '10px', md: '12px', lg: '14px', '2xl': '16px' },
-        paddingInline: { base: '24px', md: '28px', lg: '32px', '2xl': '36px' },
+        gap: '8px',
+        paddingBlock: { base: '12px', md: '14px' },
+        paddingInline: { base: '24px', md: '28px' },
+        fontSize: 'sm',
       },
       lg: {
-        gap: { base: '10px', md: '12px', lg: '14px' },
-        paddingBlock: { base: '12px', md: '16px', lg: '20px', '2xl': '24px' },
-        paddingInline: { base: '28px', md: '36px', lg: '44px', '2xl': '52px' },
+        gap: '10px',
+        paddingBlock: { base: '16px', md: '20px' },
+        paddingInline: { base: '28px', md: '40px' },
+        fontSize: { base: 'sm', md: 'base' },
       },
       touch: {
         width: 'touch',
@@ -71,16 +155,11 @@ export const button = defineRecipe({
       },
     },
   },
-  // The `text` and `icon` variants are sizeless — neutralize the default size.
+  // The chrome-less variants are sizeless — neutralize the default size.
   compoundVariants: [
-    {
-      variant: 'link',
-      css: { paddingBlock: '0', paddingInline: '0', gap: '0' },
-    },
-    {
-      variant: 'icon',
-      css: { padding: '0', gap: '0' },
-    },
+    { variant: 'link', css: { padding: '0', gap: '0', fontSize: 'inherit' } },
+    { variant: 'plain', css: { padding: '0', gap: '0', fontSize: 'inherit' } },
+    { variant: 'icon', css: { padding: '0', gap: '0' } },
   ],
   defaultVariants: { variant: 'primary', size: 'md' },
 })

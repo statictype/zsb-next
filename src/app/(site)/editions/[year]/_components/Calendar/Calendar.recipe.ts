@@ -1,17 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Calendar — co-located slot recipe.
- *
- * The date-by-date programme as a dark schedule board: header + counts, an
- * "Ongoing" exhibition card grid, the day-by-day agenda timeline, finished-edition
- * recap + shared archive Collapsible. Raw grays are the
- * documented dark-board exceptions; the card/gallery image filters are inlined
- * (were legacy `--card-*`/`--gallery-*` vars). State lives on data attributes:
- * `data-past` (runs/days), `data-on` (past toggle), `data-poster`
- * (event rows). The agenda's marker column is the `--marker-col` custom prop,
- * set responsively on the section.
- */
 export const calendar = sva({
   slots: [
     'section',
@@ -26,7 +14,6 @@ export const calendar = sva({
     'runFoot',
     'empty',
     'emptyText',
-    'emptyClear',
     'agenda',
     'day',
     'marker',
@@ -46,64 +33,58 @@ export const calendar = sva({
   ],
   base: {
     section: {
-      // ground + rhythm come from `section({ ground: 'dark' })` in the component.
-      // Agenda date-marker column width — tracks the responsive `4xl` spacing
-      // ramp so the column and the timeline spine (`agenda::before` `left`) stay
-      // in lockstep and scale monotonically with the section rhythm.
+      // Shared by the marker column and the timeline spine's `left`, so the
+      // two can't drift apart.
       '--marker-col': 'token(spacing.4xl)',
+      // Centre of the day numeral, from the top of the day row: weekday line
+      // box + column gap + half the numeral line box.
+      '--agenda-axis':
+        'calc(token(fontSizes.xs) * 1.3 + token(spacing.sm) + token(fontSizes.lg) * 0.55)',
+      // Half the Badge box.
+      '--agenda-badge-half':
+        'calc(token(spacing.badgeY) + token(borderWidths.hairlineThin) + token(fontSizes.xs) * 0.65)',
+      '--agenda-node': '8px',
     },
-    layout: { minWidth: '0' },
+    layout: {
+      minWidth: '0',
+      borderTop: 'hairline',
+      paddingTop: 'lg',
+    },
     headerMain: { minWidth: '0' },
 
     count: {
-      color: 'white',
+      color: 'heading',
       fontVariantNumeric: 'tabular-nums',
     },
     pastToggle: {
-      minHeight: '[32px]',
-      paddingBlock: 'xs',
-      paddingInline: 'md',
-      color: 'gray.300',
-      background: 'transparent',
-      border: 'hairline',
-      cursor: 'pointer',
       fontVariantNumeric: 'tabular-nums',
-      transition: 'interactive',
-      _hover: { color: 'white', borderColor: 'white' },
-      // On → the chartreuse "active" fill.
-      '&[data-on=true]': {
-        color: 'black',
-        background: 'highlight',
-        borderColor: 'highlight',
-        _hover: { color: 'black', background: 'highlight', borderColor: 'highlight' },
-      },
     },
 
-    // ---- Ongoing band — exhibition card grid ----
     bandLabel: {
       color: 'highlight',
     },
     run: {
       display: 'flex',
       flexDirection: 'column',
-      background: 'black',
+      background: 'surface',
       border: 'hairline',
       position: 'relative',
-      // Gradient hover ring (masked to the hairline edge).
       _before: {
         content: '""',
         layerStyle: 'gradientBorder',
-        padding: '[token(borderWidths.hairlineThin)]',
+        inset: '[calc(token(borderWidths.hairline) * -1)]',
+        padding: '[token(borderWidths.hairline)]',
       },
       _hover: {
+        borderColor: 'transparent',
         '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
         '& img': { filter: '[token(assets.developHover)]', transform: 'scale(1.03)' },
-        '& a': { color: 'white' },
+        '& a': { color: 'action' },
       },
-      '& a:focus-visible': { color: 'white' },
-      // Past de-emphasis (live edition only).
+      // 0.6 is the floor that keeps `body` copy at 4.9:1 on black: a touch
+      // device never gets the hover back.
       '&[data-past=true]': {
-        opacity: 0.42,
+        opacity: 0.6,
         transition: 'interactive',
       },
       '&[data-past=true]:hover': { opacity: 1 },
@@ -128,31 +109,17 @@ export const calendar = sva({
       marginTop: 'auto',
     },
 
-    // ---- Empty state ----
     empty: {
       alignItems: 'flex-start',
-      paddingBlock: '2xl',
-      borderTop: 'hairline',
+      paddingBlock: 'xl',
     },
     emptyText: {
       color: 'gray.300',
     },
-    emptyClear: {
-      color: 'white',
-      background: 'transparent',
-      border: 'none',
-      paddingBottom: 'xs',
-      borderBottom: 'hairline',
-      cursor: 'pointer',
-      transition: 'interactive',
-      _hover: { color: 'action', borderColor: 'action' },
-    },
 
-    // ---- Agenda timeline ----
     agenda: {
       listStyle: 'none',
       position: 'relative',
-      // Timeline spine + marker column from tablet up.
       md: {
         _before: {
           content: '""',
@@ -160,7 +127,7 @@ export const calendar = sva({
           top: 'sm',
           bottom: 'sm',
           left: 'var(--marker-col)',
-          width: '[1px]',
+          width: '[token(borderWidths.hairline)]',
           background: 'divider',
         },
       },
@@ -170,7 +137,7 @@ export const calendar = sva({
       borderTop: 'hairline',
       _first: { borderTop: 'none', paddingTop: '0' },
       '&[data-past=true]': {
-        opacity: 0.42,
+        opacity: 0.6,
         transition: 'interactive',
       },
       '&[data-past=true]:hover': { opacity: 1 },
@@ -196,28 +163,36 @@ export const calendar = sva({
       md: {
         display: 'block',
         position: 'absolute',
-        right: '-xs',
-        top: '[9px]',
-        width: '[8px]',
-        height: '[8px]',
-        background: 'white',
+        right: '[calc((var(--agenda-node) + token(borderWidths.hairline)) / -2)]',
+        top: '[calc(var(--agenda-axis) - var(--agenda-node) / 2)]',
+        width: '[var(--agenda-node)]',
+        height: '[var(--agenda-node)]',
+        background: 'heading',
         borderRadius: 'circle',
+        '[data-today=true] &': { background: 'highlight' },
       },
     },
     markerDay: {
       textStyle: 'heading',
-      color: 'white',
+      color: 'heading',
       fontVariantNumeric: 'tabular-nums',
     },
-    markerWeekday: { color: 'action' },
+    markerWeekday: {
+      '[data-today=true] &': { color: 'highlight' },
+    },
     events: {
       listStyle: 'none',
       display: 'flex',
       flexDirection: 'column',
-      md: { paddingLeft: 'lg' },
+      md: {
+        paddingLeft: 'lg',
+        // Drops the first row's badge line onto the numeral's axis.
+        '& > li:first-child': {
+          paddingTop: '[calc(var(--agenda-axis) - var(--agenda-badge-half))]',
+        },
+      },
     },
 
-    // ---- Event row ----
     event: {
       display: 'flex',
       flexDirection: 'column',
@@ -228,12 +203,9 @@ export const calendar = sva({
       _first: { borderTop: 'none' },
       _hover: {
         '& a': { color: 'action' },
-        '& img': { filter: '[grayscale(0%) contrast(1)]', transform: 'scale(1.03)' },
+        '& img': { filter: '[token(assets.developHover)]', transform: 'scale(1.03)' },
       },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
-        // Only rows with a poster get the reserved column — body owns column
-        // 1, poster column 2 (still absolutely positioned within it for the
-        // hover reveal, so it doesn't grow the row's height).
         '&[data-poster=true]': {
           display: 'grid',
           gridTemplateColumns: 'minmax(0, 1fr) token(sizes.calendarPoster)',
@@ -245,10 +217,10 @@ export const calendar = sva({
       minWidth: '0',
     },
     eventTime: {
-      color: 'white',
+      color: 'heading',
       fontVariantNumeric: 'tabular-nums',
     },
-    // The name link; its ::after stretches the hit target over the whole row.
+    // The ::after stretches the hit target over the whole row.
     nameButton: {
       font: '[inherit]',
       textAlign: 'left',
@@ -263,10 +235,8 @@ export const calendar = sva({
     },
     eventDesc: {
       maxWidth: 'measure',
-      // Two-line teaser; Panda's lineClamp expands the full -webkit-box clamp.
       lineClamp: '2',
     },
-    // Touch/narrow: inline portrait thumbnail. Wide hover-capable: float (below).
     poster: {
       position: 'relative',
       aspectRatio: '3 / 4',
@@ -276,7 +246,7 @@ export const calendar = sva({
       background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: '[grayscale(100%) contrast(1.1)]',
+        filter: '[token(assets.developRest)]',
         transition: 'develop',
       },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
@@ -306,10 +276,9 @@ export const calendar = sva({
       },
     },
 
-    // ---- Finished-edition recap ----
     recap: {
       alignItems: 'flex-start',
     },
-    recapMark: { color: 'white' },
+    recapMark: { color: 'heading' },
   },
 })

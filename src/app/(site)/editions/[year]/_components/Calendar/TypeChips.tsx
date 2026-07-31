@@ -19,7 +19,7 @@ export function TypeChips({
     <Wrap as="ul" className={className} listStyle="none">
       {types.map((t) => (
         <li key={t.slug}>
-          <Badge tone="outline">{t.title}</Badge>
+          <Badge tone="muted">{t.title}</Badge>
         </li>
       ))}
     </Wrap>

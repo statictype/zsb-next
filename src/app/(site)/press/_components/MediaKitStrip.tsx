@@ -30,7 +30,7 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
           id: `media-kit-${index}`,
           content: (
             <Button
-              variant="secondary"
+              variant="plain"
               className={s.card}
               onClick={() => openLightbox(index)}
               aria-label={`Open ${item.year} ${item.name}`}

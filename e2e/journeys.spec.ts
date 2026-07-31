@@ -1,4 +1,3 @@
-import { expect, test } from '@playwright/test'
 import {
   dismissCookies,
   expectErrorClean,
@@ -7,6 +6,7 @@ import {
   openFullProgramme,
   trackErrors,
 } from '@e2e/helpers'
+import { expect, test } from '@playwright/test'
 
 // User-journey coverage for the pages reworked in the Panda migration. These are
 // deliberately a black box: assertions go through accessible roles/names, text,
@@ -138,24 +138,6 @@ test.describe('calendar', () => {
     await eventLink.click()
     // The routed modal (ADR 0015): a dialog over the edition + the event URL.
     await expect(page).toHaveURL(/\/events\//)
-    const back = page.getByRole('button', { name: /back to programme/i })
-    await expect(back).toBeVisible()
-
-    await page.keyboard.press('Escape')
-    await expect(back).toBeHidden()
-    await expect(page).not.toHaveURL(/\/events\//)
-  })
-
-  test('a cold event URL dismisses up to its edition', async ({ page }) => {
-    test.skip(!editionUrl, 'no edition with an announced programme in the dataset')
-    await page.goto(editionUrl!)
-    await dismissCookies(page)
-    await openFullProgramme(page)
-
-    const eventHref = await page.locator('a[href*="/events/"]').first().getAttribute('href')
-    expect(eventHref).toBeTruthy()
-    await page.goto(eventHref!)
-    await dismissCookies(page)
     const dialog = page.getByRole('dialog')
     await expect(dialog).toBeVisible()
     await expect
@@ -163,8 +145,34 @@ test.describe('calendar', () => {
       .toBe(true)
 
     await page.keyboard.press('Escape')
-    await expect(page).toHaveURL(new RegExp(`${editionUrl!}/?$`))
     await expect(dialog).toBeHidden()
+    await expect(page).not.toHaveURL(/\/events\//)
+  })
+
+  test('a cold event URL renders its own page, which links back to the edition', async ({
+    page,
+  }) => {
+    test.skip(!editionUrl, 'no edition with an announced programme in the dataset')
+    await page.goto(editionUrl!)
+    await dismissCookies(page)
+    await openFullProgramme(page)
+
+    const eventHref = await page.locator('a[href*="/events/"]').first().getAttribute('href')
+    expect(eventHref).toBeTruthy()
+    const response = await page.goto(eventHref!)
+    expect(response?.status()).toBe(200)
+    await dismissCookies(page)
+
+    // A hard load misses the `@modal` interception and renders the event route
+    // itself: the name is the page's <h1>, and there is no dialog.
+    await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible()
+    await expect(page.getByRole('dialog')).toHaveCount(0)
+
+    await page
+      .getByRole('link', { name: /\d{4} calendar/i })
+      .first()
+      .click()
+    await expect(page).toHaveURL(new RegExp(`${editionUrl!}(#|$)`))
   })
 
   test('filtering the programme toggles state and Reset restores it', async ({ page }) => {

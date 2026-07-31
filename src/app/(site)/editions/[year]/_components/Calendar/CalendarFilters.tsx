@@ -73,13 +73,7 @@ export function CalendarFilters({
       <Divider />
       <Stack role="group" aria-label="Filter the programme">
         <div className={s.bar}>
-          <Button
-            variant="secondary"
-            size="sm"
-            className={s.reset}
-            onClick={onReset}
-            disabled={!canReset}
-          >
+          <Button variant="quiet" size="sm" onClick={onReset} disabled={!canReset}>
             <RiResetLeftLine size={14} aria-hidden />
             Reset
           </Button>

@@ -3,18 +3,16 @@ import { Text, Wrap } from 'styled-system/jsx'
 import type { EventVenue } from '@/types/edition'
 
 // The venue name + its rolled-up parent, shared by the agenda rows, the Ongoing
-// run cards, and the event modal (DS-1). `size` picks the board vs. modal scale;
-// `className` carries call-site spacing (e.g. the modal body's marginTop).
+// run cards, and the event modal (DS-1). `className` carries call-site spacing
+// (e.g. the modal body's marginTop).
 export function VenueLine({
   venue,
-  size,
   className,
 }: {
   venue: EventVenue
-  size?: 'sm' | 'md'
   className?: string | undefined
 }) {
-  const s = venueLine({ size })
+  const s = venueLine()
   return (
     <Wrap as="p" className={className}>
       <Text variant="caption" className={s.name}>

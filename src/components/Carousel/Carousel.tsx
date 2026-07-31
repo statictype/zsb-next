@@ -200,24 +200,39 @@ export function Carousel({
               }}
             >
               {mode === 'rail' && controls}
-              <ArkCarousel.ItemGroup className={styles.itemGroup}>
-                {slides.map((slide, index) => (
-                  <ArkCarousel.Item
-                    key={slide.id}
-                    index={index}
-                    className={styles.item}
-                    // Zag stamps an inline `maxWidth: 100%` on items even with
-                    // `autoSize`, clamping the slide box while wider-than-track
-                    // content (the editions plates) paints past it onto the
-                    // next slide. Ark merges this style prop over its own, so
-                    // rail items truly size to their content.
-                    style={mode === 'rail' ? { maxWidth: 'none' } : undefined}
-                  >
-                    <div data-carousel-slide-content>{slide.content}</div>
-                  </ArkCarousel.Item>
-                ))}
-              </ArkCarousel.ItemGroup>
-              {mode === 'stage' && controls}
+              <div className={styles.frame}>
+                <ArkCarousel.ItemGroup className={styles.itemGroup}>
+                  {slides.map((slide, index) => (
+                    <ArkCarousel.Item
+                      key={slide.id}
+                      index={index}
+                      className={styles.item}
+                      // Zag stamps an inline `maxWidth: 100%` on items even with
+                      // `autoSize`, clamping the slide box while wider-than-track
+                      // content (the editions plates) paints past it onto the
+                      // next slide. Ark merges this style prop over its own, so
+                      // rail items truly size to their content.
+                      style={mode === 'rail' ? { maxWidth: 'none' } : undefined}
+                    >
+                      <div data-carousel-slide-content>{slide.content}</div>
+                    </ArkCarousel.Item>
+                  ))}
+                </ArkCarousel.ItemGroup>
+                {mode === 'stage' && (
+                  <>
+                    <span className={styles.scrim} aria-hidden="true" />
+                    <div className={styles.counter} aria-hidden="true">
+                      <span className={styles.counterNow}>
+                        {String(api.page + 1).padStart(2, '0')}
+                      </span>
+                      <span className={styles.counterTotal}>
+                        / {String(slides.length).padStart(2, '0')}
+                      </span>
+                    </div>
+                    <div className={styles.plate}>{controls}</div>
+                  </>
+                )}
+              </div>
             </Stack>
           )
         }}

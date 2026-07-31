@@ -39,11 +39,10 @@ export const hero = sva({
       '2xl': { maxWidth: '[none]', width: 'full', marginRight: '0' },
     },
 
-    // Portrait on mobile, 2:1 from tablet up; a faint inset hairline via ::after.
     frame: {
       position: 'relative',
       width: 'full',
-      aspectRatio: '4 / 5',
+      aspectRatio: '1 / 1',
       overflow: 'hidden',
       isolation: 'isolate',
       filter: '[token(assets.grayscaleSubtle)]',

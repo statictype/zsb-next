@@ -83,8 +83,10 @@ export const tokens = {
     sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
     base: { value: '16px' },
     md: { value: 'clamp(17px, 15.54px + 0.3883vw, 23px)' },
+
+    detail: { value: 'clamp(28px, 18.4px + 1.5vw, 40px)' },
     lg: { value: 'clamp(26px, 18.72px + 1.9417vw, 56px)' },
-    xl: { value: 'clamp(46px, 25.32px + 2.8479vw, 80px)' },
+    xl: { value: 'min(clamp(42px, 25.32px + 2.8479vw, 80px), 11vw)' },
   },
   spacing: {
     '0': { value: '0px' },
@@ -111,6 +113,7 @@ export const tokens = {
     cardOverlap: { value: '3rem' },
   },
   radii: {
+    none: { value: '0px' },
     pill: { value: '100px' },
     circle: { value: '50%' },
   },
@@ -123,7 +126,7 @@ export const tokens = {
       value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.chartreuse}' },
     },
     primary: {
-      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.action}' },
+      value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.action}' },
     },
     focus: {
       value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.chartreuse}' },
@@ -133,7 +136,7 @@ export const tokens = {
     '0': { value: '0px' },
     hairline: { value: '1px' },
     focus: { value: '2px' },
-    gradientRing: { value: '2px' },
+    gradientRing: { value: '1px' },
 
     // so both can share it).
     hairlineThin: { value: '0.5px' },
@@ -150,7 +153,7 @@ export const tokens = {
     navIcon: { value: '24px' },
     navGlyph: { value: '18px' },
     navGlyphStroke: { value: '2px' },
-    navRollOffset: { value: '110%' },
+    rollOffset: { value: '110%' },
     measure: { value: '60ch' },
     maxWidth: { value: '1800px' },
 
@@ -167,6 +170,7 @@ export const tokens = {
 
     dialogPanel: { value: '540px' },
     dialogPanelWide: { value: '760px' },
+    dialogPanelXl: { value: '1000px' },
     calendarPoster: { value: '220px' },
 
     heroTapeColumn: { value: '200px' },
@@ -213,6 +217,8 @@ export const tokens = {
   },
 
   shadows: {
+    litEdge: { value: 'inset 0 1px 0 rgb(255 255 255 / 0.18)' },
+
     card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
     badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
     modal: { value: '0 30px 80px rgb(0 0 0 / 0.5)' },
@@ -232,6 +238,9 @@ export const tokens = {
     },
     carouselVignette: {
       value: 'radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.45) 100%)',
+    },
+    stageScrim: {
+      value: 'linear-gradient(180deg, transparent, rgb(0 0 0 / 0.55))',
     },
   },
 } as const
@@ -255,7 +264,10 @@ export const semanticTokens = {
     banner: { value: '200' },
     overlay: { value: '1000' },
     modal: { value: '1010' },
-    navToggle: { value: '1011' },
+    // Above the banner, below every dialog. The mobile menu draws its own close
+    // control inside its dialog (`dialogToggle`), so this never has to outrank
+    // the modal layer — and must not, or it lands on other dialogs' controls.
+    navToggle: { value: '300' },
     lightbox: { value: '1020' },
     draftBadge: { value: '1030' },
     '0': { value: '0' },
@@ -383,6 +395,14 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: 'lg',
       lineHeight: '1.1',
+      letterSpacing: '-0.02em',
+    },
+  },
+  detailTitle: {
+    value: {
+      fontFamily: 'display',
+      fontSize: 'detail',
+      lineHeight: '1.12',
       letterSpacing: '-0.02em',
     },
   },

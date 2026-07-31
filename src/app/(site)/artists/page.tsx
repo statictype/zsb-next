@@ -3,7 +3,7 @@ import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { PageHero } from '@/components/PageHero/PageHero'
-import { getAllEditionYears } from '@/data/editions'
+import { EDITIONS_HELD } from '@/lib/constants'
 import { pageMetadata } from '@/lib/seo'
 import { getArtistIndex } from '@/sanity/lib/artists'
 
@@ -15,8 +15,7 @@ export const metadata = pageMetadata({
 })
 
 export default async function ArtistsPage() {
-  const [artists, editionYears] = await Promise.all([getArtistIndex(), getAllEditionYears()])
-  const editionCount = editionYears.length
+  const artists = await getArtistIndex()
 
   return (
     <main>
@@ -37,7 +36,7 @@ export default async function ArtistsPage() {
             className={css({ maxWidth: '[820px]', marginInline: 'auto' })}
             meta={[
               { label: 'Total', value: artists.length },
-              { label: 'Editions', value: editionCount },
+              { label: 'Editions', value: EDITIONS_HELD },
             ]}
           />
         </Container>

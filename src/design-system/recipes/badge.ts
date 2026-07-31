@@ -24,8 +24,8 @@ export const badge = defineRecipe({
   variants: {
     tone: {
       highlight: { bg: 'highlight', color: 'black' },
-      outline: { bg: 'black', color: 'highlight' },
-      muted: { bg: 'gray.900', borderColor: 'gray.700', color: 'gray.400' },
+      outline: { bg: 'black', color: 'body' },
+      muted: { borderColor: 'gray.700', color: 'gray.400' },
     },
   },
   defaultVariants: { tone: 'highlight' },

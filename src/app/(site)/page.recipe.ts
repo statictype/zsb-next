@@ -9,12 +9,15 @@ export const homePage = sva({
     'heroPanel',
     'heroTitle',
     'heroBadge',
+    'editionsLayout',
     'editionsHead',
     'editionsSubtext',
     'editionList',
+    'editionPrefix',
     'upcomingInner',
     'upcomingLead',
     'upcomingEyebrow',
+    'upcomingBadge',
     'lastEdition',
     'lastEditionMedia',
   ],
@@ -58,7 +61,7 @@ export const homePage = sva({
 
     heroBadge: {
       order: '3',
-      alignSelf: 'center',
+      justifySelf: 'center',
       zIndex: '10',
       lg: {
         gridColumn: '2',
@@ -67,9 +70,32 @@ export const homePage = sva({
         alignSelf: 'start',
       },
     },
+    editionsLayout: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'lg',
+      lg: {
+        display: 'grid',
+        gridTemplateColumns: '[minmax(200px, 30%) minmax(0, 1fr)]',
+        alignItems: 'start',
+        columnGap: 'xl',
+        rowGap: '0',
+        width: 'full',
+        maxWidth: 'maxWidth',
+        marginInline: 'auto',
+        paddingInline: 'gutter',
+      },
+    },
     editionsHead: {
       layerStyle: 'sectionInner',
       width: 'full',
+      lg: {
+        maxWidth: '[none]',
+        marginInline: '0',
+        paddingInline: '0',
+        position: 'sticky',
+        top: '[calc(token(sizes.nav) + token(spacing.lg))]',
+      },
     },
     editionsSubtext: {
       maxWidth: 'measure',
@@ -78,6 +104,18 @@ export const homePage = sva({
       layerStyle: 'sectionInner',
       borderBottom: 'hairline',
       width: 'full',
+      lg: {
+        maxWidth: '[none]',
+        marginInline: '0',
+        paddingInline: '0',
+        '& > li:first-child': { borderTop: 'none' },
+        '& > li > *': { paddingBlock: '[clamp(20px, 2vw, 32px)]' },
+      },
+    },
+    editionPrefix: {
+      color: 'muted',
+      transition: 'interactive',
+      'a:hover &': { color: 'current' },
     },
     upcomingInner: {
       position: 'relative',
@@ -92,6 +130,10 @@ export const homePage = sva({
     },
     upcomingEyebrow: {
       color: 'highlight',
+    },
+    upcomingBadge: {
+      alignSelf: 'center',
+      lg: { alignSelf: 'flex-start' },
     },
     lastEdition: {
       alignItems: 'flex-start',

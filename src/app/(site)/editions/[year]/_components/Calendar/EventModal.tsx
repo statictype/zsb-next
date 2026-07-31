@@ -1,113 +1,46 @@
 'use client'
 
+import { EventDetail } from '@calendar/EventDetail'
 import { eventModal } from '@calendar/EventModal.recipe'
-import { TypeChips } from '@calendar/TypeChips'
-import { shareCopied, shareIcon, useShareLink } from '@calendar/useShareLink'
-import { VenueLine } from '@calendar/VenueLine'
-import { RiArrowLeftLine } from '@remixicon/react'
-import { cx } from 'styled-system/css'
-import { HStack, Stack, Text, Wrap } from 'styled-system/jsx'
-import { Figure } from '@/components/Figure/Figure'
+import { EventStepper } from '@calendar/EventStepper'
+import type { EventSteps } from '@calendar/event-steps'
+import { RiArrowLeftLine, RiCloseLine } from '@remixicon/react'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
-import { eventWhenLabel } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 
-// The Back/Share controls are plain secondary <Button>s floating over the
-// dialog top; the click-through bar (`controls` slot) re-enables
-// pointer-events on its buttons, so nothing is layered on top of them here.
+const s = eventModal()
 
-// The full picture for a single event, opened from the calendar (ZSB-40). A
-// dialog over the schedule: everything the agenda row summarises — the whole
-// poster, the complete description, venue + grouping, type(s), date & time, and
-// the ways to act on it. Rendered by the event route via `RoutedEventModal`
-// (ADR 0015), which owns the close behaviour; mount == open.
-
-export function EventModal({ event, onClose }: { event: CalendarEvent; onClose: () => void }) {
-  // The event detail is its own route (ADR 0015), so the URL in the bar IS this
-  // event's shareable URL — in both the intercepted (soft-nav) and standalone
-  // (hard load) cases. Share it as-is; no fragment, unlike the calendar's
-  // programme-anchored share (ZSB-50).
-  const {
-    share,
-    copied,
-    label: shareLabel,
-    Icon: ShareIcon,
-  } = useShareLink(() => window.location.href)
-
-  const s = eventModal()
-
+export function EventModal({
+  event,
+  year,
+  prev,
+  next,
+  index,
+  total,
+  onClose,
+}: {
+  event: CalendarEvent
+  year: number
+  onClose: () => void
+} & EventSteps) {
   return (
-    <Dialog open onClose={onClose} title={event.name} presentation="panel">
-      <HStack className={s.controls} justify="space-between">
-        {/* Dismiss returns to the programme (router back / link up); ✕ was a
-              generic close that no longer fits the route model (ZSB-50). */}
-        <Button variant="secondary" size="sm" onClick={onClose}>
-          <RiArrowLeftLine size={16} aria-hidden />
-          Back to programme
-        </Button>
-        <Button
-          variant="secondary"
-          size="sm"
-          className={cx(shareIcon, copied && shareCopied)}
-          onClick={share}
-          aria-live="polite"
-        >
-          <ShareIcon size={15} aria-hidden />
-          {shareLabel}
-        </Button>
-      </HStack>
+    <Dialog open onClose={onClose} title={event.name} presentation="fullscreen">
+      <div className={s.shell}>
+        <header className={s.chrome}>
+          <Button variant="quiet" size="sm" onClick={onClose}>
+            <RiArrowLeftLine size={16} aria-hidden />
+            {year} calendar
+          </Button>
 
-      {event.image && (
-        <div className={s.poster}>
-          <Figure image={event.image} sizes="(min-width: 768px) 340px, 100vw" />
-        </div>
-      )}
+          <EventStepper prev={prev} next={next} index={index} total={total} />
 
-      <div className={s.body}>
-        <Stack gap="lg">
-          <Stack gap="md">
-            <Stack gap="sm">
-              <Stack gap="xs">
-                <Text as="p" variant="label" className={s.when}>
-                  {eventWhenLabel(event)}
-                </Text>
-                <Text as="h2" variant="title">
-                  {event.name}
-                </Text>
-              </Stack>
+          <Button variant="icon" onClick={onClose} aria-label="Close">
+            <RiCloseLine size={22} aria-hidden />
+          </Button>
+        </header>
 
-              <TypeChips types={event.types} />
-
-              <VenueLine venue={event.venue} size="md" />
-            </Stack>
-
-            {event.description && (
-              <Text as="p" variant="body" className={s.description}>
-                {event.description}
-              </Text>
-            )}
-          </Stack>
-
-          {(event.ticketUrl || event.facebookUrl) && (
-            <Wrap gap="md">
-              {event.ticketUrl && (
-                <Button asChild variant="link">
-                  <a href={event.ticketUrl} target="_blank" rel="noreferrer">
-                    Tickets
-                  </a>
-                </Button>
-              )}
-              {event.facebookUrl && (
-                <Button asChild variant="link">
-                  <a href={event.facebookUrl} target="_blank" rel="noreferrer">
-                    Facebook event
-                  </a>
-                </Button>
-              )}
-            </Wrap>
-          )}
-        </Stack>
+        <EventDetail event={event} shell="modal" />
       </div>
     </Dialog>
   )

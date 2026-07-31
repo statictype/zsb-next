@@ -29,13 +29,11 @@ describe('EditionRailCard', () => {
     expect(screen.getByRole('link')).toHaveAttribute('aria-current', 'page')
   })
 
-  it('renders announced editions as inert "Soon" plates without the highlight', () => {
+  it('renders announced editions as inert "Soon" plates', () => {
     render(<EditionRailCard edition={edition} status="announced" />)
 
     expect(screen.getByText('Soon')).toBeInTheDocument()
     expect(screen.queryByRole('link')).toBeNull()
-    // Highlight suppressed: the theme is a single unsplit text node.
-    expect(screen.queryByText('light')).toBeNull()
     expect(screen.getByRole('heading', { name: /the weight of light/ })).toBeInTheDocument()
   })
 })

@@ -220,12 +220,16 @@ export const ARTISTS_QUERY = defineQuery(`
 export const ARTISTS_QUERY_TAGS = ['artist']
 
 // Identity + display name, surname-ordered — for the artists index and the
-// homepage banner. `_id` exists purely as a stable React key.
+// homepage banner. `_id` exists purely as a stable React key. Only artists a
+// live edition lists: an announced edition's lineup is not public yet.
 export const ARTIST_INDEX_QUERY = defineQuery(`
-  *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc){ _id, name }
+  *[_type == "artist" && defined(slug.current)
+    && _id in *[_type == "edition" && status == "live"].artists[]._ref]
+    | order(coalesce(sortName, name) asc){ _id, name }
 `)
 
-export const ARTIST_INDEX_QUERY_TAGS = ['artist']
+// 'edition' too: flipping an edition to live changes who this returns.
+export const ARTIST_INDEX_QUERY_TAGS = ['artist', 'edition']
 
 export const ARTIST_BY_SLUG_QUERY = defineQuery(`
   *[_type == "artist" && slug.current == $slug][0] {
@@ -242,12 +246,11 @@ export const ARTIST_BY_SLUG_QUERY = defineQuery(`
 
 export const ARTIST_BY_SLUG_QUERY_TAGS = ['artist']
 
-// Every edition's year + status, one row per edition. Serves two different
-// views: the "N editions" counts (all years, announced included) and the
-// generateStaticParams enumeration (filtered to live — a non-live page is
-// gated `status == "live"`, so prerendering it would bake a 404).
+// Live edition years, newest first. Live-only because the consumers enumerate
+// reachable pages: the edition page is gated `status == "live"`, so any other
+// year would bake a 404.
 export const EDITION_YEARS_QUERY = defineQuery(`
-  *[_type == "edition" && defined(year)] | order(year desc){ year, status }
+  *[_type == "edition" && defined(year) && status == "live"] | order(year desc){ year }
 `)
 
 export const EDITION_YEARS_QUERY_TAGS = ['edition']

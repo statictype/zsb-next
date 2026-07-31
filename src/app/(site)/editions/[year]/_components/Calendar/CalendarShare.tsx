@@ -1,13 +1,11 @@
 'use client'
 
-import { shareCopied, shareIcon, useShareLink } from '@calendar/useShareLink'
-import { cx } from 'styled-system/css'
+import { shareCopied, useShareLink } from '@calendar/useShareLink'
+import { css } from 'styled-system/css'
 import { Button } from '@/components/ui/Button/Button'
+import { PROGRAM_SECTION_ID } from '@/lib/edition-href'
 
-// The anchor the shared link lands on — the Calendar `<section>` carries this
-// id, so opening a shared link scrolls straight to the programme rather than
-// the top of the edition page.
-export const PROGRAM_SECTION_ID = 'program'
+const srOnly = css({ layerStyle: 'srOnly' })
 
 // Share the calendar exactly as it's being viewed. The active filters already
 // live in the URL (ZSB-29), so there's nothing to serialize here — we read
@@ -15,22 +13,26 @@ export const PROGRAM_SECTION_ID = 'program'
 // and hand it to the platform (native sheet → copy-link fallback via
 // `useShareLink`, the same affordance the event detail uses, ZSB-50).
 export function CalendarShare() {
-  const { share, copied, label, Icon } = useShareLink(() => {
+  const { share, copied, label, status, Icon } = useShareLink(() => {
     const target = new URL(window.location.href)
     target.hash = PROGRAM_SECTION_ID
     return target.toString()
   })
 
   return (
-    <Button
-      variant="secondary"
-      size="sm"
-      className={cx(shareIcon, copied && shareCopied)}
-      onClick={share}
-      aria-live="polite"
-    >
-      <Icon size={15} aria-hidden />
-      {label}
-    </Button>
+    <>
+      <Button
+        variant="secondary"
+        size="sm"
+        className={copied ? shareCopied : undefined}
+        onClick={share}
+      >
+        <Icon size={15} aria-hidden />
+        {label}
+      </Button>
+      <span role="status" className={srOnly}>
+        {status}
+      </span>
+    </>
   )
 }

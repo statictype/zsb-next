@@ -1,53 +1,30 @@
 import { sva } from 'styled-system/css'
 
 export const artistsBanner = sva({
-  slots: ['root', 'inner', 'subtext', 'accent'],
+  slots: ['root', 'inner', 'body', 'subtext'],
   base: {
     root: {
-      position: 'relative',
-      display: 'block',
       width: 'full',
-      background: 'surface',
-      textDecoration: 'none',
-      overflow: 'hidden',
-      paddingBlock: { base: 'xl', md: '2xl' },
-      paddingInline: 'gutter',
       scrollMarginTop: '[token(sizes.nav)]',
-      // Brand corner wash — fades in on hover.
-      _before: {
-        content: '""',
-        position: 'absolute',
-        inset: '0',
-        background:
-          '[linear-gradient(135deg, color-mix(in oklch, token(colors.pink) 8%, transparent) 0%, transparent 50%, color-mix(in oklch, token(colors.chartreuse) 5%, transparent) 100%)]',
-        opacity: '0',
-        transition: 'interactive',
-      },
-      _hover: {
-        _before: { opacity: '1' },
-        '& [data-part=accent]': { transform: 'scaleX(1)' },
-      },
     },
     inner: {
-      position: 'relative',
-      zIndex: '1',
-      width: 'full',
-      maxWidth: 'maxWidth',
-      marginInline: 'auto',
+      layerStyle: 'sectionInner',
+      display: 'grid',
+      gap: 'lg',
+      lg: {
+        gridTemplateColumns: '[1.4fr 1fr]',
+        columnGap: 'xl',
+        alignItems: 'end',
+      },
+    },
+    body: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: 'lg',
     },
     subtext: {
-      maxWidth: { md: 'narrowColumn' },
-    },
-    accent: {
-      position: 'absolute',
-      bottom: '0',
-      left: '0',
-      width: 'full',
-      height: 'brushStroke',
-      background: '[linear-gradient(90deg, token(colors.action) 0%, token(colors.highlight) 100%)]',
-      transformOrigin: 'left',
-      transform: 'scaleX(0)',
-      transition: 'develop',
+      maxWidth: 'measure',
     },
   },
 })

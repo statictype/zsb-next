@@ -85,18 +85,14 @@ export async function getHeroEditionLeadFromSanity(
     : 'latest'
 }
 
-/** One row per edition, newest first — year plus the status that decides
- *  whether the edition has a reachable page. */
+/** One row per live edition, newest first. */
 export interface EditionYearRow {
   year: number
-  status: 'live' | 'announced'
 }
 
 /**
- * Cached year+status rows. Drafts never introduce or remove a year (year is
- * set on creation and rarely changes), so we hardcode published here. Two
- * consumers, two views: the "N editions" counts read every row, the
- * generateStaticParams enumeration keeps only live.
+ * Cached live-edition years. Drafts never introduce or remove a year (year is
+ * set on creation and rarely changes), so we hardcode published here.
  */
 export async function getEditionYearsFromSanity(): Promise<EditionYearRow[]> {
   'use cache'

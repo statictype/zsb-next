@@ -1,17 +1,13 @@
 import { sva } from 'styled-system/css'
 
 export const linkList = sva({
-  slots: ['list', 'item', 'link', 'year', 'body', 'title', 'excerpt', 'tags', 'arrow'],
+  slots: ['list', 'item', 'link', 'year', 'body', 'title', 'subtitle', 'excerpt', 'tags', 'arrow'],
   base: {
     // List margins/padding are already zeroed by the base reset.
     list: { listStyle: 'none', borderBottom: 'hairline' },
     item: { borderTop: 'hairline' },
     link: {
       display: 'grid',
-      gridTemplateColumns: {
-        base: '40px minmax(0, 1fr) auto',
-        md: '60px minmax(0, 1fr) auto auto',
-      },
       alignItems: 'center',
       gap: { base: 'sm', md: 'md' },
       paddingBlock: 'lg',
@@ -29,6 +25,9 @@ export const linkList = sva({
       transition: 'interactive',
       'a:hover &': { color: 'action' },
     },
+    subtitle: {
+      display: 'block',
+    },
     excerpt: {
       display: 'block',
       maxWidth: 'measure',
@@ -38,7 +37,6 @@ export const linkList = sva({
       flexWrap: 'wrap',
       justifyContent: 'flex-end',
       gap: 'sm',
-      gridColumn: { base: '2 / 4', md: 'auto' },
     },
     arrow: {
       display: 'flex',
@@ -47,4 +45,22 @@ export const linkList = sva({
       'a:hover &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
   },
+  variants: {
+    emphasis: {
+      title: {
+        link: {
+          gridTemplateColumns: {
+            base: '40px minmax(0, 1fr) auto',
+            md: '60px minmax(0, 1fr) auto auto',
+          },
+        },
+        tags: { gridColumn: { base: '2 / 4', md: 'auto' } },
+      },
+      year: {
+        link: { gridTemplateColumns: 'minmax(0, 1fr) auto' },
+        body: { gap: { base: 'xs', md: 'sm' } },
+      },
+    },
+  },
+  defaultVariants: { emphasis: 'title' },
 })

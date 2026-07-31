@@ -1,13 +1,7 @@
-// Pure filter + derived-view logic for the calendar (ZSB-29): the filter
-// model, computing available options from events, applying the active
-// selection, and deriving everything the board renders from it (schedule,
-// counts, toggle affordances). Also owns the URL codec and the per-filter
-// selection algebra — small, single-domain, no reason to split across three
-// files. No React / DOM / `server-only` dependency so this stays trivially
-// unit-testable; `useCalendarFilters` wraps the codec with the client-side
-// URL store. Filtering and the past/upcoming split run in the browser — the
-// edition page is cached, so "what's past" is judged against the visitor's
-// own clock, never at build time.
+// Keep this free of React / DOM / `server-only` imports: it is unit-tested
+// directly. Filtering and the past/upcoming split run in the browser because
+// the edition page is cached — "what's past" is the visitor's clock, not the
+// build's.
 
 import {
   type DayToken,
@@ -19,23 +13,17 @@ import {
 } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 
-// ---- Per-filter selection algebra ----
-// State for one filter dimension (venue, type): a multi-select that's
-// all-on by default.
-//   null      → every option selected (the default; serialized as no param so
-//               the URL stays clean and is robust to the option list changing)
-//   string[]  → exactly these slugs selected (an empty array means none — the
-//               calendar shows nothing for that filter)
+// `null` means every option is selected, and serializes to no URL param at all
+// — which is also what makes a shared link survive the option list changing.
+// `[]` means none.
 export type FilterSelection = string[] | null
 
 export function isSelected(selection: FilterSelection, slug: string): boolean {
   return selection === null || selection.includes(slug)
 }
 
-// Toggle one option, given every available slug in canonical order. Collapses
-// to `null` once everything ends up selected, so the default state always
-// serializes to a clean URL. The result keeps the canonical order and drops
-// any stale slugs no longer in the filter.
+// `allSlugs` is the canonical order; the result is filtered through it, which
+// also drops slugs no longer in the edition.
 export function toggleSelection(
   selection: FilterSelection,
   slug: string,
@@ -51,11 +39,8 @@ export function toggleSelection(
 export interface CalendarFilters {
   venues: FilterSelection
   types: FilterSelection
-  /**
-   * Explicit show-past choice, or `null` to follow the edition default
-   * (hide past on a live edition, show it on a finished one). Tri-state so a
-   * shared link can pin the choice and survive a refresh.
-   */
+  /** Tri-state: `null` follows the edition default, so a shared link can pin
+   *  an explicit choice without freezing the default for everyone else. */
   showPast: boolean | null
 }
 
@@ -72,17 +57,9 @@ export interface CalendarFilterOptions {
   types: FilterOption[]
 }
 
-// The venue a filter chip represents is each event's stamped `rollUp`: a space
-// inside a bigger place rolls up to its parent, so every studio and gallery
-// within CFP — UNAgaleria, the artists' studios — filters under the single
-// "CFP" chip instead of cluttering the bar. The rollup is computed once in the
-// data layer (ZSB-65), so the chips here and the Visit venues view share one
-// key; events still render their specific venue in the agenda.
-
-// ---- Past / show-past default ----
-// Past-ness itself (`isPastEvent`) lives in `@/lib/edition-dates` with the
-// rest of the event-time judgement (ZSB-59); these resolve the `showPast`
-// filter field's own default.
+// Chips key on `venue.rollUp`, stamped in the data layer, so a studio inside
+// CFP filters under CFP — and so these chips and the Visit venues view can't
+// disagree about which venues exist.
 
 export function hasUpcomingEvents(events: CalendarEvent[], todayIso: string): boolean {
   return events.some((e) => !isPastEvent(e, todayIso))
@@ -92,10 +69,9 @@ export function hasPastEvents(events: CalendarEvent[], todayIso: string): boolea
   return events.some((e) => isPastEvent(e, todayIso))
 }
 
-// Whether past events should be shown, given the explicit choice (if any) and
-// the edition shape. Default: hide on a live edition (it has upcoming events),
-// show on a finished one (nothing upcoming — otherwise the calendar is empty).
-// `todayIso === null`: null-clock convention (`lib/today.ts`), hide nothing.
+// Defaults to hiding past events, except on a finished edition, where that
+// would leave the calendar empty. `todayIso === null` is the null-clock
+// convention (`lib/today.ts`): before the clock resolves, hide nothing.
 export function resolveShowPast(
   filters: CalendarFilters,
   events: CalendarEvent[],
@@ -106,9 +82,6 @@ export function resolveShowPast(
   return !hasUpcomingEvents(events, todayIso)
 }
 
-// Build the venue + type filter option lists from every event (not the
-// filtered set), each ordered by event count then label so the busiest
-// places lead and the order is stable across renders.
 export function computeFilterOptions(events: CalendarEvent[]): CalendarFilterOptions {
   const venues = new Map<string, FilterOption>()
   const types = new Map<string, FilterOption>()
@@ -131,12 +104,8 @@ export function computeFilterOptions(events: CalendarEvent[]): CalendarFilterOpt
   }
 }
 
-// Whether an event passes the venue/type filter selection — the
-// time-independent half of the filter. A `null` selection imposes no
-// constraint (everything selected); otherwise the event must match a
-// selected venue / one of its types must be selected (so an empty selection
-// matches nothing). Drives both the headline "X of Y upcoming" count
-// (ZSB-47) and `applyFilters`.
+// The time-independent half of the filter, shared by `applyFilters` and the
+// headline count.
 export function matchesFilters(event: CalendarEvent, filters: CalendarFilters): boolean {
   const { venues, types } = filters
   if (venues !== null && !venues.includes(event.venue.rollUp.slug)) return false
@@ -144,8 +113,6 @@ export function matchesFilters(event: CalendarEvent, filters: CalendarFilters): 
   return true
 }
 
-// Narrow events to the active selection: the filter match above, then the
-// past/upcoming split — past events drop out unless show-past resolves on.
 export function applyFilters(
   events: CalendarEvent[],
   filters: CalendarFilters,
@@ -159,14 +126,10 @@ export function applyFilters(
   })
 }
 
-// Whether the filters deviate from the default (all selected, past at default).
 export function hasActiveFilters(filters: CalendarFilters): boolean {
   return filters.venues !== null || filters.types !== null || filters.showPast !== null
 }
 
-// ---- URL codec ----
-// Param names — short so shared links (ZSB-33) stay compact. The open event
-// is a route now (`events/[key]`, ADR 0015), not a query param.
 const PARAM_VENUE = 'venue'
 const PARAM_TYPE = 'type'
 const PARAM_PAST = 'past'
@@ -179,9 +142,8 @@ function parseList(value: string | null): string[] {
     .filter(Boolean)
 }
 
-// Read filters out of a URL query string (`location.search`, leading `?` ok).
-// A present param (even empty) is an explicit selection; an absent one is the
-// all-selected default (`null`).
+// A present param, even empty, is an explicit selection; an absent one is the
+// all-selected default.
 export function parseFilters(search: string): CalendarFilters {
   const params = new URLSearchParams(search)
   const past = params.get(PARAM_PAST)
@@ -193,14 +155,11 @@ export function parseFilters(search: string): CalendarFilters {
 }
 
 function setSelection(params: URLSearchParams, key: string, selection: FilterSelection): void {
-  // null (all selected) → omit the param entirely; otherwise list the slugs
-  // (an empty selection becomes `key=`, which round-trips back to []).
   if (selection === null) params.delete(key)
   else params.set(key, selection.join(','))
 }
 
-// Serialize filters back to a query string (no leading `?`, `""` at the
-// default). `base` preserves any unrelated params already on the URL.
+// `base` preserves unrelated params already on the URL.
 export function serializeFilters(filters: CalendarFilters, base = ''): string {
   const params = new URLSearchParams(base)
   setSelection(params, PARAM_VENUE, filters.venues)
@@ -210,23 +169,11 @@ export function serializeFilters(filters: CalendarFilters, base = ''): string {
   return params.toString()
 }
 
-// The URL a filter change navigates to: the next filters serialized over the
-// current `search` (unrelated params survive), collapsing to the bare pathname
-// at the default so the clean URL stays canonical. `useCalendarFilters` is
-// just `router.replace` around this.
+// Collapses to the bare pathname at the default, so the clean URL is canonical.
 export function filterUrl(pathname: string, search: string, next: CalendarFilters): string {
   const query = serializeFilters(next, search)
   return query ? `${pathname}?${query}` : pathname
 }
-
-// ---- Derived view ----
-// Everything the board renders, in one call — replaces what used to be 7
-// separate call sites (applyFilters, buildSchedule, resolveShowPast,
-// hasPastEvents, hasUpcomingEvents, hasActiveFilters, plus a hand-rolled
-// counts loop) scattered through Calendar.tsx. Composed from the granular
-// functions above (each stays independently tested) rather than re-derived,
-// so behaviour is provably unchanged — this is a packaging move, not a
-// rewrite of the filtering rules.
 
 export interface AgendaDay {
   iso: string
@@ -235,41 +182,32 @@ export interface AgendaDay {
 }
 
 interface Schedule {
-  /** Multi-day runs (exhibitions) — shown in the "Ongoing" band, each with its span. */
   onView: CalendarEvent[]
-  /** Single-day events, grouped and ordered by date. */
   days: AgendaDay[]
 }
 
 export interface CalendarView extends Schedule {
-  /** Events passing both the venue/type filter and the past/upcoming split. */
   visible: CalendarEvent[]
   upcoming: number
+  /** `upcoming` narrowed by the venue/type selection. */
   upcomingMatching: number
   past: number
   showPast: boolean
-  /** Whether the past-events toggle should render at all. */
   showPastControl: boolean
   canReset: boolean
-  /** The edition is over — the board leads with the recap and folds into the
-   *  archive Collapsible (ZSB-45). */
   ended: boolean
-  /** Non-null exactly while the edition is live; the board's past-greying
-   *  reads it so narrowing flows instead of needing `todayIso!` assertions. */
+  /** Non-null exactly while the edition is live, so the board's past-greying
+   *  narrows instead of asserting on `todayIso`. */
   liveClock: string | null
-  /** Short human span of the whole edition window; '' when it has none. */
   windowLabel: string
-  /** Headline count line — "X of Y upcoming events" and its collapsed forms. */
   countLabel: string
 }
 
-// Untimed events sort before timed ones (empty string < "18:00"); ties break
-// by name so the order is stable across renders.
+// Untimed events sort first: '' < '18:00'.
 function byTimeThenName(a: CalendarEvent, b: CalendarEvent): number {
   return (a.startTime ?? '').localeCompare(b.startTime ?? '') || a.name.localeCompare(b.name)
 }
 
-// Split events into the "Ongoing" multi-day runs and the day-by-day agenda.
 function buildSchedule(events: CalendarEvent[]): Schedule {
   const onView: CalendarEvent[] = []
   const byDay = new Map<string, CalendarEvent[]>()
@@ -310,11 +248,18 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
   return { onView, days }
 }
 
-// Headline counts (ZSB-47). Before the clock resolves (null-clock convention,
-// `lib/today.ts`) everything counts as "upcoming" and no past affordance shows
-// — matching the all-events shell, avoiding an "X of Y" flash. Once resolved,
-// `upcomingMatching` reacts to the venue/type filters; `upcoming`/`past` are
-// whole-edition totals, independent of the selection.
+// Board reading order, and the sequence the event panel steps through.
+// Deliberately unfiltered: filters are client state on the edition URL and
+// never reach an event route, so a neighbour derived from them would differ
+// between a soft navigation and the same link opened cold.
+export function programmeOrder(events: CalendarEvent[]): CalendarEvent[] {
+  const { onView, days } = buildSchedule(events)
+  return [...onView, ...days.flatMap((day) => day.events)]
+}
+
+// Before the clock resolves everything counts as upcoming and no past
+// affordance shows, which matches the prerendered shell and avoids an
+// "X of Y" flash on hydration.
 export function deriveCalendarView(
   events: CalendarEvent[],
   filters: CalendarFilters,
@@ -348,18 +293,14 @@ export function deriveCalendarView(
     }
   }
 
-  // Edition window + live/ended judged on the WHOLE edition, never the filtered
-  // subset — filtering to past-only on a live edition must keep the live "past"
-  // greying, not flip the board into clean-archive mode.
+  // Judged on the whole edition, never the filtered subset: filtering to
+  // past-only on a live edition must not flip the board into archive mode.
   const [editionStart, editionEnd] = editionWindow(events)
   const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
   const liveClock = ended ? null : todayIso
   const windowLabel =
     editionStart && editionEnd ? (formatShortRange(editionStart, editionEnd) ?? '') : ''
 
-  // "X of Y upcoming events", collapsing to "Y upcoming events" when the venue/
-  // type filters aren't narrowing anything. A finished edition (nothing upcoming)
-  // falls back to a plain archive total — its recap treatment is ZSB-45.
   const countLabel =
     upcoming === 0
       ? `${events.length} ${events.length === 1 ? 'event' : 'events'}`
