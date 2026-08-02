@@ -1,27 +1,18 @@
 import { hero } from '@edition-components/Hero.recipe'
 import { css, cx } from 'styled-system/css'
-import { token } from 'styled-system/tokens'
+import { Text } from 'styled-system/jsx'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import type { Edition } from '@/types/edition'
 
 const styles = hero()
 
-// Container positioning only — tuck the theme tape under the nav.
-// (Entrance delay is a prop.)
-const tapeTheme = css({ layerStyle: 'heroTapeNudge' })
-
-// Mirrors `Hero.recipe.ts`'s `lg`+ grid (the image track beside the reserved
-// tape column) so the browser's image selection agrees with the frame's
-// actual rendered width.
-const SIZES = `(min-width: ${token('sizes.breakpoint-lg')}) ${token('sizes.heroImageMax')}, 100vw`
-
 interface HeroProps {
-  edition: Pick<Edition, 'theme' | 'themeHighlight' | 'heroImage' | 'dateTape'>
+  edition: Pick<Edition, 'theme' | 'themeHighlight' | 'heroImage' | 'dateLine'>
 }
 
 export function Hero({ edition }: HeroProps) {
-  const { theme, themeHighlight, heroImage, dateTape } = edition
+  const { theme, themeHighlight, heroImage, dateLine } = edition
 
   return (
     <header className={styles.hero}>
@@ -30,7 +21,7 @@ export function Hero({ edition }: HeroProps) {
           <div className={styles.background} aria-hidden="true" />
           <Figure
             image={heroImage}
-            sizes={SIZES}
+            sizes="100vw"
             priority
             className={cx(styles.image, css({ animationStyle: 'enter.zoom' }))}
           />
@@ -39,19 +30,19 @@ export function Hero({ edition }: HeroProps) {
             aria-hidden="true"
           />
         </div>
+      </div>
 
-        <div className={styles.tapes}>
-          <EditionTheme
-            as="h1"
-            size="huge"
-            accent="action"
-            theme={theme}
-            themeHighlight={themeHighlight}
-            meta={dateTape}
-            delay="0.55s"
-            className={tapeTheme}
-          />
-        </div>
+      <div className={styles.intro}>
+        <EditionTheme
+          as="h1"
+          size="huge"
+          accent="action"
+          theme={theme}
+          themeHighlight={themeHighlight}
+        />
+        <Text as="p" variant="caption">
+          {dateLine}
+        </Text>
       </div>
     </header>
   )

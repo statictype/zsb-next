@@ -1,14 +1,14 @@
 import { sva } from 'styled-system/css'
 
 /**
- * Rail plate chrome. The plate is just the theme tape — the year/status
- * badges are stamped inside the band through EditionTheme's `lead` slot, so
- * this recipe only shells the tape with link focus and state styling.
- * `status` is a real recipe variant so state styling lives next to the state
- * model in EditionRailCard, not behind data-attrs.
+ * Rail plate chrome. The plate is just the theme — the year/status badges are
+ * stamped inside the heading through EditionTheme's `lead` slot, so this recipe
+ * only shells it with link focus and state styling. `status` is a real recipe
+ * variant so state styling lives next to the state model in EditionRailCard,
+ * not behind data-attrs.
  */
 export const editionRailCard = sva({
-  slots: ['root', 'tape'],
+  slots: ['root', 'plate'],
   base: {
     root: {
       display: 'inline-flex',
@@ -19,9 +19,7 @@ export const editionRailCard = sva({
     },
     // The plate is as wide as its content — badges, theme, paddings — always
     // on one line; the carousel drags to reveal plates wider than the screen.
-    // Font-size ladder + padding treatment live on EditionTheme's own `rail`
-    // size variant now, not overridden here.
-    tape: { whiteSpace: 'nowrap' },
+    plate: { whiteSpace: 'nowrap' },
   },
   variants: {
     status: {

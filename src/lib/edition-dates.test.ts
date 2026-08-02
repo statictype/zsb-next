@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
-  composeDateTape,
+  composeDateLine,
   dateParts,
   dayToken,
   editionWindow,
@@ -50,26 +50,26 @@ describe('formatDateRange', () => {
   })
 })
 
-describe('composeDateTape', () => {
+describe('composeDateLine', () => {
   it('appends the venue line after a middle dot', () => {
     expect(
-      composeDateTape({ dateStart: '2022-04-16', dateEnd: '2022-04-18', venueLine: 'Bucharest' }),
+      composeDateLine({ dateStart: '2022-04-16', dateEnd: '2022-04-18', venueLine: 'Bucharest' }),
     ).toBe('16–18 April 2022 · Bucharest')
   })
 
   it('omits the dot when there is no venue line', () => {
-    expect(composeDateTape({ dateStart: '2022-04-16', dateEnd: '2022-04-18' })).toBe(
+    expect(composeDateLine({ dateStart: '2022-04-16', dateEnd: '2022-04-18' })).toBe(
       '16–18 April 2022',
     )
   })
 
   it('returns an empty string when a date is missing', () => {
-    expect(composeDateTape({ dateStart: '2022-04-16', dateEnd: null })).toBe('')
-    expect(composeDateTape({ venueLine: 'Bucharest' })).toBe('')
+    expect(composeDateLine({ dateStart: '2022-04-16', dateEnd: null })).toBe('')
+    expect(composeDateLine({ venueLine: 'Bucharest' })).toBe('')
   })
 
   it('returns an empty string when the dates are unparseable', () => {
-    expect(composeDateTape({ dateStart: 'x', dateEnd: 'y', venueLine: 'Bucharest' })).toBe('')
+    expect(composeDateLine({ dateStart: 'x', dateEnd: 'y', venueLine: 'Bucharest' })).toBe('')
   })
 })
 

@@ -16,7 +16,7 @@ export type EditionCardData = Pick<
   | 'theme'
   | 'themeHighlight'
   | 'dateRange'
-  | 'dateTape'
+  | 'dateLine'
   | 'venueLine'
   | 'heroImage'
   | 'thumbImage'

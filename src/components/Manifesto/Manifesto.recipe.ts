@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const manifesto = sva({
-  slots: ['section', 'container', 'title', 'titleHighlight', 'content', 'text'],
+  slots: ['section', 'container', 'title', 'titleHighlight', 'content'],
   base: {
     section: {
       // ground (light) + rhythm (lg) come from `section()` in the component;
@@ -25,19 +25,5 @@ export const manifesto = sva({
     // The highlighted substring inside the headline (the optional accent).
     titleHighlight: { display: 'inline', color: 'action' },
     content: { paddingTop: { base: '0', lg: 'md' } },
-    text: {
-      position: 'relative',
-      paddingLeft: { base: 'md', md: 'lg' },
-      _before: {
-        layerStyle: 'brushStrokeRule',
-        left: '0',
-        top: '0',
-        bottom: '0',
-        width: 'brushStroke',
-        background:
-          '[linear-gradient(180deg, token(colors.brushStroke) 0%, token(colors.brushStroke) 72%, transparent 100%)]',
-        clipPath: 'token(assets.brushStrokeY)',
-      },
-    },
   },
 })

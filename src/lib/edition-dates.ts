@@ -1,7 +1,7 @@
 // Pure date-formatting helpers for editions — no Sanity / `server-only`
 // dependency so they stay trivially unit-testable and reusable by the
 // calendar/event work (ZSB-28/25). Extracted from the edition mapper, which
-// imports `composeDateTape` from here.
+// imports `composeDateLine` from here.
 
 const MONTHS = [
   'January',
@@ -49,10 +49,10 @@ export function composeDateRange(raw: {
   return formatDateRange(raw.dateStart, raw.dateEnd) ?? ''
 }
 
-// Compose the hero date tape from the typed fields. The mapper owns the `·`
+// Compose the hero date line from the typed fields. The mapper owns the `·`
 // glyph so it stays consistent across editions. Empty string if the dates are
 // missing (only possible on a malformed doc — live editions require them).
-export function composeDateTape(raw: {
+export function composeDateLine(raw: {
   dateStart?: string | null
   dateEnd?: string | null
   venueLine?: string | null

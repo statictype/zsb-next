@@ -16,7 +16,7 @@ describe('EditionRailCard', () => {
     expect(screen.getByText('light')).toBeInTheDocument()
   })
 
-  it('stamps the year and status badges inside the tape heading', () => {
+  it('stamps the year and status badges inside the plate heading', () => {
     render(<EditionRailCard edition={edition} status="current" href="/editions/2026" />)
 
     const year = screen.getByText('2026')

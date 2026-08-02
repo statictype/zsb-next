@@ -103,7 +103,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                   <AccentSplit text={upcoming.theme} accent={upcoming.themeHighlight} lineBreak />
                 </Text>
                 <Text as="p" variant="body">
-                  {upcoming.dateTape}
+                  {upcoming.dateLine}
                 </Text>
                 <div className={styles.upcomingBadge}>
                   <PartnerBadge size="upcoming" />

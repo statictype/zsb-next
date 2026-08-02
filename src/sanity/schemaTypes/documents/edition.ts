@@ -82,7 +82,7 @@ export const edition = defineType({
       group: 'hero',
       validation: (rule) => rule.custom(requiredWhenLive),
     }),
-    // The hero date tape, composed by the renderer from the typed fields below
+    // The hero date line, composed by the renderer from the typed fields below
     // (dates + venue line), with a single canonical format + glyph.
     defineField({
       name: 'dateStart',

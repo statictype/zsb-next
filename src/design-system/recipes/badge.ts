@@ -3,7 +3,7 @@ import { defineRecipe } from '@pandacss/dev'
 export const badge = defineRecipe({
   jsx: ['Badge'],
   className: 'badge',
-  description: 'Unified tag/chip/badge — replaces the legacy pill/chip/tape/status variants',
+  description: 'Unified tag/chip/badge — replaces the legacy pill/chip/status variants',
   base: {
     display: 'inline-flex',
     alignItems: 'center',

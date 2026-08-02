@@ -74,7 +74,7 @@ export async function getVisitEdition(
 }
 
 /** The upcoming edition the home hero leads with (ZSB-44), once auto-derived. */
-export type UpcomingHero = Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'dateTape'>
+export type UpcomingHero = Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'dateLine'>
 
 /**
  * The upcoming edition the home hero should lead with (ZSB-44) — returned only
@@ -95,7 +95,7 @@ export async function getHeroUpcoming(options: DynamicFetchOptions): Promise<Upc
     year: edition.year,
     theme: edition.theme,
     themeHighlight: edition.themeHighlight,
-    dateTape: edition.dateTape,
+    dateLine: edition.dateLine,
   }
 }
 

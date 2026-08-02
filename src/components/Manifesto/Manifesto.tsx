@@ -21,11 +21,9 @@ export function Manifesto({ title, body, accent }: ManifestoProps) {
           <AccentSplit text={title} accent={accent} className={s.titleHighlight} />
         </Text>
         <div className={s.content}>
-          <div className={s.text}>
-            <Text as="p" variant="lead">
-              {body}
-            </Text>
-          </div>
+          <Text as="p" variant="lead">
+            {body}
+          </Text>
         </div>
       </div>
     </section>

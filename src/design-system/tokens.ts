@@ -49,7 +49,6 @@ export const keyframes = {
     to: { opacity: '1', translate: '0 0', scale: '1', filter: 'blur(0px)' },
   },
 
-  tapeIn: { to: { opacity: '1', translate: '0 0' } },
   spin: { to: { transform: 'rotate(-360deg)' } },
   gradientBorderShift: {
     '0%': { backgroundPosition: '0% 50%' },
@@ -158,7 +157,6 @@ export const tokens = {
     maxWidth: { value: '1800px' },
 
     narrowColumn: { value: '520px' },
-    brushStroke: { value: '3px' },
     lightboxNavColumn: { value: '80px' },
     lightboxFrameWidth: { value: '90vw' },
 
@@ -172,15 +170,8 @@ export const tokens = {
     dialogPanelWide: { value: '760px' },
     dialogPanelXl: { value: '1000px' },
     calendarPoster: { value: '220px' },
-
-    heroTapeColumn: { value: '200px' },
-
-    heroImageMax: { value: 'calc(100vw - {sizes.heroTapeColumn})' },
   },
   assets: {
-    brushStrokeX: { value: 'polygon(0 0, 100% 0, 100% 38%, 68% 58%, 0 100%)' },
-    brushStrokeY: { value: 'polygon(0 0, 100% 0, 58% 68%, 38% 100%, 0 100%)' },
-
     grayscaleSubtle: { value: 'grayscale(0.3)' },
 
     grayscaleFull: { value: 'grayscale(1)' },
@@ -223,9 +214,6 @@ export const tokens = {
     badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
     modal: { value: '0 30px 80px rgb(0 0 0 / 0.5)' },
     frame: { value: '0 30px 80px -30px rgb(0 0 0 / 0.7)' },
-    tape: {
-      value: 'inset 0 1px 0 rgb(255 255 255 / 0.08), 0 14px 32px -6px rgb(0 0 0 / 0.55)',
-    },
     text: { value: '0 1px 8px rgb(0 0 0 / 0.55)' },
   },
   gradients: {
@@ -257,7 +245,6 @@ export const semanticTokens = {
     divider: { value: '{colors.gray.900}' },
     action: { value: '{colors.pink}' },
     highlight: { value: '{colors.chartreuse}' },
-    brushStroke: { value: '{colors.highlight}' },
   },
   zIndex: {
     nav: { value: '100' },
@@ -358,15 +345,6 @@ export const animationStyles = {
       animationDuration: '2s',
       animationTimingFunction: 'linear',
       animationIterationCount: 'infinite',
-    },
-  },
-  tape: {
-    value: {
-      animationName: 'tapeIn',
-      animationDuration: 'entrance',
-      animationTimingFunction: 'expo',
-      animationFillMode: 'forwards',
-      animationDelay: 'var(--tape-delay, 0s)',
     },
   },
 } as const
@@ -491,42 +469,40 @@ export const textStyles = {
     },
   },
   editionTheme: {
-    tapeType: {
-      huge: {
-        value: {
-          fontFamily: 'display',
-          fontSize: { base: 'lg', sm: 'xl' },
-          lineHeight: '1',
-          letterSpacing: '0.007em',
-          textTransform: 'lowercase',
-        },
+    huge: {
+      value: {
+        fontFamily: 'display',
+        fontSize: { base: 'lg', sm: 'xl' },
+        lineHeight: '1',
+        letterSpacing: '0.007em',
+        textTransform: 'lowercase',
       },
-      large: {
-        value: {
-          fontFamily: 'display',
-          fontSize: { base: 'lg', md: 'lg', lg: 'lg', xl: 'xl' },
-          lineHeight: '1',
-          letterSpacing: '0.007em',
-          textTransform: 'lowercase',
-        },
+    },
+    large: {
+      value: {
+        fontFamily: 'display',
+        fontSize: { base: 'lg', md: 'lg', lg: 'lg', xl: 'xl' },
+        lineHeight: '1',
+        letterSpacing: '0.007em',
+        textTransform: 'lowercase',
       },
-      normal: {
-        value: {
-          fontFamily: 'display',
-          fontSize: { base: 'md', md: 'lg' },
-          lineHeight: '1',
-          letterSpacing: '0.007em',
-          textTransform: 'lowercase',
-        },
+    },
+    normal: {
+      value: {
+        fontFamily: 'display',
+        fontSize: { base: 'md', md: 'lg' },
+        lineHeight: '1',
+        letterSpacing: '0.007em',
+        textTransform: 'lowercase',
       },
-      rail: {
-        value: {
-          fontFamily: 'display',
-          fontSize: { base: 'md', lg: 'lg' },
-          lineHeight: '1',
-          letterSpacing: '0.01em',
-          textTransform: 'lowercase',
-        },
+    },
+    rail: {
+      value: {
+        fontFamily: 'display',
+        fontSize: { base: 'md', lg: 'lg' },
+        lineHeight: '1',
+        letterSpacing: '0.01em',
+        textTransform: 'lowercase',
       },
     },
   },
@@ -563,18 +539,6 @@ export const layerStyles = {
     },
   },
 
-  heroTapeOffset: {
-    value: {
-      bottom: { base: '8%', md: '10%', lg: '11%' },
-      maxWidth: { base: '94%', md: '72%', lg: '62%', xl: '58%' },
-    },
-  },
-
-  heroTapeNudge: {
-    value: {
-      marginLeft: { base: '10px', md: '18px', lg: '-36px', xl: '-40px' },
-    },
-  },
   pageHero: {
     value: {
       background: 'black',
@@ -643,10 +607,6 @@ export const layerStyles = {
       },
       '@media (max-width: 767px) and (orientation: landscape)': { height: '[73vh]' },
     },
-  },
-
-  brushStrokeRule: {
-    value: { content: '""', position: 'absolute', opacity: '0.85' },
   },
 
   ruleLine: {

@@ -284,7 +284,7 @@ export const SITEMAP_QUERY_TAGS = [
 ]
 
 // The /editions archive grid: exactly the card slice (`EditionCardData`) —
-// theme tape, dateTape inputs, imagery — instead of N full-edition fetches.
+// theme, dateLine inputs, imagery — instead of N full-edition fetches.
 // Status-filtered and year-desc like the page itself, so row 0 is the
 // newest live edition (the feature card).
 export const EDITION_CARDS_QUERY = defineQuery(`
