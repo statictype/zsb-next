@@ -40,7 +40,7 @@ export default async function Image() {
             fontSize: 26,
             fontWeight: 600,
             letterSpacing: 6,
-            color: BRAND.chartreuse,
+            color: BRAND.green,
           }}
         >
           ZSB · CONTEMPORARY SCULPTURE

@@ -64,7 +64,7 @@ export const tokens = {
   colors: {
     gray: grayRamp,
     pink: { value: 'oklch(61.6% 0.2527 355)' },
-    chartreuse: { value: 'oklch(87.9% 0.1981 115)' },
+    green: { value: 'oklch(59.9% 0.1538 155)' },
 
     black: { value: 'oklch(0% 0 0)' },
     white: { value: '#fff' },
@@ -122,13 +122,13 @@ export const tokens = {
       value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.divider}' },
     },
     highlight: {
-      value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.chartreuse}' },
+      value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.highlight}' },
     },
     primary: {
       value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.action}' },
     },
     focus: {
-      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.chartreuse}' },
+      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.highlight}' },
     },
   },
   borderWidths: {
@@ -244,7 +244,7 @@ export const semanticTokens = {
     muted: { value: '{colors.gray.600}' },
     divider: { value: '{colors.gray.900}' },
     action: { value: '{colors.pink}' },
-    highlight: { value: '{colors.chartreuse}' },
+    highlight: { value: '{colors.green}' },
   },
   zIndex: {
     nav: { value: '100' },

@@ -15,7 +15,7 @@ export const OG_CONTENT_TYPE = 'image/png'
 export const BRAND = {
   canvas: '#0e0b10',
   pink: '#ec008c',
-  chartreuse: '#d4e50a',
+  green: '#009a55',
   heading: '#ffffff',
   muted: '#9e9a9c',
 } as const

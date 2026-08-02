@@ -50,7 +50,7 @@ export const artistsTable = sva({
       justifySelf: 'flex-end',
       height: '[24px]',
       width: '[80px]',
-      // The ticket-stub barcode — decorative ink stripes over the chartreuse.
+      // The ticket-stub barcode — decorative ink stripes over the highlight fill.
       background:
         '[repeating-linear-gradient(90deg, rgb(0 0 0 / 0.5) 0px, rgb(0 0 0 / 0.5) 2px, transparent 2px, transparent 4px, rgb(0 0 0 / 0.5) 4px, rgb(0 0 0 / 0.5) 5px, transparent 5px, transparent 8px)]',
     },

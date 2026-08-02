@@ -102,7 +102,7 @@ export function useShareLink(resolveUrl: () => string): ShareLink {
   }
 }
 
-// Copied — settle into the chartreuse "confirmed" accent used across the board.
+// Copied — settle into the highlight "confirmed" accent used across the board.
 export const shareCopied = css({
   color: 'highlight',
   borderColor: 'highlight',

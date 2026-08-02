@@ -19,6 +19,5 @@ export const groundLightVars = {
   '--colors-body': '{colors.gray.700}',
   '--colors-muted': '{colors.gray.600}',
   '--colors-divider': '{colors.gray.200}',
-  '--colors-brush-stroke': '{colors.action}',
   '--borders-hairline': '1px solid var(--colors-divider)',
 }

@@ -53,8 +53,6 @@ export const editionTheme = sva({
       // Interactive: white at rest, accent on the card/link hover.
       true: { highlight: { 'a:hover &': { color: 'action' } } },
     },
-    // Rest color of a static highlight: chartreuse marks active/current
-    // elements (rail current card), pink is decorative accent (edition hero).
     // Ignored when `interactive` — hover color there is always `action`.
     accent: {
       highlight: {},

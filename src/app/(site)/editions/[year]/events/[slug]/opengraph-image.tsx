@@ -99,7 +99,7 @@ export default async function Image({
               fontSize: 26,
               letterSpacing: 2,
               textTransform: 'uppercase',
-              color: BRAND.chartreuse,
+              color: BRAND.green,
               marginBottom: 18,
             }}
           >

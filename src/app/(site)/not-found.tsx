@@ -34,7 +34,7 @@ const glow = css({
 })
 
 const glowPink = css({ bg: 'action', top: '[20%]', left: '[15%]' })
-const glowChartreuse = css({ bg: 'highlight', bottom: '[10%]', right: '[10%]' })
+const glowHighlight = css({ bg: 'highlight', bottom: '[10%]', right: '[10%]' })
 
 const content = css({
   position: 'relative',
@@ -88,7 +88,7 @@ export default function NotFound() {
     <div className={page}>
       <div className={vignette} />
       <div className={cx(glow, glowPink)} />
-      <div className={cx(glow, glowChartreuse)} />
+      <div className={cx(glow, glowHighlight)} />
 
       <div className={cx(content, enter)}>
         <Text as="div" variant="display" className={code}>
