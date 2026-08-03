@@ -150,15 +150,15 @@ export const tokens = {
     dialogPanelXl: { value: '1000px' },
   },
   assets: {
-    grayscaleSubtle: { value: 'grayscale(0.3)' },
+    monoRest: { value: 'grayscale(1) contrast(1.05)' },
 
     grayscaleFull: { value: 'grayscale(1)' },
 
     developRest: { value: 'grayscale(1) brightness(0.7)' },
     developHover: { value: 'grayscale(0.3) brightness(1)' },
 
-    galleryDevelopRest: { value: 'brightness(0.9) contrast(1)' },
-    galleryDevelopHover: { value: 'brightness(1) contrast(1.1)' },
+    colorRest: { value: 'brightness(1.1) contrast(1)' },
+    colorHover: { value: 'brightness(1) contrast(1.1)' },
   },
   letterSpacings: {
     tight: { value: '-0.02em' },
@@ -473,7 +473,7 @@ export const layerStyles = {
   coverMono: {
     value: {
       objectFit: 'cover',
-      filter: '[grayscale(100%) contrast(1.05)]',
+      filter: '[token(assets.monoRest)]',
     },
   },
 

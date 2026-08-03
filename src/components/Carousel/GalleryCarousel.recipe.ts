@@ -29,10 +29,9 @@ export const galleryCarousel = sva({
       background: 'gray.900',
       '& img': {
         transition: 'develop',
-        filter: '[token(assets.galleryDevelopRest)]',
       },
       _hover: {
-        '& img': { transform: 'scale(1.05)', filter: '[token(assets.galleryDevelopHover)]' },
+        '& img': { transform: 'scale(1.05)' },
         '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
       },
       // Gradient border hover effect (masked ring).
@@ -59,5 +58,20 @@ export const galleryCarousel = sva({
       },
       full: { slide: { gridTemplateColumns: '1fr' } },
     },
+    treatment: {
+      mono: {
+        item: {
+          '& img': { filter: '[token(assets.developRest)]' },
+          _hover: { '& img': { filter: '[token(assets.developHover)]' } },
+        },
+      },
+      color: {
+        item: {
+          '& img': { filter: '[token(assets.colorRest)]' },
+          _hover: { '& img': { filter: '[token(assets.colorHover)]' } },
+        },
+      },
+    },
   },
+  defaultVariants: { treatment: 'mono' },
 })

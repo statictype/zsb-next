@@ -16,11 +16,17 @@ function sizesFor(layout: CarouselLayout, imgIndex: number): string {
   return '(max-width: 767px) 30vw, 22vw'
 }
 
-export function GalleryCarousel({ slides, eyebrow }: { slides: GallerySlide[]; eyebrow: string }) {
+interface GalleryCarouselProps {
+  slides: GallerySlide[]
+  eyebrow: string
+  treatment: 'mono' | 'color'
+}
+
+export function GalleryCarousel({ slides, eyebrow, treatment }: GalleryCarouselProps) {
   const lightboxImages = slides.flatMap((slide) =>
     slide.images.map((image) => ({ image: image.image, caption: image.caption })),
   )
-  const styles = galleryCarousel()
+  const styles = galleryCarousel({ treatment })
   const slideOffsets = slides.map((_, slideIndex) =>
     slides.slice(0, slideIndex).reduce((imageCount, slide) => imageCount + slide.images.length, 0),
   )

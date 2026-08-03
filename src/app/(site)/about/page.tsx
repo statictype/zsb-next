@@ -70,7 +70,7 @@ function AboutShell({ view }: { view: AboutView }) {
 
       {carousel.length > 0 && (
         <section className={section({ ground: 'dark' })}>
-          <GalleryCarousel slides={carousel} eyebrow={carouselEyebrow} />
+          <GalleryCarousel slides={carousel} eyebrow={carouselEyebrow} treatment="mono" />
         </section>
       )}
 
