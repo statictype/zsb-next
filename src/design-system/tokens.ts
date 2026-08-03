@@ -1,8 +1,6 @@
 const GRAY_HUE = 345
 const GRAY_CHROMA = 0.005
 const GRAY_L: Record<string, number> = {
-  50: 97,
-  100: 94.5,
   200: 90,
   300: 79,
   400: 69,
@@ -11,7 +9,6 @@ const GRAY_L: Record<string, number> = {
   700: 42,
   800: 32,
   900: 24,
-  950: 15,
 }
 const grayRamp = Object.fromEntries(
   Object.entries(GRAY_L).map(([step, l]) => [
@@ -124,12 +121,9 @@ export const tokens = {
   },
   borderWidths: {
     '0': { value: '0px' },
+    hairlineThin: { value: '0.5px' },
     hairline: { value: '1px' },
     focus: { value: '2px' },
-    gradientRing: { value: '1px' },
-
-    // so both can share it).
-    hairlineThin: { value: '0.5px' },
   },
   sizes: {
     '0': { value: '0px' },
@@ -149,18 +143,17 @@ export const tokens = {
     dialogPanelXl: { value: '1000px' },
   },
   assets: {
-    monoRest: { value: 'grayscale(1) brightness(1.12) contrast(1.08)' },
+    mono: { value: 'grayscale(1) brightness(1.08) contrast(1.06)' },
+    monoHover: { value: 'grayscale(0.3) brightness(1.08) contrast(1.06)' },
+
+    color: { value: 'brightness(1.1) contrast(1)' },
+    colorHover: { value: 'brightness(1) contrast(1.1)' },
 
     grayscaleFull: { value: 'grayscale(1)' },
-
-    developRest: { value: 'grayscale(1) brightness(1.08) contrast(1.06)' },
-    developHover: { value: 'grayscale(0.3) brightness(1.08) contrast(1.06)' },
-
-    colorRest: { value: 'brightness(1.1) contrast(1)' },
-    colorHover: { value: 'brightness(1) contrast(1.1)' },
   },
   letterSpacings: {
     tight: { value: '-0.02em' },
+    theme: { value: '0.007em' },
     label: { value: '1.2px' },
   },
   fontWeights: {
@@ -169,7 +162,6 @@ export const tokens = {
     medium: { value: '500' },
     semibold: { value: '600' },
     bold: { value: '700' },
-    black: { value: '900' },
   },
   durations: {
     fast: { value: '200ms' },
@@ -199,8 +191,6 @@ export const tokens = {
     card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
     badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
     modal: { value: '0 30px 80px rgb(0 0 0 / 0.5)' },
-    frame: { value: '0 30px 80px -30px rgb(0 0 0 / 0.7)' },
-    text: { value: '0 1px 8px rgb(0 0 0 / 0.55)' },
   },
   gradients: {
     heroVignette: {
@@ -241,18 +231,15 @@ export const semanticTokens = {
     // control inside its dialog (`dialogToggle`), so this never has to outrank
     // the modal layer — and must not, or it lands on other dialogs' controls.
     navToggle: { value: '300' },
-    lightbox: { value: '1020' },
     draftBadge: { value: '1030' },
     '0': { value: '0' },
     '1': { value: '1' },
     '2': { value: '2' },
     '3': { value: '3' },
-    '4': { value: '4' },
     '10': { value: '10' },
     '20': { value: '20' },
   },
   sizes: {
-    // Fixed-nav height — the page-top offset every hero clears.
     nav: { value: { base: '60px', md: '72px', lg: '84px', xl: '100px' } },
   },
 } as const
@@ -340,7 +327,7 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: '3xl',
       lineHeight: '1',
-      letterSpacing: '-0.02em',
+      letterSpacing: 'tight',
       textTransform: 'uppercase',
     },
   },
@@ -349,7 +336,7 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: '2xl',
       lineHeight: '1.16',
-      letterSpacing: '-0.02em',
+      letterSpacing: 'tight',
       textTransform: 'uppercase',
     },
   },
@@ -358,7 +345,7 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: 'lg',
       lineHeight: '1.1',
-      letterSpacing: '-0.02em',
+      letterSpacing: 'tight',
     },
   },
   detailTitle: {
@@ -366,7 +353,7 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: 'xl',
       lineHeight: '1.12',
-      letterSpacing: '-0.02em',
+      letterSpacing: 'tight',
     },
   },
   lead: {
@@ -397,43 +384,20 @@ export const textStyles = {
     value: {
       fontFamily: 'body',
       fontSize: 'xs',
-      fontWeight: 'normal',
+      fontWeight: 'regular',
       lineHeight: '1.3',
-      letterSpacing: '1.2px',
+      letterSpacing: 'label',
       textTransform: 'uppercase',
     },
   },
 
-  externalGallery: {
-    plateType: {
-      monogram: {
-        value: {
-          fontFamily: 'display',
-          lineHeight: '1',
-          textTransform: 'uppercase',
-        },
-      },
-      zsb: {
-        value: {
-          fontSize: 'clamp(56px, 7vw, 104px)',
-          letterSpacing: '-2px',
-        },
-      },
-      year: {
-        value: {
-          fontSize: 'clamp(36px, 4.5vw, 64px)',
-          letterSpacing: '-1px',
-        },
-      },
-    },
-  },
   editionTheme: {
     huge: {
       value: {
         fontFamily: 'display',
         fontSize: { base: '2xl', sm: '3xl' },
         lineHeight: '1',
-        letterSpacing: '0.007em',
+        letterSpacing: 'theme',
         textTransform: 'lowercase',
       },
     },
@@ -442,7 +406,7 @@ export const textStyles = {
         fontFamily: 'display',
         fontSize: { base: '2xl', xl: '3xl' },
         lineHeight: '1',
-        letterSpacing: '0.007em',
+        letterSpacing: 'theme',
         textTransform: 'lowercase',
       },
     },
@@ -451,7 +415,7 @@ export const textStyles = {
         fontFamily: 'display',
         fontSize: { base: 'md', md: '2xl' },
         lineHeight: '1',
-        letterSpacing: '0.007em',
+        letterSpacing: 'theme',
         textTransform: 'lowercase',
       },
     },
@@ -460,7 +424,7 @@ export const textStyles = {
         fontFamily: 'display',
         fontSize: { base: 'md', lg: '2xl' },
         lineHeight: '1',
-        letterSpacing: '0.01em',
+        letterSpacing: 'theme',
         textTransform: 'lowercase',
       },
     },
@@ -471,7 +435,7 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: 'md',
       lineHeight: '1.16',
-      letterSpacing: '-0.02em',
+      letterSpacing: 'tight',
       textTransform: 'uppercase',
     },
   },
@@ -484,7 +448,7 @@ export const layerStyles = {
   coverMono: {
     value: {
       objectFit: 'cover',
-      filter: '[token(assets.monoRest)]',
+      filter: '[token(assets.mono)]',
     },
   },
 
@@ -533,28 +497,6 @@ export const layerStyles = {
       transitionProperty: '[opacity]',
       transitionDuration: 'fast',
       transitionTimingFunction: 'feedback',
-    },
-  },
-
-  galleryRailFrame: {
-    value: {
-      width: {
-        base: '[clamp(360px, 92vw, 540px)]',
-        md: '[clamp(600px, 81vw, 990px)]',
-        lg: '[clamp(730px, 73vw, 1140px)]',
-        xl: '[clamp(830px, 62vw, 1250px)]',
-        '2xl': '[clamp(940px, 59vw, 1350px)]',
-        '4xl': '[clamp(1040px, 55vw, 1460px)]',
-      },
-      height: {
-        base: '[28vh]',
-        md: '[35vh]',
-        lg: '[40vh]',
-        xl: '[42vh]',
-        '2xl': '[43vh]',
-        '4xl': '[44vh]',
-      },
-      '@media (max-width: 767px) and (orientation: landscape)': { height: '[73vh]' },
     },
   },
 

@@ -49,11 +49,11 @@ export const editionCard = sva({
     image: {
       objectFit: 'cover',
       background: 'gray.900',
-      filter: '[token(assets.developRest)]',
+      filter: '[token(assets.mono)]',
       transform: 'scale(1.01)',
       transition: 'develop',
       'a:hover &, a:focus-visible &': {
-        filter: '[token(assets.developHover)]',
+        filter: '[token(assets.monoHover)]',
         transform: 'scale(1.05)',
       },
     },

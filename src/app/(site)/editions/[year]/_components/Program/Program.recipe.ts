@@ -79,7 +79,7 @@ export const program = sva({
       _hover: {
         borderColor: 'transparent',
         '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
-        '& img': { filter: '[token(assets.developHover)]', transform: 'scale(1.03)' },
+        '& img': { filter: '[token(assets.monoHover)]', transform: 'scale(1.03)' },
         '& a': { color: 'action' },
       },
       // 0.6 is the floor that keeps `body` copy at 4.9:1 on black: a touch
@@ -97,7 +97,7 @@ export const program = sva({
       background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: '[token(assets.developRest)]',
+        filter: '[token(assets.mono)]',
         transition: 'develop',
       },
     },
@@ -204,7 +204,7 @@ export const program = sva({
       _first: { borderTop: 'none' },
       _hover: {
         '& a': { color: 'action' },
-        '& img': { filter: '[token(assets.developHover)]', transform: 'scale(1.03)' },
+        '& img': { filter: '[token(assets.monoHover)]', transform: 'scale(1.03)' },
       },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
         '&[data-poster=true]': {
@@ -253,7 +253,7 @@ export const program = sva({
       background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: '[token(assets.developRest)]',
+        filter: '[token(assets.mono)]',
         transition: 'develop',
       },
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {

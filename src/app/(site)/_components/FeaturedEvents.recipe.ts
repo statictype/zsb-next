@@ -20,7 +20,7 @@ export const featuredEvents = sva({
 
     card: {
       _hover: {
-        '& img': { filter: '[token(assets.developHover)]', transform: 'scale(1.04)' },
+        '& img': { filter: '[token(assets.monoHover)]', transform: 'scale(1.04)' },
         '& a': { color: 'action' },
       },
     },
@@ -32,7 +32,7 @@ export const featuredEvents = sva({
       background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: '[token(assets.developRest)]',
+        filter: '[token(assets.mono)]',
         transition: 'develop',
       },
     },

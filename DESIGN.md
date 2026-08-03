@@ -6,8 +6,6 @@ colors:
   white: "#fff"
   magenta: "oklch(61.6% 0.2527 355)"
   chartreuse: "oklch(87.9% 0.1981 115)"
-  gray-50: "oklch(97% 0.005 345)"
-  gray-100: "oklch(94.5% 0.005 345)"
   gray-200: "oklch(90% 0.005 345)"
   gray-300: "oklch(79% 0.005 345)"
   gray-400: "oklch(69% 0.005 345)"
@@ -16,7 +14,6 @@ colors:
   gray-700: "oklch(42% 0.005 345)"
   gray-800: "oklch(32% 0.005 345)"
   gray-900: "oklch(24% 0.005 345)"
-  gray-950: "oklch(15% 0.005 345)"
 typography:
   display:
     fontFamily: "Dela Gothic One, sans-serif"
@@ -262,7 +259,7 @@ Five display rungs and four body rungs, on one modular scale.
 | `caption` | body | 12 → 13px | figure captions and secondary meta |
 | `label` | body | 9 → 10px, 1.2px tracking | eyebrows, badges, nav links, chips |
 
-Edition themes carry their own four-rung ladder (`huge` / `large` / `normal` / `rail`) that references the display sizes rather than paralleling them. It is the one place display type is lowercase, with +0.007em tracking.
+Edition themes carry their own four-rung ladder (`huge` / `large` / `normal` / `rail`) that references the display sizes rather than paralleling them. It is the one place display type is lowercase, and the one letterSpacing other than `tight` on display type (+0.007em).
 
 ### Named Rules
 
@@ -298,9 +295,9 @@ Touch targets are 48px (`touch`), which is also the icon button and the `touch` 
 
 ## Elevation & Depth
 
-The system is flat: 1px hairlines do the separating, and shadows appear on four objects. What is settled:
+The system is flat: 1px hairlines do the separating, and shadows appear on three objects. What is settled:
 
-- **A shadow means the object is detached from the wall** — modals, lightbox frames, partner badges. Objects in the document flow are separated by a hairline.
+- **A shadow means the object is detached from the wall** — modals, partner badges. Objects in the document flow are separated by a hairline.
 - **A soft black shadow on a black ground is not depth.** On dark grounds depth comes from a border, an inset highlight, a scrim, or motion.
 - **The animated gradient border is the system's strongest attention device**: a masked ring filled magenta → chartreuse → magenta at 200% width, sliding over 2s linear, faded in on hover.
 
@@ -308,10 +305,8 @@ The system is flat: 1px hairlines do the separating, and shadows appear on four 
 |---|---|---|
 | `litEdge` | `inset 0 1px 0 rgb(255 255 255 / 0.18)` | the lit top edge on any ink-filled control |
 | `modal` | `0 30px 80px rgb(0 0 0 / 0.5)` | dialog panels over a 95%-black scrim |
-| `frame` | `0 30px 80px -30px rgb(0 0 0 / 0.7)` | lightbox image frames |
 | `badge` | inset white hairline + `0 6px 16px rgb(0 0 0 / 0.25)` | partner badge discs |
 | `card` | `0 2px 12px rgb(0 0 0 / 0.03)` | light-ground cards only |
-| `text` | `0 1px 8px rgb(0 0 0 / 0.55)` | type set over photography |
 
 ### Named Rules
 
@@ -512,8 +507,8 @@ Floating, no bar. Logo top-left, hairline-bordered link row top-right; below `md
 
 Not a component, but the system's dominant material and governed like one. Under the catalogue register these are plates.
 
-- **At rest:** greyscale. `monoRest` for static images, `developRest` for interactive ones. Both lift brightness and contrast, because `grayscale()` maps a photograph's chroma onto luminance and returns a darker, flatter image; a treatment that does not correct for it reads as murk rather than as a decision.
-- **On interaction:** develops toward colour — `developHover`, on the `develop` verb. Brightness and contrast are held equal across the two states, so the develop is carried by colour returning and nothing else. Only interactive images have a hover.
+- **At rest:** greyscale. One grade, `mono`, on every plate, interactive or not. It lifts brightness and contrast, because `grayscale()` maps a photograph's chroma onto luminance and returns a darker, flatter image; a treatment that does not correct for it reads as murk rather than as a decision.
+- **On interaction:** develops toward colour — `monoHover`, on the `develop` verb. Brightness and contrast are held equal across the two states, so the develop is carried by colour returning and nothing else. Only interactive images have a hover.
 - **The two colour surfaces:** the edition carousel and the homepage slideshow are in colour at rest, developing by contrast rather than saturation.
 - **Not the treatment:** `grayscaleFull` marks an announced edition as de-emphasised. It is a state, not the image rule.
 - **Scrims:** `cardScrim` for text over an image, `carouselVignette` for gallery focus, `stageScrim` behind the slideshow controls. A scrim that protects text keeps its density; the image is brightened underneath it, not the scrim thinned.

@@ -9,7 +9,7 @@ import { sva } from 'styled-system/css'
  * (nav-clearing top padding + black ground) so the frame starts at the same y as
  * the title on every other page. The image/vignette reveals compose the shared
  * `enter` animation styles (image = zoom, vignette = fade). The frame (not the
- * image) owns the `monoRest` filter so it survives `enter`'s `filter`.
+ * image) owns the `mono` filter so it survives `enter`'s `filter`.
  */
 export const hero = sva({
   slots: ['hero', 'stage', 'frame', 'background', 'image', 'vignette', 'intro'],
@@ -36,7 +36,7 @@ export const hero = sva({
       aspectRatio: '1 / 1',
       overflow: 'hidden',
       isolation: 'isolate',
-      filter: '[token(assets.monoRest)]',
+      filter: '[token(assets.mono)]',
       md: { aspectRatio: '2 / 1' },
       _after: {
         content: '""',

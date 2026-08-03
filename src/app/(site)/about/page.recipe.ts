@@ -62,12 +62,12 @@ export const aboutPage = sva({
       overflow: 'hidden',
       background: 'gray.200',
       border: 'hairline',
-      _hover: { '& img': { filter: '[token(assets.developHover)]', transform: 'scale(1.03)' } },
+      _hover: { '& img': { filter: '[token(assets.monoHover)]', transform: 'scale(1.03)' } },
     },
     authorPhotoImg: {
       objectFit: 'cover',
       background: 'gray.200',
-      filter: '[token(assets.developRest)]',
+      filter: '[token(assets.mono)]',
       transition: 'develop',
     },
     authorCaption: {
