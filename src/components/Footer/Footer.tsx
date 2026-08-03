@@ -12,10 +12,19 @@ const s = footer()
 
 // Internal navigation labels are structural, not editorial — they live
 // in code so editors don't accidentally rename the link to its own page.
-const CONNECT_LINKS = [
+// Together the complete route index: the header carries only the four in
+// PRIMARY_LINKS, so the footer is the one place every surface is reachable
+// from every page.
+const PRIMARY_LINKS = [
+  { label: 'About', href: '/about' },
+  { label: 'Editions', href: '/editions' },
+  { label: 'Artists', href: '/artists' },
+  { label: 'Visit', href: '/visit' },
+] as const
+
+const SECONDARY_LINKS = [
   { label: 'Partners', href: '/partners' },
   { label: 'Press', href: '/press' },
-  { label: 'Visit', href: '/visit' },
 ] as const
 
 function FooterLink({ href, children }: { href: string; children: ReactNode }) {
@@ -87,22 +96,42 @@ function FooterShell({ settings }: { settings: SiteSettings | null }) {
               gap={{ base: 'lg', md: '2xl' }}
               alignSelf={{ base: 'stretch', md: 'auto' }}
             >
-              <Wrap
+              <Center
                 as="nav"
-                className={s.navCol}
                 aria-label="Footer"
-                align="baseline"
-                justify="center"
-                rowGap="sm"
-                columnGap="md"
+                flexDirection={{ base: 'column', md: 'row' }}
+                alignItems={{ base: 'center', md: 'flex-start' }}
+                gap={{ base: 'sm', md: '2xl' }}
               >
-                {contactHref && <FooterLink href={contactHref}>Contact</FooterLink>}
-                {CONNECT_LINKS.map((link) => (
-                  <FooterLink key={link.label} href={link.href}>
-                    {link.label}
-                  </FooterLink>
-                ))}
-              </Wrap>
+                <Wrap
+                  className={s.navCol}
+                  align="baseline"
+                  justify="center"
+                  rowGap="sm"
+                  columnGap="md"
+                >
+                  {PRIMARY_LINKS.map((link) => (
+                    <FooterLink key={link.label} href={link.href}>
+                      {link.label}
+                    </FooterLink>
+                  ))}
+                </Wrap>
+
+                <Wrap
+                  className={s.navCol}
+                  align="baseline"
+                  justify="center"
+                  rowGap="sm"
+                  columnGap="md"
+                >
+                  {SECONDARY_LINKS.map((link) => (
+                    <FooterLink key={link.label} href={link.href}>
+                      {link.label}
+                    </FooterLink>
+                  ))}
+                  {contactHref && <FooterLink href={contactHref}>Contact</FooterLink>}
+                </Wrap>
+              </Center>
 
               {socials.length > 0 && (
                 <Wrap

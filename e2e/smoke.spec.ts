@@ -1,10 +1,10 @@
-import { expect, test } from '@playwright/test'
 import { expectErrorClean, trackErrors } from '@e2e/helpers'
+import { expect, test } from '@playwright/test'
 
 test.describe('site smoke', () => {
   test('2021 edition renders its archive link and is error-clean', async ({ page }) => {
     // 2021 is the inaugural online-only edition — now a Sanity `edition` like
-    // every other year (migrated in ZSB-20, ADR 0018). It has no programme; its
+    // every other year (migrated in ZSB-20, ADR 0018). It has no program; its
     // off-site archive renders via the ExternalGallery "Open the Archive" link.
     const errors = trackErrors(page)
     const response = await page.goto('/editions/2021')

@@ -5,10 +5,10 @@ import { usePathname } from 'next/navigation'
 import { NavigationLabel } from 'styled-system/jsx'
 
 const NAV_ITEMS = [
-  { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Editions', href: '/editions' },
   { label: 'Artists', href: '/artists' },
+  { label: 'Visit', href: '/visit' },
 ] as const
 
 function isExactPage(pathname: string, href: string): boolean {
@@ -16,7 +16,6 @@ function isExactPage(pathname: string, href: string): boolean {
 }
 
 function isSectionActive(pathname: string, href: string): boolean {
-  if (href === '/') return isExactPage(pathname, href)
   return isExactPage(pathname, href) || pathname.startsWith(`${href}/`)
 }
 
