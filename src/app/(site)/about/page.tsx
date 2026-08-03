@@ -58,27 +58,42 @@ function AboutShell({ view }: { view: AboutView }) {
   return (
     <main>
       <PageHero
+        flush
         title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
         lead={hero.lead}
       />
-      <figure className={styles.placeImage}>
-        <Figure image={placeImage} sizes="100vw" className={styles.placeImageImg} />
-      </figure>
-      <Manifesto title={manifestoTitle} body={manifestoBody} />
 
-      <section className={section({ ground: 'dark' })}>
-        <Stack gap="sectionY">
-          {carousel.length > 0 && (
-            <GalleryCarousel slides={carousel} eyebrow={carouselEyebrow} treatment="mono" />
-          )}
-          <Container>
-            <PillarGrid
-              items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
-              titleTone="highlight"
-            />
-          </Container>
-        </Stack>
+      {carousel.length > 0 && (
+        <section className={cx(section({ ground: 'dark', rhythm: 'none' }), styles.plates)}>
+          <GalleryCarousel
+            slides={carousel}
+            eyebrow={carouselEyebrow}
+            treatment="mono"
+            size="large"
+          />
+        </section>
+      )}
+
+      <Manifesto flush ground="dark" size="title" title={manifestoTitle} body={manifestoBody} />
+
+      <section className={cx(section({ ground: 'dark', rhythm: 'none' }), styles.supports)}>
+        <Container>
+          <PillarGrid
+            items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
+            rhythm="pair"
+            titleTone="highlight"
+          />
+        </Container>
       </section>
+
+      <figure className={styles.plateFrame}>
+        <Figure image={placeImage} sizes="100vw" className={styles.plateImg} />
+        {placeImage?.alt && (
+          <Text as="figcaption" variant="caption" color="heading" className={styles.plateCredit}>
+            {placeImage.alt}
+          </Text>
+        )}
+      </figure>
 
       <section className={cx(section({ ground: 'light', rhythm: 'lg' }), styles.statement)}>
         <div className={styles.statementInner}>
@@ -87,11 +102,7 @@ function AboutShell({ view }: { view: AboutView }) {
 
             <Stack as="figure" className={styles.statementByline} gap="sm">
               <div className={styles.authorPhoto}>
-                <Figure
-                  image={curatorPortrait}
-                  sizes="(max-width: 1023px) 240px, 340px"
-                  className={styles.authorPhotoImg}
-                />
+                <Figure image={curatorPortrait} sizes="200px" className={styles.authorPhotoImg} />
               </div>
               <Stack as="figcaption" gap="xs" className={styles.authorCaption}>
                 <Text variant="heading">{curatorName}</Text>
@@ -101,13 +112,11 @@ function AboutShell({ view }: { view: AboutView }) {
           </Stack>
 
           <div className={styles.statementLetter}>
-            <Stack>
-              {curatorLetter.map((para) => (
-                <Text as="p" variant="lead" key={para}>
-                  {para}
-                </Text>
-              ))}
-            </Stack>
+            {curatorLetter.map((para) => (
+              <Text as="p" variant="body" key={para}>
+                {para}
+              </Text>
+            ))}
           </div>
         </div>
       </section>

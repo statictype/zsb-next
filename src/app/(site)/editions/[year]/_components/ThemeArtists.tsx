@@ -37,7 +37,12 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
       </Grid>
 
       {carousel.length > 0 && (
-        <GalleryCarousel slides={carousel} eyebrow={theme} treatment="color" />
+        <GalleryCarousel
+          slides={carousel}
+          eyebrow={theme}
+          treatment="color"
+          className={styles.carousel}
+        />
       )}
     </section>
   )

@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const themeArtists = sva({
-  slots: ['section', 'inner', 'body', 'artistsTable'],
+  slots: ['section', 'inner', 'body', 'artistsTable', 'carousel'],
   base: {
     section: {
       position: 'relative',
@@ -20,5 +20,7 @@ export const themeArtists = sva({
         textWrap: '[pretty]',
       },
     },
+
+    carousel: { marginTop: '3xl' },
   },
 })

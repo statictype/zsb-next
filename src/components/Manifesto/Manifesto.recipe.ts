@@ -4,8 +4,8 @@ export const manifesto = sva({
   slots: ['section', 'container', 'title', 'content'],
   base: {
     section: {
-      // ground (light) + rhythm (lg) come from `section()` in the component;
-      // `container` is the rail, so it owns the gutter.
+      // ground + rhythm come from `section()` in the component; `container` is
+      // the rail, so it owns the gutter.
       position: 'relative',
     },
     container: {
@@ -20,8 +20,16 @@ export const manifesto = sva({
     },
     title: {
       textWrap: '[pretty]',
-      color: 'black',
     },
-    content: { paddingTop: { base: '0', lg: 'md' } },
   },
+  variants: {
+    size: {
+      display: { content: { paddingTop: { base: '0', lg: 'md' } } },
+      title: { content: { paddingTop: { base: '0', lg: 'xs' } } },
+    },
+    flush: {
+      true: { section: { paddingBottom: '0' } },
+    },
+  },
+  defaultVariants: { size: 'display', flush: false },
 })

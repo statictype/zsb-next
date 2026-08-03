@@ -27,6 +27,7 @@ export const section = defineRecipe({
     rhythm: {
       normal: { paddingBlock: 'sectionY' },
       lg: { paddingBlock: 'sectionYLg' },
+      none: { paddingBlock: '0' },
     },
   },
   defaultVariants: { rhythm: 'normal' },

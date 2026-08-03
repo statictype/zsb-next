@@ -1,32 +1,44 @@
 'use client'
 
-import { css } from 'styled-system/css'
 import { galleryCarousel } from '@/components/Carousel/GalleryCarousel.recipe'
 import { LightboxCarousel } from '@/components/Carousel/LightboxCarousel'
 import { Figure } from '@/components/Figure/Figure'
 import type { CarouselLayout, CarouselSlide as GallerySlide } from '@/types/edition'
 
-const placement = css({ marginTop: '3xl' })
+type GallerySize = 'default' | 'large'
 
-function sizesFor(layout: CarouselLayout, imgIndex: number): string {
-  if (layout === 'full') return '(max-width: 767px) 92vw, 65vw'
+const RAIL_VW: Record<GallerySize, { phone: number; desktop: number }> = {
+  default: { phone: 92, desktop: 65 },
+  large: { phone: 92, desktop: 78 },
+}
+
+function sizesFor(layout: CarouselLayout, imgIndex: number, size: GallerySize): string {
+  const { phone, desktop } = RAIL_VW[size]
   const featured = (layout === 'featured-portrait' || layout === 'featured-stack') && imgIndex === 0
-  if (featured) return '(max-width: 767px) 61vw, 43vw'
-  if (layout === 'duo') return '(max-width: 767px) 46vw, 33vw'
-  return '(max-width: 767px) 30vw, 22vw'
+  const share = layout === 'full' ? 1 : featured ? 2 / 3 : layout === 'duo' ? 1 / 2 : 1 / 3
+  const round = (vw: number) => Math.round(vw * share)
+  return `(max-width: 767px) ${round(phone)}vw, ${round(desktop)}vw`
 }
 
 interface GalleryCarouselProps {
   slides: GallerySlide[]
   eyebrow: string
   treatment: 'mono' | 'color'
+  size?: GallerySize
+  className?: string | undefined
 }
 
-export function GalleryCarousel({ slides, eyebrow, treatment }: GalleryCarouselProps) {
+export function GalleryCarousel({
+  slides,
+  eyebrow,
+  treatment,
+  size = 'default',
+  className,
+}: GalleryCarouselProps) {
   const lightboxImages = slides.flatMap((slide) =>
     slide.images.map((image) => ({ image: image.image, caption: image.caption })),
   )
-  const styles = galleryCarousel({ treatment })
+  const styles = galleryCarousel({ treatment, size })
   const slideOffsets = slides.map((_, slideIndex) =>
     slides.slice(0, slideIndex).reduce((imageCount, slide) => imageCount + slide.images.length, 0),
   )
@@ -39,13 +51,13 @@ export function GalleryCarousel({ slides, eyebrow, treatment }: GalleryCarouselP
       autoplay={false}
       loop={false}
       eyebrow={eyebrow}
-      className={placement}
+      className={className}
       lightboxImages={lightboxImages}
       slides={(openLightbox) =>
         slides.map((slide, slideIndex) => {
           const startIndex = slideOffsets[slideIndex] ?? 0
           const content = (
-            <div className={galleryCarousel({ layout: slide.layout }).slide}>
+            <div className={galleryCarousel({ layout: slide.layout, size }).slide}>
               {slide.images.map((image, imageIndex) => {
                 const imageFlatIndex = startIndex + imageIndex
                 return (
@@ -57,7 +69,7 @@ export function GalleryCarousel({ slides, eyebrow, treatment }: GalleryCarouselP
                   >
                     <Figure
                       image={image.image}
-                      sizes={sizesFor(slide.layout, imageIndex)}
+                      sizes={sizesFor(slide.layout, imageIndex, size)}
                       className={styles.itemImage}
                       draggable={false}
                     />
