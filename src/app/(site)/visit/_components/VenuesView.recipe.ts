@@ -1,14 +1,8 @@
 import { sva } from 'styled-system/css'
 
-/**
- * VenuesView — co-located slot recipe.
- *
- * The program browsed by place (ZSB-27), under the Visit page's main-venue
- * block. No ground of its own — it inherits the page's dark canvas; the shared
- * Accordion owns disclosure chrome and state.
- */
 export const venuesView = sva({
   slots: [
+    'section',
     'groupTitle',
     'venues',
     'events',
@@ -19,6 +13,7 @@ export const venuesView = sva({
     'childName',
   ],
   base: {
+    section: { borderTop: 'hairline' },
     groupTitle: {
       color: 'highlight',
     },

@@ -1,6 +1,7 @@
 import { RiMapPinLine } from '@remixicon/react'
 import { venuesView } from '@site/visit/_components/VenuesView.recipe'
 import Link from 'next/link'
+import { cx } from 'styled-system/css'
 import { Container, Divider, Stack, Text, Wrap } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Accordion } from '@/components/ui/Accordion/Accordion'
@@ -12,54 +13,47 @@ import type { TopVenue, VenueEvent, VenueNode, VenueTypeSection } from '@/lib/ve
 
 const styles = venuesView()
 
-// The Visit edition's program browsed by place (ZSB-27), on the Visit page
-// below the main-venue block. The edition shown is the one the Visit switch
-// resolves to (latest|upcoming, ZSB-46). Venues that have events, grouped by
-// type, with sub-venues rolled up under their parent — the sections are built in
-// the data layer (ZSB-65), so this is a pure renderer. Each venue is an item in
-// the shared Accordion; event names deep-link to the edition program's detail
-// modal (reusing ZSB-40).
 export function VenuesView({ year, sections }: { year: number; sections: VenueTypeSection[] }) {
   return (
-    <>
-      <Divider />
-      <section className={section()} aria-labelledby="venues-heading">
-        <Container>
-          <Stack gap="xl">
-            <Stack as="header" gap="md">
-              <SectionHeading id="venues-heading" flush>
-                Where it happens
-              </SectionHeading>
-              <Text as="p" variant="caption">
-                The {year} program, venue by venue.
-              </Text>
-            </Stack>
-
-            <Stack gap="2xl">
-              {sections.map((section) => (
-                <Stack key={section.type} gap="sm">
-                  <Text as="h3" variant="caption" className={styles.groupTitle}>
-                    {section.type}
-                  </Text>
-                  <Divider />
-                  <Accordion
-                    id={`venues-${slugify(section.type)}`}
-                    className={styles.venues}
-                    items={section.venues.map((venue) => ({
-                      id: slugify(venue.name),
-                      trigger: venue.name,
-                      triggerHeading: 'h4',
-                      meta: `${venue.totalEvents} ${venue.totalEvents === 1 ? 'event' : 'events'}`,
-                      content: <VenueDetails venue={venue} year={year} />,
-                    }))}
-                  />
-                </Stack>
-              ))}
-            </Stack>
+    <section
+      className={cx(section({ ground: 'dark' }), styles.section)}
+      aria-labelledby="venues-heading"
+    >
+      <Container>
+        <Stack gap="xl">
+          <Stack as="header" gap="md">
+            <SectionHeading id="venues-heading" flush>
+              Where it happens
+            </SectionHeading>
+            <Text as="p" variant="body">
+              The {year} program, venue by venue.
+            </Text>
           </Stack>
-        </Container>
-      </section>
-    </>
+
+          <Stack gap="2xl">
+            {sections.map((group) => (
+              <Stack key={group.type} gap="sm">
+                <Text as="h3" variant="label" className={styles.groupTitle}>
+                  {group.type}
+                </Text>
+                <Divider />
+                <Accordion
+                  id={`venues-${slugify(group.type)}`}
+                  className={styles.venues}
+                  items={group.venues.map((venue) => ({
+                    id: slugify(venue.name),
+                    trigger: venue.name,
+                    triggerHeading: 'h4',
+                    meta: `${venue.totalEvents} ${venue.totalEvents === 1 ? 'event' : 'events'}`,
+                    content: <VenueDetails venue={venue} year={year} />,
+                  }))}
+                />
+              </Stack>
+            ))}
+          </Stack>
+        </Stack>
+      </Container>
+    </section>
   )
 }
 
@@ -85,8 +79,6 @@ function VenueDetails({ venue, year }: { venue: TopVenue; year: number }) {
   )
 }
 
-// Address + map link, when authored. Often empty for now (no venue has an
-// address yet), so it self-hides.
 function VenuePlace({ venue }: { venue: VenueNode }) {
   if (!venue.address && !venue.mapUrl) return null
   return (

@@ -1,17 +1,9 @@
 import { sva } from 'styled-system/css'
 
-export const visitSection = sva({
-  slots: ['section', 'content'],
-  base: {
-    section: { width: 'full', paddingBlock: 'sectionY' },
-  },
-})
-
 export const visitImageFrame = sva({
   slots: ['block', 'frame', 'image'],
   base: {
     block: {
-      padding: 'lg',
       maxWidth: 'narrowColumn',
       marginInline: 'auto',
       lg: { maxWidth: '[none]', marginInline: '0' },
@@ -26,20 +18,19 @@ export const visitImageFrame = sva({
   },
 })
 
-export const visitInfoSummary = sva({
-  slots: ['row', 'icon', 'value'],
+export const visitFacts = sva({
+  slots: ['group', 'pair', 'value'],
   base: {
-    row: {
+    group: {
+      '& + &': { borderTop: 'hairline', paddingTop: 'xl' },
+    },
+    pair: {
       display: 'flex',
       flexDirection: 'column',
       gap: 'lg',
-      flexWrap: 'wrap',
       md: { flexDirection: 'row', gap: 'xl' },
     },
-    icon: { color: 'action' },
     value: {
-      // exception: bright body on dark, lead-style emphasis
-      color: 'gray.200',
       // Joined multi-line values (opening hours) render their own '\n' breaks.
       whiteSpace: 'pre-line',
     },
@@ -47,12 +38,34 @@ export const visitInfoSummary = sva({
 })
 
 export const transportList = sva({
-  slots: ['icon', 'from'],
+  slots: ['list', 'row', 'from', 'lines', 'walk'],
   base: {
-    icon: { flexShrink: '0' },
-    from: {
-      // exception: bright emphasis for city name
-      color: 'gray.300',
+    list: {
+      listStyle: 'none',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'md',
+      sm: { gap: 'sm' },
+    },
+    row: {
+      display: 'grid',
+      gridTemplateColumns: '1fr auto',
+      gridTemplateAreas: '"from walk" "lines lines"',
+      columnGap: 'md',
+      rowGap: 'xs',
+      sm: {
+        gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr) auto',
+        gridTemplateAreas: '"from lines walk"',
+        alignItems: 'baseline',
+      },
+    },
+    from: { gridArea: 'from', color: 'heading' },
+    lines: { gridArea: 'lines' },
+    walk: {
+      gridArea: 'walk',
+      textAlign: 'end',
+      fontVariantNumeric: 'tabular-nums',
+      whiteSpace: 'nowrap',
     },
   },
 })

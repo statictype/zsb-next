@@ -1,27 +1,25 @@
 import {
   type RemixiconComponentType,
-  RiBusLine,
+  RiArrowRightUpLine,
   RiCupLine,
   RiHomeWifiLine,
-  RiMapPinLine,
   RiPaintBrushLine,
   RiParkingBoxLine,
   RiTempColdLine,
-  RiTimeLine,
   RiWheelchairLine,
 } from '@remixicon/react'
 import {
-  transportList as transportListRecipe,
+  transportList,
+  visitFacts,
   visitImageFrame,
-  visitInfoSummary,
-  visitSection,
 } from '@site/visit/_components/VisitSection.recipe'
 import { css } from 'styled-system/css'
-import { Container, Divider, Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
+import { Container, Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
+import { section } from 'styled-system/recipes'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
-import type { IconKey, VisitData } from '@/types/edition'
+import type { Amenity, IconKey, TransportRoute, VisitData } from '@/types/edition'
 
 // Fixed icon set mirrored from the amenity schema. Editors pick an
 // icon key; this is the renderer-side mapping.
@@ -44,96 +42,114 @@ export function VisitSection({
   amenities,
   transport,
 }: VisitData) {
-  const s = visitSection()
-  const imageStyles = visitImageFrame()
-  const infoStyles = visitInfoSummary()
-  const transportStyles = transportListRecipe()
+  const frame = visitImageFrame()
+  const facts = visitFacts()
 
   return (
-    <div id="visit" className={s.section}>
+    <section id="visit" className={section({ ground: 'dark' })}>
       <Container>
         <Grid
           gridTemplateColumns={{ lg: '5fr 6fr' }}
           gap={{ base: '2xl', lg: 'gridGap' }}
-          alignItems="center"
+          alignItems="start"
         >
-          <div className={imageStyles.block}>
-            <div className={imageStyles.frame}>
+          <div className={frame.block}>
+            <div className={frame.frame}>
               <Figure
                 image={image}
-                sizes="(max-width: 1023px) 100vw, 45vw"
-                className={imageStyles.image}
+                sizes="(max-width: 1023px) min(100vw, 520px), 45vw"
+                className={frame.image}
               />
             </div>
           </div>
 
-          <Stack className={s.content} gap="lg">
+          <Stack gap="xl">
             <SectionHeading flush className={css({ whiteSpace: 'pre-line' })}>
               {venueName.join('\n')}
             </SectionHeading>
 
-            <div className={infoStyles.row}>
-              <Stack gap="xs">
-                <RiMapPinLine size={18} className={infoStyles.icon} />
-                <Text variant="label">Location</Text>
-                <Text variant="caption" className={infoStyles.value}>
-                  {street}
-                  <br />
-                  {city}
-                </Text>
-              </Stack>
-              <Stack gap="xs">
-                <RiTimeLine size={18} className={infoStyles.icon} />
-                <Text variant="label">Opening Hours</Text>
-                <Text variant="caption" className={infoStyles.value}>
-                  {hoursLines.join('\n')}
-                </Text>
-              </Stack>
-            </div>
-
-            <Stack gap="sm">
-              <Divider />
-              <Wrap gap="md">
-                {amenities.map((item) => {
-                  const Icon = ICONS[item.icon]
-                  return (
-                    <HStack key={item.label}>
-                      <Icon size={16} />
-                      <Text variant="label">{item.label}</Text>
-                    </HStack>
-                  )
-                })}
-              </Wrap>
-            </Stack>
-
-            <Stack gap="sm">
-              {transport.map((route) => (
-                <HStack key={route.from} flexWrap="wrap">
-                  <RiBusLine size={14} className={transportStyles.icon} />
-                  <Text variant="body" className={transportStyles.from}>
-                    {route.from}
+            <Stack className={facts.group} gap="lg">
+              <div className={facts.pair}>
+                <Stack gap="xs">
+                  <Text variant="label">Location</Text>
+                  <Text variant="body" className={facts.value}>
+                    {street}
+                    <br />
+                    {city}
                   </Text>
-                  <Text variant="caption">&middot;</Text>
-                  <Text variant="caption">{route.lines}</Text>
-                  <Text variant="caption">&middot;</Text>
-                  <Text variant="caption">{route.walk}</Text>
-                </HStack>
-              ))}
+                </Stack>
+                <Stack gap="xs">
+                  <Text variant="label">Opening hours</Text>
+                  <Text variant="body" className={facts.value}>
+                    {hoursLines.join('\n')}
+                  </Text>
+                </Stack>
+              </div>
+
+              {mapsUrl ? (
+                <div>
+                  <Button asChild variant="primary">
+                    <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
+                      Get directions <RiArrowRightUpLine size={14} />
+                    </a>
+                  </Button>
+                </div>
+              ) : null}
             </Stack>
 
-            {mapsUrl ? (
-              <div>
-                <Button asChild variant="link">
-                  <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
-                    <RiMapPinLine size={16} />
-                    Get Directions
-                  </a>
-                </Button>
-              </div>
-            ) : null}
+            {transport.length > 0 && (
+              <Stack className={facts.group} gap="sm">
+                <Text variant="label">Getting here</Text>
+                <TransportRoutes routes={transport} />
+              </Stack>
+            )}
+
+            {amenities.length > 0 && (
+              <Stack className={facts.group} gap="sm">
+                <Text variant="label">On site</Text>
+                <Amenities items={amenities} />
+              </Stack>
+            )}
           </Stack>
         </Grid>
       </Container>
-    </div>
+    </section>
+  )
+}
+
+function TransportRoutes({ routes }: { routes: TransportRoute[] }) {
+  const styles = transportList()
+  return (
+    <ul className={styles.list}>
+      {routes.map((route) => (
+        <li key={route.from} className={styles.row}>
+          <Text variant="body" className={styles.from}>
+            {route.from}
+          </Text>
+          <Text variant="caption" className={styles.lines}>
+            {route.lines}
+          </Text>
+          <Text variant="caption" className={styles.walk}>
+            {route.walk}
+          </Text>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function Amenities({ items }: { items: Amenity[] }) {
+  return (
+    <Wrap as="ul" listStyle="none" rowGap="md" columnGap="lg">
+      {items.map((item) => {
+        const Icon = ICONS[item.icon]
+        return (
+          <HStack as="li" key={item.label} gap="sm">
+            <Icon size={16} aria-hidden />
+            <Text variant="caption">{item.label}</Text>
+          </HStack>
+        )
+      })}
+    </Wrap>
   )
 }
