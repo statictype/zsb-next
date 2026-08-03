@@ -77,7 +77,7 @@ export function CalendarBoard({ view, year, onReset }: CalendarBoardProps) {
                   )}
                   <Stack className={s.runContent} gap="sm">
                     <TypeChips types={run.types} />
-                    <Text as="h4" variant="calendar" color="heading">
+                    <Text as="h4" variant="body" color="heading" className={s.eventName}>
                       <Link
                         className={s.nameButton}
                         href={`/editions/${year}/events/${run.slug}`}
@@ -197,7 +197,7 @@ export function EventRow({ event, year }: { event: CalendarListEvent; year: numb
         {/* The name links to the event's route (the modal opens over the
             edition); its stretched overlay makes the whole row the hit target
             (see `.nameButton` in the CSS). */}
-        <Text as="h4" variant="calendar" color="heading">
+        <Text as="h4" variant="body" color="heading" className={s.eventName}>
           <Link
             className={s.nameButton}
             href={`/editions/${year}/events/${event.slug}`}

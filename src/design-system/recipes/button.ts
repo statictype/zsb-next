@@ -112,8 +112,8 @@ export const button = defineRecipe({
       icon: {
         background: 'transparent',
         color: 'heading',
-        width: 'hitTarget',
-        height: 'hitTarget',
+        width: 'touch',
+        height: 'touch',
         _hover: { color: 'action' },
       },
       link: {

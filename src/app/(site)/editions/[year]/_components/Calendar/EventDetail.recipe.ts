@@ -57,7 +57,12 @@ export const eventDetail = sva({
       color: 'heading',
       textWrap: 'balance',
     },
-    when: { color: 'highlight' },
+    when: {
+      color: 'highlight',
+      fontWeight: 'bold',
+      lineHeight: '1.4',
+      letterSpacing: '[-0.018em]',
+    },
     description: {
       whiteSpace: 'pre-line',
       maxWidth: 'measure',

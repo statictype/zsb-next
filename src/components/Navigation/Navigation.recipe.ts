@@ -26,12 +26,12 @@ export const navigation = sva({
       position: 'absolute',
       top: 'md',
       left: 'gutter',
-      width: 'navLogoBase',
-      height: 'navLogoBase',
+      width: '[40px]',
+      height: '[40px]',
       zIndex: 'nav',
-      md: { top: 'navLogoTopMd', width: 'touch', height: 'touch' },
-      lg: { width: 'navLogoLg', height: 'navLogoLg' },
-      xl: { width: 'navLogoXl', height: 'navLogoXl' },
+      md: { top: '[24px]', width: 'touch', height: 'touch' },
+      lg: { width: '[56px]', height: '[56px]' },
+      xl: { width: '[60px]', height: '[60px]' },
     },
     logoImg: { width: 'full', height: 'full', objectFit: 'contain', display: 'block' },
 
@@ -40,7 +40,7 @@ export const navigation = sva({
       md: {
         display: 'flex',
         position: 'absolute',
-        top: 'navDesktopTop',
+        top: '[32px]',
         right: 'gutter',
         gap: '0',
         // Match the logo's z-index so the menu paints above positioned hero
@@ -48,7 +48,7 @@ export const navigation = sva({
         // they paint over the z-auto nav and hide the links).
         zIndex: 'nav',
       },
-      lg: { top: 'navDesktopTopLg' },
+      lg: { top: '[40px]' },
     },
     mobileShell: {
       position: 'relative',
@@ -90,7 +90,7 @@ export const navigation = sva({
     desktopNavLink: {
       paddingBlock: 'sm',
       paddingInline: 'md',
-      marginRight: 'hairlineOverlap',
+      marginRight: '[calc(token(borderWidths.hairline) * -1)]',
       '&:last-child': { marginRight: '0' },
     },
     mobileNavLink: {
@@ -160,8 +160,8 @@ export const navigationSwap = sva({
       '&[data-type=off]': { flexDirection: 'column', gap: 'xs' },
       '&[data-type=off] > span': {
         display: 'block',
-        width: 'navGlyph',
-        height: 'navGlyphStroke',
+        width: '[18px]',
+        height: '[2px]',
         background: 'white',
       },
       '& svg': { width: 'full', height: 'full' },

@@ -17,7 +17,7 @@ function Step({ step, dir }: { step: EventStep; dir: 'prev' | 'next' }) {
         {dir === 'prev' ? 'Previous event' : 'Next event'}
         {dir === 'next' && <Arrow size={14} aria-hidden />}
       </Text>
-      <Text as="span" variant="calendar" className={s.stepName} data-step-name>
+      <Text as="span" variant="body" className={s.stepName} data-step-name>
         {step.name}
       </Text>
     </a>

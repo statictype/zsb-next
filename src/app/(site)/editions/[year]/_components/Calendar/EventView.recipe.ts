@@ -61,6 +61,9 @@ export const eventView = sva({
       color: 'heading',
       lineClamp: '1',
       transition: 'interactive',
+      fontWeight: 'bold',
+      lineHeight: '1.4',
+      letterSpacing: '[-0.018em]',
     },
     count: {
       display: 'none',

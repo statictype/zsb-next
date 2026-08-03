@@ -63,7 +63,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
             <Stack gap="sm">
               <Name className={s.name}>{event.name}</Name>
               <Stack gap="xs">
-                <Text as="p" variant="calendar" className={s.when}>
+                <Text as="p" variant="body" className={s.when}>
                   {eventWhenLabel(event)}
                 </Text>
                 <VenueLine venue={event.venue} />

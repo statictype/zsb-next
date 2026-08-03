@@ -1,5 +1,5 @@
 import { definePattern, definePreset } from '@pandacss/dev'
-import { manifestoTitle, navigationLabel } from '@/design-system/patterns/typography'
+import { navigationLabel } from '@/design-system/patterns/typography'
 import { recipes } from '@/design-system/recipes'
 import { editorialSplit } from '@/design-system/recipes/editorial-split'
 import {
@@ -59,7 +59,6 @@ export const designSystemPreset = definePreset({
         defaultValues: { maxWidth: 'maxWidth', px: 'gutter', position: 'static' },
       },
       editorialSplit,
-      manifestoTitle,
       navigationLabel,
       // Stock pattern only sets `borderColor`, leaving `borderStyle` unset —
       // with `preflight: false` (no UA border reset) that left every bare
@@ -88,17 +87,7 @@ export const designSystemPreset = definePreset({
         properties: {
           variant: {
             type: 'enum',
-            value: [
-              'display',
-              'title',
-              'heading',
-              'lead',
-              'body',
-              'caption',
-              'label',
-              'calendar',
-              'manifesto',
-            ],
+            value: ['display', 'title', 'heading', 'lead', 'body', 'caption', 'label'],
           },
         },
         defaultValues: { variant: 'body' },

@@ -9,7 +9,7 @@ export const editionCard = sva({
       height: 'full',
       overflow: 'visible',
       display: 'grid',
-      gridTemplateRows: 'auto token(spacing.cardOverlap) auto',
+      gridTemplateRows: '[auto 3rem auto]',
       // Both children are placed explicitly (auto-placement refuses to overlap
       // them, bumping content into an implicit column); minmax(0, 1fr) keeps
       // the theme's max-content from inflating the track past the card.

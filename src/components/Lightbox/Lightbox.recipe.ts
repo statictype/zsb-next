@@ -1,5 +1,9 @@
 import { sva } from 'styled-system/css'
 
+export const NAV_COLUMN = '80px'
+export const FRAME_WIDTH = '90vw'
+export const FRAME_MAX = `calc(100vw - (${NAV_COLUMN} * 2))`
+
 // Full-screen image viewer: layout, controls, and gesture feedback. Dialog owns
 // the modal state and shell; the backdrop alpha + drag transform stay inline.
 export const lightbox = sva({
@@ -29,13 +33,12 @@ export const lightbox = sva({
       touchAction: 'none',
       overscrollBehavior: 'contain',
       md: {
-        gridTemplateColumns:
-          'token(sizes.lightboxNavColumn) minmax(0, 1fr) token(sizes.lightboxNavColumn)',
+        gridTemplateColumns: `[${NAV_COLUMN} minmax(0, 1fr) ${NAV_COLUMN}]`,
       },
     },
     frame: {
       position: 'relative',
-      width: 'lightboxFrameWidth',
+      width: `[${FRAME_WIDTH}]`,
       height: '[85vh]',
       willChange: 'transform, opacity',
       md: { gridColumn: '2', width: 'full', height: '[90vh]' },
@@ -65,8 +68,8 @@ export const lightbox = sva({
       pointerEvents: 'none',
     },
     nav: {
-      width: 'lightboxNavColumn',
-      height: 'lightboxNavHit',
+      width: `[${NAV_COLUMN}]`,
+      height: '[240px]',
       zIndex: '10',
       display: 'none',
       // Explicit row: auto-placement has moved past the frame (column 2), so a

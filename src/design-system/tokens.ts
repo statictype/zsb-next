@@ -77,27 +77,20 @@ export const tokens = {
     body: { value: 'var(--font-montserrat), sans-serif' },
   },
   fontSizes: {
-    partnerBadgeRing: { value: '40px' },
     xs: { value: 'clamp(9px, 8.76px + 0.0647vw, 10px)' },
     sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
     base: { value: '16px' },
     md: { value: 'clamp(17px, 15.54px + 0.3883vw, 23px)' },
-
-    detail: { value: 'clamp(28px, 18.4px + 1.5vw, 40px)' },
-    lg: { value: 'clamp(26px, 18.72px + 1.9417vw, 56px)' },
-    xl: { value: 'min(clamp(42px, 25.32px + 2.8479vw, 80px), 11vw)' },
+    lg: { value: 'clamp(22px, 19.33px + 0.7120vw, 33px)' },
+    xl: { value: 'clamp(27px, 22.87px + 1.1003vw, 44px)' },
+    '2xl': { value: 'clamp(34px, 27.93px + 1.6181vw, 59px)' },
+    '3xl': { value: 'min(clamp(42px, 32.78px + 2.4595vw, 80px), 11vw)' },
   },
   spacing: {
     '0': { value: '0px' },
-    xs: { value: 'clamp(4px, 4px, 4px)' },
-    sm: { value: 'clamp(8px, 8px, 8px)' },
-    hairlineOverlap: { value: 'calc({borderWidths.hairline} * -1)' },
+    xs: { value: '4px' },
+    sm: { value: '8px' },
     dialogInset: { value: 'calc({borderWidths.focus} * -1)' },
-    navLogoTopMd: { value: '24px' },
-    navDesktopTop: { value: '32px' },
-    navDesktopTopLg: { value: '40px' },
-    badgeX: { value: '12px' },
-    badgeY: { value: '6px' },
     md: { value: 'clamp(16px, 15.03px + 0.2589vw, 20px)' },
     lg: { value: 'clamp(24px, 18.17px + 1.5534vw, 48px)' },
     xl: { value: 'clamp(32px, 22.29px + 2.5890vw, 72px)' },
@@ -109,7 +102,6 @@ export const tokens = {
 
     gutter: { value: 'clamp(16px, -7.30px + 6.2136vw, 112px)' },
     gridGap: { value: 'clamp(16px, -0.50px + 4.4013vw, 84px)' },
-    cardOverlap: { value: '3rem' },
   },
   radii: {
     none: { value: '0px' },
@@ -146,30 +138,16 @@ export const tokens = {
     fit: { value: 'fit-content' },
 
     touch: { value: '48px' },
-    navLogoBase: { value: '40px' },
-    navLogoLg: { value: '56px' },
-    navLogoXl: { value: '60px' },
     navIcon: { value: '24px' },
-    navGlyph: { value: '18px' },
-    navGlyphStroke: { value: '2px' },
     rollOffset: { value: '110%' },
     measure: { value: '60ch' },
     maxWidth: { value: '1800px' },
 
     narrowColumn: { value: '520px' },
-    lightboxNavColumn: { value: '80px' },
-    lightboxFrameWidth: { value: '90vw' },
-
-    lightboxNavHit: { value: '240px' },
-
-    lightboxFrameMax: { value: 'calc(100vw - ({sizes.lightboxNavColumn} * 2))' },
-
-    hitTarget: { value: '44px' },
 
     dialogPanel: { value: '540px' },
     dialogPanelWide: { value: '760px' },
     dialogPanelXl: { value: '1000px' },
-    calendarPoster: { value: '220px' },
   },
   assets: {
     grayscaleSubtle: { value: 'grayscale(0.3)' },
@@ -185,7 +163,6 @@ export const tokens = {
   letterSpacings: {
     tight: { value: '-0.02em' },
     label: { value: '1.2px' },
-    partnerBadgeRing: { value: '8px' },
   },
   fontWeights: {
     light: { value: '300' },
@@ -268,18 +245,6 @@ export const semanticTokens = {
   sizes: {
     // Fixed-nav height — the page-top offset every hero clears.
     nav: { value: { base: '60px', md: '72px', lg: '84px', xl: '100px' } },
-    partnerBadgeStandard: { value: { base: '72px', md: '96px', xl: '125px' } },
-    partnerBadgeStandardIcon: { value: { base: '20px', md: '26px', xl: '36px' } },
-    partnerBadgeFooter: { value: { base: '100.8px', md: '115.2px', xl: '150px' } },
-    partnerBadgeFooterIcon: { value: { base: '28px', md: '31.2px', xl: '43.2px' } },
-    partnerBadgeHero: {
-      value: { base: '158.4px', md: '172.8px', lg: '158.4px', xl: '218.75px', '3xl': '231.25px' },
-    },
-    partnerBadgeHeroIcon: {
-      value: { base: '44px', md: '46.8px', lg: '42.9px', xl: '63px', '3xl': '66.6px' },
-    },
-    partnerBadgeUpcoming: { value: { base: '108px', md: '144px', xl: '187.5px' } },
-    partnerBadgeUpcomingIcon: { value: { base: '30px', md: '39px', xl: '54px' } },
   },
 } as const
 
@@ -353,7 +318,7 @@ export const textStyles = {
   display: {
     value: {
       fontFamily: 'display',
-      fontSize: 'xl',
+      fontSize: '3xl',
       lineHeight: '1',
       letterSpacing: '-0.02em',
       textTransform: 'uppercase',
@@ -362,7 +327,7 @@ export const textStyles = {
   title: {
     value: {
       fontFamily: 'display',
-      fontSize: 'lg',
+      fontSize: '2xl',
       lineHeight: '1.16',
       letterSpacing: '-0.02em',
       textTransform: 'uppercase',
@@ -379,7 +344,7 @@ export const textStyles = {
   detailTitle: {
     value: {
       fontFamily: 'display',
-      fontSize: 'detail',
+      fontSize: 'xl',
       lineHeight: '1.12',
       letterSpacing: '-0.02em',
     },
@@ -391,14 +356,6 @@ export const textStyles = {
       fontWeight: 'light',
       lineHeight: '1.56',
       textWrap: 'pretty',
-    },
-  },
-  manifesto: {
-    value: {
-      fontFamily: 'display',
-      fontSize: 'xl',
-      lineHeight: '1.1',
-      letterSpacing: '-0.02em',
     },
   },
   body: {
@@ -436,15 +393,6 @@ export const textStyles = {
       },
     },
   },
-  calendar: {
-    value: {
-      fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: '1.4',
-      letterSpacing: '-0.018em',
-      fontWeight: 'bold',
-    },
-  },
   externalGallery: {
     plateType: {
       monogram: {
@@ -472,7 +420,7 @@ export const textStyles = {
     huge: {
       value: {
         fontFamily: 'display',
-        fontSize: { base: 'lg', sm: 'xl' },
+        fontSize: { base: '2xl', sm: '3xl' },
         lineHeight: '1',
         letterSpacing: '0.007em',
         textTransform: 'lowercase',
@@ -481,7 +429,7 @@ export const textStyles = {
     large: {
       value: {
         fontFamily: 'display',
-        fontSize: { base: 'lg', md: 'lg', lg: 'lg', xl: 'xl' },
+        fontSize: { base: '2xl', xl: '3xl' },
         lineHeight: '1',
         letterSpacing: '0.007em',
         textTransform: 'lowercase',
@@ -490,7 +438,7 @@ export const textStyles = {
     normal: {
       value: {
         fontFamily: 'display',
-        fontSize: { base: 'md', md: 'lg' },
+        fontSize: { base: 'md', md: '2xl' },
         lineHeight: '1',
         letterSpacing: '0.007em',
         textTransform: 'lowercase',
@@ -499,20 +447,10 @@ export const textStyles = {
     rail: {
       value: {
         fontFamily: 'display',
-        fontSize: { base: 'md', lg: 'lg' },
+        fontSize: { base: 'md', lg: '2xl' },
         lineHeight: '1',
         letterSpacing: '0.01em',
         textTransform: 'lowercase',
-      },
-    },
-  },
-  partnerBadge: {
-    ringType: {
-      value: {
-        fontFamily: 'body',
-        fontSize: 'partnerBadgeRing',
-        fontWeight: 'semibold',
-        letterSpacing: 'partnerBadgeRing',
       },
     },
   },

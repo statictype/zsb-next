@@ -40,8 +40,8 @@ export const carousel = defineSlotRecipe({
     // Shared by prev/next/autoplay — all three are the same 44px transparent
     // hit target with the same hover/focus treatment.
     trigger: {
-      width: 'hitTarget',
-      height: 'hitTarget',
+      width: 'touch',
+      height: 'touch',
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',

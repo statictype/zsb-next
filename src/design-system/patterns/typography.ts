@@ -10,20 +10,6 @@ const typeBlocklist = [
   'textStyle',
 ]
 
-export const manifestoTitle = definePattern({
-  jsxName: 'ManifestoTitle',
-  jsxElement: 'h2',
-  blocklist: typeBlocklist,
-  transform(props) {
-    return {
-      fontFamily: 'display',
-      fontSize: { base: 'lg', xl: 'lg', '3xl': 'xl' },
-      lineHeight: 1.14,
-      ...props,
-    }
-  },
-})
-
 export const navigationLabel = definePattern({
   jsxName: 'NavigationLabel',
   jsxElement: 'span',

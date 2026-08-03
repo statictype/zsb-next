@@ -12,6 +12,7 @@ export const calendar = sva({
     'runMedia',
     'runContent',
     'runFoot',
+    'eventName',
     'empty',
     'emptyText',
     'agenda',
@@ -42,7 +43,7 @@ export const calendar = sva({
         'calc(token(fontSizes.xs) * 1.3 + token(spacing.sm) + token(fontSizes.lg) * 0.55)',
       // Half the Badge box.
       '--agenda-badge-half':
-        'calc(token(spacing.badgeY) + token(borderWidths.hairlineThin) + token(fontSizes.xs) * 0.65)',
+        'calc(6px + token(borderWidths.hairlineThin) + token(fontSizes.xs) * 0.65)',
       '--agenda-node': '8px',
     },
     layout: {
@@ -208,7 +209,7 @@ export const calendar = sva({
       '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
         '&[data-poster=true]': {
           display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1fr) token(sizes.calendarPoster)',
+          gridTemplateColumns: '[minmax(0, 1fr) 220px]',
           columnGap: 'lg',
         },
       },
@@ -219,6 +220,11 @@ export const calendar = sva({
     eventTime: {
       color: 'heading',
       fontVariantNumeric: 'tabular-nums',
+    },
+    eventName: {
+      fontWeight: 'bold',
+      lineHeight: '1.4',
+      letterSpacing: '[-0.018em]',
     },
     // The ::after stretches the hit target over the whole row.
     nameButton: {
@@ -254,7 +260,7 @@ export const calendar = sva({
         gridColumn: '2',
         top: 'md',
         right: '0',
-        width: 'calendarPoster',
+        width: '[220px]',
         maxWidth: '[none]',
         opacity: 0,
         transform: 'translateX(20px)',
