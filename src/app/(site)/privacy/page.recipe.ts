@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const privacyPage = sva({
-  slots: ['article', 'settingsRow'],
+  slots: ['article'],
   base: {
     article: {
       maxWidth: 'measure',
@@ -17,11 +17,6 @@ export const privacyPage = sva({
       },
       '& ol': { paddingInlineStart: 'lg' },
       '& li': { paddingLeft: 'md', borderLeft: 'hairline' },
-    },
-    settingsRow: {
-      padding: 'md',
-      border: 'hairline',
-      display: 'inline-flex',
     },
   },
 })

@@ -18,7 +18,7 @@ export function Manifesto({ title, body, accent }: ManifestoProps) {
     <section className={cx(section({ ground: 'light', rhythm: 'lg' }), s.section)}>
       <div className={cx(editorialSplit(), s.container)}>
         <Text variant="display" className={s.title}>
-          <AccentSplit text={title} accent={accent} className={s.titleHighlight} />
+          <AccentSplit text={title} accent={accent} />
         </Text>
         <div className={s.content}>
           <Text as="p" variant="lead">

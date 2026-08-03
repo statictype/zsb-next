@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const manifesto = sva({
-  slots: ['section', 'container', 'title', 'titleHighlight', 'content'],
+  slots: ['section', 'container', 'title', 'content'],
   base: {
     section: {
       // ground (light) + rhythm (lg) come from `section()` in the component;
@@ -22,8 +22,6 @@ export const manifesto = sva({
       textWrap: '[pretty]',
       color: 'black',
     },
-    // The highlighted substring inside the headline (the optional accent).
-    titleHighlight: { display: 'inline', color: 'action' },
     content: { paddingTop: { base: '0', lg: 'md' } },
   },
 })
