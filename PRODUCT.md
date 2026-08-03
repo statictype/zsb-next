@@ -58,9 +58,9 @@ Existing surfaces: homepage, editions index, `/editions/YYYY` edition page with 
 
 ## Brand Commitments
 
-- Name: Bucharest Sculpture Days / Zilele Sculpturii București. Short form: ZSB. Domain: `sculpturedays.com`.
-- "Platform", not "event", for ZSB itself. "Event" for the annual programme. Never "festival", in prose, naming, or copy.
-- "Platform" is a description, not a second name. There is one name — Bucharest Sculpture Days, short form ZSB. First mention on a page is "Bucharest Sculpture Days (ZSB)"; ZSB thereafter.
+- Name: Bucharest Sculpture Days. Short form: ZSB. Domain: `sculpturedays.com`. The Romanian name, Zilele Sculpturii București, lives in metadata for discoverability, not in visible copy.
+- "Platform" is a description, not a second name. There is one name — Bucharest Sculpture Days, short form ZSB. First mention on a page is "Bucharest Sculpture Days (ZSB)"; ZSB thereafter and wherever space is tight.
+- ZSB is described as "a platform for sculpture in Bucharest". The claim is carried by what the site shows — the youth award, open studios, debates, screenings — never by a second name competing with the first. Never "festival", in prose, naming, or copy.
 - Editions are named with a `#` hashtag convention. Copy such as "Five #" is intentional.
 
 ## Evidence on Hand

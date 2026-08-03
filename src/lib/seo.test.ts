@@ -198,7 +198,7 @@ describe('organizationJsonLd', () => {
   it('includes non-empty sameAs links and drops blanks', () => {
     const ld = organizationJsonLd({ sameAs: ['https://instagram.com/zsb', '', null, undefined] })
     expect(ld.sameAs).toEqual(['https://instagram.com/zsb'])
-    expect(ld.alternateName).toBe('ZSB')
+    expect(ld.alternateName).toEqual(['ZSB', 'Zilele Sculpturii București'])
   })
 
   it('omits sameAs entirely when there are no links', () => {

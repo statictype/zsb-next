@@ -248,7 +248,7 @@ export function organizationJsonLd(args: { sameAs?: Array<string | null | undefi
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: SITE_NAME,
-    alternateName: 'ZSB',
+    alternateName: ['ZSB', 'Zilele Sculpturii București'],
     url: SITE_URL,
     ...(sameAs.length > 0 && { sameAs }),
   }

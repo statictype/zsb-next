@@ -75,6 +75,14 @@ export const edition = defineType({
       validation: (rule) => rule.custom(requiredWhenLive).custom(isSubstringOf('theme', 'theme')),
     }),
     defineField({
+      name: 'themeGloss',
+      title: 'Theme gloss',
+      description:
+        'What the theme says to an English-speaking visitor, e.g. "the other body" for "#celălaltcorp". Leave empty only when the theme reads the same in both languages, as "#syzygy" does.',
+      type: 'string',
+      group: 'hero',
+    }),
+    defineField({
       name: 'title',
       title: 'Page title',
       description: 'Browser tab / SEO title',

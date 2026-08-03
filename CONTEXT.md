@@ -2,7 +2,19 @@
 
 Canonical domain terms used across data, types, and components. When you introduce a new domain concept (something an event curator would recognise, not an implementation detail), add it here.
 
-(Note on terminology: Bucharest Sculpture Days is an **event**, not a festival — the About page makes the point explicitly. Prefer "the event" over "the festival" in prose and naming.)
+## Naming and language
+
+Three things carry names, and two names were being asked to cover all three:
+
+1. **The organiser** — Filiala de Sculptură București a UAP. The site does not lean on it: it has no linkable site of its own.
+2. **The event** — Bucharest Sculpture Days, short form **ZSB**. Never a festival; the About page makes the point explicitly, so prefer "the event".
+3. **The site**, which represents the event.
+
+**One name.** "Bucharest Sculpture Days (ZSB)" on first mention per page, ZSB thereafter and wherever space is tight. Editions stay `ZSB 2026`. The Romanian name, Zilele Sculpturii București, appears only in `alternateName` metadata alongside ZSB — the English name leads because "Bucharest sculpture" is what the off-season audience searches for. "Platform" describes ZSB inside a sentence; it is not a second brand.
+
+**Proper nouns are written as their owner writes them** — not translated, not normalised. "Galeria Simeza" and "Nicodim Gallery" are both correct, because each is the name that venue uses for itself. The same goes for people. An audit reporting this as an inconsistency is wrong. Everything ZSB writes *about* them is English: descriptions, labels, and all UI copy. The taxonomies stay uniform and English — event types (Exhibition, Film, Open Studio, Opening, Talk, Workshop) and venue types (Artist studio, Partner gallery, Partner venue).
+
+**A theme keeps its own language.** `#celălaltcorp` is an artistic title, not a string to translate, so the curator's choice of language stands. No theme is written in English — a few, like `#syzygy` and `#digitalfield`, read the same in both languages, which is not the same thing. An edition carries an optional `themeGloss` saying what the theme tells an English-speaking visitor; it is left empty only for the themes that already carry across. Where the gloss renders is settled with the edition hero, not here.
 
 ## Edition
 

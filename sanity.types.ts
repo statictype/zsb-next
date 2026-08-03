@@ -595,6 +595,7 @@ export type Edition = {
   status: 'announced' | 'live'
   theme: string
   themeHighlight?: string
+  themeGloss?: string
   title?: string
   dateStart?: string
   dateEnd?: string
