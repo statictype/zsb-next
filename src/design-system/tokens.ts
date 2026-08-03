@@ -64,7 +64,7 @@ export const tokens = {
   colors: {
     gray: grayRamp,
     pink: { value: 'oklch(61.6% 0.2527 355)' },
-    green: { value: 'oklch(59.9% 0.1538 155)' },
+    chartreuse: { value: 'oklch(87.9% 0.1981 115)' },
 
     black: { value: 'oklch(0% 0 0)' },
     white: { value: '#fff' },
@@ -120,7 +120,7 @@ export const tokens = {
       value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.action}' },
     },
     focus: {
-      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.highlight}' },
+      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.action}' },
     },
   },
   borderWidths: {
@@ -221,7 +221,7 @@ export const semanticTokens = {
     muted: { value: '{colors.gray.600}' },
     divider: { value: '{colors.gray.900}' },
     action: { value: '{colors.pink}' },
-    highlight: { value: '{colors.green}' },
+    highlight: { value: '{colors.chartreuse}' },
   },
   zIndex: {
     nav: { value: '100' },

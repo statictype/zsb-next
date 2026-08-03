@@ -17,6 +17,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "clean": "rm -rf .next",
     "images:unused": "tsx scripts/find-unused-images.ts",
     "images:unused:json": "tsx scripts/find-unused-images.ts --json",
     "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
