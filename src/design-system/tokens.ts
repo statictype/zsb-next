@@ -404,15 +404,6 @@ export const textStyles = {
     },
   },
 
-  featuredEvents: {
-    watermarkType: {
-      value: {
-        fontFamily: 'display',
-        fontSize: 'clamp(120px, 32vw, 260px)',
-        lineHeight: '1',
-      },
-    },
-  },
   externalGallery: {
     plateType: {
       monogram: {

@@ -7,9 +7,8 @@ import { Figure } from '@/components/Figure/Figure'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
 import { Card } from '@/components/ui/Card/Card'
-import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
-import { dayToken, eventWhenLabelShort } from '@/lib/edition-dates'
+import { eventWhenLabelShort } from '@/lib/edition-dates'
 import { editionHref } from '@/lib/edition-href'
 import type { CalendarEvent } from '@/types/edition'
 
@@ -33,20 +32,17 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
           justify="space-between"
           gap="md"
         >
-          <div className={styles.headerMain}>
-            <Eyebrow className={styles.eyebrow}>Don&rsquo;t miss</Eyebrow>
-            <SectionHeading id="featured-heading" flush>
-              Featured
-            </SectionHeading>
-          </div>
+          <SectionHeading id="featured-heading" flush>
+            Featured
+          </SectionHeading>
           <Button asChild variant="link">
             <Link href={`${editionHref(year)}#program`}>Full program</Link>
           </Button>
         </HStack>
 
         <Grid as="ul" columns={{ base: 1, md: 2, lg: 3 }} listStyle="none">
-          {events.map((event, i) => (
-            <FeaturedCard key={event.key} event={event} year={year} index={i} />
+          {events.map((event) => (
+            <FeaturedCard key={event.key} event={event} year={year} />
           ))}
         </Grid>
       </Container>
@@ -54,18 +50,7 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
   )
 }
 
-function FeaturedCard({
-  event,
-  year,
-  index,
-}: {
-  event: CalendarEvent
-  year: number
-  index: number
-}) {
-  const token = dayToken(event.startDate)
-  const stamp = String(index + 1).padStart(2, '0')
-
+function FeaturedCard({ event, year }: { event: CalendarEvent; year: number }) {
   return (
     // The whole frame is the hit target via the name link's stretched
     // ::after (see .cardLink in the CSS).
@@ -76,23 +61,14 @@ function FeaturedCard({
         interactive
         className={cx(styles.frame, !event.image && styles.noPoster)}
       >
-        {event.image ? (
+        {event.image && (
           <Figure
             image={event.image}
             sizes="(min-width: 1024px) 30vw, (min-width: 768px) 46vw, 92vw"
           />
-        ) : (
-          token && (
-            <span className={styles.watermark} aria-hidden>
-              {token.dayPadded}
-            </span>
-          )
         )}
 
         <span className={styles.scrim} aria-hidden />
-        <span className={styles.stamp} aria-hidden>
-          {stamp}
-        </span>
 
         <div className={styles.caption}>
           <Text as="p" variant="label" className={styles.when}>
@@ -103,16 +79,9 @@ function FeaturedCard({
               {event.name}
             </Link>
           </h3>
-          <Wrap as="p">
-            <Text variant="caption" className={styles.venueName}>
-              {event.venue.name}
-            </Text>
-            {event.venue.partOf && (
-              <Text variant="label" className={styles.venueParent}>
-                {event.venue.partOf.name}
-              </Text>
-            )}
-          </Wrap>
+          <Text as="p" variant="caption" className={styles.venueName}>
+            {event.venue.name}
+          </Text>
           {event.types.length > 0 && (
             <Wrap as="ul" listStyle="none" marginTop="xs">
               {event.types.slice(0, 2).map((t) => (
