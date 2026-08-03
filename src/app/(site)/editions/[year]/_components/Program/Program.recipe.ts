@@ -222,7 +222,10 @@ export const program = sva({
       fontVariantNumeric: 'tabular-nums',
     },
     eventName: {
-      textStyle: 'calendar',
+      textStyle: 'body',
+      fontWeight: 'bold',
+      lineHeight: '1.4',
+      letterSpacing: 'tight',
     },
     // The ::after stretches the hit target over the whole row.
     nameButton: {

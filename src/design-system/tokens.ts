@@ -386,15 +386,6 @@ export const textStyles = {
       textWrap: 'pretty',
     },
   },
-  calendar: {
-    value: {
-      fontFamily: 'body',
-      fontSize: 'base',
-      fontWeight: 'bold',
-      lineHeight: '1.4',
-      letterSpacing: '-0.018em',
-    },
-  },
   caption: {
     value: {
       fontFamily: 'body',
