@@ -1,15 +1,15 @@
 'use client'
 
-import { calendar } from '@calendar/Calendar.recipe'
-import { ArchiveCollapse, CalendarBoard } from '@calendar/CalendarBoard'
-import { CalendarFilters } from '@calendar/CalendarFilters'
-import { CalendarMeta } from '@calendar/CalendarMeta'
-import { CalendarRecap } from '@calendar/CalendarRecap'
-import { CalendarShare } from '@calendar/CalendarShare'
-import { type CalendarFilterOptions, deriveCalendarView } from '@calendar/calendar-filters'
-import type { SocialLink } from '@calendar/FollowLinks'
-import { HashScroller } from '@calendar/HashScroller'
-import { useCalendarFilters } from '@calendar/useCalendarFilters'
+import type { SocialLink } from '@program/FollowLinks'
+import { HashScroller } from '@program/HashScroller'
+import { program } from '@program/Program.recipe'
+import { ArchiveCollapse, ProgramBoard } from '@program/ProgramBoard'
+import { ProgramFilters } from '@program/ProgramFilters'
+import { ProgramMeta } from '@program/ProgramMeta'
+import { ProgramRecap } from '@program/ProgramRecap'
+import { ProgramShare } from '@program/ProgramShare'
+import { deriveProgramView, type ProgramFilterOptions } from '@program/program-filters'
+import { useProgramFilters } from '@program/useProgramFilters'
 import { RiHistoryLine } from '@remixicon/react'
 import { cx } from 'styled-system/css'
 import { Container, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
@@ -20,15 +20,15 @@ import { PROGRAM_SECTION_ID } from '@/lib/edition-href'
 import { useTodayIso } from '@/lib/use-today-iso'
 import type { CalendarEvent } from '@/types/edition'
 
-const s = calendar()
+const s = program()
 
-interface CalendarProps {
+interface ProgramProps {
   year: number
   events: CalendarEvent[]
   /** Venue/type facets across the whole edition — computed once server-side
    *  (`computeFilterOptions` is pure aggregation, independent of the visitor's
    *  clock or selection, so there's no reason to recompute it on every render). */
-  filterOptions: CalendarFilterOptions
+  filterOptions: ProgramFilterOptions
   /** Edition theme, for the finished-edition recap line (ZSB-45). */
   theme?: string
   /** Follow CTAs for the finished-edition recap (ZSB-45); empty hides them. */
@@ -37,13 +37,13 @@ interface CalendarProps {
 
 /**
  * The interactive shell: the client clock, the URL filter store, one
- * `deriveCalendarView` call, and composition. Everything it renders below the
- * header is a pure piece (`CalendarBoard`, `CalendarRecap`) of the derived view.
+ * `deriveProgramView` call, and composition. Everything it renders below the
+ * header is a pure piece (`ProgramBoard`, `ProgramRecap`) of the derived view.
  */
-export function Calendar({ year, events, filterOptions, theme, socials = [] }: CalendarProps) {
+export function Program({ year, events, filterOptions, theme, socials = [] }: ProgramProps) {
   const todayIso = useTodayIso()
-  const { filters, toggleVenue, toggleType, setShowPast, reset } = useCalendarFilters(filterOptions)
-  const view = deriveCalendarView(events, filters, todayIso)
+  const { filters, toggleVenue, toggleType, setShowPast, reset } = useProgramFilters(filterOptions)
+  const view = deriveProgramView(events, filters, todayIso)
   const { ended, windowLabel, countLabel, past, showPast, showPastControl, canReset } = view
 
   const showFilterBar = filterOptions.venues.length > 1 || filterOptions.types.length > 1
@@ -51,7 +51,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
   return (
     <section
       className={cx(section({ ground: 'dark' }), s.section)}
-      aria-labelledby="calendar-heading"
+      aria-labelledby="program-heading"
     >
       {/* Zero-size anchor, past the section's own top padding — a shared link
           scrolls here instead of landing on blank padding. Nav clearance
@@ -63,13 +63,13 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
           <HStack as="header" justify="space-between" alignItems="flex-start" gap="md">
             <Stack className={s.headerMain} gap="sm">
               <Stack gap="md">
-                <SectionHeading id="calendar-heading" flush>
-                  Calendar
+                <SectionHeading id="program-heading" flush>
+                  Program
                 </SectionHeading>
-                <CalendarMeta year={year} label={windowLabel} />
+                <ProgramMeta year={year} label={windowLabel} />
               </Stack>
               {ended ? (
-                <CalendarRecap year={year} theme={theme} socials={socials} />
+                <ProgramRecap year={year} theme={theme} socials={socials} />
               ) : (
                 <Wrap gap="md">
                   <Text variant="label" className={s.count} aria-live="polite">
@@ -90,7 +90,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                 </Wrap>
               )}
             </Stack>
-            <CalendarShare />
+            <ProgramShare />
           </HStack>
 
           {/* On a finished edition the filters and the board fold into the archive
@@ -99,7 +99,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
           <ArchiveCollapse ended={ended} count={events.length}>
             <Stack gap="2xl">
               {showFilterBar && (
-                <CalendarFilters
+                <ProgramFilters
                   filterOptions={filterOptions}
                   filters={filters}
                   canReset={canReset}
@@ -108,7 +108,7 @@ export function Calendar({ year, events, filterOptions, theme, socials = [] }: C
                   onReset={reset}
                 />
               )}
-              <CalendarBoard view={view} year={year} onReset={reset} />
+              <ProgramBoard view={view} year={year} onReset={reset} />
             </Stack>
           </ArchiveCollapse>
         </Stack>

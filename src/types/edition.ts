@@ -36,7 +36,7 @@ export interface ThemeData {
   body: string
 }
 
-// ---- Calendar / Events (ZSB-28) ----
+// ---- Program / Events (ZSB-28) ----
 
 export interface EventTypeTag {
   title: string
@@ -47,7 +47,7 @@ export interface EventTypeTag {
 export interface EventVenue {
   name: string
   type: string
-  /** Optional street address; shown by the venues view, not the calendar. */
+  /** Optional street address; shown by the venues view, not the program. */
   address?: string
   /** Optional Google Maps link. */
   mapUrl?: string
@@ -56,12 +56,12 @@ export interface EventVenue {
   partOf?: { name: string; type: string }
   /** The rolled-up facet identity: the parent venue when this is a sub-venue,
    *  else the venue itself. Stamped once in the data layer (`mapEvents`) so the
-   *  calendar's filter chips and the Visit venues view group by one shared key
-   *  and can't drift (ZSB-65). `slug` is the calendar `venue=` filter key. */
+   *  program's filter chips and the Visit venues view group by one shared key
+   *  and can't drift (ZSB-65). `slug` is the program `venue=` filter key. */
   rollUp: { name: string; slug: string; type: string }
 }
 
-// One program event, as the calendar reads it. Timing is Bucharest-local:
+// One program event, as the program reads it. Timing is Bucharest-local:
 // `startDate` is always present; `startTime` only when it matters; `endDate`
 // only for multi-day "Ongoing" runs (an exhibition that spans several days).
 export interface CalendarEvent {
@@ -211,7 +211,7 @@ export interface Edition {
   // 2021 has none; an edition with `hasProgram` true but no events yet renders the
   // coming-soon block. Defaults to true in the mapper for older docs.
   hasProgram: boolean
-  // The events-and-venues model (ADR 0014). The calendar, filters, featured and
+  // The events-and-venues model (ADR 0014). The program, filters, featured and
   // venues view all read from this list; it replaced the old program/venues
   // format (ZSB-38).
   events: CalendarEvent[]

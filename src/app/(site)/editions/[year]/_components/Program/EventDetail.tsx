@@ -1,9 +1,9 @@
 'use client'
 
-import { eventDetail } from '@calendar/EventDetail.recipe'
-import { TypeChips } from '@calendar/TypeChips'
-import { shareCopied, useShareLink } from '@calendar/useShareLink'
-import { VenueLine } from '@calendar/VenueLine'
+import { eventDetail } from '@program/EventDetail.recipe'
+import { TypeChips } from '@program/TypeChips'
+import { shareCopied, useShareLink } from '@program/useShareLink'
+import { VenueLine } from '@program/VenueLine'
 import { RiExternalLinkLine } from '@remixicon/react'
 import { useState } from 'react'
 import { css } from 'styled-system/css'

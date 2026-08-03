@@ -45,7 +45,7 @@ export async function getLatestAndUpcoming(
 
 /** The Visit page's venues view: the resolved edition's year plus its events
  *  grouped into venue-type sections, built here (ZSB-65) so the component is a
- *  pure renderer and shares the calendar's venue rollup. */
+ *  pure renderer and shares the program's venue rollup. */
 export interface VisitVenues {
   year: number
   sections: VenueTypeSection[]

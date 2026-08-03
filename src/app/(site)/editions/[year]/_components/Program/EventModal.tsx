@@ -1,9 +1,9 @@
 'use client'
 
-import { EventDetail } from '@calendar/EventDetail'
-import { eventModal } from '@calendar/EventModal.recipe'
-import { EventStepper } from '@calendar/EventStepper'
-import type { EventSteps } from '@calendar/event-steps'
+import { EventDetail } from '@program/EventDetail'
+import { eventModal } from '@program/EventModal.recipe'
+import { EventStepper } from '@program/EventStepper'
+import type { EventSteps } from '@program/event-steps'
 import { RiArrowLeftLine, RiCloseLine } from '@remixicon/react'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
@@ -30,7 +30,7 @@ export function EventModal({
         <header className={s.chrome}>
           <Button variant="quiet" size="sm" onClick={onClose}>
             <RiArrowLeftLine size={16} aria-hidden />
-            {year} calendar
+            {year} program
           </Button>
 
           <EventStepper prev={prev} next={next} index={index} total={total} />

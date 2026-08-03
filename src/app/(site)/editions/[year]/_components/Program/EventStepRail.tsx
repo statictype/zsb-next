@@ -1,5 +1,5 @@
-import { eventView } from '@calendar/EventView.recipe'
-import type { EventStep, EventSteps } from '@calendar/event-steps'
+import { eventView } from '@program/EventView.recipe'
+import type { EventStep, EventSteps } from '@program/event-steps'
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import { Text } from 'styled-system/jsx'
 

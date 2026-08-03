@@ -24,7 +24,7 @@
       "@/*": ["./src/*"],
       "@app/*": ["./src/app/*"],
       "@e2e/*": ["./e2e/*"],
-      "@calendar/*": ["./src/app/(site)/editions/[year]/_components/Calendar/*"],
+      "@program/*": ["./src/app/(site)/editions/[year]/_components/Program/*"],
       "@edition/*": ["./src/app/(site)/editions/[year]/*"],
       "@edition-components/*": ["./src/app/(site)/editions/[year]/_components/*"],
       "@root/*": ["./*"],

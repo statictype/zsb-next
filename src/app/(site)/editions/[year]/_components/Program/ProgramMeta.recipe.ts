@@ -1,14 +1,14 @@
 import { sva } from 'styled-system/css'
 
 /**
- * CalendarMeta — co-located slot recipe.
+ * ProgramMeta — co-located slot recipe.
  *
  * The board header's meta line: the edition year, a dot separator, then a
  * trailing label (the date window, or "Coming soon"). Shared by the live
- * Calendar and the ComingSoon stand-in. Raw grays are the documented
+ * Program and the ComingSoon stand-in. Raw grays are the documented
  * dark-board exceptions.
  */
-export const calendarMeta = sva({
+export const programMeta = sva({
   slots: ['year', 'dot', 'accent'],
   base: {
     year: { color: 'highlight' },

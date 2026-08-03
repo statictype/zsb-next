@@ -1,5 +1,5 @@
-import { eventModal } from '@calendar/EventModal.recipe'
-import type { EventSteps } from '@calendar/event-steps'
+import { eventModal } from '@program/EventModal.recipe'
+import type { EventSteps } from '@program/event-steps'
 import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react'
 import Link from 'next/link'
 import { Text } from 'styled-system/jsx'

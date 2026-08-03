@@ -10,7 +10,7 @@ import {
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import { css } from 'styled-system/css'
 
-// The share affordance shared by the calendar (ZSB-33) and the event detail
+// The share affordance shared by the program (ZSB-33) and the event detail
 // (ZSB-50): a native share sheet where the platform offers one, an inline
 // "copy link" fallback everywhere else.
 //

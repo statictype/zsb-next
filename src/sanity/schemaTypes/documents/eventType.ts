@@ -4,7 +4,7 @@ import { TagIcon } from '@/sanity/icons'
 // A team-managed event category (Opening, Talk, Workshop, Film…). Events hold
 // an array of references to these (an event can carry more than one). Stored as
 // documents rather than an enum so the team can extend the list without a
-// developer and the calendar filters have a canonical list to enumerate —
+// developer and the program filters have a canonical list to enumerate —
 // ADR 0014. The `slug` is the stable key the filter URL state uses, so renaming
 // the title later doesn't break a shared link.
 export const eventType = defineType({
@@ -23,7 +23,7 @@ export const eventType = defineType({
     defineField({
       name: 'slug',
       title: 'Slug',
-      description: 'Stable key used in the calendar filter URL. Auto-filled from the title.',
+      description: 'Stable key used in the program filter URL. Auto-filled from the title.',
       type: 'slug',
       options: { source: 'title', maxLength: 60 },
       validation: (rule) => rule.required(),

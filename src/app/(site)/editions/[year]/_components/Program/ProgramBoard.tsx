@@ -1,9 +1,9 @@
 'use client'
 
-import { calendar } from '@calendar/Calendar.recipe'
-import type { CalendarView } from '@calendar/calendar-filters'
-import { TypeChips } from '@calendar/TypeChips'
-import { VenueLine } from '@calendar/VenueLine'
+import { program } from '@program/Program.recipe'
+import type { ProgramView } from '@program/program-filters'
+import { TypeChips } from '@program/TypeChips'
+import { VenueLine } from '@program/VenueLine'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { css } from 'styled-system/css'
@@ -15,23 +15,23 @@ import { formatShortRange } from '@/lib/edition-dates'
 import type { CalendarListEvent } from '@/types/edition'
 
 // No variants — one shared instance for the board + its row/collapse pieces.
-const s = calendar()
+const s = program()
 
-interface CalendarBoardProps {
-  view: CalendarView
+interface ProgramBoardProps {
+  view: ProgramView
   year: number
   /** Restore the default filters — wired to the empty state's "Show all". */
   onReset: () => void
 }
 
 /**
- * The board itself — empty state, "Ongoing" run grid, day-by-day agenda — a
- * pure render of a derived `CalendarView`. All decisions (filtering, counts,
- * past-greying clock) arrive on the view; the interactive shell (`Calendar`)
+ * The board itself — empty state, "Ongoing" run grid, day-by-day list — a
+ * pure render of a derived `ProgramView`. All decisions (filtering, counts,
+ * past-greying clock) arrive on the view; the interactive shell (`Program`)
  * owns the hooks.
  */
-export function CalendarBoard({ view, year, onReset }: CalendarBoardProps) {
-  const { visible, onView, days, liveClock } = view
+export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
+  const { visible, ongoing, days, liveClock } = view
 
   if (visible.length === 0) {
     return (
@@ -49,16 +49,16 @@ export function CalendarBoard({ view, year, onReset }: CalendarBoardProps) {
   }
 
   // Ongoing exhibitions sit on top as a card grid; the one-off events
-  // follow below as the day-by-day agenda (ZSB-49).
+  // follow below as the day-by-day list (ZSB-49).
   return (
     <Stack className={s.layout} gap="2xl">
-      {onView.length > 0 && (
+      {ongoing.length > 0 && (
         <Stack as="section" gap="md" aria-label="Ongoing throughout the edition">
           <Text as="h3" variant="label" className={s.bandLabel}>
             Ongoing
           </Text>
           <Grid as="ul" gap="md" columns={{ base: 1, md: 2, lg: 3, '4xl': 4 }} listStyle="none">
-            {onView.map((run) => {
+            {ongoing.map((run) => {
               const runEnd = run.endDate ?? run.startDate
               const past = liveClock !== null && runEnd < liveClock
               // Every run carries its own span — runs cover different
@@ -101,13 +101,13 @@ export function CalendarBoard({ view, year, onReset }: CalendarBoardProps) {
       )}
 
       {days.length > 0 && (
-        <section aria-labelledby="calendar-agenda-heading">
+        <section aria-labelledby="program-day-by-day-heading">
           {/* Pairs with the Ongoing band's own h3 — without it the event names
               jump from the section h2 straight to h4. */}
-          <h3 id="calendar-agenda-heading" className={css({ layerStyle: 'srOnly' })}>
+          <h3 id="program-day-by-day-heading" className={css({ layerStyle: 'srOnly' })}>
             Day by day
           </h3>
-          <ol className={s.agenda}>
+          <ol className={s.dayByDay}>
             {days.map((day) => {
               const today = day.iso === liveClock
               return (
@@ -162,9 +162,9 @@ export function ArchiveCollapse({
   if (!ended) return <>{children}</>
   return (
     <Collapsible
-      id="calendar-archive"
-      closedLabel="View full programme"
-      openLabel="Hide full programme"
+      id="program-archive"
+      closedLabel="View full program"
+      openLabel="Hide full program"
       meta={`${count} ${count === 1 ? 'event' : 'events'}`}
     >
       {children}

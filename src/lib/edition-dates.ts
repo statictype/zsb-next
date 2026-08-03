@@ -1,8 +1,3 @@
-// Pure date-formatting helpers for editions — no Sanity / `server-only`
-// dependency so they stay trivially unit-testable and reusable by the
-// calendar/event work (ZSB-28/25). Extracted from the edition mapper, which
-// imports `composeDateLine` from here.
-
 const MONTHS = [
   'January',
   'February',
@@ -62,7 +57,7 @@ export function composeDateLine(raw: {
   return raw.venueLine ? `${range} · ${raw.venueLine}` : range
 }
 
-// ---- Calendar helpers (ZSB-28) ----
+// ---- Program helpers (ZSB-28) ----
 
 const WEEKDAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const
 const WEEKDAYS_LONG = [
@@ -93,14 +88,14 @@ export interface DayToken {
   weekday: string
   weekdayLong: string
   day: number
-  /** Zero-padded day, for the big agenda numeral. */
+  /** Zero-padded day, for the big day-by-day numeral. */
   dayPadded: string
   month: string
   monthLong: string
   year: number
 }
 
-// Break an ISO `YYYY-MM-DD` into the pieces the agenda date marker renders.
+// Break an ISO `YYYY-MM-DD` into the pieces the day-by-day date marker renders.
 // Weekday is derived via UTC so it never drifts by a day across timezones.
 export function dayToken(iso: string): DayToken | undefined {
   const p = dateParts(iso)
@@ -189,7 +184,7 @@ export function isPastEvent(event: EventWhen, todayIso: string): boolean {
 
 // The full edition window [earliest start, latest end] across every event.
 // Judged on the whole edition (never a filtered subset) so live/ended status
-// stays stable as the calendar's filters change.
+// stays stable as the program's filters change.
 export function editionWindow(events: EventWhen[]): [string | null, string | null] {
   let start: string | null = null
   let end: string | null = null

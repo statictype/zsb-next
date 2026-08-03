@@ -1,7 +1,7 @@
 'use client'
 
-import { EventModal } from '@calendar/EventModal'
-import type { EventSteps } from '@calendar/event-steps'
+import { EventModal } from '@program/EventModal'
+import type { EventSteps } from '@program/event-steps'
 import { useRouter } from 'next/navigation'
 import type { CalendarEvent } from '@/types/edition'
 

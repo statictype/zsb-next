@@ -1,20 +1,20 @@
 'use client'
 
-import { calendarFilters } from '@calendar/CalendarFilters.recipe'
+import { programFilters } from '@program/ProgramFilters.recipe'
 import {
-  type CalendarFilterOptions,
   type FilterOption,
   type FilterSelection,
-  type CalendarFilters as Filters,
+  type ProgramFilters as Filters,
   isSelected,
-} from '@calendar/calendar-filters'
+  type ProgramFilterOptions,
+} from '@program/program-filters'
 import { RiResetLeftLine } from '@remixicon/react'
 import { Divider, Stack, Text, Wrap } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 
 interface CalendarFiltersProps {
-  filterOptions: CalendarFilterOptions
+  filterOptions: ProgramFilterOptions
   filters: Filters
   /** True once the filters deviate from the default — enables Reset. */
   canReset: boolean
@@ -36,7 +36,7 @@ function FilterChips({
   selection: FilterSelection
   onToggle: (slug: string) => void
 }) {
-  const s = calendarFilters()
+  const s = programFilters()
   return (
     <Stack className={s.filterRow} gap="sm">
       <Text variant="label" className={s.filterRowLabel} id={labelId}>
@@ -59,7 +59,7 @@ function FilterChips({
   )
 }
 
-export function CalendarFilters({
+export function ProgramFilters({
   filterOptions,
   filters,
   canReset,
@@ -67,11 +67,11 @@ export function CalendarFilters({
   onToggleType,
   onReset,
 }: CalendarFiltersProps) {
-  const s = calendarFilters()
+  const s = programFilters()
   return (
     <Stack gap="lg">
       <Divider />
-      <Stack role="group" aria-label="Filter the programme">
+      <Stack role="group" aria-label="Filter the program">
         <div className={s.bar}>
           <Button variant="quiet" size="sm" onClick={onReset} disabled={!canReset}>
             <RiResetLeftLine size={14} aria-hidden />

@@ -1,8 +1,8 @@
-import { venueLine } from '@calendar/VenueLine.recipe'
+import { venueLine } from '@program/VenueLine.recipe'
 import { Text, Wrap } from 'styled-system/jsx'
 import type { EventVenue } from '@/types/edition'
 
-// The venue name + its rolled-up parent, shared by the agenda rows, the Ongoing
+// The venue name + its rolled-up parent, shared by the day-by-day rows, the Ongoing
 // run cards, and the event modal (DS-1). `className` carries call-site spacing
 // (e.g. the modal body's marginTop).
 export function VenueLine({

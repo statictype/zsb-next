@@ -32,7 +32,7 @@ async function CachedVisit({ options }: { options: DynamicFetchOptions }) {
   return (
     <>
       <VisitSection {...page.section} />
-      {/* Venues view only when the resolved edition has a programme to show. */}
+      {/* Venues view only when the resolved edition has a program to show. */}
       {visitEdition ? (
         <VenuesView year={visitEdition.year} sections={visitEdition.sections} />
       ) : null}

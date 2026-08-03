@@ -1,14 +1,14 @@
 import { sva } from 'styled-system/css'
 
 /**
- * CalendarFilters — co-located slot recipe.
+ * ProgramFilters — co-located slot recipe.
  *
  * Venue/type chips (all-on-by-default multi-select) + a Reset control, inside
- * the dark Calendar section. Each chip is the shared `<Checkbox>` primitive (it
+ * the dark Program section. Each chip is the shared `<Checkbox>` primitive (it
  * owns the chip look + selected/hover/focus states) and Reset is a `quiet`
  * `<Button>`; this recipe keeps only the surrounding layout.
  */
-export const calendarFilters = sva({
+export const programFilters = sva({
   slots: ['bar', 'filterRow', 'filterRowLabel'],
   base: {
     bar: { display: 'flex', alignItems: 'center', justifyContent: 'flex-end' },

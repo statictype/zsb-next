@@ -1,5 +1,5 @@
-import { eventSteps } from '@calendar/event-steps'
-import { RoutedEventModal } from '@calendar/RoutedEventModal'
+import { eventSteps } from '@program/event-steps'
+import { RoutedEventModal } from '@program/RoutedEventModal'
 import { notFound } from 'next/navigation'
 import { getEdition } from '@/data/editions'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'

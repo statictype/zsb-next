@@ -1,11 +1,11 @@
-import { eventSteps } from '@calendar/event-steps'
+import { eventSteps } from '@program/event-steps'
 import { describe, expect, it } from 'vitest'
 import { rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
 
 const CFP = 'Combinatul Fondului Plastic'
 
-// Mirrors the factory in calendar-filters.test.ts — only the fields the step
+// Mirrors the factory in program-filters.test.ts — only the fields the step
 // derivation touches, with the venue stamped by the real roll-up rule.
 function ev(
   partial: Partial<Omit<CalendarEvent, 'venue'>> &
@@ -33,11 +33,11 @@ const events = [
   ev({ key: 'wed', startDate: '2026-04-15' }),
 ]
 
-// Board order: the Ongoing runs by start date, then the day-by-day agenda.
+// Board order: the Ongoing runs by start date, then the day-by-day list.
 const ORDER = ['run-a', 'run-b', 'wed', 'thu-early', 'thu-late']
 
 describe('eventSteps', () => {
-  it('walks the whole programme in board order', () => {
+  it('walks the whole program in board order', () => {
     const walked = ORDER.map((slug) => {
       const { prev, next } = eventSteps(events, slug, 2026)
       return [prev?.name, next?.name]
@@ -52,7 +52,7 @@ describe('eventSteps', () => {
     ])
   })
 
-  it("reports this event's position in the full programme", () => {
+  it("reports this event's position in the full program", () => {
     const positions = ORDER.map((slug) => {
       const { index, total } = eventSteps(events, slug, 2026)
       return [index, total]

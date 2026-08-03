@@ -1,24 +1,24 @@
 'use client'
 
 import {
-  type CalendarFilterOptions,
-  type CalendarFilters,
   DEFAULT_FILTERS,
   filterUrl,
+  type ProgramFilterOptions,
+  type ProgramFilters,
   parseFilters,
   toggleSelection,
-} from '@calendar/calendar-filters'
+} from '@program/program-filters'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 // Filter state lives in the URL as real search params (ZSB-54): read with
-// `useSearchParams`, written with `router.replace`. The calendar renders inside
+// `useSearchParams`, written with `router.replace`. The program renders inside
 // a Suspense boundary in the cached edition body, so reading the params on the
 // client keeps the edition route partial-prerendered rather than fully dynamic.
 // Sharing (ZSB-33) just reads the URL; the event detail is its own route now
 // (ADR 0015), not a query param, so nothing here has to preserve it.
 
-export interface UseCalendarFilters {
-  filters: CalendarFilters
+export interface UseProgramFilters {
+  filters: ProgramFilters
   toggleVenue: (slug: string) => void
   toggleType: (slug: string) => void
   setShowPast: (value: boolean) => void
@@ -26,7 +26,7 @@ export interface UseCalendarFilters {
   reset: () => void
 }
 
-export function useCalendarFilters(filterOptions: CalendarFilterOptions): UseCalendarFilters {
+export function useProgramFilters(filterOptions: ProgramFilterOptions): UseProgramFilters {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()
@@ -40,7 +40,7 @@ export function useCalendarFilters(filterOptions: CalendarFilterOptions): UseCal
   // Write the next filter state to the URL (replacing, no scroll jump);
   // `useSearchParams` re-reads once it lands. The URL itself is built by the
   // pure `filterUrl`, tested beside the codec.
-  const commit = (next: CalendarFilters) =>
+  const commit = (next: ProgramFilters) =>
     router.replace(filterUrl(pathname, search, next), { scroll: false })
 
   const toggleVenue = (slug: string) =>

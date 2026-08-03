@@ -12,12 +12,12 @@ import type { TopVenue, VenueEvent, VenueNode, VenueTypeSection } from '@/lib/ve
 
 const styles = venuesView()
 
-// The Visit edition's programme browsed by place (ZSB-27), on the Visit page
+// The Visit edition's program browsed by place (ZSB-27), on the Visit page
 // below the main-venue block. The edition shown is the one the Visit switch
 // resolves to (latest|upcoming, ZSB-46). Venues that have events, grouped by
 // type, with sub-venues rolled up under their parent — the sections are built in
 // the data layer (ZSB-65), so this is a pure renderer. Each venue is an item in
-// the shared Accordion; event names deep-link to the edition calendar's detail
+// the shared Accordion; event names deep-link to the edition program's detail
 // modal (reusing ZSB-40).
 export function VenuesView({ year, sections }: { year: number; sections: VenueTypeSection[] }) {
   return (
@@ -31,7 +31,7 @@ export function VenuesView({ year, sections }: { year: number; sections: VenueTy
                 Where it happens
               </SectionHeading>
               <Text as="p" variant="caption">
-                The {year} programme, venue by venue.
+                The {year} program, venue by venue.
               </Text>
             </Stack>
 

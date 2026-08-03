@@ -2,7 +2,7 @@ import {
   applyFilters,
   computeFilterOptions,
   DEFAULT_FILTERS,
-  deriveCalendarView,
+  deriveProgramView,
   filterUrl,
   hasActiveFilters,
   hasPastEvents,
@@ -12,7 +12,7 @@ import {
   resolveShowPast,
   serializeFilters,
   toggleSelection,
-} from '@calendar/calendar-filters'
+} from '@program/program-filters'
 import { describe, expect, it } from 'vitest'
 import { rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
@@ -296,14 +296,14 @@ describe('filterUrl', () => {
   })
 })
 
-describe('deriveCalendarView — ended / liveClock / labels', () => {
+describe('deriveProgramView — ended / liveClock / labels', () => {
   const mixed = [
     ev({ key: 'past', startDate: '2026-04-10', venue: { name: 'Galeria Simeza', type: 'venue' } }),
     ev({ key: 'future', startDate: '2026-04-20', venue: { name: CFP, type: 'venue' } }),
   ]
 
   it('judges a live edition live, with the clock exposed for past-greying', () => {
-    const view = deriveCalendarView(mixed, DEFAULT_FILTERS, '2026-04-15')
+    const view = deriveProgramView(mixed, DEFAULT_FILTERS, '2026-04-15')
     expect(view.ended).toBe(false)
     expect(view.liveClock).toBe('2026-04-15')
     expect(view.windowLabel).toBe('10–20 Apr')
@@ -311,14 +311,14 @@ describe('deriveCalendarView — ended / liveClock / labels', () => {
   })
 
   it('judges a finished edition ended, clock nulled, archive-total label', () => {
-    const view = deriveCalendarView(mixed, DEFAULT_FILTERS, '2026-05-01')
+    const view = deriveProgramView(mixed, DEFAULT_FILTERS, '2026-05-01')
     expect(view.ended).toBe(true)
     expect(view.liveClock).toBeNull()
     expect(view.countLabel).toBe('2 events')
   })
 
   it('judges ended/live on the whole edition — filtering to past-only keeps the live greying', () => {
-    const view = deriveCalendarView(
+    const view = deriveProgramView(
       mixed,
       { ...DEFAULT_FILTERS, venues: ['galeria-simeza'], showPast: true },
       '2026-04-15',
@@ -333,9 +333,9 @@ describe('deriveCalendarView — ended / liveClock / labels', () => {
       ev({ key: 'a', startDate: '2026-04-20', venue: { name: CFP, type: 'venue' } }),
       ev({ key: 'b', startDate: '2026-04-21', venue: { name: 'Galeria Simeza', type: 'venue' } }),
     ]
-    const all = deriveCalendarView(twoUpcoming, DEFAULT_FILTERS, '2026-04-15')
+    const all = deriveProgramView(twoUpcoming, DEFAULT_FILTERS, '2026-04-15')
     expect(all.countLabel).toBe('2 upcoming events')
-    const narrowed = deriveCalendarView(
+    const narrowed = deriveProgramView(
       twoUpcoming,
       { ...DEFAULT_FILTERS, venues: ['galeria-simeza'] },
       '2026-04-15',
@@ -348,20 +348,20 @@ describe('deriveCalendarView — ended / liveClock / labels', () => {
       ev({ key: 'run', startDate: '2026-04-26', endDate: '2026-05-11' }),
       ev({ key: 'day', startDate: '2026-04-28' }),
     ]
-    expect(deriveCalendarView(events, DEFAULT_FILTERS, '2026-04-15').windowLabel).toBe(
+    expect(deriveProgramView(events, DEFAULT_FILTERS, '2026-04-15').windowLabel).toBe(
       '26 Apr – 11 May',
     )
   })
 
   it('treats everything as upcoming before the clock resolves, no window judgement', () => {
-    const view = deriveCalendarView(mixed, DEFAULT_FILTERS, null)
+    const view = deriveProgramView(mixed, DEFAULT_FILTERS, null)
     expect(view.ended).toBe(false)
     expect(view.liveClock).toBeNull()
     expect(view.countLabel).toBe('2 upcoming events')
   })
 
   it('handles an eventless edition — no window label, zero-count label', () => {
-    const view = deriveCalendarView([], DEFAULT_FILTERS, '2026-04-15')
+    const view = deriveProgramView([], DEFAULT_FILTERS, '2026-04-15')
     expect(view.windowLabel).toBe('')
     expect(view.countLabel).toBe('0 events')
   })

@@ -1,6 +1,6 @@
 import { sva } from 'styled-system/css'
 
-export const calendar = sva({
+export const program = sva({
   slots: [
     'section',
     'layout',
@@ -15,7 +15,7 @@ export const calendar = sva({
     'eventName',
     'empty',
     'emptyText',
-    'agenda',
+    'dayByDay',
     'day',
     'marker',
     'markerNode',
@@ -39,12 +39,12 @@ export const calendar = sva({
       '--marker-col': 'token(spacing.4xl)',
       // Centre of the day numeral, from the top of the day row: weekday line
       // box + column gap + half the numeral line box.
-      '--agenda-axis':
+      '--day-by-day-axis':
         'calc(token(fontSizes.xs) * 1.3 + token(spacing.sm) + token(fontSizes.lg) * 0.55)',
       // Half the Badge box.
-      '--agenda-badge-half':
+      '--day-by-day-badge-half':
         'calc(6px + token(borderWidths.hairlineThin) + token(fontSizes.xs) * 0.65)',
-      '--agenda-node': '8px',
+      '--day-by-day-node': '8px',
     },
     layout: {
       minWidth: '0',
@@ -118,7 +118,7 @@ export const calendar = sva({
       color: 'gray.300',
     },
 
-    agenda: {
+    dayByDay: {
       listStyle: 'none',
       position: 'relative',
       md: {
@@ -164,10 +164,10 @@ export const calendar = sva({
       md: {
         display: 'block',
         position: 'absolute',
-        right: '[calc((var(--agenda-node) + token(borderWidths.hairline)) / -2)]',
-        top: '[calc(var(--agenda-axis) - var(--agenda-node) / 2)]',
-        width: '[var(--agenda-node)]',
-        height: '[var(--agenda-node)]',
+        right: '[calc((var(--day-by-day-node) + token(borderWidths.hairline)) / -2)]',
+        top: '[calc(var(--day-by-day-axis) - var(--day-by-day-node) / 2)]',
+        width: '[var(--day-by-day-node)]',
+        height: '[var(--day-by-day-node)]',
         background: 'heading',
         borderRadius: 'circle',
         '[data-today=true] &': { background: 'highlight' },
@@ -189,7 +189,7 @@ export const calendar = sva({
         paddingLeft: 'lg',
         // Drops the first row's badge line onto the numeral's axis.
         '& > li:first-child': {
-          paddingTop: '[calc(var(--agenda-axis) - var(--agenda-badge-half))]',
+          paddingTop: '[calc(var(--day-by-day-axis) - var(--day-by-day-badge-half))]',
         },
       },
     },

@@ -40,7 +40,7 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
             </SectionHeading>
           </div>
           <Button asChild variant="link">
-            <Link href={`${editionHref(year)}#program`}>Full calendar</Link>
+            <Link href={`${editionHref(year)}#program`}>Full program</Link>
           </Button>
         </HStack>
 

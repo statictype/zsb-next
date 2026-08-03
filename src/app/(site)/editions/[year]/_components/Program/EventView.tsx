@@ -1,7 +1,7 @@
-import { EventDetail } from '@calendar/EventDetail'
-import { EventStepRail } from '@calendar/EventStepRail'
-import { eventView } from '@calendar/EventView.recipe'
-import type { EventSteps } from '@calendar/event-steps'
+import { EventDetail } from '@program/EventDetail'
+import { EventStepRail } from '@program/EventStepRail'
+import { eventView } from '@program/EventView.recipe'
+import type { EventSteps } from '@program/event-steps'
 import { RiArrowLeftLine } from '@remixicon/react'
 import Link from 'next/link'
 import { Container, Text } from 'styled-system/jsx'
@@ -28,7 +28,7 @@ export function EventView({
           <Button asChild variant="quiet" size="sm">
             <Link href={editionProgramHref(year)}>
               <RiArrowLeftLine size={16} aria-hidden />
-              {year} calendar
+              {year} program
             </Link>
           </Button>
           <Text as="span" variant="label" className={s.theme}>

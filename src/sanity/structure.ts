@@ -37,9 +37,9 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      // Program & calendar — venues are reused across editions (events
+      // Program & venues — venues are reused across editions (events
       // reference them); the type lists are the team-managed taxonomies the
-      // calendar filters and venues view enumerate. See ADR 0014.
+      // program filters and venues view enumerate. See ADR 0014.
       S.documentTypeListItem('venue').title('Venues').icon(PinIcon),
       S.listItem()
         .id('programTypes')

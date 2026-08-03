@@ -212,13 +212,13 @@ export const edition = defineType({
     }),
 
     // The new events-and-venues model (ADR 0014). Events are nested here, one
-    // list per edition; the calendar, filters, featured and venues view all
+    // list per edition; the program, filters, featured and venues view all
     // read from this list.
     defineField({
       name: 'events',
       title: 'Events',
       description:
-        "This edition's program as a list of events. Order doesn't matter — the calendar sorts by date.",
+        "This edition's program as a list of events. Order doesn't matter — the program sorts by date.",
       type: 'array',
       group: 'program',
       hidden: ({ document }) => document?.hasProgram === false,

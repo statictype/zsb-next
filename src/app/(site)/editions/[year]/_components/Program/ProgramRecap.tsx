@@ -1,15 +1,15 @@
-import { calendar } from '@calendar/Calendar.recipe'
-import { FollowLinks, type SocialLink } from '@calendar/FollowLinks'
+import { FollowLinks, type SocialLink } from '@program/FollowLinks'
+import { program } from '@program/Program.recipe'
 import { Stack, Text } from 'styled-system/jsx'
 
-const s = calendar()
+const s = program()
 
 /**
  * A finished edition leads with a short recap + follow CTAs; its archive
- * agenda collapses below (ZSB-45). Applies to every finished edition, judged
- * client-side (`CalendarView.ended`) like the rest of the board.
+ * day-by-day list collapses below (ZSB-45). Applies to every finished edition, judged
+ * client-side (`ProgramView.ended`) like the rest of the board.
  */
-export function CalendarRecap({
+export function ProgramRecap({
   year,
   theme,
   socials,

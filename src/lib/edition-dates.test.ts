@@ -87,7 +87,7 @@ describe('dayToken', () => {
     })
   })
 
-  it('zero-pads single-digit days for the agenda numeral', () => {
+  it('zero-pads single-digit days for the day-by-day numeral', () => {
     expect(dayToken('2025-05-03')?.dayPadded).toBe('03')
   })
 

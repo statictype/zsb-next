@@ -14,7 +14,7 @@ export const editionCard = sva({
       // them, bumping content into an implicit column); minmax(0, 1fr) keeps
       // the theme's max-content from inflating the track past the card.
       gridTemplateColumns: 'minmax(0, 1fr)',
-      // Gradient hover ring (masked to the hairline edge), as on Calendar runs.
+      // Gradient hover ring (masked to the hairline edge), as on Program runs.
       _before: {
         content: '""',
         layerStyle: 'gradientBorder',

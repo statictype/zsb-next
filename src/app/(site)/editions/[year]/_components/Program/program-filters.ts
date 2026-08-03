@@ -36,7 +36,7 @@ export function toggleSelection(
   return next.length === allSlugs.length ? null : next
 }
 
-export interface CalendarFilters {
+export interface ProgramFilters {
   venues: FilterSelection
   types: FilterSelection
   /** Tri-state: `null` follows the edition default, so a shared link can pin
@@ -44,7 +44,7 @@ export interface CalendarFilters {
   showPast: boolean | null
 }
 
-export const DEFAULT_FILTERS: CalendarFilters = { venues: null, types: null, showPast: null }
+export const DEFAULT_FILTERS: ProgramFilters = { venues: null, types: null, showPast: null }
 
 export interface FilterOption {
   slug: string
@@ -52,7 +52,7 @@ export interface FilterOption {
   count: number
 }
 
-export interface CalendarFilterOptions {
+export interface ProgramFilterOptions {
   venues: FilterOption[]
   types: FilterOption[]
 }
@@ -70,10 +70,10 @@ export function hasPastEvents(events: CalendarEvent[], todayIso: string): boolea
 }
 
 // Defaults to hiding past events, except on a finished edition, where that
-// would leave the calendar empty. `todayIso === null` is the null-clock
+// would leave the program empty. `todayIso === null` is the null-clock
 // convention (`lib/today.ts`): before the clock resolves, hide nothing.
 export function resolveShowPast(
-  filters: CalendarFilters,
+  filters: ProgramFilters,
   events: CalendarEvent[],
   todayIso: string | null,
 ): boolean {
@@ -82,7 +82,7 @@ export function resolveShowPast(
   return !hasUpcomingEvents(events, todayIso)
 }
 
-export function computeFilterOptions(events: CalendarEvent[]): CalendarFilterOptions {
+export function computeFilterOptions(events: CalendarEvent[]): ProgramFilterOptions {
   const venues = new Map<string, FilterOption>()
   const types = new Map<string, FilterOption>()
   for (const e of events) {
@@ -106,7 +106,7 @@ export function computeFilterOptions(events: CalendarEvent[]): CalendarFilterOpt
 
 // The time-independent half of the filter, shared by `applyFilters` and the
 // headline count.
-export function matchesFilters(event: CalendarEvent, filters: CalendarFilters): boolean {
+export function matchesFilters(event: CalendarEvent, filters: ProgramFilters): boolean {
   const { venues, types } = filters
   if (venues !== null && !venues.includes(event.venue.rollUp.slug)) return false
   if (types !== null && !event.types.some((t) => types.includes(t.slug))) return false
@@ -115,7 +115,7 @@ export function matchesFilters(event: CalendarEvent, filters: CalendarFilters): 
 
 export function applyFilters(
   events: CalendarEvent[],
-  filters: CalendarFilters,
+  filters: ProgramFilters,
   todayIso: string | null,
 ): CalendarEvent[] {
   const showPast = resolveShowPast(filters, events, todayIso)
@@ -126,7 +126,7 @@ export function applyFilters(
   })
 }
 
-export function hasActiveFilters(filters: CalendarFilters): boolean {
+export function hasActiveFilters(filters: ProgramFilters): boolean {
   return filters.venues !== null || filters.types !== null || filters.showPast !== null
 }
 
@@ -144,7 +144,7 @@ function parseList(value: string | null): string[] {
 
 // A present param, even empty, is an explicit selection; an absent one is the
 // all-selected default.
-export function parseFilters(search: string): CalendarFilters {
+export function parseFilters(search: string): ProgramFilters {
   const params = new URLSearchParams(search)
   const past = params.get(PARAM_PAST)
   return {
@@ -160,7 +160,7 @@ function setSelection(params: URLSearchParams, key: string, selection: FilterSel
 }
 
 // `base` preserves unrelated params already on the URL.
-export function serializeFilters(filters: CalendarFilters, base = ''): string {
+export function serializeFilters(filters: ProgramFilters, base = ''): string {
   const params = new URLSearchParams(base)
   setSelection(params, PARAM_VENUE, filters.venues)
   setSelection(params, PARAM_TYPE, filters.types)
@@ -170,23 +170,23 @@ export function serializeFilters(filters: CalendarFilters, base = ''): string {
 }
 
 // Collapses to the bare pathname at the default, so the clean URL is canonical.
-export function filterUrl(pathname: string, search: string, next: CalendarFilters): string {
+export function filterUrl(pathname: string, search: string, next: ProgramFilters): string {
   const query = serializeFilters(next, search)
   return query ? `${pathname}?${query}` : pathname
 }
 
-export interface AgendaDay {
+export interface ProgramDay {
   iso: string
   token: DayToken
   events: CalendarEvent[]
 }
 
 interface Schedule {
-  onView: CalendarEvent[]
-  days: AgendaDay[]
+  ongoing: CalendarEvent[]
+  days: ProgramDay[]
 }
 
-export interface CalendarView extends Schedule {
+export interface ProgramView extends Schedule {
   visible: CalendarEvent[]
   upcoming: number
   /** `upcoming` narrowed by the venue/type selection. */
@@ -209,12 +209,12 @@ function byTimeThenName(a: CalendarEvent, b: CalendarEvent): number {
 }
 
 function buildSchedule(events: CalendarEvent[]): Schedule {
-  const onView: CalendarEvent[] = []
+  const ongoing: CalendarEvent[] = []
   const byDay = new Map<string, CalendarEvent[]>()
 
   for (const event of events) {
     if (isMultiDayRun(event.startDate, event.endDate)) {
-      onView.push(event)
+      ongoing.push(event)
     } else {
       const bucket = byDay.get(event.startDate)
       if (bucket) bucket.push(event)
@@ -222,14 +222,14 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
     }
   }
 
-  onView.sort(
+  ongoing.sort(
     (a, b) =>
       a.startDate.localeCompare(b.startDate) ||
       (a.endDate ?? '').localeCompare(b.endDate ?? '') ||
       a.name.localeCompare(b.name),
   )
 
-  const days: AgendaDay[] = [...byDay.keys()]
+  const days: ProgramDay[] = [...byDay.keys()]
     .sort((a, b) => a.localeCompare(b))
     .map((iso) => ({
       iso,
@@ -245,28 +245,28 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
       events: (byDay.get(iso) ?? []).sort(byTimeThenName),
     }))
 
-  return { onView, days }
+  return { ongoing, days }
 }
 
 // Board reading order, and the sequence the event panel steps through.
 // Deliberately unfiltered: filters are client state on the edition URL and
 // never reach an event route, so a neighbour derived from them would differ
 // between a soft navigation and the same link opened cold.
-export function programmeOrder(events: CalendarEvent[]): CalendarEvent[] {
-  const { onView, days } = buildSchedule(events)
-  return [...onView, ...days.flatMap((day) => day.events)]
+export function programOrder(events: CalendarEvent[]): CalendarEvent[] {
+  const { ongoing, days } = buildSchedule(events)
+  return [...ongoing, ...days.flatMap((day) => day.events)]
 }
 
 // Before the clock resolves everything counts as upcoming and no past
 // affordance shows, which matches the prerendered shell and avoids an
 // "X of Y" flash on hydration.
-export function deriveCalendarView(
+export function deriveProgramView(
   events: CalendarEvent[],
-  filters: CalendarFilters,
+  filters: ProgramFilters,
   todayIso: string | null,
-): CalendarView {
+): ProgramView {
   const visible = applyFilters(events, filters, todayIso)
-  const { onView, days } = buildSchedule(visible)
+  const { ongoing, days } = buildSchedule(visible)
 
   const showPast = resolveShowPast(filters, events, todayIso)
   const showPastControl =
@@ -310,7 +310,7 @@ export function deriveCalendarView(
 
   return {
     visible,
-    onView,
+    ongoing,
     days,
     upcoming,
     upcomingMatching,
