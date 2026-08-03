@@ -149,12 +149,12 @@ export const tokens = {
     dialogPanelXl: { value: '1000px' },
   },
   assets: {
-    monoRest: { value: 'grayscale(1) contrast(1.05)' },
+    monoRest: { value: 'grayscale(1) brightness(1.12) contrast(1.08)' },
 
     grayscaleFull: { value: 'grayscale(1)' },
 
-    developRest: { value: 'grayscale(1) brightness(0.7)' },
-    developHover: { value: 'grayscale(0.3) brightness(1)' },
+    developRest: { value: 'grayscale(1) brightness(1.08) contrast(1.06)' },
+    developHover: { value: 'grayscale(0.3) brightness(1.08) contrast(1.06)' },
 
     colorRest: { value: 'brightness(1.1) contrast(1)' },
     colorHover: { value: 'brightness(1) contrast(1.1)' },
@@ -205,7 +205,7 @@ export const tokens = {
   gradients: {
     heroVignette: {
       value:
-        'linear-gradient(115deg, rgb(14 11 16 / 0.55) 0%, rgb(14 11 16 / 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgb(14 11 16 / 0.5) 100%)',
+        'linear-gradient(115deg, rgb(14 11 16 / 0.34) 0%, rgb(14 11 16 / 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgb(14 11 16 / 0.3) 100%)',
     },
     cardScrim: {
       value: 'linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))',
