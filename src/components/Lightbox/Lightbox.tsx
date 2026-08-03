@@ -153,10 +153,10 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
   const verticalProgress = Math.min(1, drag.y / VERTICAL_FADE_DISTANCE)
   const backdropAlpha = 0.95 * (1 - verticalProgress * 0.5)
   const normal = token('durations.normal')
-  const quint = token('easings.quint')
+  const motion = token('easings.motion')
   const frameStyle = {
     transform: `translate3d(${drag.x}px, ${drag.y}px, 0)`,
-    transition: isDragging ? 'none' : `transform ${normal} ${quint}, opacity ${normal} ${quint}`,
+    transition: isDragging ? 'none' : `transform ${normal} ${motion}, opacity ${normal} ${motion}`,
     opacity: 1 - verticalProgress * 0.4,
   }
 

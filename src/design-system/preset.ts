@@ -19,7 +19,7 @@ import {
 export const designSystemPreset = definePreset({
   name: 'zsb-design-system',
   conditions: { extend: conditions },
-  // The motion contract: two verbs, one easing. `interactive` is state
+  // The motion contract: two verbs, one spring each. `interactive` is state
   // feedback (hovers, glyph nudges); `develop` is movement/reveal (image
   // develops, label rolls, panel slides). Call sites say which verb, never
   // the physics — raw transition longhands belong to this preset only.
@@ -39,7 +39,9 @@ export const designSystemPreset = definePreset({
                 ? 'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, opacity, transform'
                 : 'opacity, transform, translate, scale, filter',
             transitionDuration: token(`durations.${value === 'interactive' ? 'fast' : 'normal'}`),
-            transitionTimingFunction: token('easings.quint'),
+            transitionTimingFunction: token(
+              `easings.${value === 'interactive' ? 'feedback' : 'motion'}`,
+            ),
           }
         },
       },

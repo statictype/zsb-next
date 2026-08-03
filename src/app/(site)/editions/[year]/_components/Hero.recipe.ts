@@ -64,7 +64,7 @@ export const hero = sva({
       backgroundGradient: 'heroVignette',
       mixBlendMode: 'multiply',
       zIndex: '1',
-      animationDelay: 'normal',
+      animationDelay: 'stagger',
     },
 
     intro: {

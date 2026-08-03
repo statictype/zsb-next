@@ -55,7 +55,7 @@ export const homePage = sva({
     // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
     heroTitle: {
       animationStyle: 'enter',
-      animationDelay: 'fast',
+      animationDelay: 'stagger',
       width: '[min-content]',
     },
 

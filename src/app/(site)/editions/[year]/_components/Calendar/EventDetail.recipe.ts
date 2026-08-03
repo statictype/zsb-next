@@ -109,7 +109,7 @@ export const eventDetail = sva({
     },
     shell: {
       modal: {
-        facts: { animationStyle: 'enter.snappy', animationDelay: 'fast' },
+        facts: { animationStyle: 'arrive', animationDelay: 'stagger' },
 
         layout: { lg: { minHeight: '0', overflow: 'hidden' } },
         column: {

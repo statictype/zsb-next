@@ -44,9 +44,8 @@ export const keyframes = {
       opacity: '0',
       translate: '0 var(--enter-y, 0px)',
       scale: 'var(--enter-scale, 1)',
-      filter: 'blur(var(--enter-blur, 0px))',
     },
-    to: { opacity: '1', translate: '0 0', scale: '1', filter: 'blur(0px)' },
+    to: { opacity: '1', translate: '0 0', scale: '1' },
   },
 
   spin: { to: { transform: 'rotate(-360deg)' } },
@@ -175,13 +174,23 @@ export const tokens = {
   durations: {
     fast: { value: '200ms' },
     normal: { value: '300ms' },
-    entrance: { value: '900ms' },
+    entrance: { value: '600ms' },
+    stagger: { value: '80ms' },
+
     sweep: { value: '1600ms' },
+    travel: { value: '2s' },
+    orbit: { value: '32s' },
   },
 
   easings: {
-    expo: { value: 'cubic-bezier(0.16, 1, 0.3, 1)' },
-    quint: { value: 'cubic-bezier(0.23, 1, 0.32, 1)' },
+    feedback: {
+      value:
+        'linear(0, 0.01 1.8%, 0.044 4%, 0.112 6.9%, 0.267 12.2%, 0.451 18.5%, 0.572 23.3%, 0.671 28%, 0.753 32.8%, 0.822 38.1%, 0.879 44.2%, 0.924 51.3%, 0.959 60.3%, 0.983 72.8%, 0.996 94.4%, 1)',
+    },
+    motion: {
+      value:
+        'linear(0, 0.01 1.9%, 0.043 4%, 0.104 6.6%, 0.21 10%, 0.536 19.4%, 0.667 23.8%, 0.769 27.8%, 0.852 31.8%, 0.918 36%, 0.968 40.6%, 1.004 45.8%, 1.026 52%, 1.031 60.7%, 1.002 95.1%, 1)',
+    },
   },
 
   shadows: {
@@ -254,7 +263,7 @@ export const animationStyles = {
       value: {
         animationName: 'enter',
         animationDuration: 'entrance',
-        animationTimingFunction: 'expo',
+        animationTimingFunction: 'motion',
         animationFillMode: 'both',
         '--enter-y': '30px',
       },
@@ -263,7 +272,7 @@ export const animationStyles = {
       value: {
         animationName: 'enter',
         animationDuration: 'entrance',
-        animationTimingFunction: 'expo',
+        animationTimingFunction: 'motion',
         animationFillMode: 'both',
         '--enter-y': '0px',
       },
@@ -272,26 +281,37 @@ export const animationStyles = {
       value: {
         animationName: 'enter',
         animationDuration: 'entrance',
-        animationTimingFunction: 'expo',
+        animationTimingFunction: 'motion',
         animationFillMode: 'both',
         '--enter-y': '0px',
         '--enter-scale': '1.06',
       },
     },
-    snappy: {
+  },
+  arrive: {
+    DEFAULT: {
       value: {
         animationName: 'enter',
         animationDuration: 'normal',
-        animationTimingFunction: 'expo',
+        animationTimingFunction: 'motion',
         animationFillMode: 'both',
-        '--enter-y': '30px',
+        '--enter-y': '12px',
+      },
+    },
+    fade: {
+      value: {
+        animationName: 'enter',
+        animationDuration: 'normal',
+        animationTimingFunction: 'motion',
+        animationFillMode: 'both',
+        '--enter-y': '0px',
       },
     },
   },
   spin: {
     value: {
       animationName: 'spin',
-      animationDuration: '32s',
+      animationDuration: 'orbit',
       animationTimingFunction: 'linear',
       animationIterationCount: 'infinite',
     },
@@ -307,7 +327,7 @@ export const animationStyles = {
   gradientBorder: {
     value: {
       animationName: 'gradientBorderShift',
-      animationDuration: '2s',
+      animationDuration: 'travel',
       animationTimingFunction: 'linear',
       animationIterationCount: 'infinite',
     },
@@ -521,7 +541,7 @@ export const layerStyles = {
       pointerEvents: 'none',
       transitionProperty: '[opacity]',
       transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transitionTimingFunction: 'feedback',
     },
   },
 
@@ -556,7 +576,7 @@ export const layerStyles = {
       display: 'inline-flex',
       transitionProperty: '[transform]',
       transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transitionTimingFunction: 'feedback',
       '&[data-state=open]': { transform: 'rotate(180deg)' },
     },
   },

@@ -6,7 +6,7 @@ export const pageHero = sva({
     hero: { layerStyle: 'pageHero' },
     title: {
       animationStyle: 'enter',
-      animationDelay: 'fast',
+      animationDelay: 'stagger',
     },
     lead: { maxWidth: 'measure' },
   },
