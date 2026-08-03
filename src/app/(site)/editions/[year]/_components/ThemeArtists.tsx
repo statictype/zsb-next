@@ -1,6 +1,6 @@
 import { themeArtists } from '@edition-components/ThemeArtists.recipe'
 import { cx } from 'styled-system/css'
-import { Grid, Stack, Text } from 'styled-system/jsx'
+import { Grid, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
@@ -17,32 +17,24 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
 
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
-      <Stack gap="3xl">
-        <div className={styles.themeHeader}>
-          <Text variant="heading">{theme}</Text>
+      <Grid
+        className={styles.inner}
+        gridTemplateColumns={{ lg: '0.8fr 1.2fr' }}
+        rowGap={{ base: '2xl', lg: 'lg' }}
+        columnGap={{ lg: '4xl' }}
+      >
+        <div className={styles.body}>
+          <Text as="p" variant="body">
+            {themeSection.body}
+          </Text>
         </div>
-        <Grid
-          className={styles.inner}
-          gridTemplateColumns={{ lg: '0.8fr 1.2fr' }}
-          rowGap={{ base: '2xl', lg: 'lg' }}
-          columnGap={{ lg: '4xl' }}
-        >
-          <div className={styles.body}>
-            <Text as="p" variant="body">
-              {themeSection.body}
-            </Text>
-          </div>
 
-          <ArtistsTable
-            artists={artists}
-            className={styles.artistsTable}
-            meta={[
-              { label: 'Total', value: artists.length },
-              { label: 'Edition', value: `${year - 2020}-${year}` },
-            ]}
-          />
-        </Grid>
-      </Stack>
+        <ArtistsTable
+          artists={artists}
+          className={styles.artistsTable}
+          meta={[{ label: 'Edition', value: `${year - 2020}-${year}` }]}
+        />
+      </Grid>
 
       {carousel.length > 0 && (
         <GalleryCarousel slides={carousel} eyebrow={theme} treatment="color" />

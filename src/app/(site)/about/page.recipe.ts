@@ -8,7 +8,6 @@ export const aboutPage = sva({
     'statementInner',
     'statementAside',
     'statementByline',
-    'authorPhotoFrame',
     'authorPhoto',
     'authorPhotoImg',
     'authorCaption',
@@ -57,22 +56,18 @@ export const aboutPage = sva({
     statementByline: {
       maxWidth: '[240px]',
     },
-    authorPhotoFrame: {
-      padding: 'sm',
-      background: 'white',
-      border: 'hairline',
-      _hover: { '& img': { filter: '[grayscale(0%)]', transform: 'scale(1.03)' } },
-    },
     authorPhoto: {
       position: 'relative',
       aspectRatio: '4 / 5',
       overflow: 'hidden',
       background: 'gray.200',
+      border: 'hairline',
+      _hover: { '& img': { filter: '[token(assets.developHover)]', transform: 'scale(1.03)' } },
     },
     authorPhotoImg: {
       objectFit: 'cover',
       background: 'gray.200',
-      filter: '[grayscale(100%) contrast(1.02)]',
+      filter: '[token(assets.developRest)]',
       transition: 'develop',
     },
     authorCaption: {

@@ -122,7 +122,6 @@ function PartnersShell({
               items={whyPoints.map((point) => ({ title: point.title, body: point.text }))}
               titleLevel="h3"
               rhythm="pair"
-              titleScale="responsive"
             />
           </Container>
         </section>

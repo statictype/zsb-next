@@ -81,7 +81,6 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
         image{ ..., "lqip": asset->metadata.lqip }
       }
     },
-    curatorEyebrow,
     curatorHeadline,
     curatorPortrait{ ..., "lqip": asset->metadata.lqip },
     curatorName,

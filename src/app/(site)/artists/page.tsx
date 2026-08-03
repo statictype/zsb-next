@@ -34,10 +34,7 @@ export default async function ArtistsPage() {
           <ArtistsTable
             artists={artists}
             className={css({ maxWidth: '[820px]', marginInline: 'auto' })}
-            meta={[
-              { label: 'Total', value: artists.length },
-              { label: 'Editions', value: EDITIONS_HELD },
-            ]}
+            meta={[{ label: 'Editions', value: EDITIONS_HELD }]}
           />
         </Container>
       </section>

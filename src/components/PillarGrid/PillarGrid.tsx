@@ -11,7 +11,6 @@ interface PillarGridProps {
   titleLevel?: 'h2' | 'h3'
   rhythm?: 'bookend' | 'pair'
   titleTone?: 'heading' | 'highlight'
-  titleScale?: 'standard' | 'responsive'
 }
 
 export function PillarGrid({
@@ -28,11 +27,9 @@ export function PillarGrid({
       <Grid columns={{ base: 1, md: 2 }} gap="0">
         {items.map((item) => (
           <Stack as="article" key={item.title} className={styles.item}>
-            {
-              <Text as={Title} variant={'heading'} className={styles.title}>
-                {item.title}
-              </Text>
-            }
+            <Text as={Title} variant="heading" className={styles.title}>
+              {item.title}
+            </Text>
             <Text as="p" variant="body" className={styles.body}>
               {item.body}
             </Text>

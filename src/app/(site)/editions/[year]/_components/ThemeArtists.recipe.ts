@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const themeArtists = sva({
-  slots: ['section', 'inner', 'themeHeader', 'body', 'artistsTable'],
+  slots: ['section', 'inner', 'body', 'artistsTable'],
   base: {
     section: {
       position: 'relative',
@@ -14,12 +14,6 @@ export const themeArtists = sva({
       '4xl': { paddingLeft: '2xl' },
     },
 
-    themeHeader: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      paddingInline: 'gutter',
-    },
     body: {
       lg: { alignSelf: 'start' },
       '& p': {

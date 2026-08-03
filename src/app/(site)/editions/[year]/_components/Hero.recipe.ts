@@ -37,7 +37,6 @@ export const hero = sva({
       overflow: 'hidden',
       isolation: 'isolate',
       filter: '[token(assets.monoRest)]',
-      boxShadow: 'frame',
       md: { aspectRatio: '2 / 1' },
       _after: {
         content: '""',

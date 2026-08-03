@@ -11,7 +11,6 @@ import { Figure } from '@/components/Figure/Figure'
 import { Manifesto } from '@/components/Manifesto/Manifesto'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { PillarGrid } from '@/components/PillarGrid/PillarGrid'
-import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { makePageMetadata } from '@/lib/seo'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
@@ -49,7 +48,6 @@ function AboutShell({ view }: { view: AboutView }) {
     placeImage,
     carousel,
     carouselEyebrow,
-    curatorEyebrow,
     curatorHeadline,
     curatorName,
     curatorRole,
@@ -68,37 +66,32 @@ function AboutShell({ view }: { view: AboutView }) {
       </figure>
       <Manifesto title={manifestoTitle} body={manifestoBody} />
 
-      {carousel.length > 0 && (
-        <section className={section({ ground: 'dark' })}>
-          <GalleryCarousel slides={carousel} eyebrow={carouselEyebrow} treatment="mono" />
-        </section>
-      )}
-
       <section className={section({ ground: 'dark' })}>
-        <Container>
-          <PillarGrid
-            items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
-            titleTone="highlight"
-          />
-        </Container>
+        <Stack gap="sectionY">
+          {carousel.length > 0 && (
+            <GalleryCarousel slides={carousel} eyebrow={carouselEyebrow} treatment="mono" />
+          )}
+          <Container>
+            <PillarGrid
+              items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
+              titleTone="highlight"
+            />
+          </Container>
+        </Stack>
       </section>
 
       <section className={cx(section({ ground: 'light', rhythm: 'lg' }), styles.statement)}>
         <div className={styles.statementInner}>
           <Stack as="aside" className={styles.statementAside} gap="xl">
-            <Eyebrow rule>{curatorEyebrow}</Eyebrow>
-
             <SectionHeading>{curatorHeadline}</SectionHeading>
 
             <Stack as="figure" className={styles.statementByline} gap="sm">
-              <div className={styles.authorPhotoFrame}>
-                <div className={styles.authorPhoto}>
-                  <Figure
-                    image={curatorPortrait}
-                    sizes="(max-width: 1023px) 240px, 340px"
-                    className={styles.authorPhotoImg}
-                  />
-                </div>
+              <div className={styles.authorPhoto}>
+                <Figure
+                  image={curatorPortrait}
+                  sizes="(max-width: 1023px) 240px, 340px"
+                  className={styles.authorPhotoImg}
+                />
               </div>
               <Stack as="figcaption" gap="xs" className={styles.authorCaption}>
                 <Text variant="heading">{curatorName}</Text>

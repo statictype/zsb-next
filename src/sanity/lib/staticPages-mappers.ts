@@ -34,7 +34,6 @@ export interface AboutView {
   pillars: Array<{ label: string; body: string }>
   carouselEyebrow: string
   carousel: CarouselSlide[]
-  curatorEyebrow: string
   curatorHeadline: string
   curatorName: string
   curatorRole: string
@@ -87,7 +86,6 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
     manifestoBody: raw.manifestoBody ?? '',
     pillars: (raw.pillars ?? []).map((p) => ({ label: p.label, body: p.body })),
     carouselEyebrow: raw.carouselEyebrow ?? 'Gallery',
-    curatorEyebrow: raw.curatorEyebrow ?? '',
     curatorHeadline: raw.curatorHeadline ?? '',
     curatorName: raw.curatorName ?? '',
     curatorRole: raw.curatorRole ?? '',

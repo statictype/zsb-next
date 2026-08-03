@@ -19,11 +19,10 @@ export const credits = sva({
       height: '[44px]',
       width: 'auto',
       objectFit: 'contain',
-      filter: '[grayscale(100%)]',
-      opacity: 0.8,
+      filter: '[token(assets.grayscaleFull)]',
       transition: 'develop',
       md: { height: '[60px]' },
-      _hover: { filter: '[grayscale(0%)]', opacity: 1 },
+      _hover: { filter: '[none]' },
     },
     badge: { xl: { gridColumn: 4 } },
 

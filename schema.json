@@ -3147,13 +3147,6 @@
         },
         "optional": true
       },
-      "curatorEyebrow": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": false
-      },
       "curatorHeadline": {
         "type": "objectAttribute",
         "value": {
