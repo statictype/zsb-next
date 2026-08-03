@@ -1,20 +1,23 @@
 import { sva } from 'styled-system/css'
 
 export const visitImageFrame = sva({
-  slots: ['block', 'frame', 'image'],
+  slots: ['frame', 'image'],
   base: {
-    block: {
-      maxWidth: 'narrowColumn',
-      marginInline: 'auto',
-      lg: { maxWidth: '[none]', marginInline: '0' },
-    },
     frame: {
       position: 'relative',
       aspectRatio: '1 / 1',
       overflow: 'hidden',
+      maxWidth: 'narrowColumn',
+      marginInline: 'auto',
       md: { aspectRatio: '4 / 5' },
+      lg: {
+        maxWidth: '[none]',
+        marginInline: '0',
+        aspectRatio: 'auto',
+        alignSelf: 'stretch',
+      },
     },
-    image: { objectFit: 'cover', background: 'gray.900' },
+    image: { layerStyle: 'coverMono', background: 'gray.900' },
   },
 })
 
@@ -33,34 +36,30 @@ export const visitFacts = sva({
     value: {
       // Joined multi-line values (opening hours) render their own '\n' breaks.
       whiteSpace: 'pre-line',
+      fontVariantNumeric: 'tabular-nums',
     },
   },
 })
 
 export const transportList = sva({
-  slots: ['list', 'row', 'from', 'lines', 'walk'],
+  slots: ['list', 'row', 'stop', 'lines', 'walk'],
   base: {
     list: {
       listStyle: 'none',
       display: 'flex',
       flexDirection: 'column',
       gap: 'md',
-      sm: { gap: 'sm' },
     },
     row: {
       display: 'grid',
       gridTemplateColumns: '1fr auto',
-      gridTemplateAreas: '"from walk" "lines lines"',
+      gridTemplateAreas: '"stop walk" "lines lines"',
       columnGap: 'md',
       rowGap: 'xs',
-      sm: {
-        gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr) auto',
-        gridTemplateAreas: '"from lines walk"',
-        alignItems: 'baseline',
-      },
+      alignItems: 'baseline',
     },
-    from: { gridArea: 'from', color: 'heading' },
-    lines: { gridArea: 'lines' },
+    stop: { gridArea: 'stop' },
+    lines: { gridArea: 'lines', fontVariantNumeric: 'tabular-nums' },
     walk: {
       gridArea: 'walk',
       textAlign: 'end',

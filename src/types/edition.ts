@@ -263,7 +263,7 @@ export interface PressAppearance {
 
 // Closed icon set an editor can pick per amenity, mirrored from the amenity
 // schema. The renderer-side key→icon-component map lives in VisitSection.
-export type IconKey = 'wheelchair' | 'parking' | 'cafe' | 'paint' | 'restroom' | 'wifi'
+export type IconKey = 'wheelchair' | 'parking' | 'cafe' | 'paint'
 
 export interface Amenity {
   label: string
@@ -271,7 +271,7 @@ export interface Amenity {
 }
 
 export interface TransportRoute {
-  from: string
+  stop: string
   lines: string
   walk: string
 }

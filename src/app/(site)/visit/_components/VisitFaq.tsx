@@ -11,11 +11,9 @@ interface VisitFaqProps {
 }
 
 /**
- * Visible Visit-page FAQ. Renders the SAME merged list (derived hours/location
- * + editorial entries) that feeds the `FAQPage` JSON-LD — Google requires the
- * structured Q&A to be present on the page, so there is one source, two
- * renderings. The shared Accordion starts collapsed and keeps every answer in
- * the DOM so the visible content and structured data remain aligned.
+ * Renders the same list that feeds the `FAQPage` JSON-LD in `page.tsx`. Google
+ * requires the structured Q&A to be present on the page, so the two never come
+ * from separate sources.
  */
 export function VisitFaq({ entries }: VisitFaqProps) {
   if (entries.length === 0) return null
@@ -27,7 +25,9 @@ export function VisitFaq({ entries }: VisitFaqProps) {
     >
       <Container>
         <Stack gap="xl">
-          <SectionHeading id="visit-faq-title">Good to know</SectionHeading>
+          <SectionHeading id="visit-faq-title" size="detail">
+            Good to know
+          </SectionHeading>
           <Accordion
             id="visit-faq"
             className={s.list}

@@ -19,42 +19,31 @@ describe('buildFaq', () => {
     expect(buildFaq(null)).toEqual([])
   })
 
-  it('returns no entries when nothing derivable is present', () => {
+  it('returns no entries when the page has no editorial FAQ', () => {
     expect(buildFaq(page({}))).toEqual([])
   })
 
-  it('derives an opening-hours entry scoped to the event', () => {
-    const [entry] = buildFaq(page({ hoursLines: ['Mon–Fri 10–18', 'Sat 11–16'] }))
-    expect(entry?.question).toBe('What are the opening hours during Bucharest Sculpture Days?')
-    expect(entry?.answer).toBe('Mon–Fri 10–18. Sat 11–16. These hours apply during the event.')
+  it('does not restate the structured fields the facts block already renders', () => {
+    expect(
+      buildFaq(page({ hoursLines: ['Daily 10–18'], street: '15 Foo St', city: 'Bucharest' })),
+    ).toEqual([])
   })
 
-  it('derives a location entry from street + city', () => {
-    const entries = buildFaq(page({ street: '15 Foo St', city: 'Bucharest' }))
-    expect(entries).toHaveLength(1)
-    expect(entries[0]?.question).toBe('Where is Bucharest Sculpture Days held?')
-    expect(entries[0]?.answer).toContain('The main venue is at 15 Foo St, Bucharest.')
-  })
-
-  it('omits the location entry unless both street and city are present', () => {
-    expect(buildFaq(page({ street: '15 Foo St' }))).toEqual([])
-    expect(buildFaq(page({ city: 'Bucharest' }))).toEqual([])
-  })
-
-  it('appends editorial FAQ entries after the derived ones, skipping incomplete rows', () => {
+  it('keeps editorial entries in order, skipping incomplete rows', () => {
     const entries = buildFaq(
       page({
-        hoursLines: ['Daily 10–18'],
         faq: [
           { question: 'Tickets?', answer: 'Free entry.' },
           { question: 'Missing answer?', answer: '' },
           { question: '', answer: 'Missing question' },
+          { question: 'Parking?', answer: 'On site.' },
         ],
       }),
     )
-    expect(entries).toHaveLength(2)
-    expect(entries[0]?.question).toBe('What are the opening hours during Bucharest Sculpture Days?')
-    expect(entries[1]).toEqual({ question: 'Tickets?', answer: 'Free entry.' })
+    expect(entries).toEqual([
+      { question: 'Tickets?', answer: 'Free entry.' },
+      { question: 'Parking?', answer: 'On site.' },
+    ])
   })
 })
 
@@ -80,14 +69,16 @@ describe('mapVisit', () => {
         mapsUrl: 'https://maps.test/x',
         hoursLines: ['Daily 10–18'],
         amenities: [{ label: 'Cafe', icon: 'cafe' }],
-        transport: [{ from: 'Piața Unirii', lines: 'M2', walk: '5 min' }],
+        transport: [{ stop: 'Bd. Poligrafiei', lines: 'Bus 112', walk: '5 min walk' }],
       }),
     )
     expect(result.venueName).toEqual(['Combinatul Fondului Plastic'])
     expect(result.street).toBe('15 Foo St')
     expect(result.mapsUrl).toBe('https://maps.test/x')
     expect(result.amenities).toEqual([{ label: 'Cafe', icon: 'cafe' }])
-    expect(result.transport).toEqual([{ from: 'Piața Unirii', lines: 'M2', walk: '5 min' }])
+    expect(result.transport).toEqual([
+      { stop: 'Bd. Poligrafiei', lines: 'Bus 112', walk: '5 min walk' },
+    ])
     expect('image' in result).toBe(false)
   })
 

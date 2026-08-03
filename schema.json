@@ -217,7 +217,7 @@
             "value": "transportRoute"
           }
         },
-        "from": {
+        "stop": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
@@ -956,14 +956,6 @@
               {
                 "type": "string",
                 "value": "paint"
-              },
-              {
-                "type": "string",
-                "value": "restroom"
-              },
-              {
-                "type": "string",
-                "value": "wifi"
               }
             ]
           },

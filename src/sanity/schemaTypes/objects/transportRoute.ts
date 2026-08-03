@@ -2,33 +2,33 @@ import { defineField, defineType } from 'sanity'
 
 export const transportRoute = defineType({
   name: 'transportRoute',
-  title: 'Transport route',
+  title: 'Nearby stop',
   type: 'object',
   fields: [
     defineField({
-      name: 'from',
-      title: 'From',
-      description: 'Origin landmark, e.g. "Gara de Nord"',
+      name: 'stop',
+      title: 'Stop',
+      description: 'Stop name as signed, e.g. "Bd. Poligrafiei"',
       type: 'string',
       validation: (rule) => rule.required().max(40),
     }),
     defineField({
       name: 'lines',
       title: 'Lines',
-      description: 'Transit options, e.g. "Bus 205 / Tram 45"',
+      description: 'Lines calling at this stop, e.g. "Bus 112, 331, 331B"',
       type: 'string',
-      validation: (rule) => rule.required().max(60),
+      validation: (rule) => rule.required().max(140),
     }),
     defineField({
       name: 'walk',
       title: 'Walk',
-      description: 'Walking time from the stop, e.g. "5 min walk"',
+      description: 'Walking time from the venue gate, e.g. "5 min walk"',
       type: 'string',
       validation: (rule) => rule.required().max(40),
     }),
   ],
   preview: {
-    select: { title: 'from', lines: 'lines', walk: 'walk' },
+    select: { title: 'stop', lines: 'lines', walk: 'walk' },
     prepare: ({ title, lines, walk }) => ({
       title,
       subtitle: [lines, walk].filter(Boolean).join(' · '),

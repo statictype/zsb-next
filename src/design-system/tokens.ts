@@ -227,7 +227,7 @@ export const semanticTokens = {
     },
     heading: { value: '{colors.white}' },
     body: { value: '{colors.gray.400}' },
-    muted: { value: '{colors.gray.600}' },
+    muted: { value: '{colors.gray.500}' },
     divider: { value: '{colors.gray.900}' },
     action: { value: '{colors.pink}' },
     highlight: { value: '{colors.chartreuse}' },
@@ -384,6 +384,15 @@ export const textStyles = {
       fontSize: 'base',
       lineHeight: '1.7',
       textWrap: 'pretty',
+    },
+  },
+  calendar: {
+    value: {
+      fontFamily: 'body',
+      fontSize: 'base',
+      fontWeight: 'bold',
+      lineHeight: '1.4',
+      letterSpacing: '-0.018em',
     },
   },
   caption: {

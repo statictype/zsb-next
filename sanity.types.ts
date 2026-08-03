@@ -50,7 +50,7 @@ export type WhyPoint = {
 
 export type TransportRoute = {
   _type: 'transportRoute'
-  from: string
+  stop: string
   lines: string
   walk: string
 }
@@ -172,7 +172,7 @@ export type CreditOrg = {
 export type Amenity = {
   _type: 'amenity'
   label: string
-  icon: 'wheelchair' | 'parking' | 'cafe' | 'paint' | 'restroom' | 'wifi'
+  icon: 'wheelchair' | 'parking' | 'cafe' | 'paint'
 }
 
 export type EventType = {

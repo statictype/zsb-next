@@ -2,10 +2,8 @@ import {
   type RemixiconComponentType,
   RiArrowRightUpLine,
   RiCupLine,
-  RiHomeWifiLine,
   RiPaintBrushLine,
   RiParkingBoxLine,
-  RiTempColdLine,
   RiWheelchairLine,
 } from '@remixicon/react'
 import {
@@ -28,8 +26,6 @@ const ICONS: Record<IconKey, RemixiconComponentType> = {
   parking: RiParkingBoxLine,
   cafe: RiCupLine,
   paint: RiPaintBrushLine,
-  restroom: RiTempColdLine,
-  wifi: RiHomeWifiLine,
 }
 
 export function VisitSection({
@@ -53,18 +49,16 @@ export function VisitSection({
           gap={{ base: '2xl', lg: 'gridGap' }}
           alignItems="start"
         >
-          <div className={frame.block}>
-            <div className={frame.frame}>
-              <Figure
-                image={image}
-                sizes="(max-width: 1023px) min(100vw, 520px), 45vw"
-                className={frame.image}
-              />
-            </div>
+          <div className={frame.frame}>
+            <Figure
+              image={image}
+              sizes="(max-width: 1023px) min(100vw, 520px), 45vw"
+              className={frame.image}
+            />
           </div>
 
           <Stack gap="xl">
-            <SectionHeading flush className={css({ whiteSpace: 'pre-line' })}>
+            <SectionHeading flush size="detail" className={css({ whiteSpace: 'pre-line' })}>
               {venueName.join('\n')}
             </SectionHeading>
 
@@ -72,7 +66,7 @@ export function VisitSection({
               <div className={facts.pair}>
                 <Stack gap="xs">
                   <Text variant="label">Location</Text>
-                  <Text variant="body" className={facts.value}>
+                  <Text variant="body" color="heading" className={facts.value}>
                     {street}
                     <br />
                     {city}
@@ -80,7 +74,7 @@ export function VisitSection({
                 </Stack>
                 <Stack gap="xs">
                   <Text variant="label">Opening hours</Text>
-                  <Text variant="body" className={facts.value}>
+                  <Text variant="body" color="heading" className={facts.value}>
                     {hoursLines.join('\n')}
                   </Text>
                 </Stack>
@@ -99,14 +93,18 @@ export function VisitSection({
 
             {transport.length > 0 && (
               <Stack className={facts.group} gap="sm">
-                <Text variant="label">Getting here</Text>
+                <Text variant="label" id="visit-stops">
+                  Nearest stops
+                </Text>
                 <TransportRoutes routes={transport} />
               </Stack>
             )}
 
             {amenities.length > 0 && (
               <Stack className={facts.group} gap="sm">
-                <Text variant="label">On site</Text>
+                <Text variant="label" id="visit-amenities">
+                  On site
+                </Text>
                 <Amenities items={amenities} />
               </Stack>
             )}
@@ -120,11 +118,11 @@ export function VisitSection({
 function TransportRoutes({ routes }: { routes: TransportRoute[] }) {
   const styles = transportList()
   return (
-    <ul className={styles.list}>
+    <ul className={styles.list} aria-labelledby="visit-stops">
       {routes.map((route) => (
-        <li key={route.from} className={styles.row}>
-          <Text variant="body" className={styles.from}>
-            {route.from}
+        <li key={route.stop} className={styles.row}>
+          <Text variant="body" color="heading" className={styles.stop}>
+            {route.stop}
           </Text>
           <Text variant="caption" className={styles.lines}>
             {route.lines}
@@ -140,7 +138,7 @@ function TransportRoutes({ routes }: { routes: TransportRoute[] }) {
 
 function Amenities({ items }: { items: Amenity[] }) {
   return (
-    <Wrap as="ul" listStyle="none" rowGap="md" columnGap="lg">
+    <Wrap as="ul" listStyle="none" rowGap="md" columnGap="lg" aria-labelledby="visit-amenities">
       {items.map((item) => {
         const Icon = ICONS[item.icon]
         return (

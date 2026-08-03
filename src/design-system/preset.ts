@@ -89,7 +89,16 @@ export const designSystemPreset = definePreset({
         properties: {
           variant: {
             type: 'enum',
-            value: ['display', 'title', 'heading', 'lead', 'body', 'caption', 'label'],
+            value: [
+              'display',
+              'title',
+              'detailTitle',
+              'heading',
+              'lead',
+              'body',
+              'caption',
+              'label',
+            ],
           },
         },
         defaultValues: { variant: 'body' },
@@ -102,13 +111,14 @@ export const designSystemPreset = definePreset({
           'textTransform',
           'textStyle',
         ],
+        // Panda serializes this function into `styled-system/patterns`, so it
+        // cannot reference anything outside its own body.
         transform({ variant, ...rest }) {
-          const ink =
-            variant === 'display' || variant === 'title' || variant === 'heading'
-              ? 'heading'
-              : variant === 'label'
-                ? 'muted'
-                : 'body'
+          const ink = ['display', 'title', 'detailTitle', 'heading'].includes(variant)
+            ? 'heading'
+            : variant === 'label'
+              ? 'muted'
+              : 'body'
           return { textStyle: variant, color: ink, ...rest }
         },
       }),
