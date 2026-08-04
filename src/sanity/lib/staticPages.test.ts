@@ -109,7 +109,7 @@ describe('normalizeAbout', () => {
     expect(view.pillars).toEqual([])
     expect(view.curatorLetter).toEqual([])
     expect(view.carousel).toEqual([])
-    expect(view.carouselEyebrow).toBe('Gallery') // the real default lives in the layer
+    expect(view.carouselEyebrow).toBe('From the archive') // the real default lives in the layer
     expect('placeImage' in view).toBe(false)
     expect('metaDescription' in view).toBe(false)
   })

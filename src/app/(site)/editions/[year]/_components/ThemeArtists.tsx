@@ -38,6 +38,8 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
 
       {carousel.length > 0 && (
         <GalleryCarousel
+          id="edition-gallery"
+          label="Edition photo gallery"
           slides={carousel}
           eyebrow={theme}
           treatment="color"

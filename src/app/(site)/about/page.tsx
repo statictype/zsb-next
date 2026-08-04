@@ -66,25 +66,30 @@ function AboutShell({ view }: { view: AboutView }) {
       {carousel.length > 0 && (
         <section className={cx(section({ ground: 'dark', rhythm: 'none' }), styles.plates)}>
           <GalleryCarousel
+            id="about-gallery"
+            label="Archive photo carousel"
             slides={carousel}
             eyebrow={carouselEyebrow}
             treatment="mono"
             size="large"
+            preload
           />
         </section>
       )}
 
       <Manifesto flush ground="dark" size="title" title={manifestoTitle} body={manifestoBody} />
 
-      <section className={cx(section({ ground: 'dark', rhythm: 'none' }), styles.supports)}>
-        <Container>
-          <PillarGrid
-            items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
-            rhythm="pair"
-            titleTone="highlight"
-          />
-        </Container>
-      </section>
+      {pillars.length > 0 && (
+        <section className={cx(section({ ground: 'dark', rhythm: 'none' }), styles.supports)}>
+          <Container>
+            <PillarGrid
+              items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
+              rhythm="pair"
+              titleTone="highlight"
+            />
+          </Container>
+        </section>
+      )}
 
       <figure className={styles.plateFrame}>
         <Figure image={placeImage} sizes="100vw" className={styles.plateImg} />

@@ -22,7 +22,7 @@ export function Hero({ edition }: HeroProps) {
           <Figure
             image={heroImage}
             sizes="100vw"
-            priority
+            preload
             className={cx(styles.image, css({ animationStyle: 'enter.zoom' }))}
           />
           <div

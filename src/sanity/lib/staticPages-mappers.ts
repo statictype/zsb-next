@@ -84,7 +84,7 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
     manifestoTitle: raw.manifestoTitle ?? '',
     manifestoBody: raw.manifestoBody ?? '',
     pillars: (raw.pillars ?? []).map((p) => ({ label: p.label, body: p.body })),
-    carouselEyebrow: raw.carouselEyebrow ?? 'Gallery',
+    carouselEyebrow: raw.carouselEyebrow ?? 'From the archive',
     curatorHeadline: raw.curatorHeadline ?? '',
     curatorName: raw.curatorName ?? '',
     curatorRole: raw.curatorRole ?? '',

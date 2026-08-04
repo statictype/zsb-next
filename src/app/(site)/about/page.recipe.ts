@@ -92,13 +92,9 @@ export const aboutPage = sva({
       overflow: 'hidden',
       background: 'gray.200',
       border: 'hairline',
-      _hover: { '& img': { filter: '[token(assets.monoHover)]', transform: 'scale(1.03)' } },
     },
     authorPhotoImg: {
-      objectFit: 'cover',
-      background: 'gray.200',
-      filter: '[token(assets.mono)]',
-      transition: 'develop',
+      layerStyle: 'coverMono',
     },
     authorCaption: {
       alignSelf: 'stretch',
@@ -110,7 +106,7 @@ export const aboutPage = sva({
       flexDirection: 'column',
       gap: 'md',
       '& > p': { maxWidth: 'measure' },
-      '& > p:first-child': { color: 'heading', marginBottom: 'sm' },
+      '& > p:first-child': { marginBottom: 'sm' },
     },
   },
 })

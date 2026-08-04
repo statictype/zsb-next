@@ -21,18 +21,24 @@ function sizesFor(layout: CarouselLayout, imgIndex: number, size: GallerySize): 
 }
 
 interface GalleryCarouselProps {
+  id: string
+  label: string
   slides: GallerySlide[]
   eyebrow: string
   treatment: 'mono' | 'color'
   size?: GallerySize
+  preload?: boolean
   className?: string | undefined
 }
 
 export function GalleryCarousel({
+  id,
+  label,
   slides,
   eyebrow,
   treatment,
   size = 'default',
+  preload = false,
   className,
 }: GalleryCarouselProps) {
   const lightboxImages = slides.flatMap((slide) =>
@@ -45,8 +51,8 @@ export function GalleryCarousel({
 
   return (
     <LightboxCarousel
-      id="edition-gallery"
-      label="Edition photo carousel"
+      id={id}
+      label={label}
       mode="rail"
       autoplay={false}
       loop={false}
@@ -72,6 +78,7 @@ export function GalleryCarousel({
                       sizes={sizesFor(slide.layout, imageIndex, size)}
                       className={styles.itemImage}
                       draggable={false}
+                      preload={preload && imageFlatIndex === 0}
                     />
                   </button>
                 )
