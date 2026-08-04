@@ -431,7 +431,7 @@ export const textStyles = {
     sub: {
       value: {
         fontFamily: 'display',
-        fontSize: 'lg',
+        fontSize: { base: 'md', md: 'lg' },
         lineHeight: '1',
         letterSpacing: 'theme',
         textTransform: 'lowercase',

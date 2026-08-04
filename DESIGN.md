@@ -281,7 +281,11 @@ Vertical rhythm comes from two section cadences: `sectionY` (80 → 120px) stand
 
 Breakpoints are stepped and mobile-first: `sm` 637, `md` 768, `lg` 1024, `xl` 1280, `2xl` 1440, `3xl` 1536, `4xl` 1792px. Because both scales are `clamp()`-based, most components need no breakpoint — media queries are reserved for structural changes (the nav switching from a fullscreen dialog to an inline row at `md`, the editorial split going two-column at `lg`).
 
-Media aspect ratios are the exception that steps. Full-width media is **square below `md`** and widens above (2/1 on the edition hero, 16/9 on About and the carousel, 4/5 on Visit). Media inside a card keeps its ratio at every width. A portrait full-bleed frame on a phone pushes everything below it off the first screen; a square one does not.
+Media aspect ratios are the exception that steps, and the two kinds of media step for different reasons.
+
+**Full-bleed media** is **square below `md`** and widens above (2/1 on the edition hero, 16/9 on About and the carousel, 4/5 on Visit). A portrait full-bleed frame on a phone pushes everything below it off the first screen; a square one does not.
+
+**Media inside a card** answers to how many entries have to fit on one screen, not to that rule. A card plate may change ratio, and on an index it may stop being full-width entirely — the archive card's plate is a 3/2 half-column at `lg`, 16/9 full-width at `md`, and a 72 → 104px square thumbnail beside the year below that, because a full-width square costs half a phone screen per entry on a page whose job is comparing entries.
 
 The navigation is fixed and floating — logo top-left, link row top-right, no bar behind them. Every hero clears it via the responsive `nav` token (60 → 100px), and `scroll-padding-top` uses the same token so anchor jumps land correctly.
 
@@ -291,7 +295,7 @@ Touch targets are 48px (`touch`), which is also the icon button and the `touch` 
 
 **The Fluid Scale Rule.** Sizes and spaces are `clamp()` expressions, not breakpoint ladders. If a component needs a size that exists at only one breakpoint, the scale is wrong before the component is.
 
-**The Square-On-Phone Rule.** Full-width media is square below `md`. Ratio changes are structural, so they belong in a breakpoint, not a `clamp()`.
+**The Square-On-Phone Rule.** Full-bleed media is square below `md`. It governs frames that span the viewport; a card plate is not one of them, and an index may shrink its plate to a thumbnail to fit more entries on a phone. Ratio and width changes are structural either way, so they belong in a breakpoint, not a `clamp()`.
 
 ## Elevation & Depth
 

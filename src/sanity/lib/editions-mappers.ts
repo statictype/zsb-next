@@ -140,7 +140,7 @@ export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): Edition
     venueLine: raw.venueLine ?? '',
     artistCount: raw.artistCount ?? 0,
     eventCount: raw.eventCount ?? 0,
-    heroImage: requireImageData(raw.heroImage, 'heroImage'),
+    heroImage: toImageData(raw.heroImage),
     thumbImage: toImageData(raw.thumbImage),
   })
 }

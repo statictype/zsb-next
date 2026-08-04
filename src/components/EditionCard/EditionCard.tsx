@@ -7,16 +7,17 @@ import type { RecipeVariantProps } from 'styled-system/types'
 import { editionCard } from '@/components/EditionCard/EditionCard.recipe'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
-import type { Edition } from '@/types/edition'
+import type { Edition, ImageData } from '@/types/edition'
 
 export type EditionCardData = Pick<
   Edition,
-  'year' | 'theme' | 'themeHighlight' | 'venueLine' | 'heroImage' | 'thumbImage'
+  'year' | 'theme' | 'themeHighlight' | 'venueLine' | 'thumbImage'
 > & {
   href: string
   dateSpan: string
   artistCount: number
   eventCount: number
+  heroImage?: ImageData
 }
 
 /** Bound to the recipe's variants: renaming or removing one there resurfaces
@@ -31,9 +32,11 @@ interface EditionCardProps {
   className?: string | undefined
 }
 
-// Both numbers are read off tokens.ts: the container caps at maxWidth 1800 +
-// 2×gutter 112, and the plate is then (1800 − gridGap 84) / 2.
-const PLATE_SIZES = '(min-width: 2024px) 858px, (min-width: 1024px) 48vw, 100vw'
+// Read off tokens.ts: the container caps at maxWidth 1800 + 2×gutter 112, and
+// the plate is then (1800 − gridGap 84) / 2. The last entry is the mobile
+// thumbnail's own clamp ceiling, not a share of the viewport.
+const PLATE_SIZES =
+  '(min-width: 2024px) 858px, (min-width: 1024px) 48vw, (min-width: 768px) 90vw, 104px'
 
 export function EditionCard({
   edition,
@@ -79,6 +82,7 @@ export function EditionCard({
             interactive
             theme={edition.theme}
             themeHighlight={edition.themeHighlight}
+            className={styles.theme}
           />
         </div>
 

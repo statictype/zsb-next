@@ -11,6 +11,7 @@ export const editionCard = sva({
     'body',
     'head',
     'title',
+    'theme',
     'prefix',
     'meta',
     'count',
@@ -19,12 +20,20 @@ export const editionCard = sva({
   base: {
     root: {
       display: 'grid',
-      gridTemplateColumns: 'minmax(0, 1fr)',
-      gridTemplateAreas: '"plate" "body"',
-      columnGap: 'gridGap',
-      rowGap: 'lg',
+      gridTemplateColumns: 'auto minmax(0, 1fr)',
+      gridTemplateAreas: '"plate head" "meta meta"',
+      columnGap: 'md',
+      rowGap: 'md',
+      alignItems: 'center',
       color: 'body',
       textDecoration: 'none',
+      md: {
+        gridTemplateColumns: 'minmax(0, 1fr)',
+        gridTemplateAreas: '"plate" "body"',
+        columnGap: 'gridGap',
+        rowGap: 'lg',
+        alignItems: 'stretch',
+      },
       lg: {
         gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
         alignItems: 'center',
@@ -33,7 +42,7 @@ export const editionCard = sva({
     plate: {
       gridArea: 'plate',
       position: 'relative',
-      width: 'full',
+      width: { base: '[clamp(72px, 22vw, 104px)]', md: 'full' },
       border: 'hairline',
       aspectRatio: { base: '1 / 1', md: '16 / 9', lg: '3 / 2' },
       _before: {
@@ -66,25 +75,29 @@ export const editionCard = sva({
         transform: 'scale(1.05)',
       },
     },
+    // `contents` promotes head and meta into the root grid, so the thumbnail
+    // can sit beside the year alone while the credits run full width.
     body: {
       gridArea: 'body',
-      display: 'flex',
+      display: { base: 'contents', md: 'flex' },
       flexDirection: 'column',
       alignItems: 'flex-start',
       gap: 'lg',
     },
-    head: { display: 'flex', flexDirection: 'column', gap: 'xs' },
+    head: { gridArea: 'head', minWidth: '0', display: 'flex', flexDirection: 'column', gap: 'xs' },
     title: {
       fontVariantNumeric: 'tabular-nums',
       transition: 'interactive',
       'a:hover &, a:focus-visible &': { color: 'action' },
     },
+    // Themes are single hashtag words with no wrap opportunity of their own.
+    theme: { overflowWrap: 'anywhere' },
     prefix: {
       color: 'muted',
       transition: 'interactive',
       'a:hover &, a:focus-visible &': { color: 'current' },
     },
-    meta: { display: 'grid', gap: 'xs' },
+    meta: { gridArea: 'meta', display: 'grid', gap: 'xs' },
     count: { color: 'heading' },
     arrow: {
       display: 'flex',

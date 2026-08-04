@@ -42,6 +42,15 @@ describe('EditionCard', () => {
     expect(screen.getByText('Combinatul Fondului Plastic')).toBeInTheDocument()
   })
 
+  it('still renders a plate when the edition has no image at all', () => {
+    const { heroImage: _hero, ...imageless } = edition
+
+    render(<EditionCard edition={imageless} href="/editions/2026" />)
+
+    expect(screen.getByRole('link')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('ZSB 2026')
+  })
+
   it('drops a count that is zero and singularises a count of one', () => {
     render(
       <EditionCard edition={{ ...edition, artistCount: 1, eventCount: 0 }} href="/editions/2026" />,
