@@ -28,8 +28,6 @@ export default function EditionsPage() {
 
 async function CachedEditionsList({ options }: { options: DynamicFetchOptions }) {
   'use cache'
-  // Already status-filtered and year-desc in the query, so the list reads
-  // newest first and the plates alternate down that order.
   const editions = await getEditionCards(options)
 
   return (
@@ -41,6 +39,7 @@ async function CachedEditionsList({ options }: { options: DynamicFetchOptions })
               edition={edition}
               href={edition.href}
               media={index % 2 === 0 ? 'left' : 'right'}
+              preload={index === 0}
             />
           </li>
         ))}
@@ -59,7 +58,7 @@ function EditionsListShell({ children }: { children?: React.ReactNode }) {
             Edition<span className={css({ color: 'action' })}>s</span>
           </>
         }
-        lead="Five past editions. Five #, each one a curatorial position, not just a title. Together they trace a movement: from the space sculpture inhabits, to the emotional conditions it holds, to the forces it models, to the body it refuses to idealise. Not a plan. A conversation that keeps going."
+        lead="Each # is a curatorial position, not a title. Together they trace a movement: from the space sculpture inhabits, to the emotional conditions it holds, to the forces it models, to the body it refuses to idealise."
       />
 
       <section className={section({ ground: 'dark' })}>

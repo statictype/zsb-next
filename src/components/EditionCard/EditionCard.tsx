@@ -27,12 +27,21 @@ interface EditionCardProps {
   edition: EditionCardData
   href: string
   media?: EditionCardMedia
+  preload?: boolean
   className?: string | undefined
 }
 
-const PLATE_SIZES = '(min-width: 1024px) 48vw, 100vw'
+// Both numbers are read off tokens.ts: the container caps at maxWidth 1800 +
+// 2×gutter 112, and the plate is then (1800 − gridGap 84) / 2.
+const PLATE_SIZES = '(min-width: 2024px) 858px, (min-width: 1024px) 48vw, 100vw'
 
-export function EditionCard({ edition, href, media = 'left', className }: EditionCardProps) {
+export function EditionCard({
+  edition,
+  href,
+  media = 'left',
+  preload = false,
+  className,
+}: EditionCardProps) {
   const styles = editionCard({ media })
 
   const counts: { value: number; unit: string }[] = []
@@ -49,11 +58,14 @@ export function EditionCard({ edition, href, media = 'left', className }: Editio
   return (
     <Link href={href} className={cx(styles.root, className)}>
       <span className={styles.plate}>
-        <Figure
-          image={edition.thumbImage ?? edition.heroImage}
-          sizes={PLATE_SIZES}
-          className={styles.image}
-        />
+        <span className={styles.frame}>
+          <Figure
+            image={edition.thumbImage ?? edition.heroImage}
+            sizes={PLATE_SIZES}
+            preload={preload}
+            className={styles.image}
+          />
+        </span>
       </span>
 
       <div className={styles.body}>
@@ -91,11 +103,11 @@ export function EditionCard({ edition, href, media = 'left', className }: Editio
               {edition.venueLine}
             </Text>
           ) : null}
-        </div>
 
-        <span className={styles.arrow} aria-hidden>
-          <RiArrowRightUpLine size={24} />
-        </span>
+          <span className={styles.arrow} aria-hidden>
+            <RiArrowRightUpLine size={24} />
+          </span>
+        </div>
       </div>
     </Link>
   )
