@@ -110,6 +110,10 @@ describe('isMultiDayRun', () => {
 })
 
 describe('formatShortRange', () => {
+  it('collapses a same-day span to a single date', () => {
+    expect(formatShortRange('2021-04-24', '2021-04-24')).toBe('24 Apr')
+  })
+
   it('collapses a same-month span to one short month', () => {
     expect(formatShortRange('2025-04-26', '2025-04-28')).toBe('26–28 Apr')
   })

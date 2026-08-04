@@ -44,6 +44,16 @@ export function composeDateRange(raw: {
   return formatDateRange(raw.dateStart, raw.dateEnd) ?? ''
 }
 
+// The yearless face — "16 Apr – 11 May". For surfaces that already set the
+// edition year as its own element, where `composeDateRange` would repeat it.
+export function composeDateSpan(raw: {
+  dateStart?: string | null
+  dateEnd?: string | null
+}): string {
+  if (!raw.dateStart || !raw.dateEnd) return ''
+  return formatShortRange(raw.dateStart, raw.dateEnd) ?? ''
+}
+
 // Compose the hero date line from the typed fields. The mapper owns the `·`
 // glyph so it stays consistent across editions. Empty string if the dates are
 // missing (only possible on a malformed doc — live editions require them).
@@ -119,13 +129,15 @@ export function isMultiDayRun(startIso: string, endIso?: string | null): boolean
 }
 
 // Compact span for the "Ongoing" run ranges, short months, year only when it spans
-// one: "26 Apr – 11 May", same month "26–28 Apr", cross-year full both sides.
+// one: "26 Apr – 11 May", same month "26–28 Apr", same day "24 Apr", cross-year
+// full both sides.
 export function formatShortRange(startIso: string, endIso: string): string | undefined {
   const s = dateParts(startIso)
   const e = dateParts(endIso)
   if (!s || !e) return undefined
   const sm = MONTHS_SHORT[s.m - 1]
   const em = MONTHS_SHORT[e.m - 1]
+  if (s.y === e.y && s.m === e.m && s.d === e.d) return `${s.d} ${sm}`
   if (s.y === e.y && s.m === e.m) return `${s.d}–${e.d} ${sm}`
   if (s.y === e.y) return `${s.d} ${sm} – ${e.d} ${em}`
   return `${s.d} ${sm} ${s.y} – ${e.d} ${em} ${e.y}`

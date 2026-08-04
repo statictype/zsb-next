@@ -428,6 +428,15 @@ export const textStyles = {
         textTransform: 'lowercase',
       },
     },
+    sub: {
+      value: {
+        fontFamily: 'display',
+        fontSize: 'lg',
+        lineHeight: '1',
+        letterSpacing: 'theme',
+        textTransform: 'lowercase',
+      },
+    },
   },
 
   cardTitle: {

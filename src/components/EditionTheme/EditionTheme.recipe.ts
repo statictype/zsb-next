@@ -5,7 +5,8 @@ import { sva } from 'styled-system/css'
  * archive cards and the editions rail.
  *
  * `size` is a named ladder (huge hero / large featured / normal card / rail
- * plate) rather than a free fontSize prop, because Panda must extract the
+ * plate / sub, under a title that leads) rather than a free fontSize prop,
+ * because Panda must extract the
  * responsive values statically. `interactive` drives the highlight behavior:
  * static at rest (the edition hero/current nav — rest color picked by `accent`)
  * vs white-at-rest → `action` on `a:hover` (cards/nav).
@@ -46,12 +47,15 @@ export const editionTheme = sva({
       rail: {
         heading: { maxWidth: 'full', textStyle: 'editionTheme.rail' },
       },
+      sub: {
+        heading: { maxWidth: 'full', textStyle: 'editionTheme.sub' },
+      },
     },
     interactive: {
       // Static: the accent color at rest (see `accent`).
       false: {},
       // Interactive: white at rest, accent on the card/link hover.
-      true: { highlight: { 'a:hover &': { color: 'action' } } },
+      true: { highlight: { 'a:hover &, a:focus-visible &': { color: 'action' } } },
     },
     // Ignored when `interactive` — hover color there is always `action`.
     accent: {

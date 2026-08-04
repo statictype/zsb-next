@@ -1,78 +1,102 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
+import { Fragment } from 'react'
 import { cx } from 'styled-system/css'
-import { Divider, HStack, Stack, Text } from 'styled-system/jsx'
+import { Text } from 'styled-system/jsx'
 import type { RecipeVariantProps } from 'styled-system/types'
 import { editionCard } from '@/components/EditionCard/EditionCard.recipe'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
-import { Badge } from '@/components/ui/Badge/Badge'
-import { Card } from '@/components/ui/Card/Card'
 import type { Edition } from '@/types/edition'
 
 export type EditionCardData = Pick<
   Edition,
-  | 'year'
-  | 'theme'
-  | 'themeHighlight'
-  | 'dateRange'
-  | 'dateLine'
-  | 'venueLine'
-  | 'heroImage'
-  | 'thumbImage'
-> & { href: string }
+  'year' | 'theme' | 'themeHighlight' | 'venueLine' | 'heroImage' | 'thumbImage'
+> & {
+  href: string
+  dateSpan: string
+  artistCount: number
+  eventCount: number
+}
 
-/** Bound to the recipe's variants: renaming or removing a size there
- *  resurfaces here as a type error, not a silently ignored prop. */
-type EditionCardSize = NonNullable<RecipeVariantProps<typeof editionCard>>['size']
+/** Bound to the recipe's variants: renaming or removing one there resurfaces
+ *  here as a type error, not a silently ignored prop. */
+type EditionCardMedia = NonNullable<RecipeVariantProps<typeof editionCard>>['media']
 
 interface EditionCardProps {
   edition: EditionCardData
   href: string
-  size?: EditionCardSize
+  media?: EditionCardMedia
   className?: string | undefined
 }
 
-export function EditionCard({ edition, href, size = 'md', className }: EditionCardProps) {
-  const styles = editionCard({ size })
+const PLATE_SIZES = '(min-width: 1024px) 48vw, 100vw'
+
+export function EditionCard({ edition, href, media = 'left', className }: EditionCardProps) {
+  const styles = editionCard({ media })
+
+  const counts: { value: number; unit: string }[] = []
+  if (edition.artistCount > 0) {
+    counts.push({
+      value: edition.artistCount,
+      unit: edition.artistCount === 1 ? 'artist' : 'artists',
+    })
+  }
+  if (edition.eventCount > 0) {
+    counts.push({ value: edition.eventCount, unit: edition.eventCount === 1 ? 'event' : 'events' })
+  }
 
   return (
-    <Card as={Link} href={href} ground="onDark" interactive className={cx(styles.root, className)}>
-      <div className={styles.media}>
+    <Link href={href} className={cx(styles.root, className)}>
+      <span className={styles.plate}>
         <Figure
           image={edition.thumbImage ?? edition.heroImage}
-          sizes={
-            size === 'lg' ? '(min-width: 1440px) 1400px, 100vw' : '(min-width: 1024px) 50vw, 100vw'
-          }
+          sizes={PLATE_SIZES}
           className={styles.image}
         />
-        <Badge className={styles.year}>{edition.year}</Badge>
-      </div>
-      <Stack className={styles.content} gap="sm">
-        <EditionTheme
-          as="h2"
-          size={size === 'lg' ? 'large' : 'normal'}
-          interactive
-          theme={edition.theme}
-          themeHighlight={edition.themeHighlight}
-        />
-        <Divider />
-        <HStack justify="space-between" paddingBlockStart="lg">
-          <Text variant="label">
-            {edition.venueLine ? (
-              <>
-                {edition.dateRange} · <span className={styles.venue}>{edition.venueLine}</span>
-              </>
-            ) : (
-              edition.dateRange
-            )}
+      </span>
+
+      <div className={styles.body}>
+        <div className={styles.head}>
+          <Text as="h2" variant="title" className={styles.title}>
+            <span className={styles.prefix}>ZSB</span> {edition.year}
           </Text>
-          <HStack as="span" className={styles.cta} aria-hidden>
-            <Text variant="label">View edition</Text>
-            <RiArrowRightUpLine size={16} className={styles.ctaIcon} />
-          </HStack>
-        </HStack>
-      </Stack>
-    </Card>
+          <EditionTheme
+            as="p"
+            size="sub"
+            interactive
+            theme={edition.theme}
+            themeHighlight={edition.themeHighlight}
+          />
+        </div>
+
+        <div className={styles.meta}>
+          {counts.length > 0 && (
+            <Text as="span" variant="caption">
+              {counts.map((count, index) => (
+                <Fragment key={count.unit}>
+                  {index > 0 ? ' · ' : null}
+                  <span className={styles.count}>{count.value}</span> {count.unit}
+                </Fragment>
+              ))}
+            </Text>
+          )}
+          {edition.dateSpan ? (
+            <Text as="span" variant="caption">
+              {edition.dateSpan}
+            </Text>
+          ) : null}
+          {edition.venueLine ? (
+            <Text as="span" variant="caption">
+              {edition.venueLine}
+            </Text>
+          ) : null}
+        </div>
+
+        <span className={styles.arrow} aria-hidden>
+          <RiArrowRightUpLine size={24} />
+        </span>
+      </div>
+    </Link>
   )
 }

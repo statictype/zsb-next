@@ -10,9 +10,9 @@ interface EditionThemeProps {
 
   themeHighlight?: string | undefined
 
-  as?: 'h1' | 'h2'
+  as?: 'h1' | 'h2' | 'p'
 
-  size?: 'huge' | 'large' | 'normal' | 'rail'
+  size?: 'huge' | 'large' | 'normal' | 'rail' | 'sub'
 
   interactive?: boolean
 

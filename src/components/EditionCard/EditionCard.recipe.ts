@@ -1,49 +1,38 @@
 import { sva } from 'styled-system/css'
 
-/** Archive image-card chrome only; the footer rail's imageless plate lives in
+/** Archive index entry only; the footer rail's imageless plate lives in
  *  EditionRailCard.recipe. */
 export const editionCard = sva({
-  slots: ['root', 'media', 'image', 'year', 'content', 'details', 'venue', 'cta', 'ctaIcon'],
+  slots: ['root', 'plate', 'image', 'body', 'head', 'title', 'prefix', 'meta', 'count', 'arrow'],
   base: {
     root: {
-      height: 'full',
-      overflow: 'visible',
       display: 'grid',
-      gridTemplateRows: '[auto 3rem auto]',
-      // Both children are placed explicitly (auto-placement refuses to overlap
-      // them, bumping content into an implicit column); minmax(0, 1fr) keeps
-      // the theme's max-content from inflating the track past the card.
       gridTemplateColumns: 'minmax(0, 1fr)',
-      // Gradient hover ring (masked to the hairline edge), as on Program runs.
-      _before: {
-        content: '""',
-        layerStyle: 'gradientBorder',
-        padding: '[token(borderWidths.hairlineThin)]',
-      },
-      // Pin the hairline at rest colour so Card's interactive hover doesn't
-      // warm it under the ring — stacked they read as one thick border.
-      _hover: {
-        borderColor: 'divider',
-        '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
+      gridTemplateAreas: '"plate" "body"',
+      columnGap: 'gridGap',
+      rowGap: 'lg',
+      color: 'body',
+      textDecoration: 'none',
+      lg: {
+        gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
+        alignItems: 'center',
       },
     },
-    media: {
+    plate: {
+      gridArea: 'plate',
       position: 'relative',
-      gridColumn: '1',
-      gridRow: '1 / 3',
       width: 'full',
       overflow: 'hidden',
       background: 'gray.900',
-      // Shared below `lg`, where both sizes stack single-column; only the
-      // panoramic `lg` size variant departs at the `lg` breakpoint.
-      aspectRatio: { base: '16 / 9', md: '21 / 9' },
-      _after: {
+      border: 'hairline',
+      aspectRatio: { base: '1 / 1', md: '16 / 9', lg: '3 / 2' },
+      _before: {
         content: '""',
-        position: 'absolute',
-        inset: '0',
-        backgroundGradient: 'cardScrim',
-        pointerEvents: 'none',
-        zIndex: '1',
+        layerStyle: 'gradientBorder',
+        padding: '[token(borderWidths.hairline)]',
+      },
+      'a:hover &, a:focus-visible &': {
+        _before: { opacity: 1, animationStyle: 'gradientBorder' },
       },
     },
     image: {
@@ -57,43 +46,38 @@ export const editionCard = sva({
         transform: 'scale(1.05)',
       },
     },
-    year: {
-      position: 'absolute',
-      top: 'lg',
-      right: 'lg',
-      zIndex: '2',
+    body: {
+      gridArea: 'body',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: 'lg',
     },
-    content: {
-      position: 'relative',
-      zIndex: '1',
-      gridColumn: '1',
-      gridRow: '2 / 4',
-      padding: 'lg',
-    },
-
-    // Keeps the venue name from breaking mid-phrase — a narrow card wraps
-    // before the whole name, not between its words.
-    venue: { whiteSpace: 'nowrap' },
-    cta: {
-      flexShrink: '0',
-      color: 'heading',
+    head: { display: 'flex', flexDirection: 'column', gap: 'xs' },
+    title: {
+      fontVariantNumeric: 'tabular-nums',
       transition: 'interactive',
-      'a:hover &': { color: 'action' },
+      'a:hover &, a:focus-visible &': { color: 'action' },
     },
-    ctaIcon: {
+    prefix: {
+      color: 'muted',
       transition: 'interactive',
-      'a:hover &': { transform: 'translate(2px, -2px)' },
+      'a:hover &, a:focus-visible &': { color: 'current' },
+    },
+    meta: { display: 'grid', gap: 'xs' },
+    count: { color: 'heading' },
+    arrow: {
+      display: 'flex',
+      color: 'muted',
+      transition: 'interactive',
+      'a:hover &, a:focus-visible &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
   },
   variants: {
-    size: {
-      // The panoramic ratio only reads as "featured" once the grid actually
-      // goes two-column and spans this card full-width (`lg`, page.recipe.ts).
-      // Below that it stacks single-column with the rest, so it matches their
-      // aspect ratio — otherwise it's the odd one out on mobile.
-      lg: { media: { aspectRatio: { lg: '21 / 9' } } },
-      md: { media: { aspectRatio: { lg: '16 / 10' } } },
+    media: {
+      left: { root: { lg: { gridTemplateAreas: '"plate body"' } } },
+      right: { root: { lg: { gridTemplateAreas: '"body plate"' } } },
     },
   },
-  defaultVariants: { size: 'md' },
+  defaultVariants: { media: 'left' },
 })

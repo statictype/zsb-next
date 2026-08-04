@@ -282,10 +282,9 @@ export const SITEMAP_QUERY_TAGS = [
   'artist',
 ]
 
-// The /editions archive grid: exactly the card slice (`EditionCardData`) —
-// theme, dateLine inputs, imagery — instead of N full-edition fetches.
-// Status-filtered and year-desc like the page itself, so row 0 is the
-// newest live edition (the feature card).
+// The /editions archive index: exactly the card slice (`EditionCardData`) —
+// theme, date inputs, counts, imagery — instead of N full-edition fetches.
+// Status-filtered and year-desc like the page itself.
 export const EDITION_CARDS_QUERY = defineQuery(`
   *[_type == "edition" && defined(year) && status == "live"] | order(year desc) {
     year,
@@ -294,6 +293,8 @@ export const EDITION_CARDS_QUERY = defineQuery(`
     dateStart,
     dateEnd,
     venueLine,
+    "artistCount": count(artists),
+    "eventCount": count(events),
     heroImage{ ..., "lqip": asset->metadata.lqip },
     thumbImage{ ..., "lqip": asset->metadata.lqip }
   }

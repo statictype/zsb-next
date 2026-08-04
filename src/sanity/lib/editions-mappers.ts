@@ -1,7 +1,7 @@
 import type { EDITION_BY_YEAR_QUERY_RESULT, EDITION_CARDS_QUERY_RESULT } from '@/../sanity.types'
 import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { definedFields } from '@/lib/defined-fields'
-import { composeDateLine, composeDateRange, dayToken } from '@/lib/edition-dates'
+import { composeDateLine, composeDateRange, composeDateSpan, dayToken } from '@/lib/edition-dates'
 import { editionHref } from '@/lib/edition-href'
 import { slugify } from '@/lib/slugify'
 import { rollUpVenue } from '@/lib/venues'
@@ -128,7 +128,7 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
 /**
  * The /editions archive card slice — same field conventions as `mapEdition`
  * below (required hero fails loudly, optional thumb flows as absence, the
- * mapper owns the dateLine composition).
+ * mapper owns the date composition).
  */
 export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): EditionCardData {
   return definedFields({
@@ -136,9 +136,10 @@ export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): Edition
     href: editionHref(raw.year),
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
-    dateRange: composeDateRange(raw),
-    dateLine: composeDateLine(raw),
+    dateSpan: composeDateSpan(raw),
     venueLine: raw.venueLine ?? '',
+    artistCount: raw.artistCount ?? 0,
+    eventCount: raw.eventCount ?? 0,
     heroImage: requireImageData(raw.heroImage, 'heroImage'),
     thumbImage: toImageData(raw.thumbImage),
   })

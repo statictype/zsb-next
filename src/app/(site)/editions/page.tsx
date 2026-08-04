@@ -1,6 +1,6 @@
 import { editionsPage } from '@site/editions/page.recipe'
 import { css } from 'styled-system/css'
-import { Container, Grid } from 'styled-system/jsx'
+import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
@@ -28,28 +28,23 @@ export default function EditionsPage() {
 
 async function CachedEditionsList({ options }: { options: DynamicFetchOptions }) {
   'use cache'
-  // Already status-filtered and year-desc in the query, so index 0 is the
-  // newest live edition — the one that gets the feature treatment.
+  // Already status-filtered and year-desc in the query, so the list reads
+  // newest first and the plates alternate down that order.
   const editions = await getEditionCards(options)
 
   return (
     <EditionsListShell>
-      <Grid columns={{ base: 1, lg: 2 }} gap="lg">
-        {editions.map((edition, index) => {
-          const isFeature = index === 0
-
-          return (
-            <div key={edition.year} className={styles.slot} data-feature={isFeature || undefined}>
-              <EditionCard
-                edition={edition}
-                href={edition.href}
-                size={isFeature ? 'lg' : 'md'}
-                className={styles.card}
-              />
-            </div>
-          )
-        })}
-      </Grid>
+      <ol className={styles.index}>
+        {editions.map((edition, index) => (
+          <li key={edition.year} className={styles.entry}>
+            <EditionCard
+              edition={edition}
+              href={edition.href}
+              media={index % 2 === 0 ? 'left' : 'right'}
+            />
+          </li>
+        ))}
+      </ol>
     </EditionsListShell>
   )
 }
