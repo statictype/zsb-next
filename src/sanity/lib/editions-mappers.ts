@@ -137,7 +137,7 @@ export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): Edition
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
     dateSpan: composeDateSpan(raw),
-    venueLine: raw.venueLine ?? '',
+    venueLine: raw.hasProgram === false ? (raw.venueLine ?? undefined) : undefined,
     artistCount: raw.artistCount ?? 0,
     eventCount: raw.eventCount ?? 0,
     heroImage: toImageData(raw.heroImage),

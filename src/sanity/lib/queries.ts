@@ -292,6 +292,7 @@ export const EDITION_CARDS_QUERY = defineQuery(`
     themeHighlight,
     dateStart,
     dateEnd,
+    hasProgram,
     venueLine,
     "artistCount": count(artists),
     "eventCount": count(events),

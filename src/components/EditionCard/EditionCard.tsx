@@ -1,6 +1,6 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
-import { Fragment } from 'react'
+import { Fragment, type ReactNode } from 'react'
 import { cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import type { RecipeVariantProps } from 'styled-system/types'
@@ -9,15 +9,13 @@ import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import type { Edition, ImageData } from '@/types/edition'
 
-export type EditionCardData = Pick<
-  Edition,
-  'year' | 'theme' | 'themeHighlight' | 'venueLine' | 'thumbImage'
-> & {
+export type EditionCardData = Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'thumbImage'> & {
   href: string
   dateSpan: string
   artistCount: number
   eventCount: number
   heroImage?: ImageData
+  venueLine?: string
 }
 
 /** Bound to the recipe's variants: renaming or removing one there resurfaces
@@ -47,15 +45,24 @@ export function EditionCard({
 }: EditionCardProps) {
   const styles = editionCard({ media })
 
-  const counts: { value: number; unit: string }[] = []
+  const count = (value: number, singular: string, plural: string) => (
+    <>
+      <span className={styles.count}>{value}</span> {value === 1 ? singular : plural}
+    </>
+  )
+
+  const facts: { key: string; content: ReactNode }[] = []
+  if (edition.dateSpan) {
+    facts.push({ key: 'dates', content: edition.dateSpan })
+  }
+  if (edition.venueLine) {
+    facts.push({ key: 'venue', content: edition.venueLine })
+  }
   if (edition.artistCount > 0) {
-    counts.push({
-      value: edition.artistCount,
-      unit: edition.artistCount === 1 ? 'artist' : 'artists',
-    })
+    facts.push({ key: 'artists', content: count(edition.artistCount, 'artist', 'artists') })
   }
   if (edition.eventCount > 0) {
-    counts.push({ value: edition.eventCount, unit: edition.eventCount === 1 ? 'event' : 'events' })
+    facts.push({ key: 'events', content: count(edition.eventCount, 'event', 'events') })
   }
 
   return (
@@ -75,6 +82,9 @@ export function EditionCard({
         <div className={styles.head}>
           <Text as="h2" variant="title" className={styles.title}>
             <span className={styles.prefix}>ZSB</span> {edition.year}
+            <span className={styles.arrow} aria-hidden>
+              <RiArrowRightUpLine size={24} />
+            </span>
           </Text>
           <EditionTheme
             as="p"
@@ -86,32 +96,16 @@ export function EditionCard({
           />
         </div>
 
-        <div className={styles.meta}>
-          {counts.length > 0 && (
-            <Text as="span" variant="caption">
-              {counts.map((count, index) => (
-                <Fragment key={count.unit}>
-                  {index > 0 ? ' · ' : null}
-                  <span className={styles.count}>{count.value}</span> {count.unit}
-                </Fragment>
-              ))}
-            </Text>
-          )}
-          {edition.dateSpan ? (
-            <Text as="span" variant="caption">
-              {edition.dateSpan}
-            </Text>
-          ) : null}
-          {edition.venueLine ? (
-            <Text as="span" variant="caption">
-              {edition.venueLine}
-            </Text>
-          ) : null}
-
-          <span className={styles.arrow} aria-hidden>
-            <RiArrowRightUpLine size={24} />
-          </span>
-        </div>
+        {facts.length > 0 && (
+          <Text as="span" variant="caption" className={styles.meta}>
+            {facts.map((fact, index) => (
+              <Fragment key={fact.key}>
+                {index > 0 ? ' · ' : null}
+                {fact.content}
+              </Fragment>
+            ))}
+          </Text>
+        )}
       </div>
     </Link>
   )
