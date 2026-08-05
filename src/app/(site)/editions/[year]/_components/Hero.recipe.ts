@@ -1,81 +1,95 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Hero — co-located slot recipe.
- *
- * The edition hero: an image frame (portrait on mobile, 2:1 from `md`) with the
- * theme and date line below it in flow. Full-bleed until `lg`, where the hero
- * gains horizontal padding. The shell composes the shared `pageHero` layerStyle
- * (nav-clearing top padding + black ground) so the frame starts at the same y as
- * the title on every other page. The image/vignette reveals compose the shared
- * `enter` animation styles (image = zoom, vignette = fade). The frame (not the
- * image) owns the `mono` filter so it survives `enter`'s `filter`.
- */
 export const hero = sva({
-  slots: ['hero', 'stage', 'frame', 'background', 'image', 'vignette', 'intro'],
+  slots: [
+    'hero',
+    'inner',
+    'head',
+    'mast',
+    'prefix',
+    'theme',
+    'plate',
+    'frame',
+    'image',
+    'ledger',
+    'row',
+    'rowLabel',
+    'rowValue',
+  ],
   base: {
     hero: {
       layerStyle: 'pageHero',
-      position: 'relative',
-      overflow: 'hidden',
-      paddingInline: '0',
-      lg: { paddingInline: 'gutter' },
+      paddingInline: 'gutter',
     },
-    stage: {
-      position: 'relative',
-      width: 'full',
+    inner: {
+      maxWidth: 'maxWidth',
       marginInline: 'auto',
-      lg: { maxWidth: 'maxWidth' },
-      // Image right-flush with the menu.
-      '2xl': { maxWidth: '[none]', width: 'full', marginRight: '0' },
-    },
-
-    frame: {
-      position: 'relative',
-      width: 'full',
-      aspectRatio: '1 / 1',
-      overflow: 'hidden',
-      isolation: 'isolate',
-      filter: '[token(assets.mono)]',
-      md: { aspectRatio: '2 / 1' },
-      _after: {
-        content: '""',
-        position: 'absolute',
-        inset: '0',
-        pointerEvents: 'none',
-        outline: 'hairline',
-        outlineOffset: 'xs',
-        zIndex: '2',
+      display: 'grid',
+      gridTemplateColumns: '[minmax(0, 1fr)]',
+      gridTemplateAreas: '"head" "plate" "ledger"',
+      rowGap: 'xl',
+      columnGap: 'gridGap',
+      lg: {
+        gridTemplateColumns: '[minmax(0, 1fr) minmax(0, 1fr)]',
+        gridTemplateRows: '[auto 1fr]',
+        gridTemplateAreas: '"head plate" "ledger plate"',
       },
     },
-    // Backing color behind transparent hero images.
-    background: { position: 'absolute', inset: '0', background: 'gray.900', zIndex: '0' },
-    image: {
-      objectFit: 'cover',
-      objectPosition: 'center right',
-      background: 'gray.900',
-      zIndex: '0',
-    },
-    vignette: {
-      position: 'absolute',
-      inset: '0',
-      pointerEvents: 'none',
-      backgroundGradient: 'heroVignette',
-      mixBlendMode: 'multiply',
-      zIndex: '1',
-      animationDelay: 'stagger',
-    },
 
-    intro: {
+    head: {
+      gridArea: 'head',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
       gap: 'md',
-      maxWidth: 'maxWidth',
-      marginInline: 'auto',
-      paddingInline: 'gutter',
-      paddingTop: 'xl',
-      lg: { paddingInline: '0' },
+      minWidth: '0',
+      animationStyle: 'enter',
     },
+    mast: {
+      margin: '0',
+      display: 'flex',
+      alignItems: 'baseline',
+      flexWrap: 'wrap',
+      columnGap: '[0.25em]',
+    },
+    prefix: { color: 'muted' },
+    theme: { overflowWrap: 'anywhere' },
+
+    plate: {
+      gridArea: 'plate',
+      position: 'relative',
+      border: 'hairline',
+      aspectRatio: { base: '1 / 1', md: '16 / 9', lg: '3 / 2' },
+      // Stretch would make the height definite and drop the aspect ratio.
+      lg: { alignSelf: 'center' },
+    },
+    frame: {
+      position: 'absolute',
+      inset: '0',
+      overflow: 'hidden',
+      background: 'gray.900',
+      filter: '[token(assets.mono)]',
+    },
+    image: { objectFit: 'cover' },
+
+    ledger: {
+      gridArea: 'ledger',
+      margin: '0',
+      width: 'full',
+      borderTop: 'hairline',
+      animationStyle: 'enter',
+      animationDelay: 'stagger',
+      lg: { alignSelf: 'end' },
+    },
+    row: {
+      display: 'grid',
+      gridTemplateColumns: '[64px minmax(0, 1fr)]',
+      columnGap: 'md',
+      alignItems: 'baseline',
+      paddingBlock: 'sm',
+      borderBottom: 'hairline',
+    },
+    rowLabel: { margin: '0' },
+    rowValue: { margin: '0' },
   },
 })

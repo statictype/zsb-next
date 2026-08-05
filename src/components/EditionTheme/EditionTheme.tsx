@@ -12,7 +12,7 @@ interface EditionThemeProps {
 
   as?: 'h1' | 'h2' | 'p'
 
-  size?: 'huge' | 'large' | 'normal' | 'rail' | 'sub'
+  size?: 'large' | 'normal' | 'rail' | 'sub'
 
   interactive?: boolean
 

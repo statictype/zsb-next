@@ -1,15 +1,8 @@
 import { sva } from 'styled-system/css'
 
 /**
- * EditionTheme — the edition theme set as type, used on the edition hero, the
- * archive cards and the editions rail.
- *
- * `size` is a named ladder (huge hero / large featured / normal card / rail
- * plate / sub, under a title that leads) rather than a free fontSize prop,
- * because Panda must extract the
- * responsive values statically. `interactive` drives the highlight behavior:
- * static at rest (the edition hero/current nav — rest color picked by `accent`)
- * vs white-at-rest → `action` on `a:hover` (cards/nav).
+ * `size` is a named ladder rather than a free fontSize prop, because Panda must
+ * extract the responsive values statically.
  */
 export const editionTheme = sva({
   slots: ['heading', 'lead', 'highlight'],
@@ -35,9 +28,6 @@ export const editionTheme = sva({
   },
   variants: {
     size: {
-      huge: { heading: { textStyle: 'editionTheme.huge' } },
-      // `large` / `normal` / `rail` render inside constrained list/featured
-      // cards, so they cap at the card width.
       large: {
         heading: { maxWidth: 'full', textStyle: 'editionTheme.large' },
       },

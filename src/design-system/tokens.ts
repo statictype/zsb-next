@@ -392,15 +392,6 @@ export const textStyles = {
   },
 
   editionTheme: {
-    huge: {
-      value: {
-        fontFamily: 'display',
-        fontSize: { base: '2xl', sm: '3xl' },
-        lineHeight: '1',
-        letterSpacing: 'theme',
-        textTransform: 'lowercase',
-      },
-    },
     large: {
       value: {
         fontFamily: 'display',
@@ -413,7 +404,7 @@ export const textStyles = {
     normal: {
       value: {
         fontFamily: 'display',
-        fontSize: { base: 'md', md: '2xl' },
+        fontSize: 'xl',
         lineHeight: '1',
         letterSpacing: 'theme',
         textTransform: 'lowercase',
