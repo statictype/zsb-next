@@ -19,9 +19,9 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
       <Grid
         className={styles.inner}
-        gridTemplateColumns={{ lg: '0.8fr 1.2fr' }}
+        gridTemplateColumns={{ lg: '1fr 1.2fr' }}
         rowGap={{ base: '2xl', lg: 'lg' }}
-        columnGap={{ lg: '4xl' }}
+        columnGap={{ lg: '2xl' }}
       >
         <div className={styles.body}>
           <Text as="p" variant="body">

@@ -5,7 +5,9 @@ export const themeArtists = sva({
   base: {
     section: {
       position: 'relative',
-      overflow: 'hidden',
+      // `hidden` would make the section a scroll container and kill the sticky
+      // theme statement inside it; `clip` clips without creating one.
+      overflowX: 'clip',
     },
     inner: {
       position: 'relative',
@@ -15,9 +17,12 @@ export const themeArtists = sva({
     },
 
     body: {
-      lg: { alignSelf: 'start' },
       '& p': {
         textWrap: '[pretty]',
+        lg: {
+          position: 'sticky',
+          top: '[calc(token(sizes.nav) + token(spacing.lg))]',
+        },
       },
     },
 

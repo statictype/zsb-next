@@ -14,7 +14,10 @@ import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 export function ComingSoon({ year, socials }: { year: number; socials: SocialLink[] }) {
   const s = comingSoon()
   return (
-    <section className={section({ ground: 'dark' })} aria-labelledby="program-heading">
+    <section
+      className={section({ ground: 'dark', rhythm: 'joined' })}
+      aria-labelledby="program-heading"
+    >
       <Container>
         <Stack gap="xl">
           <Stack as="header" gap="md">

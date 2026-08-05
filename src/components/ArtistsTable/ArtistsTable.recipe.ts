@@ -27,9 +27,10 @@ export const artistsTable = sva({
       },
     },
     entry: {
-      paddingBlock: 'md',
+      paddingBlock: 'sm',
       paddingInline: 'md',
       borderBottom: 'hairline',
+      md: { paddingBlock: 'md' },
       '&:last-child': { borderBottomWidth: '0' },
     },
     num: {

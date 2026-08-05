@@ -50,7 +50,7 @@ export function Program({ year, events, filterOptions, theme, socials = [] }: Pr
 
   return (
     <section
-      className={cx(section({ ground: 'dark' }), s.section)}
+      className={cx(section({ ground: 'dark', rhythm: 'joined' }), s.section)}
       aria-labelledby="program-heading"
     >
       {/* Zero-size anchor, past the section's own top padding — a shared link
