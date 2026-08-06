@@ -4,7 +4,6 @@ export const program = sva({
   slots: [
     'section',
     'layout',
-    'headerMain',
     'count',
     'pastToggle',
     'bandLabel',
@@ -18,9 +17,7 @@ export const program = sva({
     'dayByDay',
     'day',
     'marker',
-    'markerNode',
     'markerDay',
-    'markerWeekday',
     'events',
     'event',
     'eventBody',
@@ -28,31 +25,24 @@ export const program = sva({
     'nameButton',
     'eventDesc',
     'poster',
-    'posterTag',
     'recap',
     'recapMark',
+    'themeMark',
+    'follow',
+    'followNote',
+    'archive',
   ],
   base: {
     section: {
       // Shared by the marker column and the timeline spine's `left`, so the
       // two can't drift apart.
       '--marker-col': 'token(spacing.4xl)',
-      // Centre of the day numeral, from the top of the day row: weekday line
-      // box + column gap + half the numeral line box.
-      '--day-by-day-axis':
-        'calc(token(fontSizes.xs) * 1.3 + token(spacing.sm) + token(fontSizes.lg) * 0.55)',
-      // Half the Badge box.
-      '--day-by-day-badge-half':
-        'calc(6px + token(borderWidths.hairlineThin) + token(fontSizes.xs) * 0.65)',
-      '--day-by-day-node': '8px',
     },
     layout: {
       minWidth: '0',
       borderTop: 'hairline',
       paddingTop: 'lg',
     },
-    headerMain: { minWidth: '0' },
-
     count: {
       color: 'heading',
       fontVariantNumeric: 'tabular-nums',
@@ -147,7 +137,6 @@ export const program = sva({
         gridTemplateColumns: 'var(--marker-col) 1fr',
         gap: '0',
         alignItems: 'start',
-        position: 'relative',
       },
       xl: { paddingBlock: 'md' },
     },
@@ -159,39 +148,17 @@ export const program = sva({
         top: 'lg',
       },
     },
-    markerNode: {
-      display: 'none',
-      md: {
-        display: 'block',
-        position: 'absolute',
-        right: '[calc((var(--day-by-day-node) + token(borderWidths.hairline)) / -2)]',
-        top: '[calc(var(--day-by-day-axis) - var(--day-by-day-node) / 2)]',
-        width: '[var(--day-by-day-node)]',
-        height: '[var(--day-by-day-node)]',
-        background: 'heading',
-        borderRadius: 'circle',
-        '[data-today=true] &': { background: 'highlight' },
-      },
-    },
     markerDay: {
       textStyle: 'heading',
       color: 'heading',
       fontVariantNumeric: 'tabular-nums',
-    },
-    markerWeekday: {
       '[data-today=true] &': { color: 'highlight' },
     },
     events: {
       listStyle: 'none',
       display: 'flex',
       flexDirection: 'column',
-      md: {
-        paddingLeft: 'lg',
-        // Drops the first row's badge line onto the numeral's axis.
-        '& > li:first-child': {
-          paddingTop: '[calc(var(--day-by-day-axis) - var(--day-by-day-badge-half))]',
-        },
-      },
+      md: { paddingLeft: 'lg' },
     },
 
     event: {
@@ -271,21 +238,56 @@ export const program = sva({
         '[data-poster=true]:hover &': { opacity: 1, transform: 'translateX(0)' },
       },
     },
-    posterTag: {
-      display: 'none',
-      alignItems: 'center',
-      gap: 'sm',
-      transition: 'interactive',
-      _before: { content: '""', width: '[7px]', height: '[9px]', background: 'current' },
-      '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
-        display: 'inline-flex',
-        '[data-poster=true]:hover &': { color: 'action' },
-      },
-    },
-
     recap: {
       alignItems: 'flex-start',
+      gap: 'lg',
+      maxWidth: 'measure',
     },
     recapMark: { color: 'heading' },
+    themeMark: { color: 'highlight' },
+    follow: {
+      alignItems: 'flex-start',
+      gap: 'md',
+    },
+    followNote: {
+      color: 'muted',
+    },
+    archive: {
+      border: 'hairline',
+      transition: 'interactive',
+      '& [data-part=trigger]': {
+        padding: 'lg',
+        alignItems: 'center',
+      },
+      '& [data-collapsible-label]': {
+        textStyle: 'cardTitle',
+        color: 'heading',
+      },
+      '& [data-part=trigger]:hover [data-collapsible-label]': {
+        textDecoration: 'none',
+      },
+      '& [data-part=indicator]': {
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 'touch',
+        height: 'touch',
+        border: 'hairline',
+        color: 'heading',
+        transition: 'interactive',
+      },
+      '&:has([data-part=trigger]:hover), &:has([data-part=trigger]:focus-visible)': {
+        borderColor: 'action',
+      },
+      '& [data-part=trigger]:hover [data-part=indicator], & [data-part=trigger]:focus-visible [data-part=indicator]':
+        {
+          borderColor: 'action',
+          color: 'action',
+        },
+      '& [data-part=content]': {
+        paddingInline: 'lg',
+        paddingBottom: 'lg',
+      },
+    },
   },
 })

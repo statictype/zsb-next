@@ -72,13 +72,6 @@ export function ProgramFilters({
     <Stack gap="lg">
       <Divider />
       <Stack role="group" aria-label="Filter the program">
-        <div className={s.bar}>
-          <Button variant="quiet" size="sm" onClick={onReset} disabled={!canReset}>
-            <RiResetLeftLine size={14} aria-hidden />
-            Reset
-          </Button>
-        </div>
-
         {filterOptions.venues.length > 1 && (
           <FilterChips
             labelId="filter-venue"
@@ -97,6 +90,15 @@ export function ProgramFilters({
             selection={filters.types}
             onToggle={onToggleType}
           />
+        )}
+
+        {canReset && (
+          <div className={s.bar}>
+            <Button variant="quiet" size="sm" onClick={onReset}>
+              <RiResetLeftLine size={14} aria-hidden />
+              Reset
+            </Button>
+          </div>
         )}
       </Stack>
     </Stack>

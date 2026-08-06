@@ -103,7 +103,7 @@ describe('ArchiveCollapse', () => {
         <p>board</p>
       </ArchiveCollapse>,
     )
-    expect(screen.getByRole('button', { name: /View full program/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Browse the full program/ })).toBeInTheDocument()
     expect(screen.getByText('3 events')).toBeInTheDocument()
   })
 })
@@ -120,9 +120,7 @@ describe('ProgramRecap', () => {
     expect(
       screen.getByText(
         (_, node) => node?.textContent === 'That was ZSB 2025 — the weight of light.',
-        {
-          selector: 'p',
-        },
+        { selector: 'p' },
       ),
     ).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Instagram' })).toHaveAttribute(
@@ -141,7 +139,7 @@ describe('ProgramRecap', () => {
 })
 
 describe('EventRow', () => {
-  it('links the event name to its route and tags a poster', () => {
+  it('links the event name to its route and renders its poster', () => {
     const event = ev({
       key: 'vernissage',
       startDate: '2026-04-20',
@@ -156,7 +154,7 @@ describe('EventRow', () => {
       '/editions/2026/events/vernissage',
     )
     expect(screen.getByText('19:00')).toBeInTheDocument()
-    expect(screen.getByText('Poster')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Poster' })).toBeInTheDocument()
     expect(screen.getByText('Opening drinks')).toBeInTheDocument()
   })
 })

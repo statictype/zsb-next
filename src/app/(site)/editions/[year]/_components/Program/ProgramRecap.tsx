@@ -20,14 +20,28 @@ export function ProgramRecap({
 }) {
   return (
     <Stack className={s.recap}>
-      <Text as="p" variant="body">
+      <Text as="p" variant="lead">
         That was{' '}
-        <Text as="strong" variant="body" className={s.recapMark}>
+        <Text as="strong" variant="lead" className={s.recapMark}>
           ZSB {year}
         </Text>
-        {theme ? ` — ${theme}` : ''}.
+        {theme ? (
+          <>
+            {' — '}
+            <Text as="span" variant="lead" className={s.themeMark}>
+              {theme}
+            </Text>
+          </>
+        ) : null}
+        .
       </Text>
-      <FollowLinks label="Follow for what’s next" socials={socials} />
+      <FollowLinks
+        className={s.follow}
+        layout="stack"
+        emphasis="button"
+        label="Follow for what’s next"
+        socials={socials}
+      />
     </Stack>
   )
 }

@@ -5,7 +5,6 @@ import { HashScroller } from '@program/HashScroller'
 import { program } from '@program/Program.recipe'
 import { ArchiveCollapse, ProgramBoard } from '@program/ProgramBoard'
 import { ProgramFilters } from '@program/ProgramFilters'
-import { ProgramMeta } from '@program/ProgramMeta'
 import { ProgramRecap } from '@program/ProgramRecap'
 import { ProgramShare } from '@program/ProgramShare'
 import { deriveProgramView, type ProgramFilterOptions } from '@program/program-filters'
@@ -44,7 +43,7 @@ export function Program({ year, events, filterOptions, theme, socials = [] }: Pr
   const todayIso = useTodayIso()
   const { filters, toggleVenue, toggleType, setShowPast, reset } = useProgramFilters(filterOptions)
   const view = deriveProgramView(events, filters, todayIso)
-  const { ended, windowLabel, countLabel, past, showPast, showPastControl, canReset } = view
+  const { ended, countLabel, past, showPast, showPastControl, canReset } = view
 
   const showFilterBar = filterOptions.venues.length > 1 || filterOptions.types.length > 1
 
@@ -60,17 +59,14 @@ export function Program({ year, events, filterOptions, theme, socials = [] }: Pr
       <HashScroller id={PROGRAM_SECTION_ID} />
       <Container>
         <Stack gap="xl">
-          <HStack as="header" justify="space-between" alignItems="flex-start" gap="md">
-            <Stack className={s.headerMain} gap="sm">
-              <Stack gap="md">
-                <SectionHeading id="program-heading" flush>
-                  Program
-                </SectionHeading>
-                <ProgramMeta year={year} label={windowLabel} />
-              </Stack>
-              {ended ? (
-                <ProgramRecap year={year} theme={theme} socials={socials} />
-              ) : (
+          <Stack as="header" gap="md">
+            <SectionHeading id="program-heading" flush>
+              Program
+            </SectionHeading>
+            {ended ? (
+              <ProgramRecap year={year} theme={theme} socials={socials} />
+            ) : (
+              <HStack justify="space-between" alignItems="flex-start" gap="md">
                 <Wrap gap="md">
                   <Text variant="label" className={s.count} aria-live="polite">
                     {countLabel}
@@ -88,10 +84,10 @@ export function Program({ year, events, filterOptions, theme, socials = [] }: Pr
                     </Button>
                   )}
                 </Wrap>
-              )}
-            </Stack>
-            <ProgramShare />
-          </HStack>
+                <ProgramShare />
+              </HStack>
+            )}
+          </Stack>
 
           {/* On a finished edition the filters and the board fold into the archive
             Collapsible together (ZSB-45), so filtering still works once expanded;

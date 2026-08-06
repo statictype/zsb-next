@@ -125,10 +125,7 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
                     alignItems={{ base: 'baseline', md: 'flex-end' }}
                     gap={{ base: 'md', md: 'sm' }}
                   >
-                    <span className={s.markerNode} aria-hidden />
-                    <Text variant="label" className={s.markerWeekday}>
-                      {day.token.weekday}
-                    </Text>
+                    <Text variant="label">{day.token.weekday}</Text>
                     <span className={s.markerDay}>{day.token.dayPadded}</span>
                     <Text variant="label">{day.token.month}</Text>
                   </HStack>
@@ -163,8 +160,9 @@ export function ArchiveCollapse({
   return (
     <Collapsible
       id="program-archive"
-      closedLabel="View full program"
-      openLabel="Hide full program"
+      className={s.archive}
+      closedLabel="Browse the full program"
+      openLabel="Hide the full program"
       meta={`${count} ${count === 1 ? 'event' : 'events'}`}
     >
       {children}
@@ -173,9 +171,7 @@ export function ArchiveCollapse({
 }
 
 export function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
-  // An event with no time, no types and no poster has nothing on its first
-  // line; rendering the row anyway leaves a gap above the name.
-  const hasMeta = !!event.startTime || event.types.length > 0 || !!event.image
+  const hasMeta = !!event.startTime || event.types.length > 0
   return (
     <li className={s.event} data-poster={!!event.image}>
       <Stack className={s.eventBody} gap="sm">
@@ -187,16 +183,8 @@ export function EventRow({ event, year }: { event: CalendarListEvent; year: numb
               </Text>
             )}
             <TypeChips types={event.types} />
-            {event.image && (
-              <Text variant="label" className={s.posterTag}>
-                Poster
-              </Text>
-            )}
           </Wrap>
         )}
-        {/* The name links to the event's route (the modal opens over the
-            edition); its stretched overlay makes the whole row the hit target
-            (see `.nameButton` in the CSS). */}
         <Text as="h4" variant="body" color="heading" className={s.eventName}>
           <Link
             className={s.nameButton}

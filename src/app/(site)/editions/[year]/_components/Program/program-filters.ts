@@ -7,7 +7,6 @@ import {
   type DayToken,
   dayToken,
   editionWindow,
-  formatShortRange,
   isMultiDayRun,
   isPastEvent,
 } from '@/lib/edition-dates'
@@ -199,7 +198,6 @@ export interface ProgramView extends Schedule {
   /** Non-null exactly while the edition is live, so the board's past-greying
    *  narrows instead of asserting on `todayIso`. */
   liveClock: string | null
-  windowLabel: string
   countLabel: string
 }
 
@@ -295,11 +293,9 @@ export function deriveProgramView(
 
   // Judged on the whole edition, never the filtered subset: filtering to
   // past-only on a live edition must not flip the board into archive mode.
-  const [editionStart, editionEnd] = editionWindow(events)
+  const [, editionEnd] = editionWindow(events)
   const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
   const liveClock = ended ? null : todayIso
-  const windowLabel =
-    editionStart && editionEnd ? (formatShortRange(editionStart, editionEnd) ?? '') : ''
 
   const countLabel =
     upcoming === 0
@@ -320,7 +316,6 @@ export function deriveProgramView(
     canReset,
     ended,
     liveClock,
-    windowLabel,
     countLabel,
   }
 }

@@ -306,7 +306,6 @@ describe('deriveProgramView — ended / liveClock / labels', () => {
     const view = deriveProgramView(mixed, DEFAULT_FILTERS, '2026-04-15')
     expect(view.ended).toBe(false)
     expect(view.liveClock).toBe('2026-04-15')
-    expect(view.windowLabel).toBe('10–20 Apr')
     expect(view.countLabel).toBe('1 upcoming event')
   })
 
@@ -343,16 +342,6 @@ describe('deriveProgramView — ended / liveClock / labels', () => {
     expect(narrowed.countLabel).toBe('1 of 2 upcoming events')
   })
 
-  it('spans the window label across months and stretches it over run end dates', () => {
-    const events = [
-      ev({ key: 'run', startDate: '2026-04-26', endDate: '2026-05-11' }),
-      ev({ key: 'day', startDate: '2026-04-28' }),
-    ]
-    expect(deriveProgramView(events, DEFAULT_FILTERS, '2026-04-15').windowLabel).toBe(
-      '26 Apr – 11 May',
-    )
-  })
-
   it('treats everything as upcoming before the clock resolves, no window judgement', () => {
     const view = deriveProgramView(mixed, DEFAULT_FILTERS, null)
     expect(view.ended).toBe(false)
@@ -360,9 +349,8 @@ describe('deriveProgramView — ended / liveClock / labels', () => {
     expect(view.countLabel).toBe('2 upcoming events')
   })
 
-  it('handles an eventless edition — no window label, zero-count label', () => {
+  it('handles an eventless edition — zero-count label', () => {
     const view = deriveProgramView([], DEFAULT_FILTERS, '2026-04-15')
-    expect(view.windowLabel).toBe('')
     expect(view.countLabel).toBe('0 events')
   })
 })
