@@ -1,7 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/** Archive index entry only; the footer rail's imageless plate lives in
- *  EditionRailCard.recipe. */
 export const editionCard = sva({
   slots: [
     'root',

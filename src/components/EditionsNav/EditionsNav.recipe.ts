@@ -1,18 +1,24 @@
 import { sva } from 'styled-system/css'
 
-const ringTravelling = { '&::before': { opacity: 1, animationStyle: 'gradientBorder' } } as const
+const ringTravelling = {
+  '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
+  zIndex: '1',
+} as const
 
 export const editionsNav = sva({
-  slots: ['band', 'inner', 'grid', 'cell', 'head', 'year', 'prefix', 'tag'],
+  slots: ['band', 'inner', 'grid', 'cell', 'head', 'year', 'prefix', 'tag', 'theme'],
   base: {
     band: { background: 'surface', paddingBlock: 'xl' },
-    inner: { paddingInline: 'gutter' },
+    inner: { layerStyle: 'sectionInner' },
     grid: {
       display: 'grid',
-      gridTemplateColumns: { base: 'repeat(2, minmax(0, 1fr))', lg: 'repeat(3, minmax(0, 1fr))' },
-      gap: '[token(borderWidths.hairline)]',
-      padding: '[token(borderWidths.hairline)]',
-      background: 'divider',
+      gridTemplateColumns: {
+        base: 'minmax(0, 1fr)',
+        md: 'repeat(2, minmax(0, 1fr))',
+        xl: 'repeat(3, minmax(0, 1fr))',
+      },
+      borderBlockStart: 'hairline',
+      borderInlineStart: 'hairline',
       marginBlockStart: 'lg',
     },
     cell: {
@@ -23,6 +29,9 @@ export const editionsNav = sva({
       padding: '[calc(token(spacing.lg) * 0.75)]',
       background: 'surface',
       position: 'relative',
+      borderBlockEnd: 'hairline',
+      borderInlineEnd: 'hairline',
+      _focusVisible: { outlineOffset: '[-2px]' },
     },
     head: {
       display: 'flex',
@@ -32,8 +41,9 @@ export const editionsNav = sva({
       rowGap: 'sm',
     },
     year: { margin: '0', textStyle: 'detailTitle', color: 'heading' },
-    prefix: { color: 'muted', marginInlineEnd: '[0.22em]' },
+    prefix: { color: 'muted' },
     tag: { marginInlineStart: 'auto' },
+    theme: { flexWrap: 'wrap', overflowWrap: 'anywhere' },
   },
   variants: {
     status: {
@@ -47,14 +57,14 @@ export const editionsNav = sva({
           },
           _hover: ringTravelling,
           _focusVisible: ringTravelling,
+          _active: { background: 'divider' },
         },
+        theme: { '@media (hover: none)': { '& > span': { color: 'action' } } },
       },
       current: { cell: { cursor: 'default' } },
       announced: {
-        cell: {
-          cursor: 'default',
-          opacity: '0.58',
-        },
+        cell: { cursor: 'default' },
+        year: { color: 'body' },
       },
     },
   },
