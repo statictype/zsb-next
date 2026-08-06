@@ -40,6 +40,9 @@ export const editionTheme = sva({
       sub: {
         heading: { maxWidth: 'full', textStyle: 'editionTheme.sub' },
       },
+      cell: {
+        heading: { maxWidth: 'full', textStyle: 'editionTheme.cell' },
+      },
     },
     interactive: {
       // Static: the accent color at rest (see `accent`).
@@ -51,6 +54,7 @@ export const editionTheme = sva({
     accent: {
       highlight: {},
       action: {},
+      none: {},
     },
     // De-emphasizes the whole heading (lead + theme text) — the rail's
     // "announced" plate. Separate from `accent`/`interactive`, which only ever

@@ -12,11 +12,11 @@ interface EditionThemeProps {
 
   as?: 'h1' | 'h2' | 'p'
 
-  size?: 'large' | 'normal' | 'rail' | 'sub'
+  size?: 'large' | 'normal' | 'rail' | 'sub' | 'cell'
 
   interactive?: boolean
 
-  accent?: 'highlight' | 'action'
+  accent?: 'highlight' | 'action' | 'none'
 
   muted?: boolean
 

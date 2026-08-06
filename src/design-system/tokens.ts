@@ -428,6 +428,15 @@ export const textStyles = {
         textTransform: 'lowercase',
       },
     },
+    cell: {
+      value: {
+        fontFamily: 'display',
+        fontSize: 'md',
+        lineHeight: '1.15',
+        letterSpacing: 'theme',
+        textTransform: 'lowercase',
+      },
+    },
   },
 
   cardTitle: {
