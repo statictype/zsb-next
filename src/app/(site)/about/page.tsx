@@ -1,7 +1,7 @@
 import { aboutPage } from '@site/about/page.recipe'
 import { notFound } from 'next/navigation'
 import { cx } from 'styled-system/css'
-import { Container, Stack, Text } from 'styled-system/jsx'
+import { Container, Divider, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
@@ -77,10 +77,20 @@ function AboutShell({ view }: { view: AboutView }) {
         </section>
       )}
 
-      <Manifesto flush ground="dark" size="title" title={manifestoTitle} body={manifestoBody} />
+      <Manifesto ground="dark" title={manifestoTitle} body={manifestoBody} />
+
+      <figure className={styles.plateFrame}>
+        <Figure image={placeImage} sizes="100vw" className={styles.plateImg} />
+        {placeImage?.alt && (
+          <Text as="figcaption" variant="caption" color="muted" className={styles.plateCredit}>
+            {placeImage.alt}
+          </Text>
+        )}
+      </figure>
 
       {pillars.length > 0 && (
         <section className={cx(section({ ground: 'dark', rhythm: 'none' }), styles.supports)}>
+          <Divider />
           <Container>
             <PillarGrid
               items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
@@ -90,15 +100,6 @@ function AboutShell({ view }: { view: AboutView }) {
           </Container>
         </section>
       )}
-
-      <figure className={styles.plateFrame}>
-        <Figure image={placeImage} sizes="100vw" className={styles.plateImg} />
-        {placeImage?.alt && (
-          <Text as="figcaption" variant="caption" color="heading" className={styles.plateCredit}>
-            {placeImage.alt}
-          </Text>
-        )}
-      </figure>
 
       <section className={cx(section({ ground: 'light', rhythm: 'lg' }), styles.statement)}>
         <div className={styles.statementInner}>

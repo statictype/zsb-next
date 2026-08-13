@@ -23,7 +23,6 @@ export function PillarGrid({
 
   return (
     <Stack gap="0">
-      <Divider />
       <Grid columns={{ base: 1, md: 2 }} gap="0">
         {items.map((item) => (
           <Stack as="article" key={item.title} className={styles.item}>

@@ -448,6 +448,15 @@ export const textStyles = {
       textTransform: 'uppercase',
     },
   },
+
+  manifesto: {
+    value: {
+      fontFamily: 'display',
+      fontSize: '3xl',
+      lineHeight: '1.16',
+      letterSpacing: 'tight',
+    },
+  },
 } as const
 
 export const layerStyles = {

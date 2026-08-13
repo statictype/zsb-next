@@ -1,10 +1,5 @@
 import { sva } from 'styled-system/css'
 
-const ringTravelling = {
-  '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
-  zIndex: '1',
-} as const
-
 export const editionsNav = sva({
   slots: ['band', 'inner', 'grid', 'cell', 'head', 'year', 'prefix', 'tag', 'theme'],
   base: {
@@ -40,7 +35,7 @@ export const editionsNav = sva({
       columnGap: 'md',
       rowGap: 'sm',
     },
-    year: { margin: '0', textStyle: 'detailTitle', color: 'heading' },
+    year: { margin: '0', textStyle: 'heading', color: 'heading' },
     prefix: { color: 'muted' },
     tag: { marginInlineStart: 'auto' },
     theme: { flexWrap: 'wrap', overflowWrap: 'anywhere' },
@@ -49,14 +44,6 @@ export const editionsNav = sva({
     status: {
       live: {
         cell: {
-          _before: {
-            content: '""',
-            layerStyle: 'gradientBorder',
-            inset: '[calc(token(borderWidths.hairline) * -1)]',
-            padding: '[token(borderWidths.hairline)]',
-          },
-          _hover: ringTravelling,
-          _focusVisible: ringTravelling,
           _active: { background: 'divider' },
         },
         theme: { '@media (hover: none)': { '& > span': { color: 'action' } } },

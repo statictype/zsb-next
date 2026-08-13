@@ -20,9 +20,6 @@ export const aboutPage = sva({
     plates: {
       paddingTop: 'xl',
     },
-    supports: {
-      paddingTop: '2xl',
-    },
 
     plateFrame: {
       position: 'relative',

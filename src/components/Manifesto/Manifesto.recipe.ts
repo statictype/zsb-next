@@ -21,15 +21,12 @@ export const manifesto = sva({
     title: {
       textWrap: '[pretty]',
     },
+    content: { paddingTop: { base: '0', lg: 'md' } },
   },
   variants: {
-    size: {
-      display: { content: { paddingTop: { base: '0', lg: 'md' } } },
-      title: { content: { paddingTop: { base: '0', lg: 'xs' } } },
-    },
     flush: {
       true: { section: { paddingBottom: '0' } },
     },
   },
-  defaultVariants: { size: 'display', flush: false },
+  defaultVariants: { flush: false },
 })
