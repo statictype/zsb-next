@@ -177,7 +177,7 @@ describe('mapEdition', () => {
   it('maps a minimal edition with the documented fallbacks', () => {
     const edition = mapEdition(rawEdition())
     expect(edition.year).toBe(2026)
-    expect(edition.dateTape).toBe('10–20 May 2026')
+    expect(edition.dateLine).toBe('10–20 May 2026')
     expect(edition.title).toBe('')
     expect(edition.manifesto).toEqual({ title: '', highlight: '', body: '' })
     expect(edition.artists).toEqual([])
@@ -187,8 +187,8 @@ describe('mapEdition', () => {
     expect(edition.heroImage.src).toContain('abc123def456-1200x800.jpg')
   })
 
-  it('appends the venue line to the date tape when set', () => {
-    expect(mapEdition(rawEdition({ venueLine: 'CFP' })).dateTape).toBe('10–20 May 2026 · CFP')
+  it('appends the venue line to the date line when set', () => {
+    expect(mapEdition(rawEdition({ venueLine: 'CFP' })).dateLine).toBe('10–20 May 2026 · CFP')
   })
 
   it('stamps dateRange as the venue-less range face', () => {

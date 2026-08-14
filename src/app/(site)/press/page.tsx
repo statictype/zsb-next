@@ -1,5 +1,4 @@
 import { MediaKitStrip } from '@site/press/_components/MediaKitStrip'
-import { pressPage } from '@site/press/page.recipe'
 import { notFound } from 'next/navigation'
 import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
@@ -23,8 +22,6 @@ import {
 } from '@/sanity/lib/press'
 import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 import type { MediaKitStripItem } from '@/types/edition'
-
-const styles = pressPage()
 
 export const generateMetadata = makePageMetadata(getPressPage, {
   title: 'Press',
@@ -83,7 +80,7 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
         })}
       />
       {appearances.length > 0 && <JsonLd data={pressAppearancesJsonLd(appearances)} />}
-      <main className={styles.page}>
+      <main>
         <PageHero
           flush
           title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
@@ -92,9 +89,6 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
 
         {kit.length > 0 && (
           <section id="media-kit" className={section()}>
-            <Container mb="2xl">
-              <SectionHeading flush>Media kit</SectionHeading>
-            </Container>
             <MediaKitStrip items={kit} />
           </section>
         )}

@@ -19,7 +19,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
             {
               '@type': 'Organization',
               name: SITE_NAME,
-              alternateName: 'ZSB',
+              alternateName: ['ZSB', 'Zilele Sculpturii București'],
               url: SITE_URL,
               description: 'Contemporary sculpture event in Bucharest, Romania.',
               foundingDate: '2021',

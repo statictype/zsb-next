@@ -1,5 +1,5 @@
 import { definePattern, definePreset } from '@pandacss/dev'
-import { manifestoTitle, navigationLabel } from '@/design-system/patterns/typography'
+import { navigationLabel } from '@/design-system/patterns/typography'
 import { recipes } from '@/design-system/recipes'
 import { editorialSplit } from '@/design-system/recipes/editorial-split'
 import {
@@ -19,7 +19,7 @@ import {
 export const designSystemPreset = definePreset({
   name: 'zsb-design-system',
   conditions: { extend: conditions },
-  // The motion contract: two verbs, one easing. `interactive` is state
+  // The motion contract: two verbs, one spring each. `interactive` is state
   // feedback (hovers, glyph nudges); `develop` is movement/reveal (image
   // develops, label rolls, panel slides). Call sites say which verb, never
   // the physics — raw transition longhands belong to this preset only.
@@ -39,7 +39,9 @@ export const designSystemPreset = definePreset({
                 ? 'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, opacity, transform'
                 : 'opacity, transform, translate, scale, filter',
             transitionDuration: token(`durations.${value === 'interactive' ? 'fast' : 'normal'}`),
-            transitionTimingFunction: token('easings.quint'),
+            transitionTimingFunction: token(
+              `easings.${value === 'interactive' ? 'feedback' : 'motion'}`,
+            ),
           }
         },
       },
@@ -59,7 +61,6 @@ export const designSystemPreset = definePreset({
         defaultValues: { maxWidth: 'maxWidth', px: 'gutter', position: 'static' },
       },
       editorialSplit,
-      manifestoTitle,
       navigationLabel,
       // Stock pattern only sets `borderColor`, leaving `borderStyle` unset —
       // with `preflight: false` (no UA border reset) that left every bare
@@ -91,13 +92,13 @@ export const designSystemPreset = definePreset({
             value: [
               'display',
               'title',
+              'detailTitle',
               'heading',
+              'manifesto',
               'lead',
               'body',
               'caption',
               'label',
-              'calendar',
-              'manifesto',
             ],
           },
         },
@@ -111,13 +112,14 @@ export const designSystemPreset = definePreset({
           'textTransform',
           'textStyle',
         ],
+        // Panda serializes this function into `styled-system/patterns`, so it
+        // cannot reference anything outside its own body.
         transform({ variant, ...rest }) {
-          const ink =
-            variant === 'display' || variant === 'title' || variant === 'heading'
-              ? 'heading'
-              : variant === 'label'
-                ? 'muted'
-                : 'body'
+          const ink = ['display', 'title', 'detailTitle', 'heading', 'manifesto'].includes(variant)
+            ? 'heading'
+            : variant === 'label'
+              ? 'muted'
+              : 'body'
           return { textStyle: variant, color: ink, ...rest }
         },
       }),

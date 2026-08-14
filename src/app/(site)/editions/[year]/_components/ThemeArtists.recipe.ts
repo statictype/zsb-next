@@ -1,11 +1,13 @@
 import { sva } from 'styled-system/css'
 
 export const themeArtists = sva({
-  slots: ['section', 'inner', 'themeHeader', 'body', 'artistsTable'],
+  slots: ['section', 'inner', 'body', 'artistsTable', 'carousel'],
   base: {
     section: {
       position: 'relative',
-      overflow: 'hidden',
+      // `hidden` would make the section a scroll container and kill the sticky
+      // theme statement inside it; `clip` clips without creating one.
+      overflowX: 'clip',
     },
     inner: {
       position: 'relative',
@@ -14,17 +16,16 @@ export const themeArtists = sva({
       '4xl': { paddingLeft: '2xl' },
     },
 
-    themeHeader: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      paddingInline: 'gutter',
-    },
     body: {
-      lg: { alignSelf: 'start' },
       '& p': {
         textWrap: '[pretty]',
+        lg: {
+          position: 'sticky',
+          top: '[calc(token(sizes.nav) + token(spacing.lg))]',
+        },
       },
     },
+
+    carousel: { marginTop: '3xl' },
   },
 })

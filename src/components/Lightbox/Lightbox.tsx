@@ -6,7 +6,11 @@ import { useEffect, useRef, useState } from 'react'
 import { cx } from 'styled-system/css'
 import { token } from 'styled-system/tokens'
 import { Figure } from '@/components/Figure/Figure'
-import { lightbox as lightboxRecipe } from '@/components/Lightbox/Lightbox.recipe'
+import {
+  FRAME_MAX,
+  FRAME_WIDTH,
+  lightbox as lightboxRecipe,
+} from '@/components/Lightbox/Lightbox.recipe'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
@@ -18,9 +22,7 @@ export interface LightboxImage {
   caption?: string
 }
 
-// Must match the recipe's frame geometry so the browser picks a variant sized
-// to the actual rendered width.
-const SIZES = `(min-width: ${token('sizes.breakpoint-md')}) ${token('sizes.lightboxFrameMax')}, ${token('sizes.lightboxFrameWidth')}`
+const SIZES = `(min-width: ${token('sizes.breakpoint-md')}) ${FRAME_MAX}, ${FRAME_WIDTH}`
 
 interface LightboxProps {
   images: LightboxImage[]
@@ -151,10 +153,10 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
   const verticalProgress = Math.min(1, drag.y / VERTICAL_FADE_DISTANCE)
   const backdropAlpha = 0.95 * (1 - verticalProgress * 0.5)
   const normal = token('durations.normal')
-  const quint = token('easings.quint')
+  const motion = token('easings.motion')
   const frameStyle = {
     transform: `translate3d(${drag.x}px, ${drag.y}px, 0)`,
-    transition: isDragging ? 'none' : `transform ${normal} ${quint}, opacity ${normal} ${quint}`,
+    transition: isDragging ? 'none' : `transform ${normal} ${motion}, opacity ${normal} ${motion}`,
     opacity: 1 - verticalProgress * 0.4,
   }
 

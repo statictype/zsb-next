@@ -82,14 +82,6 @@ export const aboutPage = defineType({
     }),
 
     defineField({
-      name: 'curatorEyebrow',
-      title: 'Eyebrow',
-      description: 'Small label above the curator headline, e.g. "A word from the curator".',
-      type: 'string',
-      group: 'curator',
-      validation: (rule) => rule.required().max(60),
-    }),
-    defineField({
       name: 'curatorHeadline',
       title: 'Headline',
       type: 'string',

@@ -199,7 +199,6 @@ export function Carousel({
                 resume()
               }}
             >
-              {mode === 'rail' && controls}
               <div className={styles.frame}>
                 <ArkCarousel.ItemGroup className={styles.itemGroup}>
                   {slides.map((slide, index) => (
@@ -233,6 +232,7 @@ export function Carousel({
                   </>
                 )}
               </div>
+              {mode === 'rail' && controls}
             </Stack>
           )
         }}

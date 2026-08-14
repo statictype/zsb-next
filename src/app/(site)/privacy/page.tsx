@@ -90,44 +90,38 @@ function PrivacyShell({ view }: { view: PrivacyView }) {
   const { hero, body, updatedAt } = view
 
   return (
-    <>
-      <main>
-        <PageHero
-          title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
-          lead={hero.lead}
-        />
+    <main>
+      <PageHero
+        title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
+        lead={hero.lead}
+      />
 
-        <section className={section({ ground: 'dark' })}>
-          <Container>
-            <Stack as="article" className={styles.article} gap="xl">
-              <Stack gap="lg">
-                {body.length > 0 && (
-                  <PortableText value={body} components={portableTextComponents} />
-                )}
+      <section className={section({ ground: 'dark' })}>
+        <Container>
+          <Stack as="article" className={styles.article} gap="xl">
+            <Stack gap="lg">
+              {body.length > 0 && <PortableText value={body} components={portableTextComponents} />}
 
-                <Text as="h2" variant="title">
-                  Change your mind
+              <Text as="h2" variant="title">
+                Change your mind
+              </Text>
+              <Stack gap="xs">
+                <Text as="p" variant="body">
+                  You can withdraw or update your consent at any time:
                 </Text>
-                <Stack gap="xs">
-                  <Text as="p" variant="body">
-                    You can withdraw or update your consent at any time:
-                  </Text>
-                  <div className={styles.settingsRow}>
-                    <CookieSettingsButton />
-                  </div>
-                </Stack>
+                <CookieSettingsButton />
               </Stack>
-
-              {updatedAt && (
-                <Text as="p" variant="label">
-                  Last updated: {formatUpdatedAt(updatedAt)}.
-                </Text>
-              )}
             </Stack>
-          </Container>
-        </section>
-      </main>
-    </>
+
+            {updatedAt && (
+              <Text as="p" variant="label">
+                Last updated: {formatUpdatedAt(updatedAt)}.
+              </Text>
+            )}
+          </Stack>
+        </Container>
+      </section>
+    </main>
   )
 }
 

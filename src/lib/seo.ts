@@ -125,7 +125,7 @@ export function editionEventJsonLd(edition: EditionJsonLd) {
   const start = edition.dateStart
   const end = edition.dateEnd
 
-  // ZSB is multi-site. `rollUp` is the shared venue key: the calendar filters
+  // ZSB is multi-site. `rollUp` is the shared venue key: the program filters
   // and the Visit venues view group by it too, so the three can't disagree.
   const eventPlaces = edition.events.map((e) => e.venue.rollUp.name)
   const venueNames = [...new Set(eventPlaces.filter(Boolean))]
@@ -248,7 +248,7 @@ export function organizationJsonLd(args: { sameAs?: Array<string | null | undefi
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: SITE_NAME,
-    alternateName: 'ZSB',
+    alternateName: ['ZSB', 'Zilele Sculpturii București'],
     url: SITE_URL,
     ...(sameAs.length > 0 && { sameAs }),
   }

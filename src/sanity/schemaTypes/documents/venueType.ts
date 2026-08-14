@@ -21,7 +21,7 @@ export const venueType = defineType({
     defineField({
       name: 'slug',
       title: 'Slug',
-      description: 'Stable key used in the calendar filter URL. Auto-filled from the title.',
+      description: 'Stable key used in the program filter URL. Auto-filled from the title.',
       type: 'slug',
       options: { source: 'title', maxLength: 60 },
       validation: (rule) => rule.required(),

@@ -8,6 +8,23 @@ import { sva } from 'styled-system/css'
  * The hover-scale lives on `body` below, which is what lets the component
  * itself stay a server component.
  */
+const SIZE = {
+  standard: { base: '[72px]', md: '[96px]', xl: '[125px]' },
+  standardIcon: { base: '[20px]', md: '[26px]', xl: '[36px]' },
+  footer: { base: '[100.8px]', md: '[115.2px]', xl: '[150px]' },
+  footerIcon: { base: '[28px]', md: '[31.2px]', xl: '[43.2px]' },
+  hero: {
+    base: '[158.4px]',
+    md: '[172.8px]',
+    lg: '[158.4px]',
+    xl: '[218.75px]',
+    '3xl': '[231.25px]',
+  },
+  heroIcon: { base: '[44px]', md: '[46.8px]', lg: '[42.9px]', xl: '[63px]', '3xl': '[66.6px]' },
+  upcoming: { base: '[108px]', md: '[144px]', xl: '[187.5px]' },
+  upcomingIcon: { base: '[30px]', md: '[39px]', xl: '[54px]' },
+} as const
+
 export const partnerBadge = sva({
   slots: ['wrap', 'link', 'body', 'textRing', 'arrow', 'icon'],
   base: {
@@ -36,7 +53,10 @@ export const partnerBadge = sva({
       '& svg': { width: 'full', height: 'full' },
       '& text': {
         fill: 'white',
-        textStyle: 'partnerBadge.ringType',
+        fontFamily: 'body',
+        fontSize: '[40px]',
+        fontWeight: 'semibold',
+        letterSpacing: '[8px]',
       },
     },
     arrow: { position: 'relative', zIndex: '1', display: 'flex' },
@@ -47,20 +67,20 @@ export const partnerBadge = sva({
   variants: {
     size: {
       standard: {
-        wrap: { width: 'partnerBadgeStandard', height: 'partnerBadgeStandard' },
-        icon: { width: 'partnerBadgeStandardIcon', height: 'partnerBadgeStandardIcon' },
+        wrap: { width: SIZE.standard, height: SIZE.standard },
+        icon: { width: SIZE.standardIcon, height: SIZE.standardIcon },
       },
       footer: {
-        wrap: { width: 'partnerBadgeFooter', height: 'partnerBadgeFooter' },
-        icon: { width: 'partnerBadgeFooterIcon', height: 'partnerBadgeFooterIcon' },
+        wrap: { width: SIZE.footer, height: SIZE.footer },
+        icon: { width: SIZE.footerIcon, height: SIZE.footerIcon },
       },
       hero: {
-        wrap: { width: 'partnerBadgeHero', height: 'partnerBadgeHero' },
-        icon: { width: 'partnerBadgeHeroIcon', height: 'partnerBadgeHeroIcon' },
+        wrap: { width: SIZE.hero, height: SIZE.hero },
+        icon: { width: SIZE.heroIcon, height: SIZE.heroIcon },
       },
       upcoming: {
-        wrap: { width: 'partnerBadgeUpcoming', height: 'partnerBadgeUpcoming' },
-        icon: { width: 'partnerBadgeUpcomingIcon', height: 'partnerBadgeUpcomingIcon' },
+        wrap: { width: SIZE.upcoming, height: SIZE.upcoming },
+        icon: { width: SIZE.upcomingIcon, height: SIZE.upcomingIcon },
       },
     },
   },

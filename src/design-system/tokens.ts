@@ -1,8 +1,6 @@
 const GRAY_HUE = 345
 const GRAY_CHROMA = 0.005
 const GRAY_L: Record<string, number> = {
-  50: 97,
-  100: 94.5,
   200: 90,
   300: 79,
   400: 69,
@@ -11,7 +9,6 @@ const GRAY_L: Record<string, number> = {
   700: 42,
   800: 32,
   900: 24,
-  950: 15,
 }
 const grayRamp = Object.fromEntries(
   Object.entries(GRAY_L).map(([step, l]) => [
@@ -44,12 +41,10 @@ export const keyframes = {
       opacity: '0',
       translate: '0 var(--enter-y, 0px)',
       scale: 'var(--enter-scale, 1)',
-      filter: 'blur(var(--enter-blur, 0px))',
     },
-    to: { opacity: '1', translate: '0 0', scale: '1', filter: 'blur(0px)' },
+    to: { opacity: '1', translate: '0 0', scale: '1' },
   },
 
-  tapeIn: { to: { opacity: '1', translate: '0 0' } },
   spin: { to: { transform: 'rotate(-360deg)' } },
   gradientBorderShift: {
     '0%': { backgroundPosition: '0% 50%' },
@@ -78,27 +73,20 @@ export const tokens = {
     body: { value: 'var(--font-montserrat), sans-serif' },
   },
   fontSizes: {
-    partnerBadgeRing: { value: '40px' },
     xs: { value: 'clamp(9px, 8.76px + 0.0647vw, 10px)' },
     sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
     base: { value: '16px' },
     md: { value: 'clamp(17px, 15.54px + 0.3883vw, 23px)' },
-
-    detail: { value: 'clamp(28px, 18.4px + 1.5vw, 40px)' },
-    lg: { value: 'clamp(26px, 18.72px + 1.9417vw, 56px)' },
-    xl: { value: 'min(clamp(42px, 25.32px + 2.8479vw, 80px), 11vw)' },
+    lg: { value: 'clamp(22px, 19.33px + 0.7120vw, 33px)' },
+    xl: { value: 'clamp(27px, 22.87px + 1.1003vw, 44px)' },
+    '2xl': { value: 'clamp(34px, 27.93px + 1.6181vw, 59px)' },
+    '3xl': { value: 'min(clamp(42px, 32.78px + 2.4595vw, 80px), 11vw)' },
   },
   spacing: {
     '0': { value: '0px' },
-    xs: { value: 'clamp(4px, 4px, 4px)' },
-    sm: { value: 'clamp(8px, 8px, 8px)' },
-    hairlineOverlap: { value: 'calc({borderWidths.hairline} * -1)' },
+    xs: { value: '4px' },
+    sm: { value: '8px' },
     dialogInset: { value: 'calc({borderWidths.focus} * -1)' },
-    navLogoTopMd: { value: '24px' },
-    navDesktopTop: { value: '32px' },
-    navDesktopTopLg: { value: '40px' },
-    badgeX: { value: '12px' },
-    badgeY: { value: '6px' },
     md: { value: 'clamp(16px, 15.03px + 0.2589vw, 20px)' },
     lg: { value: 'clamp(24px, 18.17px + 1.5534vw, 48px)' },
     xl: { value: 'clamp(32px, 22.29px + 2.5890vw, 72px)' },
@@ -110,7 +98,6 @@ export const tokens = {
 
     gutter: { value: 'clamp(16px, -7.30px + 6.2136vw, 112px)' },
     gridGap: { value: 'clamp(16px, -0.50px + 4.4013vw, 84px)' },
-    cardOverlap: { value: '3rem' },
   },
   radii: {
     none: { value: '0px' },
@@ -123,23 +110,20 @@ export const tokens = {
       value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.divider}' },
     },
     highlight: {
-      value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.chartreuse}' },
+      value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.highlight}' },
     },
     primary: {
       value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.action}' },
     },
     focus: {
-      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.chartreuse}' },
+      value: { width: '{borderWidths.focus}', style: 'solid', color: '{colors.action}' },
     },
   },
   borderWidths: {
     '0': { value: '0px' },
+    hairlineThin: { value: '0.5px' },
     hairline: { value: '1px' },
     focus: { value: '2px' },
-    gradientRing: { value: '1px' },
-
-    // so both can share it).
-    hairlineThin: { value: '0.5px' },
   },
   sizes: {
     '0': { value: '0px' },
@@ -147,54 +131,30 @@ export const tokens = {
     fit: { value: 'fit-content' },
 
     touch: { value: '48px' },
-    navLogoBase: { value: '40px' },
-    navLogoLg: { value: '56px' },
-    navLogoXl: { value: '60px' },
     navIcon: { value: '24px' },
-    navGlyph: { value: '18px' },
-    navGlyphStroke: { value: '2px' },
     rollOffset: { value: '110%' },
     measure: { value: '60ch' },
     maxWidth: { value: '1800px' },
 
     narrowColumn: { value: '520px' },
-    brushStroke: { value: '3px' },
-    lightboxNavColumn: { value: '80px' },
-    lightboxFrameWidth: { value: '90vw' },
-
-    lightboxNavHit: { value: '240px' },
-
-    lightboxFrameMax: { value: 'calc(100vw - ({sizes.lightboxNavColumn} * 2))' },
-
-    hitTarget: { value: '44px' },
 
     dialogPanel: { value: '540px' },
     dialogPanelWide: { value: '760px' },
     dialogPanelXl: { value: '1000px' },
-    calendarPoster: { value: '220px' },
-
-    heroTapeColumn: { value: '200px' },
-
-    heroImageMax: { value: 'calc(100vw - {sizes.heroTapeColumn})' },
   },
   assets: {
-    brushStrokeX: { value: 'polygon(0 0, 100% 0, 100% 38%, 68% 58%, 0 100%)' },
-    brushStrokeY: { value: 'polygon(0 0, 100% 0, 58% 68%, 38% 100%, 0 100%)' },
+    mono: { value: 'grayscale(1) brightness(1.08) contrast(1.06)' },
+    monoHover: { value: 'grayscale(0.3) brightness(1.08) contrast(1.06)' },
 
-    grayscaleSubtle: { value: 'grayscale(0.3)' },
+    color: { value: 'brightness(1.1) contrast(1)' },
+    colorHover: { value: 'brightness(1) contrast(1.1)' },
 
     grayscaleFull: { value: 'grayscale(1)' },
-
-    developRest: { value: 'grayscale(1) brightness(0.7)' },
-    developHover: { value: 'grayscale(0.3) brightness(1)' },
-
-    galleryDevelopRest: { value: 'brightness(0.9) contrast(1)' },
-    galleryDevelopHover: { value: 'brightness(1) contrast(1.1)' },
   },
   letterSpacings: {
     tight: { value: '-0.02em' },
+    theme: { value: '0.007em' },
     label: { value: '1.2px' },
-    partnerBadgeRing: { value: '8px' },
   },
   fontWeights: {
     light: { value: '300' },
@@ -202,18 +162,27 @@ export const tokens = {
     medium: { value: '500' },
     semibold: { value: '600' },
     bold: { value: '700' },
-    black: { value: '900' },
   },
   durations: {
     fast: { value: '200ms' },
     normal: { value: '300ms' },
-    entrance: { value: '900ms' },
+    entrance: { value: '600ms' },
+    stagger: { value: '80ms' },
+
     sweep: { value: '1600ms' },
+    travel: { value: '2s' },
+    orbit: { value: '32s' },
   },
 
   easings: {
-    expo: { value: 'cubic-bezier(0.16, 1, 0.3, 1)' },
-    quint: { value: 'cubic-bezier(0.23, 1, 0.32, 1)' },
+    feedback: {
+      value:
+        'linear(0, 0.01 1.8%, 0.044 4%, 0.112 6.9%, 0.267 12.2%, 0.451 18.5%, 0.572 23.3%, 0.671 28%, 0.753 32.8%, 0.822 38.1%, 0.879 44.2%, 0.924 51.3%, 0.959 60.3%, 0.983 72.8%, 0.996 94.4%, 1)',
+    },
+    motion: {
+      value:
+        'linear(0, 0.01 1.9%, 0.043 4%, 0.104 6.6%, 0.21 10%, 0.536 19.4%, 0.667 23.8%, 0.769 27.8%, 0.852 31.8%, 0.918 36%, 0.968 40.6%, 1.004 45.8%, 1.026 52%, 1.031 60.7%, 1.002 95.1%, 1)',
+    },
   },
 
   shadows: {
@@ -222,16 +191,11 @@ export const tokens = {
     card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
     badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
     modal: { value: '0 30px 80px rgb(0 0 0 / 0.5)' },
-    frame: { value: '0 30px 80px -30px rgb(0 0 0 / 0.7)' },
-    tape: {
-      value: 'inset 0 1px 0 rgb(255 255 255 / 0.08), 0 14px 32px -6px rgb(0 0 0 / 0.55)',
-    },
-    text: { value: '0 1px 8px rgb(0 0 0 / 0.55)' },
   },
   gradients: {
     heroVignette: {
       value:
-        'linear-gradient(115deg, rgb(14 11 16 / 0.55) 0%, rgb(14 11 16 / 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgb(14 11 16 / 0.5) 100%)',
+        'linear-gradient(115deg, rgb(14 11 16 / 0.34) 0%, rgb(14 11 16 / 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgb(14 11 16 / 0.3) 100%)',
     },
     cardScrim: {
       value: 'linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))',
@@ -253,11 +217,10 @@ export const semanticTokens = {
     },
     heading: { value: '{colors.white}' },
     body: { value: '{colors.gray.400}' },
-    muted: { value: '{colors.gray.600}' },
+    muted: { value: '{colors.gray.500}' },
     divider: { value: '{colors.gray.900}' },
     action: { value: '{colors.pink}' },
     highlight: { value: '{colors.chartreuse}' },
-    brushStroke: { value: '{colors.highlight}' },
   },
   zIndex: {
     nav: { value: '100' },
@@ -268,31 +231,16 @@ export const semanticTokens = {
     // control inside its dialog (`dialogToggle`), so this never has to outrank
     // the modal layer — and must not, or it lands on other dialogs' controls.
     navToggle: { value: '300' },
-    lightbox: { value: '1020' },
     draftBadge: { value: '1030' },
     '0': { value: '0' },
     '1': { value: '1' },
     '2': { value: '2' },
     '3': { value: '3' },
-    '4': { value: '4' },
     '10': { value: '10' },
     '20': { value: '20' },
   },
   sizes: {
-    // Fixed-nav height — the page-top offset every hero clears.
     nav: { value: { base: '60px', md: '72px', lg: '84px', xl: '100px' } },
-    partnerBadgeStandard: { value: { base: '72px', md: '96px', xl: '125px' } },
-    partnerBadgeStandardIcon: { value: { base: '20px', md: '26px', xl: '36px' } },
-    partnerBadgeFooter: { value: { base: '100.8px', md: '115.2px', xl: '150px' } },
-    partnerBadgeFooterIcon: { value: { base: '28px', md: '31.2px', xl: '43.2px' } },
-    partnerBadgeHero: {
-      value: { base: '158.4px', md: '172.8px', lg: '158.4px', xl: '218.75px', '3xl': '231.25px' },
-    },
-    partnerBadgeHeroIcon: {
-      value: { base: '44px', md: '46.8px', lg: '42.9px', xl: '63px', '3xl': '66.6px' },
-    },
-    partnerBadgeUpcoming: { value: { base: '108px', md: '144px', xl: '187.5px' } },
-    partnerBadgeUpcomingIcon: { value: { base: '30px', md: '39px', xl: '54px' } },
   },
 } as const
 
@@ -302,7 +250,7 @@ export const animationStyles = {
       value: {
         animationName: 'enter',
         animationDuration: 'entrance',
-        animationTimingFunction: 'expo',
+        animationTimingFunction: 'motion',
         animationFillMode: 'both',
         '--enter-y': '30px',
       },
@@ -311,7 +259,7 @@ export const animationStyles = {
       value: {
         animationName: 'enter',
         animationDuration: 'entrance',
-        animationTimingFunction: 'expo',
+        animationTimingFunction: 'motion',
         animationFillMode: 'both',
         '--enter-y': '0px',
       },
@@ -320,26 +268,37 @@ export const animationStyles = {
       value: {
         animationName: 'enter',
         animationDuration: 'entrance',
-        animationTimingFunction: 'expo',
+        animationTimingFunction: 'motion',
         animationFillMode: 'both',
         '--enter-y': '0px',
         '--enter-scale': '1.06',
       },
     },
-    snappy: {
+  },
+  arrive: {
+    DEFAULT: {
       value: {
         animationName: 'enter',
         animationDuration: 'normal',
-        animationTimingFunction: 'expo',
+        animationTimingFunction: 'motion',
         animationFillMode: 'both',
-        '--enter-y': '30px',
+        '--enter-y': '12px',
+      },
+    },
+    fade: {
+      value: {
+        animationName: 'enter',
+        animationDuration: 'normal',
+        animationTimingFunction: 'motion',
+        animationFillMode: 'both',
+        '--enter-y': '0px',
       },
     },
   },
   spin: {
     value: {
       animationName: 'spin',
-      animationDuration: '32s',
+      animationDuration: 'orbit',
       animationTimingFunction: 'linear',
       animationIterationCount: 'infinite',
     },
@@ -355,18 +314,9 @@ export const animationStyles = {
   gradientBorder: {
     value: {
       animationName: 'gradientBorderShift',
-      animationDuration: '2s',
+      animationDuration: 'travel',
       animationTimingFunction: 'linear',
       animationIterationCount: 'infinite',
-    },
-  },
-  tape: {
-    value: {
-      animationName: 'tapeIn',
-      animationDuration: 'entrance',
-      animationTimingFunction: 'expo',
-      animationFillMode: 'forwards',
-      animationDelay: 'var(--tape-delay, 0s)',
     },
   },
 } as const
@@ -375,18 +325,18 @@ export const textStyles = {
   display: {
     value: {
       fontFamily: 'display',
-      fontSize: 'xl',
+      fontSize: '3xl',
       lineHeight: '1',
-      letterSpacing: '-0.02em',
+      letterSpacing: 'tight',
       textTransform: 'uppercase',
     },
   },
   title: {
     value: {
       fontFamily: 'display',
-      fontSize: 'lg',
+      fontSize: '2xl',
       lineHeight: '1.16',
-      letterSpacing: '-0.02em',
+      letterSpacing: 'tight',
       textTransform: 'uppercase',
     },
   },
@@ -395,15 +345,15 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: 'lg',
       lineHeight: '1.1',
-      letterSpacing: '-0.02em',
+      letterSpacing: 'tight',
     },
   },
   detailTitle: {
     value: {
       fontFamily: 'display',
-      fontSize: 'detail',
+      fontSize: 'xl',
       lineHeight: '1.12',
-      letterSpacing: '-0.02em',
+      letterSpacing: 'tight',
     },
   },
   lead: {
@@ -413,14 +363,6 @@ export const textStyles = {
       fontWeight: 'light',
       lineHeight: '1.56',
       textWrap: 'pretty',
-    },
-  },
-  manifesto: {
-    value: {
-      fontFamily: 'display',
-      fontSize: 'xl',
-      lineHeight: '1.1',
-      letterSpacing: '-0.02em',
     },
   },
   body: {
@@ -442,101 +384,57 @@ export const textStyles = {
     value: {
       fontFamily: 'body',
       fontSize: 'xs',
-      fontWeight: 'normal',
+      fontWeight: 'regular',
       lineHeight: '1.3',
-      letterSpacing: '1.2px',
+      letterSpacing: 'label',
       textTransform: 'uppercase',
     },
   },
 
-  featuredEvents: {
-    watermarkType: {
+  editionTheme: {
+    large: {
       value: {
         fontFamily: 'display',
-        fontSize: 'clamp(120px, 32vw, 260px)',
+        fontSize: { base: '2xl', xl: '3xl' },
         lineHeight: '1',
+        letterSpacing: 'theme',
+        textTransform: 'lowercase',
       },
     },
-  },
-  calendar: {
-    value: {
-      fontFamily: 'body',
-      fontSize: 'base',
-      lineHeight: '1.4',
-      letterSpacing: '-0.018em',
-      fontWeight: 'bold',
-    },
-  },
-  externalGallery: {
-    plateType: {
-      monogram: {
-        value: {
-          fontFamily: 'display',
-          lineHeight: '1',
-          textTransform: 'uppercase',
-        },
-      },
-      zsb: {
-        value: {
-          fontSize: 'clamp(56px, 7vw, 104px)',
-          letterSpacing: '-2px',
-        },
-      },
-      year: {
-        value: {
-          fontSize: 'clamp(36px, 4.5vw, 64px)',
-          letterSpacing: '-1px',
-        },
-      },
-    },
-  },
-  editionTheme: {
-    tapeType: {
-      huge: {
-        value: {
-          fontFamily: 'display',
-          fontSize: { base: 'lg', sm: 'xl' },
-          lineHeight: '1',
-          letterSpacing: '0.007em',
-          textTransform: 'lowercase',
-        },
-      },
-      large: {
-        value: {
-          fontFamily: 'display',
-          fontSize: { base: 'lg', md: 'lg', lg: 'lg', xl: 'xl' },
-          lineHeight: '1',
-          letterSpacing: '0.007em',
-          textTransform: 'lowercase',
-        },
-      },
-      normal: {
-        value: {
-          fontFamily: 'display',
-          fontSize: { base: 'md', md: 'lg' },
-          lineHeight: '1',
-          letterSpacing: '0.007em',
-          textTransform: 'lowercase',
-        },
-      },
-      rail: {
-        value: {
-          fontFamily: 'display',
-          fontSize: { base: 'md', lg: 'lg' },
-          lineHeight: '1',
-          letterSpacing: '0.01em',
-          textTransform: 'lowercase',
-        },
-      },
-    },
-  },
-  partnerBadge: {
-    ringType: {
+    normal: {
       value: {
-        fontFamily: 'body',
-        fontSize: 'partnerBadgeRing',
-        fontWeight: 'semibold',
-        letterSpacing: 'partnerBadgeRing',
+        fontFamily: 'display',
+        fontSize: 'xl',
+        lineHeight: '1',
+        letterSpacing: 'theme',
+        textTransform: 'lowercase',
+      },
+    },
+    rail: {
+      value: {
+        fontFamily: 'display',
+        fontSize: { base: 'md', lg: '2xl' },
+        lineHeight: '1',
+        letterSpacing: 'theme',
+        textTransform: 'lowercase',
+      },
+    },
+    sub: {
+      value: {
+        fontFamily: 'display',
+        fontSize: { base: 'md', md: 'lg' },
+        lineHeight: '1',
+        letterSpacing: 'theme',
+        textTransform: 'lowercase',
+      },
+    },
+    cell: {
+      value: {
+        fontFamily: 'display',
+        fontSize: 'md',
+        lineHeight: '1.15',
+        letterSpacing: 'theme',
+        textTransform: 'lowercase',
       },
     },
   },
@@ -546,8 +444,17 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: 'md',
       lineHeight: '1.16',
-      letterSpacing: '-0.02em',
+      letterSpacing: 'tight',
       textTransform: 'uppercase',
+    },
+  },
+
+  manifesto: {
+    value: {
+      fontFamily: 'display',
+      fontSize: '3xl',
+      lineHeight: '1.16',
+      letterSpacing: 'tight',
     },
   },
 } as const
@@ -559,22 +466,10 @@ export const layerStyles = {
   coverMono: {
     value: {
       objectFit: 'cover',
-      filter: '[grayscale(100%) contrast(1.05)]',
+      filter: '[token(assets.mono)]',
     },
   },
 
-  heroTapeOffset: {
-    value: {
-      bottom: { base: '8%', md: '10%', lg: '11%' },
-      maxWidth: { base: '94%', md: '72%', lg: '62%', xl: '58%' },
-    },
-  },
-
-  heroTapeNudge: {
-    value: {
-      marginLeft: { base: '10px', md: '18px', lg: '-36px', xl: '-40px' },
-    },
-  },
   pageHero: {
     value: {
       background: 'black',
@@ -619,34 +514,8 @@ export const layerStyles = {
       pointerEvents: 'none',
       transitionProperty: '[opacity]',
       transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transitionTimingFunction: 'feedback',
     },
-  },
-
-  galleryRailFrame: {
-    value: {
-      width: {
-        base: '[clamp(360px, 92vw, 540px)]',
-        md: '[clamp(600px, 81vw, 990px)]',
-        lg: '[clamp(730px, 73vw, 1140px)]',
-        xl: '[clamp(830px, 62vw, 1250px)]',
-        '2xl': '[clamp(940px, 59vw, 1350px)]',
-        '4xl': '[clamp(1040px, 55vw, 1460px)]',
-      },
-      height: {
-        base: '[28vh]',
-        md: '[35vh]',
-        lg: '[40vh]',
-        xl: '[42vh]',
-        '2xl': '[43vh]',
-        '4xl': '[44vh]',
-      },
-      '@media (max-width: 767px) and (orientation: landscape)': { height: '[73vh]' },
-    },
-  },
-
-  brushStrokeRule: {
-    value: { content: '""', position: 'absolute', opacity: '0.85' },
   },
 
   ruleLine: {
@@ -658,7 +527,7 @@ export const layerStyles = {
       display: 'inline-flex',
       transitionProperty: '[transform]',
       transitionDuration: 'fast',
-      transitionTimingFunction: 'quint',
+      transitionTimingFunction: 'feedback',
       '&[data-state=open]': { transform: 'rotate(180deg)' },
     },
   },

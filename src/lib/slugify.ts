@@ -2,7 +2,7 @@
 // ă/î/ș/ț), lowercase, collapse every run of non-alphanumerics to a single
 // hyphen, and trim leading/trailing hyphens. Pure and dependency-free so it can
 // be shared by the Sanity schema (slug `source`), the data layer (event-slug
-// derivation), and the calendar's filter slugs.
+// derivation), and the program's filter slugs.
 export function slugify(input: string): string {
   return input
     .normalize('NFKD')

@@ -20,7 +20,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
   const { tag, title, highlight, description, linkLabel, href } = gallery
 
   return (
-    <section className={cx(section({ ground: 'dark' }), styles.section)}>
+    <section className={cx(section({ ground: 'dark', rhythm: 'joined' }), styles.section)}>
       <Container>
         <Stack gap="xl">
           <HStack

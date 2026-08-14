@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
-  composeDateTape,
+  composeDateLine,
   dateParts,
   dayToken,
   editionWindow,
@@ -50,26 +50,26 @@ describe('formatDateRange', () => {
   })
 })
 
-describe('composeDateTape', () => {
+describe('composeDateLine', () => {
   it('appends the venue line after a middle dot', () => {
     expect(
-      composeDateTape({ dateStart: '2022-04-16', dateEnd: '2022-04-18', venueLine: 'Bucharest' }),
+      composeDateLine({ dateStart: '2022-04-16', dateEnd: '2022-04-18', venueLine: 'Bucharest' }),
     ).toBe('16–18 April 2022 · Bucharest')
   })
 
   it('omits the dot when there is no venue line', () => {
-    expect(composeDateTape({ dateStart: '2022-04-16', dateEnd: '2022-04-18' })).toBe(
+    expect(composeDateLine({ dateStart: '2022-04-16', dateEnd: '2022-04-18' })).toBe(
       '16–18 April 2022',
     )
   })
 
   it('returns an empty string when a date is missing', () => {
-    expect(composeDateTape({ dateStart: '2022-04-16', dateEnd: null })).toBe('')
-    expect(composeDateTape({ venueLine: 'Bucharest' })).toBe('')
+    expect(composeDateLine({ dateStart: '2022-04-16', dateEnd: null })).toBe('')
+    expect(composeDateLine({ venueLine: 'Bucharest' })).toBe('')
   })
 
   it('returns an empty string when the dates are unparseable', () => {
-    expect(composeDateTape({ dateStart: 'x', dateEnd: 'y', venueLine: 'Bucharest' })).toBe('')
+    expect(composeDateLine({ dateStart: 'x', dateEnd: 'y', venueLine: 'Bucharest' })).toBe('')
   })
 })
 
@@ -87,7 +87,7 @@ describe('dayToken', () => {
     })
   })
 
-  it('zero-pads single-digit days for the agenda numeral', () => {
+  it('zero-pads single-digit days for the day-by-day numeral', () => {
     expect(dayToken('2025-05-03')?.dayPadded).toBe('03')
   })
 
@@ -110,6 +110,10 @@ describe('isMultiDayRun', () => {
 })
 
 describe('formatShortRange', () => {
+  it('collapses a same-day span to a single date', () => {
+    expect(formatShortRange('2021-04-24', '2021-04-24')).toBe('24 Apr')
+  })
+
   it('collapses a same-month span to one short month', () => {
     expect(formatShortRange('2025-04-26', '2025-04-28')).toBe('26–28 Apr')
   })

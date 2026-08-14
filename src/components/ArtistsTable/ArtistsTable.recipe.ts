@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const artistsTable = sva({
-  slots: ['root', 'colHeader', 'body', 'column', 'entry', 'num', 'footer', 'metaItem', 'barcode'],
+  slots: ['root', 'colHeader', 'body', 'column', 'entry', 'num', 'footer', 'metaItem'],
   base: {
     root: { width: 'full' },
 
@@ -27,9 +27,10 @@ export const artistsTable = sva({
       },
     },
     entry: {
-      paddingBlock: 'md',
+      paddingBlock: 'sm',
       paddingInline: 'md',
       borderBottom: 'hairline',
+      md: { paddingBlock: 'md' },
       '&:last-child': { borderBottomWidth: '0' },
     },
     num: {
@@ -45,14 +46,6 @@ export const artistsTable = sva({
     metaItem: {
       color: 'black',
       '& span': { color: 'black', marginLeft: 'sm' },
-    },
-    barcode: {
-      justifySelf: 'flex-end',
-      height: '[24px]',
-      width: '[80px]',
-      // The ticket-stub barcode — decorative ink stripes over the chartreuse.
-      background:
-        '[repeating-linear-gradient(90deg, rgb(0 0 0 / 0.5) 0px, rgb(0 0 0 / 0.5) 2px, transparent 2px, transparent 4px, rgb(0 0 0 / 0.5) 4px, rgb(0 0 0 / 0.5) 5px, transparent 5px, transparent 8px)]',
     },
   },
 })

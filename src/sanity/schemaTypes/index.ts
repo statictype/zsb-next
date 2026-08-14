@@ -40,7 +40,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   organization,
   pressAppearance,
   pressRelease,
-  // Program & calendar
+  // Program & venues
   venue,
   eventType,
   venueType,

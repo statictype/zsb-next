@@ -5,12 +5,12 @@ import type { CalendarEvent, EventTypeTag } from '@/types/edition'
 // The venue rollup (ZSB-65). A venue may sit `partOf` a bigger place (a studio
 // inside CFP); the schema allows one level of nesting only. Its *rolled-up
 // identity* is the parent when there is one, else the venue itself. This is the
-// single rule both venue-facing surfaces group by — the calendar's `venue=`
+// single rule both venue-facing surfaces group by — the program's `venue=`
 // filter chips and the Visit venues view — so they can never disagree on "which
 // venues exist". It's computed once in the data layer (stamped onto every
 // event's venue in `mapEvents`); nothing recomputes it from `partOf`.
 //
-// `slug` is the calendar filter key, separate from a venue's own URL slug: it's
+// `slug` is the program filter key, separate from a venue's own URL slug: it's
 // `slugify(rolled-up name)`, lossy but matched slug↔slug so it round-trips.
 export function rollUpVenue(venue: {
   name: string
@@ -107,7 +107,7 @@ export function groupVenuesByType(events: CalendarEvent[]): VenueTypeSection[] {
     const top = v.rollUp
     // A venue whose rolled-up identity is itself is top-level; otherwise it's a
     // sub-venue and `top` is its parent. Both come from the same stamped field
-    // the calendar filters by, so the two surfaces can't disagree.
+    // the program filters by, so the two surfaces can't disagree.
     const node = ensure(v.name, v.type)
     // A venue's own facts win over a parent-stub that may have been created first.
     node.address = v.address ?? node.address

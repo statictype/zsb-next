@@ -1,99 +1,116 @@
 import { sva } from 'styled-system/css'
 
-/** Archive image-card chrome only; the footer rail's imageless plate lives in
- *  EditionRailCard.recipe. */
 export const editionCard = sva({
-  slots: ['root', 'media', 'image', 'year', 'content', 'details', 'venue', 'cta', 'ctaIcon'],
+  slots: [
+    'root',
+    'plate',
+    'frame',
+    'image',
+    'body',
+    'head',
+    'title',
+    'theme',
+    'prefix',
+    'meta',
+    'count',
+    'arrow',
+  ],
   base: {
     root: {
-      height: 'full',
-      overflow: 'visible',
       display: 'grid',
-      gridTemplateRows: 'auto token(spacing.cardOverlap) auto',
-      // Both children are placed explicitly (auto-placement refuses to overlap
-      // them, bumping content into an implicit column); minmax(0, 1fr) keeps
-      // the tape's max-content from inflating the track past the card.
-      gridTemplateColumns: 'minmax(0, 1fr)',
-      // Gradient hover ring (masked to the hairline edge), as on Calendar runs.
+      gridTemplateColumns: 'auto minmax(0, 1fr)',
+      gridTemplateAreas: '"plate head" "plate meta"',
+      columnGap: 'md',
+      rowGap: 'md',
+      alignItems: 'start',
+      color: 'body',
+      textDecoration: 'none',
+      md: {
+        gridTemplateColumns: 'minmax(0, 1fr)',
+        gridTemplateAreas: '"plate" "body"',
+        columnGap: 'gridGap',
+        rowGap: 'lg',
+        alignItems: 'stretch',
+      },
+      lg: {
+        gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
+        alignItems: 'center',
+      },
+    },
+    plate: {
+      gridArea: 'plate',
+      position: 'relative',
+      width: { base: '[clamp(72px, 22vw, 104px)]', md: 'full' },
+      border: 'hairline',
+      aspectRatio: { base: '1 / 1', md: '16 / 9', lg: '3 / 2' },
       _before: {
         content: '""',
         layerStyle: 'gradientBorder',
-        padding: '[token(borderWidths.hairlineThin)]',
+        inset: '[calc(token(borderWidths.hairline) * -1)]',
+        padding: '[token(borderWidths.hairline)]',
       },
-      // Pin the hairline at rest colour so Card's interactive hover doesn't
-      // warm it under the ring — stacked they read as one thick border.
-      _hover: {
-        borderColor: 'divider',
-        '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
+      'a:hover &, a:focus-visible &': {
+        borderColor: 'transparent',
+        _before: { opacity: 1, animationStyle: 'gradientBorder' },
       },
     },
-    media: {
-      position: 'relative',
-      gridColumn: '1',
-      gridRow: '1 / 3',
-      width: 'full',
+    // `overflow` clips to the padding box, so the zoom cannot be clipped by
+    // `plate` — that would cut the ring, which sits in the border area.
+    frame: {
+      position: 'absolute',
+      inset: '0',
       overflow: 'hidden',
       background: 'gray.900',
-      // Shared below `lg`, where both sizes stack single-column; only the
-      // panoramic `lg` size variant departs at the `lg` breakpoint.
-      aspectRatio: { base: '16 / 9', md: '21 / 9' },
-      _after: {
-        content: '""',
-        position: 'absolute',
-        inset: '0',
-        backgroundGradient: 'cardScrim',
-        pointerEvents: 'none',
-        zIndex: '1',
-      },
     },
     image: {
       objectFit: 'cover',
       background: 'gray.900',
-      filter: '[token(assets.developRest)]',
+      filter: '[token(assets.mono)]',
       transform: 'scale(1.01)',
       transition: 'develop',
       'a:hover &, a:focus-visible &': {
-        filter: '[token(assets.developHover)]',
+        filter: '[token(assets.monoHover)]',
         transform: 'scale(1.05)',
       },
     },
-    year: {
-      position: 'absolute',
-      top: 'lg',
-      right: 'lg',
-      zIndex: '2',
+    // `contents` promotes head and meta into the root grid, so the thumbnail
+    // can sit beside the year alone while the credits run full width.
+    body: {
+      gridArea: 'body',
+      display: { base: 'contents', md: 'flex' },
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: 'md',
     },
-    content: {
-      position: 'relative',
-      zIndex: '1',
-      gridColumn: '1',
-      gridRow: '2 / 4',
-      padding: 'lg',
-    },
-
-    // Keeps the venue name from breaking mid-phrase — a narrow card wraps
-    // before the whole name, not between its words.
-    venue: { whiteSpace: 'nowrap' },
-    cta: {
-      flexShrink: '0',
-      color: 'heading',
+    head: { gridArea: 'head', minWidth: '0', display: 'flex', flexDirection: 'column', gap: 'xs' },
+    title: {
+      fontVariantNumeric: 'tabular-nums',
       transition: 'interactive',
-      'a:hover &': { color: 'action' },
+      'a:hover &, a:focus-visible &': { color: 'action' },
     },
-    ctaIcon: {
+    // Themes are single hashtag words with no wrap opportunity of their own.
+    theme: { overflowWrap: 'anywhere' },
+    prefix: {
+      color: 'muted',
       transition: 'interactive',
-      'a:hover &': { transform: 'translate(2px, -2px)' },
+      'a:hover &, a:focus-visible &': { color: 'current' },
+    },
+    meta: { gridArea: 'meta' },
+    count: { color: 'heading' },
+    arrow: {
+      display: 'inline-block',
+      marginLeft: '[0.3em]',
+      color: 'muted',
+      transition: 'interactive',
+      '& svg': { width: '[0.5em]', height: '[0.5em]' },
+      'a:hover &, a:focus-visible &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
   },
   variants: {
-    size: {
-      // The panoramic ratio only reads as "featured" once the grid actually
-      // goes two-column and spans this card full-width (`lg`, page.recipe.ts).
-      // Below that it stacks single-column with the rest, so it matches their
-      // aspect ratio — otherwise it's the odd one out on mobile.
-      lg: { media: { aspectRatio: { lg: '21 / 9' } } },
-      md: { media: { aspectRatio: { lg: '16 / 10' } } },
+    media: {
+      left: { root: { lg: { gridTemplateAreas: '"plate body"' } } },
+      right: { root: { lg: { gridTemplateAreas: '"body plate"' } } },
     },
   },
-  defaultVariants: { size: 'md' },
+  defaultVariants: { media: 'left' },
 })

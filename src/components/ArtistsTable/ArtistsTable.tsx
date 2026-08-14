@@ -58,17 +58,14 @@ export function ArtistsTable({
       </Grid>
 
       {meta.length > 0 && (
-        <HStack className={styles.footer} justify="space-between">
-          <Wrap gap="md" justify="flex-start">
-            {meta.map(({ label, value }) => (
-              <Text as="div" variant="label" key={label} className={styles.metaItem}>
-                {label}
-                <Text variant="label">{value}</Text>
-              </Text>
-            ))}
-          </Wrap>
-          <div className={styles.barcode} />
-        </HStack>
+        <Wrap className={styles.footer} gap="md" justify="flex-start">
+          {meta.map(({ label, value }) => (
+            <Text as="div" variant="label" key={label} className={styles.metaItem}>
+              {label}
+              <Text variant="label">{value}</Text>
+            </Text>
+          ))}
+        </Wrap>
       )}
     </div>
   )

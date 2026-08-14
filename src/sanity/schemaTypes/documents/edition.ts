@@ -75,6 +75,14 @@ export const edition = defineType({
       validation: (rule) => rule.custom(requiredWhenLive).custom(isSubstringOf('theme', 'theme')),
     }),
     defineField({
+      name: 'themeGloss',
+      title: 'Theme gloss',
+      description:
+        'What the theme says to an English-speaking visitor, e.g. "the other body" for "#celălaltcorp". Leave empty only when the theme reads the same in both languages, as "#syzygy" does.',
+      type: 'string',
+      group: 'hero',
+    }),
+    defineField({
       name: 'title',
       title: 'Page title',
       description: 'Browser tab / SEO title',
@@ -82,7 +90,7 @@ export const edition = defineType({
       group: 'hero',
       validation: (rule) => rule.custom(requiredWhenLive),
     }),
-    // The hero date tape, composed by the renderer from the typed fields below
+    // The hero date line, composed by the renderer from the typed fields below
     // (dates + venue line), with a single canonical format + glyph.
     defineField({
       name: 'dateStart',
@@ -204,13 +212,13 @@ export const edition = defineType({
     }),
 
     // The new events-and-venues model (ADR 0014). Events are nested here, one
-    // list per edition; the calendar, filters, featured and venues view all
+    // list per edition; the program, filters, featured and venues view all
     // read from this list.
     defineField({
       name: 'events',
       title: 'Events',
       description:
-        "This edition's program as a list of events. Order doesn't matter — the calendar sorts by date.",
+        "This edition's program as a list of events. Order doesn't matter — the program sorts by date.",
       type: 'array',
       group: 'program',
       hidden: ({ document }) => document?.hasProgram === false,

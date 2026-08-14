@@ -77,8 +77,8 @@ export const visitPage = defineType({
     }),
     defineField({
       name: 'transport',
-      title: 'Transport routes',
-      description: 'How to get here from major landmarks.',
+      title: 'Nearest stops',
+      description: 'Public transport stops within walking distance, nearest first.',
       type: 'array',
       group: 'practical',
       of: [defineArrayMember({ type: 'transportRoute' })],
@@ -88,7 +88,7 @@ export const visitPage = defineType({
       name: 'faq',
       title: 'Frequently asked questions',
       description:
-        'Optional. Opening hours and location are answered automatically from the fields above (scoped to “during the event”), so add entries here only for what those can’t cover — tickets, accessibility, the year-round venue, etc.',
+        'Optional. Every entry appears on the page and in its FAQ structured data. The address, opening hours and nearest stops are already shown above — add only what they can’t cover, such as tickets, accessibility or the year-round venue.',
       type: 'array',
       group: 'faq',
       of: [defineArrayMember({ type: 'faqItem' })],

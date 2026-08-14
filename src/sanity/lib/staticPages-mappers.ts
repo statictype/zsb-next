@@ -4,7 +4,6 @@ import type {
   PRIVACY_PAGE_QUERY_RESULT,
   VISIT_PAGE_QUERY_RESULT,
 } from '@/../sanity.types'
-import { SITE_NAME } from '@/lib/constants'
 import { definedFields } from '@/lib/defined-fields'
 import type { FaqEntry } from '@/lib/seo'
 import { mapCarousel } from '@/sanity/lib/carousel'
@@ -34,7 +33,6 @@ export interface AboutView {
   pillars: Array<{ label: string; body: string }>
   carouselEyebrow: string
   carousel: CarouselSlide[]
-  curatorEyebrow: string
   curatorHeadline: string
   curatorName: string
   curatorRole: string
@@ -86,8 +84,7 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
     manifestoTitle: raw.manifestoTitle ?? '',
     manifestoBody: raw.manifestoBody ?? '',
     pillars: (raw.pillars ?? []).map((p) => ({ label: p.label, body: p.body })),
-    carouselEyebrow: raw.carouselEyebrow ?? 'Gallery',
-    curatorEyebrow: raw.curatorEyebrow ?? '',
+    carouselEyebrow: raw.carouselEyebrow ?? 'From the archive',
     curatorHeadline: raw.curatorHeadline ?? '',
     curatorName: raw.curatorName ?? '',
     curatorRole: raw.curatorRole ?? '',
@@ -143,7 +140,7 @@ export function normalizePrivacy(raw: PrivacyPageRaw): PrivacyView {
   }
 }
 
-const ICON_KEYS: readonly IconKey[] = ['wheelchair', 'parking', 'cafe', 'paint', 'restroom', 'wifi']
+const ICON_KEYS: readonly IconKey[] = ['wheelchair', 'parking', 'cafe', 'paint']
 
 function asIconKey(value: string | null | undefined): IconKey | undefined {
   return value && (ICON_KEYS as readonly string[]).includes(value) ? (value as IconKey) : undefined
@@ -163,8 +160,8 @@ function mapTransport(raw: VisitPage['transport']): TransportRoute[] {
   if (!raw) return []
   const out: TransportRoute[] = []
   for (const item of raw) {
-    if (item.from && item.lines && item.walk) {
-      out.push({ from: item.from, lines: item.lines, walk: item.walk })
+    if (item.stop && item.lines && item.walk) {
+      out.push({ stop: item.stop, lines: item.lines, walk: item.walk })
     }
   }
   return out
@@ -186,31 +183,9 @@ export function mapVisit(page: VisitPage): VisitData {
   }
 }
 
-/**
- * Merge the Visit FAQ from two sources. The opening-hours and location entries
- * are DERIVED from the structured fields (so they can't drift from what the page
- * displays) and scoped to "during the event" so the answers aren't mistaken for
- * the venue's year-round schedule. Editorial entries — tickets, accessibility,
- * the year-round venue — come from the optional `faq` array. One call feeds both
- * the visible FAQ and the JSON-LD, so the two stay in step.
- */
 export function buildFaq(page: VisitPage | null): FaqEntry[] {
   if (!page) return []
   const entries: FaqEntry[] = []
-
-  const hours = (page.hoursLines ?? []).filter(Boolean)
-  if (hours.length > 0) {
-    entries.push({
-      question: `What are the opening hours during ${SITE_NAME}?`,
-      answer: `${hours.join('. ')}. These hours apply during the event.`,
-    })
-  }
-  if (page.street && page.city) {
-    entries.push({
-      question: `Where is ${SITE_NAME} held?`,
-      answer: `The main venue is at ${page.street}, ${page.city}. The program also extends to partner venues and public locations across Bucharest.`,
-    })
-  }
 
   for (const item of page.faq ?? []) {
     if (item.question && item.answer) {

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { todayInBucharest } from '@/lib/today'
 
 describe('todayInBucharest', () => {
@@ -27,5 +27,34 @@ describe('todayInBucharest', () => {
     expect(todayInBucharest(new Date('2026-10-24T21:00:00Z'))).toBe('2026-10-25')
     expect(todayInBucharest(new Date('2026-10-25T21:30:00Z'))).toBe('2026-10-25')
     expect(todayInBucharest(new Date('2026-10-25T22:00:00Z'))).toBe('2026-10-26')
+  })
+})
+
+describe('NEXT_PUBLIC_ZSB_TODAY', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs()
+  })
+
+  it('stands in for the current day when no date is supplied', () => {
+    vi.stubEnv('NEXT_PUBLIC_ZSB_TODAY', '2026-10-15')
+    expect(todayInBucharest()).toBe('2026-10-15')
+  })
+
+  it('does not override an explicitly supplied date', () => {
+    vi.stubEnv('NEXT_PUBLIC_ZSB_TODAY', '2026-10-15')
+    expect(todayInBucharest(new Date('2026-01-05T10:00:00Z'))).toBe('2026-01-05')
+  })
+
+  it('rejects a value that is not a YYYY-MM-DD day', () => {
+    vi.stubEnv('NEXT_PUBLIC_ZSB_TODAY', '15 October 2026')
+    expect(() => todayInBucharest()).toThrow(/YYYY-MM-DD/)
+  })
+
+  it('is ignored in production', () => {
+    vi.stubEnv('NODE_ENV', 'production')
+    vi.stubEnv('NEXT_PUBLIC_ZSB_TODAY', '2026-10-15')
+    expect(todayInBucharest()).toBe(
+      new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Bucharest' }).format(new Date()),
+    )
   })
 })

@@ -1,11 +1,11 @@
-import { Calendar } from '@calendar/Calendar'
-import { ComingSoon } from '@calendar/ComingSoon'
-import { computeFilterOptions } from '@calendar/calendar-filters'
-import type { SocialLink } from '@calendar/FollowLinks'
 import { Credits } from '@edition-components/Credits'
 import { ExternalGallery } from '@edition-components/ExternalGallery'
 import { Hero } from '@edition-components/Hero'
 import { ThemeArtists } from '@edition-components/ThemeArtists'
+import { ComingSoon } from '@program/ComingSoon'
+import type { SocialLink } from '@program/FollowLinks'
+import { Program } from '@program/Program'
+import { computeFilterOptions } from '@program/program-filters'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { css } from 'styled-system/css'
@@ -61,7 +61,7 @@ export async function CachedEdition({
   }
 
   // The program is an optional section (ADR 0018). When present: a live edition
-  // with events shows the calendar; one with none yet is the forthcoming one and
+  // with events shows the program; one with none yet is the forthcoming one and
   // stands in with a "coming soon" block (ZSB-34). When absent (the online-only
   // 2021), no program block renders at all.
   const events = edition.events
@@ -85,14 +85,14 @@ export async function CachedEdition({
 
       {edition.hasProgram &&
         (hasEvents ? (
-          // The calendar reads `useSearchParams` (filters) on the client; a
+          // The program reads `useSearchParams` (filters) on the client; a
           // Suspense boundary lets the rest of the cached page prerender while
           // only this subtree client-renders, keeping the route partial-prerender
           // rather than fully dynamic (ADR 0015). Filter options are pure
           // aggregation over `events` — computed once here rather than on every
           // client render.
           <Suspense fallback={null}>
-            <Calendar
+            <Program
               year={edition.year}
               events={events}
               filterOptions={computeFilterOptions(events)}

@@ -1,9 +1,9 @@
 import { sva } from 'styled-system/css'
 
 export const editionsPage = sva({
-  slots: ['slot', 'card'],
+  slots: ['index', 'entry'],
   base: {
-    slot: { lg: { '&[data-feature]': { gridColumn: '1 / -1' } } },
-    card: { height: 'full' },
+    index: { listStyle: 'none', margin: '0', padding: '0' },
+    entry: { paddingBlock: 'xl', borderTop: 'hairline' },
   },
 })

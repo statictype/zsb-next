@@ -30,7 +30,8 @@ export const pillarGrid = sva({
       pair: {
         item: {
           md: {
-            padding: 'xl',
+            paddingInline: 'xl',
+            paddingBlock: '4xl',
             '&:nth-child(odd)': {
               paddingLeft: '0',
               borderRight: 'hairline',
@@ -42,13 +43,11 @@ export const pillarGrid = sva({
     },
     titleTone: {
       heading: { title: { color: 'heading' } },
-      highlight: { title: { color: 'highlight' } },
+      highlight: { title: { color: 'heading' } },
     },
-    titleScale: { standard: {}, responsive: {} },
   },
   defaultVariants: {
     rhythm: 'bookend',
     titleTone: 'heading',
-    titleScale: 'standard',
   },
 })

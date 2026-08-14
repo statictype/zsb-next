@@ -1,7 +1,6 @@
 import type { EditionCardData } from '@/components/EditionCard/EditionCard'
-import { type DerivedEditions, deriveEditions, resolveLeadEdition } from '@/lib/derive-editions'
+import { type DerivedEditions, deriveEditions } from '@/lib/derive-editions'
 import { todayInBucharest } from '@/lib/today'
-import { groupVenuesByType, type VenueTypeSection } from '@/lib/venues'
 import {
   type EditionListItem,
   getEditionCardsFromSanity,
@@ -9,7 +8,6 @@ import {
   getEditionsListFromSanity,
   getEditionYearsFromSanity,
   getHeroEditionLeadFromSanity,
-  getVisitEditionLeadFromSanity,
 } from '@/sanity/lib/editions'
 import { type DynamicFetchOptions, type LivePerspective, PUBLISHED } from '@/sanity/lib/live'
 import type { CalendarEvent, Edition } from '@/types/edition'
@@ -43,38 +41,8 @@ export async function getLatestAndUpcoming(
   return deriveEditions(list, todayIso)
 }
 
-/** The Visit page's venues view: the resolved edition's year plus its events
- *  grouped into venue-type sections, built here (ZSB-65) so the component is a
- *  pure renderer and shares the calendar's venue rollup. */
-export interface VisitVenues {
-  year: number
-  sections: VenueTypeSection[]
-}
-
-/**
- * The venues view shown on the Visit page (ZSB-46): the Visit switch
- * (latest|upcoming) resolved against the derived editions (ADR 0016), falling
- * back to Latest when the switch is 'upcoming' but nothing is ahead. `undefined`
- * when there are no eligible editions or the edition has no events to group (the
- * online-only 2021 has none, so it naturally yields nothing).
- */
-export async function getVisitEdition(
-  options: DynamicFetchOptions,
-): Promise<VisitVenues | undefined> {
-  const [lead, pair] = await Promise.all([
-    getVisitEditionLeadFromSanity(options),
-    getLatestAndUpcoming(options),
-  ])
-  const chosen = resolveLeadEdition(lead, pair)
-  if (!chosen) return undefined
-  const edition = await getEdition(chosen.year, options)
-  if (!edition) return undefined
-  const sections = groupVenuesByType(edition.events)
-  return sections.length ? { year: edition.year, sections } : undefined
-}
-
 /** The upcoming edition the home hero leads with (ZSB-44), once auto-derived. */
-export type UpcomingHero = Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'dateTape'>
+export type UpcomingHero = Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'dateLine'>
 
 /**
  * The upcoming edition the home hero should lead with (ZSB-44) — returned only
@@ -95,7 +63,7 @@ export async function getHeroUpcoming(options: DynamicFetchOptions): Promise<Upc
     year: edition.year,
     theme: edition.theme,
     themeHighlight: edition.themeHighlight,
-    dateTape: edition.dateTape,
+    dateLine: edition.dateLine,
   }
 }
 

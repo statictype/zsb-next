@@ -284,6 +284,22 @@ SANITY_REVALIDATE_SECRET  # webhook signature shared with sanity.io/manage
 
 All required. `env.ts` and `token.ts` throw at import time if anything is missing — fail fast at boot.
 
+```
+NEXT_PUBLIC_ZSB_TODAY     # optional, local preview only — see below
+```
+
+## Previewing clock-sensitive and unpublished states
+
+Several surfaces only render during the event window, or only when documents exist that the dataset does not have — and the 2026 edition has not happened, so no real content can produce them. Two independent levers reach those states locally.
+
+**The clock.** Set `NEXT_PUBLIC_ZSB_TODAY=YYYY-MM-DD` in `.env.local` and restart the dev server. Both clock tiers read `todayInBucharest()` (`src/lib/today.ts`), so the yearly server tier and the daily client tier always move together — a client clock in October against a server clock in August renders states that cannot occur. A malformed value throws rather than silently falling back to the real date. The override is skipped when `NODE_ENV` is production, and an explicitly supplied date (tests, the injected `todayIso` on `getLatestAndUpcoming`) always wins over it.
+
+Dates worth checking: before an edition is announced; after announcement, before its page goes live; the day the event opens; mid-event with both past and upcoming events; after it has ended.
+
+**The content.** Stand-in content is authored by hand as **draft documents in the production dataset** and viewed through draft mode — the Presentation tool, or `/api/draft-mode/enable`. There is no fixture layer, and none is planned: fixtures would duplicate every mapped shape, drift on each schema change, and sit outside TypeGen. Drafts cannot leak, because every request outside draft mode resolves to the `PUBLISHED` perspective (`live.ts`).
+
+2026 photography cannot exist. Drafts stand in with earlier editions' imagery; their job is to exercise layout and state, not to be accurate.
+
 ## TypeGen
 
 Run `pnpm typegen` after schema or query changes. It runs `sanity schema extract` then `sanity typegen generate`, emitting `sanity.types.ts` at the repo root. Always commit the result.

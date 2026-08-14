@@ -121,7 +121,7 @@ export default async function Image({ params }: { params: Promise<{ year: string
               fontFamily: 'Montserrat',
               fontWeight: 600,
               fontSize: 28,
-              color: BRAND.chartreuse,
+              color: BRAND.green,
               marginTop: 10,
             }}
           >

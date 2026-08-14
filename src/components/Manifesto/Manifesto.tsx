@@ -9,23 +9,29 @@ interface ManifestoProps {
   title: string
   body: string
   accent?: string
+  ground?: 'light' | 'dark'
+  flush?: boolean
 }
 
-export function Manifesto({ title, body, accent }: ManifestoProps) {
-  const s = styles()
+export function Manifesto({
+  title,
+  body,
+  accent,
+  ground = 'light',
+  flush = false,
+}: ManifestoProps) {
+  const s = styles({ flush })
 
   return (
-    <section className={cx(section({ ground: 'light', rhythm: 'lg' }), s.section)}>
-      <div className={cx(editorialSplit(), s.container)}>
+    <section className={cx(section({ ground, rhythm: 'lg' }), s.section)}>
+      <div className={cx(editorialSplit({ xl: { gridTemplateColumns: '1fr 1fr' } }), s.container)}>
         <Text variant="manifesto" className={s.title}>
-          <AccentSplit text={title} accent={accent} className={s.titleHighlight} />
+          <AccentSplit text={title} accent={accent} />
         </Text>
         <div className={s.content}>
-          <div className={s.text}>
-            <Text as="p" variant="lead">
-              {body}
-            </Text>
-          </div>
+          <Text as="p" variant="lead" maxWidth="measure">
+            {body}
+          </Text>
         </div>
       </div>
     </section>

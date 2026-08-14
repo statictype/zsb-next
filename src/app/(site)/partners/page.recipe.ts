@@ -9,7 +9,6 @@ export const partnersPage = sva({
     'whySculptureImg',
     'partnerCta',
     'partnerCtaInner',
-    'partnerCtaAccent',
     'partnerCtaBody',
   ],
   base: {
@@ -36,7 +35,6 @@ export const partnersPage = sva({
     whySculptureImg: {
       layerStyle: 'coverMono',
       background: 'gray.200',
-      filter: '[grayscale(100%)]',
     },
 
     partnerCta: {
@@ -46,7 +44,6 @@ export const partnersPage = sva({
       layerStyle: 'sectionInner',
       textAlign: 'center',
     },
-    partnerCtaAccent: { color: 'action' },
     partnerCtaBody: {
       maxWidth: 'measure',
     },

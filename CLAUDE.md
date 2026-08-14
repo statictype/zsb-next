@@ -4,22 +4,57 @@
 
 This overrides your defaults and any skill or style guide that says otherwise.
 
-A comment survives only if it states a fact **true of the world outside this
-file** that a competent reader **cannot recover** from the code, the types, the
-tests, or `git log` — a browser or vendor constraint, a load-bearing ordering
-dependency. Everything else goes, including in files
-whose neighbours are full of comments.
+**Default: zero.** A comment is an exception you have to earn, not a judgement
+call you get to make. Before writing one, name the clause below that permits it.
+No clause, no comment. "It seemed useful here" is not a clause.
 
-Delete on sight: restatement of the code; section-header banners; **design
-narration** (what a layout, spacing, or colour "reads as" — the largest source
-of bloat in this repo); justification of a chosen value; a tradeoff you already
-resolved; JSDoc repeating a type or prop name; `(ZSB-41)` / `(ADR 0015)`
-provenance; anything that goes stale when the code beside it changes.
+### The only three cases
+
+1. A vendor, browser, or spec behaviour that contradicts what the code appears
+   to do, where deleting the comment invites a "correction" that breaks it.
+2. A coupling that spans files, where nothing in *this* file shows the other end.
+3. A workaround with an external expiry — an upstream bug, a version gate. Name
+   the thing being waited on.
+
+Everything else goes, including in files whose neighbours are full of comments.
+
+### Rejected justifications
+
+These are the arguments that keep producing violations. None of them work.
+
+- *"The rationale is non-obvious."* Non-obvious rationale lives in `git log`,
+  Linear, and `../zsb-wiki/`. **Never transcribe a commit message into a file.**
+  Never name a Linear issue, ADR, or PR in a comment.
+- *"But it's a real constraint — WCAG, performance, a11y."* A constraint the
+  code already satisfies needs no comment. Case 1 covers only code that looks
+  wrong without one.
+- *"I'm just moving an existing comment."* Then move it verbatim. Relocating is
+  not licence to reword or expand.
+- *"This value is load-bearing; someone might change it."* That is what tests
+  are for.
+
+### Delete on sight
+
+Restatement of the code; section-header banners; **design narration** (what a
+layout, spacing, or colour "reads as" — the largest source of bloat in this
+repo); justification of a chosen value; a tradeoff you already resolved; JSDoc
+repeating a type or prop name; `(ZSB-41)` / `(ADR 0015)` provenance; anything
+that goes stale when the code beside it changes.
 
 Module and component doc blocks: none by default. Write one only when the
 module's role in the system is invisible from the file — "both event routes
 render this; changing the shape breaks the OG card". Two sentences, never about
 layout or props.
+
+### Check before reporting a diff as finished
+
+```sh
+git diff -U0 | grep -E '^\+' | grep -E '//|/\*'
+```
+
+Expect no output. Every hit needs a clause number stated out loud. Refactors —
+moves, renames, extractions, token work — get **zero** new comments: the code
+changed shape, the world did not.
 
 ## Props and absence
 

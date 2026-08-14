@@ -4,7 +4,7 @@ export const homePage = sva({
   slots: [
     'panel',
     'hero',
-    'heroInner',
+    'heroRail',
     'heroVisual',
     'heroPanel',
     'heroTitle',
@@ -14,7 +14,6 @@ export const homePage = sva({
     'editionsSubtext',
     'editionList',
     'editionPrefix',
-    'upcomingInner',
     'upcomingLead',
     'upcomingEyebrow',
     'upcomingBadge',
@@ -34,7 +33,7 @@ export const homePage = sva({
       flexDirection: 'column',
       justifyContent: 'flex-start',
     },
-    heroInner: {
+    heroRail: {
       position: 'relative',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
@@ -55,7 +54,7 @@ export const homePage = sva({
     // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
     heroTitle: {
       animationStyle: 'enter',
-      animationDelay: 'fast',
+      animationDelay: 'stagger',
       width: '[min-content]',
     },
 
@@ -109,19 +108,12 @@ export const homePage = sva({
         marginInline: '0',
         paddingInline: '0',
         '& > li:first-child': { borderTop: 'none' },
-        '& > li > *': { paddingBlock: '[clamp(20px, 2vw, 32px)]' },
       },
     },
     editionPrefix: {
       color: 'muted',
       transition: 'interactive',
       'a:hover &': { color: 'current' },
-    },
-    upcomingInner: {
-      position: 'relative',
-      maxWidth: 'maxWidth',
-      marginInline: 'auto',
-      width: 'full',
     },
     upcomingLead: {
       alignItems: 'flex-start',

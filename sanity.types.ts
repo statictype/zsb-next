@@ -50,7 +50,7 @@ export type WhyPoint = {
 
 export type TransportRoute = {
   _type: 'transportRoute'
-  from: string
+  stop: string
   lines: string
   walk: string
 }
@@ -172,7 +172,7 @@ export type CreditOrg = {
 export type Amenity = {
   _type: 'amenity'
   label: string
-  icon: 'wheelchair' | 'parking' | 'cafe' | 'paint' | 'restroom' | 'wifi'
+  icon: 'wheelchair' | 'parking' | 'cafe' | 'paint'
 }
 
 export type EventType = {
@@ -526,7 +526,6 @@ export type AboutPage = {
       _key: string
     } & CarouselSlide
   >
-  curatorEyebrow: string
   curatorHeadline: string
   curatorPortrait: {
     asset?: SanityImageAssetReference
@@ -595,6 +594,7 @@ export type Edition = {
   status: 'announced' | 'live'
   theme: string
   themeHighlight?: string
+  themeGloss?: string
   title?: string
   dateStart?: string
   dateEnd?: string
@@ -965,7 +965,7 @@ export type EDITIONS_LIST_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: ABOUT_PAGE_QUERY
-// Query: *[_id == "aboutPage"][0]{    hero,    manifestoTitle,    manifestoBody,    pillars,    placeImage{ ..., "lqip": asset->metadata.lqip },    carouselEyebrow,    carousel[] {      layout,      images[] {        caption,        image{ ..., "lqip": asset->metadata.lqip }      }    },    curatorEyebrow,    curatorHeadline,    curatorPortrait{ ..., "lqip": asset->metadata.lqip },    curatorName,    curatorRole,    curatorLetter,    ogImage,    metaDescription  }
+// Query: *[_id == "aboutPage"][0]{    hero,    manifestoTitle,    manifestoBody,    pillars,    placeImage{ ..., "lqip": asset->metadata.lqip },    carouselEyebrow,    carousel[] {      layout,      images[] {        caption,        image{ ..., "lqip": asset->metadata.lqip }      }    },    curatorHeadline,    curatorPortrait{ ..., "lqip": asset->metadata.lqip },    curatorName,    curatorRole,    curatorLetter,    ogImage,    metaDescription  }
 export type ABOUT_PAGE_QUERY_RESULT =
   | {
       hero: PageHero
@@ -975,7 +975,6 @@ export type ABOUT_PAGE_QUERY_RESULT =
       placeImage: null
       carouselEyebrow: null
       carousel: null
-      curatorEyebrow: null
       curatorHeadline: null
       curatorPortrait: null
       curatorName: null
@@ -999,7 +998,6 @@ export type ABOUT_PAGE_QUERY_RESULT =
       placeImage: null
       carouselEyebrow: null
       carousel: null
-      curatorEyebrow: null
       curatorHeadline: null
       curatorPortrait: null
       curatorName: null
@@ -1016,7 +1014,6 @@ export type ABOUT_PAGE_QUERY_RESULT =
       placeImage: null
       carouselEyebrow: null
       carousel: null
-      curatorEyebrow: null
       curatorHeadline: null
       curatorPortrait: null
       curatorName: null
@@ -1054,7 +1051,6 @@ export type ABOUT_PAGE_QUERY_RESULT =
           }
         }> | null
       }> | null
-      curatorEyebrow: null
       curatorHeadline: null
       curatorPortrait: null
       curatorName: null
@@ -1104,7 +1100,6 @@ export type ABOUT_PAGE_QUERY_RESULT =
           }
         }> | null
       }> | null
-      curatorEyebrow: string
       curatorHeadline: string
       curatorPortrait: {
         asset?: SanityImageAssetReference
@@ -1670,14 +1665,17 @@ export type SITEMAP_QUERY_RESULT = {
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITION_CARDS_QUERY
-// Query: *[_type == "edition" && defined(year) && status == "live"] | order(year desc) {    year,    theme,    themeHighlight,    dateStart,    dateEnd,    venueLine,    heroImage{ ..., "lqip": asset->metadata.lqip },    thumbImage{ ..., "lqip": asset->metadata.lqip }  }
+// Query: *[_type == "edition" && defined(year) && status == "live"] | order(year desc) {    year,    theme,    themeHighlight,    dateStart,    dateEnd,    hasProgram,    venueLine,    "artistCount": count(artists),    "eventCount": count(events),    heroImage{ ..., "lqip": asset->metadata.lqip },    thumbImage{ ..., "lqip": asset->metadata.lqip }  }
 export type EDITION_CARDS_QUERY_RESULT = Array<{
   year: number
   theme: string
   themeHighlight: string | null
   dateStart: string | null
   dateEnd: string | null
+  hasProgram: boolean | null
   venueLine: string | null
+  artistCount: number | null
+  eventCount: number | null
   heroImage: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -1869,7 +1867,7 @@ declare module '@sanity/client' {
     '\n  *[_id == "siteSettings"][0].heroEdition\n': HERO_EDITION_QUERY_RESULT
     '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    themeHighlight,\n    status,\n    dateStart\n  }\n': EDITIONS_LIST_QUERY_RESULT
-    '\n  *[_id == "aboutPage"][0]{\n    hero,\n    manifestoTitle,\n    manifestoBody,\n    pillars,\n    placeImage{ ..., "lqip": asset->metadata.lqip },\n    carouselEyebrow,\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    curatorEyebrow,\n    curatorHeadline,\n    curatorPortrait{ ..., "lqip": asset->metadata.lqip },\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT
+    '\n  *[_id == "aboutPage"][0]{\n    hero,\n    manifestoTitle,\n    manifestoBody,\n    pillars,\n    placeImage{ ..., "lqip": asset->metadata.lqip },\n    carouselEyebrow,\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    curatorHeadline,\n    curatorPortrait{ ..., "lqip": asset->metadata.lqip },\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT
     '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage{ ..., "lqip": asset->metadata.lqip },\n    whyEyebrow,\n    whyTitle,\n    whyImage{ ..., "lqip": asset->metadata.lqip },\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel,\n    ogImage,\n    metaDescription\n  }\n': PARTNERS_PAGE_QUERY_RESULT
     '\n  *[_id == "visitPage"][0]{\n    venueName,\n    street,\n    city,\n    mapsUrl,\n    image{ ..., "lqip": asset->metadata.lqip },\n    hoursLines,\n    amenities,\n    transport,\n    faq[]{ question, answer },\n    ogImage,\n    metaDescription\n  }\n': VISIT_PAGE_QUERY_RESULT
     '\n  *[_id == "privacyPage"][0]{\n    hero,\n    body,\n    updatedAt,\n    ogImage,\n    metaDescription\n  }\n': PRIVACY_PAGE_QUERY_RESULT
@@ -1882,7 +1880,7 @@ declare module '@sanity/client' {
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year) && status == "live"] | order(year desc){ year }\n': EDITION_YEARS_QUERY_RESULT
     '\n  {\n    "editions": *[_type == "edition" && defined(year) && status == "live"]\n      | order(year desc){ year, _updatedAt },\n    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{\n      _id,\n      _updatedAt\n    },\n    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]\n      | order(_updatedAt desc)[0]._updatedAt\n  }\n': SITEMAP_QUERY_RESULT
-    '\n  *[_type == "edition" && defined(year) && status == "live"] | order(year desc) {\n    year,\n    theme,\n    themeHighlight,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip }\n  }\n': EDITION_CARDS_QUERY_RESULT
+    '\n  *[_type == "edition" && defined(year) && status == "live"] | order(year desc) {\n    year,\n    theme,\n    themeHighlight,\n    dateStart,\n    dateEnd,\n    hasProgram,\n    venueLine,\n    "artistCount": count(artists),\n    "eventCount": count(events),\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip }\n  }\n': EDITION_CARDS_QUERY_RESULT
     '\n  *[_type == "edition" && year == $year && status == "live"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip },\n    ogImage,\n    metaDescription,\n    manifesto,\n    themeSection,\n    hasProgram,\n    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },\n    events[] {\n      _key,\n      "slug": slug.current,\n      name,\n      startDate,\n      startTime,\n      endDate,\n      "types": types[]->{ "title": title, "slug": slug.current },\n      "venue": venue->{\n        name,\n        "slug": slug.current,\n        "type": type->title,\n        address,\n        mapUrl,\n        "partOf": partOf->{ name, "type": type->title }\n      },\n      description,\n      image{ ..., "lqip": asset->metadata.lqip },\n      ogImage{ ... },\n      facebookUrl,\n      ticketUrl,\n      featured\n    },\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        logo\n      },\n      organizations[]->{\n        name,\n        logo\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
   }
 }

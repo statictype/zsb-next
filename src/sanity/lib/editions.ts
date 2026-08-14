@@ -100,8 +100,8 @@ export async function getEditionYearsFromSanity(): Promise<EditionYearRow[]> {
 }
 
 /**
- * The /editions archive cards in one card-shaped query — year, theme tape,
- * dateTape inputs, imagery — instead of a full-edition fetch per year.
+ * The /editions archive cards in one card-shaped query — year, theme,
+ * dateLine inputs, imagery — instead of a full-edition fetch per year.
  * Respects the caller's perspective so an editor can preview draft edits.
  */
 export async function getEditionCardsFromSanity(

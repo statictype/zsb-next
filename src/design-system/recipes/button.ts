@@ -36,6 +36,8 @@ const selected = {
     borderColor: 'highlight',
     color: 'black',
     boxShadow: 'litEdge',
+    // The unpressed roll copy is `action`, which is 1.16:1 on the fill.
+    '& [data-btn-copy]': { color: 'black' },
   },
 } as const
 
@@ -110,8 +112,8 @@ export const button = defineRecipe({
       icon: {
         background: 'transparent',
         color: 'heading',
-        width: 'hitTarget',
-        height: 'hitTarget',
+        width: 'touch',
+        height: 'touch',
         _hover: { color: 'action' },
       },
       link: {

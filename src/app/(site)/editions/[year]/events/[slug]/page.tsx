@@ -1,5 +1,5 @@
-import { EventView } from '@calendar/EventView'
-import { eventSteps } from '@calendar/event-steps'
+import { EventView } from '@program/EventView'
+import { eventSteps } from '@program/event-steps'
 import { notFound } from 'next/navigation'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { getAllEventParams, getEdition, getEditionForMetadata } from '@/data/editions'
@@ -22,7 +22,7 @@ export async function generateStaticParams() {
   return getAllEventParams()
 }
 
-// Renders only on a cold load: soft navigation from the calendar is intercepted
+// Renders only on a cold load: soft navigation from the program is intercepted
 // by the sibling `@modal` slot, which opens the same event as a modal instead.
 export default async function EventPage(props: PageProps<'/editions/[year]/events/[slug]'>) {
   const [{ year, slug }, options] = await Promise.all([props.params, getDynamicFetchOptions()])

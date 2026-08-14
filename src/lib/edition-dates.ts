@@ -1,8 +1,3 @@
-// Pure date-formatting helpers for editions — no Sanity / `server-only`
-// dependency so they stay trivially unit-testable and reusable by the
-// calendar/event work (ZSB-28/25). Extracted from the edition mapper, which
-// imports `composeDateTape` from here.
-
 const MONTHS = [
   'January',
   'February',
@@ -49,10 +44,20 @@ export function composeDateRange(raw: {
   return formatDateRange(raw.dateStart, raw.dateEnd) ?? ''
 }
 
-// Compose the hero date tape from the typed fields. The mapper owns the `·`
+// The yearless face — "16 Apr – 11 May". For surfaces that already set the
+// edition year as its own element, where `composeDateRange` would repeat it.
+export function composeDateSpan(raw: {
+  dateStart?: string | null
+  dateEnd?: string | null
+}): string {
+  if (!raw.dateStart || !raw.dateEnd) return ''
+  return formatShortRange(raw.dateStart, raw.dateEnd) ?? ''
+}
+
+// Compose the hero date line from the typed fields. The mapper owns the `·`
 // glyph so it stays consistent across editions. Empty string if the dates are
 // missing (only possible on a malformed doc — live editions require them).
-export function composeDateTape(raw: {
+export function composeDateLine(raw: {
   dateStart?: string | null
   dateEnd?: string | null
   venueLine?: string | null
@@ -62,7 +67,7 @@ export function composeDateTape(raw: {
   return raw.venueLine ? `${range} · ${raw.venueLine}` : range
 }
 
-// ---- Calendar helpers (ZSB-28) ----
+// ---- Program helpers (ZSB-28) ----
 
 const WEEKDAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const
 const WEEKDAYS_LONG = [
@@ -93,14 +98,14 @@ export interface DayToken {
   weekday: string
   weekdayLong: string
   day: number
-  /** Zero-padded day, for the big agenda numeral. */
+  /** Zero-padded day, for the big day-by-day numeral. */
   dayPadded: string
   month: string
   monthLong: string
   year: number
 }
 
-// Break an ISO `YYYY-MM-DD` into the pieces the agenda date marker renders.
+// Break an ISO `YYYY-MM-DD` into the pieces the day-by-day date marker renders.
 // Weekday is derived via UTC so it never drifts by a day across timezones.
 export function dayToken(iso: string): DayToken | undefined {
   const p = dateParts(iso)
@@ -124,13 +129,15 @@ export function isMultiDayRun(startIso: string, endIso?: string | null): boolean
 }
 
 // Compact span for the "Ongoing" run ranges, short months, year only when it spans
-// one: "26 Apr – 11 May", same month "26–28 Apr", cross-year full both sides.
+// one: "26 Apr – 11 May", same month "26–28 Apr", same day "24 Apr", cross-year
+// full both sides.
 export function formatShortRange(startIso: string, endIso: string): string | undefined {
   const s = dateParts(startIso)
   const e = dateParts(endIso)
   if (!s || !e) return undefined
   const sm = MONTHS_SHORT[s.m - 1]
   const em = MONTHS_SHORT[e.m - 1]
+  if (s.y === e.y && s.m === e.m && s.d === e.d) return `${s.d} ${sm}`
   if (s.y === e.y && s.m === e.m) return `${s.d}–${e.d} ${sm}`
   if (s.y === e.y) return `${s.d} ${sm} – ${e.d} ${em}`
   return `${s.d} ${sm} ${s.y} – ${e.d} ${em} ${e.y}`
@@ -189,7 +196,7 @@ export function isPastEvent(event: EventWhen, todayIso: string): boolean {
 
 // The full edition window [earliest start, latest end] across every event.
 // Judged on the whole edition (never a filtered subset) so live/ended status
-// stays stable as the calendar's filters change.
+// stays stable as the program's filters change.
 export function editionWindow(events: EventWhen[]): [string | null, string | null] {
   let start: string | null = null
   let end: string | null = null

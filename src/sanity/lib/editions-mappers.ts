@@ -1,7 +1,7 @@
 import type { EDITION_BY_YEAR_QUERY_RESULT, EDITION_CARDS_QUERY_RESULT } from '@/../sanity.types'
 import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { definedFields } from '@/lib/defined-fields'
-import { composeDateRange, composeDateTape, dayToken } from '@/lib/edition-dates'
+import { composeDateLine, composeDateRange, composeDateSpan, dayToken } from '@/lib/edition-dates'
 import { editionHref } from '@/lib/edition-href'
 import { slugify } from '@/lib/slugify'
 import { rollUpVenue } from '@/lib/venues'
@@ -128,7 +128,7 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
 /**
  * The /editions archive card slice — same field conventions as `mapEdition`
  * below (required hero fails loudly, optional thumb flows as absence, the
- * mapper owns the dateTape composition).
+ * mapper owns the date composition).
  */
 export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): EditionCardData {
   return definedFields({
@@ -136,10 +136,11 @@ export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): Edition
     href: editionHref(raw.year),
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
-    dateRange: composeDateRange(raw),
-    dateTape: composeDateTape(raw),
-    venueLine: raw.venueLine ?? '',
-    heroImage: requireImageData(raw.heroImage, 'heroImage'),
+    dateSpan: composeDateSpan(raw),
+    venueLine: raw.hasProgram === false ? (raw.venueLine ?? undefined) : undefined,
+    artistCount: raw.artistCount ?? 0,
+    eventCount: raw.eventCount ?? 0,
+    heroImage: toImageData(raw.heroImage),
     thumbImage: toImageData(raw.thumbImage),
   })
 }
@@ -156,7 +157,7 @@ export function mapEdition(raw: SanityEdition): Edition {
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
     dateRange: composeDateRange(raw),
-    dateTape: composeDateTape(raw),
+    dateLine: composeDateLine(raw),
     dateStart: raw.dateStart ?? '',
     dateEnd: raw.dateEnd ?? '',
     venueLine: raw.venueLine ?? '',

@@ -68,16 +68,16 @@ export async function firstEditionHref(page: Page): Promise<string | null> {
 }
 
 /**
- * Past editions fold their programme — filters *and* the event board — behind a
- * shared Collapsible ("View full programme", ZSB-45). Open it so the calendar
+ * Past editions fold their program — filters *and* the event board — behind a
+ * shared Collapsible ("Browse the full program"). Open it so the program
  * is interactable. A no-op on live/upcoming editions, which render expanded.
  */
-export async function openFullProgramme(page: Page): Promise<void> {
-  const toggle = page.getByText(/view full programme/i).first()
+export async function openFullProgram(page: Page): Promise<void> {
+  const toggle = page.getByRole('button', { name: /browse the full program/i }).first()
   const eventLink = page.locator('a[href*="/events/"]:visible').first()
 
-  // Cache Components can stream the Calendar after the document's load event.
-  // Wait for either an already-expanded programme or its archive toggle instead
+  // Cache Components can stream the Program after the document's load event.
+  // Wait for either an already-expanded program or its archive toggle instead
   // of treating an immediate `isVisible() === false` as proof that no toggle exists.
   await expect
     .poll(async () => {
@@ -94,10 +94,10 @@ export async function openFullProgramme(page: Page): Promise<void> {
 }
 
 /**
- * Find an edition whose page renders a calendar of events, by following the
+ * Find an edition whose page renders a program of events, by following the
  * `/editions/{year}` → `/editions/{year}/events/{slug}` route contract (ADR
  * 0015) rather than any markup. Returns the edition URL, or null if the dataset
- * has no edition with an announced programme (calendar journeys then skip).
+ * has no edition with an announced program (program journeys then skip).
  */
 export async function findEditionWithEvents(page: Page): Promise<string | null> {
   await page.goto('/editions')
@@ -112,7 +112,7 @@ export async function findEditionWithEvents(page: Page): Promise<string | null> 
         ),
       ),
     )
-  // Cap the crawl — newest editions come first, so a programme shows up fast.
+  // Cap the crawl — newest editions come first, so a program shows up fast.
   for (const url of years.slice(0, 6)) {
     await page.goto(url)
     if ((await page.locator('a[href*="/events/"]').count()) > 0) return url

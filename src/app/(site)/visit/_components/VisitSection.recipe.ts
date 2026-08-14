@@ -1,58 +1,70 @@
 import { sva } from 'styled-system/css'
 
-export const visitSection = sva({
-  slots: ['section', 'content'],
-  base: {
-    section: { width: 'full', paddingBlock: 'sectionY' },
-  },
-})
-
 export const visitImageFrame = sva({
-  slots: ['block', 'frame', 'image'],
+  slots: ['frame', 'image'],
   base: {
-    block: {
-      padding: 'lg',
-      maxWidth: 'narrowColumn',
-      marginInline: 'auto',
-      lg: { maxWidth: '[none]', marginInline: '0' },
-    },
     frame: {
       position: 'relative',
       aspectRatio: '1 / 1',
       overflow: 'hidden',
+      maxWidth: 'narrowColumn',
+      marginInline: 'auto',
       md: { aspectRatio: '4 / 5' },
+      lg: {
+        maxWidth: '[none]',
+        marginInline: '0',
+        aspectRatio: 'auto',
+        alignSelf: 'stretch',
+      },
     },
-    image: { objectFit: 'cover', background: 'gray.900' },
+    image: { layerStyle: 'coverMono', background: 'gray.900' },
   },
 })
 
-export const visitInfoSummary = sva({
-  slots: ['row', 'icon', 'value'],
+export const visitFacts = sva({
+  slots: ['group', 'pair', 'value'],
   base: {
-    row: {
+    group: {
+      '& + &': { borderTop: 'hairline', paddingTop: 'xl' },
+    },
+    pair: {
       display: 'flex',
       flexDirection: 'column',
       gap: 'lg',
-      flexWrap: 'wrap',
       md: { flexDirection: 'row', gap: 'xl' },
     },
-    icon: { color: 'action' },
     value: {
-      // exception: bright body on dark, lead-style emphasis
-      color: 'gray.200',
       // Joined multi-line values (opening hours) render their own '\n' breaks.
       whiteSpace: 'pre-line',
+      fontVariantNumeric: 'tabular-nums',
     },
   },
 })
 
 export const transportList = sva({
-  slots: ['icon', 'from'],
+  slots: ['list', 'row', 'stop', 'lines', 'walk'],
   base: {
-    icon: { flexShrink: '0' },
-    from: {
-      // exception: bright emphasis for city name
-      color: 'gray.300',
+    list: {
+      listStyle: 'none',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'md',
+    },
+    row: {
+      display: 'grid',
+      gridTemplateColumns: '1fr auto',
+      gridTemplateAreas: '"stop walk" "lines lines"',
+      columnGap: 'md',
+      rowGap: 'xs',
+      alignItems: 'baseline',
+    },
+    stop: { gridArea: 'stop' },
+    lines: { gridArea: 'lines', fontVariantNumeric: 'tabular-nums' },
+    walk: {
+      gridArea: 'walk',
+      textAlign: 'end',
+      fontVariantNumeric: 'tabular-nums',
+      whiteSpace: 'nowrap',
     },
   },
 })

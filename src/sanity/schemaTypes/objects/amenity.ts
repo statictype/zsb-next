@@ -10,8 +10,6 @@ const AMENITY_ICONS = [
   { title: 'Parking', value: 'parking' },
   { title: 'Café', value: 'cafe' },
   { title: 'Kids workshops', value: 'paint' },
-  { title: 'Restroom', value: 'restroom' },
-  { title: 'Wi-Fi', value: 'wifi' },
 ] as const
 
 export const amenity = defineType({

@@ -3,7 +3,7 @@ import {
   expectErrorClean,
   findEditionWithEvents,
   firstEditionHref,
-  openFullProgramme,
+  openFullProgram,
   trackErrors,
 } from '@e2e/helpers'
 import { expect, test } from '@playwright/test'
@@ -114,7 +114,7 @@ test.describe('mobile navigation', () => {
   })
 })
 
-test.describe('calendar', () => {
+test.describe('program', () => {
   let editionUrl: string | null = null
 
   test.beforeAll(async ({ browser }) => {
@@ -126,12 +126,12 @@ test.describe('calendar', () => {
   test('opening an event shows its dialog and updates the URL; Escape closes it', async ({
     page,
   }) => {
-    test.skip(!editionUrl, 'no edition with an announced programme in the dataset')
+    test.skip(!editionUrl, 'no edition with an announced program in the dataset')
     await page.goto(editionUrl!)
     await dismissCookies(page)
-    await openFullProgramme(page)
+    await openFullProgram(page)
 
-    // The calendar renders responsive layout variants; click the first event
+    // The program renders responsive layout variants; click the first event
     // link that's actually visible, not the first in DOM order (may be hidden).
     const eventLink = page.locator('a[href*="/events/"]:visible').first()
     await eventLink.scrollIntoViewIfNeeded()
@@ -152,10 +152,10 @@ test.describe('calendar', () => {
   test('a cold event URL renders its own page, which links back to the edition', async ({
     page,
   }) => {
-    test.skip(!editionUrl, 'no edition with an announced programme in the dataset')
+    test.skip(!editionUrl, 'no edition with an announced program in the dataset')
     await page.goto(editionUrl!)
     await dismissCookies(page)
-    await openFullProgramme(page)
+    await openFullProgram(page)
 
     const eventHref = await page.locator('a[href*="/events/"]').first().getAttribute('href')
     expect(eventHref).toBeTruthy()
@@ -169,37 +169,38 @@ test.describe('calendar', () => {
     await expect(page.getByRole('dialog')).toHaveCount(0)
 
     await page
-      .getByRole('link', { name: /\d{4} calendar/i })
+      .getByRole('link', { name: /\d{4} program/i })
       .first()
       .click()
     await expect(page).toHaveURL(new RegExp(`${editionUrl!}(#|$)`))
   })
 
-  test('filtering the programme toggles state and Reset restores it', async ({ page }) => {
-    test.skip(!editionUrl, 'no edition with an announced programme in the dataset')
+  test('filtering the program toggles state and Reset restores it', async ({ page }) => {
+    test.skip(!editionUrl, 'no edition with an announced program in the dataset')
     await page.goto(editionUrl!)
     await dismissCookies(page)
-    await openFullProgramme(page)
+    await openFullProgram(page)
 
-    const filters = page.getByRole('group', { name: /filter the programme/i })
+    const filters = page.getByRole('group', { name: /filter the program/i })
     test.skip((await filters.count()) === 0, 'this edition has no multi-option facets to filter by')
 
     const reset = filters.getByRole('button', { name: /^reset$/i })
     const chip = filters.getByRole('checkbox').first()
-    // Count only visible event links — the calendar renders responsive variants.
+    // Count only visible event links — the program renders responsive variants.
     const eventCount = () => page.locator('a[href*="/events/"]:visible').count()
 
-    await expect(reset).toBeDisabled()
+    // Reset only exists once the filters deviate from the default.
+    await expect(reset).toHaveCount(0)
     const before = await eventCount()
 
     await chip.press('Space')
     await expect(chip).not.toBeChecked()
-    await expect(reset).toBeEnabled()
-    // A single facet never *adds* events to the programme.
+    await expect(reset).toBeVisible()
+    // A single facet never *adds* events to the program.
     await expect.poll(eventCount).toBeLessThanOrEqual(before)
 
     await reset.click()
-    await expect(reset).toBeDisabled()
+    await expect(reset).toHaveCount(0)
     await expect.poll(eventCount).toBe(before)
   })
 })

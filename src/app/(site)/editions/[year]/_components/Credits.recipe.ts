@@ -1,17 +1,31 @@
 import { sva } from 'styled-system/css'
 
 export const credits = sva({
-  slots: [
-    'detail',
-    'logo',
-    'badge',
-    'partnersBlock',
-    'partnersLabel',
-    'partnersList',
-    'inline',
-    'inlineNames',
-  ],
+  slots: ['ledger', 'row', 'accent', 'value', 'detail', 'logo', 'run'],
   base: {
+    ledger: {
+      width: 'full',
+      borderTop: 'hairline',
+    },
+    row: {
+      display: 'grid',
+      gridTemplateColumns: 'minmax(0, 1fr)',
+      rowGap: 'xs',
+      paddingBlock: 'md',
+      borderBottom: 'hairline',
+      md: {
+        gridTemplateColumns: '[minmax(140px, 16%) minmax(0, 1fr)]',
+        columnGap: 'lg',
+        alignItems: 'baseline',
+      },
+    },
+    accent: { color: 'action' },
+    value: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      minWidth: '0',
+    },
     detail: {
       whiteSpace: 'pre-line',
     },
@@ -19,19 +33,20 @@ export const credits = sva({
       height: '[44px]',
       width: 'auto',
       objectFit: 'contain',
-      filter: '[grayscale(100%)]',
-      opacity: 0.8,
+      objectPosition: 'left',
+      filter: '[token(assets.grayscaleFull)]',
       transition: 'develop',
-      md: { height: '[60px]' },
-      _hover: { filter: '[grayscale(0%)]', opacity: 1 },
+      marginTop: 'md',
+      md: { height: '[64px]' },
+      _hover: { filter: '[none]' },
     },
-    badge: { xl: { gridColumn: 4 } },
-
-    partnersBlock: {
-      md: { gridColumn: 'span 2' },
-    },
-    partnersLabel: { color: 'action' },
-    partnersList: {
+    run: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'baseline',
+      columnGap: '0',
+      rowGap: 'xs',
+      maxWidth: 'measure',
       '& span': {
         display: 'inline-flex',
         alignItems: 'center',
@@ -46,15 +61,6 @@ export const credits = sva({
         borderRadius: 'circle',
         background: 'action',
       },
-    },
-
-    inline: {
-      md: { gridColumn: 'span 2' },
-      lg: { gridColumn: 'span 1' },
-    },
-    inlineNames: {
-      // Authored multi-line strings render their own '\n' breaks.
-      whiteSpace: 'pre-line',
     },
   },
 })

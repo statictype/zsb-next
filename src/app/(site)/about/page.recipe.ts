@@ -2,50 +2,73 @@ import { sva } from 'styled-system/css'
 
 export const aboutPage = sva({
   slots: [
-    'placeImage',
-    'placeImageImg',
+    'plates',
+    'supports',
+    'plateFrame',
+    'plateImg',
+    'plateCredit',
     'statement',
     'statementInner',
     'statementAside',
     'statementByline',
-    'authorPhotoFrame',
     'authorPhoto',
     'authorPhotoImg',
     'authorCaption',
     'statementLetter',
   ],
   base: {
-    placeImage: {
+    plates: {
+      paddingTop: 'xl',
+    },
+
+    plateFrame: {
       position: 'relative',
+      isolation: 'isolate',
       aspectRatio: '1 / 1',
       overflow: 'hidden',
-      border: 'hairline',
-      md: { aspectRatio: '16 / 9' },
+      md: { aspectRatio: '21 / 9' },
+      _after: {
+        content: '""',
+        position: 'absolute',
+        insetInline: '0',
+        bottom: '0',
+        height: '[42%]',
+        zIndex: '1',
+        pointerEvents: 'none',
+        backgroundGradient: 'stageScrim',
+      },
     },
-    placeImageImg: {
+    plateImg: {
       layerStyle: 'coverMono',
       background: 'gray.900',
     },
+    plateCredit: {
+      position: 'absolute',
+      insetInline: '0',
+      bottom: '0',
+      zIndex: '2',
+      maxWidth: 'maxWidth',
+      marginInline: 'auto',
+      paddingInline: 'gutter',
+      paddingBottom: 'md',
+    },
 
-    // Curator letter — signed editorial spread on light. Ground (light) +
-    // rhythm (lg) from `section()` in the component; `statementInner` is the rail.
     statement: {
       borderTop: 'hairline',
     },
     statementInner: {
-      layerStyle: 'sectionInner',
+      marginInline: 'auto',
+      paddingInline: 'gutter',
+      maxWidth:
+        '[calc(token(sizes.measure) + 300px + token(spacing.3xl) + 2 * token(spacing.gutter))]',
       display: 'flex',
       flexDirection: 'column',
-      gap: '2xl',
+      gap: 'xl',
       lg: {
         display: 'grid',
-        gridTemplateColumns: 'minmax(260px, 340px) minmax(0, 1fr)',
-        columnGap: '2xl',
-        alignItems: 'start',
-      },
-      '2xl': {
-        gridTemplateColumns: 'minmax(300px, 380px) minmax(0, 1fr)',
+        gridTemplateColumns: 'minmax(220px, 300px) minmax(0, 1fr)',
         columnGap: '3xl',
+        alignItems: 'start',
       },
     },
     statementAside: {
@@ -55,29 +78,32 @@ export const aboutPage = sva({
       },
     },
     statementByline: {
-      maxWidth: '[240px]',
-    },
-    authorPhotoFrame: {
-      padding: 'sm',
-      background: 'white',
-      border: 'hairline',
-      _hover: { '& img': { filter: '[grayscale(0%)]', transform: 'scale(1.03)' } },
+      alignItems: 'start',
+      maxWidth: '[300px]',
     },
     authorPhoto: {
       position: 'relative',
-      aspectRatio: '4 / 5',
+      aspectRatio: '1 / 1',
+      width: '[100%]',
+      maxWidth: '[200px]',
       overflow: 'hidden',
       background: 'gray.200',
+      border: 'hairline',
     },
     authorPhotoImg: {
-      objectFit: 'cover',
-      background: 'gray.200',
-      filter: '[grayscale(100%) contrast(1.02)]',
-      transition: 'develop',
+      layerStyle: 'coverMono',
     },
     authorCaption: {
+      alignSelf: 'stretch',
       borderTop: 'primary',
+      paddingTop: 'sm',
     },
-    statementLetter: { maxWidth: 'measure' },
+    statementLetter: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'md',
+      '& > p': { maxWidth: 'measure' },
+      '& > p:first-child': { marginBottom: 'sm' },
+    },
   },
 })

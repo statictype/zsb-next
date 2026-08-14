@@ -27,7 +27,6 @@ export const accordion = defineSlotRecipe({
       _hover: { color: 'action' },
       '& [data-accordion-meta]': {
         marginLeft: 'auto',
-        color: 'muted',
       },
     },
     itemContent: {
@@ -35,6 +34,9 @@ export const accordion = defineSlotRecipe({
       flexDirection: 'column',
       gap: 'lg',
       paddingBottom: 'lg',
+      // Ark sets `hidden` on the collapsed panel; this `display` outranks the
+      // UA rule that would act on it.
+      _hidden: { display: 'none' },
     },
     itemIndicator: {
       layerStyle: 'disclosureIndicator',

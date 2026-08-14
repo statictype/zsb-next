@@ -67,7 +67,7 @@ export function CookieBanner() {
               role="region"
               aria-live="polite"
               aria-labelledby="cookie-consent-title"
-              className={cx(s.banner, css({ animationStyle: 'enter.snappy' }))}
+              className={cx(s.banner, css({ animationStyle: 'arrive' }))}
             >
               <HStack
                 className={s.inner}

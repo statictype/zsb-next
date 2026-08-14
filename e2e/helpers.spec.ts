@@ -1,19 +1,19 @@
+import { openFullProgram } from '@e2e/helpers'
 import { expect, test } from '@playwright/test'
-import { openFullProgramme } from '@e2e/helpers'
 
-test('openFullProgramme waits for a streamed archive before opening it', async ({ page }) => {
+test('openFullProgram waits for a streamed archive before opening it', async ({ page }) => {
   await page.setContent('<main id="app"></main>')
   await page.evaluate(() => {
     setTimeout(() => {
       const app = document.querySelector('#app')
       if (app) {
         app.innerHTML =
-          '<details><summary><span>View full programme</span></summary><a href="/editions/2025/events/example">Example event</a></details>'
+          '<div><button type="button" onclick="document.getElementById(\'program\').hidden = false">Browse the full program</button><div id="program" hidden><a href="/editions/2025/events/example">Example event</a></div></div>'
       }
     }, 100)
   })
 
-  await openFullProgramme(page)
+  await openFullProgram(page)
 
   await expect(page.getByRole('link', { name: 'Example event' })).toBeVisible()
 })

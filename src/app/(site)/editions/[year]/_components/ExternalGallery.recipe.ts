@@ -64,14 +64,13 @@ export const externalGallery = sva({
       position: 'absolute',
       inset: '0',
       '& [data-part="monogram"]': {
-        textStyle: 'externalGallery.plateType.monogram',
+        textStyle: 'display',
       },
       '& [data-part="zsb"]': {
-        textStyle: 'externalGallery.plateType.zsb',
         color: 'white',
       },
       '& [data-part="year"]': {
-        textStyle: 'externalGallery.plateType.year',
+        textStyle: 'title',
         color: 'action',
       },
       '& [data-part="meta"]': {

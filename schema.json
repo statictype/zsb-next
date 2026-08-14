@@ -217,7 +217,7 @@
             "value": "transportRoute"
           }
         },
-        "from": {
+        "stop": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
@@ -956,14 +956,6 @@
               {
                 "type": "string",
                 "value": "paint"
-              },
-              {
-                "type": "string",
-                "value": "restroom"
-              },
-              {
-                "type": "string",
-                "value": "wifi"
               }
             ]
           },
@@ -3147,13 +3139,6 @@
         },
         "optional": true
       },
-      "curatorEyebrow": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": false
-      },
       "curatorHeadline": {
         "type": "objectAttribute",
         "value": {
@@ -3562,6 +3547,13 @@
         "optional": false
       },
       "themeHighlight": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "themeGloss": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

@@ -7,24 +7,20 @@ describe('Collapsible', () => {
   it('starts closed, keeps archive content mounted, and exposes both state labels', async () => {
     const user = userEvent.setup()
     const { container } = render(
-      <Collapsible
-        closedLabel="View full programme"
-        openLabel="Hide full programme"
-        meta="3 events"
-      >
-        <p>Archived programme</p>
+      <Collapsible closedLabel="View full program" openLabel="Hide full program" meta="3 events">
+        <p>Archived program</p>
       </Collapsible>,
     )
 
     const trigger = screen.getByRole('button')
     expect(trigger).toHaveAttribute('aria-expanded', 'false')
     expect(container.querySelector('[data-collapsible-label="closed"]')).toHaveTextContent(
-      'View full programme',
+      'View full program',
     )
     expect(container.querySelector('[data-collapsible-label="open"]')).toHaveTextContent(
-      'Hide full programme',
+      'Hide full program',
     )
-    expect(screen.getByText('Archived programme')).toBeInTheDocument()
+    expect(screen.getByText('Archived program')).toBeInTheDocument()
 
     await user.click(trigger)
     expect(trigger).toHaveAttribute('aria-expanded', 'true')

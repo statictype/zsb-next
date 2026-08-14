@@ -35,7 +35,7 @@ export function HomepageCarousel({
               <Figure
                 image={image}
                 sizes="(min-width: 1792px) 1024px, (min-width: 1280px) 60vw, 100vw"
-                priority={index === 0}
+                preload={index === 0}
                 className={styles.image}
                 style={image.position ? { objectPosition: image.position } : undefined}
                 draggable={false}

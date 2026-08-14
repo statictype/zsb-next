@@ -6,13 +6,13 @@ import '@app/panda.css'
 
 const delaGothic = Dela_Gothic_One({
   weight: '400',
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-dela-gothic',
   display: 'swap',
 })
 
 const montserrat = Montserrat({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-montserrat',
   display: 'swap',
   weight: ['300', '400', '500', '600', '700', '800', '900'],
