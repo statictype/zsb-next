@@ -8,7 +8,7 @@ test('openFullProgram waits for a streamed archive before opening it', async ({ 
       const app = document.querySelector('#app')
       if (app) {
         app.innerHTML =
-          '<details><summary><span>View full program</span></summary><a href="/editions/2025/events/example">Example event</a></details>'
+          '<div><button type="button" onclick="document.getElementById(\'program\').hidden = false">Browse the full program</button><div id="program" hidden><a href="/editions/2025/events/example">Example event</a></div></div>'
       }
     }, 100)
   })

@@ -69,11 +69,11 @@ export async function firstEditionHref(page: Page): Promise<string | null> {
 
 /**
  * Past editions fold their program — filters *and* the event board — behind a
- * shared Collapsible ("View full program", ZSB-45). Open it so the program
+ * shared Collapsible ("Browse the full program"). Open it so the program
  * is interactable. A no-op on live/upcoming editions, which render expanded.
  */
 export async function openFullProgram(page: Page): Promise<void> {
-  const toggle = page.getByText(/view full program/i).first()
+  const toggle = page.getByRole('button', { name: /browse the full program/i }).first()
   const eventLink = page.locator('a[href*="/events/"]:visible').first()
 
   // Cache Components can stream the Program after the document's load event.

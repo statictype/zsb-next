@@ -17,7 +17,7 @@ test('edition gallery lightbox arrows survive a soft navigation', async ({ page 
   await page.getByRole('link', { name: /202\d/ }).first().click()
   await page.waitForURL(/\/editions\/\d{4}/)
 
-  const gallery = page.locator('[aria-label="Edition photo carousel"]')
+  const gallery = page.locator('[aria-label="Edition photo gallery"]')
   await gallery.scrollIntoViewIfNeeded()
   await gallery.locator('button:has(img)').first().click()
 

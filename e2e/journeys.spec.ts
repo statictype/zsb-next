@@ -189,17 +189,18 @@ test.describe('program', () => {
     // Count only visible event links — the program renders responsive variants.
     const eventCount = () => page.locator('a[href*="/events/"]:visible').count()
 
-    await expect(reset).toBeDisabled()
+    // Reset only exists once the filters deviate from the default.
+    await expect(reset).toHaveCount(0)
     const before = await eventCount()
 
     await chip.press('Space')
     await expect(chip).not.toBeChecked()
-    await expect(reset).toBeEnabled()
+    await expect(reset).toBeVisible()
     // A single facet never *adds* events to the program.
     await expect.poll(eventCount).toBeLessThanOrEqual(before)
 
     await reset.click()
-    await expect(reset).toBeDisabled()
+    await expect(reset).toHaveCount(0)
     await expect.poll(eventCount).toBe(before)
   })
 })
