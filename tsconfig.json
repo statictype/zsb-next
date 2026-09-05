@@ -23,6 +23,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@app/*": ["./src/app/*"],
+      "@artists-components/*": ["./src/app/(site)/artists/_components/*"],
       "@e2e/*": ["./e2e/*"],
       "@program/*": ["./src/app/(site)/editions/[year]/_components/Program/*"],
       "@edition/*": ["./src/app/(site)/editions/[year]/*"],

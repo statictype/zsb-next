@@ -1593,6 +1593,20 @@ export type ARTIST_INDEX_QUERY_RESULT = Array<{
 }>
 
 // Source: src/sanity/lib/queries.ts
+// Variable: ARTIST_CLOUD_QUERY
+// Query: {    "artists": *[_type == "artist" && defined(slug.current)]      | order(coalesce(sortName, name) asc){ _id, name },    "editions": *[_type == "edition" && status == "live" && defined(year)]{      year,      "refs": artists[]._ref    }  }
+export type ARTIST_CLOUD_QUERY_RESULT = {
+  artists: Array<{
+    _id: string
+    name: string
+  }>
+  editions: Array<{
+    year: number
+    refs: Array<string> | null
+  }>
+}
+
+// Source: src/sanity/lib/queries.ts
 // Variable: ARTIST_BY_SLUG_QUERY
 // Query: *[_type == "artist" && slug.current == $slug][0] {    _id,    name,    "slug": slug.current,    portrait,    shortBio,    discipline,    country,    externalLinks  }
 export type ARTIST_BY_SLUG_QUERY_RESULT = {
@@ -1872,6 +1886,7 @@ declare module '@sanity/client' {
     '\n  *[_type == "edition" && defined(year) && (defined(pressKit.poster) || defined(pressKit.coverPhoto))]\n    | order(year desc) {\n      year,\n      "poster": pressKit.poster{\n        ...,\n        asset->{ url, metadata { lqip, dimensions } }\n      },\n      "coverPhoto": pressKit.coverPhoto{\n        ...,\n        asset->{ url, metadata { lqip, dimensions } }\n      }\n    }\n': EDITIONS_PRESS_KIT_QUERY_RESULT
     '\n  *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT
     '\n  *[_type == "artist" && defined(slug.current)\n    && _id in *[_type == "edition" && status == "live"].artists[]._ref]\n    | order(coalesce(sortName, name) asc){ _id, name }\n': ARTIST_INDEX_QUERY_RESULT
+    '\n  {\n    "artists": *[_type == "artist" && defined(slug.current)]\n      | order(coalesce(sortName, name) asc){ _id, name },\n    "editions": *[_type == "edition" && status == "live" && defined(year)]{\n      year,\n      "refs": artists[]._ref\n    }\n  }\n': ARTIST_CLOUD_QUERY_RESULT
     '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year) && status == "live"] | order(year desc){ year }\n': EDITION_YEARS_QUERY_RESULT
     '\n  {\n    "editions": *[_type == "edition" && defined(year) && status == "live"]\n      | order(year desc){ year, _updatedAt },\n    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{\n      _id,\n      _updatedAt\n    },\n    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]\n      | order(_updatedAt desc)[0]._updatedAt\n  }\n': SITEMAP_QUERY_RESULT

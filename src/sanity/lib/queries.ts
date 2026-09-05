@@ -229,6 +229,22 @@ export const ARTIST_INDEX_QUERY = defineQuery(`
 // 'edition' too: flipping an edition to live changes who this returns.
 export const ARTIST_INDEX_QUERY_TAGS = ['artist', 'edition']
 
+// Every artist plus each live edition's lineup, uninverted. `mapArtistCloud`
+// inverts the refs and is also what drops artists no live edition lists — this
+// query deliberately does not filter them, unlike ARTIST_INDEX_QUERY.
+export const ARTIST_CLOUD_QUERY = defineQuery(`
+  {
+    "artists": *[_type == "artist" && defined(slug.current)]
+      | order(coalesce(sortName, name) asc){ _id, name },
+    "editions": *[_type == "edition" && status == "live" && defined(year)]{
+      year,
+      "refs": artists[]._ref
+    }
+  }
+`)
+
+export const ARTIST_CLOUD_QUERY_TAGS = ['artist', 'edition']
+
 export const ARTIST_BY_SLUG_QUERY = defineQuery(`
   *[_type == "artist" && slug.current == $slug][0] {
     _id,

@@ -180,6 +180,15 @@ export interface ArtistListItem {
   name: string
 }
 
+export type ArtistTier = 1 | 2 | 3 | 4 | 5
+
+export interface ArtistCloudItem {
+  _id: string
+  name: string
+  years: number[]
+  tier: ArtistTier
+}
+
 // ---- Full Edition ----
 
 export interface Edition {
