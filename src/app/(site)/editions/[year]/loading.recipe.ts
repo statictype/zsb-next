@@ -56,7 +56,6 @@ export const editionLoading = sva({
     heroLedger: {
       gridArea: 'ledger',
       width: 'full',
-      borderTop: 'hairline',
       lg: { alignSelf: 'end' },
     },
     heroRow: {
@@ -66,6 +65,7 @@ export const editionLoading = sva({
       alignItems: 'center',
       paddingBlock: 'sm',
       borderBottom: 'hairline',
+      _last: { borderBottom: 'none' },
     },
     heroRowLabel: { height: '[10px]' },
     heroRowValue: {
