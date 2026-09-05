@@ -186,6 +186,7 @@ export interface Edition {
   year: number
   theme: string
   themeHighlight: string
+  themeGloss?: string
   title: string
   heroImage: ImageData
   thumbImage?: ImageData

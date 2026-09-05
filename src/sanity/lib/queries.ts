@@ -313,6 +313,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     title,
     theme,
     themeHighlight,
+    themeGloss,
     dateStart,
     dateEnd,
     venueLine,

@@ -4,7 +4,7 @@ import { Grid, Stack } from 'styled-system/jsx'
 
 const styles = editionLoading()
 
-const LEDGER_ROWS = ['dates', 'venue', 'artists', 'events']
+const LEDGER_ROWS = ['dates', 'venue', 'artists', 'events', 'theme']
 
 export default function EditionLoading() {
   return (
@@ -13,7 +13,6 @@ export default function EditionLoading() {
         <div className={styles.heroInner}>
           <div className={styles.heroHead}>
             <div className={cx(styles.bone, styles.heroMast)} />
-            <div className={cx(styles.bone, styles.heroTheme)} />
           </div>
 
           <div className={cx(styles.bone, styles.heroPlate)} />

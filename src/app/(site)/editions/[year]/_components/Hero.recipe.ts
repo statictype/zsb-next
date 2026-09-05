@@ -7,7 +7,6 @@ export const hero = sva({
     'head',
     'mast',
     'prefix',
-    'theme',
     'plate',
     'frame',
     'image',
@@ -53,7 +52,6 @@ export const hero = sva({
       columnGap: '[0.25em]',
     },
     prefix: { color: 'muted' },
-    theme: { overflowWrap: 'anywhere' },
 
     plate: {
       gridArea: 'plate',
@@ -90,6 +88,6 @@ export const hero = sva({
       borderBottom: 'hairline',
     },
     rowLabel: { margin: '0' },
-    rowValue: { margin: '0' },
+    rowValue: { margin: '0', overflowWrap: 'anywhere' },
   },
 })

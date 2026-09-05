@@ -1,8 +1,9 @@
 import { hero } from '@edition-components/Hero.recipe'
+import type { ReactNode } from 'react'
 import { css, cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
-import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
+import { Tooltip } from '@/components/ui/Tooltip/Tooltip'
 import type { Edition } from '@/types/edition'
 
 const styles = hero()
@@ -14,23 +15,16 @@ const PLATE_SIZES = '(min-width: 2024px) 858px, (min-width: 1024px) 48vw, 90vw'
 interface HeroProps {
   edition: Pick<
     Edition,
-    | 'year'
-    | 'theme'
-    | 'themeHighlight'
-    | 'heroImage'
-    | 'dateRange'
-    | 'venueLine'
-    | 'artists'
-    | 'events'
+    'year' | 'theme' | 'themeGloss' | 'heroImage' | 'dateRange' | 'venueLine' | 'artists' | 'events'
   >
 }
 
 export function Hero({ edition }: HeroProps) {
-  const { year, theme, themeHighlight, heroImage, dateRange, venueLine } = edition
+  const { year, theme, themeGloss, heroImage, dateRange, venueLine } = edition
   const artistCount = edition.artists.length
   const eventCount = edition.events.length
 
-  const facts: { key: string; label: string; value: string }[] = []
+  const facts: { key: string; label: string; value: ReactNode }[] = []
   if (dateRange) {
     facts.push({ key: 'dates', label: 'Dates', value: dateRange })
   }
@@ -43,6 +37,11 @@ export function Hero({ edition }: HeroProps) {
   if (eventCount > 0) {
     facts.push({ key: 'events', label: 'Events', value: String(eventCount) })
   }
+  facts.push({
+    key: 'theme',
+    label: 'Theme',
+    value: themeGloss ? <Tooltip label={themeGloss}>{theme}</Tooltip> : theme,
+  })
 
   return (
     <header className={styles.hero}>
@@ -52,15 +51,6 @@ export function Hero({ edition }: HeroProps) {
             <span className={styles.prefix}>ZSB</span>
             {year}
           </Text>
-
-          <EditionTheme
-            as="p"
-            size="normal"
-            accent="action"
-            theme={theme}
-            themeHighlight={themeHighlight}
-            className={styles.theme}
-          />
         </div>
 
         <div className={styles.plate}>
@@ -74,20 +64,18 @@ export function Hero({ edition }: HeroProps) {
           </div>
         </div>
 
-        {facts.length > 0 && (
-          <dl className={styles.ledger}>
-            {facts.map((fact) => (
-              <div key={fact.key} className={styles.row}>
-                <Text as="dt" variant="label" className={styles.rowLabel}>
-                  {fact.label}
-                </Text>
-                <Text as="dd" variant="caption" className={styles.rowValue}>
-                  {fact.value}
-                </Text>
-              </div>
-            ))}
-          </dl>
-        )}
+        <dl className={styles.ledger}>
+          {facts.map((fact) => (
+            <div key={fact.key} className={styles.row}>
+              <Text as="dt" variant="label" className={styles.rowLabel}>
+                {fact.label}
+              </Text>
+              <Text as="dd" variant="caption" className={styles.rowValue}>
+                {fact.value}
+              </Text>
+            </div>
+          ))}
+        </dl>
       </div>
     </header>
   )

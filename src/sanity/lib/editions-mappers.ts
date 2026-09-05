@@ -156,6 +156,7 @@ export function mapEdition(raw: SanityEdition): Edition {
     title: raw.title ?? '',
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
+    themeGloss: raw.themeGloss || undefined,
     dateRange: composeDateRange(raw),
     dateLine: composeDateLine(raw),
     dateStart: raw.dateStart ?? '',

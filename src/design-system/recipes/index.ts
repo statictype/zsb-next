@@ -8,6 +8,7 @@ import { collapsible } from '@/design-system/recipes/collapsible'
 import { dialog } from '@/design-system/recipes/dialog'
 import { eyebrow } from '@/design-system/recipes/eyebrow'
 import { section } from '@/design-system/recipes/section'
+import { tooltip } from '@/design-system/recipes/tooltip'
 
 export const recipes = {
   badge,
@@ -20,4 +21,5 @@ export const recipes = {
   checkbox,
   dialog,
   carousel,
+  tooltip,
 }

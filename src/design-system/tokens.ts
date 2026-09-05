@@ -430,10 +430,10 @@ export const textStyles = {
     },
     cell: {
       value: {
-        fontFamily: 'display',
-        fontSize: 'md',
-        lineHeight: '1.15',
-        letterSpacing: 'theme',
+        fontFamily: 'body',
+        fontSize: 'base',
+        fontWeight: 'medium',
+        lineHeight: '1.45',
         textTransform: 'lowercase',
       },
     },

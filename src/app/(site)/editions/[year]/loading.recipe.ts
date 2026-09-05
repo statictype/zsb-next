@@ -8,7 +8,6 @@ export const editionLoading = sva({
     'heroInner',
     'heroHead',
     'heroMast',
-    'heroTheme',
     'heroPlate',
     'heroLedger',
     'heroRow',
@@ -49,7 +48,6 @@ export const editionLoading = sva({
       gap: 'md',
     },
     heroMast: { width: '[clamp(200px, 55vw, 420px)]', height: '[clamp(42px, 11vw, 80px)]' },
-    heroTheme: { width: '[clamp(150px, 42vw, 300px)]', height: '[clamp(27px, 5vw, 44px)]' },
     heroPlate: {
       gridArea: 'plate',
       aspectRatio: { base: '1 / 1', md: '16 / 9', lg: '3 / 2' },
@@ -76,6 +74,7 @@ export const editionLoading = sva({
       'div:nth-child(2) > &': { width: '[45%]' },
       'div:nth-child(3) > &': { width: '[18%]' },
       'div:nth-child(4) > &': { width: '[18%]' },
+      'div:nth-child(5) > &': { width: '[40%]' },
     },
 
     section: {
