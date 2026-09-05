@@ -40,6 +40,7 @@ export const carousel = defineSlotRecipe({
     // Shared by prev/next/autoplay — all three are the same 44px transparent
     // hit target with the same hover/focus treatment.
     trigger: {
+      pressable: 'inline',
       width: 'touch',
       height: 'touch',
       display: 'inline-flex',
@@ -54,6 +55,7 @@ export const carousel = defineSlotRecipe({
     },
     indicatorGroup: { display: 'flex', alignItems: 'center', gap: '10px' },
     indicator: {
+      pressable: 'dim',
       width: '14px',
       height: '2px',
       padding: 0,

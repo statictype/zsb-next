@@ -43,9 +43,7 @@ export const editionsNav = sva({
   variants: {
     status: {
       live: {
-        cell: {
-          _active: { background: 'divider' },
-        },
+        cell: { pressable: 'fill' },
         theme: { '@media (hover: none)': { '& > span': { color: 'action' } } },
       },
       current: { cell: { cursor: 'default' } },

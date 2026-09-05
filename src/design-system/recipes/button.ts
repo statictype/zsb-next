@@ -65,17 +65,25 @@ export const button = defineRecipe({
     border: 'none',
     cursor: 'pointer',
     transition: 'interactive',
-    _active: { transform: 'translateY(1px)' },
   },
   variants: {
     variant: {
       primary: {
         ...labelType,
         ...roll,
+        pressable: 'none',
         background: 'transparent',
         color: 'heading',
         border: 'primary',
         '& [data-btn-copy]': { ...roll['& [data-btn-copy]'], color: 'action' },
+        '&:active:not(:disabled, [aria-disabled=true])': {
+          background: 'action',
+          borderColor: 'action',
+          color: 'white',
+          transitionDuration: '0ms',
+          '&::before': { opacity: 0 },
+          '& [data-btn-copy]': { color: 'white' },
+        },
         // Sits on the border box at the border's own width, and the resting
         // edge fades out under it, so the edge travels instead of thickening.
         _before: {
@@ -93,6 +101,7 @@ export const button = defineRecipe({
         ...labelType,
         ...roll,
         ...selected,
+        pressable: 'fill',
         background: 'transparent',
         color: 'heading',
         border: 'hairline',
@@ -102,6 +111,7 @@ export const button = defineRecipe({
         ...labelType,
         ...roll,
         ...selected,
+        pressable: 'fill',
         background: 'transparent',
         color: 'body',
         border: 'hairline',
@@ -110,6 +120,7 @@ export const button = defineRecipe({
         _hover: { color: 'heading' },
       },
       icon: {
+        pressable: 'inline',
         background: 'transparent',
         color: 'heading',
         width: 'touch',
@@ -117,6 +128,7 @@ export const button = defineRecipe({
         _hover: { color: 'action' },
       },
       link: {
+        pressable: 'inline',
         display: 'inline',
         background: 'transparent',
         color: 'heading',
@@ -125,6 +137,7 @@ export const button = defineRecipe({
         _hover: { color: 'action', textDecoration: 'underline' },
       },
       plain: {
+        pressable: 'inline',
         display: 'block',
         background: 'transparent',
         color: 'current',

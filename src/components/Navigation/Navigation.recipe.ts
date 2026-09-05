@@ -57,6 +57,7 @@ export const navigation = sva({
       background: 'black',
     },
     navLink: {
+      pressable: 'fill',
       display: 'block',
       textDecoration: 'none',
       border: 'hairline',
@@ -80,10 +81,7 @@ export const navigation = sva({
       '&:hover [data-nav-label], &:focus-visible [data-nav-label]': {
         transform: 'translateY(calc(var(--nav-roll-offset) * -1))',
       },
-      // Active tab gets the highlight fill; siblings stay outlined. The roll
-      // is suppressed — hover is a preview of elsewhere, not of here.
-      '&[data-active=true]': { background: 'highlight', color: 'black' },
-      '&[data-active=true]:hover': { background: 'highlight', color: 'black' },
+      '&[data-active=true]': { color: 'highlight' },
       '&[data-active=true]:hover [data-nav-label], &[data-active=true]:focus-visible [data-nav-label]':
         { transform: 'none' },
     },
@@ -108,7 +106,7 @@ export const navigation = sva({
       top: 'md',
       right: 'gutter',
       zIndex: 'navToggle',
-      WebkitTapHighlightColor: 'transparent',
+      pressable: 'inline',
       _before: {
         content: '""',
         position: 'absolute',

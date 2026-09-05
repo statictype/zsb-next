@@ -12,6 +12,7 @@ export const accordion = defineSlotRecipe({
       _last: { borderBottomWidth: '0' },
     },
     itemTrigger: {
+      pressable: 'inline',
       width: '100%',
       display: 'flex',
       alignItems: 'center',

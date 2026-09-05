@@ -43,6 +43,7 @@ export const footer = sva({
     },
     // Footer-link typography layered onto the Button link variant.
     link: {
+      pressable: 'inline',
       width: 'fit',
     },
 

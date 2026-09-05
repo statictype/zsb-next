@@ -14,6 +14,7 @@ export const collapsible = defineSlotRecipe({
       gap: 'md',
     },
     trigger: {
+      pressable: 'inline',
       width: '100%',
       display: 'flex',
       alignItems: 'center',

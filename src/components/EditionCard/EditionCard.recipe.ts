@@ -17,6 +17,7 @@ export const editionCard = sva({
   ],
   base: {
     root: {
+      pressable: 'dim',
       display: 'grid',
       gridTemplateColumns: 'auto minmax(0, 1fr)',
       gridTemplateAreas: '"plate head" "plate meta"',

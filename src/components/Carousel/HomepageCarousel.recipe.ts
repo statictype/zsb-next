@@ -4,6 +4,7 @@ export const homepageCarousel = sva({
   slots: ['slide', 'image', 'vignette'],
   base: {
     slide: {
+      pressable: 'dim',
       // Native <button> without preflight — strip the UA chrome.
       display: 'block',
       border: 'none',

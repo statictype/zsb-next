@@ -42,6 +42,7 @@ export const card = defineRecipe({
      *  GPU-safe (border-color only — no lift). */
     interactive: {
       true: {
+        pressable: 'fill',
         cursor: 'pointer',
         transition: 'interactive',
         _hover: { borderColor: 'action' },

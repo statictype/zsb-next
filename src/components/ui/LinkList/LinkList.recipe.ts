@@ -7,6 +7,7 @@ export const linkList = sva({
     list: { listStyle: 'none', borderBottom: 'hairline' },
     item: { borderTop: 'hairline' },
     link: {
+      pressable: 'dim',
       display: 'grid',
       alignItems: 'center',
       gap: { base: 'sm', md: 'md' },

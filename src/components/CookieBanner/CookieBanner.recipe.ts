@@ -34,6 +34,7 @@ export const cookieBanner = sva({
     },
     copy: { minWidth: '0' },
     link: {
+      pressable: 'inline',
       textDecoration: 'underline',
       textUnderlineOffset: '3px',
       textDecorationColor: 'action',

@@ -7,6 +7,7 @@ export const checkbox = defineSlotRecipe({
   slots: ['root', 'control', 'indicator', 'label'],
   base: {
     root: {
+      pressable: 'fill',
       position: 'relative',
       display: 'inline-flex',
       alignItems: 'center',

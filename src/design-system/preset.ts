@@ -45,6 +45,26 @@ export const designSystemPreset = definePreset({
           }
         },
       },
+      pressable: {
+        values: ['fill', 'inline', 'dim', 'none'],
+        transform(value: string, { token }) {
+          const press =
+            value === 'fill'
+              ? { background: token('colors.divider') }
+              : value === 'inline'
+                ? { color: token('colors.highlight') }
+                : value === 'dim'
+                  ? { opacity: '0.85' }
+                  : null
+          if (press === null) return {}
+          return {
+            '&:active:not(:disabled, [aria-disabled=true], [aria-pressed=true])': {
+              ...press,
+              transitionDuration: '0ms',
+            },
+          }
+        },
+      },
     },
   },
   patterns: {
@@ -141,6 +161,7 @@ export const designSystemPreset = definePreset({
   globalCss: {
     body: { textStyle: 'body', color: 'body', background: 'surface' },
     ':focus-visible': { outline: 'focus', outlineOffset: 'token(spacing.xs)' },
+    'a, button, [role=button], summary, label': { WebkitTapHighlightColor: 'transparent' },
     ':disabled, [aria-disabled=true], [data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
     // The one reduced-motion rule: states still change, they just snap.
     '@media (prefers-reduced-motion: reduce)': {

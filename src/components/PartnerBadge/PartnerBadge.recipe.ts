@@ -32,6 +32,7 @@ export const partnerBadge = sva({
       zIndex: '10',
     },
     link: {
+      pressable: 'dim',
       display: 'block',
       width: 'full',
       height: 'full',
