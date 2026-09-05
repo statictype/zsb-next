@@ -10,7 +10,7 @@ interface EditionThemeProps {
 
   themeHighlight?: string | undefined
 
-  as?: 'h1' | 'h2' | 'p'
+  as?: 'h1' | 'h2' | 'p' | 'span'
 
   size?: 'large' | 'normal' | 'rail' | 'sub' | 'cell'
 

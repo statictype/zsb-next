@@ -9,6 +9,7 @@ import { Divider, Grid, HStack, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
+import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
@@ -180,12 +181,31 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                   <span className={styles.editionPrefix}>ZSB</span> {edition.year}
                 </>
               )
+              const theme =
+                edition.href != null ? (
+                  <EditionTheme
+                    as="span"
+                    size="cell"
+                    interactive
+                    theme={edition.theme}
+                    themeHighlight={edition.themeHighlight}
+                  />
+                ) : (
+                  <EditionTheme
+                    as="span"
+                    size="cell"
+                    muted
+                    accent="none"
+                    theme={edition.theme}
+                    themeHighlight={edition.themeHighlight}
+                  />
+                )
               return edition.href ? (
                 <LinkListItem
                   key={edition.year}
                   emphasis="year"
                   year={year}
-                  title={edition.theme}
+                  title={theme}
                   href={edition.href}
                 />
               ) : (
@@ -193,7 +213,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                   key={edition.year}
                   emphasis="year"
                   year={year}
-                  title={edition.theme}
+                  title={theme}
                   tags={[<Badge key="status">Coming soon</Badge>]}
                   disabled
                 />
