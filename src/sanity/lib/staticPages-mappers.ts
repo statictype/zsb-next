@@ -27,7 +27,7 @@ type AboutPageRaw = NonNullable<ABOUT_PAGE_QUERY_RESULT>
  * represents "no page".
  */
 export interface AboutView {
-  hero: { title: string; titleAccent: string; lead: string }
+  hero: { title: string; lead: string }
   manifestoTitle: string
   manifestoBody: string
   pillars: Array<{ label: string; body: string }>
@@ -45,7 +45,7 @@ export interface AboutView {
 type PartnersPageRaw = NonNullable<PARTNERS_PAGE_QUERY_RESULT>
 /** The Partners page as a total view-model (see `AboutView`). */
 export interface PartnersView {
-  hero: { title: string; titleAccent: string; lead: string }
+  hero: { title: string; lead: string }
   eventTitle: string
   eventBody: string[]
   whyEyebrow: string
@@ -65,7 +65,7 @@ type PrivacyPageRaw = NonNullable<PRIVACY_PAGE_QUERY_RESULT>
 /** The Privacy page as a total view-model (see `AboutView`). `body` is Portable
  *  Text; an empty doc renders the static "change your mind" block alone. */
 export interface PrivacyView {
-  hero: { title: string; titleAccent: string; lead: string }
+  hero: { title: string; lead: string }
   body: NonNullable<PrivacyPageRaw['body']>
   updatedAt: string
   ogImage?: ShareImage
@@ -78,7 +78,6 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
   return {
     hero: {
       title: raw.hero?.title ?? '',
-      titleAccent: raw.hero?.titleAccent ?? '',
       lead: raw.hero?.lead ?? '',
     },
     manifestoTitle: raw.manifestoTitle ?? '',
@@ -103,7 +102,6 @@ export function normalizePartners(raw: PartnersPageRaw): PartnersView {
   return {
     hero: {
       title: raw.hero?.title ?? '',
-      titleAccent: raw.hero?.titleAccent ?? '',
       lead: raw.hero?.lead ?? '',
     },
     eventTitle: raw.eventTitle ?? '',
@@ -128,7 +126,6 @@ export function normalizePrivacy(raw: PrivacyPageRaw): PrivacyView {
   return {
     hero: {
       title: raw.hero?.title ?? '',
-      titleAccent: raw.hero?.titleAccent ?? '',
       lead: raw.hero?.lead ?? '',
     },
     body: raw.body ?? [],

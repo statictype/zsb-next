@@ -1,7 +1,6 @@
 import { VisitFaq } from '@site/visit/_components/VisitFaq'
 import { VisitSection } from '@site/visit/_components/VisitSection'
 import { notFound } from 'next/navigation'
-import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { PageHero } from '@/components/PageHero/PageHero'
@@ -25,7 +24,7 @@ async function CachedVisit({ options }: { options: DynamicFetchOptions }) {
   const { faq } = page
   return (
     <main>
-      <PageHero flush title={<AccentSplit text="Plan your visit" accent="visit" />} />
+      <PageHero flush title="Plan your visit" />
       <VisitSection {...page.section} />
       <VisitFaq entries={faq} />
       {faq.length > 0 && <JsonLd data={visitFaqJsonLd(faq)} />}

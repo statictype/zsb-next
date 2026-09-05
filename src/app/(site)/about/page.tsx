@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import { cx } from 'styled-system/css'
 import { Container, Divider, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
-import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
@@ -57,11 +56,7 @@ function AboutShell({ view }: { view: AboutView }) {
 
   return (
     <main>
-      <PageHero
-        flush
-        title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
-        lead={hero.lead}
-      />
+      <PageHero flush title={hero.title} lead={hero.lead} />
 
       {carousel.length > 0 && (
         <section className={cx(section({ ground: 'dark', rhythm: 'none' }), styles.plates)}>

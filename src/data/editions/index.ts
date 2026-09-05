@@ -42,7 +42,7 @@ export async function getLatestAndUpcoming(
 }
 
 /** The upcoming edition the home hero leads with (ZSB-44), once auto-derived. */
-export type UpcomingHero = Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'dateLine'>
+export type UpcomingHero = Pick<Edition, 'year' | 'theme' | 'dateLine'>
 
 /**
  * The upcoming edition the home hero should lead with (ZSB-44) — returned only
@@ -62,7 +62,6 @@ export async function getHeroUpcoming(options: DynamicFetchOptions): Promise<Upc
   return {
     year: edition.year,
     theme: edition.theme,
-    themeHighlight: edition.themeHighlight,
     dateLine: edition.dateLine,
   }
 }

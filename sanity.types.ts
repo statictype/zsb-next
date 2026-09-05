@@ -64,7 +64,6 @@ export type Pillar = {
 export type PageHero = {
   _type: 'pageHero'
   title: string
-  titleAccent: string
   lead: string
 }
 
@@ -556,7 +555,6 @@ export type Homepage = {
   _updatedAt: string
   _rev: string
   heroTitle: string
-  heroTitleAccent: string
   heroLead: string
   heroCtaLabel?: string
   heroCtaEdition?: EditionReference
@@ -871,11 +869,10 @@ export type HERO_EDITION_QUERY_RESULT = null | 'latest' | 'upcoming'
 
 // Source: src/sanity/lib/queries.ts
 // Variable: HOMEPAGE_QUERY
-// Query: *[_id == "homepage"][0]{    heroTitle,    heroTitleAccent,    heroLead,    heroCtaLabel,    "heroCtaEditionYear": heroCtaEdition->year,    slideshow[]{      _key,      position,      image{ ..., "lqip": asset->metadata.lqip }    },    editionsIntro,    ogImage,    metaDescription  }
+// Query: *[_id == "homepage"][0]{    heroTitle,    heroLead,    heroCtaLabel,    "heroCtaEditionYear": heroCtaEdition->year,    slideshow[]{      _key,      position,      image{ ..., "lqip": asset->metadata.lqip }    },    editionsIntro,    ogImage,    metaDescription  }
 export type HOMEPAGE_QUERY_RESULT =
   | {
       heroTitle: null
-      heroTitleAccent: null
       heroLead: null
       heroCtaLabel: null
       heroCtaEditionYear: null
@@ -886,7 +883,6 @@ export type HOMEPAGE_QUERY_RESULT =
     }
   | {
       heroTitle: null
-      heroTitleAccent: null
       heroLead: null
       heroCtaLabel: null
       heroCtaEditionYear: null
@@ -904,7 +900,6 @@ export type HOMEPAGE_QUERY_RESULT =
     }
   | {
       heroTitle: null
-      heroTitleAccent: null
       heroLead: null
       heroCtaLabel: null
       heroCtaEditionYear: null
@@ -922,7 +917,6 @@ export type HOMEPAGE_QUERY_RESULT =
     }
   | {
       heroTitle: string
-      heroTitleAccent: string
       heroLead: string
       heroCtaLabel: string | null
       heroCtaEditionYear: number | null
@@ -1865,7 +1859,7 @@ declare module '@sanity/client' {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT
     '\n  *[_id == "siteSettings"][0].visitEdition\n': VISIT_EDITION_QUERY_RESULT
     '\n  *[_id == "siteSettings"][0].heroEdition\n': HERO_EDITION_QUERY_RESULT
-    '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroTitleAccent,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
+    '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    themeHighlight,\n    status,\n    dateStart\n  }\n': EDITIONS_LIST_QUERY_RESULT
     '\n  *[_id == "aboutPage"][0]{\n    hero,\n    manifestoTitle,\n    manifestoBody,\n    pillars,\n    placeImage{ ..., "lqip": asset->metadata.lqip },\n    carouselEyebrow,\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    curatorHeadline,\n    curatorPortrait{ ..., "lqip": asset->metadata.lqip },\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT
     '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage{ ..., "lqip": asset->metadata.lqip },\n    whyEyebrow,\n    whyTitle,\n    whyImage{ ..., "lqip": asset->metadata.lqip },\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel,\n    ogImage,\n    metaDescription\n  }\n': PARTNERS_PAGE_QUERY_RESULT

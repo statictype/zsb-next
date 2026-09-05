@@ -66,11 +66,7 @@ function PartnersShell({
 
   return (
     <main>
-      <PageHero
-        flush
-        title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
-        lead={hero.lead}
-      />
+      <PageHero flush title={hero.title} lead={hero.lead} />
 
       <section className={section({ ground: 'dark' })}>
         <Container>

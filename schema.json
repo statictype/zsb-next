@@ -291,13 +291,6 @@
           },
           "optional": false
         },
-        "titleAccent": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": false
-        },
         "lead": {
           "type": "objectAttribute",
           "value": {
@@ -3323,13 +3316,6 @@
         }
       },
       "heroTitle": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": false
-      },
-      "heroTitleAccent": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

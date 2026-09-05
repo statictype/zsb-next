@@ -3,7 +3,6 @@ import { Container, Stack, Text } from 'styled-system/jsx'
 import { pageHero } from '@/components/PageHero/PageHero.recipe'
 
 interface PageHeroProps {
-  /** The page title. Usually an <AccentSplit>, but any node is accepted. */
   title: ReactNode
   /** Optional standfirst below the title. */
   lead?: ReactNode

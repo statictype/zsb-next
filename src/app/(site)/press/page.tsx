@@ -2,7 +2,6 @@ import { MediaKitStrip } from '@site/press/_components/MediaKitStrip'
 import { notFound } from 'next/navigation'
 import { Container, Stack } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
-import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { PageHero } from '@/components/PageHero/PageHero'
@@ -81,11 +80,7 @@ function PressShell({ view, appearances, releases, kit, settings }: PressShellPr
       />
       {appearances.length > 0 && <JsonLd data={pressAppearancesJsonLd(appearances)} />}
       <main>
-        <PageHero
-          flush
-          title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
-          lead={hero.lead}
-        />
+        <PageHero flush title={hero.title} lead={hero.lead} />
 
         {kit.length > 0 && (
           <section id="media-kit" className={section()}>

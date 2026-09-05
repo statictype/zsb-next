@@ -103,7 +103,7 @@ describe('normalizeAbout', () => {
 
   it('coalesces text to "" and lists to [], leaves genuine optionals absent', () => {
     const view = normalizeAbout(raw({}))
-    expect(view.hero).toEqual({ title: '', titleAccent: '', lead: '' })
+    expect(view.hero).toEqual({ title: '', lead: '' })
     expect(view.manifestoTitle).toBe('')
     expect(view.manifestoBody).toBe('')
     expect(view.pillars).toEqual([])
@@ -117,7 +117,7 @@ describe('normalizeAbout', () => {
   it('passes present fields through', () => {
     const view = normalizeAbout(
       raw({
-        hero: { title: 'About', titleAccent: 'us', lead: 'Lead.' },
+        hero: { title: 'About', lead: 'Lead.' },
         manifestoTitle: 'Not a festival',
         manifestoBody: 'One paragraph.',
         pillars: [{ label: 'A', body: 'b' }],
@@ -133,7 +133,7 @@ describe('normalizeAbout', () => {
 
   it('coalesces a partial hero (missing nested fields → "")', () => {
     const view = normalizeAbout(raw({ hero: { title: 'About' } }))
-    expect(view.hero).toEqual({ title: 'About', titleAccent: '', lead: '' })
+    expect(view.hero).toEqual({ title: 'About', lead: '' })
   })
 
   it('drops null/empty entries from string lists', () => {
@@ -148,7 +148,7 @@ describe('normalizePartners', () => {
 
   it('coalesces text/lists and leaves images + SEO absent', () => {
     const view = normalizePartners(raw({}))
-    expect(view.hero).toEqual({ title: '', titleAccent: '', lead: '' })
+    expect(view.hero).toEqual({ title: '', lead: '' })
     expect(view.eventBody).toEqual([])
     expect(view.whyPoints).toEqual([])
     expect(view.ctaLabel).toBe('')
@@ -185,6 +185,6 @@ describe('normalizePrivacy', () => {
     const view = normalizePrivacy(raw({}))
     expect(view.body).toEqual([])
     expect(view.updatedAt).toBe('')
-    expect(view.hero).toEqual({ title: '', titleAccent: '', lead: '' })
+    expect(view.hero).toEqual({ title: '', lead: '' })
   })
 })

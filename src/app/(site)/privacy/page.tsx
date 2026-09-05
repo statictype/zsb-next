@@ -7,7 +7,6 @@ import { privacyPage } from '@site/privacy/page.recipe'
 import { notFound } from 'next/navigation'
 import { Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
-import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { CookieSettingsButton } from '@/components/CookieBanner/CookieSettingsButton'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { PageHero } from '@/components/PageHero/PageHero'
@@ -91,10 +90,7 @@ function PrivacyShell({ view }: { view: PrivacyView }) {
 
   return (
     <main>
-      <PageHero
-        title={<AccentSplit text={hero.title} accent={hero.titleAccent} />}
-        lead={hero.lead}
-      />
+      <PageHero title={hero.title} lead={hero.lead} />
 
       <section className={section({ ground: 'dark' })}>
         <Container>

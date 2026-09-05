@@ -1,5 +1,4 @@
 import { defineField, defineType } from 'sanity'
-import { isSubstringOf } from '@/sanity/schemaTypes/shared/substringValidator'
 
 /**
  * Shared page-hero shape used on About, Partners, Visit, Privacy.
@@ -17,14 +16,6 @@ export const pageHero = defineType({
       description: 'Page H1. Usually one or two words.',
       type: 'string',
       validation: (rule) => rule.required().max(60),
-    }),
-    defineField({
-      name: 'titleAccent',
-      title: 'Title — accented portion',
-      description:
-        'A substring of the title that gets the accent color. e.g. "ZSB" inside "About ZSB", or "s" inside "Partners".',
-      type: 'string',
-      validation: (rule) => rule.required().custom(isSubstringOf('title', 'title')),
     }),
     defineField({
       name: 'lead',

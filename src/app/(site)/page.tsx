@@ -7,7 +7,6 @@ import { notFound } from 'next/navigation'
 import { cx } from 'styled-system/css'
 import { Divider, Grid, HStack, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
-import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
@@ -70,7 +69,6 @@ interface HomeShellProps {
 function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
   const {
     heroTitle: title,
-    heroTitleAccent: accent,
     heroLead: lead,
     heroCtaLabel: ctaLabel,
     heroCtaEditionYear: ctaYear,
@@ -98,8 +96,8 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
               <Text variant="caption" className={styles.upcomingEyebrow}>
                 Upcoming · ZSB {upcoming.year}
               </Text>
-              <Text as="h1" variant="display" className={styles.heroTitle}>
-                <AccentSplit text={upcoming.theme} accent={upcoming.themeHighlight} lineBreak />
+              <Text as="h1" variant="display" color="gray.200" className={styles.heroTitle}>
+                {upcoming.theme}
               </Text>
               <Text as="p" variant="body">
                 {upcoming.dateLine}
@@ -137,8 +135,8 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
             alignItems={{ lg: 'start' }}
           >
             <Stack className={styles.heroPanel} gap="lg">
-              <Text as="h1" variant="display" className={styles.heroTitle}>
-                <AccentSplit text={title} accent={accent} lineBreak />
+              <Text as="h1" variant="display" color="gray.200" className={styles.heroTitle}>
+                {title}
               </Text>
               <Stack gap="lg" alignItems="flex-start">
                 <Text as="p" variant="lead">

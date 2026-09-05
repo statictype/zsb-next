@@ -2,7 +2,6 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 import { HomeIcon } from '@/sanity/icons'
 import { metaDescriptionField } from '@/sanity/schemaTypes/shared/metaDescriptionField'
 import { ogImageField } from '@/sanity/schemaTypes/shared/ogImageField'
-import { isSubstringOf } from '@/sanity/schemaTypes/shared/substringValidator'
 
 export const homepage = defineType({
   name: 'homepage',
@@ -18,20 +17,10 @@ export const homepage = defineType({
     defineField({
       name: 'heroTitle',
       title: 'Hero title',
-      description:
-        'The big brand mark above the lead. Usually the event name. The renderer breaks before the accented portion and renders it on a new line.',
+      description: 'The big brand mark above the lead. Usually the event name.',
       type: 'string',
       group: 'hero',
       validation: (rule) => rule.required().max(80),
-    }),
-    defineField({
-      name: 'heroTitleAccent',
-      title: 'Hero title — accented portion',
-      description:
-        'A substring of the hero title that gets the accent color and drops to a new line. e.g. "Sculpture Days" inside "Bucharest Sculpture Days".',
-      type: 'string',
-      group: 'hero',
-      validation: (rule) => rule.required().custom(isSubstringOf('heroTitle', 'hero title')),
     }),
     defineField({
       name: 'heroLead',

@@ -7,7 +7,7 @@ type PressPageRaw = NonNullable<PRESS_PAGE_QUERY_RESULT>
 /** The Press page hero as a total view-model (see `AboutView`). The appearances,
  *  releases and media kit are separate collections, fetched alongside. */
 export interface PressPageView {
-  hero: { title: string; titleAccent: string; lead: string }
+  hero: { title: string; lead: string }
   ogImage?: ShareImage
   metaDescription?: string
 }
@@ -19,7 +19,6 @@ export function normalizePressPage(raw: PressPageRaw): PressPageView {
   return {
     hero: {
       title: raw.hero?.title ?? '',
-      titleAccent: raw.hero?.titleAccent ?? '',
       lead: raw.hero?.lead ?? '',
     },
     ...definedFields({ ogImage: toShareImage(raw.ogImage), metaDescription: raw.metaDescription }),

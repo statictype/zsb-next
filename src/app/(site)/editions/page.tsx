@@ -1,5 +1,4 @@
 import { editionsPage } from '@site/editions/page.recipe'
-import { css } from 'styled-system/css'
 import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -53,11 +52,7 @@ function EditionsListShell({ children }: { children?: React.ReactNode }) {
     <main>
       <PageHero
         flush
-        title={
-          <>
-            Edition<span className={css({ color: 'action' })}>s</span>
-          </>
-        }
+        title="Editions"
         lead="Each # is a curatorial position, not a title. Together they trace a movement: from the space sculpture inhabits, to the emotional conditions it holds, to the forces it models, to the body it refuses to idealise."
       />
 

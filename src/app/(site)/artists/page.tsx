@@ -21,11 +21,7 @@ export default async function ArtistsPage() {
     <main>
       <PageHero
         flush
-        title={
-          <>
-            Artist<span className={css({ color: 'action' })}>s</span>
-          </>
-        }
+        title="Artists"
         lead="Sculptors and visual artists who have shown work at Bucharest Sculpture Days across all editions."
       />
 

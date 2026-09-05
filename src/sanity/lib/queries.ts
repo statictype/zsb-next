@@ -37,7 +37,6 @@ export const HERO_EDITION_QUERY_TAGS = ['siteSettings']
 export const HOMEPAGE_QUERY = defineQuery(`
   *[_id == "homepage"][0]{
     heroTitle,
-    heroTitleAccent,
     heroLead,
     heroCtaLabel,
     "heroCtaEditionYear": heroCtaEdition->year,

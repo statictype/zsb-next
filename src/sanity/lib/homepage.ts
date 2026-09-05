@@ -13,7 +13,6 @@ type RawHomepage = NonNullable<HOMEPAGE_QUERY_RESULT>
  *  `''`, the slideshow always an array, only the CTA year + SEO left optional. */
 export interface HomeView {
   heroTitle: string
-  heroTitleAccent: string
   heroLead: string
   heroCtaLabel: string
   heroCtaEditionYear?: number
@@ -53,7 +52,6 @@ export async function getHomepage(options: DynamicFetchOptions): Promise<HomeVie
 function normalizeHomepage(raw: RawHomepage): HomeView {
   return {
     heroTitle: raw.heroTitle ?? '',
-    heroTitleAccent: raw.heroTitleAccent ?? '',
     heroLead: raw.heroLead ?? '',
     heroCtaLabel: raw.heroCtaLabel ?? '',
     editionsIntro: raw.editionsIntro ?? '',
