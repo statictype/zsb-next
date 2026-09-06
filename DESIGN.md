@@ -20,33 +20,28 @@ typography:
     fontSize: "min(clamp(42px, 32.78px + 2.4595vw, 80px), 11vw)"
     fontWeight: 400
     lineHeight: 1
-    letterSpacing: "-0.02em"
     textTransform: "uppercase"
   title:
     fontFamily: "Dela Gothic One, sans-serif"
     fontSize: "clamp(34px, 27.93px + 1.6181vw, 59px)"
     fontWeight: 400
     lineHeight: 1.16
-    letterSpacing: "-0.02em"
     textTransform: "uppercase"
   detailTitle:
     fontFamily: "Dela Gothic One, sans-serif"
     fontSize: "clamp(27px, 22.87px + 1.1003vw, 44px)"
     fontWeight: 400
     lineHeight: 1.12
-    letterSpacing: "-0.02em"
   heading:
     fontFamily: "Dela Gothic One, sans-serif"
     fontSize: "clamp(22px, 19.33px + 0.7120vw, 33px)"
     fontWeight: 400
     lineHeight: 1.1
-    letterSpacing: "-0.02em"
   cardTitle:
     fontFamily: "Dela Gothic One, sans-serif"
     fontSize: "clamp(17px, 15.54px + 0.3883vw, 23px)"
     fontWeight: 400
     lineHeight: 1.16
-    letterSpacing: "-0.02em"
     textTransform: "uppercase"
   lead:
     fontFamily: "Montserrat, sans-serif"
@@ -191,7 +186,7 @@ The register is chosen from what the product is. The archive is permanent and ed
 
 - Black ground; white and gray-400 do the reading work.
 - Two inks on a strict role split: magenta acts, chartreuse marks.
-- One heavy display face (Dela Gothic One), always tight, uppercase except on edition themes.
+- One heavy display face (Dela Gothic One), set solid without tracking, uppercase except on edition themes.
 - Square corners. No radius exists outside `pill` and `circle`.
 - 1px hairline borders as the primary separator.
 - Monochrome photography that develops toward colour on interaction.
@@ -259,7 +254,9 @@ Five display rungs and four body rungs, on one modular scale.
 | `caption` | body | 12 → 13px | figure captions and secondary meta |
 | `label` | body | 9 → 10px, 1.2px tracking | eyebrows, badges, nav links, chips |
 
-Edition themes carry their own four-rung ladder (`huge` / `large` / `normal` / `rail`) that references the display sizes rather than paralleling them. It is the one place display type is lowercase, and the one letterSpacing other than `tight` on display type (+0.007em).
+Display type carries no tracking. Dela Gothic One fits its uppercase Latin at 40/1000 em sidebearings (0 on `A`, `V`, `Y`), so the tightest unkerned pairs — `ST`, `LA` — open only 0.040em and negative tracking eats that gap directly; the face is drawn tight and needs no help. `tight` -0.01em survives for bold Montserrat at 16 → 23px (the program's event names, the artist name cloud). Every display rung sets `text-wrap: balance`.
+
+Edition themes carry their own ladder (`large` / `normal` / `rail` / `sub` / `cell` / `row`) that references the display sizes rather than paralleling them. It is the one place display type is lowercase, and the only display type carrying tracking at all (+0.007em).
 
 ### Named Rules
 
@@ -455,7 +452,7 @@ Six variants, all square, all setting uppercase Label type sized by the `size` p
 - **Link** — inline in running copy, magenta underline at 4px offset. Inherits surrounding type; no roll.
 - **Plain** — no chrome at all, for a pressable surface carrying its own look. No roll.
 
-Sizes carry type as well as padding: `sm` 9–10px label; `md` 12–13px; `lg` 12–13px rising to 16px at `md`; `touch` 48px square, icon only.
+Sizes carry type as well as padding: `sm` 9–10px label; `md` and `lg` both 12–13px, separated by their boxes (24–28px vs 28–40px inline); `touch` 48px square, icon only.
 
 **Pressed** (`aria-pressed="true"` on Secondary or Quiet) takes the chartreuse fill with black text. The roll is suppressed while pressed.
 
@@ -495,11 +492,11 @@ Every option is selected by default (a null selection means "all"), so the infor
 
 ### Link Lists
 
-The hairline-ruled row list used for editions, press appearances, and any index that is a list of links rather than a grid of cards. On hover the title takes magenta and the arrow nudges 4px up and right. Two `emphasis` variants decide which fact carries the row: `title` (a fixed year column, then title, then tags) and `year` (the year moves into the title slot at Heading size, the title drops beneath it as a Label).
+The hairline-ruled row list used for editions, press appearances, and any index that is a list of links rather than a grid of cards. On hover the title takes magenta and the arrow nudges 4px up and right. Two `emphasis` variants decide which fact carries the row: `title` (a fixed year column, then title, then tags) and `year` (the year moves into the title slot at Detail Title size with tabular figures, the title drops beneath it in body type).
 
 ### Navigation
 
-Floating, no bar. Logo top-left, hairline-bordered link row top-right; below `md` the links move into a fullscreen black dialog. Label type. On hover the label rolls, the muted copy leaving upward while a magenta copy enters from below. `data-active` gives the link a chartreuse fill with black text and suppresses the roll; the exact page also carries `aria-current="page"`.
+Floating, no bar. Logo top-left, hairline-bordered link row top-right; below `md` the links move into a fullscreen black dialog. The display face at a flat 12px with the label's 1.2px tracking, uppercase; the mobile dialog runs the same treatment at 17 → 23px. On hover the label rolls, the muted copy leaving upward while a magenta copy enters from below. `data-active` gives the link a chartreuse fill with black text and suppresses the roll; the exact page also carries `aria-current="page"`.
 
 ### Dialogs
 

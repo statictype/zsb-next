@@ -21,7 +21,7 @@ export function PageHero({ title, lead, flush }: PageHeroProps) {
             {title}
           </Text>
           {lead != null && (
-            <Text as="p" variant="lead" maxWidth={'measure'}>
+            <Text as="p" variant="body" maxWidth={'measure'}>
               {lead}
             </Text>
           )}

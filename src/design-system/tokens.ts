@@ -78,6 +78,7 @@ export const tokens = {
   },
   fontSizes: {
     xs: { value: 'clamp(9px, 8.76px + 0.0647vw, 10px)' },
+    nav: { value: '12px' },
     sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
     base: { value: '16px' },
     md: { value: 'clamp(17px, 15.54px + 0.3883vw, 23px)' },
@@ -156,7 +157,7 @@ export const tokens = {
     grayscaleFull: { value: 'grayscale(1)' },
   },
   letterSpacings: {
-    tight: { value: '-0.02em' },
+    tight: { value: '-0.01em' },
     theme: { value: '0.007em' },
     label: { value: '1.2px' },
   },
@@ -328,8 +329,8 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: '3xl',
       lineHeight: '1',
-      letterSpacing: 'tight',
       textTransform: 'uppercase',
+      textWrap: 'balance',
     },
   },
   title: {
@@ -337,8 +338,8 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: '2xl',
       lineHeight: '1.16',
-      letterSpacing: 'tight',
       textTransform: 'uppercase',
+      textWrap: 'balance',
     },
   },
   heading: {
@@ -346,7 +347,7 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: 'lg',
       lineHeight: '1.1',
-      letterSpacing: 'tight',
+      textWrap: 'balance',
     },
   },
   detailTitle: {
@@ -354,7 +355,7 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: 'xl',
       lineHeight: '1.12',
-      letterSpacing: 'tight',
+      textWrap: 'balance',
     },
   },
   lead: {
@@ -438,6 +439,16 @@ export const textStyles = {
         textTransform: 'lowercase',
       },
     },
+    row: {
+      value: {
+        fontFamily: 'body',
+        fontSize: 'md',
+        fontWeight: 'medium',
+        lineHeight: '1.3',
+        letterSpacing: 'tight',
+        textTransform: 'lowercase',
+      },
+    },
   },
 
   cardTitle: {
@@ -445,8 +456,8 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: 'md',
       lineHeight: '1.16',
-      letterSpacing: 'tight',
       textTransform: 'uppercase',
+      textWrap: 'balance',
     },
   },
 
@@ -455,7 +466,7 @@ export const textStyles = {
       fontFamily: 'display',
       fontSize: '3xl',
       lineHeight: '1.16',
-      letterSpacing: 'tight',
+      textWrap: 'balance',
     },
   },
 } as const

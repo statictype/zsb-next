@@ -142,7 +142,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 {title}
               </Text>
               <Stack gap="lg" alignItems="flex-start">
-                <Text as="p" variant="lead">
+                <Text as="p" variant="body">
                   {lead}
                 </Text>
                 {ctaLabel && ctaYear && (
@@ -185,17 +185,19 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                 edition.href != null ? (
                   <EditionTheme
                     as="span"
-                    size="cell"
+                    size="row"
                     interactive
+                    className={styles.editionThemeRow}
                     theme={edition.theme}
                     themeHighlight={edition.themeHighlight}
                   />
                 ) : (
                   <EditionTheme
                     as="span"
-                    size="cell"
+                    size="row"
                     muted
                     accent="none"
+                    className={styles.editionThemeRow}
                     theme={edition.theme}
                     themeHighlight={edition.themeHighlight}
                   />

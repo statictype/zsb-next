@@ -49,7 +49,7 @@ export function LinkListItem({
         </Text>
       )}
       <span className={styles.body}>
-        <Text variant="heading" className={styles.title}>
+        <Text variant={leadsWithYear ? 'detailTitle' : 'heading'} className={styles.title}>
           {leadsWithYear ? year : title}
         </Text>
         {leadsWithYear ? <span className={styles.subtitle}>{title}</span> : null}
