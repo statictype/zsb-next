@@ -60,6 +60,7 @@ export const linkList = sva({
       year: {
         link: { gridTemplateColumns: 'minmax(0, 1fr) auto' },
         body: { gap: { base: 'xs', md: 'sm' } },
+        title: { fontVariantNumeric: 'tabular-nums' },
       },
     },
   },

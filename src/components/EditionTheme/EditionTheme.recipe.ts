@@ -43,6 +43,9 @@ export const editionTheme = sva({
       cell: {
         heading: { maxWidth: 'full', textStyle: 'editionTheme.cell' },
       },
+      row: {
+        heading: { maxWidth: 'full', textStyle: 'editionTheme.row' },
+      },
     },
     interactive: {
       // Static: the accent color at rest (see `accent`).

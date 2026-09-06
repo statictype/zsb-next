@@ -24,7 +24,7 @@ export const navigationLabel = definePattern({
   transform({ context, ...props }) {
     return {
       fontFamily: 'display',
-      fontSize: context === 'mobile' ? 'md' : 'sm',
+      fontSize: context === 'mobile' ? 'md' : 'nav',
       letterSpacing: 'label',
       textTransform: 'uppercase',
       ...props,

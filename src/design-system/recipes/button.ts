@@ -162,7 +162,7 @@ export const button = defineRecipe({
         gap: '10px',
         paddingBlock: { base: '16px', md: '20px' },
         paddingInline: { base: '28px', md: '40px' },
-        fontSize: { base: 'sm', md: 'base' },
+        fontSize: 'sm',
       },
       touch: {
         width: 'touch',

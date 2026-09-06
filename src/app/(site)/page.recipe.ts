@@ -13,6 +13,7 @@ export const homePage = sva({
     'editionsSubtext',
     'editionList',
     'editionPrefix',
+    'editionThemeRow',
     'upcomingLead',
     'upcomingEyebrow',
     'upcomingBadge',
@@ -127,6 +128,9 @@ export const homePage = sva({
       color: 'muted',
       transition: 'interactive',
       'a:hover &': { color: 'current' },
+    },
+    editionThemeRow: {
+      flexWrap: 'wrap',
     },
     upcomingLead: {
       alignItems: 'flex-start',
