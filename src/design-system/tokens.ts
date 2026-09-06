@@ -54,6 +54,10 @@ export const keyframes = {
     '0%': { transform: 'translateX(-100%)' },
     '100%': { transform: 'translateX(100%)' },
   },
+  marquee: {
+    from: { transform: 'translate3d(0, 0, 0)' },
+    to: { transform: 'translate3d(-50%, 0, 0)' },
+  },
 } as const
 
 export const tokens = {
@@ -199,9 +203,6 @@ export const tokens = {
     },
     cardScrim: {
       value: 'linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))',
-    },
-    carouselVignette: {
-      value: 'radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.45) 100%)',
     },
     stageScrim: {
       value: 'linear-gradient(180deg, transparent, rgb(0 0 0 / 0.55))',

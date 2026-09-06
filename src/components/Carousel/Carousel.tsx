@@ -1,12 +1,11 @@
 'use client'
 
-import { Carousel as ArkCarousel } from '@ark-ui/react/carousel'
-import { RiArrowLeftLine, RiArrowRightLine, RiPauseLine, RiPlayLine } from '@remixicon/react'
-import { type ReactNode, useId, useRef, useState, useSyncExternalStore } from 'react'
+import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
+import { type ReactNode, useId, useRef, useSyncExternalStore } from 'react'
 import { cx } from 'styled-system/css'
 import { Stack } from 'styled-system/jsx'
 import { carousel } from 'styled-system/recipes'
-import { token } from 'styled-system/tokens'
+import { useCarouselEngine } from '@/components/Carousel/useCarouselEngine'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 
@@ -20,7 +19,6 @@ interface CarouselProps {
   slides: CarouselSlide[]
   label: string
   mode: 'stage' | 'rail'
-  autoplay?: false | number
   loop: boolean
   eyebrow?: ReactNode
   className?: string | undefined
@@ -43,16 +41,7 @@ function getServerReducedMotion() {
   return true
 }
 
-export function Carousel({
-  id,
-  slides,
-  label,
-  mode,
-  autoplay = false,
-  loop,
-  eyebrow,
-  className,
-}: CarouselProps) {
+export function Carousel({ id, slides, label, mode, loop, eyebrow, className }: CarouselProps) {
   const generatedId = useId()
   const rootId = safeId(id ?? `carousel-${generatedId}`)
   const reducedMotion = useSyncExternalStore(
@@ -60,49 +49,59 @@ export function Carousel({
     getReducedMotion,
     getServerReducedMotion,
   )
-  const [playbackChoice, setPlaybackChoice] = useState<'auto' | 'paused' | 'playing'>('auto')
-  const [hovered, setHovered] = useState(false)
-  const [focusWithin, setFocusWithin] = useState(false)
   const dragOrigin = useRef<{ x: number; y: number } | null>(null)
   const styles = carousel({ mode })
-  const explicitlyPaused =
-    playbackChoice === 'paused' || (playbackChoice === 'auto' && reducedMotion)
-  const temporarilyPaused = hovered || focusWithin
-  const autoplayEnabled =
-    autoplay !== false && !explicitlyPaused && !temporarilyPaused && slides.length > 1
+
+  const { trackRef, page, next, previous, toIndex } = useCarouselEngine({
+    slideCount: slides.length,
+    loop,
+    animated: !reducedMotion,
+  })
 
   if (slides.length === 0) return null
 
+  const atStart = !loop && page === 0
+  const atEnd = !loop && page === slides.length - 1
+
+  const controls = mode === 'rail' && (
+    <div className={styles.control}>
+      {eyebrow !== undefined && <Eyebrow>{eyebrow}</Eyebrow>}
+      <span data-carousel-arrows>
+        <button
+          type="button"
+          className={styles.trigger}
+          aria-label={`Previous ${label.toLowerCase()} slide`}
+          disabled={atStart}
+          onClick={previous}
+        >
+          <RiArrowLeftLine size={20} />
+        </button>
+        <button
+          type="button"
+          className={styles.trigger}
+          aria-label={`Next ${label.toLowerCase()} slide`}
+          disabled={atEnd}
+          onClick={next}
+        >
+          <RiArrowRightLine size={20} />
+        </button>
+      </span>
+    </div>
+  )
+
   return (
-    <ArkCarousel.Root
+    <div
       id={rootId}
-      ids={{ item: (index) => `${rootId}-slide-${safeId(slides[index]?.id ?? String(index))}` }}
       className={cx(styles.root, className)}
+      role="region"
+      aria-roledescription="carousel"
       aria-label={label}
-      slideCount={slides.length}
-      slidesPerPage={1}
-      slidesPerMove={1}
-      autoSize={mode === 'rail'}
-      allowMouseDrag
-      loop={loop}
-      autoplay={autoplayEnabled ? { delay: autoplay } : false}
-      spacing={mode === 'rail' ? token('spacing.md') : undefined}
-      padding={mode === 'rail' ? token('spacing.gutter') : undefined}
-      translations={{
-        nextTrigger: `Next ${label.toLowerCase()} slide`,
-        prevTrigger: `Previous ${label.toLowerCase()} slide`,
-        indicator: (index) => `Go to slide ${index + 1} of ${slides.length}`,
-        item: (index, count) => `${index + 1} of ${count}`,
-        autoplayStart: `Play ${label.toLowerCase()}`,
-        autoplayStop: `Pause ${label.toLowerCase()}`,
-      }}
       // A mouse drag on the strip ends with a native click on whatever sits
-      // under the pointer (Zag flags every mousedown as a potential drag, and
-      // the click fires regardless), which would activate slide content —
-      // open the gallery lightbox, follow a card link. Timing-based
-      // suppression around Zag's drag-status events is racy (timers may run
-      // between pointerup and click), so suppress by measured pointer travel
-      // instead: a real click doesn't move, a drag does.
+      // under the pointer, which would activate slide content — open the
+      // gallery lightbox, follow a card link. Timing-based suppression around
+      // the drag lifecycle is racy (timers may run between pointerup and
+      // click), so suppress by measured pointer travel instead: a real click
+      // doesn't move, a drag does.
       onPointerDownCapture={(event) => {
         dragOrigin.current = { x: event.clientX, y: event.clientY }
       }}
@@ -117,126 +116,54 @@ export function Carousel({
         event.stopPropagation()
       }}
     >
-      <ArkCarousel.Context>
-        {(api) => {
-          const resume = () => {
-            if (autoplay !== false && !explicitlyPaused && !temporarilyPaused) {
-              api.play()
-            }
-          }
-          const resetAutoplay = () => {
-            if (autoplay === false || explicitlyPaused || temporarilyPaused) return
-            window.setTimeout(() => {
-              api.pause()
-              api.play()
-            }, 0)
-          }
-          const controls = (
-            <ArkCarousel.Control className={styles.control}>
-              {mode === 'rail' && eyebrow !== undefined && <Eyebrow>{eyebrow}</Eyebrow>}
-              {mode === 'stage' && slides.length > 1 && (
-                <ArkCarousel.IndicatorGroup className={styles.indicatorGroup}>
-                  {slides.map((slide, index) => (
-                    <ArkCarousel.Indicator
-                      key={slide.id}
-                      index={index}
-                      className={styles.indicator}
-                      onClick={resetAutoplay}
-                    />
-                  ))}
-                </ArkCarousel.IndicatorGroup>
-              )}
-              <span data-carousel-arrows>
-                <ArkCarousel.PrevTrigger className={styles.trigger} onClick={resetAutoplay}>
-                  <RiArrowLeftLine size={20} />
-                </ArkCarousel.PrevTrigger>
-                {mode === 'stage' && autoplay !== false && slides.length > 1 && (
-                  <ArkCarousel.AutoplayTrigger
-                    className={styles.trigger}
-                    aria-label={
-                      explicitlyPaused
-                        ? `Play ${label.toLowerCase()}`
-                        : `Pause ${label.toLowerCase()}`
-                    }
-                    onClickCapture={(event) => {
-                      event.preventDefault()
-                      const paused = !explicitlyPaused
-                      setPlaybackChoice(paused ? 'paused' : 'playing')
-                      if (paused) api.pause()
-                      else resume()
-                    }}
-                  >
-                    {explicitlyPaused ? <RiPlayLine size={20} /> : <RiPauseLine size={20} />}
-                  </ArkCarousel.AutoplayTrigger>
-                )}
-                <ArkCarousel.NextTrigger className={styles.trigger} onClick={resetAutoplay}>
-                  <RiArrowRightLine size={20} />
-                </ArkCarousel.NextTrigger>
-              </span>
-            </ArkCarousel.Control>
-          )
-
-          return (
-            <Stack
-              gap="lg"
-              onPointerEnter={(event) => {
-                if (event.pointerType === 'touch') return
-                setHovered(true)
-                api.pause()
-              }}
-              onPointerLeave={(event) => {
-                if (event.pointerType === 'touch') return
-                setHovered(false)
-                resume()
-              }}
-              onFocusCapture={() => {
-                setFocusWithin(true)
-                api.pause()
-              }}
-              onBlurCapture={(event) => {
-                if (event.currentTarget.contains(event.relatedTarget)) return
-                setFocusWithin(false)
-                resume()
-              }}
-            >
-              <div className={styles.frame}>
-                <ArkCarousel.ItemGroup className={styles.itemGroup}>
-                  {slides.map((slide, index) => (
-                    <ArkCarousel.Item
-                      key={slide.id}
-                      index={index}
-                      className={styles.item}
-                      // Zag stamps an inline `maxWidth: 100%` on items even with
-                      // `autoSize`, clamping the slide box while wider-than-track
-                      // content (the editions plates) paints past it onto the
-                      // next slide. Ark merges this style prop over its own, so
-                      // rail items truly size to their content.
-                      style={mode === 'rail' ? { maxWidth: 'none' } : undefined}
-                    >
-                      <div data-carousel-slide-content>{slide.content}</div>
-                    </ArkCarousel.Item>
-                  ))}
-                </ArkCarousel.ItemGroup>
-                {mode === 'stage' && (
-                  <>
-                    <span className={styles.scrim} aria-hidden="true" />
-                    <div className={styles.counter} aria-hidden="true">
-                      <span className={styles.counterNow}>
-                        {String(api.page + 1).padStart(2, '0')}
-                      </span>
-                      <span className={styles.counterTotal}>
-                        / {String(slides.length).padStart(2, '0')}
-                      </span>
-                    </div>
-                    <div className={styles.plate}>{controls}</div>
-                  </>
-                )}
+      <Stack gap="lg">
+        <div className={styles.frame}>
+          <div
+            ref={trackRef}
+            className={styles.track}
+            role="group"
+            aria-label={`${label} slides`}
+            tabIndex={0}
+            onKeyDown={(event) => {
+              switch (event.key) {
+                case 'ArrowLeft':
+                  if (!atStart) previous()
+                  break
+                case 'ArrowRight':
+                  if (!atEnd) next()
+                  break
+                case 'Home':
+                  toIndex(0)
+                  break
+                case 'End':
+                  toIndex(slides.length - 1)
+                  break
+                default:
+                  return
+              }
+              event.preventDefault()
+            }}
+          >
+            {slides.map((slide, index) => (
+              <div
+                key={slide.id}
+                id={`${rootId}-slide-${safeId(slide.id)}`}
+                className={styles.item}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${index + 1} of ${slides.length}`}
+                data-current={index === page || undefined}
+                onFocus={(event) => {
+                  if (event.target.matches(':focus-visible')) toIndex(index)
+                }}
+              >
+                <div data-carousel-slide-content>{slide.content}</div>
               </div>
-              {mode === 'rail' && controls}
-            </Stack>
-          )
-        }}
-      </ArkCarousel.Context>
-    </ArkCarousel.Root>
+            ))}
+          </div>
+        </div>
+        {controls}
+      </Stack>
+    </div>
   )
 }

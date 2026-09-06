@@ -54,7 +54,6 @@ export function GalleryCarousel({
       id={id}
       label={label}
       mode="rail"
-      autoplay={false}
       loop={false}
       eyebrow={eyebrow}
       className={className}

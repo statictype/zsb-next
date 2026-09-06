@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const homepageCarousel = sva({
-  slots: ['slide', 'image', 'vignette'],
+  slots: ['slide', 'image'],
   base: {
     slide: {
       pressable: 'dim',
@@ -16,11 +16,5 @@ export const homepageCarousel = sva({
       background: 'black',
     },
     image: { objectFit: 'cover', background: 'gray.900' },
-    vignette: {
-      position: 'absolute',
-      inset: '0',
-      pointerEvents: 'none',
-      backgroundGradient: 'carouselVignette',
-    },
   },
 })

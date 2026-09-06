@@ -25,68 +25,36 @@ function setReducedMotion(matches: boolean) {
 describe('Carousel', () => {
   beforeEach(() => setReducedMotion(false))
 
-  it('renders the rail control contract without autoplay controls', () => {
+  it('renders the rail control contract', () => {
     render(
-      <Carousel
-        label="Gallery"
-        mode="rail"
-        autoplay={false}
-        loop={false}
-        eyebrow="Photographs"
-        slides={slides}
-      />,
+      <Carousel label="Gallery" mode="rail" loop={false} eyebrow="Photographs" slides={slides} />,
     )
 
     expect(screen.getByRole('region', { name: 'Gallery' })).toBeInTheDocument()
     expect(screen.getByText('Photographs')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Previous gallery slide' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Next gallery slide' })).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /play gallery|pause gallery/i })).toBeNull()
   })
 
-  it('renders stage indicators and pauses temporarily for pointer hover', async () => {
-    render(<Carousel label="Hero" mode="stage" autoplay={5000} loop slides={slides} />)
+  it('renders the stage with no chrome, only the slides', () => {
+    render(<Carousel label="Hero" mode="stage" loop slides={slides} />)
 
-    const indicators = screen.getAllByRole('button', { name: /go to slide/i })
-    expect(indicators).toHaveLength(3)
-    const playPause = screen.getByRole('button', { name: 'Pause hero' })
-    await waitFor(() => expect(playPause).toHaveAttribute('data-pressed', ''))
-
-    const interactionArea = screen.getByRole('region', { name: 'Hero' }).firstElementChild
-    expect(interactionArea).not.toBeNull()
-    fireEvent.pointerEnter(interactionArea!, { pointerType: 'mouse' })
-    await waitFor(() => expect(playPause).not.toHaveAttribute('data-pressed'))
-
-    fireEvent.pointerLeave(interactionArea!, { pointerType: 'mouse' })
-    await waitFor(() => expect(playPause).toHaveAttribute('data-pressed', ''))
+    expect(screen.getByRole('region', { name: 'Hero' })).toBeInTheDocument()
+    expect(screen.getAllByRole('group', { name: /of 3$/ })).toHaveLength(3)
+    expect(screen.queryAllByRole('button')).toHaveLength(0)
   })
 
-  it('keeps an explicit pause until the user presses Play', async () => {
+  it('bounds a non-looping rail at both ends', async () => {
     const user = userEvent.setup()
-    render(<Carousel label="Hero" mode="stage" autoplay={5000} loop slides={slides} />)
+    render(<Carousel label="Gallery" mode="rail" loop={false} slides={slides} />)
 
-    const pause = screen.getByRole('button', { name: 'Pause hero' })
-    await user.click(pause)
-    const play = screen.getByRole('button', { name: 'Play hero' })
-    expect(play).not.toHaveAttribute('data-pressed')
+    const prev = screen.getByRole('button', { name: 'Previous gallery slide' })
+    const next = screen.getByRole('button', { name: 'Next gallery slide' })
+    expect(prev).toBeDisabled()
+    expect(next).toBeEnabled()
 
-    const interactionArea = screen.getByRole('region', { name: 'Hero' }).firstElementChild
-    fireEvent.pointerEnter(interactionArea!, { pointerType: 'mouse' })
-    fireEvent.pointerLeave(interactionArea!, { pointerType: 'mouse' })
-    await waitFor(() => expect(play).not.toHaveAttribute('data-pressed'))
-
-    await user.click(play)
-    expect(play).not.toHaveAttribute('data-pressed')
-    fireEvent.blur(play, { relatedTarget: document.body })
-    await waitFor(() => expect(play).toHaveAttribute('data-pressed', ''))
-  })
-
-  it('starts paused when reduced motion is requested', () => {
-    setReducedMotion(true)
-    render(<Carousel label="Hero" mode="stage" autoplay={5000} loop slides={slides} />)
-
-    const play = screen.getByRole('button', { name: 'Play hero' })
-    expect(play).not.toHaveAttribute('data-pressed')
+    await user.click(next)
+    await waitFor(() => expect(prev).toBeEnabled())
   })
 
   it('suppresses the click that ends a mouse drag but lets static clicks through', () => {
@@ -95,7 +63,6 @@ describe('Carousel', () => {
       <Carousel
         label="Gallery"
         mode="rail"
-        autoplay={false}
         loop={false}
         slides={[
           {
@@ -109,7 +76,6 @@ describe('Carousel', () => {
         ]}
       />,
     )
-    // Zag hides off-"view" items in jsdom (no layout), so query by text.
     const target = screen.getByText('Open me')
 
     // Drag: pointer travels well past the tolerance before the click lands.

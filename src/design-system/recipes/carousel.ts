@@ -3,33 +3,38 @@ import { defineSlotRecipe } from '@pandacss/dev'
 export const carousel = defineSlotRecipe({
   className: 'carousel',
   jsx: ['Carousel'],
-  description: 'Ark-backed stage and rail carousel contract',
-  slots: [
-    'root',
-    'frame',
-    'scrim',
-    'counter',
-    'counterNow',
-    'counterTotal',
-    'plate',
-    'itemGroup',
-    'item',
-    'control',
-    'trigger',
-    'indicatorGroup',
-    'indicator',
-  ],
+  description: 'GSAP-driven stage and rail carousel contract',
+  slots: ['root', 'frame', 'track', 'item', 'control', 'trigger'],
   base: {
     root: { position: 'relative', width: '100%', minWidth: 0 },
-    frame: { position: 'relative', isolation: 'isolate' },
-    itemGroup: {
-      scrollbarWidth: 'none',
+    frame: { position: 'relative', isolation: 'isolate', overflow: 'hidden' },
+    // `data-engine` is stamped by useCarouselEngine once GSAP owns the
+    // transforms; until then the track is its own scroll-snap strip.
+    track: {
+      display: 'flex',
+      alignItems: 'stretch',
+      overflowX: 'auto',
+      scrollSnapType: 'x mandatory',
       scrollBehavior: 'smooth',
+      scrollbarWidth: 'none',
       '&::-webkit-scrollbar': { display: 'none' },
-      '&[data-dragging]': { cursor: 'grabbing' },
       _motionReduce: { scrollBehavior: 'auto' },
+      '&[data-engine]': { scrollSnapType: 'none', cursor: 'grab', touchAction: 'pan-y' },
+      // Looping moves the items and leaves the track still, so the track keeps
+      // clipping; the bounded engine translates the track itself, so there the
+      // frame has to do the clipping instead.
+      '&[data-engine="loop"]': { overflowX: 'hidden' },
+      '&[data-engine="bounded"]': { overflow: 'visible' },
+      '&[data-engine]:active': { cursor: 'grabbing' },
+      _focusVisible: { outline: 'none' },
     },
-    item: { minWidth: 0 },
+    item: {
+      flex: 'none',
+      minWidth: 0,
+      scrollSnapAlign: 'start',
+      willChange: 'transform',
+      paddingRight: 'md',
+    },
     control: {
       display: 'flex',
       alignItems: 'center',
@@ -37,8 +42,6 @@ export const carousel = defineSlotRecipe({
       gap: 'md',
       '& [data-carousel-arrows]': { display: 'flex', alignItems: 'center', gap: 'sm' },
     },
-    // Shared by prev/next/autoplay — all three are the same 44px transparent
-    // hit target with the same hover/focus treatment.
     trigger: {
       pressable: 'inline',
       width: 'touch',
@@ -53,79 +56,51 @@ export const carousel = defineSlotRecipe({
       _hover: { color: 'action' },
       _disabled: { opacity: 0.5, cursor: 'not-allowed' },
     },
-    indicatorGroup: { display: 'flex', alignItems: 'center', gap: '10px' },
-    indicator: {
-      pressable: 'dim',
-      width: '14px',
-      height: '2px',
-      padding: 0,
-      border: 0,
-      background: 'muted',
-      cursor: 'pointer',
-      '&[data-current]': { width: '28px', background: 'highlight' },
-    },
   },
   variants: {
     mode: {
       stage: {
         root: { display: 'flex', flexDirection: 'column', gap: 'md' },
+        // `--stage-pitch` is the slide's outer width, and every other stage
+        // measurement derives from it: the mask ramp straddles the first slide
+        // boundary, and `--carousel-focus-offset` tells the engine that the
+        // slide before it is the one the mask is hiding.
         frame: {
-          _after: {
-            content: '""',
-            position: 'absolute',
-            inset: '0',
-            zIndex: '3',
-            pointerEvents: 'none',
-            border: 'hairline',
+          '--carousel-focus-offset': '0',
+          aspectRatio: '1 / 1',
+          md: {
+            '--stage-pitch': '[78%]',
+            aspectRatio: '[auto]',
+            height: '[auto]',
+          },
+          '2xl': {
+            '--stage-pitch': '[min(calc((100% - 72px) / 2), 900px)]',
+            '--carousel-focus-offset': '1',
+            // The hero copy sits over the frame's leading edge (page.recipe.ts),
+            // so the slides under it are masked out rather than clipped.
+            maskImage:
+              'linear-gradient(90deg, transparent 0, transparent calc(var(--stage-pitch) - 80px), black calc(var(--stage-pitch) + 80px), black 100%)',
           },
         },
-        scrim: {
-          position: 'absolute',
-          insetInline: '0',
-          bottom: '0',
-          height: '[42%]',
-          zIndex: '1',
-          pointerEvents: 'none',
-          backgroundGradient: 'stageScrim',
-        },
-        counter: {
-          position: 'absolute',
-          left: '0',
-          bottom: '0',
-          zIndex: '2',
-          display: 'flex',
-          alignItems: 'baseline',
-          gap: 'sm',
-          padding: 'md',
-        },
-        counterNow: { textStyle: 'heading', color: 'heading', lineHeight: '1' },
-        counterTotal: { textStyle: 'label', color: 'muted' },
-        plate: {
-          position: 'absolute',
-          right: '0',
-          bottom: '0',
-          zIndex: '2',
-          display: 'flex',
-          alignItems: 'center',
-          paddingInline: 'md',
-          background: 'surface',
-          borderTop: 'hairline',
-          borderLeft: 'hairline',
-        },
-        control: { gap: 'md' },
-        itemGroup: {
-          width: '100%',
-          aspectRatio: { base: '1 / 1', md: '16 / 9' },
-          background: 'black',
-        },
+        track: { height: '100%' },
         item: {
           width: '100%',
           height: '100%',
-          '& > [data-carousel-slide-content]': { width: '100%', height: '100%' },
+          md: { width: '[var(--stage-pitch)]', height: '[auto]' },
+          // The item carries GSAP's per-frame transform, so its own transition
+          // property must stay empty or the two fight.
+          '& > [data-carousel-slide-content]': {
+            width: '100%',
+            height: '100%',
+            opacity: '[0.2]',
+            transition: 'develop',
+            md: { height: '[auto]', aspectRatio: '3 / 2' },
+          },
+          '&[data-current] > [data-carousel-slide-content]': { opacity: '[1]' },
         },
       },
       rail: {
-        itemGroup: { cursor: 'grab', touchAction: 'pan-x' },
+        track: { paddingInline: 'gutter' },
         control: { paddingInline: 'gutter' },
         item: { '& > [data-carousel-slide-content]': { height: '100%' } },
       },
