@@ -29,6 +29,7 @@ export const navigation = sva({
       width: '[40px]',
       height: '[40px]',
       zIndex: 'nav',
+      display: 'flex',
       md: { top: '[24px]', width: 'touch', height: 'touch' },
       lg: { width: '[56px]', height: '[56px]' },
       xl: { width: '[60px]', height: '[60px]' },
