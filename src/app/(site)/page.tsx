@@ -11,6 +11,7 @@ import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
+import { PartnerStrip } from '@/components/PartnerStrip/PartnerStrip'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
 import { LinkList, LinkListItem } from '@/components/ui/LinkList/LinkList'
@@ -75,6 +76,7 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
     heroCtaEditionYear: ctaYear,
     editionsIntro,
     slideshow: slides,
+    partners,
   } = view
   const slideshow = slides.length > 0 ? slides : [{ ...PLACEHOLDER_IMAGE, position: 'center' }]
   const list = editions
@@ -130,10 +132,10 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
         <section id="home" className={cx(styles.panel, styles.hero)}>
           <Grid
             className={styles.heroRail}
-            gridTemplateColumns={{ lg: '1fr auto' }}
-            rowGap={{ base: 'lg', lg: '3xl' }}
+            gridTemplateColumns={{ lg: 'minmax(0, 38%) minmax(0, 1fr)' }}
+            rowGap={{ base: 'xl', lg: '0' }}
             columnGap={{ lg: '2xl' }}
-            alignItems={{ lg: 'start' }}
+            alignItems={{ lg: 'center' }}
           >
             <Stack className={styles.heroPanel} gap="lg">
               <Text as="h1" variant="display" color="gray.200" className={styles.heroTitle}>
@@ -153,16 +155,14 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
               </Stack>
             </Stack>
 
-            <div className={styles.heroBadge}>
-              <PartnerBadge size="hero" />
-            </div>
-
             <div className={styles.heroVisual}>
               <HomepageCarousel images={slideshow} />
             </div>
           </Grid>
         </section>
       )}
+
+      <PartnerStrip partners={partners} />
 
       {featured && <FeaturedSpotlight year={featured.year} events={featured.events} />}
 
