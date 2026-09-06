@@ -8,7 +8,6 @@ export const homePage = sva({
     'heroVisual',
     'heroPanel',
     'heroTitle',
-    'heroBadge',
     'editionsLayout',
     'editionsHead',
     'editionsSubtext',
@@ -43,31 +42,34 @@ export const homePage = sva({
       order: '2',
       position: 'relative',
       width: 'full',
-      lg: { gridColumn: '1 / -1', gridRow: '2' },
+      minWidth: '0',
+      lg: {
+        // Runs the full width of the row, under the hero copy; the stage's own
+        // mask fades its leading slides out behind the text.
+        gridColumn: '2',
+        gridRow: '1',
+        zIndex: '0',
+        // `width: full` would pin the box to its grid track, leaving the
+        // negative margin to shift it instead of widening it.
+        width: 'auto',
+        marginRight:
+          '[calc((min(100vw - 2 * token(spacing.gutter), token(sizes.maxWidth)) - 100vw) / 2)]',
+      },
+      // Wide enough for a faded leading slide: the stage spans the whole row and
+      // runs under the hero copy, which the stage mask fades it out behind.
+      '2xl': { gridColumn: '1 / -1' },
     },
     heroPanel: {
       order: '1',
       position: 'relative',
       minWidth: '0',
-      lg: { gridColumn: '1', gridRow: '1' },
+      lg: { gridColumn: '1', gridRow: '1', zIndex: '1' },
     },
     // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
     heroTitle: {
       animationStyle: 'enter',
       animationDelay: 'stagger',
       width: '[min-content]',
-    },
-
-    heroBadge: {
-      order: '3',
-      justifySelf: 'center',
-      zIndex: '10',
-      lg: {
-        gridColumn: '2',
-        gridRow: '1',
-        justifySelf: 'end',
-        alignSelf: 'start',
-      },
     },
     editionsLayout: {
       display: 'flex',
