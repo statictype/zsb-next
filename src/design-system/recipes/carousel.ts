@@ -78,8 +78,17 @@ export const carousel = defineSlotRecipe({
             '--carousel-focus-offset': '1',
             // The hero copy sits over the frame's leading edge (page.recipe.ts),
             // so the slides under it are masked out rather than clipped.
-            maskImage:
-              'linear-gradient(90deg, transparent 0, transparent calc(var(--stage-pitch) - 80px), black calc(var(--stage-pitch) + 80px), black 100%)',
+            maskImage: [
+              'linear-gradient(90deg,',
+              'transparent 0,',
+              'transparent calc(var(--stage-pitch) - 440px),',
+              'rgb(0 0 0 / 0.06) calc(var(--stage-pitch) - 330px),',
+              'rgb(0 0 0 / 0.12) calc(var(--stage-pitch) - 240px),',
+              'rgb(0 0 0 / 0.28) calc(var(--stage-pitch) - 160px),',
+              'rgb(0 0 0 / 0.66) calc(var(--stage-pitch) - 80px),',
+              'black calc(var(--stage-pitch) + 30px),',
+              'black 100%)',
+            ].join(' '),
           },
         },
         track: { height: '100%' },
