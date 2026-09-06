@@ -31,12 +31,20 @@ export const homePage = sva({
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-start',
+      // Tighter than the shared pageHero rhythm, and short of a full viewport,
+      // so the partner strip's ground shows above the fold.
+      lg: {
+        paddingTop: '[calc(token(sizes.nav) + token(spacing.xl) + token(spacing.md))]',
+        paddingBottom: '[calc(token(spacing.2xl) + token(spacing.md))]',
+        minHeight: '[calc(100svh - 90px)]',
+      },
     },
     heroRail: {
       position: 'relative',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       width: 'full',
+      '2xl': { marginTop: '[150px]' },
     },
     heroVisual: {
       order: '2',
@@ -63,7 +71,10 @@ export const homePage = sva({
       order: '1',
       position: 'relative',
       minWidth: '0',
+      // From 2xl the row drops 150px and the copy climbs back out of it, so the
+      // copy holds its position while the slideshow sits low against it.
       lg: { gridColumn: '1', gridRow: '1', zIndex: '1' },
+      '2xl': { transform: '[translateY(-150px)]' },
     },
     // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
     heroTitle: {
