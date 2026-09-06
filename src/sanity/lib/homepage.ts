@@ -5,7 +5,7 @@ import { definedFields } from '@/lib/defined-fields'
 import { toShareImage, urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
 import { HOMEPAGE_QUERY, HOMEPAGE_QUERY_TAGS } from '@/sanity/lib/queries'
-import type { HeroImage, ShareImage } from '@/types/edition'
+import type { HeroImage, PartnerLogo, ShareImage } from '@/types/edition'
 
 type RawHomepage = NonNullable<HOMEPAGE_QUERY_RESULT>
 
@@ -18,6 +18,7 @@ export interface HomeView {
   heroCtaEditionYear?: number
   editionsIntro: string
   slideshow: HeroImage[]
+  partners: PartnerLogo[]
   ogImage?: ShareImage
   metaDescription?: string
 }
@@ -34,6 +35,26 @@ function mapSlideshow(slides: RawHomepage['slideshow']): HeroImage[] {
       alt: slide.image.alt ?? '',
       position: slide.position,
       ...(slide.image.lqip ? { blurDataURL: slide.image.lqip } : {}),
+    })
+  }
+  return out
+}
+
+const LOGO_SOURCE_HEIGHT = 128
+
+function mapPartners(partners: RawHomepage['partnerStrip']): PartnerLogo[] {
+  const out: PartnerLogo[] = []
+  for (const partner of partners ?? []) {
+    if (!partner.logo?.asset) continue
+    const aspectRatio = partner.logo.aspectRatio ?? 1
+    out.push({
+      id: partner._id,
+      name: partner.name,
+      src: urlFor(partner.logo).height(LOGO_SOURCE_HEIGHT).url(),
+      alt: partner.logo.alt ?? partner.name,
+      width: Math.round(LOGO_SOURCE_HEIGHT * aspectRatio),
+      height: LOGO_SOURCE_HEIGHT,
+      ...definedFields({ url: partner.url }),
     })
   }
   return out
@@ -56,6 +77,7 @@ function normalizeHomepage(raw: RawHomepage): HomeView {
     heroCtaLabel: raw.heroCtaLabel ?? '',
     editionsIntro: raw.editionsIntro ?? '',
     slideshow: mapSlideshow(raw.slideshow),
+    partners: mapPartners(raw.partnerStrip),
     ...definedFields({
       heroCtaEditionYear: raw.heroCtaEditionYear,
       ogImage: toShareImage(raw.ogImage),

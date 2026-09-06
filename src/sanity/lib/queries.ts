@@ -45,13 +45,19 @@ export const HOMEPAGE_QUERY = defineQuery(`
       position,
       image{ ..., "lqip": asset->metadata.lqip }
     },
+    partnerStrip[]->{
+      _id,
+      name,
+      url,
+      logo{ ..., "aspectRatio": asset->metadata.dimensions.aspectRatio }
+    },
     editionsIntro,
     ogImage,
     metaDescription
   }
 `)
 
-export const HOMEPAGE_QUERY_TAGS = ['homepage', 'edition']
+export const HOMEPAGE_QUERY_TAGS = ['homepage', 'edition', 'organization']
 
 export const EDITIONS_LIST_QUERY = defineQuery(`
   *[_type == "edition" && defined(year)] | order(year desc) {
