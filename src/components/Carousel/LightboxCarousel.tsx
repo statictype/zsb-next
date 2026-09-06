@@ -9,7 +9,6 @@ interface LightboxCarouselProps {
   id?: string
   label: string
   mode: 'stage' | 'rail'
-  autoplay?: false | number
   loop: boolean
   eyebrow?: ReactNode
   className?: string | undefined
