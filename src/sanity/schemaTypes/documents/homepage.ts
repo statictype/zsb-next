@@ -10,6 +10,7 @@ export const homepage = defineType({
   icon: HomeIcon,
   groups: [
     { name: 'hero', title: 'Hero', default: true },
+    { name: 'partners', title: 'Partner strip' },
     { name: 'editions', title: 'Editions section' },
     { name: 'social', title: 'Social' },
   ],
@@ -66,6 +67,22 @@ export const homepage = defineType({
       group: 'hero',
       of: [defineArrayMember({ type: 'heroSlide' })],
       validation: (rule) => rule.required().min(1).max(12),
+    }),
+    defineField({
+      name: 'partnerStrip',
+      title: 'Partner logos',
+      description:
+        'Logos that scroll under the hero. Only organizations that already have a logo can be picked; the order here is the order on the page.',
+      type: 'array',
+      group: 'partners',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{ type: 'organization' }],
+          options: { filter: 'defined(logo.asset)' },
+        }),
+      ],
+      validation: (rule) => rule.max(24).unique(),
     }),
     defineField({
       name: 'editionsIntro',

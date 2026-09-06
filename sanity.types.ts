@@ -563,6 +563,11 @@ export type Homepage = {
       _key: string
     } & HeroSlide
   >
+  partnerStrip?: Array<
+    {
+      _key: string
+    } & OrganizationReference
+  >
   editionsIntro: string
   ogImage?: {
     asset?: SanityImageAssetReference
@@ -869,7 +874,7 @@ export type HERO_EDITION_QUERY_RESULT = null | 'latest' | 'upcoming'
 
 // Source: src/sanity/lib/queries.ts
 // Variable: HOMEPAGE_QUERY
-// Query: *[_id == "homepage"][0]{    heroTitle,    heroLead,    heroCtaLabel,    "heroCtaEditionYear": heroCtaEdition->year,    slideshow[]{      _key,      position,      image{ ..., "lqip": asset->metadata.lqip }    },    editionsIntro,    ogImage,    metaDescription  }
+// Query: *[_id == "homepage"][0]{    heroTitle,    heroLead,    heroCtaLabel,    "heroCtaEditionYear": heroCtaEdition->year,    slideshow[]{      _key,      position,      image{ ..., "lqip": asset->metadata.lqip }    },    partnerStrip[]->{      _id,      name,      url,      logo{ ..., "aspectRatio": asset->metadata.dimensions.aspectRatio }    },    editionsIntro,    ogImage,    metaDescription  }
 export type HOMEPAGE_QUERY_RESULT =
   | {
       heroTitle: null
@@ -877,6 +882,7 @@ export type HOMEPAGE_QUERY_RESULT =
       heroCtaLabel: null
       heroCtaEditionYear: null
       slideshow: null
+      partnerStrip: null
       editionsIntro: null
       ogImage: null
       metaDescription: null
@@ -887,6 +893,7 @@ export type HOMEPAGE_QUERY_RESULT =
       heroCtaLabel: null
       heroCtaEditionYear: null
       slideshow: null
+      partnerStrip: null
       editionsIntro: null
       ogImage: {
         asset?: SanityImageAssetReference
@@ -904,6 +911,7 @@ export type HOMEPAGE_QUERY_RESULT =
       heroCtaLabel: null
       heroCtaEditionYear: null
       slideshow: null
+      partnerStrip: null
       editionsIntro: null
       ogImage: {
         asset?: SanityImageAssetReference
@@ -933,6 +941,20 @@ export type HOMEPAGE_QUERY_RESULT =
           lqip: string | null
         }
       }>
+      partnerStrip: Array<{
+        _id: string
+        name: string
+        url: string | null
+        logo: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          alt?: string
+          _type: 'image'
+          aspectRatio: number | null
+        } | null
+      }> | null
       editionsIntro: string
       ogImage: {
         asset?: SanityImageAssetReference
@@ -1874,7 +1896,7 @@ declare module '@sanity/client' {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT
     '\n  *[_id == "siteSettings"][0].visitEdition\n': VISIT_EDITION_QUERY_RESULT
     '\n  *[_id == "siteSettings"][0].heroEdition\n': HERO_EDITION_QUERY_RESULT
-    '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
+    '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    partnerStrip[]->{\n      _id,\n      name,\n      url,\n      logo{ ..., "aspectRatio": asset->metadata.dimensions.aspectRatio }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    themeHighlight,\n    status,\n    dateStart\n  }\n': EDITIONS_LIST_QUERY_RESULT
     '\n  *[_id == "aboutPage"][0]{\n    hero,\n    manifestoTitle,\n    manifestoBody,\n    pillars,\n    placeImage{ ..., "lqip": asset->metadata.lqip },\n    carouselEyebrow,\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    curatorHeadline,\n    curatorPortrait{ ..., "lqip": asset->metadata.lqip },\n    curatorName,\n    curatorRole,\n    curatorLetter,\n    ogImage,\n    metaDescription\n  }\n': ABOUT_PAGE_QUERY_RESULT
     '\n  *[_id == "partnersPage"][0]{\n    hero,\n    eventTitle,\n    eventBody,\n    eventImage{ ..., "lqip": asset->metadata.lqip },\n    whyEyebrow,\n    whyTitle,\n    whyImage{ ..., "lqip": asset->metadata.lqip },\n    whyPoints,\n    ctaHeading,\n    ctaHeadingAccent,\n    ctaBody,\n    ctaLabel,\n    ogImage,\n    metaDescription\n  }\n': PARTNERS_PAGE_QUERY_RESULT

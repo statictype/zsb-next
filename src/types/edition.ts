@@ -22,6 +22,16 @@ export interface HeroImage extends ImageData {
   position?: string
 }
 
+export interface PartnerLogo {
+  id: string
+  name: string
+  src: string
+  alt: string
+  width: number
+  height: number
+  url?: string
+}
+
 // ---- Manifesto ----
 
 export interface ManifestoData {
