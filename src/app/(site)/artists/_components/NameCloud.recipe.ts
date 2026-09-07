@@ -23,11 +23,17 @@ export const nameCloud = sva({
       '@media (hover: hover)': {
         _hover: { zIndex: '1' },
       },
+      '@media (hover: none)': {
+        '[data-name-cloud-tap] &': { cursor: 'pointer' },
+      },
     },
     name: {
       transition: 'interactive',
       '@media (hover: hover)': {
         'li:hover &': { color: 'heading' },
+      },
+      '@media (hover: none)': {
+        '[data-name-cloud-tap] li:active &': { color: 'heading' },
       },
     },
     years: {
@@ -36,6 +42,7 @@ export const nameCloud = sva({
         fontSize: '[max(11px, 0.8em)]',
         lineHeight: '[1.3]',
         color: 'muted',
+        '[data-name-cloud-tap] &': { layerStyle: 'srOnly' },
       },
       '@media (hover: hover)': {
         position: 'absolute',

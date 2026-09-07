@@ -10,11 +10,16 @@ export function artistTier(inPerson: number, maxObserved: number): ArtistTier {
   return TIERS[Math.min(Math.max(step, 1), TIERS.length) - 1] ?? TIERS[0]
 }
 
-export function formatEditionYears(years: readonly number[]): string {
+export const EDITION_YEAR_SEPARATOR = ', '
+
+export function formatEditionYearList(years: readonly number[]): string[] {
   return [...years]
     .sort((a, b) => a - b)
     .map((year) => (ONLINE_EDITION_YEARS.includes(year) ? `${year} (online)` : String(year)))
-    .join(', ')
+}
+
+export function formatEditionYears(years: readonly number[]): string {
+  return formatEditionYearList(years).join(EDITION_YEAR_SEPARATOR)
 }
 
 export function mapArtistCloud(raw: ARTIST_CLOUD_QUERY_RESULT): ArtistCloudItem[] {
