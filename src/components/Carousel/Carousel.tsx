@@ -1,12 +1,13 @@
 'use client'
 
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
-import { type ReactNode, useId, useRef, useSyncExternalStore } from 'react'
+import { type ReactNode, useId, useRef } from 'react'
 import { cx } from 'styled-system/css'
 import { Stack } from 'styled-system/jsx'
 import { carousel } from 'styled-system/recipes'
 import { useCarouselEngine } from '@/components/Carousel/useCarouselEngine'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
+import { useReducedMotion } from '@/components/reduced-motion'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 
 export interface CarouselSlide {
@@ -25,30 +26,11 @@ interface CarouselProps {
 }
 
 const safeId = (value: string) => value.replace(/[^a-zA-Z0-9_-]+/g, '-')
-const reducedMotionQuery = '(prefers-reduced-motion: reduce)'
-
-function subscribeToReducedMotion(callback: () => void) {
-  const media = window.matchMedia(reducedMotionQuery)
-  media.addEventListener('change', callback)
-  return () => media.removeEventListener('change', callback)
-}
-
-function getReducedMotion() {
-  return window.matchMedia(reducedMotionQuery).matches
-}
-
-function getServerReducedMotion() {
-  return true
-}
 
 export function Carousel({ id, slides, label, mode, loop, eyebrow, className }: CarouselProps) {
   const generatedId = useId()
   const rootId = safeId(id ?? `carousel-${generatedId}`)
-  const reducedMotion = useSyncExternalStore(
-    subscribeToReducedMotion,
-    getReducedMotion,
-    getServerReducedMotion,
-  )
+  const reducedMotion = useReducedMotion()
   const dragOrigin = useRef<{ x: number; y: number } | null>(null)
   const styles = carousel({ mode })
 

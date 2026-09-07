@@ -238,6 +238,7 @@ export const semanticTokens = {
     // control inside its dialog (`dialogToggle`), so this never has to outrank
     // the modal layer — and must not, or it lands on other dialogs' controls.
     navToggle: { value: '300' },
+    lightboxFlip: { value: '1020' },
     draftBadge: { value: '1030' },
     '0': { value: '0' },
     '1': { value: '1' },

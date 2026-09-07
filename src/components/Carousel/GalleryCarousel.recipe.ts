@@ -7,7 +7,7 @@ import { sva } from 'styled-system/css'
  * authored image-grid layouts and lightbox-trigger presentation.
  */
 export const galleryCarousel = sva({
-  slots: ['slide', 'item', 'frame', 'itemImage'],
+  slots: ['slide', 'item', 'frame', 'itemImage', 'caption'],
   base: {
     slide: {
       display: 'grid',
@@ -20,6 +20,11 @@ export const galleryCarousel = sva({
       height: '[var(--slide-h)]',
       width: '[max-content]',
       md: { '--slide-gap': 'token(spacing.md)' },
+      '@media (hover: hover)': {
+        '&:has(> :is(:hover, :focus-visible)) > :not(:hover, :focus-visible)': {
+          opacity: 0.32,
+        },
+      },
     },
 
     item: {
@@ -28,14 +33,12 @@ export const galleryCarousel = sva({
       position: 'relative',
       cursor: 'pointer',
       background: 'surface',
-      '--photo-inset': '0px',
+      transition: 'develop',
       '& img': {
         transition: 'develop',
       },
-      _hover: {
-        '--photo-inset': 'calc(token(spacing.sm) * 1.5)',
-        '& img': { transform: 'scale(1.12)' },
-      },
+      _hover: { '& [data-caption]': { opacity: 1 } },
+      _focusVisible: { '& [data-caption]': { opacity: 1 } },
     },
     frame: {
       position: 'absolute',
@@ -43,11 +46,29 @@ export const galleryCarousel = sva({
       overflow: 'hidden',
       // exception: image placeholder fallback, raised-dark surface
       background: 'gray.900',
-      clipPath: 'inset(var(--photo-inset, 0px))',
-      transition: 'develop',
     },
     // Drag prevention comes from the Figure's `draggable={false}` attribute.
     itemImage: { objectFit: 'cover', background: 'gray.900' },
+    caption: {
+      position: 'absolute',
+      insetInline: '0',
+      bottom: '0',
+      zIndex: '1',
+      display: 'none',
+      paddingInline: 'sm',
+      paddingBottom: 'sm',
+      paddingTop: 'lg',
+      backgroundGradient: 'stageScrim',
+      textStyle: 'label',
+      color: 'heading',
+      opacity: 0,
+      transition: 'develop',
+      pointerEvents: 'none',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      '@media (hover: hover)': { display: 'block' },
+    },
   },
   variants: {
     size: {

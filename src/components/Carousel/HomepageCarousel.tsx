@@ -15,7 +15,7 @@ export function HomepageCarousel({ images }: { images: HeroImage[] }) {
       mode="stage"
       loop
       lightboxImages={images.map((image) => ({ image }))}
-      slides={(openLightbox) =>
+      slides={(openLightbox, registerOrigin) =>
         images.map((image, index) => ({
           id: `homepage-${index}`,
           content: (
@@ -23,6 +23,7 @@ export function HomepageCarousel({ images }: { images: HeroImage[] }) {
               type="button"
               className={styles.slide}
               aria-label="Open image in lightbox"
+              ref={(element) => registerOrigin(index, element)}
               onClick={() => openLightbox(index)}
             >
               <Figure

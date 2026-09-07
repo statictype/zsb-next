@@ -7,17 +7,31 @@ import type { CarouselLayout, CarouselSlide as GallerySlide } from '@/types/edit
 
 type GallerySize = 'default' | 'large'
 
-const RAIL_VW: Record<GallerySize, { phone: number; desktop: number }> = {
-  default: { phone: 92, desktop: 65 },
-  large: { phone: 92, desktop: 78 },
+type Band = 'base' | 'md' | 'lg' | 'xl' | '2xl' | '4xl'
+
+// Ceiling of `--slide-h` per breakpoint band, derived from the `--slide-h-max`
+// and `--slide-w-max` clamps in GalleryCarousel.recipe.ts; the layout column
+// widths there are multiples of it.
+const SLIDE_HEIGHT_CAP: Record<GallerySize, Record<Band, number>> = {
+  default: { base: 233, md: 351, lg: 398, xl: 379, '2xl': 452, '4xl': 560 },
+  large: { base: 260, md: 374, lg: 449, xl: 469, '2xl': 572, '4xl': 780 },
 }
 
+const BAND_MIN_WIDTH: [Band, number][] = [
+  ['4xl', 1792],
+  ['2xl', 1440],
+  ['xl', 1280],
+  ['lg', 1024],
+  ['md', 768],
+]
+
 function sizesFor(layout: CarouselLayout, imgIndex: number, size: GallerySize): string {
-  const { phone, desktop } = RAIL_VW[size]
+  const caps = SLIDE_HEIGHT_CAP[size]
   const featured = (layout === 'featured-portrait' || layout === 'featured-stack') && imgIndex === 0
-  const share = layout === 'full' ? 1 : featured ? 2 / 3 : layout === 'duo' ? 1 / 2 : 1 / 3
-  const round = (vw: number) => Math.round(vw * share)
-  return `(max-width: 767px) ${round(phone)}vw, ${round(desktop)}vw`
+  const ratio = layout === 'full' || featured ? 1.5 : layout === 'duo' ? 1 : 0.75
+  const cell = (band: Band) => `${Math.ceil(caps[band] * ratio)}px`
+  const steps = BAND_MIN_WIDTH.map(([band, min]) => `(min-width: ${min}px) ${cell(band)}`)
+  return [...steps, cell('base')].join(', ')
 }
 
 interface GalleryCarouselProps {
@@ -58,7 +72,7 @@ export function GalleryCarousel({
       eyebrow={eyebrow}
       className={className}
       lightboxImages={lightboxImages}
-      slides={(openLightbox) =>
+      slides={(openLightbox, registerOrigin) =>
         slides.map((slide, slideIndex) => {
           const startIndex = slideOffsets[slideIndex] ?? 0
           const content = (
@@ -70,6 +84,7 @@ export function GalleryCarousel({
                     key={image.image.src}
                     type="button"
                     className={styles.item}
+                    ref={(element) => registerOrigin(imageFlatIndex, element)}
                     onClick={() => openLightbox(imageFlatIndex)}
                   >
                     <span className={styles.frame}>
@@ -81,6 +96,11 @@ export function GalleryCarousel({
                         preload={preload && imageFlatIndex === 0}
                       />
                     </span>
+                    {image.caption && (
+                      <span className={styles.caption} data-caption aria-hidden>
+                        {image.caption}
+                      </span>
+                    )}
                   </button>
                 )
               })}

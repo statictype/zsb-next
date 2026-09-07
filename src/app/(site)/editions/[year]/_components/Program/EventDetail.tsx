@@ -5,7 +5,7 @@ import { TypeChips } from '@program/TypeChips'
 import { shareCopied, useShareLink } from '@program/useShareLink'
 import { VenueLine } from '@program/VenueLine'
 import { RiExternalLinkLine } from '@remixicon/react'
-import { useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { css } from 'styled-system/css'
 import { Stack, Text } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
@@ -40,6 +40,8 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
     Icon: ShareIcon,
   } = useShareLink(() => window.location.href)
   const [zoomed, setZoomed] = useState(false)
+  const posterRef = useRef<HTMLButtonElement>(null)
+  const getPoster = useCallback(() => posterRef.current, [])
 
   const s = eventDetail({ shell, poster: !!event.image })
   const Name = shell === 'page' ? 'h1' : 'h2'
@@ -51,6 +53,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
           <Button
             variant="plain"
             className={s.poster}
+            ref={posterRef}
             onClick={() => setZoomed(true)}
             aria-label={`View the poster for ${event.name} full size`}
           >
@@ -126,6 +129,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
         <Lightbox
           images={[{ image: event.image }]}
           index={zoomed ? 0 : null}
+          getOrigin={getPoster}
           onClose={() => setZoomed(false)}
           onIndexChange={noStep}
         />

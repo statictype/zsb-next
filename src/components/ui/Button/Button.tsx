@@ -4,6 +4,7 @@ import {
   isValidElement,
   type ReactElement,
   type ReactNode,
+  type Ref,
 } from 'react'
 import { cx } from 'styled-system/css'
 import { type ButtonVariantProps, button } from 'styled-system/recipes'
@@ -24,6 +25,7 @@ type ButtonOwnProps = ButtonVariantProps & { className?: string | undefined }
 type NativeButtonProps = ButtonOwnProps &
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> & {
     asChild?: false
+    ref?: Ref<HTMLButtonElement>
   }
 
 type ButtonAsChildProps = ButtonOwnProps & {

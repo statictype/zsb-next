@@ -44,6 +44,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
           eyebrow={theme}
           treatment="color"
           className={styles.carousel}
+          size="large"
         />
       )}
     </section>
