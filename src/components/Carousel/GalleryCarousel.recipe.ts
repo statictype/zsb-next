@@ -7,38 +7,44 @@ import { sva } from 'styled-system/css'
  * authored image-grid layouts and lightbox-trigger presentation.
  */
 export const galleryCarousel = sva({
-  slots: ['slide', 'item', 'itemImage'],
+  slots: ['slide', 'item', 'frame', 'itemImage'],
   base: {
     slide: {
       display: 'grid',
-      gap: 'sm',
       boxSizing: 'border-box',
       gridTemplateRows: '1fr',
-      md: { gap: 'md' },
+      '--slide-gap': 'token(spacing.sm)',
+      '--slide-h':
+        'min(var(--slide-h-max), calc((var(--slide-w-max) - var(--slide-gap) * 2) / 2.25))',
+      gap: '[var(--slide-gap)]',
+      height: '[var(--slide-h)]',
+      width: '[max-content]',
+      md: { '--slide-gap': 'token(spacing.md)' },
     },
 
     item: {
-      // Native <button> without preflight — strip the UA chrome.
       display: 'block',
-      border: 'none',
+      border: 'hairline',
       position: 'relative',
-      overflow: 'hidden',
       cursor: 'pointer',
-      // exception: image placeholder fallback, raised-dark surface
-      background: 'gray.900',
+      background: 'surface',
+      '--photo-inset': '0px',
       '& img': {
         transition: 'develop',
       },
       _hover: {
-        '& img': { transform: 'scale(1.05)' },
-        '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
+        '--photo-inset': 'calc(token(spacing.sm) * 1.5)',
+        '& img': { transform: 'scale(1.12)' },
       },
-      // Gradient border hover effect (masked ring).
-      _before: {
-        content: '""',
-        layerStyle: 'gradientBorder',
-        padding: '[token(borderWidths.hairline)]',
-      },
+    },
+    frame: {
+      position: 'absolute',
+      inset: '0',
+      overflow: 'hidden',
+      // exception: image placeholder fallback, raised-dark surface
+      background: 'gray.900',
+      clipPath: 'inset(var(--photo-inset, 0px))',
+      transition: 'develop',
     },
     // Drag prevention comes from the Figure's `draggable={false}` attribute.
     itemImage: { objectFit: 'cover', background: 'gray.900' },
@@ -47,71 +53,85 @@ export const galleryCarousel = sva({
     size: {
       default: {
         slide: {
-          width: {
-            base: '[clamp(360px, 92vw, 540px)]',
-            md: '[clamp(600px, 81vw, 990px)]',
-            lg: '[clamp(730px, 73vw, 1140px)]',
-            xl: '[clamp(830px, 62vw, 1250px)]',
-            '2xl': '[clamp(940px, 59vw, 1350px)]',
-            '4xl': '[clamp(1040px, 55vw, 1460px)]',
+          '--slide-w-max': '[clamp(320px, 92vw, 540px)]',
+          '--slide-h-max': '[clamp(180px, 40vh, 340px)]',
+          md: {
+            '--slide-w-max': '[clamp(600px, 81vw, 990px)]',
+            '--slide-h-max': '[clamp(240px, 42vh, 400px)]',
           },
-          height: {
-            base: '[28vh]',
-            md: '[35vh]',
-            lg: '[40vh]',
-            xl: '[42vh]',
-            '2xl': '[43vh]',
-            '4xl': '[44vh]',
+          lg: {
+            '--slide-w-max': '[clamp(730px, 73vw, 1140px)]',
+            '--slide-h-max': '[clamp(280px, 44vh, 440px)]',
           },
-          '@media (max-width: 767px) and (orientation: landscape)': { height: '[73vh]' },
+          xl: {
+            '--slide-w-max': '[clamp(830px, 62vw, 1250px)]',
+            '--slide-h-max': '[clamp(300px, 45vh, 480px)]',
+          },
+          '2xl': {
+            '--slide-w-max': '[clamp(940px, 59vw, 1350px)]',
+            '--slide-h-max': '[clamp(320px, 46vh, 520px)]',
+          },
+          '4xl': {
+            '--slide-w-max': '[clamp(1040px, 55vw, 1460px)]',
+            '--slide-h-max': '[clamp(340px, 47vh, 560px)]',
+          },
         },
       },
       large: {
         slide: {
-          width: {
-            base: '[clamp(360px, 92vw, 600px)]',
-            md: '[clamp(660px, 86vw, 1120px)]',
-            lg: '[clamp(840px, 82vw, 1340px)]',
-            xl: '[clamp(980px, 76vw, 1520px)]',
-            '2xl': '[clamp(1120px, 74vw, 1700px)]',
-            '4xl': '[clamp(1280px, 70vw, 1880px)]',
+          '--slide-w-max': '[clamp(320px, 92vw, 600px)]',
+          '--slide-h-max': '[clamp(200px, 48vh, 400px)]',
+          md: {
+            '--slide-w-max': '[clamp(660px, 86vw, 1120px)]',
+            '--slide-h-max': '[clamp(300px, 56vh, 520px)]',
           },
-          height: {
-            base: '[46vh]',
-            md: '[54vh]',
-            lg: '[60vh]',
-            xl: '[64vh]',
-            '2xl': '[66vh]',
-            '4xl': '[68vh]',
+          lg: {
+            '--slide-w-max': '[clamp(840px, 82vw, 1340px)]',
+            '--slide-h-max': '[clamp(360px, 60vh, 600px)]',
           },
-          '@media (max-width: 767px) and (orientation: landscape)': { height: '[78vh]' },
+          xl: {
+            '--slide-w-max': '[clamp(980px, 76vw, 1520px)]',
+            '--slide-h-max': '[clamp(400px, 64vh, 660px)]',
+          },
+          '2xl': {
+            '--slide-w-max': '[clamp(1120px, 74vw, 1700px)]',
+            '--slide-h-max': '[clamp(440px, 66vh, 720px)]',
+          },
+          '4xl': {
+            '--slide-w-max': '[clamp(1280px, 70vw, 1880px)]',
+            '--slide-h-max': '[clamp(480px, 68vh, 780px)]',
+          },
         },
       },
     },
     layout: {
-      trio: { slide: { gridTemplateColumns: 'repeat(3, 1fr)' } },
-      duo: { slide: { gridTemplateColumns: 'repeat(2, 1fr)' } },
-      'featured-portrait': { slide: { gridTemplateColumns: '2fr 1fr' } },
+      trio: { slide: { gridTemplateColumns: '[repeat(3, calc(var(--slide-h) * 0.75))]' } },
+      duo: { slide: { gridTemplateColumns: '[repeat(2, var(--slide-h))]' } },
+      'featured-portrait': {
+        slide: {
+          gridTemplateColumns: '[calc(var(--slide-h) * 1.5) calc(var(--slide-h) * 0.75)]',
+        },
+      },
       'featured-stack': {
         slide: {
-          gridTemplateColumns: '2fr 1fr',
-          gridTemplateRows: '1fr 1fr',
+          gridTemplateColumns:
+            '[calc(var(--slide-h) * 1.5) calc((var(--slide-h) - var(--slide-gap)) * 0.75)]',
+          gridTemplateRows: '[1fr 1fr]',
           '& > *:first-child': { gridRow: '1 / -1' },
         },
       },
-      full: { slide: { gridTemplateColumns: '1fr' } },
+      full: { slide: { gridTemplateColumns: '[calc(var(--slide-h) * 1.5)]' } },
     },
     treatment: {
       mono: {
         item: {
           '& img': { filter: '[token(assets.mono)]' },
-          _hover: { '& img': { filter: '[token(assets.monoHover)]' } },
+          _hover: { '& img': { filter: '[token(assets.monoReveal)]' } },
         },
       },
       color: {
         item: {
           '& img': { filter: '[token(assets.color)]' },
-          _hover: { '& img': { filter: '[token(assets.colorHover)]' } },
         },
       },
     },
