@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Link, { useLinkStatus } from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NavigationLabel } from 'styled-system/jsx'
 
@@ -23,6 +23,21 @@ type NavLinksProps = {
   className: string | undefined
   context: 'desktop' | 'mobile'
   onNavigate?: () => void
+}
+
+function NavLinkLabel({ label, context }: { label: string; context: 'desktop' | 'mobile' }) {
+  const { pending } = useLinkStatus()
+
+  return (
+    <span data-nav-mask data-pending={pending ? true : undefined}>
+      <NavigationLabel context={context} data-nav-label>
+        {label}
+        <NavigationLabel context={context} aria-hidden data-nav-copy>
+          {label}
+        </NavigationLabel>
+      </NavigationLabel>
+    </span>
+  )
 }
 
 /**
@@ -48,14 +63,7 @@ export function NavLinksList({
         data-active={sectionActive ? true : undefined}
         {...(onNavigate ? { onClick: onNavigate } : {})}
       >
-        <span data-nav-mask>
-          <NavigationLabel context={context} data-nav-label>
-            {item.label}
-            <NavigationLabel context={context} aria-hidden data-nav-copy>
-              {item.label}
-            </NavigationLabel>
-          </NavigationLabel>
-        </span>
+        <NavLinkLabel label={item.label} context={context} />
       </Link>
     )
   })
