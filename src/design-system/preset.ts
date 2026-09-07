@@ -37,7 +37,7 @@ export const designSystemPreset = definePreset({
             transitionProperty:
               value === 'interactive'
                 ? 'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, opacity, transform'
-                : 'opacity, transform, translate, scale, filter',
+                : 'opacity, transform, translate, scale, filter, clip-path',
             transitionDuration: token(`durations.${value === 'interactive' ? 'fast' : 'normal'}`),
             transitionTimingFunction: token(
               `easings.${value === 'interactive' ? 'feedback' : 'motion'}`,

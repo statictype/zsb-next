@@ -72,13 +72,15 @@ export function GalleryCarousel({
                     className={styles.item}
                     onClick={() => openLightbox(imageFlatIndex)}
                   >
-                    <Figure
-                      image={image.image}
-                      sizes={sizesFor(slide.layout, imageIndex, size)}
-                      className={styles.itemImage}
-                      draggable={false}
-                      preload={preload && imageFlatIndex === 0}
-                    />
+                    <span className={styles.frame}>
+                      <Figure
+                        image={image.image}
+                        sizes={sizesFor(slide.layout, imageIndex, size)}
+                        className={styles.itemImage}
+                        draggable={false}
+                        preload={preload && imageFlatIndex === 0}
+                      />
+                    </span>
                   </button>
                 )
               })}

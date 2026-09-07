@@ -44,19 +44,7 @@ export const editionCard = sva({
       width: { base: '[clamp(72px, 22vw, 104px)]', md: 'full' },
       border: 'hairline',
       aspectRatio: { base: '1 / 1', md: '16 / 9', lg: '3 / 2' },
-      _before: {
-        content: '""',
-        layerStyle: 'gradientBorder',
-        inset: '[calc(token(borderWidths.hairline) * -1)]',
-        padding: '[token(borderWidths.hairline)]',
-      },
-      'a:hover &, a:focus-visible &': {
-        borderColor: 'transparent',
-        _before: { opacity: 1, animationStyle: 'gradientBorder' },
-      },
     },
-    // `overflow` clips to the padding box, so the zoom cannot be clipped by
-    // `plate` — that would cut the ring, which sits in the border area.
     frame: {
       position: 'absolute',
       inset: '0',
