@@ -1,20 +1,15 @@
 'use client'
 
-import { RiArrowLeftLine, RiArrowRightLine, RiCloseLine } from '@remixicon/react'
+import { RiArrowLeftSLine, RiArrowRightSLine, RiCloseLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { cx } from 'styled-system/css'
 import { token } from 'styled-system/tokens'
 import { Figure } from '@/components/Figure/Figure'
-import {
-  FRAME_MAX,
-  FRAME_WIDTH,
-  lightbox as lightboxRecipe,
-} from '@/components/Lightbox/Lightbox.recipe'
+import { lightbox as lightboxRecipe } from '@/components/Lightbox/Lightbox.recipe'
+import { useLightboxMotion } from '@/components/Lightbox/useLightboxMotion'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
-import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import type { ImageData } from '@/types/edition'
 
 export interface LightboxImage {
@@ -22,11 +17,12 @@ export interface LightboxImage {
   caption?: string
 }
 
-const SIZES = `(min-width: ${token('sizes.breakpoint-md')}) ${FRAME_MAX}, ${FRAME_WIDTH}`
+const SIZES = '100vw'
 
 interface LightboxProps {
   images: LightboxImage[]
   index: number | null
+  getOrigin: (index: number) => HTMLElement | null
   onClose: () => void
   onIndexChange: (index: number) => void
 }
@@ -50,7 +46,7 @@ function stepIndex(index: number, dir: 1 | -1, count: number): number {
   return (index + dir + count) % count
 }
 
-export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProps) {
+export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: LightboxProps) {
   const [drag, setDrag] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const dragRef = useRef<DragState | null>(null)
@@ -61,11 +57,19 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
   if (index !== null && index !== lastIndex) setLastIndex(index)
   const displayIndex = index ?? lastIndex
 
+  const { rootRef, stageRef, imageLayerRef, overlayRef, goTo, requestClose } = useLightboxMotion({
+    isOpen,
+    index: displayIndex,
+    getOrigin,
+    onClose,
+    onIndexChange,
+  })
+
   const onNext = () => {
-    if (index !== null) onIndexChange(stepIndex(index, 1, images.length))
+    if (index !== null) goTo(stepIndex(index, 1, images.length))
   }
   const onPrev = () => {
-    if (index !== null) onIndexChange(stepIndex(index, -1, images.length))
+    if (index !== null) goTo(stepIndex(index, -1, images.length))
   }
 
   // Depend on `index`, not onNext/onPrev — render-scoped fns would re-arm the
@@ -75,13 +79,13 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
     if (index === null) return
 
     const handleKeydown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') onIndexChange(stepIndex(index, -1, count))
-      if (e.key === 'ArrowRight') onIndexChange(stepIndex(index, 1, count))
+      if (e.key === 'ArrowLeft') goTo(stepIndex(index, -1, count))
+      if (e.key === 'ArrowRight') goTo(stepIndex(index, 1, count))
     }
 
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  }, [index, count, onIndexChange])
+  }, [index, count, goTo])
 
   if (!images.length) return null
 
@@ -145,7 +149,7 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
       else if (images.length > 1 && d.dx >= threshold) onPrev()
     } else if (d.axis === 'v') {
       const threshold = Math.min(SWIPE_CLOSE_MAX, window.innerHeight * SWIPE_CLOSE_THRESHOLD_RATIO)
-      if (d.dy >= threshold) onClose()
+      if (d.dy >= threshold) requestClose()
     }
     setDrag({ x: 0, y: 0 })
   }
@@ -154,79 +158,72 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
   const backdropAlpha = 0.95 * (1 - verticalProgress * 0.5)
   const normal = token('durations.normal')
   const motion = token('easings.motion')
-  const frameStyle = {
+  const stageStyle = {
     transform: `translate3d(${drag.x}px, ${drag.y}px, 0)`,
     transition: isDragging ? 'none' : `transform ${normal} ${motion}, opacity ${normal} ${motion}`,
     opacity: 1 - verticalProgress * 0.4,
   }
 
-  const stop = (e: React.MouseEvent) => {
-    e.stopPropagation()
-  }
-
   const s = lightboxRecipe()
 
   return (
-    <Dialog open={isOpen} onClose={onClose} ariaLabel="Image lightbox" presentation="fullscreen">
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- backdrop click closes; the close Button is the accessible path */}
+    <Dialog
+      open={isOpen}
+      onClose={requestClose}
+      ariaLabel="Image lightbox"
+      presentation="fullscreen"
+    >
       <div
         className={s.lightbox}
-        onClick={onClose}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
+        ref={rootRef}
         style={{ backgroundColor: `rgba(0, 0, 0, ${backdropAlpha})` }}
       >
-        <Button
-          variant="icon"
-          className={cx(s.close)}
-          onClick={onClose}
-          aria-label="Close lightbox"
-        >
-          <RiCloseLine size={28} />
-        </Button>
+        <div className={s.bar}>
+          <div className={s.barNav}>
+            {images.length > 1 && (
+              <>
+                <Button variant="icon" onClick={onPrev} aria-label="Previous image">
+                  <RiArrowLeftSLine size={20} />
+                </Button>
+                <Button variant="icon" onClick={onNext} aria-label="Next image">
+                  <RiArrowRightSLine size={20} />
+                </Button>
+                <span className={s.counter}>
+                  {displayIndex + 1} / {images.length}
+                </span>
+              </>
+            )}
+          </div>
 
-        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- frame letterbox click closes; the close Button is the accessible path */}
-        <div className={s.frame} style={frameStyle} onClick={onClose}>
-          <Figure
-            key={current.image.src}
-            image={current.image}
-            sizes={SIZES}
-            className={s.image}
-            onClick={stop}
-            draggable={false}
-          />
+          <span className={s.caption}>{caption}</span>
+
+          <Button variant="icon" onClick={requestClose} aria-label="Close lightbox">
+            <RiCloseLine size={20} />
+          </Button>
         </div>
 
-        {caption && <Eyebrow className={s.caption}>{caption}</Eyebrow>}
-
-        {images.length > 1 && (
-          <>
-            <Button
-              variant="icon"
-              className={cx(s.nav, s.navPrev)}
-              onClick={(e) => {
-                e.stopPropagation()
-                onPrev()
-              }}
-              aria-label="Previous image"
-            >
-              <RiArrowLeftLine size={20} />
-            </Button>
-            <Button
-              variant="icon"
-              className={cx(s.nav, s.navNext)}
-              onClick={(e) => {
-                e.stopPropagation()
-                onNext()
-              }}
-              aria-label="Next image"
-            >
-              <RiArrowRightLine size={20} />
-            </Button>
-          </>
-        )}
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- stage click closes; the close Button is the accessible path */}
+        <div
+          className={s.stage}
+          ref={stageRef}
+          style={stageStyle}
+          onClick={requestClose}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+        >
+          <div className={s.imageLayer} ref={imageLayerRef}>
+            <Figure
+              key={current.image.src}
+              image={current.image}
+              sizes={SIZES}
+              className={s.image}
+              draggable={false}
+            />
+          </div>
+          <div className={s.dissolve} ref={overlayRef} aria-hidden />
+        </div>
 
         {isOpen && preloadSrcs.length > 0 && (
           <div className={s.preload} aria-hidden>

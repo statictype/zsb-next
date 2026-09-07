@@ -24,13 +24,14 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
         image: item.image,
         caption: `${item.year} · ${item.name}`,
       }))}
-      slides={(openLightbox) =>
+      slides={(openLightbox, registerOrigin) =>
         items.map((item, index) => ({
           id: `media-kit-${index}`,
           content: (
             <Button
               variant="plain"
               className={s.card}
+              ref={(element) => registerOrigin(index, element)}
               onClick={() => openLightbox(index)}
               aria-label={`Open ${item.year} ${item.name}`}
             >

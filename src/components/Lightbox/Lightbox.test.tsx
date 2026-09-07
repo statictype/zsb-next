@@ -10,6 +10,8 @@ const images: LightboxImage[] = [
   { image: { src: 'https://example.com/c.jpg', alt: 'Gamma' }, caption: 'Gamma' },
 ]
 
+const noOrigin = () => null
+
 function Harness() {
   const [index, setIndex] = useState<number | null>(null)
   return (
@@ -20,6 +22,7 @@ function Harness() {
       <Lightbox
         images={images}
         index={index}
+        getOrigin={noOrigin}
         onClose={() => setIndex(null)}
         onIndexChange={setIndex}
       />

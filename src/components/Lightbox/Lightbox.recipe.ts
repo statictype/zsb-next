@@ -1,83 +1,74 @@
 import { sva } from 'styled-system/css'
 
-export const NAV_COLUMN = '80px'
-export const FRAME_WIDTH = '90vw'
-export const FRAME_MAX = `calc(100vw - (${NAV_COLUMN} * 2))`
-
 // Full-screen image viewer: layout, controls, and gesture feedback. Dialog owns
 // the modal state and shell; the backdrop alpha + drag transform stay inline.
 export const lightbox = sva({
   slots: [
     'lightbox',
-    'frame',
-    'image',
-    'close',
+    'bar',
+    'barNav',
+    'counter',
     'caption',
-    'nav',
-    'navPrev',
-    'navNext',
+    'stage',
+    'imageLayer',
+    'image',
+    'dissolve',
     'preload',
     'preloadFrame',
   ],
   base: {
     lightbox: {
-      position: 'relative',
       display: 'grid',
-      gridTemplateColumns: '1fr',
-      gridTemplateRows: '1fr',
-      placeItems: 'center',
+      gridTemplateRows: '[auto minmax(0, 1fr)]',
       width: 'full',
       height: 'full',
       background: 'surface.scrim',
-      cursor: 'zoom-out',
-      touchAction: 'none',
       overscrollBehavior: 'contain',
-      md: {
-        gridTemplateColumns: `[${NAV_COLUMN} minmax(0, 1fr) ${NAV_COLUMN}]`,
-      },
     },
-    frame: {
-      position: 'relative',
-      width: `[${FRAME_WIDTH}]`,
-      height: '[85vh]',
-      willChange: 'transform, opacity',
-      md: { gridColumn: '2', width: 'full', height: '[90vh]' },
-    },
-    image: {
-      objectFit: 'contain',
-      transition: 'develop',
-      userSelect: 'none',
-    },
-
-    // zIndex above the arrows (`nav`) so a near-miss resolves to close, not nav.
-    close: {
-      position: 'absolute',
-      top: 'md',
-      right: 'md',
-      width: 'touch',
+    bar: {
+      display: 'grid',
+      gridTemplateColumns: '[auto minmax(0, 1fr) auto]',
+      alignItems: 'center',
+      gap: 'md',
       height: 'touch',
-      zIndex: '20',
-      _hover: { transform: 'rotate(90deg)' },
-      md: { top: 'lg', right: 'lg' },
+      paddingInline: 'sm',
+      borderBottom: 'hairline',
+    },
+    barNav: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'xs',
+    },
+    counter: {
+      textStyle: 'label',
+      color: 'muted',
+      fontVariantNumeric: 'tabular-nums',
+      paddingInline: 'sm',
     },
     caption: {
+      textStyle: 'label',
+      color: 'body',
+      textAlign: 'end',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+    stage: {
+      position: 'relative',
+      minHeight: '0',
+      overflow: 'hidden',
+      cursor: 'zoom-out',
+      touchAction: 'none',
+      willChange: 'transform, opacity',
+    },
+    imageLayer: { position: 'absolute', inset: '0' },
+    image: { objectFit: 'contain', userSelect: 'none' },
+    dissolve: {
       position: 'absolute',
-      bottom: 'lg',
-      left: '[50%]',
-      transform: 'translateX(-50%)',
+      inset: '0',
       pointerEvents: 'none',
+      overflow: 'hidden',
     },
-    nav: {
-      width: `[${NAV_COLUMN}]`,
-      height: '[240px]',
-      zIndex: '10',
-      display: 'none',
-      // Explicit row: auto-placement has moved past the frame (column 2), so a
-      // column-only arrow lands on an implicit row 2, clipped below the dialog.
-      md: { display: 'inline-flex', gridRow: '1' },
-    },
-    navPrev: { gridColumn: '1' },
-    navNext: { gridColumn: '3' },
 
     // Off-screen N±1 prefetch of optimized variants.
     preload: {
