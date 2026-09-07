@@ -8,8 +8,9 @@ export const carousel = defineSlotRecipe({
   base: {
     root: { position: 'relative', width: '100%', minWidth: 0 },
     frame: { position: 'relative', isolation: 'isolate', overflow: 'hidden' },
-    // `data-engine` is stamped by useCarouselEngine once GSAP owns the
-    // transforms; until then the track is its own scroll-snap strip.
+    // `data-engine` and `data-moving` are both stamped by useCarouselEngine —
+    // the first once GSAP owns the transforms (until then the track is its own
+    // scroll-snap strip), the second for as long as the strip is under way.
     track: {
       display: 'flex',
       alignItems: 'stretch',
@@ -26,6 +27,7 @@ export const carousel = defineSlotRecipe({
       '&[data-engine="loop"]': { overflowX: 'hidden' },
       '&[data-engine="bounded"]': { overflow: 'visible' },
       '&[data-engine]:active': { cursor: 'grabbing' },
+      '&[data-moving] [data-carousel-slide-content]': { pointerEvents: 'none' },
       _focusVisible: { outline: 'none' },
     },
     item: {

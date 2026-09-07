@@ -6,6 +6,42 @@ type DraggableStatic = typeof import('gsap/Draggable').Draggable
 
 const GLIDE = { ease: 'power3', duration: 0.725 } as const
 const PIXELS_PER_SECOND = 100
+const WHEEL_SETTLE_MS = 140
+const WHEEL_LINE_PX = 16
+const MOVING_QUIET_MS = 120
+
+/** Held for as long as frames keep arriving. The carousel recipe reads
+ *  `data-moving` to make slide content inert while the strip is under way. */
+function movementFlag(element: HTMLElement) {
+  let timer: number | undefined
+  return {
+    ping() {
+      element.dataset.moving = ''
+      if (timer) window.clearTimeout(timer)
+      timer = window.setTimeout(() => {
+        delete element.dataset.moving
+      }, MOVING_QUIET_MS)
+    },
+    dispose() {
+      if (timer) window.clearTimeout(timer)
+      delete element.dataset.moving
+    },
+  }
+}
+
+// React delegates onWheel, so preventDefault from a JSX handler is ignored;
+// only a directly-attached non-passive listener can cancel the page scroll.
+function attachWheel(element: HTMLElement, scrollBy: (delta: number) => void) {
+  const onWheel = (event: WheelEvent) => {
+    if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return
+    event.preventDefault()
+    const delta =
+      event.deltaMode === WheelEvent.DOM_DELTA_PIXEL ? event.deltaX : event.deltaX * WHEEL_LINE_PX
+    scrollBy(delta)
+  }
+  element.addEventListener('wheel', onWheel, { passive: false })
+  return () => element.removeEventListener('wheel', onWheel)
+}
 
 // `gsap.getProperty` returns a unit-suffixed string whenever a unit is asked
 // for, so every read has to be parsed, not coerced.
@@ -71,6 +107,7 @@ function loopingTrack(
   if (items.some((el) => el.offsetWidth === 0)) return null
 
   let focusOffset = readFocusOffset(container)
+  const moving = movementFlag(container)
   const report = (index: number) => onChange(wrapIndex(index + focusOffset, length))
 
   const times = new Float64Array(length)
@@ -106,6 +143,7 @@ function loopingTrack(
     paused: true,
     defaults: { ease: 'none' },
     onUpdate() {
+      moving.ping()
       const index = closestIndex()
       if (lastIndex === index) return
       lastIndex = index
@@ -251,6 +289,19 @@ function loopingTrack(
     },
   })[0]
 
+  let settle: number | undefined
+  const scrollBy = (delta: number) => {
+    if (totalWidth === 0) return
+    gsap.killTweensOf(tl)
+    gsap.killTweensOf(proxy)
+    tl.progress(wrapProgress(tl.progress() + delta / totalWidth))
+    if (settle) window.clearTimeout(settle)
+    settle = window.setTimeout(() => {
+      toIndex(closestIndex(true), { ...GLIDE })
+    }, WHEEL_SETTLE_MS)
+  }
+  const detachWheel = attachWheel(container.parentElement ?? container, scrollBy)
+
   closestIndex(true)
   lastIndex = curIndex
   report(curIndex)
@@ -259,7 +310,12 @@ function loopingTrack(
     next: () => toIndex(current() + 1, { ...GLIDE }),
     previous: () => toIndex(current() - 1, { ...GLIDE }),
     toIndex: (index: number) => toIndex(index - focusOffset, { ...GLIDE }),
-    dispose: () => window.removeEventListener('resize', onResize),
+    dispose: () => {
+      window.removeEventListener('resize', onResize)
+      if (settle) window.clearTimeout(settle)
+      detachWheel()
+      moving.dispose()
+    },
   }
 }
 
@@ -275,6 +331,7 @@ function boundedTrack(
   if (!first || !frame || items.some((el) => el.offsetWidth === 0)) return null
 
   const points = new Float64Array(items.length)
+  const moving = movementFlag(track)
   let minX = 0
 
   const measure = () => {
@@ -294,6 +351,7 @@ function boundedTrack(
 
   let lastIndex = 0
   const report = () => {
+    moving.ping()
     const index = indexAt(num(gsap.getProperty(track, 'x')))
     if (lastIndex === index) return
     lastIndex = index
@@ -323,13 +381,31 @@ function boundedTrack(
     gsap.to(track, { x: at(points, index), ...GLIDE, onUpdate: report, onComplete: report })
   }
 
+  let settle: number | undefined
+  const scrollBy = (delta: number) => {
+    gsap.killTweensOf(track)
+    const x = num(gsap.getProperty(track, 'x')) - delta
+    gsap.set(track, { x: Math.min(Math.max(x, minX), 0) })
+    report()
+    if (settle) window.clearTimeout(settle)
+    settle = window.setTimeout(() => {
+      go(indexAt(num(gsap.getProperty(track, 'x'))))
+    }, WHEEL_SETTLE_MS)
+  }
+  const detachWheel = attachWheel(frame, scrollBy)
+
   onChange(0)
 
   return {
     next: () => go(lastIndex + 1),
     previous: () => go(lastIndex - 1),
     toIndex: go,
-    dispose: () => window.removeEventListener('resize', onResize),
+    dispose: () => {
+      window.removeEventListener('resize', onResize)
+      if (settle) window.clearTimeout(settle)
+      detachWheel()
+      moving.dispose()
+    },
   }
 }
 
