@@ -280,8 +280,11 @@ function boundedTrack(
   const measure = () => {
     const base = first.offsetLeft
     const last = items[items.length - 1]
-    const span = last ? last.offsetLeft + last.offsetWidth - base : 0
-    minX = Math.min(frame.clientWidth - span, 0)
+    // `offsetLeft` is measured against the frame, so the strip's end already
+    // carries the track's leading gutter; netting it out again stops the rail a
+    // gutter short and clips the last slide.
+    const end = last ? last.offsetLeft + last.offsetWidth : 0
+    minX = Math.min(frame.clientWidth - end, 0)
     items.forEach((el, i) => {
       points[i] = Math.max(-(el.offsetLeft - base), minX)
     })
