@@ -32,6 +32,7 @@ export function useLightboxMotion({
   const runtimeRef = useRef<MotionRuntime | null>(null)
   const flownRef = useRef(false)
   const closingRef = useRef(false)
+  const dissolvingRef = useRef(false)
 
   const reducedMotion = useReducedMotion()
 
@@ -54,6 +55,7 @@ export function useLightboxMotion({
     if (isOpen || !flownRef.current) return
     flownRef.current = false
     closingRef.current = false
+    dissolvingRef.current = false
     const runtime = runtimeRef.current
     const overlay = overlayRef.current
     if (runtime && overlay) clearDissolve(runtime, overlay)
@@ -107,10 +109,18 @@ export function useLightboxMotion({
 
   const goTo = useCallback(
     (next: number) => {
+      if (dissolvingRef.current) return
+
       const runtime = runtimeRef.current
       const overlay = overlayRef.current
       const image = imageLayerRef.current?.querySelector('img')
-      if (runtime && overlay && image) dissolveFrom(runtime, image, overlay)
+      if (runtime && overlay && image) {
+        dissolvingRef.current = true
+        const started = dissolveFrom(runtime, image, overlay, () => {
+          dissolvingRef.current = false
+        })
+        if (!started) dissolvingRef.current = false
+      }
       onIndexChange(next)
     },
     [onIndexChange],
@@ -149,6 +159,7 @@ export function useLightboxMotion({
     const { gsap } = runtime
     const overlay = overlayRef.current
     if (overlay) clearDissolve(runtime, overlay)
+    dissolvingRef.current = false
 
     origin.style.visibility = 'hidden'
     gsap.set(imageLayer, { opacity: 0 })
