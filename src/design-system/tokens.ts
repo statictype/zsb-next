@@ -54,6 +54,10 @@ export const keyframes = {
     '0%': { transform: 'translateX(-100%)' },
     '100%': { transform: 'translateX(100%)' },
   },
+  progressSweep: {
+    from: { opacity: '1', transform: 'translateX(-100%)' },
+    to: { opacity: '1', transform: 'translateX(250%)' },
+  },
   marquee: {
     from: { transform: 'translate3d(0, 0, 0)' },
     to: { transform: 'translate3d(-50%, 0, 0)' },

@@ -50,16 +50,20 @@ export const navigation = sva({
         zIndex: 'nav',
       },
       lg: { top: '[40px]' },
+      '&:has([data-pending]) [data-active=true]:not(:has([data-pending]))': { color: '[inherit]' },
     },
     mobileShell: {
       position: 'relative',
       width: 'full',
       height: 'full',
       background: 'black',
+      '&:has([data-pending]) [data-active=true]:not(:has([data-pending]))': { color: '[inherit]' },
     },
     navLink: {
       pressable: 'fill',
       display: 'block',
+      position: 'relative',
+      overflow: 'hidden',
       textDecoration: 'none',
       border: 'hairline',
       transition: 'interactive',
@@ -79,12 +83,31 @@ export const navigation = sva({
         left: '0',
         color: 'action',
       },
-      '&:hover [data-nav-label], &:focus-visible [data-nav-label]': {
-        transform: 'translateY(calc(var(--nav-roll-offset) * -1))',
+      '&:not([data-active=true]):hover [data-nav-label], &:not([data-active=true]):focus-visible [data-nav-label]':
+        {
+          transform: 'translateY(calc(var(--nav-roll-offset) * -1))',
+        },
+      '&:active:not(:disabled), &:active:not(:disabled) [data-nav-copy]': { color: 'highlight' },
+      '&[data-active=true], &:has([data-pending])': { color: 'highlight' },
+      '&[data-active=true] [data-nav-label], &:has([data-pending]) [data-nav-label]': {
+        transition: 'none',
+        transform: 'none',
       },
-      '&[data-active=true]': { color: 'highlight' },
-      '&[data-active=true]:hover [data-nav-label], &[data-active=true]:focus-visible [data-nav-label]':
-        { transform: 'none' },
+      '&:has([data-pending])::after': {
+        content: '""',
+        position: 'absolute',
+        left: '0',
+        bottom: '0',
+        width: '[40%]',
+        height: '[2px]',
+        background: 'action',
+        opacity: '0',
+        animationName: 'progressSweep',
+        animationDuration: 'sweep',
+        animationTimingFunction: '[linear]',
+        animationIterationCount: 'infinite',
+        animationDelay: 'fast',
+      },
     },
     desktopNavLink: {
       paddingBlock: 'sm',
