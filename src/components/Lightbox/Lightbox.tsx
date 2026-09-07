@@ -18,6 +18,8 @@ export interface LightboxImage {
 }
 
 const SIZES = '100vw'
+const CONTAIN = { objectFit: 'contain' } as const
+const KEY_REPEAT_INTERVAL_MS = 220
 
 interface LightboxProps {
   images: LightboxImage[]
@@ -50,6 +52,7 @@ export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: L
   const [drag, setDrag] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const dragRef = useRef<DragState | null>(null)
+  const repeatAt = useRef(0)
 
   const isOpen = index !== null
   // Keep the exit transition on the image that was open once index goes null.
@@ -79,8 +82,14 @@ export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: L
     if (index === null) return
 
     const handleKeydown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') goTo(stepIndex(index, -1, count))
-      if (e.key === 'ArrowRight') goTo(stepIndex(index, 1, count))
+      const dir = e.key === 'ArrowLeft' ? -1 : e.key === 'ArrowRight' ? 1 : 0
+      if (dir === 0) return
+      if (e.repeat) {
+        const now = performance.now()
+        if (now - repeatAt.current < KEY_REPEAT_INTERVAL_MS) return
+        repeatAt.current = now
+      }
+      goTo(stepIndex(index, dir, count))
     }
 
     document.addEventListener('keydown', handleKeydown)
@@ -214,11 +223,15 @@ export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: L
           onPointerCancel={endDrag}
         >
           <div className={s.imageLayer} ref={imageLayerRef}>
+            {/* next/image reads object-fit off the inline style only, and shapes the
+                blur placeholder from it; via the class alone it stretches the LQIP
+                to the full stage. */}
             <Figure
               key={current.image.src}
               image={current.image}
               sizes={SIZES}
               className={s.image}
+              style={CONTAIN}
               draggable={false}
             />
           </div>
