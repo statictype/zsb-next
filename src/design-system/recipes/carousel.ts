@@ -34,6 +34,10 @@ export const carousel = defineSlotRecipe({
       scrollSnapAlign: 'start',
       willChange: 'transform',
       paddingRight: 'md',
+      // The item carries GSAP's per-frame transform, so its own transition
+      // property must stay empty or the two fight.
+      '& > [data-carousel-slide-content]': { transition: 'develop' },
+      '[data-engine] &:not([data-current]) > [data-carousel-slide-content]': { opacity: '[0.2]' },
     },
     control: {
       display: 'flex',
@@ -96,16 +100,11 @@ export const carousel = defineSlotRecipe({
           width: '100%',
           height: '100%',
           md: { width: '[var(--stage-pitch)]', height: '[auto]' },
-          // The item carries GSAP's per-frame transform, so its own transition
-          // property must stay empty or the two fight.
           '& > [data-carousel-slide-content]': {
             width: '100%',
             height: '100%',
-            opacity: '[0.2]',
-            transition: 'develop',
             md: { height: '[auto]', aspectRatio: '3 / 2' },
           },
-          '&[data-current] > [data-carousel-slide-content]': { opacity: '[1]' },
         },
       },
       rail: {
