@@ -1,31 +1,17 @@
 import { sva } from 'styled-system/css'
 
 export const themeArtists = sva({
-  slots: ['section', 'inner', 'body', 'artistsTable', 'carousel'],
+  slots: ['section', 'inner', 'note'],
   base: {
     section: {
       position: 'relative',
-      // `hidden` would make the section a scroll container and kill the sticky
-      // theme statement inside it; `clip` clips without creating one.
       overflowX: 'clip',
+      '& > * + *': { marginTop: '3xl' },
     },
-    inner: {
-      position: 'relative',
-      zIndex: '1',
-      paddingInline: 'gutter',
-      '4xl': { paddingLeft: '2xl' },
+    inner: { layerStyle: 'sectionInner' },
+    note: {
+      marginTop: 'lg',
+      maxWidth: 'measure',
     },
-
-    body: {
-      '& p': {
-        textWrap: '[pretty]',
-        lg: {
-          position: 'sticky',
-          top: '[calc(token(sizes.nav) + token(spacing.lg))]',
-        },
-      },
-    },
-
-    carousel: { marginTop: '3xl' },
   },
 })

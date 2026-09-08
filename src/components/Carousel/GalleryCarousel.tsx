@@ -38,7 +38,7 @@ interface GalleryCarouselProps {
   id: string
   label: string
   slides: GallerySlide[]
-  eyebrow: string
+  eyebrow?: string | undefined
   treatment: 'mono' | 'color'
   size?: GallerySize
   preload?: boolean
