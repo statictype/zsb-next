@@ -94,33 +94,46 @@ export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] {
   )
 }
 
-const WIDE_ASPECT = 3
-const COMPACT_ASPECT = 1.4
+const MIN_MARK_SCALE = 0.35
+const MAX_MARK_SCALE = 1
+const LEAD_MARK_BOOST = 1.4
+const MAX_LEAD_MARK_SCALE = 1.15
 
 interface SanityLogo extends SanityImageField {
   dimensions?: { width: number; height: number; aspectRatio: number } | null
 }
 
-function toPartnerMark(logo: SanityLogo | null | undefined): PartnerMark | undefined {
+function markScale(aspectRatio: number, lead: boolean): number {
+  const equalArea = aspectRatio > 0 ? 1 / Math.sqrt(aspectRatio) : MAX_MARK_SCALE
+  const fitted = Math.min(Math.max(equalArea, MIN_MARK_SCALE), MAX_MARK_SCALE)
+  const scaled = lead ? Math.min(fitted * LEAD_MARK_BOOST, MAX_LEAD_MARK_SCALE) : fitted
+  return Math.round(scaled * 100) / 100
+}
+
+function toPartnerMark(
+  logo: SanityLogo | null | undefined,
+  lead: boolean,
+): PartnerMark | undefined {
   const image = toImageData(logo)
   const dimensions = logo?.dimensions
   if (!image || !dimensions) return undefined
   const { width, height, aspectRatio } = dimensions
-  const shape =
-    aspectRatio >= WIDE_ASPECT ? 'wide' : aspectRatio < COMPACT_ASPECT ? 'compact' : 'regular'
-  return { ...image, width, height, shape }
+  return { ...image, width, height, scale: markScale(aspectRatio, lead) }
 }
 
-function toPartner(org: {
-  name: string
-  url?: string | null
-  kind?: string | null
-  logo?: SanityLogo | null
-}) {
+function toPartner(
+  org: {
+    name: string
+    url?: string | null
+    kind?: string | null
+    logo?: SanityLogo | null
+  },
+  lead: boolean,
+) {
   return definedFields({
     name: org.name,
     gallery: org.kind === 'gallery',
-    mark: toPartnerMark(org.logo),
+    mark: toPartnerMark(org.logo, lead),
     url: org.url,
   })
 }
@@ -138,7 +151,7 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
           type: row.type,
           label: row.label,
           detail: row.detail,
-          ...toPartner(row.organization),
+          ...toPartner(row.organization, row.lead ?? false),
         }),
       )
     } else if (row._type === 'creditOrgList') {
@@ -146,7 +159,7 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
         kind: 'partners',
         type: row.type,
         label: row.label,
-        partners: row.organizations.map(toPartner),
+        partners: row.organizations.map((org) => toPartner(org, row.lead ?? false)),
       })
     } else {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a cleared entry in a primitive array is null at runtime; TypeGen types the elements non-null

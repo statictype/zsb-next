@@ -380,6 +380,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     credits[] {
       _type,
       type,
+      lead,
       label,
       detail,
       names,

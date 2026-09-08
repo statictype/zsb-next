@@ -19,6 +19,17 @@ function typeField() {
   })
 }
 
+function leadField() {
+  return defineField({
+    name: 'lead',
+    title: 'Larger logos',
+    description:
+      'For the funder or headline partner. Draws this row’s logos bigger than the rest of the wall. Has no effect on a credit-line-only row.',
+    type: 'boolean',
+    initialValue: false,
+  })
+}
+
 function labelField() {
   return defineField({
     name: 'label',
@@ -35,6 +46,7 @@ export const creditOrg = defineType({
   type: 'object',
   fields: [
     typeField(),
+    leadField(),
     labelField(),
     defineField({
       name: 'organization',
@@ -64,6 +76,7 @@ export const creditOrgList = defineType({
   type: 'object',
   fields: [
     typeField(),
+    leadField(),
     labelField(),
     defineField({
       name: 'organizations',

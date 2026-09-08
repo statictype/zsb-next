@@ -1,7 +1,9 @@
 import { credits as creditsRecipe } from '@edition-components/Credits.recipe'
 import Image from 'next/image'
+import type { CSSProperties } from 'react'
 import { Container, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
+import { Marquee } from '@/components/Marquee/Marquee'
 import type { CreditEntry, CreditPartner, PartnerMark } from '@/types/edition'
 
 interface CreditsProps {
@@ -66,13 +68,15 @@ export function Credits({ credits }: CreditsProps) {
       <Container>
         <div className={s.ledger}>
           {marks.length > 0 && (
-            <ul className={s.wall}>
-              {marks.map((org) => (
-                <li className={s.tile} data-shape={org.mark.shape} key={org.mark.src}>
-                  <Mark org={org} />
-                </li>
-              ))}
-            </ul>
+            <div className={s.wall}>
+              <Marquee count={marks.length} gap="xl">
+                {marks.map((org) => (
+                  <li className={s.tile} key={org.mark.src}>
+                    <Mark org={org} />
+                  </li>
+                ))}
+              </Marquee>
+            </div>
           )}
 
           {named.length > 0 && (
@@ -138,8 +142,8 @@ function Mark({ org }: { org: MarkedPartner }) {
       alt={mark.alt || name}
       width={mark.width}
       height={mark.height}
-      data-shape={mark.shape}
       className={s.mark}
+      style={{ '--mark-scale': mark.scale } as CSSProperties}
       unoptimized
     />
   )
