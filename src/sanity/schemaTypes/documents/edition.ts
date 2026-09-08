@@ -294,6 +294,8 @@ export const edition = defineType({
     defineField({
       name: 'credits',
       title: 'Credits',
+      description:
+        'Order matters: the logo wall on the edition page runs in this order, so the row you want first (the funder, then the organizer) goes at the top. Drag to reorder.',
       type: 'array',
       group: 'credits',
       of: [

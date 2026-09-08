@@ -1,11 +1,64 @@
 import { sva } from 'styled-system/css'
 
 export const credits = sva({
-  slots: ['ledger', 'row', 'accent', 'value', 'detail', 'logo', 'run'],
+  slots: [
+    'ledger',
+    'wall',
+    'tile',
+    'link',
+    'mark',
+    'row',
+    'band',
+    'cell',
+    'accent',
+    'value',
+    'detail',
+    'run',
+  ],
   base: {
     ledger: {
       width: 'full',
       borderTop: 'hairline',
+    },
+    wall: {
+      display: 'grid',
+      gridTemplateColumns: '[repeat(auto-fill, minmax(128px, 1fr))]',
+      columnGap: 'md',
+      rowGap: 'lg',
+      alignItems: 'center',
+      width: 'full',
+      margin: '0',
+      padding: '0',
+      paddingBlock: 'lg',
+      listStyle: 'none',
+      borderBottom: 'hairline',
+      md: {
+        gridTemplateColumns: '[repeat(auto-fill, minmax(168px, 1fr))]',
+        columnGap: 'lg',
+        paddingBlock: 'xl',
+      },
+    },
+    tile: {
+      display: 'flex',
+      alignItems: 'center',
+      minWidth: '0',
+      minHeight: '[56px]',
+      md: { minHeight: '[80px]' },
+      '&[data-shape=wide]': { gridColumn: '[span 2]' },
+    },
+    link: { display: 'inline-flex', minWidth: '0', pressable: 'inline' },
+    mark: {
+      maxWidth: 'full',
+      width: 'auto',
+      height: '[44px]',
+      objectFit: 'contain',
+      objectPosition: 'left',
+      filter: '[token(assets.grayscaleFull)]',
+      transition: 'develop',
+      _hover: { filter: '[none]' },
+      md: { height: '[60px]' },
+      '&[data-shape=wide]': { height: '[34px]', md: { height: '[46px]' } },
+      '&[data-shape=compact]': { height: '[60px]', md: { height: '[84px]' } },
     },
     row: {
       display: 'grid',
@@ -19,6 +72,27 @@ export const credits = sva({
         alignItems: 'baseline',
       },
     },
+    band: {
+      md: {
+        display: 'grid',
+        gridTemplateColumns: '[repeat(2, minmax(0, 1fr))]',
+        columnGap: 'lg',
+        rowGap: 'md',
+        paddingBlock: 'md',
+        borderBottom: 'hairline',
+      },
+      lg: { gridTemplateColumns: '[repeat(3, minmax(0, 1fr))]' },
+      '2xl': { gridTemplateColumns: '[repeat(6, minmax(0, 1fr))]' },
+    },
+    cell: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      rowGap: 'xs',
+      paddingBlock: 'md',
+      borderBottom: 'hairline',
+      md: { paddingBlock: '0', borderBottom: '[none]' },
+    },
     accent: { color: 'action' },
     value: {
       display: 'flex',
@@ -29,18 +103,8 @@ export const credits = sva({
     detail: {
       whiteSpace: 'pre-line',
     },
-    logo: {
-      height: '[44px]',
-      width: 'auto',
-      objectFit: 'contain',
-      objectPosition: 'left',
-      filter: '[token(assets.grayscaleFull)]',
-      transition: 'develop',
-      marginTop: 'md',
-      md: { height: '[64px]' },
-      _hover: { filter: '[none]' },
-    },
     run: {
+      display: 'flex',
       flexDirection: 'row',
       flexWrap: 'wrap',
       alignItems: 'baseline',
@@ -63,4 +127,11 @@ export const credits = sva({
       },
     },
   },
+  variants: {
+    wrap: {
+      true: { run: { '& span': { whiteSpace: 'normal' } } },
+      false: {},
+    },
+  },
+  defaultVariants: { wrap: false },
 })

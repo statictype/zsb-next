@@ -6,8 +6,8 @@ import { editionHref } from '@/lib/edition-href'
 import { slugify } from '@/lib/slugify'
 import { rollUpVenue } from '@/lib/venues'
 import { mapCarousel } from '@/sanity/lib/carousel'
-import { requireImageData, toImageData } from '@/sanity/lib/image'
-import type { CalendarEvent, CreditEntry, Edition } from '@/types/edition'
+import { requireImageData, type SanityImageField, toImageData } from '@/sanity/lib/image'
+import type { CalendarEvent, CreditEntry, Edition, PartnerMark } from '@/types/edition'
 
 export type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
 
@@ -94,6 +94,37 @@ export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] {
   )
 }
 
+const WIDE_ASPECT = 3
+const COMPACT_ASPECT = 1.4
+
+interface SanityLogo extends SanityImageField {
+  dimensions?: { width: number; height: number; aspectRatio: number } | null
+}
+
+function toPartnerMark(logo: SanityLogo | null | undefined): PartnerMark | undefined {
+  const image = toImageData(logo)
+  const dimensions = logo?.dimensions
+  if (!image || !dimensions) return undefined
+  const { width, height, aspectRatio } = dimensions
+  const shape =
+    aspectRatio >= WIDE_ASPECT ? 'wide' : aspectRatio < COMPACT_ASPECT ? 'compact' : 'regular'
+  return { ...image, width, height, shape }
+}
+
+function toPartner(org: {
+  name: string
+  url?: string | null
+  kind?: string | null
+  logo?: SanityLogo | null
+}) {
+  return definedFields({
+    name: org.name,
+    gallery: org.kind === 'gallery',
+    mark: toPartnerMark(org.logo),
+    url: org.url,
+  })
+}
+
 export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
   const out: CreditEntry[] = []
   if (!rows) return out
@@ -101,25 +132,26 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
     if (row._type === 'creditOrg') {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a dereferenced reference is null when it dangles (unpublished/deleted org); TypeGen types the deref non-null
       if (!row.organization) continue
-      const org = row.organization
-      const logo = toImageData(org.logo)
-      const base = definedFields({
-        type: row.type,
-        label: row.label,
-        value: org.name,
-        detail: row.detail,
-      })
-      out.push(logo ? { ...base, logo: logo.src, logoAlt: logo.alt } : { ...base })
+      out.push(
+        definedFields({
+          kind: 'org' as const,
+          type: row.type,
+          label: row.label,
+          detail: row.detail,
+          ...toPartner(row.organization),
+        }),
+      )
     } else if (row._type === 'creditOrgList') {
       out.push({
+        kind: 'partners',
         type: row.type,
         label: row.label,
-        value: row.organizations.map((o) => o.name).join('\n'),
+        partners: row.organizations.map(toPartner),
       })
     } else {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a cleared entry in a primitive array is null at runtime; TypeGen types the elements non-null
       const names = row.names?.filter((n): n is string => Boolean(n?.trim())) ?? []
-      out.push({ type: row.type, label: row.label, value: names.join('\n') })
+      out.push({ kind: 'names', type: row.type, label: row.label, names })
     }
   }
   return out

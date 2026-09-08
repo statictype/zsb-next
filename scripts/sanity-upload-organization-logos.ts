@@ -2,12 +2,14 @@
  * Convert partner logo source files and attach them to their `organization`
  * documents, so the homepage partner strip has something to render.
  *
- * PDF sources are rasterised with Ghostscript (`pngalpha`, 600 dpi) because the
- * supplied files are vector with no transparent PNG or SVG equivalent; every
- * source is then trimmed to its ink and capped at 1200px on the long edge.
+ * PDF and Illustrator sources are rasterised with Ghostscript (`pngalpha`,
+ * 600 dpi) because the supplied files are vector with no transparent PNG or SVG
+ * equivalent; flat sources that ship on a white ground are keyed to
+ * transparency. Every source is then trimmed to its ink and capped at 1200px on
+ * the long edge.
  *
- * Idempotent: re-running re-uploads the asset and re-patches the same seven
- * documents. It never creates an organization — all seven already exist.
+ * Idempotent: re-running re-uploads the asset and re-patches the same
+ * documents. It never creates an organization — all of them already exist.
  *
  * Usage:
  *   pnpm exec tsx scripts/sanity-upload-organization-logos.ts --dry
@@ -32,38 +34,104 @@ if (typeof process.loadEnvFile === 'function') {
 const dryRun = process.argv.includes('--dry')
 
 const MAX_EDGE = 1200
+const WHITE_FLOOR = 205
+const WHITE_CEIL = 248
+
+const SOURCE_ROOT = '../content v2/partner logos'
 
 interface LogoSource {
   orgId: string
-  /** Path relative to the repo root. */
+  /** Path relative to `root`, or to `SOURCE_ROOT` when that is omitted. */
   file: string
   alt: string
+  root?: string
+  /** Source is flat artwork on a white ground; key that ground to alpha. */
+  keyWhite?: boolean
+  /** Source is a white-ink variant; invert it for the light credits ground. */
+  invert?: boolean
 }
 
 const SOURCES: LogoSource[] = [
   {
-    orgId: 'org-uapr',
-    file: 'Copy of sigla UAP.pdf',
-    alt: 'Uniunea Artiștilor Plastici din România',
+    orgId: 'org-municipality-of-bucharest',
+    file: 'Logouri noi/primaria-capitalei.png',
+    alt: 'Primăria Capitalei',
+  },
+  { orgId: 'org-arche', file: 'Logouri parteneri 2024/Logo_Arche.ai', alt: 'Arché' },
+  {
+    orgId: 'org-visual-arts-forum-association',
+    file: 'Logouri parteneri 2024/FAV_logo_d1(3).pdf',
+    alt: 'Forumul Artelor Vizuale',
   },
   {
-    orgId: 'org-institutul-francez-din-romania',
-    file: 'IF_Logo_Pays_AvecD_BLACK.pdf',
-    alt: 'Institut Français Roumanie',
+    orgId: 'org-galeria-senat',
+    file: 'LOGO Parteneri 2025/Parteneri/Galeria SENAT/logo senat.ai',
+    alt: 'Senat',
   },
   {
-    orgId: 'org-liszt-institute',
-    file: 'logo_RGB_bukarest_hu_inv.pdf',
-    alt: 'Liszt Intézet Bukarest',
+    orgId: 'org-combinat-ro',
+    file: 'LOGO Parteneri 2025/Parteneri/Combinat.ro-The institute/Logo_Combinat_2022_landscape_B.ai',
+    alt: 'Combinat',
   },
-  { orgId: 'org-unarte', file: 'Logo-UNArte.png', alt: 'UNArte' },
   {
-    orgId: 'org-romanian-cultural-institute',
-    file: 'sigla-en-albastru-icr-20.png',
-    alt: 'Romanian Cultural Institute',
+    orgId: 'org-the-institute',
+    file: 'LOGO Parteneri 2025/Parteneri/Combinat.ro-The institute/The_Institute_logo.ai',
+    alt: 'The Institute',
   },
-  { orgId: 'org-monument-for', file: 'logo_monument_for@2x-8.png', alt: 'Monument for Public' },
-  { orgId: 'org-short-film-breaks', file: 'Artboard 1 copy 3.png', alt: 'Short Film Breaks' },
+  {
+    orgId: 'org-biographies-of-artist-couples',
+    file: 'Logouri parteneri 2024/Intersections_Logo.pdf',
+    alt: 'Biografia cuplurilor de artiști',
+  },
+  {
+    orgId: 'org-international-sculpture-day-isday',
+    file: 'img/partners/ISDay_Branding.jpg',
+    root: '../website',
+    alt: '#ISDay — International Sculpture Day',
+    keyWhite: true,
+  },
+  { orgId: 'org-sl-jazzing', file: 'Logouri parteneri 2024/Black.png', alt: 'SL-Jazzing' },
+  {
+    orgId: 'org-compas-coffee',
+    file: 'Logouri noi/compass-coffee.png',
+    alt: 'Compas Coffee',
+    keyWhite: true,
+  },
+  {
+    orgId: 'org-tonitza-high-school',
+    file: 'Logouri noi/logo-tonitza.png',
+    alt: 'Liceul de Arte Plastice Nicolae Tonitza',
+    keyWhite: true,
+  },
+  {
+    orgId: 'org-paciurea-high-school',
+    file: 'Logouri noi/id_paciurea_web.png',
+    alt: 'Liceul de Arte Plastice Dimitrie Paciurea',
+    invert: true,
+  },
+  {
+    orgId: 'org-buna-foundation-bg',
+    file: 'Logouri parteneri 2024/03.png',
+    alt: 'BUNA / Forum for Contemporary Art',
+  },
+  {
+    orgId: 'org-national-institute-of-heritage',
+    file: 'Logouri parteneri 2024/patrimoniu@2x.png',
+    alt: 'Institutul Național al Patrimoniului',
+  },
+  { orgId: 'org-doi-joi', file: 'Logouri parteneri 2024/doijoi-blue (1).png', alt: 'doi joi' },
+  {
+    orgId: 'org-combinatul-fondului-plastic',
+    file: 'Logo Parteneri 2022/logo-cfp.jpg',
+    alt: 'Combinatul Fondului Plastic',
+    keyWhite: true,
+  },
+  {
+    orgId: 'org-cramele-recas',
+    file: 'Logouri parteneri 2024/IMG_2806.WEBP',
+    alt: 'Cramele Recaș',
+    keyWhite: true,
+  },
 ]
 
 function rasterise(pdfPath: string, outPath: string) {
@@ -82,11 +150,34 @@ function rasterise(pdfPath: string, outPath: string) {
   ])
 }
 
+async function keyWhiteToAlpha(input: string): Promise<Buffer> {
+  const { data, info } = await sharp(input)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+  for (let i = 0; i < data.length; i += 4) {
+    const luma = 0.2126 * (data[i] ?? 0) + 0.7152 * (data[i + 1] ?? 0) + 0.0722 * (data[i + 2] ?? 0)
+    const keyed =
+      luma >= WHITE_CEIL
+        ? 0
+        : luma <= WHITE_FLOOR
+          ? 255
+          : Math.round((255 * (WHITE_CEIL - luma)) / (WHITE_CEIL - WHITE_FLOOR))
+    data[i + 3] = Math.min(data[i + 3] ?? 255, keyed)
+  }
+  return sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } })
+    .png()
+    .toBuffer()
+}
+
 async function toLogoPng(source: LogoSource, workDir: string): Promise<Buffer> {
-  const abs = resolve(process.cwd(), source.file)
-  const input = abs.toLowerCase().endsWith('.pdf') ? join(workDir, `${source.orgId}.png`) : abs
-  if (input !== abs) rasterise(abs, input)
-  return sharp(input)
+  const abs = resolve(process.cwd(), source.root ?? SOURCE_ROOT, source.file)
+  const vector = /\.(pdf|ai)$/i.test(abs)
+  const input = vector ? join(workDir, `${source.orgId}.png`) : abs
+  if (vector) rasterise(abs, input)
+  const pipeline = sharp(source.keyWhite ? await keyWhiteToAlpha(input) : input)
+  if (source.invert) pipeline.negate({ alpha: false })
+  return pipeline
     .trim({ threshold: 1 })
     .resize({ width: MAX_EDGE, height: MAX_EDGE, fit: 'inside', withoutEnlargement: true })
     .png({ compressionLevel: 9, palette: true })

@@ -36,7 +36,8 @@ const SOURCE_EXTS = new Set(['.ts', '.tsx', '.js', '.jsx', '.css', '.json', '.ht
 
 // Regex to detect responsive width suffix: only matches known responsive widths
 // (avoids false matches on files like tile-1.png, poster-zsb-2022.jpg, DSF0201.jpg)
-const RESPONSIVE_SUFFIX = /^(.+)-(300|320|400|480|600|768|800|960|1024|1200|1280|1440|1600|1700|1920|2048|2560)\.(jpg|jpeg|png|webp|gif|avif)$/i
+const RESPONSIVE_SUFFIX =
+  /^(.+)-(300|320|400|480|600|768|800|960|1024|1200|1280|1440|1600|1700|1920|2048|2560)\.(jpg|jpeg|png|webp|gif|avif)$/i
 
 // ---------------------------------------------------------------------------
 // Step 1: collect all image files

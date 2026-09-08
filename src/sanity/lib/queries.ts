@@ -385,11 +385,15 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
       names,
       organization->{
         name,
-        logo
+        url,
+        kind,
+        logo{ ..., "dimensions": asset->metadata.dimensions }
       },
       organizations[]->{
         name,
-        logo
+        url,
+        kind,
+        logo{ ..., "dimensions": asset->metadata.dimensions }
       }
     }
   }

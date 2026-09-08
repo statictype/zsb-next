@@ -1527,6 +1527,23 @@
         },
         "optional": false
       },
+      "kind": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "institution"
+            },
+            {
+              "type": "string",
+              "value": "gallery"
+            }
+          ]
+        },
+        "optional": false
+      },
       "logo": {
         "type": "objectAttribute",
         "value": {

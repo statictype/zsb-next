@@ -21,6 +21,22 @@ export const organization = defineType({
       options: { source: 'name', maxLength: 96 },
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: 'kind',
+      title: 'Kind',
+      description:
+        'Galleries are credited by name on edition pages, never by logo, even when a logo is set.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Institution', value: 'institution' },
+          { title: 'Gallery', value: 'gallery' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'institution',
+      validation: (rule) => rule.required(),
+    }),
     imageFieldWithAlt({
       name: 'logo',
       title: 'Logo',

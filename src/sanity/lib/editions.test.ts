@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { mapCredits, mapEdition, mapEvents } from '@/sanity/lib/editions-mappers'
-import { findEvent } from '@/types/edition'
+import {
+  type CreditNamesRow,
+  type CreditOrgRow,
+  type CreditPartnersRow,
+  findEvent,
+} from '@/types/edition'
 
 type RawEvents = Parameters<typeof mapEvents>[0]
 type RawCredits = Parameters<typeof mapCredits>[0]
@@ -8,6 +13,13 @@ type RawEdition = Parameters<typeof mapEdition>[0]
 
 // A well-formed Sanity asset ref so the image adapters can build a CDN URL.
 const ASSET = { asset: { _ref: 'image-abc123def456-1200x800-jpg' }, alt: 'an alt' }
+
+const logoWithAspect = (aspectRatio: number) => ({
+  ...ASSET,
+  dimensions: { width: 1200, height: Math.round(1200 / aspectRatio), aspectRatio },
+})
+
+const LOGO = logoWithAspect(1.5)
 
 // Minimal raw event — only the fields the mapper reads; the cast keeps
 // fixtures small without reconstructing the full generated query type.
@@ -102,13 +114,13 @@ describe('mapEvents — venue rollup stamp (ZSB-65)', () => {
 })
 
 describe('mapCredits — row type dispatch', () => {
-  it('maps an organization row, with the logo flattened when present', () => {
+  it('maps an organization row, carrying the mark when the logo has dimensions', () => {
     const rows = [
       {
         _type: 'creditOrg',
         type: 'organizer',
         label: 'Organized by',
-        organization: { name: 'Aurora', logo: ASSET },
+        organization: { name: 'Aurora', url: 'https://example.org', logo: LOGO },
       },
       {
         _type: 'creditOrg',
@@ -117,12 +129,30 @@ describe('mapCredits — row type dispatch', () => {
         organization: { name: 'No Logo Org' },
       },
     ] as unknown as RawCredits
-    const [withLogo, without] = mapCredits(rows)
-    expect(withLogo?.value).toBe('Aurora')
-    expect(withLogo?.logo).toContain('abc123def456-1200x800.jpg')
-    expect(withLogo?.logoAlt).toBe('an alt')
-    expect(without?.value).toBe('No Logo Org')
-    expect(without && 'logo' in without).toBe(false)
+    const [withLogo, without] = mapCredits(rows) as CreditOrgRow[]
+    expect(withLogo?.name).toBe('Aurora')
+    expect(withLogo?.url).toBe('https://example.org')
+    expect(withLogo?.mark?.src).toContain('abc123def456-1200x800.jpg')
+    expect(withLogo?.mark?.alt).toBe('an alt')
+    expect(without?.name).toBe('No Logo Org')
+    expect(without && 'mark' in without).toBe(false)
+  })
+
+  it('buckets a mark by the asset aspect ratio', () => {
+    const shapeOf = (aspectRatio: number) => {
+      const rows = [
+        {
+          _type: 'creditOrg',
+          type: 'partner',
+          label: 'Partner',
+          organization: { name: 'Org', logo: logoWithAspect(aspectRatio) },
+        },
+      ] as unknown as RawCredits
+      return (mapCredits(rows)[0] as CreditOrgRow).mark?.shape
+    }
+    expect(shapeOf(3.7)).toBe('wide')
+    expect(shapeOf(2.2)).toBe('regular')
+    expect(shapeOf(1)).toBe('compact')
   })
 
   it('skips an organization row whose reference is unresolved', () => {
@@ -132,23 +162,31 @@ describe('mapCredits — row type dispatch', () => {
     expect(mapCredits(rows)).toEqual([])
   })
 
-  it('joins an organization-list row with newlines', () => {
+  it('keeps an organization-list row as one partner per organization', () => {
     const rows = [
       {
         _type: 'creditOrgList',
         type: 'partners',
         label: 'Partners',
-        organizations: [{ name: 'A' }, { name: 'B' }],
+        organizations: [
+          { name: 'A', logo: LOGO },
+          { name: 'B' },
+          { name: 'C', kind: 'gallery', logo: LOGO },
+        ],
       },
     ] as unknown as RawCredits
-    expect(mapCredits(rows)[0]?.value).toBe('A\nB')
+    const row = mapCredits(rows)[0] as CreditPartnersRow
+    expect(row.partners.map((p) => p.name)).toEqual(['A', 'B', 'C'])
+    expect(row.partners[0]?.mark?.shape).toBe('regular')
+    expect(row.partners[1]?.mark).toBeUndefined()
+    expect(row.partners.map((p) => p.gallery)).toEqual([false, false, true])
   })
 
   it('filters blank names out of a text row', () => {
     const rows = [
       { _type: 'creditText', type: 'team', label: 'Team', names: ['Ana', '  ', null, 'Bogdan'] },
     ] as unknown as RawCredits
-    expect(mapCredits(rows)[0]?.value).toBe('Ana\nBogdan')
+    expect((mapCredits(rows)[0] as CreditNamesRow).names).toEqual(['Ana', 'Bogdan'])
   })
 
   it('returns an empty list for missing rows', () => {
