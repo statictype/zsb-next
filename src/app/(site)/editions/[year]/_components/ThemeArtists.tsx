@@ -1,50 +1,48 @@
 import { themeArtists } from '@edition-components/ThemeArtists.recipe'
 import { cx } from 'styled-system/css'
-import { Grid, Text } from 'styled-system/jsx'
+import { Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
-import { ArtistsTable } from '@/components/ArtistsTable/ArtistsTable'
+import { ArtistRoster } from '@/components/ArtistRoster/ArtistRoster'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
+import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import type { Edition } from '@/types/edition'
 
 const styles = themeArtists()
 
 interface ThemeArtistsProps {
-  edition: Pick<Edition, 'year' | 'theme' | 'themeSection' | 'artists' | 'carousel'>
+  edition: Pick<
+    Edition,
+    'year' | 'theme' | 'themeHighlight' | 'themeSection' | 'artists' | 'carousel'
+  >
 }
 
 export function ThemeArtists({ edition }: ThemeArtistsProps) {
-  const { year, theme, themeSection, artists, carousel } = edition
+  const { year, theme, themeHighlight, themeSection, artists, carousel } = edition
 
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
-      <Grid
-        className={styles.inner}
-        gridTemplateColumns={{ lg: '1fr 1.2fr' }}
-        rowGap={{ base: '2xl', lg: 'lg' }}
-        columnGap={{ lg: '2xl' }}
-      >
-        <div className={styles.body}>
-          <Text as="p" variant="body">
-            {themeSection.body}
-          </Text>
-        </div>
-
-        <ArtistsTable
-          artists={artists}
-          className={styles.artistsTable}
-          meta={[{ label: 'Edition', value: `${year - 2020}-${year}` }]}
-        />
-      </Grid>
+      <div className={styles.inner}>
+        <EditionTheme as="h2" size="large" theme={theme} themeHighlight={themeHighlight} />
+        <Text as="p" variant="body" className={styles.note}>
+          {themeSection.body}
+        </Text>
+      </div>
 
       {carousel.length > 0 && (
         <GalleryCarousel
           id="edition-gallery"
           label="Edition photo gallery"
           slides={carousel}
-          eyebrow={theme}
           treatment="color"
-          className={styles.carousel}
           size="large"
+        />
+      )}
+
+      {artists.length > 0 && (
+        <ArtistRoster
+          artists={artists}
+          designation={`Edition ${year - 2020}-${year}`}
+          className={styles.inner}
         />
       )}
     </section>

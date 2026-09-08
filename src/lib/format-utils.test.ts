@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { padNum, splitInHalf, surnameSortKey } from '@/lib/format-utils'
+import { padNum, surnameSortKey } from '@/lib/format-utils'
 
 describe('padNum', () => {
   it('left-pads to the default width of 2', () => {
@@ -13,23 +13,6 @@ describe('padNum', () => {
 
   it('honours a custom length', () => {
     expect(padNum(7, 3)).toBe('007')
-  })
-})
-
-describe('splitInHalf', () => {
-  it('puts the extra item in the first half for odd lengths', () => {
-    expect(splitInHalf([1, 2, 3])).toEqual([[1, 2], [3]])
-  })
-
-  it('splits even lengths evenly', () => {
-    expect(splitInHalf([1, 2, 3, 4])).toEqual([
-      [1, 2],
-      [3, 4],
-    ])
-  })
-
-  it('handles an empty array', () => {
-    expect(splitInHalf([])).toEqual([[], []])
   })
 })
 

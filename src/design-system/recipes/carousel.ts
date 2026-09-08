@@ -46,7 +46,12 @@ export const carousel = defineSlotRecipe({
       alignItems: 'center',
       justifyContent: 'space-between',
       gap: 'md',
-      '& [data-carousel-arrows]': { display: 'flex', alignItems: 'center', gap: 'sm' },
+      '& [data-carousel-arrows]': {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'sm',
+        marginInlineStart: 'auto',
+      },
     },
     trigger: {
       pressable: 'inline',
