@@ -818,6 +818,13 @@
           },
           "optional": false
         },
+        "lead": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        },
         "label": {
           "type": "objectAttribute",
           "value": {
@@ -883,6 +890,13 @@
             ]
           },
           "optional": false
+        },
+        "lead": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
         },
         "label": {
           "type": "objectAttribute",

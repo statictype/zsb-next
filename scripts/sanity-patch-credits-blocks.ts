@@ -6,7 +6,8 @@
  * by both. "Supported by" (Ministry of Culture) is a logo credit, not a team
  * line, so it becomes `partner`. 2022 credits the Municipality of Bucharest as
  * free text with no organization to hang a logo on; this creates that
- * organization and swaps the text row for a reference to it.
+ * organization and swaps the text row for a reference to it. Both are flagged
+ * `lead`, which draws their logos larger than the rest of the wall.
  *
  * It also moves "Under the Aegis of" to sit directly after the organizer, so the
  * team block's rows of three read Organizer · Aegis · Curator, then the rest.
@@ -47,6 +48,7 @@ interface CreditRow {
   _key: string
   _type: string
   type?: string
+  lead?: boolean
   label?: string
   names?: string[]
   organization?: Reference
@@ -83,11 +85,13 @@ function rewrite(rows: CreditRow[], year?: number): CreditRow[] {
         ...rest,
         _type: 'creditOrg',
         type: 'partner',
+        lead: true,
         organization: { _type: 'reference', _ref: MUNICIPALITY_ID },
       }
     }
-    if (row._type === 'creditOrg' && row.organization?._ref === MINISTRY_ID) {
-      return { ...row, type: 'partner' }
+    const ref = row.organization?._ref
+    if (row._type === 'creditOrg' && (ref === MINISTRY_ID || ref === MUNICIPALITY_ID)) {
+      return { ...row, type: 'partner', lead: true }
     }
     return row
   })

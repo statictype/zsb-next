@@ -138,8 +138,8 @@ describe('mapCredits — row type dispatch', () => {
     expect(without && 'mark' in without).toBe(false)
   })
 
-  it('buckets a mark by the asset aspect ratio', () => {
-    const shapeOf = (aspectRatio: number) => {
+  it('scales a mark to equal area, clamped at both ends', () => {
+    const scaleOf = (aspectRatio: number) => {
       const rows = [
         {
           _type: 'creditOrg',
@@ -148,11 +148,31 @@ describe('mapCredits — row type dispatch', () => {
           organization: { name: 'Org', logo: logoWithAspect(aspectRatio) },
         },
       ] as unknown as RawCredits
-      return (mapCredits(rows)[0] as CreditOrgRow).mark?.shape
+      return (mapCredits(rows)[0] as CreditOrgRow).mark?.scale
     }
-    expect(shapeOf(3.7)).toBe('wide')
-    expect(shapeOf(2.2)).toBe('regular')
-    expect(shapeOf(1)).toBe('compact')
+    expect(scaleOf(1)).toBe(1)
+    expect(scaleOf(4)).toBe(0.5)
+    expect(scaleOf(6.59)).toBe(0.39)
+    expect(scaleOf(0.5)).toBe(1)
+    expect(scaleOf(16)).toBe(0.35)
+  })
+
+  it('draws a lead row larger, up to its own cap', () => {
+    const scaleOf = (aspectRatio: number, lead: boolean) => {
+      const rows = [
+        {
+          _type: 'creditOrgList',
+          type: 'partner',
+          lead,
+          label: 'Supported by',
+          organizations: [{ name: 'Org', logo: logoWithAspect(aspectRatio) }],
+        },
+      ] as unknown as RawCredits
+      return (mapCredits(rows)[0] as CreditPartnersRow).partners[0]?.mark?.scale
+    }
+    expect(scaleOf(3.14, false)).toBe(0.56)
+    expect(scaleOf(3.14, true)).toBe(0.79)
+    expect(scaleOf(1, true)).toBe(1.15)
   })
 
   it('skips an organization row whose reference is unresolved', () => {
@@ -177,7 +197,7 @@ describe('mapCredits — row type dispatch', () => {
     ] as unknown as RawCredits
     const row = mapCredits(rows)[0] as CreditPartnersRow
     expect(row.partners.map((p) => p.name)).toEqual(['A', 'B', 'C'])
-    expect(row.partners[0]?.mark?.shape).toBe('regular')
+    expect(row.partners[0]?.mark?.scale).toBe(0.82)
     expect(row.partners[1]?.mark).toBeUndefined()
     expect(row.partners.map((p) => p.gallery)).toEqual([false, false, true])
   })

@@ -136,12 +136,12 @@ export type CarouselSlide = FullSlide | DuoSlide | TrioSlide
 
 // ---- Credits ----
 
-/** A partner logo plus the aspect bucket the ledger sizes it by, so a long
- *  wordmark and a square mark carry the same optical weight in one run. */
+/** A partner logo plus the fraction of the wall's cap height it is drawn at —
+ *  derived from the asset's aspect ratio so every mark covers a similar area. */
 export interface PartnerMark extends ImageData {
   width: number
   height: number
-  shape: 'wide' | 'regular' | 'compact'
+  scale: number
 }
 
 export interface CreditPartner {
