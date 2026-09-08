@@ -1,16 +1,17 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 
 const ROW_TYPES = [
-  { title: 'Primary', value: 'primary' },
-  { title: 'Partner', value: 'partner' },
-  { title: 'Secondary', value: 'secondary' },
+  { title: 'Logo + credit line', value: 'primary' },
+  { title: 'Logo only', value: 'partner' },
+  { title: 'Credit line only', value: 'secondary' },
 ] as const
 
 function typeField() {
   return defineField({
     name: 'type',
-    title: 'Type',
-    description: 'Controls visual prominence on the edition page',
+    title: 'Shown as',
+    description:
+      'Logo rows feed the logo wall at the top, in this list’s order — an organization with no logo, or one marked as a gallery, drops to the Partners name list instead. Credit-line rows are the labelled block at the bottom (curator, critics, PR).',
     type: 'string',
     options: { list: [...ROW_TYPES], layout: 'radio' },
     initialValue: 'secondary' as const,
@@ -75,13 +76,18 @@ export const creditOrgList = defineType({
   preview: {
     select: {
       title: 'label',
+      type: 'type',
       org0: 'organizations.0.name',
       org1: 'organizations.1.name',
       org2: 'organizations.2.name',
+      orgs: 'organizations',
     },
-    prepare({ title, org0, org1, org2 }) {
+    prepare({ title, type, org0, org1, org2, orgs }) {
       const names = [org0, org1, org2].filter(Boolean) as string[]
-      return { title, subtitle: names.length ? names.join(', ') : '' }
+      const total = Array.isArray(orgs) ? orgs.length : 0
+      const more = total > names.length ? ` +${total - names.length}` : ''
+      const shown = ROW_TYPES.find((row) => row.value === type)?.title ?? ''
+      return { title, subtitle: [names.join(', ') + more, shown].filter(Boolean).join(' · ') }
     },
   },
 })

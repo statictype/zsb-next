@@ -107,12 +107,13 @@ async function collect(): Promise<Map<string, CollectedOrg>> {
     if (!edition) continue
     for (const credit of edition.credits) {
       const source = `${year} · ${credit.label}`
-      if (credit.logo) {
-        upsert(credit.value, source, { file: credit.logo, alt: credit.logoAlt })
+      if (credit.kind === 'org') {
+        if (credit.mark)
+          upsert(credit.name, source, { file: credit.mark.src, alt: credit.mark.alt })
         continue
       }
-      if (credit.type === 'partner') {
-        for (const line of credit.value.split('\n')) upsert(line, source)
+      if (credit.kind === 'partners') {
+        for (const partner of credit.partners) upsert(partner.name, source)
       }
     }
   }

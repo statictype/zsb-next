@@ -136,24 +136,43 @@ export type CarouselSlide = FullSlide | DuoSlide | TrioSlide
 
 // ---- Credits ----
 
-interface CreditEntryBase {
+/** A partner logo plus the aspect bucket the ledger sizes it by, so a long
+ *  wordmark and a square mark carry the same optical weight in one run. */
+export interface PartnerMark extends ImageData {
+  width: number
+  height: number
+  shape: 'wide' | 'regular' | 'compact'
+}
+
+export interface CreditPartner {
+  name: string
+  /** Galleries are credited by name even when a mark exists. */
+  gallery: boolean
+  mark?: PartnerMark
+  url?: string
+}
+
+interface CreditRowBase {
   type: 'primary' | 'partner' | 'secondary'
   label: string
-  value: string
+}
+
+export interface CreditOrgRow extends CreditRowBase, CreditPartner {
+  kind: 'org'
   detail?: string
 }
 
-interface CreditEntryWithLogo extends CreditEntryBase {
-  logo: string
-  logoAlt: string
+export interface CreditPartnersRow extends CreditRowBase {
+  kind: 'partners'
+  partners: CreditPartner[]
 }
 
-interface CreditEntryWithoutLogo extends CreditEntryBase {
-  logo?: never
-  logoAlt?: never
+export interface CreditNamesRow extends CreditRowBase {
+  kind: 'names'
+  names: string[]
 }
 
-export type CreditEntry = CreditEntryWithLogo | CreditEntryWithoutLogo
+export type CreditEntry = CreditOrgRow | CreditPartnersRow | CreditNamesRow
 
 // ---- Media Kit ----
 
