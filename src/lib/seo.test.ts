@@ -55,7 +55,6 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
     dateEnd: '2024-05-11',
     venueLine: 'Combinatul Fondului Plastic',
     manifesto: { title: 'A title', highlight: 'title', body: 'The manifesto body.' },
-    themeSection: { body: 'Theme body.' },
     artists: [
       { _id: 'artist-1', name: 'Mircea Roman' },
       { _id: 'artist-2', name: 'Ana Rus' },

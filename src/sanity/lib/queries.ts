@@ -311,6 +311,7 @@ export const EDITION_CARDS_QUERY = defineQuery(`
     year,
     theme,
     themeHighlight,
+    "themeBody": themeSection.body,
     dateStart,
     dateEnd,
     hasProgram,
@@ -344,7 +345,6 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
     ogImage,
     metaDescription,
     manifesto,
-    themeSection,
     hasProgram,
     "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },
     events[] {

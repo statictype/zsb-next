@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
 
@@ -7,6 +8,7 @@ describe('EditionCard', () => {
     year: 2026,
     theme: 'the weight of light',
     themeHighlight: 'light',
+    themeBody: 'A longer statement about the theme.',
     dateSpan: '10–20 May',
     artistCount: 44,
     eventCount: 13,
@@ -14,10 +16,37 @@ describe('EditionCard', () => {
     href: '/editions/2026',
   }
 
-  it('is always a link to the edition page', () => {
+  it('links the year block and the button to the edition page', () => {
     render(<EditionCard edition={edition} href="/editions/2026" />)
 
-    expect(screen.getByRole('link')).toHaveAttribute('href', '/editions/2026')
+    expect(screen.getByRole('link', { name: /ZSB 2026/ })).toHaveAttribute('href', '/editions/2026')
+    expect(screen.getByRole('link', { name: /View edition/ })).toHaveAttribute(
+      'href',
+      '/editions/2026',
+    )
+  })
+
+  it('keeps the theme statement collapsed until the toggle is pressed', async () => {
+    const user = userEvent.setup()
+    render(<EditionCard edition={edition} href="/editions/2026" />)
+
+    const toggle = screen.getByRole('button', { name: 'Read the theme' })
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.getByText('A longer statement about the theme.')).toHaveAttribute(
+      'data-open',
+      'false',
+    )
+
+    await user.click(toggle)
+
+    expect(screen.getByRole('button', { name: 'Hide the theme' })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    )
+    expect(screen.getByText('A longer statement about the theme.')).toHaveAttribute(
+      'data-open',
+      'true',
+    )
   })
 
   it('leads with the prefixed year and demotes the theme beneath it', () => {
@@ -62,7 +91,7 @@ describe('EditionCard', () => {
 
     render(<EditionCard edition={imageless} href="/editions/2026" />)
 
-    expect(screen.getByRole('link')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /ZSB 2026/ })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('ZSB 2026')
   })
 

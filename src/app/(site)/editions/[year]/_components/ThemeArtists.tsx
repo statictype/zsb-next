@@ -1,6 +1,5 @@
 import { themeArtists } from '@edition-components/ThemeArtists.recipe'
 import { cx } from 'styled-system/css'
-import { Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { ArtistRoster } from '@/components/ArtistRoster/ArtistRoster'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
@@ -10,22 +9,16 @@ import type { Edition } from '@/types/edition'
 const styles = themeArtists()
 
 interface ThemeArtistsProps {
-  edition: Pick<
-    Edition,
-    'year' | 'theme' | 'themeHighlight' | 'themeSection' | 'artists' | 'carousel'
-  >
+  edition: Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'artists' | 'carousel'>
 }
 
 export function ThemeArtists({ edition }: ThemeArtistsProps) {
-  const { year, theme, themeHighlight, themeSection, artists, carousel } = edition
+  const { year, theme, themeHighlight, artists, carousel } = edition
 
   return (
     <section className={cx(section({ ground: 'dark' }), styles.section)}>
       <div className={styles.inner}>
         <EditionTheme as="h2" size="large" theme={theme} themeHighlight={themeHighlight} />
-        <Text as="p" variant="body" className={styles.note}>
-          {themeSection.body}
-        </Text>
       </div>
 
       {carousel.length > 0 && (

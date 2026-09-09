@@ -40,12 +40,6 @@ export interface ManifestoData {
   body: string
 }
 
-// ---- Theme ----
-
-export interface ThemeData {
-  body: string
-}
-
 // ---- Program / Events (ZSB-28) ----
 
 export interface EventTypeTag {
@@ -244,7 +238,6 @@ export interface Edition {
   dateEnd: string
   venueLine: string
   manifesto: ManifestoData
-  themeSection: ThemeData
   artists: ArtistListItem[]
   // Whether this edition has a program section at all (ADR 0018). The online-only
   // 2021 has none; an edition with `hasProgram` true but no events yet renders the
