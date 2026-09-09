@@ -25,11 +25,6 @@ export const program = sva({
     'nameButton',
     'eventDesc',
     'poster',
-    'recap',
-    'recapMark',
-    'themeMark',
-    'follow',
-    'followNote',
     'archive',
   ],
   base: {
@@ -237,20 +232,6 @@ export const program = sva({
         zIndex: '3',
         '[data-poster=true]:hover &': { opacity: 1, transform: 'translateX(0)' },
       },
-    },
-    recap: {
-      alignItems: 'flex-start',
-      gap: 'lg',
-      maxWidth: 'measure',
-    },
-    recapMark: { color: 'heading' },
-    themeMark: { color: 'highlight' },
-    follow: {
-      alignItems: 'flex-start',
-      gap: 'md',
-    },
-    followNote: {
-      color: 'muted',
     },
     archive: {
       border: 'hairline',

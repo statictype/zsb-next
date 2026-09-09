@@ -62,11 +62,19 @@ export function Credits({ credits }: CreditsProps) {
     (org) => org.name,
   )
   const team = credits.filter((row) => row.type !== 'partner')
+  const teamOrgs = team.filter((row) => row.kind !== 'names')
+  const teamNames = team.filter((row) => row.kind === 'names')
 
   return (
     <section className={section({ ground: 'light' })}>
       <Container>
         <div className={s.ledger}>
+          {(marks.length > 0 || named.length > 0) && (
+            <Text variant="title" className={s.title}>
+              {POOL_LABEL}
+            </Text>
+          )}
+
           {marks.length > 0 && (
             <div className={s.wall}>
               <Marquee count={marks.length} gap="xl">
@@ -79,32 +87,41 @@ export function Credits({ credits }: CreditsProps) {
             </div>
           )}
 
-          {named.length > 0 && (
+          {(named.length > 0 || teamOrgs.length > 0) && (
             <div className={s.row}>
-              <Text variant="label" className={s.accent}>
-                {POOL_LABEL}
-              </Text>
-              <div className={s.run}>
-                {named.map((org) => (
-                  <Text variant="caption" key={org.name}>
-                    {org.name}
-                  </Text>
-                ))}
-              </div>
+              {named.length > 0 && (
+                <div className={s.pool}>
+                  <div className={s.run}>
+                    {named.map((org) => (
+                      <Text variant="caption" key={org.name}>
+                        {org.name}
+                      </Text>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <TeamBand className={s.orgBand} rows={teamOrgs} />
             </div>
           )}
 
-          <div className={s.band}>
-            {team.map((row) => (
-              <div className={s.cell} key={row.label}>
-                <Text variant="label">{row.label}</Text>
-                <TeamValue row={row} />
-              </div>
-            ))}
-          </div>
+          <TeamBand className={s.band} rows={teamNames} />
         </div>
       </Container>
     </section>
+  )
+}
+
+function TeamBand({ className, rows }: { className: string | undefined; rows: CreditEntry[] }) {
+  if (rows.length === 0) return null
+  return (
+    <div className={className}>
+      {rows.map((row) => (
+        <div className={s.cell} key={row.label}>
+          <Text variant="label">{row.label}</Text>
+          <TeamValue row={row} />
+        </div>
+      ))}
+    </div>
   )
 }
 

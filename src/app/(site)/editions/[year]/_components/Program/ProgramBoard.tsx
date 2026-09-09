@@ -144,9 +144,6 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
   )
 }
 
-// On a finished edition the full board is kept as the historical record but
-// folded behind a Collapsible so the recap leads (ZSB-45); live/upcoming editions
-// render the board directly without mounting a redundant Collapsible.
 export function ArchiveCollapse({
   ended,
   count,
