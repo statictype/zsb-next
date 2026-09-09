@@ -73,6 +73,8 @@ export const galleryCarousel = sva({
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       '@media (hover: hover)': { display: 'block' },
+      '[data-engine] [aria-roledescription="slide"]:not([data-current]) > [data-carousel-slide-content] &':
+        { opacity: 0, transform: 'translateY(100%)' },
     },
   },
   variants: {
