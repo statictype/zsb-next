@@ -181,6 +181,7 @@ export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): Edition
     href: editionHref(raw.year),
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
+    themeBody: raw.themeBody ?? '',
     dateSpan: composeDateSpan(raw),
     venueLine: raw.hasProgram === false ? (raw.venueLine ?? undefined) : undefined,
     artistCount: raw.artistCount ?? 0,
@@ -216,7 +217,6 @@ export function mapEdition(raw: SanityEdition): Edition {
       highlight: raw.manifesto?.highlight ?? '',
       body: raw.manifesto?.body ?? '',
     },
-    themeSection: { body: raw.themeSection?.body ?? '' },
     // Older docs predate the field; a missing value means "has a program" (ADR 0018).
     hasProgram: raw.hasProgram ?? true,
     artists: raw.artists ?? [],

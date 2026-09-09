@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const themeArtists = sva({
-  slots: ['section', 'inner', 'note'],
+  slots: ['section', 'inner'],
   base: {
     section: {
       position: 'relative',
@@ -9,9 +9,5 @@ export const themeArtists = sva({
       '& > * + *': { marginTop: '3xl' },
     },
     inner: { layerStyle: 'sectionInner' },
-    note: {
-      marginTop: 'lg',
-      maxWidth: 'measure',
-    },
   },
 })

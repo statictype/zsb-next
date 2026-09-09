@@ -5,12 +5,14 @@ import { cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import type { RecipeVariantProps } from 'styled-system/types'
 import { editionCard } from '@/components/EditionCard/EditionCard.recipe'
+import { EditionCardTheme } from '@/components/EditionCard/EditionCardTheme'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import type { Edition, ImageData } from '@/types/edition'
 
 export type EditionCardData = Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'thumbImage'> & {
   href: string
+  themeBody: string
   dateSpan: string
   artistCount: number
   eventCount: number
@@ -66,7 +68,7 @@ export function EditionCard({
   }
 
   return (
-    <Link href={href} className={cx(styles.root, className)}>
+    <article className={cx(styles.root, className)}>
       <span className={styles.plate}>
         <span className={styles.frame}>
           <Figure
@@ -79,34 +81,38 @@ export function EditionCard({
       </span>
 
       <div className={styles.body}>
-        <div className={styles.head}>
-          <Text as="h2" variant="title" className={styles.title}>
-            <span className={styles.prefix}>ZSB</span> {edition.year}
-            <span className={styles.arrow} aria-hidden>
-              <RiArrowRightUpLine size={24} />
-            </span>
-          </Text>
-          <EditionTheme
-            as="p"
-            size="sub"
-            interactive
-            theme={edition.theme}
-            themeHighlight={edition.themeHighlight}
-            className={styles.theme}
-          />
-        </div>
+        <Link href={href} className={styles.link} data-card-link>
+          <div className={styles.head}>
+            <Text as="h2" variant="title" className={styles.title}>
+              <span className={styles.prefix}>ZSB</span> {edition.year}
+              <span className={styles.arrow} aria-hidden>
+                <RiArrowRightUpLine size={24} />
+              </span>
+            </Text>
+            <EditionTheme
+              as="p"
+              size="sub"
+              interactive
+              theme={edition.theme}
+              themeHighlight={edition.themeHighlight}
+              className={styles.theme}
+            />
+          </div>
 
-        {facts.length > 0 && (
-          <Text as="span" variant="caption" className={styles.meta}>
-            {facts.map((fact, index) => (
-              <Fragment key={fact.key}>
-                {index > 0 ? ' · ' : null}
-                {fact.content}
-              </Fragment>
-            ))}
-          </Text>
-        )}
+          {facts.length > 0 && (
+            <Text as="span" variant="caption">
+              {facts.map((fact, index) => (
+                <Fragment key={fact.key}>
+                  {index > 0 ? ' · ' : null}
+                  {fact.content}
+                </Fragment>
+              ))}
+            </Text>
+          )}
+        </Link>
+
+        <EditionCardTheme body={edition.themeBody} href={href} />
       </div>
-    </Link>
+    </article>
   )
 }

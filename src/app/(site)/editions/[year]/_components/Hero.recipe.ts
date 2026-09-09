@@ -66,7 +66,7 @@ export const hero = sva({
       inset: '0',
       overflow: 'hidden',
       background: 'gray.900',
-      filter: '[token(assets.mono)]',
+      filter: '[token(assets.color)]',
     },
     image: { objectFit: 'cover' },
 
