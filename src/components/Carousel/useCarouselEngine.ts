@@ -6,8 +6,9 @@ type DraggableStatic = typeof import('gsap/Draggable').Draggable
 
 const GLIDE = { ease: 'power3', duration: 0.725 } as const
 const PIXELS_PER_SECOND = 100
-const WHEEL_SETTLE_MS = 140
+const WHEEL_GESTURE_MS = 140
 const WHEEL_LINE_PX = 16
+const WHEEL_STEP_PX = [340, 1100, 2600]
 const MOVING_QUIET_MS = 120
 
 /** Held for as long as frames keep arriving. The carousel recipe reads
@@ -41,6 +42,39 @@ function attachWheel(element: HTMLElement, scrollBy: (delta: number) => void) {
   }
   element.addEventListener('wheel', onWheel, { passive: false })
   return () => element.removeEventListener('wheel', onWheel)
+}
+
+function wheelStepper(begin: () => number, commit: (index: number) => void, maxSteps: number) {
+  let timer: number | undefined
+  let base = 0
+  let accumulated = 0
+  let issued = 0
+  let active = false
+  return {
+    push(delta: number) {
+      if (!active) {
+        active = true
+        accumulated = 0
+        issued = 0
+        base = begin()
+      }
+      accumulated += delta
+      if (timer) window.clearTimeout(timer)
+      timer = window.setTimeout(() => {
+        active = false
+      }, WHEEL_GESTURE_MS)
+      const magnitude = Math.abs(accumulated)
+      const crossed = WHEEL_STEP_PX.filter((threshold) => magnitude >= threshold).length
+      if (crossed === 0) return
+      const steps = Math.min(crossed, maxSteps) * Math.sign(accumulated)
+      if (steps === issued) return
+      issued = steps
+      commit(base + steps)
+    },
+    dispose() {
+      if (timer) window.clearTimeout(timer)
+    },
+  }
 }
 
 // `gsap.getProperty` returns a unit-suffixed string whenever a unit is asked
@@ -289,18 +323,12 @@ function loopingTrack(
     },
   })[0]
 
-  let settle: number | undefined
-  const scrollBy = (delta: number) => {
-    if (totalWidth === 0) return
-    gsap.killTweensOf(tl)
-    gsap.killTweensOf(proxy)
-    tl.progress(wrapProgress(tl.progress() + delta / totalWidth))
-    if (settle) window.clearTimeout(settle)
-    settle = window.setTimeout(() => {
-      toIndex(closestIndex(true), { ...GLIDE })
-    }, WHEEL_SETTLE_MS)
-  }
-  const detachWheel = attachWheel(container.parentElement ?? container, scrollBy)
+  const stepper = wheelStepper(
+    current,
+    (index) => toIndex(index, { ...GLIDE }),
+    Math.min(WHEEL_STEP_PX.length, Math.max(1, Math.floor((length - 1) / 2))),
+  )
+  const detachWheel = attachWheel(container.parentElement ?? container, stepper.push)
 
   closestIndex(true)
   lastIndex = curIndex
@@ -312,7 +340,7 @@ function loopingTrack(
     toIndex: (index: number) => toIndex(index - focusOffset, { ...GLIDE }),
     dispose: () => {
       window.removeEventListener('resize', onResize)
-      if (settle) window.clearTimeout(settle)
+      stepper.dispose()
       detachWheel()
       moving.dispose()
     },
@@ -378,21 +406,17 @@ function boundedTrack(
 
   const go = (target: number) => {
     const index = Math.min(Math.max(target, 0), items.length - 1)
-    gsap.to(track, { x: at(points, index), ...GLIDE, onUpdate: report, onComplete: report })
+    gsap.to(track, {
+      x: at(points, index),
+      ...GLIDE,
+      overwrite: true,
+      onUpdate: report,
+      onComplete: report,
+    })
   }
 
-  let settle: number | undefined
-  const scrollBy = (delta: number) => {
-    gsap.killTweensOf(track)
-    const x = num(gsap.getProperty(track, 'x')) - delta
-    gsap.set(track, { x: Math.min(Math.max(x, minX), 0) })
-    report()
-    if (settle) window.clearTimeout(settle)
-    settle = window.setTimeout(() => {
-      go(indexAt(num(gsap.getProperty(track, 'x'))))
-    }, WHEEL_SETTLE_MS)
-  }
-  const detachWheel = attachWheel(frame, scrollBy)
+  const stepper = wheelStepper(() => lastIndex, go, WHEEL_STEP_PX.length)
+  const detachWheel = attachWheel(frame, stepper.push)
 
   onChange(0)
 
@@ -402,7 +426,7 @@ function boundedTrack(
     toIndex: go,
     dispose: () => {
       window.removeEventListener('resize', onResize)
-      if (settle) window.clearTimeout(settle)
+      stepper.dispose()
       detachWheel()
       moving.dispose()
     },
