@@ -8,9 +8,11 @@ export const credits = sva({
     'link',
     'mark',
     'row',
+    'pool',
+    'orgBand',
     'band',
     'cell',
-    'accent',
+    'title',
     'value',
     'detail',
     'run',
@@ -18,6 +20,7 @@ export const credits = sva({
   base: {
     ledger: {
       width: 'full',
+      '& > :last-child > :last-child': { borderBottom: '[none]' },
     },
     wall: {
       display: 'flex',
@@ -46,15 +49,30 @@ export const credits = sva({
       md: { height: '[calc(76px * var(--mark-scale, 1))]' },
     },
     row: {
-      display: 'grid',
-      gridTemplateColumns: 'minmax(0, 1fr)',
-      rowGap: 'xs',
       paddingBlock: 'md',
       borderBottom: 'hairline',
-      md: {
-        gridTemplateColumns: '[minmax(140px, 16%) minmax(0, 1fr)]',
+      lg: {
+        display: 'grid',
+        gridTemplateColumns: '[repeat(4, minmax(0, 1fr))]',
         columnGap: 'lg',
-        alignItems: 'baseline',
+        alignItems: 'start',
+      },
+    },
+    pool: {
+      lg: { gridColumn: '[1 / span 2]' },
+    },
+    orgBand: {
+      '& > :last-child': { borderBottom: '[none]' },
+      md: {
+        display: 'grid',
+        gridTemplateColumns: '[repeat(2, minmax(0, 1fr))]',
+        columnGap: 'lg',
+        rowGap: 'md',
+        paddingBlockStart: 'md',
+      },
+      lg: {
+        gridColumn: '[3 / span 2]',
+        paddingBlockStart: '0',
       },
     },
     band: {
@@ -65,8 +83,7 @@ export const credits = sva({
         rowGap: 'md',
         paddingBlock: 'md',
       },
-      lg: { gridTemplateColumns: '[repeat(3, minmax(0, 1fr))]' },
-      '2xl': { gridTemplateColumns: '[repeat(6, minmax(0, 1fr))]' },
+      lg: { gridTemplateColumns: '[repeat(4, minmax(0, 1fr))]' },
     },
     cell: {
       display: 'flex',
@@ -75,10 +92,13 @@ export const credits = sva({
       rowGap: 'xs',
       paddingBlock: 'md',
       borderBottom: 'hairline',
-      _last: { borderBottom: '[none]' },
       md: { paddingBlock: '0', borderBottom: '[none]' },
     },
-    accent: { color: 'action' },
+    title: {
+      display: 'block',
+      color: 'action',
+      paddingBlockEnd: 'sm',
+    },
     value: {
       display: 'flex',
       flexDirection: 'column',

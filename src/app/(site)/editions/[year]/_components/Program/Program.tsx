@@ -1,11 +1,9 @@
 'use client'
 
-import type { SocialLink } from '@program/FollowLinks'
 import { HashScroller } from '@program/HashScroller'
 import { program } from '@program/Program.recipe'
 import { ArchiveCollapse, ProgramBoard } from '@program/ProgramBoard'
 import { ProgramFilters } from '@program/ProgramFilters'
-import { ProgramRecap } from '@program/ProgramRecap'
 import { ProgramShare } from '@program/ProgramShare'
 import { deriveProgramView, type ProgramFilterOptions } from '@program/program-filters'
 import { useProgramFilters } from '@program/useProgramFilters'
@@ -28,18 +26,14 @@ interface ProgramProps {
    *  (`computeFilterOptions` is pure aggregation, independent of the visitor's
    *  clock or selection, so there's no reason to recompute it on every render). */
   filterOptions: ProgramFilterOptions
-  /** Edition theme, for the finished-edition recap line (ZSB-45). */
-  theme?: string
-  /** Follow CTAs for the finished-edition recap (ZSB-45); empty hides them. */
-  socials?: SocialLink[]
 }
 
 /**
  * The interactive shell: the client clock, the URL filter store, one
  * `deriveProgramView` call, and composition. Everything it renders below the
- * header is a pure piece (`ProgramBoard`, `ProgramRecap`) of the derived view.
+ * header is a pure piece (`ProgramBoard`) of the derived view.
  */
-export function Program({ year, events, filterOptions, theme, socials = [] }: ProgramProps) {
+export function Program({ year, events, filterOptions }: ProgramProps) {
   const todayIso = useTodayIso()
   const { filters, toggleVenue, toggleType, setShowPast, reset } = useProgramFilters(filterOptions)
   const view = deriveProgramView(events, filters, todayIso)
@@ -50,7 +44,8 @@ export function Program({ year, events, filterOptions, theme, socials = [] }: Pr
   return (
     <section
       className={cx(section({ ground: 'dark', rhythm: 'joined' }), s.section)}
-      aria-labelledby="program-heading"
+      aria-label={ended ? 'Program' : undefined}
+      aria-labelledby={ended ? undefined : 'program-heading'}
     >
       {/* Zero-size anchor, past the section's own top padding — a shared link
           scrolls here instead of landing on blank padding. Nav clearance
@@ -59,13 +54,11 @@ export function Program({ year, events, filterOptions, theme, socials = [] }: Pr
       <HashScroller id={PROGRAM_SECTION_ID} />
       <Container>
         <Stack gap="xl">
-          <Stack as="header" gap="md">
-            <SectionHeading id="program-heading" flush>
-              Program
-            </SectionHeading>
-            {ended ? (
-              <ProgramRecap year={year} theme={theme} socials={socials} />
-            ) : (
+          {!ended && (
+            <Stack as="header" gap="md">
+              <SectionHeading id="program-heading" flush>
+                Program
+              </SectionHeading>
               <HStack justify="space-between" alignItems="flex-start" gap="md">
                 <Wrap gap="md">
                   <Text variant="label" className={s.count} aria-live="polite">
@@ -86,8 +79,8 @@ export function Program({ year, events, filterOptions, theme, socials = [] }: Pr
                 </Wrap>
                 <ProgramShare />
               </HStack>
-            )}
-          </Stack>
+            </Stack>
+          )}
 
           {/* On a finished edition the filters and the board fold into the archive
             Collapsible together (ZSB-45), so filtering still works once expanded;

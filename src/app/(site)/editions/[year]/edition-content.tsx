@@ -51,9 +51,6 @@ export async function CachedEdition({
   options: DynamicFetchOptions
 }) {
   'use cache'
-  // Socials feed both the coming-soon follow CTA and a finished edition's recap
-  // (ZSB-45), so resolve them either way, and independently of the edition
-  // fetch (neither depends on the other's result) — same trip, not a waterfall.
   const [edition, socials] = await Promise.all([getEdition(year, options), socialLinks(options)])
 
   if (!edition) {
@@ -96,8 +93,6 @@ export async function CachedEdition({
               year={edition.year}
               events={events}
               filterOptions={computeFilterOptions(events)}
-              theme={edition.theme}
-              socials={socials}
             />
           </Suspense>
         ) : (

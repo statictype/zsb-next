@@ -1,5 +1,4 @@
 import { ArchiveCollapse, EventRow, ProgramBoard } from '@program/ProgramBoard'
-import { ProgramRecap } from '@program/ProgramRecap'
 import { DEFAULT_FILTERS, deriveProgramView } from '@program/program-filters'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
@@ -105,36 +104,6 @@ describe('ArchiveCollapse', () => {
     )
     expect(screen.getByRole('button', { name: /Browse the full program/ })).toBeInTheDocument()
     expect(screen.getByText('3 events')).toBeInTheDocument()
-  })
-})
-
-describe('ProgramRecap', () => {
-  it('names the finished edition with its theme and the follow CTAs', () => {
-    render(
-      <ProgramRecap
-        year={2025}
-        theme="the weight of light"
-        socials={[{ label: 'Instagram', href: 'https://instagram.com/x' }]}
-      />,
-    )
-    expect(
-      screen.getByText(
-        (_, node) => node?.textContent === 'That was ZSB 2025 — the weight of light.',
-        { selector: 'p' },
-      ),
-    ).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Instagram' })).toHaveAttribute(
-      'href',
-      'https://instagram.com/x',
-    )
-  })
-
-  it('drops the theme clause and CTAs when absent', () => {
-    render(<ProgramRecap year={2025} theme={undefined} socials={[]} />)
-    expect(
-      screen.getByText((_, node) => node?.textContent === 'That was ZSB 2025.', { selector: 'p' }),
-    ).toBeInTheDocument()
-    expect(screen.queryByRole('link')).toBeNull()
   })
 })
 
