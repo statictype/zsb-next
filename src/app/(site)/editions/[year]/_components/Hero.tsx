@@ -4,7 +4,7 @@ import { css, cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Tooltip } from '@/components/ui/Tooltip/Tooltip'
-import type { Edition } from '@/types/edition'
+import type { Edition, EditionFact } from '@/types/edition'
 
 const PHONE = '(max-width: 599.98px) and (orientation: portrait)'
 // Only one of the two is ever displayed; the other is asked for at 1px.
@@ -16,46 +16,34 @@ const HERO_INK_BY_YEAR: Record<number, 'black' | 'white'> = {
   2024: 'black',
 }
 
+const FACT_LABELS: Record<EditionFact['kind'], string> = {
+  dates: 'Dates',
+  venue: 'Venue',
+  artists: 'Artists',
+  events: 'Events',
+}
+
 interface HeroProps {
-  edition: Pick<
-    Edition,
-    | 'year'
-    | 'theme'
-    | 'themeGloss'
-    | 'heroImage'
-    | 'thumbImage'
-    | 'dateRange'
-    | 'venueLine'
-    | 'artists'
-    | 'events'
-  >
+  edition: Pick<Edition, 'year' | 'theme' | 'themeGloss' | 'heroImage' | 'thumbImage' | 'facts'>
 }
 
 export function Hero({ edition }: HeroProps) {
-  const { year, theme, themeGloss, heroImage, thumbImage, dateRange, venueLine } = edition
+  const { year, theme, themeGloss, heroImage, thumbImage } = edition
   const ink = HERO_INK_BY_YEAR[year] ?? 'white'
   const styles = hero({ ink })
-  const artistCount = edition.artists.length
-  const eventCount = edition.events.length
 
-  const facts: { key: string; label: string; value: ReactNode }[] = []
-  if (dateRange) {
-    facts.push({ key: 'dates', label: 'Dates', value: dateRange })
-  }
-  if (venueLine) {
-    facts.push({ key: 'venue', label: 'Venue', value: venueLine })
-  }
-  if (artistCount > 0) {
-    facts.push({ key: 'artists', label: 'Artists', value: String(artistCount) })
-  }
-  if (eventCount > 0) {
-    facts.push({ key: 'events', label: 'Events', value: String(eventCount) })
-  }
-  facts.push({
-    key: 'theme',
-    label: 'Theme',
-    value: themeGloss ? <Tooltip label={themeGloss}>{theme}</Tooltip> : theme,
-  })
+  const facts: { key: string; label: string; value: ReactNode }[] = [
+    ...edition.facts.map((fact) => ({
+      key: fact.kind,
+      label: FACT_LABELS[fact.kind],
+      value: fact.kind === 'dates' || fact.kind === 'venue' ? fact.text : String(fact.count),
+    })),
+    {
+      key: 'theme',
+      label: 'Theme',
+      value: themeGloss ? <Tooltip label={themeGloss}>{theme}</Tooltip> : theme,
+    },
+  ]
 
   return (
     <header className={styles.hero}>

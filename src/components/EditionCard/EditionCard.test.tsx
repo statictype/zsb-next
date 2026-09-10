@@ -1,16 +1,19 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
+import type { EditionCardData } from '@/types/edition'
 
 describe('EditionCard', () => {
-  const edition = {
+  const edition: EditionCardData = {
     year: 2026,
     theme: 'the weight of light',
     themeHighlight: 'light',
     themeBody: 'A longer statement about the theme.',
-    dateSpan: '10–20 May',
-    artistCount: 44,
-    eventCount: 13,
+    facts: [
+      { kind: 'dates', text: '10–20 May' },
+      { kind: 'artists', count: 44 },
+      { kind: 'events', count: 13 },
+    ],
     heroImage: { src: '/img/hero.jpg', alt: 'Hero' },
     href: '/editions/2026',
   }
@@ -36,18 +39,25 @@ describe('EditionCard', () => {
     ).toBeInTheDocument()
   })
 
-  it('runs the date span and the counts on one line', () => {
+  it('runs the facts on one line', () => {
     render(<EditionCard edition={edition} href="/editions/2026" />)
 
-    // The numerals are separate spans within the line, so match on the
-    // combined text content rather than a single text node.
     expect(
       screen.getByText((_, node) => node?.textContent === '10–20 May · 44 artists · 13 events'),
     ).toBeInTheDocument()
   })
 
-  it('slots a venue line between the date span and the counts when one is set', () => {
-    render(<EditionCard edition={{ ...edition, venueLine: 'Online' }} href="/editions/2026" />)
+  it('renders a venue fact in the position it is given', () => {
+    const withVenue: EditionCardData = {
+      ...edition,
+      facts: [
+        { kind: 'dates', text: '10–20 May' },
+        { kind: 'venue', text: 'Online' },
+        { kind: 'artists', count: 44 },
+        { kind: 'events', count: 13 },
+      ],
+    }
+    render(<EditionCard edition={withVenue} href="/editions/2026" />)
 
     expect(
       screen.getByText(
@@ -56,8 +66,15 @@ describe('EditionCard', () => {
     ).toBeInTheDocument()
   })
 
-  it('drops the separator when the edition has no date span', () => {
-    render(<EditionCard edition={{ ...edition, dateSpan: '' }} href="/editions/2026" />)
+  it('starts the line without a separator when the first fact is a count', () => {
+    const countsOnly: EditionCardData = {
+      ...edition,
+      facts: [
+        { kind: 'artists', count: 44 },
+        { kind: 'events', count: 13 },
+      ],
+    }
+    render(<EditionCard edition={countsOnly} href="/editions/2026" />)
 
     expect(
       screen.getByText((_, node) => node?.textContent === '44 artists · 13 events'),
@@ -73,14 +90,18 @@ describe('EditionCard', () => {
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('ZSB 2026')
   })
 
-  it('drops a count that is zero and singularises a count of one', () => {
-    render(
-      <EditionCard edition={{ ...edition, artistCount: 1, eventCount: 0 }} href="/editions/2026" />,
-    )
+  it('singularises a count of one', () => {
+    const single: EditionCardData = {
+      ...edition,
+      facts: [
+        { kind: 'dates', text: '10–20 May' },
+        { kind: 'artists', count: 1 },
+      ],
+    }
+    render(<EditionCard edition={single} href="/editions/2026" />)
 
     expect(
       screen.getByText((_, node) => node?.textContent === '10–20 May · 1 artist'),
     ).toBeInTheDocument()
-    expect(screen.queryByText(/event/)).not.toBeInTheDocument()
   })
 })

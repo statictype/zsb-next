@@ -214,7 +214,6 @@ export interface Edition {
   theme: string
   themeHighlight: string
   themeGloss?: string
-  title: string
   heroImage: ImageData
   thumbImage?: ImageData
   // Optional editor-set social share image; falls back to the branded hero
@@ -243,6 +242,22 @@ export interface Edition {
   events: CalendarEvent[]
   carousel: CarouselSlide[]
   credits: CreditEntry[]
+  facts: EditionFact[]
+}
+
+export type EditionFact =
+  | { kind: 'dates'; text: string }
+  | { kind: 'venue'; text: string }
+  | { kind: 'artists'; count: number }
+  | { kind: 'events'; count: number }
+
+export type EditionCardData = Pick<
+  Edition,
+  'year' | 'theme' | 'themeHighlight' | 'thumbImage' | 'facts'
+> & {
+  href: string
+  themeBody: string
+  heroImage?: ImageData
 }
 
 /** Find one event in an edition by its URL `slug` (ADR 0015). Shared by the

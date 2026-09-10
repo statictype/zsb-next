@@ -7,17 +7,7 @@ import type { RecipeVariantProps } from 'styled-system/types'
 import { editionCard } from '@/components/EditionCard/EditionCard.recipe'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
-import type { Edition, ImageData } from '@/types/edition'
-
-export type EditionCardData = Pick<Edition, 'year' | 'theme' | 'themeHighlight' | 'thumbImage'> & {
-  href: string
-  themeBody: string
-  dateSpan: string
-  artistCount: number
-  eventCount: number
-  heroImage?: ImageData
-  venueLine?: string
-}
+import type { EditionCardData, EditionFact } from '@/types/edition'
 
 /** Bound to the recipe's variants: renaming or removing one there resurfaces
  *  here as a type error, not a silently ignored prop. */
@@ -37,6 +27,11 @@ interface EditionCardProps {
 const PLATE_SIZES =
   '(min-width: 2024px) 858px, (min-width: 1024px) 48vw, (min-width: 768px) 90vw, 104px'
 
+const COUNT_NOUNS = {
+  artists: ['artist', 'artists'],
+  events: ['event', 'events'],
+} as const
+
 export function EditionCard({
   edition,
   href,
@@ -46,24 +41,14 @@ export function EditionCard({
 }: EditionCardProps) {
   const styles = editionCard({ media })
 
-  const count = (value: number, singular: string, plural: string) => (
-    <>
-      <span className={styles.count}>{value}</span> {value === 1 ? singular : plural}
-    </>
-  )
-
-  const facts: { key: string; content: ReactNode }[] = []
-  if (edition.dateSpan) {
-    facts.push({ key: 'dates', content: edition.dateSpan })
-  }
-  if (edition.venueLine) {
-    facts.push({ key: 'venue', content: edition.venueLine })
-  }
-  if (edition.artistCount > 0) {
-    facts.push({ key: 'artists', content: count(edition.artistCount, 'artist', 'artists') })
-  }
-  if (edition.eventCount > 0) {
-    facts.push({ key: 'events', content: count(edition.eventCount, 'event', 'events') })
+  const factContent = (fact: EditionFact): ReactNode => {
+    if (fact.kind === 'dates' || fact.kind === 'venue') return fact.text
+    const [singular, plural] = COUNT_NOUNS[fact.kind]
+    return (
+      <>
+        <span className={styles.count}>{fact.count}</span> {fact.count === 1 ? singular : plural}
+      </>
+    )
   }
 
   return (
@@ -98,12 +83,12 @@ export function EditionCard({
             />
           </div>
 
-          {facts.length > 0 && (
+          {edition.facts.length > 0 && (
             <Text as="span" variant="caption">
-              {facts.map((fact, index) => (
-                <Fragment key={fact.key}>
+              {edition.facts.map((fact, index) => (
+                <Fragment key={fact.kind}>
                   {index > 0 ? ' · ' : null}
-                  {fact.content}
+                  {factContent(fact)}
                 </Fragment>
               ))}
             </Text>

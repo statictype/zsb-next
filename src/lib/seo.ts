@@ -84,7 +84,7 @@ function truncate(text: string, max: number): string {
 export function editionMetadata(edition: Edition): Metadata {
   const theme = edition.theme
   const description = edition.metaDescription || truncate(edition.manifesto.body, 155)
-  const title = `${edition.year} — ${theme}`
+  const title = `ZSB ${edition.year} — ${theme}`
   const path = editionHref(edition.year)
 
   return {
