@@ -103,7 +103,7 @@ export const tokens = {
     '3xl': { value: 'clamp(64px, 44.58px + 5.1780vw, 144px)' },
     '4xl': { value: 'clamp(96px, 64.93px + 8.2848vw, 224px)' },
     sectionY: { value: 'clamp(80px, 70.29px + 2.5890vw, 120px)' },
-    sectionYLg: { value: 'clamp(100px, 80.58px + 5.1780vw, 180px)' },
+    sectionYLg: { value: 'clamp(150px, 120.87px + 7.7670vw, 270px)' },
 
     gutter: { value: 'clamp(16px, -7.30px + 6.2136vw, 112px)' },
     gridGap: { value: 'clamp(16px, -0.50px + 4.4013vw, 84px)' },

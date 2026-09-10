@@ -65,6 +65,7 @@ export const navigation = sva({
       position: 'relative',
       overflow: 'hidden',
       textDecoration: 'none',
+      background: 'black',
       border: 'hairline',
       transition: 'interactive',
       // Label roll — the muted label exits up while an identical pink copy
