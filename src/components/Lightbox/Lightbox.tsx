@@ -101,6 +101,8 @@ export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: L
   const current = images[displayIndex]
   if (!current) return null
   const caption = current.caption ?? ''
+  const [firstName = '', ...restName] = caption.split(' ')
+  const lastName = restName.join(' ')
 
   const prevIndex = stepIndex(displayIndex, -1, images.length)
   const nextIndex = stepIndex(displayIndex, 1, images.length)
@@ -187,30 +189,6 @@ export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: L
         ref={rootRef}
         style={{ backgroundColor: `rgba(0, 0, 0, ${backdropAlpha})` }}
       >
-        <div className={s.bar}>
-          <div className={s.barNav}>
-            {images.length > 1 && (
-              <>
-                <Button variant="icon" onClick={onPrev} aria-label="Previous image">
-                  <RiArrowLeftSLine size={20} />
-                </Button>
-                <Button variant="icon" onClick={onNext} aria-label="Next image">
-                  <RiArrowRightSLine size={20} />
-                </Button>
-                <span className={s.counter}>
-                  {displayIndex + 1} / {images.length}
-                </span>
-              </>
-            )}
-          </div>
-
-          <span className={s.caption}>{caption}</span>
-
-          <Button variant="icon" onClick={requestClose} aria-label="Close lightbox">
-            <RiCloseLine size={20} />
-          </Button>
-        </div>
-
         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- stage click closes; the close Button is the accessible path */}
         <div
           className={s.stage}
@@ -236,6 +214,43 @@ export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: L
             />
           </div>
           <div className={s.dissolve} ref={overlayRef} aria-hidden />
+        </div>
+
+        <div className={s.bar}>
+          <div className={s.barNav}>
+            {images.length > 1 && (
+              <>
+                <span className={s.counter}>
+                  {displayIndex + 1} / {images.length}
+                </span>
+                <Button variant="icon" onClick={onPrev} aria-label="Previous image">
+                  <RiArrowLeftSLine size={20} />
+                </Button>
+                <Button variant="icon" onClick={onNext} aria-label="Next image">
+                  <RiArrowRightSLine size={20} />
+                </Button>
+              </>
+            )}
+          </div>
+
+          <span className={s.caption}>
+            {lastName ? (
+              <>
+                <span>{firstName}</span> <span>{lastName}</span>
+              </>
+            ) : (
+              caption
+            )}
+          </span>
+
+          <Button
+            variant="icon"
+            className={s.close}
+            onClick={requestClose}
+            aria-label="Close lightbox"
+          >
+            <RiCloseLine size={20} />
+          </Button>
         </div>
 
         {isOpen && preloadSrcs.length > 0 && (

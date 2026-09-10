@@ -10,12 +10,12 @@ export default function EditionLoading() {
   return (
     <main className={styles.page}>
       <div className={styles.hero}>
+        <div className={cx(styles.bone, styles.heroPlate)} />
+
         <div className={styles.heroInner}>
           <div className={styles.heroHead}>
             <div className={cx(styles.bone, styles.heroMast)} />
           </div>
-
-          <div className={cx(styles.bone, styles.heroPlate)} />
 
           <div className={styles.heroLedger}>
             {LEDGER_ROWS.map((row) => (

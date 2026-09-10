@@ -6,11 +6,12 @@ import { Figure } from '@/components/Figure/Figure'
 import { Tooltip } from '@/components/ui/Tooltip/Tooltip'
 import type { Edition } from '@/types/edition'
 
-const styles = hero()
+const PLATE_SIZES = '100vw'
 
-// Read off tokens.ts: the container caps at maxWidth 1800 + 2×gutter 112, and
-// the plate is then (1800 − gridGap 84) / 2. Below `lg` it is the full rail.
-const PLATE_SIZES = '(min-width: 2024px) 858px, (min-width: 1024px) 48vw, 90vw'
+const HERO_INK_BY_YEAR: Record<number, 'black' | 'white'> = {
+  2022: 'black',
+  2024: 'black',
+}
 
 interface HeroProps {
   edition: Pick<
@@ -21,6 +22,8 @@ interface HeroProps {
 
 export function Hero({ edition }: HeroProps) {
   const { year, theme, themeGloss, heroImage, dateRange, venueLine } = edition
+  const ink = HERO_INK_BY_YEAR[year] ?? 'white'
+  const styles = hero({ ink })
   const artistCount = edition.artists.length
   const eventCount = edition.events.length
 
@@ -45,32 +48,32 @@ export function Hero({ edition }: HeroProps) {
 
   return (
     <header className={styles.hero}>
+      <div className={styles.plate}>
+        <div className={styles.frame}>
+          <Figure
+            image={heroImage}
+            sizes={PLATE_SIZES}
+            preload
+            className={cx(styles.image, css({ animationStyle: 'enter.zoom' }))}
+          />
+        </div>
+      </div>
+
       <div className={styles.inner}>
         <div className={styles.head}>
-          <Text as="h1" variant="display" className={styles.mast}>
+          <Text as="h1" variant="display" color={ink} className={styles.mast}>
             <span className={styles.prefix}>ZSB</span>
             {year}
           </Text>
         </div>
 
-        <div className={styles.plate}>
-          <div className={styles.frame}>
-            <Figure
-              image={heroImage}
-              sizes={PLATE_SIZES}
-              preload
-              className={cx(styles.image, css({ animationStyle: 'enter.zoom' }))}
-            />
-          </div>
-        </div>
-
         <dl className={styles.ledger}>
           {facts.map((fact) => (
             <div key={fact.key} className={styles.row}>
-              <Text as="dt" variant="label" className={styles.rowLabel}>
+              <Text as="dt" variant="label" color={ink} className={styles.rowLabel}>
                 {fact.label}
               </Text>
-              <Text as="dd" variant="caption" className={styles.rowValue}>
+              <Text as="dd" variant="caption" color={ink} className={styles.rowValue}>
                 {fact.value}
               </Text>
             </div>

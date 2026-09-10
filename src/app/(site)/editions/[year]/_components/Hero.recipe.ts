@@ -19,24 +19,26 @@ export const hero = sva({
     hero: {
       layerStyle: 'pageHero',
       paddingInline: 'gutter',
+      position: 'relative',
+      minHeight: { base: '[calc(100svh - 80px)]', lg: '[calc(100svh - 120px)]' },
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden',
     },
     inner: {
+      position: 'relative',
+      zIndex: '1',
+      flex: '1',
+      width: 'full',
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      display: 'grid',
-      gridTemplateColumns: '[minmax(0, 1fr)]',
-      gridTemplateAreas: '"head" "plate" "ledger"',
-      rowGap: 'xl',
-      columnGap: 'gridGap',
-      lg: {
-        gridTemplateColumns: '[minmax(0, 1fr) minmax(0, 1fr)]',
-        gridTemplateRows: '[auto 1fr]',
-        gridTemplateAreas: '"head plate" "ledger plate"',
-      },
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      gap: '2xl',
     },
 
     head: {
-      gridArea: 'head',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
@@ -51,15 +53,12 @@ export const hero = sva({
       flexWrap: 'wrap',
       columnGap: '[0.25em]',
     },
-    prefix: { color: 'muted' },
+    prefix: { color: '[currentColor]' },
 
     plate: {
-      gridArea: 'plate',
-      position: 'relative',
-      border: 'hairline',
-      aspectRatio: { base: '1 / 1', md: '16 / 9', lg: '3 / 2' },
-      // Stretch would make the height definite and drop the aspect ratio.
-      lg: { alignSelf: 'center' },
+      position: 'absolute',
+      inset: '0',
+      zIndex: '0',
     },
     frame: {
       position: 'absolute',
@@ -71,12 +70,11 @@ export const hero = sva({
     image: { objectFit: 'cover' },
 
     ledger: {
-      gridArea: 'ledger',
       margin: '0',
       width: 'full',
+      maxWidth: 'narrowColumn',
       animationStyle: 'enter',
       animationDelay: 'stagger',
-      lg: { alignSelf: 'end' },
     },
     row: {
       display: 'grid',
@@ -85,9 +83,17 @@ export const hero = sva({
       alignItems: 'baseline',
       paddingBlock: 'sm',
       borderBottom: 'hairline',
+      borderBottomColor: '[currentColor]',
       _last: { borderBottom: 'none' },
     },
     rowLabel: { margin: '0' },
     rowValue: { margin: '0', overflowWrap: 'anywhere' },
   },
+  variants: {
+    ink: {
+      black: { inner: { color: 'black' } },
+      white: { inner: { color: 'white' } },
+    },
+  },
+  defaultVariants: { ink: 'white' },
 })
