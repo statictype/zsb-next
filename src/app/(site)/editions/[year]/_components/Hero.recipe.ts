@@ -60,7 +60,7 @@ export const hero = sva({
       position: 'absolute',
       inset: '0',
       zIndex: '0',
-      _portrait: {
+      _portraitPhone: {
         position: 'relative',
         inset: 'auto',
         aspectRatio: '1 / 1',
@@ -77,12 +77,12 @@ export const hero = sva({
     image: {
       objectFit: 'cover',
       objectPosition: 'right',
-      _portrait: { display: 'none' },
+      _portraitPhone: { display: 'none' },
     },
     thumb: {
       objectFit: 'cover',
       display: 'none',
-      _portrait: { display: 'block' },
+      _portraitPhone: { display: 'block' },
     },
 
     ledger: {
@@ -91,7 +91,7 @@ export const hero = sva({
       maxWidth: 'narrowColumn',
       animationStyle: 'enter',
       animationDelay: 'stagger',
-      _portrait: { width: 'full' },
+      _portraitPhone: { width: 'full' },
     },
     row: {
       display: 'grid',
@@ -104,14 +104,14 @@ export const hero = sva({
       borderBottomWidth: 'hairlineThin',
       borderBottomColor: '[color-mix(in srgb, currentColor 40%, transparent)]',
       _last: { borderBottomWidth: '0' },
-      _portrait: { paddingRight: '0' },
+      _portraitPhone: { paddingRight: '0' },
     },
     rowLabel: { margin: '0' },
     rowValue: { margin: '0', overflowWrap: 'anywhere' },
   },
   variants: {
     ink: {
-      black: { inner: { color: 'black', _portrait: { color: 'white' } } },
+      black: { inner: { color: 'black', _portraitPhone: { color: 'white' } } },
       white: { inner: { color: 'white' } },
     },
   },
