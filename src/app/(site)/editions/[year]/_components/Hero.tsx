@@ -6,8 +6,10 @@ import { Figure } from '@/components/Figure/Figure'
 import { Tooltip } from '@/components/ui/Tooltip/Tooltip'
 import type { Edition } from '@/types/edition'
 
-const HERO_SIZES = '(orientation: portrait) 1px, 100vw'
-const THUMB_SIZES = '(orientation: portrait) 100vw, 1px'
+const PHONE = '(max-width: 599.98px) and (orientation: portrait)'
+// Only one of the two is ever displayed; the other is asked for at 1px.
+const HERO_SIZES = `${PHONE} 1px, 100vw`
+const THUMB_SIZES = `${PHONE} 100vw, 1px`
 
 const HERO_INK_BY_YEAR: Record<number, 'black' | 'white'> = {
   2022: 'black',

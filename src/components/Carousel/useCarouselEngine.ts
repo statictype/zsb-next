@@ -94,7 +94,7 @@ function readFocusOffset(element: Element) {
 }
 
 /** The elements the rail comes to rest on. Declared by the recipe, because
- *  only the CSS knows that below md in portrait a slide's images are laid out
+ *  only the CSS knows that on a portrait phone a slide's images are laid out
  *  as separate pages rather than as one composed grid. */
 function pages(track: HTMLElement, slides: HTMLElement[]) {
   const mode = getComputedStyle(track).getPropertyValue('--carousel-snap-mode').trim()

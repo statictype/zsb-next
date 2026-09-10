@@ -19,7 +19,7 @@ const SLIDE_HEIGHT_CAP: Record<GallerySize, Record<Band, number>> = {
 
 // Tracks the `_portraitPhone` cell width in GalleryCarousel.recipe.ts, where
 // every image takes a page of its own instead of a share of `--slide-h`.
-const PORTRAIT_PHONE_SIZE = '(max-width: 767.98px) and (orientation: portrait) 82vw'
+const PORTRAIT_PHONE_SIZE = '(max-width: 599.98px) and (orientation: portrait) 82vw'
 
 const BAND_MIN_WIDTH: [Band, number][] = [
   ['4xl', 1792],
