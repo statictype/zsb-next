@@ -3599,13 +3599,6 @@
         },
         "optional": true
       },
-      "title": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
       "dateStart": {
         "type": "objectAttribute",
         "value": {

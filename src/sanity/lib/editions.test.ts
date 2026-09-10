@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { mapCredits, mapEdition, mapEvents } from '@/sanity/lib/editions-mappers'
+import {
+  editionFacts,
+  mapCredits,
+  mapEdition,
+  mapEditionCard,
+  mapEvents,
+} from '@/sanity/lib/editions-mappers'
 import {
   type CreditNamesRow,
   type CreditOrgRow,
@@ -10,6 +16,7 @@ import {
 type RawEvents = Parameters<typeof mapEvents>[0]
 type RawCredits = Parameters<typeof mapCredits>[0]
 type RawEdition = Parameters<typeof mapEdition>[0]
+type RawCard = Parameters<typeof mapEditionCard>[0]
 
 // A well-formed Sanity asset ref so the image adapters can build a CDN URL.
 const ASSET = { asset: { _ref: 'image-abc123def456-1200x800-jpg' }, alt: 'an alt' }
@@ -230,7 +237,6 @@ describe('mapEdition', () => {
     const edition = mapEdition(rawEdition())
     expect(edition.year).toBe(2026)
     expect(edition.dateLine).toBe('10–20 May 2026')
-    expect(edition.title).toBe('')
     expect(edition.manifesto).toEqual({ title: '', highlight: '', body: '' })
     expect(edition.artists).toEqual([])
     expect(edition.credits).toEqual([])
@@ -250,6 +256,58 @@ describe('mapEdition', () => {
   it('defaults hasProgram to true for docs predating the field, honours an explicit false', () => {
     expect(mapEdition(rawEdition()).hasProgram).toBe(true)
     expect(mapEdition(rawEdition({ hasProgram: false })).hasProgram).toBe(false)
+  })
+
+  it('derives the facts from the date range, the venue line, and the mapped lists', () => {
+    const edition = mapEdition(rawEdition({ venueLine: 'CFP', artists: [{ _id: 'a', name: 'A' }] }))
+    expect(edition.facts).toEqual([
+      { kind: 'dates', text: '10–20 May 2026' },
+      { kind: 'venue', text: 'CFP' },
+      { kind: 'artists', count: 1 },
+    ])
+  })
+})
+
+describe('editionFacts', () => {
+  it('keeps dates, venue, artists, events order and omits empty text and zero counts', () => {
+    expect(editionFacts({ dates: '', venue: 'Online', artistCount: 0, eventCount: 3 })).toEqual([
+      { kind: 'venue', text: 'Online' },
+      { kind: 'events', count: 3 },
+    ])
+  })
+})
+
+function rawCard(fields: Record<string, unknown> = {}): RawCard {
+  return {
+    year: 2026,
+    theme: 'Theme',
+    dateStart: '2026-05-10',
+    dateEnd: '2026-05-20',
+    venueLine: 'CFP',
+    artistCount: 44,
+    eventCount: 13,
+    ...fields,
+  } as unknown as RawCard
+}
+
+describe('mapEditionCard', () => {
+  it('leaves the venue out of the facts for an edition with a program', () => {
+    expect(mapEditionCard(rawCard({ hasProgram: true })).facts).toEqual([
+      { kind: 'dates', text: '10–20 May' },
+      { kind: 'artists', count: 44 },
+      { kind: 'events', count: 13 },
+    ])
+  })
+
+  it('includes the venue in the facts for an edition without a program', () => {
+    const card = mapEditionCard(
+      rawCard({ hasProgram: false, venueLine: 'Online', eventCount: null }),
+    )
+    expect(card.facts).toEqual([
+      { kind: 'dates', text: '10–20 May' },
+      { kind: 'venue', text: 'Online' },
+      { kind: 'artists', count: 44 },
+    ])
   })
 })
 

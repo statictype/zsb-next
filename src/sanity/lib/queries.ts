@@ -330,7 +330,6 @@ const EDITION_BY_YEAR_QUERY = defineQuery(`
   *[_type == "edition" && year == $year && status == "live"][0] {
     _id,
     year,
-    title,
     theme,
     themeHighlight,
     themeGloss,

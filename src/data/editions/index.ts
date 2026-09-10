@@ -1,4 +1,3 @@
-import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { type DerivedEditions, deriveEditions } from '@/lib/derive-editions'
 import { todayInBucharest } from '@/lib/today'
 import {
@@ -10,7 +9,7 @@ import {
   getHeroEditionLeadFromSanity,
 } from '@/sanity/lib/editions'
 import { type DynamicFetchOptions, type LivePerspective, PUBLISHED } from '@/sanity/lib/live'
-import type { CalendarEvent, Edition } from '@/types/edition'
+import type { CalendarEvent, Edition, EditionCardData } from '@/types/edition'
 
 /**
  * Every edition lives in Sanity (2021 was migrated in ZSB-20, ADR 0018, retiring

@@ -82,14 +82,6 @@ export const edition = defineType({
       type: 'string',
       group: 'hero',
     }),
-    defineField({
-      name: 'title',
-      title: 'Page title',
-      description: 'Browser tab / SEO title',
-      type: 'string',
-      group: 'hero',
-      validation: (rule) => rule.custom(requiredWhenLive),
-    }),
     // The hero date line, composed by the renderer from the typed fields below
     // (dates + venue line), with a single canonical format + glyph.
     defineField({

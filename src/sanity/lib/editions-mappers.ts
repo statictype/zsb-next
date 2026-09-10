@@ -1,5 +1,4 @@
 import type { EDITION_BY_YEAR_QUERY_RESULT, EDITION_CARDS_QUERY_RESULT } from '@/../sanity.types'
-import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { definedFields } from '@/lib/defined-fields'
 import { composeDateLine, composeDateRange, composeDateSpan, dayToken } from '@/lib/edition-dates'
 import { editionHref } from '@/lib/edition-href'
@@ -7,7 +6,14 @@ import { slugify } from '@/lib/slugify'
 import { rollUpVenue } from '@/lib/venues'
 import { mapCarousel } from '@/sanity/lib/carousel'
 import { requireImageData, type SanityImageField, toImageData } from '@/sanity/lib/image'
-import type { CalendarEvent, CreditEntry, Edition, PartnerMark } from '@/types/edition'
+import type {
+  CalendarEvent,
+  CreditEntry,
+  Edition,
+  EditionCardData,
+  EditionFact,
+  PartnerMark,
+} from '@/types/edition'
 
 export type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
 
@@ -166,6 +172,25 @@ export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
   return out
 }
 
+export function editionFacts({
+  dates,
+  venue,
+  artistCount,
+  eventCount,
+}: {
+  dates: string
+  venue: string
+  artistCount: number
+  eventCount: number
+}): EditionFact[] {
+  const facts: EditionFact[] = []
+  if (dates) facts.push({ kind: 'dates', text: dates })
+  if (venue) facts.push({ kind: 'venue', text: venue })
+  if (artistCount > 0) facts.push({ kind: 'artists', count: artistCount })
+  if (eventCount > 0) facts.push({ kind: 'events', count: eventCount })
+  return facts
+}
+
 /**
  * The /editions archive card slice — same field conventions as `mapEdition`
  * below (required hero fails loudly, optional thumb flows as absence, the
@@ -178,10 +203,12 @@ export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): Edition
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
     themeBody: raw.themeBody ?? '',
-    dateSpan: composeDateSpan(raw),
-    venueLine: raw.hasProgram === false ? (raw.venueLine ?? undefined) : undefined,
-    artistCount: raw.artistCount ?? 0,
-    eventCount: raw.eventCount ?? 0,
+    facts: editionFacts({
+      dates: composeDateSpan(raw),
+      venue: raw.hasProgram === false ? (raw.venueLine ?? '') : '',
+      artistCount: raw.artistCount ?? 0,
+      eventCount: raw.eventCount ?? 0,
+    }),
     heroImage: toImageData(raw.heroImage),
     thumbImage: toImageData(raw.thumbImage),
   })
@@ -193,13 +220,15 @@ export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): Edition
 // enforced them as required. The empty-string / empty-array fallbacks
 // are belt-and-suspenders for an unexpected dataset shape.
 export function mapEdition(raw: SanityEdition): Edition {
+  const dateRange = composeDateRange(raw)
+  const artists = raw.artists ?? []
+  const events = mapEvents(raw.events)
   return definedFields({
     year: raw.year,
-    title: raw.title ?? '',
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
     themeGloss: raw.themeGloss || undefined,
-    dateRange: composeDateRange(raw),
+    dateRange,
     dateLine: composeDateLine(raw),
     dateStart: raw.dateStart ?? '',
     dateEnd: raw.dateEnd ?? '',
@@ -215,9 +244,15 @@ export function mapEdition(raw: SanityEdition): Edition {
     },
     // Older docs predate the field; a missing value means "has a program" (ADR 0018).
     hasProgram: raw.hasProgram ?? true,
-    artists: raw.artists ?? [],
-    events: mapEvents(raw.events),
+    artists,
+    events,
     carousel: mapCarousel(raw.carousel),
     credits: mapCredits(raw.credits),
+    facts: editionFacts({
+      dates: dateRange,
+      venue: raw.venueLine ?? '',
+      artistCount: artists.length,
+      eventCount: events.length,
+    }),
   })
 }

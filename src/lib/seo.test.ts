@@ -45,7 +45,6 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
     year: 2024,
     theme: 'Common Ground',
     themeHighlight: 'Ground',
-    title: 'ZSB 2024 — Common Ground',
     heroImage: { src: 'https://cdn.example/hero.jpg', alt: 'hero' },
     dateRange: '16 April – 11 May 2024',
     dateLine: '16 April – 11 May 2024 · Bucharest',
@@ -61,6 +60,7 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
     events: [event('Combinatul Fondului Plastic'), event('Partner Venues')],
     carousel: [],
     credits: [{ kind: 'names', type: 'primary', label: 'Curator', names: ['Reka Csapo Dup'] }],
+    facts: [],
     ...overrides,
   }
 }
@@ -162,7 +162,7 @@ describe('editionMetadata', () => {
   it('prefers the authored meta description', () => {
     const meta = editionMetadata(makeEdition({ metaDescription: 'Authored description.' }))
     expect(meta.description).toBe('Authored description.')
-    expect(meta.title).toBe('2024 — Common Ground')
+    expect(meta.title).toBe('ZSB 2024 — Common Ground')
     expect(meta.alternates?.canonical).toBe('/editions/2024')
   })
 

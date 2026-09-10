@@ -1,6 +1,5 @@
 import 'server-only'
 
-import type { EditionCardData } from '@/components/EditionCard/EditionCard'
 import { definedFields } from '@/lib/defined-fields'
 import type { EditionLead } from '@/lib/derive-editions'
 import { editionHref } from '@/lib/edition-href'
@@ -14,7 +13,7 @@ import {
   HERO_EDITION,
   SITEMAP,
 } from '@/sanity/lib/queries'
-import type { Edition } from '@/types/edition'
+import type { Edition, EditionCardData } from '@/types/edition'
 
 export interface EditionListItem {
   year: number
