@@ -4,14 +4,10 @@ import type { PRESS_APPEARANCES_QUERY_RESULT, PRESS_RELEASES_QUERY_RESULT } from
 import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
 import { flattenKit, normalizePressPage, type PressPageView } from '@/sanity/lib/press-mappers'
 import {
-  EDITIONS_PRESS_KIT_QUERY,
-  EDITIONS_PRESS_KIT_QUERY_TAGS,
-  PRESS_APPEARANCES_QUERY,
-  PRESS_APPEARANCES_QUERY_TAGS,
-  PRESS_PAGE_QUERY,
-  PRESS_PAGE_QUERY_TAGS,
-  PRESS_RELEASES_QUERY,
-  PRESS_RELEASES_QUERY_TAGS,
+  EDITIONS_PRESS_KIT,
+  PRESS_APPEARANCES,
+  PRESS_PAGE,
+  PRESS_RELEASES,
 } from '@/sanity/lib/queries'
 import type { MediaKitStripItem, PressAppearance } from '@/types/edition'
 
@@ -26,7 +22,7 @@ function mapPressAppearance(raw: PRESS_APPEARANCES_QUERY_RESULT[number]): PressA
 
 export async function getPressPage(options: DynamicFetchOptions): Promise<PressPageView | null> {
   'use cache'
-  const raw = await queryData(PRESS_PAGE_QUERY, options, { tags: PRESS_PAGE_QUERY_TAGS })
+  const raw = await queryData(PRESS_PAGE, options)
   return raw ? normalizePressPage(raw) : null
 }
 
@@ -34,15 +30,13 @@ export async function getPressAppearances(
   options: DynamicFetchOptions,
 ): Promise<PressAppearance[]> {
   'use cache'
-  const rows = await queryData(PRESS_APPEARANCES_QUERY, options, {
-    tags: PRESS_APPEARANCES_QUERY_TAGS,
-  })
+  const rows = await queryData(PRESS_APPEARANCES, options)
   return rows.map(mapPressAppearance)
 }
 
 export async function getPressReleases(options: DynamicFetchOptions): Promise<PressRelease[]> {
   'use cache'
-  return await queryData(PRESS_RELEASES_QUERY, options, { tags: PRESS_RELEASES_QUERY_TAGS })
+  return await queryData(PRESS_RELEASES, options)
 }
 
 /**
@@ -54,8 +48,6 @@ export async function getEditionsPressKit(
   options: DynamicFetchOptions,
 ): Promise<MediaKitStripItem[]> {
   'use cache'
-  const editions = await queryData(EDITIONS_PRESS_KIT_QUERY, options, {
-    tags: EDITIONS_PRESS_KIT_QUERY_TAGS,
-  })
+  const editions = await queryData(EDITIONS_PRESS_KIT, options)
   return flattenKit(editions)
 }

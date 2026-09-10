@@ -3,7 +3,7 @@ import { after, type NextRequest, NextResponse } from 'next/server'
 import { parseBody } from 'next-sanity/webhook'
 import { editionHref } from '@/lib/edition-href'
 import { client } from '@/sanity/lib/client'
-import { EDITION_YEARS_QUERY } from '@/sanity/lib/queries'
+import { EDITION_YEARS } from '@/sanity/lib/queries'
 
 interface WebhookPayload {
   tags: string[]
@@ -25,7 +25,7 @@ interface WebhookPayload {
  *   Secret:     SANITY_REVALIDATE_SECRET (also set as a Vercel env var)
  *
  * The type-level tags only bust anything because every cached fetcher
- * subscribes to them via its query's `_TAGS` list (see `queries.ts`) —
+ * subscribes to them via its query's `tags` (see `queries.ts`) —
  * without those, cache entries carry only opaque per-query sync tags the
  * webhook can never name. Pairs with the in-page sync-tag updates from
  * <SanityLive />, which handles freshness for visitors with the tab
@@ -74,7 +74,7 @@ async function warmAffectedPages(origin: string, tags: string[]) {
   try {
     const paths = ['/', '/visit', '/editions']
     if (tags.some((tag) => tag === 'edition' || tag.startsWith('edition:'))) {
-      const rows = await client.fetch(EDITION_YEARS_QUERY)
+      const rows = await client.fetch(EDITION_YEARS.query)
       for (const row of rows) {
         paths.push(editionHref(row.year))
       }

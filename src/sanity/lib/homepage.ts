@@ -4,7 +4,7 @@ import type { HOMEPAGE_QUERY_RESULT } from '@/../sanity.types'
 import { definedFields } from '@/lib/defined-fields'
 import { toShareImage, urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
-import { HOMEPAGE_QUERY, HOMEPAGE_QUERY_TAGS } from '@/sanity/lib/queries'
+import { HOMEPAGE } from '@/sanity/lib/queries'
 import type { HeroImage, PartnerLogo, ShareImage } from '@/types/edition'
 
 type RawHomepage = NonNullable<HOMEPAGE_QUERY_RESULT>
@@ -66,7 +66,7 @@ function mapPartners(partners: RawHomepage['partnerStrip']): PartnerLogo[] {
  */
 export async function getHomepage(options: DynamicFetchOptions): Promise<HomeView | null> {
   'use cache'
-  const raw = await queryData(HOMEPAGE_QUERY, options, { tags: HOMEPAGE_QUERY_TAGS })
+  const raw = await queryData(HOMEPAGE, options)
   return raw ? normalizeHomepage(raw) : null
 }
 
