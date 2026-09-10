@@ -16,15 +16,6 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
 
 export const SITE_SETTINGS_QUERY_TAGS = ['siteSettings']
 
-// The Visit page's edition switch (ZSB-46): 'latest' or 'upcoming'. The venues
-// view shows whichever edition this resolves to against the derived editions
-// (ADR 0016). Null until set — getVisitEditionLeadFromSanity defaults to latest.
-export const VISIT_EDITION_QUERY = defineQuery(`
-  *[_id == "siteSettings"][0].visitEdition
-`)
-
-export const VISIT_EDITION_QUERY_TAGS = ['siteSettings']
-
 // The home-hero edition switch (ZSB-44): 'latest' or 'upcoming'. The hero leads
 // with whichever edition this resolves to against the derived editions (ADR
 // 0016). Null until set — getHeroEditionLeadFromSanity defaults to latest.
@@ -358,10 +349,8 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
       "venue": venue->{
         name,
         "slug": slug.current,
-        "type": type->title,
         address,
-        mapUrl,
-        "partOf": partOf->{ name, "type": type->title }
+        "partOf": partOf->{ name }
       },
       description,
       image{ ..., "lqip": asset->metadata.lqip },
@@ -405,6 +394,5 @@ export const EDITION_BY_YEAR_QUERY_TAGS = [
   'artist',
   'eventType',
   'venue',
-  'venueType',
   'organization',
 ]

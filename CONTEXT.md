@@ -48,13 +48,13 @@ An event is **individually shareable**: it has its own URL (`/editions/<year>/ev
 
 ### Venue
 
-A place where events happen, saved **once and reused across editions** (a Sanity document, unlike the legacy inline venue entry). A venue has a name, address, Google Maps link, description, and a **venue type**. A venue may be **part of** a parent venue (a studio inside CFP) via a self-reference; the views roll sub-venues up under their parent. An event attaches to the *most specific* venue it happens in. "What's shown at a venue" is no longer typed on the venue — it's simply the events that point to it.
+A place where events happen, saved **once and reused across editions** (a Sanity document, unlike the legacy inline venue entry). A venue has a name, address, Google Maps link, description, and a **venue type**. A venue may be **part of** a parent venue (a studio inside CFP) via a self-reference; the program's venue filter rolls sub-venues up under their parent. An event attaches to the *most specific* venue it happens in. "What's shown at a venue" is no longer typed on the venue — it's simply the events that point to it.
 
-Every event's venue carries a **rolled-up identity** (`rollUp`: the parent venue when it's a sub-venue, else itself) — the single key the three venue-facing surfaces group by: the program's `venue=` filter chips, the Visit venues view, and the JSON-LD Places. It's computed once in the data layer (`rollUpVenue` in `src/lib/venues.ts`, stamped in `mapEvents`), so those surfaces can't disagree on which venues exist (ZSB-65). The Visit venues view's sections are likewise built server-side (`groupVenuesByType`, called in `getVisitEdition`); `VenuesView` is a pure renderer.
+Every event's venue carries a **rolled-up identity** (`rollUp`: the parent venue when it's a sub-venue, else itself) — the single key the two venue-facing surfaces group by: the program's `venue=` filter chips and the JSON-LD Places. It's computed once in the data layer (`rollUpVenue` in `src/lib/venues.ts`, stamped in `mapEvents`), so those surfaces can't disagree on which venues exist (ZSB-65).
 
 ### Event type / Venue type
 
-Team-managed taxonomies, each its own Sanity document (`eventType`, `venueType`) so the team can add to them without a developer. Event types (Opening, Talk, Workshop, Film…) drive the program's filter chips; venue types (partner gallery, studio…) group the venues view. This supersedes the legacy `ProgramBlockType` enum.
+Team-managed taxonomies, each its own Sanity document (`eventType`, `venueType`) so the team can add to them without a developer. Event types (Opening, Talk, Workshop, Film…) drive the program's filter chips; venue types (partner gallery, studio…) categorise venues in the Studio, and no page groups by them. This supersedes the legacy `ProgramBlockType` enum.
 
 ### Program (the section)
 
@@ -66,14 +66,11 @@ The separate area of the program for **multi-day runs** (exhibitions and the lik
 
 ### Latest & Upcoming editions
 
-The two derived editions the homepage and Visit page lean on, instead of a stored "current edition" pointer. **Latest** is the most recent edition that has taken place; **Upcoming** is the next one. They're computed (no manual setting), and past-ness is judged client-side on the cached pages (like the program).
+The two derived editions the home hero leans on, instead of a stored "current edition" pointer. **Latest** is the most recent edition that has taken place; **Upcoming** is the next one. They're computed (no manual setting), and past-ness is judged client-side on the cached pages (like the program).
 
 Each surface decides *which* of them it shows via its **own** control — there is no global site-state:
 
 - **Editions list** (homepage) follows each edition's **status** (`live` → link, anything else → coming-soon row).
 - **Home hero** has a switch — *lead with Latest* or *lead with Upcoming*; leading with Upcoming demotes Latest to a compact secondary presence (its slideshow + CTA kept, integrated).
 - **Homepage featured events** are just the events **marked featured** on the newest **live** edition, past ones hidden — controlled in that edition's event section, nowhere else. (Newest *live*, not highest-year: an `announced` edition's page isn't linkable yet, so featuring its events would point at a 404.)
-- **Visit venues view** has its own, separate Latest/Upcoming switch.
 - **Edition program** shows the day-by-day list when the edition has events (else the coming-soon block); a *finished* edition shows a recap summary + social CTAs with its archive collapsed.
-
-(The old `siteSettings.currentEdition` field is removed once the Visit venues view — its one consumer — moves to the Visit switch (ZSB-46).)

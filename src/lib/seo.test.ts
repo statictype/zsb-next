@@ -29,12 +29,10 @@ function event(venueName: string, parent?: string): CalendarEvent {
     types: [],
     venue: {
       name: venueName,
-      type: 'Gallery',
-      ...(parent ? { partOf: { name: parent, type: 'Cultural centre' } } : {}),
+      ...(parent ? { partOf: { name: parent } } : {}),
       rollUp: rollUpVenue({
         name: venueName,
-        type: 'Gallery',
-        ...(parent ? { partOf: { name: parent, type: 'Cultural centre' } } : {}),
+        ...(parent ? { partOf: { name: parent } } : {}),
       }),
     },
     description: '',

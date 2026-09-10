@@ -1,10 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  type DerivableEdition,
-  type DerivedEditions,
-  deriveEditions,
-  resolveLeadEdition,
-} from '@/lib/derive-editions'
+import { type DerivableEdition, deriveEditions } from '@/lib/derive-editions'
 
 // A few editions around a known "today" of 2026-03-01:
 //   2024 / 2025 — past;  2026 — future (run-up);  2021 — online, no dateStart.
@@ -52,25 +47,5 @@ describe('deriveEditions', () => {
     const { latest, upcoming } = deriveEditions([e2024, e2025, e2026], null)
     expect(latest).toBe(e2026)
     expect(upcoming).toBeNull()
-  })
-})
-
-describe('resolveLeadEdition', () => {
-  const both: DerivedEditions<DerivableEdition> = { latest: e2025, upcoming: e2026 }
-
-  it('leads with latest', () => {
-    expect(resolveLeadEdition('latest', both)).toBe(e2025)
-  })
-
-  it('leads with upcoming when one exists', () => {
-    expect(resolveLeadEdition('upcoming', both)).toBe(e2026)
-  })
-
-  it('falls back to latest when leading with upcoming but none is ahead', () => {
-    expect(resolveLeadEdition('upcoming', { latest: e2025, upcoming: null })).toBe(e2025)
-  })
-
-  it('is null when there are no editions at all', () => {
-    expect(resolveLeadEdition('latest', { latest: null, upcoming: null })).toBeNull()
   })
 })

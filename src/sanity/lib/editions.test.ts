@@ -30,7 +30,7 @@ function ev(fields: Record<string, unknown> = {}) {
     startDate: '2026-05-15',
     description: '',
     types: [{ title: 'Opening', slug: 'opening' }],
-    venue: { name: 'CFP', type: 'Partner venue' },
+    venue: { name: 'CFP' },
     ...fields,
   }
 }
@@ -48,7 +48,7 @@ describe('mapEvents — slug derivation (ADR 0015)', () => {
 
   it('prefers the venue document slug over its name when set', () => {
     const [event] = mapEvents(
-      events(ev({ venue: { name: 'Combinatul Fondului Plastic', type: 'v', slug: 'cfp' } })),
+      events(ev({ venue: { name: 'Combinatul Fondului Plastic', slug: 'cfp' } })),
     )!
     expect(event?.slug).toBe('15-may-cfp-opening')
   })
@@ -85,11 +85,10 @@ describe('mapEvents — slug derivation (ADR 0015)', () => {
 
 describe('mapEvents — venue rollup stamp (ZSB-65)', () => {
   it('stamps the venue itself when it has no parent', () => {
-    const [event] = mapEvents(events(ev({ venue: { name: 'Galeria Simeza', type: 'gallery' } })))!
+    const [event] = mapEvents(events(ev({ venue: { name: 'Galeria Simeza' } })))!
     expect(event?.venue.rollUp).toEqual({
       name: 'Galeria Simeza',
       slug: 'galeria-simeza',
-      type: 'gallery',
     })
   })
 
@@ -97,18 +96,13 @@ describe('mapEvents — venue rollup stamp (ZSB-65)', () => {
     const [event] = mapEvents(
       events(
         ev({
-          venue: {
-            name: 'UNAgaleria',
-            type: 'Partner gallery',
-            partOf: { name: 'Combinatul Fondului Plastic', type: 'Partner venue' },
-          },
+          venue: { name: 'UNAgaleria', partOf: { name: 'Combinatul Fondului Plastic' } },
         }),
       ),
     )!
     expect(event?.venue.rollUp).toEqual({
       name: 'Combinatul Fondului Plastic',
       slug: 'combinatul-fondului-plastic',
-      type: 'Partner venue',
     })
   })
 })
