@@ -21,6 +21,8 @@ export const conditions = {
   motionSafe: '@media (prefers-reduced-motion: no-preference)',
   motionReduce: '@media (prefers-reduced-motion: reduce)',
 
+  portrait: '@media (orientation: portrait)',
+
   hover: '&:is(:hover, [data-hover]):not(:disabled, [aria-disabled=true], [data-disabled])',
   active: '&:is(:active, [data-active]):not(:disabled, [aria-disabled=true], [data-disabled])',
 } as const

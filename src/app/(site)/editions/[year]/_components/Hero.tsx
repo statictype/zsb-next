@@ -6,7 +6,8 @@ import { Figure } from '@/components/Figure/Figure'
 import { Tooltip } from '@/components/ui/Tooltip/Tooltip'
 import type { Edition } from '@/types/edition'
 
-const PLATE_SIZES = '100vw'
+const HERO_SIZES = '(orientation: portrait) 1px, 100vw'
+const THUMB_SIZES = '(orientation: portrait) 100vw, 1px'
 
 const HERO_INK_BY_YEAR: Record<number, 'black' | 'white'> = {
   2022: 'black',
@@ -16,12 +17,20 @@ const HERO_INK_BY_YEAR: Record<number, 'black' | 'white'> = {
 interface HeroProps {
   edition: Pick<
     Edition,
-    'year' | 'theme' | 'themeGloss' | 'heroImage' | 'dateRange' | 'venueLine' | 'artists' | 'events'
+    | 'year'
+    | 'theme'
+    | 'themeGloss'
+    | 'heroImage'
+    | 'thumbImage'
+    | 'dateRange'
+    | 'venueLine'
+    | 'artists'
+    | 'events'
   >
 }
 
 export function Hero({ edition }: HeroProps) {
-  const { year, theme, themeGloss, heroImage, dateRange, venueLine } = edition
+  const { year, theme, themeGloss, heroImage, thumbImage, dateRange, venueLine } = edition
   const ink = HERO_INK_BY_YEAR[year] ?? 'white'
   const styles = hero({ ink })
   const artistCount = edition.artists.length
@@ -52,16 +61,22 @@ export function Hero({ edition }: HeroProps) {
         <div className={styles.frame}>
           <Figure
             image={heroImage}
-            sizes={PLATE_SIZES}
+            sizes={HERO_SIZES}
             preload
             className={cx(styles.image, css({ animationStyle: 'enter.zoom' }))}
+          />
+          <Figure
+            image={thumbImage ?? heroImage}
+            sizes={THUMB_SIZES}
+            preload
+            className={cx(styles.thumb, css({ animationStyle: 'enter.zoom' }))}
           />
         </div>
       </div>
 
       <div className={styles.inner}>
         <div className={styles.head}>
-          <Text as="h1" variant="display" color={ink} className={styles.mast}>
+          <Text as="h1" variant="display" className={styles.mast}>
             <span className={styles.prefix}>ZSB</span>
             {year}
           </Text>
@@ -70,10 +85,10 @@ export function Hero({ edition }: HeroProps) {
         <dl className={styles.ledger}>
           {facts.map((fact) => (
             <div key={fact.key} className={styles.row}>
-              <Text as="dt" variant="label" color={ink} className={styles.rowLabel}>
+              <Text as="dt" variant="label" className={styles.rowLabel}>
                 {fact.label}
               </Text>
-              <Text as="dd" variant="caption" color={ink} className={styles.rowValue}>
+              <Text as="dd" variant="caption" className={styles.rowValue}>
                 {fact.value}
               </Text>
             </div>
