@@ -203,7 +203,7 @@ Wired via `next-sanity` v13 + the route-group split (`app/(site)/` vs `app/studi
 Cache Components forbids reading request data (`draftMode()`, `cookies()`) inside `'use cache'` boundaries, so each draft-previewable page is split in two across the cache line: a **Dynamic** half that reads the request and a **Cached** half keyed on its result. The split itself is mandatory; two seams keep it from becoming per-page boilerplate:
 
 - **`<DraftAware cached={…} fallback={…} />`** (`src/components/DraftAware/`) owns the Dynamic half — the `draftMode()` branch, the published-default short-circuit (public path stays fully static), the Suspense wrapper, and the options resolution. A page supplies only its cached leaf and its fallback. The `'use cache'` leaf **stays lexically in the page** so the cache key remains local and serializable.
-- **`queryData(query, options, extras?)`** (`live.ts`) is the single bridge from `DynamicFetchOptions` to `sanityFetch`; every fetcher routes through it.
+- **`queryData(taggedQuery, options, params?)`** (`live.ts`) is the single bridge from `DynamicFetchOptions` to `sanityFetch`; every fetcher routes through it.
 
 ```tsx
 // page.tsx — most pages
@@ -236,7 +236,7 @@ Singleton image fields are `required()`, so on any seeded (published) dataset th
 ### Helpers in `src/sanity/lib/live.ts`
 
 - `sanityFetch` — low-level fetcher. Strict mode requires every call to pass `perspective` + `stega`. In normal fetchers you call `queryData` rather than this directly; `sanityFetch` is referenced only inside `live.ts`.
-- `queryData(query, options, extras?)` — the bridge that threads `options.perspective` + `options.stega` onto a `sanityFetch` call. `extras` is `{ params?, tags? }`; `tags` (the query's `_TAGS` list) are stamped on the cache entry so the revalidation webhook can match it. The single seam between `DynamicFetchOptions` and the query; call it from inside a fetcher's `'use cache'` body. Not cached itself.
+- `queryData(taggedQuery, options, params?)` — the bridge that threads `options.perspective` + `options.stega` onto a `sanityFetch` call. `taggedQuery` is a `{ query, tags }` value from `queries.ts`; its `tags` are stamped on the cache entry so the revalidation webhook can match it. The single seam between `DynamicFetchOptions` and the query; call it from inside a fetcher's `'use cache'` body. Not cached itself.
 - `getDynamicFetchOptions()` — resolves perspective + stega from draft mode + cookies. Must be called *outside* `'use cache'`.
 - `sanityFetchStaticParams()` — for `generateStaticParams`. Hardcoded published, no stega, build-time only.
 - `sanityFetchMetadata()` — for `generateMetadata` / `sitemap.ts` / `opengraph-image.tsx`. Perspective preserved (so Presentation can preview metadata for drafts), stega always off.
@@ -254,7 +254,7 @@ Stega = Sanity's mechanism for embedding invisible characters in strings so the 
 
 `next.config.ts` sets `cacheLife: { default: sanity }` (the `next-sanity/live/cache-life` preset) — every cached `sanityFetch` lives until a sync-tag invalidates it, no 15-minute timer.
 
-Cached helpers (`'use cache'` directive) live in `src/sanity/lib/editions.ts` and `src/data/editions/index.ts`. Each call inside a cache boundary tags itself two ways via `sanityFetch`: opaque per-query **sync tags** (automatic — what `<SanityLive />` revalidates for open tabs) and the query's **type-level tags** — the co-located `_TAGS` list next to each query in `queries.ts`, naming every document type the query reads including `->` joins. The type-level tags are what the webhook channel matches; a query missing them is invisible to webhook invalidation. Tags propagate from inner cache scopes to outer ones, so tagging the `queryData` leaf covers wrapper caches and page shells.
+Cached helpers (`'use cache'` directive) live in `src/sanity/lib/editions.ts` and `src/data/editions/index.ts`. Each call inside a cache boundary tags itself two ways via `sanityFetch`: opaque per-query **sync tags** (automatic — what `<SanityLive />` revalidates for open tabs) and the query's **type-level tags** — the `tags` field exported with each query in `queries.ts`, naming every document type the query reads including `->` joins. The type-level tags are what the webhook channel matches; a query missing them is invisible to webhook invalidation. Tags propagate from inner cache scopes to outer ones, so tagging the `queryData` leaf covers wrapper caches and page shells.
 
 For HTML cache invalidation (visitors hitting a deeply cached response, not just open tabs), the Sanity webhook target is `/api/revalidate/tag`. It expects a GROQ-projected payload of `{ tags: string[] }`, validates the signature against `SANITY_REVALIDATE_SECRET`, calls `revalidateTag(tag, { expire: 0 })` for each, then **warms** the affected pages (homepage, `/visit`, `/editions`, plus every live year's edition page when an edition changed) in an `after()` callback so the refill cost lands at publish time, not on the first visitor. Configure the webhook in [sanity.io/manage](https://sanity.io/manage) → API → Webhooks:
 
@@ -265,7 +265,7 @@ For HTML cache invalidation (visitors hitting a deeply cached response, not just
 - **Trigger on:** Create, Update, Delete · **Include drafts:** off
 - **Secret:** value of `SANITY_REVALIDATE_SECRET` (also set as a Vercel env var, Production)
 
-`<SanityLive />` handles freshness for open tabs; the webhook handles freshness for cached HTML. If a publish doesn't reach prod, check the webhook's delivery log in sanity.io/manage first (a 401 means the secret no longer matches Vercel's `SANITY_REVALIDATE_SECRET`), then verify the published page's cache entry actually carries the type tag (the query's `_TAGS` list).
+`<SanityLive />` handles freshness for open tabs; the webhook handles freshness for cached HTML. If a publish doesn't reach prod, check the webhook's delivery log in sanity.io/manage first (a 401 means the secret no longer matches Vercel's `SANITY_REVALIDATE_SECRET`), then verify the published page's cache entry actually carries the type tag (the query's `tags`).
 
 ## Editions: all in Sanity
 
@@ -341,13 +341,13 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
 
 3. **Singleton enforcement** — add `'contactPage'` to `SINGLETON_TYPES` in `src/sanity/lib/singleton.ts`. Add `singletonListItem(S, 'contactPage', 'Contact').icon(EnvelopeIcon)` to the structure tree.
 
-4. **Query + tags** in `src/sanity/lib/queries.ts` — every query gets a companion `_TAGS` list naming each document type it reads, including types reached through `->` joins:
+4. **Query + tags** in `src/sanity/lib/queries.ts` — the GROQ string is a private `defineQuery` const (typegen reads it from there), exported with `tags` naming each document type it reads, including types reached through `->` joins:
    ```ts
-   export const CONTACT_PAGE_QUERY = defineQuery(`
+   const CONTACT_PAGE_QUERY = defineQuery(`
      *[_id == "contactPage"][0]{ hero, body }
    `)
 
-   export const CONTACT_PAGE_QUERY_TAGS = ['contactPage']
+   export const CONTACT_PAGE = { query: CONTACT_PAGE_QUERY, tags: ['contactPage'] }
    ```
 
 5. **`pnpm typegen`** — `CONTACT_PAGE_QUERY_RESULT` becomes typed.
@@ -357,7 +357,7 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
    import 'server-only'
    import type { CONTACT_PAGE_QUERY_RESULT } from '@/../sanity.types'
    import { type DynamicFetchOptions, queryData } from './live'
-   import { CONTACT_PAGE_QUERY, CONTACT_PAGE_QUERY_TAGS } from './queries'
+   import { CONTACT_PAGE } from './queries'
 
    export type ContactPage = NonNullable<CONTACT_PAGE_QUERY_RESULT>
 
@@ -365,9 +365,7 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
      options: DynamicFetchOptions,
    ): Promise<ContactPage | null> {
      'use cache'
-     return (
-       (await queryData(CONTACT_PAGE_QUERY, options, { tags: CONTACT_PAGE_QUERY_TAGS })) ?? null
-     )
+     return (await queryData(CONTACT_PAGE, options)) ?? null
    }
    ```
 
@@ -407,4 +405,4 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
 
 9. **Missing singleton → 404; normalize in the layer.** A page singleton that isn't published is a 404 — the cached leaf calls `notFound()` on a null fetch (like `CachedEdition`), not a render-with-empties. For a *present* singleton, normalize in the **data layer**: the fetcher returns a **total view-model** — text coalesced to `''`, lists to `[]`, and only genuinely-optional members (images, optional sections, SEO) left absent — so the page Shell is a pure renderer with no `?? ''` / `?? []`. Missing *images* still resolve to `PLACEHOLDER_IMAGE` (`src/lib/placeholder.ts`). See `getAboutPage` / `normalizeAbout` for the pattern (About, Partners, Privacy, Home, Press all follow it; Visit + `siteSettings` stay genuine-optional consumers — their absence is branched on, not 404'd).
 
-10. **Webhook filter + query tags** — when adding a new doc type, add it to the GROQ filter on the `/api/revalidate/tag` webhook in [sanity.io/manage](https://sanity.io/manage), and give every query that reads it (including via `->` joins) the type in its co-located `_TAGS` list in `queries.ts`. Both sides are required: the filter decides whether a publish fires at all, the tags decide whether it busts anything.
+10. **Webhook filter + query tags** — when adding a new doc type, add it to the GROQ filter on the `/api/revalidate/tag` webhook in [sanity.io/manage](https://sanity.io/manage), and give every query that reads it (including via `->` joins) the type in its `tags` in `queries.ts`. Both sides are required: the filter decides whether a publish fires at all, the tags decide whether it busts anything.

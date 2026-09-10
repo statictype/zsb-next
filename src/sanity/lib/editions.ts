@@ -7,18 +7,12 @@ import { editionHref } from '@/lib/edition-href'
 import { mapEdition, mapEditionCard } from '@/sanity/lib/editions-mappers'
 import { type DynamicFetchOptions, PUBLISHED, queryData } from '@/sanity/lib/live'
 import {
-  EDITION_BY_YEAR_QUERY,
-  EDITION_BY_YEAR_QUERY_TAGS,
-  EDITION_CARDS_QUERY,
-  EDITION_CARDS_QUERY_TAGS,
-  EDITION_YEARS_QUERY,
-  EDITION_YEARS_QUERY_TAGS,
-  EDITIONS_LIST_QUERY,
-  EDITIONS_LIST_QUERY_TAGS,
-  HERO_EDITION_QUERY,
-  HERO_EDITION_QUERY_TAGS,
-  SITEMAP_QUERY,
-  SITEMAP_QUERY_TAGS,
+  EDITION_BY_YEAR,
+  EDITION_CARDS,
+  EDITION_YEARS,
+  EDITIONS_LIST,
+  HERO_EDITION,
+  SITEMAP,
 } from '@/sanity/lib/queries'
 import type { Edition } from '@/types/edition'
 
@@ -44,10 +38,7 @@ export async function getEditionFromSanity(
   options: DynamicFetchOptions,
 ): Promise<Edition | undefined> {
   'use cache'
-  const raw = await queryData(EDITION_BY_YEAR_QUERY, options, {
-    params: { year },
-    tags: EDITION_BY_YEAR_QUERY_TAGS,
-  })
+  const raw = await queryData(EDITION_BY_YEAR, options, { year })
   return raw ? mapEdition(raw) : undefined
 }
 
@@ -61,10 +52,7 @@ export async function getHeroEditionLeadFromSanity(
   options: DynamicFetchOptions,
 ): Promise<EditionLead> {
   'use cache'
-  return (await queryData(HERO_EDITION_QUERY, options, { tags: HERO_EDITION_QUERY_TAGS })) ===
-    'upcoming'
-    ? 'upcoming'
-    : 'latest'
+  return (await queryData(HERO_EDITION, options)) === 'upcoming' ? 'upcoming' : 'latest'
 }
 
 /** One row per live edition, newest first. */
@@ -78,7 +66,7 @@ export interface EditionYearRow {
  */
 export async function getEditionYearsFromSanity(): Promise<EditionYearRow[]> {
   'use cache'
-  return await queryData(EDITION_YEARS_QUERY, PUBLISHED, { tags: EDITION_YEARS_QUERY_TAGS })
+  return await queryData(EDITION_YEARS, PUBLISHED)
 }
 
 /**
@@ -90,7 +78,7 @@ export async function getEditionCardsFromSanity(
   options: DynamicFetchOptions,
 ): Promise<EditionCardData[]> {
   'use cache'
-  const data = await queryData(EDITION_CARDS_QUERY, options, { tags: EDITION_CARDS_QUERY_TAGS })
+  const data = await queryData(EDITION_CARDS, options)
   return data.map(mapEditionCard)
 }
 
@@ -100,7 +88,7 @@ export async function getEditionCardsFromSanity(
  */
 export async function getSitemapMetadataFromSanity() {
   'use cache'
-  return queryData(SITEMAP_QUERY, PUBLISHED, { tags: SITEMAP_QUERY_TAGS })
+  return queryData(SITEMAP, PUBLISHED)
 }
 
 /**
@@ -113,7 +101,7 @@ export async function getEditionsListFromSanity(
   options: DynamicFetchOptions,
 ): Promise<EditionListItem[]> {
   'use cache'
-  const data = await queryData(EDITIONS_LIST_QUERY, options, { tags: EDITIONS_LIST_QUERY_TAGS })
+  const data = await queryData(EDITIONS_LIST, options)
   return data.flatMap((entry) => {
     if (!entry.year || !entry.theme) return []
     const status = entry.status === 'live' ? ('live' as const) : ('announced' as const)

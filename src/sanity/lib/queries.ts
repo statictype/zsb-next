@@ -1,12 +1,15 @@
 import { defineQuery } from 'next-sanity'
 
-// Each query has a companion `_TAGS` list: every document type its result
+// Each query is exported with its `tags`: every document type its result
 // reads, including types reached through `->` joins. `queryData` forwards the
 // list to `sanityFetch`, which stamps it on the cache entry — that is what the
 // revalidation webhook's type-level tags (`_type` in the projection) match
-// against. When a query grows a new join, its `_TAGS` list must grow with it.
+// against. When a query grows a new join, its `tags` must grow with it.
+//
+// Typegen only reads `defineQuery` calls assigned directly to a variable, so
+// each GROQ string stays its own const rather than being inlined as `query:`.
 
-export const SITE_SETTINGS_QUERY = defineQuery(`
+const SITE_SETTINGS_QUERY = defineQuery(`
   *[_id == "siteSettings"][0]{
     contactEmail,
     instagramUrl,
@@ -14,18 +17,18 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
   }
 `)
 
-export const SITE_SETTINGS_QUERY_TAGS = ['siteSettings']
+export const SITE_SETTINGS = { query: SITE_SETTINGS_QUERY, tags: ['siteSettings'] }
 
 // The home-hero edition switch (ZSB-44): 'latest' or 'upcoming'. The hero leads
 // with whichever edition this resolves to against the derived editions (ADR
 // 0016). Null until set — getHeroEditionLeadFromSanity defaults to latest.
-export const HERO_EDITION_QUERY = defineQuery(`
+const HERO_EDITION_QUERY = defineQuery(`
   *[_id == "siteSettings"][0].heroEdition
 `)
 
-export const HERO_EDITION_QUERY_TAGS = ['siteSettings']
+export const HERO_EDITION = { query: HERO_EDITION_QUERY, tags: ['siteSettings'] }
 
-export const HOMEPAGE_QUERY = defineQuery(`
+const HOMEPAGE_QUERY = defineQuery(`
   *[_id == "homepage"][0]{
     heroTitle,
     heroLead,
@@ -48,9 +51,9 @@ export const HOMEPAGE_QUERY = defineQuery(`
   }
 `)
 
-export const HOMEPAGE_QUERY_TAGS = ['homepage', 'edition', 'organization']
+export const HOMEPAGE = { query: HOMEPAGE_QUERY, tags: ['homepage', 'edition', 'organization'] }
 
-export const EDITIONS_LIST_QUERY = defineQuery(`
+const EDITIONS_LIST_QUERY = defineQuery(`
   *[_type == "edition" && defined(year)] | order(year desc) {
     year,
     theme,
@@ -60,9 +63,9 @@ export const EDITIONS_LIST_QUERY = defineQuery(`
   }
 `)
 
-export const EDITIONS_LIST_QUERY_TAGS = ['edition']
+export const EDITIONS_LIST = { query: EDITIONS_LIST_QUERY, tags: ['edition'] }
 
-export const ABOUT_PAGE_QUERY = defineQuery(`
+const ABOUT_PAGE_QUERY = defineQuery(`
   *[_id == "aboutPage"][0]{
     hero,
     manifestoTitle,
@@ -87,9 +90,9 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
   }
 `)
 
-export const ABOUT_PAGE_QUERY_TAGS = ['aboutPage']
+export const ABOUT_PAGE = { query: ABOUT_PAGE_QUERY, tags: ['aboutPage'] }
 
-export const PARTNERS_PAGE_QUERY = defineQuery(`
+const PARTNERS_PAGE_QUERY = defineQuery(`
   *[_id == "partnersPage"][0]{
     hero,
     eventTitle,
@@ -108,9 +111,9 @@ export const PARTNERS_PAGE_QUERY = defineQuery(`
   }
 `)
 
-export const PARTNERS_PAGE_QUERY_TAGS = ['partnersPage']
+export const PARTNERS_PAGE = { query: PARTNERS_PAGE_QUERY, tags: ['partnersPage'] }
 
-export const VISIT_PAGE_QUERY = defineQuery(`
+const VISIT_PAGE_QUERY = defineQuery(`
   *[_id == "visitPage"][0]{
     venueName,
     street,
@@ -126,9 +129,9 @@ export const VISIT_PAGE_QUERY = defineQuery(`
   }
 `)
 
-export const VISIT_PAGE_QUERY_TAGS = ['visitPage']
+export const VISIT_PAGE = { query: VISIT_PAGE_QUERY, tags: ['visitPage'] }
 
-export const PRIVACY_PAGE_QUERY = defineQuery(`
+const PRIVACY_PAGE_QUERY = defineQuery(`
   *[_id == "privacyPage"][0]{
     hero,
     body,
@@ -138,9 +141,9 @@ export const PRIVACY_PAGE_QUERY = defineQuery(`
   }
 `)
 
-export const PRIVACY_PAGE_QUERY_TAGS = ['privacyPage']
+export const PRIVACY_PAGE = { query: PRIVACY_PAGE_QUERY, tags: ['privacyPage'] }
 
-export const PRESS_PAGE_QUERY = defineQuery(`
+const PRESS_PAGE_QUERY = defineQuery(`
   *[_id == "pressPage"][0]{
     hero,
     ogImage,
@@ -148,9 +151,9 @@ export const PRESS_PAGE_QUERY = defineQuery(`
   }
 `)
 
-export const PRESS_PAGE_QUERY_TAGS = ['pressPage']
+export const PRESS_PAGE = { query: PRESS_PAGE_QUERY, tags: ['pressPage'] }
 
-export const PRESS_APPEARANCES_QUERY = defineQuery(`
+const PRESS_APPEARANCES_QUERY = defineQuery(`
   *[_type == "pressAppearance"] | order(year desc, title asc) {
     _id,
     medium,
@@ -162,9 +165,9 @@ export const PRESS_APPEARANCES_QUERY = defineQuery(`
   }
 `)
 
-export const PRESS_APPEARANCES_QUERY_TAGS = ['pressAppearance']
+export const PRESS_APPEARANCES = { query: PRESS_APPEARANCES_QUERY, tags: ['pressAppearance'] }
 
-export const PRESS_RELEASES_QUERY = defineQuery(`
+const PRESS_RELEASES_QUERY = defineQuery(`
   *[_type == "pressRelease" && defined(edition->year)]
     | order(publishedAt desc, language asc) {
       _id,
@@ -178,12 +181,12 @@ export const PRESS_RELEASES_QUERY = defineQuery(`
     }
 `)
 
-export const PRESS_RELEASES_QUERY_TAGS = ['pressRelease', 'edition']
+export const PRESS_RELEASES = { query: PRESS_RELEASES_QUERY, tags: ['pressRelease', 'edition'] }
 
 // All editions that have at least one Press-kit asset, newest year first.
 // The renderer flattens poster + coverPhoto into a single strip.
 // Image fields include hotspot/crop + asset metadata for LQIP + dimensions.
-export const EDITIONS_PRESS_KIT_QUERY = defineQuery(`
+const EDITIONS_PRESS_KIT_QUERY = defineQuery(`
   *[_type == "edition" && defined(year) && (defined(pressKit.poster) || defined(pressKit.coverPhoto))]
     | order(year desc) {
       year,
@@ -198,9 +201,9 @@ export const EDITIONS_PRESS_KIT_QUERY = defineQuery(`
     }
 `)
 
-export const EDITIONS_PRESS_KIT_QUERY_TAGS = ['edition']
+export const EDITIONS_PRESS_KIT = { query: EDITIONS_PRESS_KIT_QUERY, tags: ['edition'] }
 
-export const ARTISTS_QUERY = defineQuery(`
+const ARTISTS_QUERY = defineQuery(`
   *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc) {
     _id,
     name,
@@ -212,24 +215,24 @@ export const ARTISTS_QUERY = defineQuery(`
   }
 `)
 
-export const ARTISTS_QUERY_TAGS = ['artist']
+export const ARTISTS = { query: ARTISTS_QUERY, tags: ['artist'] }
 
 // Identity + display name, surname-ordered — for the artists index and the
 // homepage banner. `_id` exists purely as a stable React key. Only artists a
 // live edition lists: an announced edition's lineup is not public yet.
-export const ARTIST_INDEX_QUERY = defineQuery(`
+const ARTIST_INDEX_QUERY = defineQuery(`
   *[_type == "artist" && defined(slug.current)
     && _id in *[_type == "edition" && status == "live"].artists[]._ref]
     | order(coalesce(sortName, name) asc){ _id, name }
 `)
 
 // 'edition' too: flipping an edition to live changes who this returns.
-export const ARTIST_INDEX_QUERY_TAGS = ['artist', 'edition']
+export const ARTIST_INDEX = { query: ARTIST_INDEX_QUERY, tags: ['artist', 'edition'] }
 
 // Every artist plus each live edition's lineup, uninverted. `mapArtistCloud`
 // inverts the refs and is also what drops artists no live edition lists — this
 // query deliberately does not filter them, unlike ARTIST_INDEX_QUERY.
-export const ARTIST_CLOUD_QUERY = defineQuery(`
+const ARTIST_CLOUD_QUERY = defineQuery(`
   {
     "artists": *[_type == "artist" && defined(slug.current)]
       | order(coalesce(sortName, name) asc){ _id, name },
@@ -240,9 +243,9 @@ export const ARTIST_CLOUD_QUERY = defineQuery(`
   }
 `)
 
-export const ARTIST_CLOUD_QUERY_TAGS = ['artist', 'edition']
+export const ARTIST_CLOUD = { query: ARTIST_CLOUD_QUERY, tags: ['artist', 'edition'] }
 
-export const ARTIST_BY_SLUG_QUERY = defineQuery(`
+const ARTIST_BY_SLUG_QUERY = defineQuery(`
   *[_type == "artist" && slug.current == $slug][0] {
     _id,
     name,
@@ -255,22 +258,22 @@ export const ARTIST_BY_SLUG_QUERY = defineQuery(`
   }
 `)
 
-export const ARTIST_BY_SLUG_QUERY_TAGS = ['artist']
+export const ARTIST_BY_SLUG = { query: ARTIST_BY_SLUG_QUERY, tags: ['artist'] }
 
 // Live edition years, newest first. Live-only because the consumers enumerate
 // reachable pages: the edition page is gated `status == "live"`, so any other
 // year would bake a 404.
-export const EDITION_YEARS_QUERY = defineQuery(`
+const EDITION_YEARS_QUERY = defineQuery(`
   *[_type == "edition" && defined(year) && status == "live"] | order(year desc){ year }
 `)
 
-export const EDITION_YEARS_QUERY_TAGS = ['edition']
+export const EDITION_YEARS = { query: EDITION_YEARS_QUERY, tags: ['edition'] }
 
 // Everything the sitemap needs to emit honest `lastModified` dates in a
 // single round trip: each live edition's content-update time, the six
 // page singletons' update times, and the newest artist edit (the /artists
 // index reflects the collection, so its freshest member dates it).
-export const SITEMAP_QUERY = defineQuery(`
+const SITEMAP_QUERY = defineQuery(`
   {
     "editions": *[_type == "edition" && defined(year) && status == "live"]
       | order(year desc){ year, _updatedAt },
@@ -283,21 +286,24 @@ export const SITEMAP_QUERY = defineQuery(`
   }
 `)
 
-export const SITEMAP_QUERY_TAGS = [
-  'edition',
-  'homepage',
-  'aboutPage',
-  'visitPage',
-  'partnersPage',
-  'pressPage',
-  'privacyPage',
-  'artist',
-]
+export const SITEMAP = {
+  query: SITEMAP_QUERY,
+  tags: [
+    'edition',
+    'homepage',
+    'aboutPage',
+    'visitPage',
+    'partnersPage',
+    'pressPage',
+    'privacyPage',
+    'artist',
+  ],
+}
 
 // The /editions archive index: exactly the card slice (`EditionCardData`) —
 // theme, date inputs, counts, imagery — instead of N full-edition fetches.
 // Status-filtered and year-desc like the page itself.
-export const EDITION_CARDS_QUERY = defineQuery(`
+const EDITION_CARDS_QUERY = defineQuery(`
   *[_type == "edition" && defined(year) && status == "live"] | order(year desc) {
     year,
     theme,
@@ -314,13 +320,13 @@ export const EDITION_CARDS_QUERY = defineQuery(`
   }
 `)
 
-export const EDITION_CARDS_QUERY_TAGS = ['edition']
+export const EDITION_CARDS = { query: EDITION_CARDS_QUERY, tags: ['edition'] }
 
 // Only live editions have a viewable page — the gate tests the stable value
 // (`== "live"`), so any other status (announced, legacy values, future
 // additions) is unreachable by default. Fetching a non-live edition returns
 // null so the route 404s.
-export const EDITION_BY_YEAR_QUERY = defineQuery(`
+const EDITION_BY_YEAR_QUERY = defineQuery(`
   *[_type == "edition" && year == $year && status == "live"][0] {
     _id,
     year,
@@ -389,10 +395,7 @@ export const EDITION_BY_YEAR_QUERY = defineQuery(`
   }
 `)
 
-export const EDITION_BY_YEAR_QUERY_TAGS = [
-  'edition',
-  'artist',
-  'eventType',
-  'venue',
-  'organization',
-]
+export const EDITION_BY_YEAR = {
+  query: EDITION_BY_YEAR_QUERY,
+  tags: ['edition', 'artist', 'eventType', 'venue', 'organization'],
+}
