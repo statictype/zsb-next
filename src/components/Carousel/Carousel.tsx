@@ -34,7 +34,7 @@ export function Carousel({ id, slides, label, mode, loop, eyebrow, className }: 
   const dragOrigin = useRef<{ x: number; y: number } | null>(null)
   const styles = carousel({ mode })
 
-  const { trackRef, page, next, previous, toIndex } = useCarouselEngine({
+  const { trackRef, page, pageCount, next, previous, toIndex } = useCarouselEngine({
     slideCount: slides.length,
     loop,
     animated: !reducedMotion,
@@ -43,7 +43,7 @@ export function Carousel({ id, slides, label, mode, loop, eyebrow, className }: 
   if (slides.length === 0) return null
 
   const atStart = !loop && page === 0
-  const atEnd = !loop && page === slides.length - 1
+  const atEnd = !loop && page === pageCount - 1
 
   const controls = mode === 'rail' && (
     <div className={styles.control}>
@@ -118,7 +118,7 @@ export function Carousel({ id, slides, label, mode, loop, eyebrow, className }: 
                   toIndex(0)
                   break
                 case 'End':
-                  toIndex(slides.length - 1)
+                  toIndex(pageCount - 1)
                   break
                 default:
                   return

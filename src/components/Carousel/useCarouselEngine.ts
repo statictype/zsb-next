@@ -93,6 +93,16 @@ function readFocusOffset(element: Element) {
   return Number.isFinite(parsed) ? parsed : 0
 }
 
+/** The elements the rail comes to rest on. Declared by the recipe, because
+ *  only the CSS knows that below md in portrait a slide's images are laid out
+ *  as separate pages rather than as one composed grid. */
+function pages(track: HTMLElement, slides: HTMLElement[]) {
+  const mode = getComputedStyle(track).getPropertyValue('--carousel-snap-mode').trim()
+  if (mode !== 'image') return slides
+  const marked = Array.from(track.querySelectorAll<HTMLElement>('[data-carousel-snap]'))
+  return marked.length > 0 ? marked : slides
+}
+
 const at = (values: Float64Array, index: number) => values[index] ?? 0
 
 interface Controls {
@@ -351,27 +361,37 @@ function boundedTrack(
   gsap: GSAP,
   Draggable: DraggableStatic,
   track: HTMLElement,
-  items: HTMLElement[],
-  onChange: (index: number) => void,
+  slides: HTMLElement[],
+  onChange: (index: number, count: number) => void,
 ): Engine | null {
-  const first = items[0]
   const frame = track.parentElement
-  if (!first || !frame || items.some((el) => el.offsetWidth === 0)) return null
+  if (!slides[0] || !frame || slides.some((el) => el.offsetWidth === 0)) return null
 
-  const points = new Float64Array(items.length)
+  let items = pages(track, slides)
+  let points = new Float64Array(items.length)
   const moving = movementFlag(track)
   let minX = 0
 
   const measure = () => {
-    const base = first.offsetLeft
-    const last = items[items.length - 1]
-    // `offsetLeft` is measured against the frame, so the strip's end already
-    // carries the track's leading gutter; netting it out again stops the rail a
-    // gutter short and clips the last slide.
-    const end = last ? last.offsetLeft + last.offsetWidth : 0
+    items = pages(track, slides)
+    points = new Float64Array(items.length)
+    // Measured against the track rather than read off `offsetLeft`: a page can
+    // be an image nested inside a slide, and `will-change: transform` on the
+    // slide makes it that image's `offsetParent` in Blink and WebKit. The
+    // track's own transform cancels out, since both rects carry it.
+    const origin = track.getBoundingClientRect().left
+    const spans = items.map((el) => {
+      const box = el.getBoundingClientRect()
+      return { left: box.left - origin, right: box.right - origin }
+    })
+    const base = spans[0]?.left ?? 0
+    // The strip's start carries the track's leading gutter, so the end is
+    // measured against the frame's width; netting the gutter out again stops
+    // the rail a gutter short and clips the last slide.
+    const end = spans[spans.length - 1]?.right ?? 0
     minX = Math.min(frame.clientWidth - end, 0)
-    items.forEach((el, i) => {
-      points[i] = Math.max(-(el.offsetLeft - base), minX)
+    spans.forEach((span, i) => {
+      points[i] = Math.max(-(span.left - base), minX)
     })
   }
 
@@ -383,13 +403,17 @@ function boundedTrack(
     const index = indexAt(num(gsap.getProperty(track, 'x')))
     if (lastIndex === index) return
     lastIndex = index
-    onChange(index)
+    onChange(index, items.length)
   }
 
   measure()
   const onResize = () => {
+    const before = items.length
     measure()
     draggable?.applyBounds({ minX, maxX: 0 })
+    if (items.length === before) return
+    lastIndex = Math.min(lastIndex, items.length - 1)
+    onChange(lastIndex, items.length)
   }
   window.addEventListener('resize', onResize)
 
@@ -418,7 +442,7 @@ function boundedTrack(
   const stepper = wheelStepper(() => lastIndex, go, WHEEL_STEP_PX.length)
   const detachWheel = attachWheel(frame, stepper.push)
 
-  onChange(0)
+  onChange(0, items.length)
 
   return {
     next: () => go(lastIndex + 1),
@@ -444,11 +468,16 @@ export function useCarouselEngine({ slideCount, loop, animated }: UseCarouselEng
   const engineRef = useRef<Engine | null>(null)
   const pageRef = useRef(0)
   const [page, setPage] = useState(0)
+  const [pageCount, setPageCount] = useState(slideCount)
 
-  const report = useCallback((index: number) => {
-    pageRef.current = index
-    setPage(index)
-  }, [])
+  const report = useCallback(
+    (index: number, count = slideCount) => {
+      pageRef.current = index
+      setPage(index)
+      setPageCount(count)
+    },
+    [slideCount],
+  )
 
   useEffect(() => {
     const track = trackRef.current
@@ -490,6 +519,7 @@ export function useCarouselEngine({ slideCount, loop, animated }: UseCarouselEng
       engineRef.current = null
       context?.revert()
       delete track.dataset.engine
+      setPageCount(slideCount)
     }
   }, [animated, loop, slideCount, report])
 
@@ -535,5 +565,5 @@ export function useCarouselEngine({ slideCount, loop, animated }: UseCarouselEng
     [scrollToIndex, wrapIndex],
   )
 
-  return { trackRef, page, next, previous, toIndex }
+  return { trackRef, page, pageCount, next, previous, toIndex }
 }
