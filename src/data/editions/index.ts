@@ -28,8 +28,7 @@ export async function getEdition(
 /**
  * The Latest/Upcoming edition pair (ADR 0016), judged against the server
  * fill-time clock (yearly tier, `lib/today.ts`). The one place that owns
- * "which editions are latest/upcoming right now" — Visit and home-hero
- * resolve their switches against this shared pair, so they can't drift.
+ * "which editions are latest/upcoming right now".
  * Lightweight (list items, not full editions); `todayIso` is injectable
  * for tests.
  */

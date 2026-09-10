@@ -19,8 +19,6 @@ import {
   HERO_EDITION_QUERY_TAGS,
   SITEMAP_QUERY,
   SITEMAP_QUERY_TAGS,
-  VISIT_EDITION_QUERY,
-  VISIT_EDITION_QUERY_TAGS,
 } from '@/sanity/lib/queries'
 import type { Edition } from '@/types/edition'
 
@@ -51,22 +49,6 @@ export async function getEditionFromSanity(
     tags: EDITION_BY_YEAR_QUERY_TAGS,
   })
   return raw ? mapEdition(raw) : undefined
-}
-
-/**
- * The Visit page's edition switch (siteSettings.visitEdition) — 'latest' or
- * 'upcoming', defaulting to 'latest' when unset. Resolved against the derived
- * editions by `getVisitEdition` (ADR 0016). Respects the caller's perspective so
- * the Studio can preview a draft switch.
- */
-export async function getVisitEditionLeadFromSanity(
-  options: DynamicFetchOptions,
-): Promise<EditionLead> {
-  'use cache'
-  return (await queryData(VISIT_EDITION_QUERY, options, { tags: VISIT_EDITION_QUERY_TAGS })) ===
-    'upcoming'
-    ? 'upcoming'
-    : 'latest'
 }
 
 /**

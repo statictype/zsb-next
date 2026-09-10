@@ -68,7 +68,7 @@ pieces, each there for a reason:
 
 | File | Covers |
 |---|---|
-| `src/lib/format-utils.test.ts` | surname sort key, Romanian collation, padding, split |
+| `src/lib/format-utils.test.ts` | surname sort key |
 | `src/lib/edition-dates.test.ts` | date-range formatting + date-line composition |
 | `src/lib/seo.test.ts` | Event / breadcrumb / FAQ / org / press JSON-LD, edition metadata |
 | `src/sanity/lib/staticPages.test.ts` | `buildFaq`, `mapVisit` (Sanity → render shape) |

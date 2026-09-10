@@ -1,6 +1,5 @@
-// Shared latest/upcoming derivation for the decoupled per-surface edition
-// controls (ADR 0016). Pure and framework-free so the home hero (ZSB-44) and the
-// Visit venues view (ZSB-46) derive identically — and so it unit-tests cleanly.
+// Latest/upcoming derivation for the home hero's edition switch (ADR 0016).
+// Pure and framework-free so it unit-tests cleanly.
 //
 // "Latest" = the most recent edition that has taken place (or is taking place);
 // "Upcoming" = the next edition still ahead. A yearly-tier fact (`lib/today.ts`)
@@ -58,17 +57,4 @@ export function deriveEditions<T extends DerivableEdition>(
   }
 
   return { latest, upcoming }
-}
-
-/**
- * Resolve which edition a surface shows from its switch and the derived pair.
- * "Lead with Upcoming" falls back to Latest when there is no upcoming edition
- * (ADR 0016); "lead with Latest" always shows Latest.
- */
-export function resolveLeadEdition<T>(
-  lead: EditionLead,
-  { latest, upcoming }: DerivedEditions<T>,
-): T | null {
-  if (lead === 'upcoming' && upcoming) return upcoming
-  return latest
 }

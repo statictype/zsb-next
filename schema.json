@@ -4173,23 +4173,6 @@
         },
         "optional": false
       },
-      "visitEdition": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "union",
-          "of": [
-            {
-              "type": "string",
-              "value": "latest"
-            },
-            {
-              "type": "string",
-              "value": "upcoming"
-            }
-          ]
-        },
-        "optional": false
-      },
       "contactEmail": {
         "type": "objectAttribute",
         "value": {

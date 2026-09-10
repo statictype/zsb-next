@@ -11,7 +11,7 @@ function ev(
   partial: Partial<Omit<CalendarEvent, 'venue'>> &
     Pick<CalendarEvent, 'key' | 'startDate'> & { venue?: Omit<EventVenue, 'rollUp'> },
 ): CalendarEvent {
-  const venue = partial.venue ?? { name: CFP, type: 'venue' }
+  const venue = partial.venue ?? { name: CFP }
   return {
     name: partial.key,
     slug: partial.key,

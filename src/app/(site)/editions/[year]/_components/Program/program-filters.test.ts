@@ -26,7 +26,7 @@ function ev(
   partial: Partial<Omit<CalendarEvent, 'venue'>> &
     Pick<CalendarEvent, 'key' | 'startDate'> & { venue?: Omit<EventVenue, 'rollUp'> },
 ): CalendarEvent {
-  const venue = partial.venue ?? { name: CFP, type: 'venue' }
+  const venue = partial.venue ?? { name: CFP }
   return {
     name: partial.key,
     slug: partial.key,
@@ -76,22 +76,18 @@ describe('resolveShowPast', () => {
 describe('computeFilterOptions', () => {
   it('rolls sub-venues into their parent and counts events under the parent', () => {
     const events = [
-      ev({ key: 'a', startDate: '2026-04-10', venue: { name: CFP, type: 'venue' } }),
+      ev({ key: 'a', startDate: '2026-04-10', venue: { name: CFP } }),
       ev({
         key: 'b',
         startDate: '2026-04-11',
-        venue: { name: 'UNAgaleria', type: 'venue', partOf: { name: CFP, type: 'Partner venue' } },
+        venue: { name: 'UNAgaleria', partOf: { name: CFP } },
       }),
       ev({
         key: 'c',
         startDate: '2026-04-12',
-        venue: {
-          name: 'Ana Zoe Pop Studio',
-          type: 'venue',
-          partOf: { name: CFP, type: 'Partner venue' },
-        },
+        venue: { name: 'Ana Zoe Pop Studio', partOf: { name: CFP } },
       }),
-      ev({ key: 'd', startDate: '2026-04-13', venue: { name: 'Galeria Simeza', type: 'venue' } }),
+      ev({ key: 'd', startDate: '2026-04-13', venue: { name: 'Galeria Simeza' } }),
     ]
     const { venues } = computeFilterOptions(events)
     expect(venues).toEqual([
@@ -125,19 +121,19 @@ describe('applyFilters', () => {
     ev({
       key: 'cfp-ex',
       startDate: '2026-04-20',
-      venue: { name: CFP, type: 'venue' },
+      venue: { name: CFP },
       types: [{ title: 'Exhibition', slug: 'exhibition' }],
     }),
     ev({
       key: 'una-talk',
       startDate: '2026-04-21',
-      venue: { name: 'UNAgaleria', type: 'venue', partOf: { name: CFP, type: 'Partner venue' } },
+      venue: { name: 'UNAgaleria', partOf: { name: CFP } },
       types: [{ title: 'Talk', slug: 'talk' }],
     }),
     ev({
       key: 'simeza-ex',
       startDate: '2026-04-22',
-      venue: { name: 'Galeria Simeza', type: 'venue' },
+      venue: { name: 'Galeria Simeza' },
       types: [
         { title: 'Exhibition', slug: 'exhibition' },
         { title: 'Talk', slug: 'talk' },
@@ -298,8 +294,8 @@ describe('filterUrl', () => {
 
 describe('deriveProgramView — ended / liveClock / labels', () => {
   const mixed = [
-    ev({ key: 'past', startDate: '2026-04-10', venue: { name: 'Galeria Simeza', type: 'venue' } }),
-    ev({ key: 'future', startDate: '2026-04-20', venue: { name: CFP, type: 'venue' } }),
+    ev({ key: 'past', startDate: '2026-04-10', venue: { name: 'Galeria Simeza' } }),
+    ev({ key: 'future', startDate: '2026-04-20', venue: { name: CFP } }),
   ]
 
   it('judges a live edition live, with the clock exposed for past-greying', () => {
@@ -329,8 +325,8 @@ describe('deriveProgramView — ended / liveClock / labels', () => {
 
   it('counts "X of Y" only when the venue/type filters narrow the upcoming set', () => {
     const twoUpcoming = [
-      ev({ key: 'a', startDate: '2026-04-20', venue: { name: CFP, type: 'venue' } }),
-      ev({ key: 'b', startDate: '2026-04-21', venue: { name: 'Galeria Simeza', type: 'venue' } }),
+      ev({ key: 'a', startDate: '2026-04-20', venue: { name: CFP } }),
+      ev({ key: 'b', startDate: '2026-04-21', venue: { name: 'Galeria Simeza' } }),
     ]
     const all = deriveProgramView(twoUpcoming, DEFAULT_FILTERS, '2026-04-15')
     expect(all.countLabel).toBe('2 upcoming events')

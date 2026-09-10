@@ -76,12 +76,8 @@ export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] {
       types: e.types.map((t) => ({ title: t.title, slug: t.slug })),
       venue: definedFields({
         name: e.venue.name,
-        type: e.venue.type,
         address: e.venue.address,
-        mapUrl: e.venue.mapUrl,
-        partOf: e.venue.partOf
-          ? { name: e.venue.partOf.name, type: e.venue.partOf.type }
-          : undefined,
+        partOf: e.venue.partOf ? { name: e.venue.partOf.name } : undefined,
         rollUp: rollUpVenue(e.venue),
       }),
       description: e.description,

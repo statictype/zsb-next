@@ -3,8 +3,7 @@ import { TagsIcon } from '@/sanity/icons'
 
 // A team-managed venue category (partner venue, partner gallery, artist
 // studio…). A venue holds one reference to these. Same taxonomy-as-documents
-// rationale as `eventType` — ADR 0014: editor-managed, referential integrity,
-// a canonical list for the venues view to group by.
+// rationale as `eventType` — ADR 0014: editor-managed, referential integrity.
 export const venueType = defineType({
   name: 'venueType',
   title: 'Venue type',

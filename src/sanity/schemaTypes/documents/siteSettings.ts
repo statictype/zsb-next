@@ -11,23 +11,7 @@ export const siteSettings = defineType({
       name: 'heroEdition',
       title: 'Home hero — lead with',
       description:
-        'Which edition the homepage hero leads with: the Latest edition (the most recent that has taken place) or the Upcoming one (the next). Falls back to Latest when there is no upcoming edition. Independent of the Visit page’s setting.',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Latest edition', value: 'latest' },
-          { title: 'Upcoming edition', value: 'upcoming' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'latest',
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'visitEdition',
-      title: 'Visit venues — show',
-      description:
-        'Which edition’s venues the Visit page lists: the Latest edition (the most recent that has taken place) or the Upcoming one (the next). Falls back to Latest when there is no upcoming edition. Independent of the home hero’s setting.',
+        'Which edition the homepage hero leads with: the Latest edition (the most recent that has taken place) or the Upcoming one (the next). Falls back to Latest when there is no upcoming edition.',
       type: 'string',
       options: {
         list: [

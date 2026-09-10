@@ -126,7 +126,7 @@ export function editionEventJsonLd(edition: EditionJsonLd) {
   const end = edition.dateEnd
 
   // ZSB is multi-site. `rollUp` is the shared venue key: the program filters
-  // and the Visit venues view group by it too, so the three can't disagree.
+  // group by it too, so the two can't disagree.
   const eventPlaces = edition.events.map((e) => e.venue.rollUp.name)
   const venueNames = [...new Set(eventPlaces.filter(Boolean))]
   const placeNames = venueNames.length > 0 ? venueNames : [edition.venueLine || 'Bucharest']

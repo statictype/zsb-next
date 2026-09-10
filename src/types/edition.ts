@@ -50,19 +50,14 @@ export interface EventTypeTag {
 
 export interface EventVenue {
   name: string
-  type: string
-  /** Optional street address; shown by the venues view, not the program. */
   address?: string
-  /** Optional Google Maps link. */
-  mapUrl?: string
-  /** The bigger place this sits inside (a studio inside CFP). Carries the
-   *  parent's own type so the venues view can group + label the roll-up. */
-  partOf?: { name: string; type: string }
+  /** The bigger place this sits inside (a studio inside CFP). */
+  partOf?: { name: string }
   /** The rolled-up facet identity: the parent venue when this is a sub-venue,
    *  else the venue itself. Stamped once in the data layer (`mapEvents`) so the
-   *  program's filter chips and the Visit venues view group by one shared key
+   *  program's filter chips and the JSON-LD Places group by one shared key
    *  and can't drift (ZSB-65). `slug` is the program `venue=` filter key. */
-  rollUp: { name: string; slug: string; type: string }
+  rollUp: { name: string; slug: string }
 }
 
 // One program event, as the program reads it. Timing is Bucharest-local:
@@ -243,9 +238,8 @@ export interface Edition {
   // 2021 has none; an edition with `hasProgram` true but no events yet renders the
   // coming-soon block. Defaults to true in the mapper for older docs.
   hasProgram: boolean
-  // The events-and-venues model (ADR 0014). The program, filters, featured and
-  // venues view all read from this list; it replaced the old program/venues
-  // format (ZSB-38).
+  // The events-and-venues model (ADR 0014). The program, filters and featured
+  // all read from this list; it replaced the old program/venues format (ZSB-38).
   events: CalendarEvent[]
   carousel: CarouselSlide[]
   credits: CreditEntry[]

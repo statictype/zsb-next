@@ -57,7 +57,7 @@ export interface ProgramFilterOptions {
 }
 
 // Chips key on `venue.rollUp`, stamped in the data layer, so a studio inside
-// CFP filters under CFP — and so these chips and the Visit venues view can't
+// CFP filters under CFP — and so these chips and the JSON-LD Places can't
 // disagree about which venues exist.
 
 export function hasUpcomingEvents(events: CalendarEvent[], todayIso: string): boolean {

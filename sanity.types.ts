@@ -697,7 +697,6 @@ export type SiteSettings = {
   _updatedAt: string
   _rev: string
   heroEdition: 'latest' | 'upcoming'
-  visitEdition: 'latest' | 'upcoming'
   contactEmail: string
   instagramUrl?: string
   facebookUrl?: string
@@ -864,11 +863,6 @@ export type SITE_SETTINGS_QUERY_RESULT =
       facebookUrl: string | null
     }
   | null
-
-// Source: src/sanity/lib/queries.ts
-// Variable: VISIT_EDITION_QUERY
-// Query: *[_id == "siteSettings"][0].visitEdition
-export type VISIT_EDITION_QUERY_RESULT = null | 'latest' | 'upcoming'
 
 // Source: src/sanity/lib/queries.ts
 // Variable: HERO_EDITION_QUERY
@@ -1732,7 +1726,7 @@ export type EDITION_CARDS_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITION_BY_YEAR_QUERY
-// Query: *[_type == "edition" && year == $year && status == "live"][0] {    _id,    year,    title,    theme,    themeHighlight,    themeGloss,    dateStart,    dateEnd,    venueLine,    heroImage{ ..., "lqip": asset->metadata.lqip },    thumbImage{ ..., "lqip": asset->metadata.lqip },    ogImage,    metaDescription,    manifesto,    hasProgram,    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },    events[] {      _key,      "slug": slug.current,      name,      startDate,      startTime,      endDate,      "types": types[]->{ "title": title, "slug": slug.current },      "venue": venue->{        name,        "slug": slug.current,        "type": type->title,        address,        mapUrl,        "partOf": partOf->{ name, "type": type->title }      },      description,      image{ ..., "lqip": asset->metadata.lqip },      ogImage{ ... },      facebookUrl,      ticketUrl,      featured    },    carousel[] {      layout,      images[] {        caption,        image{ ..., "lqip": asset->metadata.lqip }      }    },    credits[] {      _type,      type,      lead,      label,      detail,      names,      organization->{        name,        url,        kind,        logo{ ..., "dimensions": asset->metadata.dimensions }      },      organizations[]->{        name,        url,        kind,        logo{ ..., "dimensions": asset->metadata.dimensions }      }    }  }
+// Query: *[_type == "edition" && year == $year && status == "live"][0] {    _id,    year,    title,    theme,    themeHighlight,    themeGloss,    dateStart,    dateEnd,    venueLine,    heroImage{ ..., "lqip": asset->metadata.lqip },    thumbImage{ ..., "lqip": asset->metadata.lqip },    ogImage,    metaDescription,    manifesto,    hasProgram,    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },    events[] {      _key,      "slug": slug.current,      name,      startDate,      startTime,      endDate,      "types": types[]->{ "title": title, "slug": slug.current },      "venue": venue->{        name,        "slug": slug.current,        address,        "partOf": partOf->{ name }      },      description,      image{ ..., "lqip": asset->metadata.lqip },      ogImage{ ... },      facebookUrl,      ticketUrl,      featured    },    carousel[] {      layout,      images[] {        caption,        image{ ..., "lqip": asset->metadata.lqip }      }    },    credits[] {      _type,      type,      lead,      label,      detail,      names,      organization->{        name,        url,        kind,        logo{ ..., "dimensions": asset->metadata.dimensions }      },      organizations[]->{        name,        url,        kind,        logo{ ..., "dimensions": asset->metadata.dimensions }      }    }  }
 export type EDITION_BY_YEAR_QUERY_RESULT = {
   _id: string
   year: number
@@ -1794,12 +1788,9 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
     venue: {
       name: string
       slug: string | null
-      type: string
       address: string | null
-      mapUrl: string | null
       partOf: {
         name: string
-        type: string
       } | null
     }
     description: string
@@ -1904,7 +1895,6 @@ import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT
-    '\n  *[_id == "siteSettings"][0].visitEdition\n': VISIT_EDITION_QUERY_RESULT
     '\n  *[_id == "siteSettings"][0].heroEdition\n': HERO_EDITION_QUERY_RESULT
     '\n  *[_id == "homepage"][0]{\n    heroTitle,\n    heroLead,\n    heroCtaLabel,\n    "heroCtaEditionYear": heroCtaEdition->year,\n    slideshow[]{\n      _key,\n      position,\n      image{ ..., "lqip": asset->metadata.lqip }\n    },\n    partnerStrip[]->{\n      _id,\n      name,\n      url,\n      logo{ ..., "aspectRatio": asset->metadata.dimensions.aspectRatio }\n    },\n    editionsIntro,\n    ogImage,\n    metaDescription\n  }\n': HOMEPAGE_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year)] | order(year desc) {\n    year,\n    theme,\n    themeHighlight,\n    status,\n    dateStart\n  }\n': EDITIONS_LIST_QUERY_RESULT
@@ -1923,6 +1913,6 @@ declare module '@sanity/client' {
     '\n  *[_type == "edition" && defined(year) && status == "live"] | order(year desc){ year }\n': EDITION_YEARS_QUERY_RESULT
     '\n  {\n    "editions": *[_type == "edition" && defined(year) && status == "live"]\n      | order(year desc){ year, _updatedAt },\n    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{\n      _id,\n      _updatedAt\n    },\n    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]\n      | order(_updatedAt desc)[0]._updatedAt\n  }\n': SITEMAP_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year) && status == "live"] | order(year desc) {\n    year,\n    theme,\n    themeHighlight,\n    "themeBody": themeSection.body,\n    dateStart,\n    dateEnd,\n    hasProgram,\n    venueLine,\n    "artistCount": count(artists),\n    "eventCount": count(events),\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip }\n  }\n': EDITION_CARDS_QUERY_RESULT
-    '\n  *[_type == "edition" && year == $year && status == "live"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    themeGloss,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip },\n    ogImage,\n    metaDescription,\n    manifesto,\n    hasProgram,\n    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },\n    events[] {\n      _key,\n      "slug": slug.current,\n      name,\n      startDate,\n      startTime,\n      endDate,\n      "types": types[]->{ "title": title, "slug": slug.current },\n      "venue": venue->{\n        name,\n        "slug": slug.current,\n        "type": type->title,\n        address,\n        mapUrl,\n        "partOf": partOf->{ name, "type": type->title }\n      },\n      description,\n      image{ ..., "lqip": asset->metadata.lqip },\n      ogImage{ ... },\n      facebookUrl,\n      ticketUrl,\n      featured\n    },\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      lead,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      },\n      organizations[]->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
+    '\n  *[_type == "edition" && year == $year && status == "live"][0] {\n    _id,\n    year,\n    title,\n    theme,\n    themeHighlight,\n    themeGloss,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip },\n    ogImage,\n    metaDescription,\n    manifesto,\n    hasProgram,\n    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },\n    events[] {\n      _key,\n      "slug": slug.current,\n      name,\n      startDate,\n      startTime,\n      endDate,\n      "types": types[]->{ "title": title, "slug": slug.current },\n      "venue": venue->{\n        name,\n        "slug": slug.current,\n        address,\n        "partOf": partOf->{ name }\n      },\n      description,\n      image{ ..., "lqip": asset->metadata.lqip },\n      ogImage{ ... },\n      facebookUrl,\n      ticketUrl,\n      featured\n    },\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      lead,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      },\n      organizations[]->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
   }
 }
