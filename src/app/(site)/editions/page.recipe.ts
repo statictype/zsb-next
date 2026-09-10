@@ -4,6 +4,6 @@ export const editionsPage = sva({
   slots: ['index', 'entry'],
   base: {
     index: { listStyle: 'none', margin: '0', padding: '0' },
-    entry: { paddingBlock: 'xl', borderTop: 'hairline' },
+    entry: { paddingBlock: '3xl', borderTop: 'hairline' },
   },
 })
