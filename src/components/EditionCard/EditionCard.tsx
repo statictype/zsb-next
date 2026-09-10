@@ -5,7 +5,6 @@ import { cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import type { RecipeVariantProps } from 'styled-system/types'
 import { editionCard } from '@/components/EditionCard/EditionCard.recipe'
-import { EditionCardTheme } from '@/components/EditionCard/EditionCardTheme'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import type { Edition, ImageData } from '@/types/edition'
@@ -111,7 +110,9 @@ export function EditionCard({
           )}
         </Link>
 
-        <EditionCardTheme body={edition.themeBody} href={href} />
+        <Text as="p" variant="body" className={styles.prose}>
+          {edition.themeBody}
+        </Text>
       </div>
     </article>
   )
