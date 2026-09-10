@@ -22,6 +22,7 @@ export const conditions = {
   motionReduce: '@media (prefers-reduced-motion: reduce)',
 
   portrait: '@media (orientation: portrait)',
+  portraitPhone: '@media (max-width: 767.98px) and (orientation: portrait)',
 
   hover: '&:is(:hover, [data-hover]):not(:disabled, [aria-disabled=true], [data-disabled])',
   active: '&:is(:active, [data-active]):not(:disabled, [aria-disabled=true], [data-disabled])',

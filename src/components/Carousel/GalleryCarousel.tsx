@@ -17,6 +17,10 @@ const SLIDE_HEIGHT_CAP: Record<GallerySize, Record<Band, number>> = {
   large: { base: 260, md: 374, lg: 449, xl: 469, '2xl': 572, '4xl': 780 },
 }
 
+// Tracks the `_portraitPhone` cell width in GalleryCarousel.recipe.ts, where
+// every image takes a page of its own instead of a share of `--slide-h`.
+const PORTRAIT_PHONE_SIZE = '(max-width: 767.98px) and (orientation: portrait) 82vw'
+
 const BAND_MIN_WIDTH: [Band, number][] = [
   ['4xl', 1792],
   ['2xl', 1440],
@@ -31,7 +35,7 @@ function sizesFor(layout: CarouselLayout, imgIndex: number, size: GallerySize): 
   const ratio = layout === 'full' || featured ? 1.5 : layout === 'duo' ? 1 : 0.75
   const cell = (band: Band) => `${Math.ceil(caps[band] * ratio)}px`
   const steps = BAND_MIN_WIDTH.map(([band, min]) => `(min-width: ${min}px) ${cell(band)}`)
-  return [...steps, cell('base')].join(', ')
+  return [PORTRAIT_PHONE_SIZE, ...steps, cell('base')].join(', ')
 }
 
 interface GalleryCarouselProps {
@@ -84,6 +88,7 @@ export function GalleryCarousel({
                     key={image.image.src}
                     type="button"
                     className={styles.item}
+                    data-carousel-snap
                     ref={(element) => registerOrigin(imageFlatIndex, element)}
                     onClick={() => openLightbox(imageFlatIndex)}
                   >

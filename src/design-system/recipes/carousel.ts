@@ -79,6 +79,11 @@ export const carousel = defineSlotRecipe({
         frame: {
           '--carousel-focus-offset': '0',
           aspectRatio: '1 / 1',
+          _portraitPhone: {
+            '--stage-pitch': '[calc((100% - token(spacing.md)) / 1.125)]',
+            aspectRatio: '[auto]',
+            height: '[auto]',
+          },
           md: {
             '--stage-pitch': '[78%]',
             aspectRatio: '[auto]',
@@ -106,18 +111,35 @@ export const carousel = defineSlotRecipe({
         item: {
           width: '100%',
           height: '100%',
+          _portraitPhone: {
+            width: '[var(--stage-pitch)]',
+            height: '[auto]',
+          },
           md: { width: '[var(--stage-pitch)]', height: '[auto]' },
           '& > [data-carousel-slide-content]': {
             width: '100%',
             height: '100%',
+            _portraitPhone: {
+              height: '[auto]',
+              aspectRatio: '1 / 1',
+            },
             md: { height: '[auto]', aspectRatio: '3 / 2' },
           },
         },
       },
       rail: {
-        track: { paddingInline: 'gutter' },
+        // useCarouselEngine reads `--carousel-snap-mode` off the track: only
+        // the CSS knows the slide is laid out as one page per image here.
+        track: { paddingInline: 'gutter', _portraitPhone: { '--carousel-snap-mode': 'image' } },
         control: { paddingInline: 'gutter' },
-        item: { '& > [data-carousel-slide-content]': { height: '100%' } },
+        item: {
+          '& > [data-carousel-slide-content]': { height: '100%' },
+          _portraitPhone: {
+            '[data-engine] &:not([data-current]) > [data-carousel-slide-content]': {
+              opacity: '[1]',
+            },
+          },
+        },
       },
     },
   },

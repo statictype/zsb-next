@@ -20,6 +20,16 @@ export const galleryCarousel = sva({
       height: '[var(--slide-h)]',
       width: '[max-content]',
       md: { '--slide-gap': 'token(spacing.md)' },
+      _portraitPhone: {
+        '--slide-gap': 'token(spacing.md)',
+        '--slide-w': '[calc((100vw - token(spacing.gutter) - token(spacing.md)) / 1.125)]',
+        gridTemplateColumns: '[none]',
+        gridTemplateRows: '[1fr]',
+        gridAutoFlow: 'column',
+        gridAutoColumns: '[var(--slide-w)]',
+        width: '[auto]',
+        height: '[var(--slide-w)]',
+      },
       '@media (hover: hover)': {
         '&:has(> :is(:hover, :focus-visible)) > :not(:hover, :focus-visible)': {
           opacity: 0.32,
@@ -30,6 +40,7 @@ export const galleryCarousel = sva({
     item: {
       display: 'block',
       border: 'hairline',
+      _portraitPhone: { scrollSnapAlign: 'start' },
       position: 'relative',
       cursor: 'pointer',
       overflow: 'hidden',
