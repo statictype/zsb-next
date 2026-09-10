@@ -21,13 +21,20 @@ export const hero = sva({
       layerStyle: 'pageHero',
       paddingInline: 'gutter',
       position: 'relative',
-      minHeight: { base: '[calc(100svh - 80px)]', lg: '[calc(100svh - 120px)]' },
+      minHeight: '[calc(100svh - 80px)]',
+      // `lg` would also match a portrait tablet, and Panda emits it after the
+      // orientation conditions, so the tall-hero rule states landscape itself.
+      _landscapeLg: { minHeight: '[calc(100svh - 120px)]' },
+      _portraitTablet: { minHeight: '[auto]' },
+      _portraitLarge: { minHeight: '[65svh]' },
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
     },
     inner: {
       position: 'relative',
+      _portraitTablet: { justifyContent: 'flex-start', gap: 'xl' },
+      _portraitLarge: { justifyContent: 'flex-start', gap: 'xl' },
       zIndex: '1',
       flex: '1',
       width: 'full',
@@ -111,7 +118,12 @@ export const hero = sva({
   },
   variants: {
     ink: {
-      black: { inner: { color: 'black', _portraitPhone: { color: 'white' } } },
+      black: {
+        inner: {
+          color: 'black',
+          _portraitPhone: { color: 'white' },
+        },
+      },
       white: { inner: { color: 'white' } },
     },
   },

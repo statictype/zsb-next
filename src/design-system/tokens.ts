@@ -22,7 +22,11 @@ export const conditions = {
   motionReduce: '@media (prefers-reduced-motion: reduce)',
 
   portrait: '@media (orientation: portrait)',
-  portraitPhone: '@media (max-width: 767.98px) and (orientation: portrait)',
+  portraitPhone: '@media (max-width: 599.98px) and (orientation: portrait)',
+  portraitTablet:
+    '@media (min-width: 600px) and (max-width: 1023.98px) and (orientation: portrait)',
+  portraitLarge: '@media (min-width: 1024px) and (orientation: portrait)',
+  landscapeLg: '@media (min-width: 1024px) and (orientation: landscape)',
 
   hover: '&:is(:hover, [data-hover]):not(:disabled, [aria-disabled=true], [data-disabled])',
   active: '&:is(:active, [data-active]):not(:disabled, [aria-disabled=true], [data-disabled])',
