@@ -21,7 +21,8 @@ export const artistRoster = sva({
       textStyle: 'cardTitle',
       textWrap: '[wrap]',
       color: 'heading',
-      lineHeight: '[1.5]',
+      fontSize: { base: 'sm', md: 'base', lg: 'md' },
+      lineHeight: '[1.9]',
       listStyleType: 'none',
     },
     entry: {
