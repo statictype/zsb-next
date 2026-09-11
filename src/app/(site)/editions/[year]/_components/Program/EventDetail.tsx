@@ -128,7 +128,8 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
       {event.image && (
         <Lightbox
           images={[{ image: event.image }]}
-          index={zoomed ? 0 : null}
+          open={zoomed}
+          index={0}
           getOrigin={getPoster}
           onClose={() => setZoomed(false)}
           onIndexChange={noStep}
