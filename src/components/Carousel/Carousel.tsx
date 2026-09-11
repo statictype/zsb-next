@@ -3,11 +3,11 @@
 import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import { type ReactNode, useId, useRef } from 'react'
 import { cx } from 'styled-system/css'
-import { Stack } from 'styled-system/jsx'
 import { carousel } from 'styled-system/recipes'
 import { useCarouselEngine } from '@/components/Carousel/useCarouselEngine'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { useReducedMotion } from '@/components/reduced-motion'
+import { Button } from '@/components/ui/Button/Button'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 
 export interface CarouselSlide {
@@ -43,23 +43,17 @@ export function Carousel({ id, slides, label, mode, eyebrow, className }: Carous
   const controls = mode === 'rail' && (
     <div className={styles.control}>
       {eyebrow !== undefined && <Eyebrow>{eyebrow}</Eyebrow>}
-      <span data-carousel-arrows>
-        <button
-          type="button"
-          className={styles.trigger}
+      <span className={styles.arrows}>
+        <Button
+          variant="icon"
           aria-label={`Previous ${label.toLowerCase()} slide`}
           onClick={previous}
         >
           <RiArrowLeftLine size={20} />
-        </button>
-        <button
-          type="button"
-          className={styles.trigger}
-          aria-label={`Next ${label.toLowerCase()} slide`}
-          onClick={next}
-        >
+        </Button>
+        <Button variant="icon" aria-label={`Next ${label.toLowerCase()} slide`} onClick={next}>
           <RiArrowRightLine size={20} />
-        </button>
+        </Button>
       </span>
     </div>
   )
@@ -91,54 +85,51 @@ export function Carousel({ id, slides, label, mode, eyebrow, className }: Carous
         event.stopPropagation()
       }}
     >
-      <Stack gap="lg">
-        <div className={styles.frame}>
-          <div
-            ref={trackRef}
-            className={styles.track}
-            role="group"
-            aria-label={`${label} slides`}
-            tabIndex={0}
-            onKeyDown={(event) => {
-              switch (event.key) {
-                case 'ArrowLeft':
-                  previous()
-                  break
-                case 'ArrowRight':
-                  next()
-                  break
-                case 'Home':
-                  toIndex(0)
-                  break
-                case 'End':
-                  toIndex(pageCount - 1)
-                  break
-                default:
-                  return
-              }
-              event.preventDefault()
-            }}
-          >
-            {slides.map((slide, index) => (
-              <div
-                key={slide.id}
-                id={`${rootId}-slide-${safeId(slide.id)}`}
-                className={styles.item}
-                role="group"
-                aria-roledescription="slide"
-                aria-label={`${index + 1} of ${slides.length}`}
-                data-current={index === page || undefined}
-                onFocus={(event) => {
-                  if (event.target.matches(':focus-visible')) toIndex(index)
-                }}
-              >
-                <div data-carousel-slide-content>{slide.content}</div>
-              </div>
-            ))}
-          </div>
+      <div className={styles.frame}>
+        <div
+          ref={trackRef}
+          className={styles.track}
+          role="group"
+          aria-label={`${label} slides`}
+          tabIndex={0}
+          onKeyDown={(event) => {
+            switch (event.key) {
+              case 'ArrowLeft':
+                previous()
+                break
+              case 'ArrowRight':
+                next()
+                break
+              case 'Home':
+                toIndex(0)
+                break
+              case 'End':
+                toIndex(pageCount - 1)
+                break
+              default:
+                return
+            }
+            event.preventDefault()
+          }}
+        >
+          {slides.map((slide, index) => (
+            <div
+              key={slide.id}
+              className={styles.item}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${index + 1} of ${slides.length}`}
+              data-current={index === page || undefined}
+              onFocus={(event) => {
+                if (event.target.matches(':focus-visible')) toIndex(index)
+              }}
+            >
+              <div data-carousel-slide-content>{slide.content}</div>
+            </div>
+          ))}
         </div>
-        {controls}
-      </Stack>
+      </div>
+      {controls}
     </div>
   )
 }

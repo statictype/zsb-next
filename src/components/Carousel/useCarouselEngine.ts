@@ -203,18 +203,16 @@ function loopingTrack(
           duration: distanceToLoop / PIXELS_PER_SECOND,
         },
         0,
+      ).fromTo(
+        item,
+        { xPercent: snap(((curX - distanceToLoop + totalWidth) / at(widths, i)) * 100) },
+        {
+          xPercent: at(xPercents, i),
+          duration: (totalWidth - distanceToLoop) / PIXELS_PER_SECOND,
+          immediateRender: false,
+        },
+        distanceToLoop / PIXELS_PER_SECOND,
       )
-        .fromTo(
-          item,
-          { xPercent: snap(((curX - distanceToLoop + totalWidth) / at(widths, i)) * 100) },
-          {
-            xPercent: at(xPercents, i),
-            duration: (totalWidth - distanceToLoop) / PIXELS_PER_SECOND,
-            immediateRender: false,
-          },
-          distanceToLoop / PIXELS_PER_SECOND,
-        )
-        .add(`label${i}`, distanceToStart / PIXELS_PER_SECOND)
       starts[i] = distanceToStart
     }
     timeWrap = gsap.utils.wrap(0, tl.duration())

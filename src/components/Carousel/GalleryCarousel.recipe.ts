@@ -1,13 +1,7 @@
 import { sva } from 'styled-system/css'
 
-/**
- * GalleryCarousel — authored slide content inside the shared rail Carousel.
- *
- * The shared Carousel owns interaction and controls; this recipe owns only the
- * authored image-grid layouts and lightbox-trigger presentation.
- */
 export const galleryCarousel = sva({
-  slots: ['slide', 'item', 'frame', 'itemImage', 'caption'],
+  slots: ['slide', 'item', 'itemImage', 'caption'],
   base: {
     slide: {
       display: 'grid',
@@ -60,30 +54,17 @@ export const galleryCarousel = sva({
     },
 
     item: {
-      display: 'block',
       border: 'hairline',
       _portraitPhone: { scrollSnapAlign: 'start' },
       position: 'relative',
-      cursor: 'pointer',
       overflow: 'hidden',
-      background: 'surface',
       transition: 'develop',
-      '& img': {
-        transition: 'develop',
-      },
       _hover: { '& [data-caption]': { opacity: 1, transform: 'none' } },
       _focusVisible: { '& [data-caption]': { opacity: 1, transform: 'none' } },
       '@media (hover: hover)': { _focusVisible: { outline: 'none' } },
     },
-    frame: {
-      position: 'absolute',
-      inset: '0',
-      overflow: 'hidden',
-      // exception: image placeholder fallback, raised-dark surface
-      background: 'gray.900',
-    },
     // Drag prevention comes from the Figure's `draggable={false}` attribute.
-    itemImage: { objectFit: 'cover', background: 'gray.900' },
+    itemImage: { objectFit: 'cover', background: 'gray.900', transition: 'develop' },
     caption: {
       position: 'absolute',
       insetInline: '0',
@@ -93,7 +74,6 @@ export const galleryCarousel = sva({
       paddingInline: 'sm',
       paddingBlock: 'xs',
       background: 'action',
-      // textStyle: 'cardTitle',
       fontFamily: 'display',
       fontSize: 'sm',
       textTransform: 'uppercase',
