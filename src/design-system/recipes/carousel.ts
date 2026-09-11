@@ -4,9 +4,16 @@ export const carousel = defineSlotRecipe({
   className: 'carousel',
   jsx: ['Carousel'],
   description: 'GSAP-driven stage and rail carousel contract',
-  slots: ['root', 'frame', 'track', 'item', 'control', 'trigger'],
+  slots: ['root', 'frame', 'track', 'item', 'control', 'arrows'],
   base: {
-    root: { position: 'relative', width: '100%', minWidth: 0 },
+    root: {
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'lg',
+      width: '100%',
+      minWidth: 0,
+    },
     frame: { position: 'relative', isolation: 'isolate', overflow: 'hidden' },
     // `data-engine` and `data-moving` are both stamped by useCarouselEngine —
     // the first once GSAP owns the transforms (until then the track is its own
@@ -41,37 +48,12 @@ export const carousel = defineSlotRecipe({
       '& > [data-carousel-slide-content]': { transition: 'develop' },
       '[data-engine] &:not([data-current]) > [data-carousel-slide-content]': { opacity: '[0.2]' },
     },
-    control: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 'md',
-      '& [data-carousel-arrows]': {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 'sm',
-        marginInlineStart: 'auto',
-      },
-    },
-    trigger: {
-      pressable: 'inline',
-      width: 'touch',
-      height: 'touch',
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      border: 0,
-      background: 'transparent',
-      color: 'heading',
-      cursor: 'pointer',
-      _hover: { color: 'action' },
-      _disabled: { opacity: 0.5, cursor: 'not-allowed' },
-    },
+    control: { display: 'flex', alignItems: 'center', gap: 'md' },
+    arrows: { display: 'flex', alignItems: 'center', gap: 'sm', marginInlineStart: 'auto' },
   },
   variants: {
     mode: {
       stage: {
-        root: { display: 'flex', flexDirection: 'column', gap: 'md' },
         // `--stage-pitch` is the slide's outer width, and every other stage
         // measurement derives from it: the mask ramp straddles the first slide
         // boundary, and `--carousel-focus-offset` tells the engine that the

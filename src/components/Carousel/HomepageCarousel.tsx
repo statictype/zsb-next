@@ -3,6 +3,7 @@
 import { homepageCarousel } from '@/components/Carousel/HomepageCarousel.recipe'
 import { LightboxGallery } from '@/components/Carousel/LightboxGallery'
 import { Figure } from '@/components/Figure/Figure'
+import { Button } from '@/components/ui/Button/Button'
 import type { HeroImage } from '@/types/edition'
 
 export function HomepageCarousel({ images }: { images: HeroImage[] }) {
@@ -16,8 +17,8 @@ export function HomepageCarousel({ images }: { images: HeroImage[] }) {
       slides={images}
       lightboxImages={(image) => [{ image }]}
       renderSlide={(image, trigger, index) => (
-        <button
-          type="button"
+        <Button
+          variant="plain"
           className={styles.slide}
           aria-label="Open image in lightbox"
           {...trigger(0)}
@@ -30,7 +31,7 @@ export function HomepageCarousel({ images }: { images: HeroImage[] }) {
             style={image.position ? { objectPosition: image.position } : undefined}
             draggable={false}
           />
-        </button>
+        </Button>
       )}
     />
   )

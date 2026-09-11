@@ -3,6 +3,7 @@
 import { galleryCarousel } from '@/components/Carousel/GalleryCarousel.recipe'
 import { LightboxGallery } from '@/components/Carousel/LightboxGallery'
 import { Figure } from '@/components/Figure/Figure'
+import { Button } from '@/components/ui/Button/Button'
 import type { CarouselLayout, CarouselSlide as GallerySlide } from '@/types/edition'
 
 type Band = 'base' | 'md' | 'lg' | 'xl' | '2xl' | '4xl'
@@ -72,28 +73,26 @@ export function GalleryCarousel({
       renderSlide={(slide, trigger, slideIndex) => (
         <div className={galleryCarousel({ layout: slide.layout }).slide}>
           {slide.images.map((image, imageIndex) => (
-            <button
+            <Button
               key={image.image.src}
-              type="button"
+              variant="plain"
               className={styles.item}
               data-carousel-snap
               {...trigger(imageIndex)}
             >
-              <span className={styles.frame}>
-                <Figure
-                  image={image.image}
-                  sizes={sizesFor(slide.layout, imageIndex)}
-                  className={styles.itemImage}
-                  draggable={false}
-                  preload={preload && slideIndex === 0 && imageIndex === 0}
-                />
-              </span>
+              <Figure
+                image={image.image}
+                sizes={sizesFor(slide.layout, imageIndex)}
+                className={styles.itemImage}
+                draggable={false}
+                preload={preload && slideIndex === 0 && imageIndex === 0}
+              />
               {image.caption && (
                 <span className={styles.caption} data-caption aria-hidden>
                   {image.caption}
                 </span>
               )}
-            </button>
+            </Button>
           ))}
         </div>
       )}
