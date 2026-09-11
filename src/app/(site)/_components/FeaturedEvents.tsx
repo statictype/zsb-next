@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button/Button'
 import { Card } from '@/components/ui/Card/Card'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { eventWhenLabelShort } from '@/lib/edition-dates'
-import { editionHref } from '@/lib/edition-href'
+import { editionProgramHref, eventHref } from '@/lib/edition-href'
 import type { CalendarEvent } from '@/types/edition'
 
 const styles = featuredEvents()
@@ -36,7 +36,7 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
             Featured
           </SectionHeading>
           <Button asChild variant="link">
-            <Link href={`${editionHref(year)}#program`}>Full program</Link>
+            <Link href={editionProgramHref(year)}>Full program</Link>
           </Button>
         </HStack>
 
@@ -75,7 +75,7 @@ function FeaturedCard({ event, year }: { event: CalendarEvent; year: number }) {
             {eventWhenLabelShort(event)}
           </Text>
           <h3 className={styles.name}>
-            <Link className={styles.cardLink} href={`/editions/${year}/events/${event.slug}`}>
+            <Link className={styles.cardLink} href={eventHref(year, event.slug)}>
               {event.name}
             </Link>
           </h3>
