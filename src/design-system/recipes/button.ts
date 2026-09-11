@@ -134,7 +134,8 @@ export const button = defineRecipe({
         color: 'heading',
         textDecorationColor: 'action',
         textUnderlineOffset: '4px',
-        _hover: { color: 'action', textDecoration: 'underline' },
+        '&:hover, &:focus-visible': { color: 'action', textDecoration: 'underline' },
+        _focusVisible: { outline: 'none' },
       },
       plain: {
         pressable: 'inline',

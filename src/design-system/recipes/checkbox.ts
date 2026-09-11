@@ -36,7 +36,7 @@ export const checkbox = defineSlotRecipe({
       },
       '&[data-focus-visible]': {
         outline: 'focus',
-        outlineOffset: '2px',
+        outlineOffset: 'focusInset',
       },
       // Not 0.6: that read 4.22:1 against the resting gray.
       '& [data-checkbox-count]': {

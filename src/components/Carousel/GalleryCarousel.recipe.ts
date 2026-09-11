@@ -73,6 +73,7 @@ export const galleryCarousel = sva({
       },
       _hover: { '& [data-caption]': { opacity: 1, transform: 'none' } },
       _focusVisible: { '& [data-caption]': { opacity: 1, transform: 'none' } },
+      '@media (hover: hover)': { _focusVisible: { outline: 'none' } },
     },
     frame: {
       position: 'absolute',
@@ -133,7 +134,7 @@ export const galleryCarousel = sva({
       mono: {
         item: {
           '& img': { filter: '[token(assets.mono)]' },
-          _hover: { '& img': { filter: '[token(assets.monoReveal)]' } },
+          '&:hover, &:focus-visible': { '& img': { filter: '[token(assets.monoReveal)]' } },
         },
       },
       color: {

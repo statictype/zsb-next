@@ -61,6 +61,7 @@ export function NavLinksList({
         className={className}
         aria-current={exactPage ? 'page' : undefined}
         data-active={sectionActive ? true : undefined}
+        {...(exactPage ? { tabIndex: -1 } : {})}
         {...(onNavigate ? { onClick: onNavigate } : {})}
       >
         <NavLinkLabel label={item.label} context={context} />
