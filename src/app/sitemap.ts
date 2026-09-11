@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { getAllEventParams } from '@/data/editions'
 import { SITE_URL } from '@/lib/constants'
-import { editionHref } from '@/lib/edition-href'
+import { editionHref, eventHref } from '@/lib/edition-href'
 import { getSitemapMetadataFromSanity } from '@/sanity/lib/editions'
 
 function lastMod(iso: string | null | undefined): Date | undefined {
@@ -53,12 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // timestamp of their own — they live inside the edition doc — so the parent
   // edition's update time is the honest `lastModified`.
   const eventEntries = eventParams.map(({ year, slug }) =>
-    entry(
-      `/editions/${year}/events/${slug}`,
-      lastMod(editionUpdatedByYear.get(year)),
-      'yearly',
-      0.5,
-    ),
+    entry(eventHref(Number(year), slug), lastMod(editionUpdatedByYear.get(year)), 'yearly', 0.5),
   )
 
   // The two index pages date themselves by their freshest member.

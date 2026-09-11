@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
-import { editionHref } from '@/lib/edition-href'
+import { editionHref, eventHref } from '@/lib/edition-href'
 import { OG_IMAGE_SIZE } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import type {
@@ -105,7 +105,7 @@ export function editionMetadata(edition: Edition): Metadata {
 export function eventMetadata(year: number, event: CalendarEvent): Metadata {
   const title = event.name
   const description = truncate(event.description, 155)
-  const path = `/editions/${year}/events/${event.slug}`
+  const path = eventHref(year, event.slug)
 
   return {
     title,
@@ -176,7 +176,7 @@ export function eventJsonLd(year: number, event: CalendarEvent) {
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     ...(event.image && { image: [event.image.src] }),
-    url: `${SITE_URL}/editions/${year}/events/${event.slug}`,
+    url: `${SITE_URL}${eventHref(year, event.slug)}`,
     location: {
       '@type': 'Place',
       name: event.venue.name,
@@ -213,7 +213,7 @@ export function eventBreadcrumbJsonLd(year: number, theme: string, event: Calend
         '@type': 'ListItem',
         position: 3,
         name: event.name,
-        item: `${SITE_URL}/editions/${year}/events/${event.slug}`,
+        item: `${SITE_URL}${eventHref(year, event.slug)}`,
       },
     ],
   }

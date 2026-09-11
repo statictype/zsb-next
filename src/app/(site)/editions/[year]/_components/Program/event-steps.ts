@@ -1,5 +1,5 @@
 import { programOrder } from '@program/program-filters'
-import { editionHref } from '@/lib/edition-href'
+import { eventHref } from '@/lib/edition-href'
 import type { CalendarEvent } from '@/types/edition'
 
 /** One neighbour of the open event: where it lives and what to call it. */
@@ -26,7 +26,7 @@ export function eventSteps(events: CalendarEvent[], slug: string, year: number):
   if (at === -1) return {}
 
   const step = (event: CalendarEvent | undefined): EventStep | undefined =>
-    event ? { href: `${editionHref(year)}/events/${event.slug}`, name: event.name } : undefined
+    event ? { href: eventHref(year, event.slug), name: event.name } : undefined
 
   return { prev: step(order[at - 1]), next: step(order[at + 1]), index: at, total: order.length }
 }

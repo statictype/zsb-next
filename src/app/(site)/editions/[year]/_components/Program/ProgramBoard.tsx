@@ -12,6 +12,7 @@ import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
 import { Collapsible } from '@/components/ui/Collapsible/Collapsible'
 import { formatShortRange } from '@/lib/edition-dates'
+import { eventHref } from '@/lib/edition-href'
 import type { CalendarListEvent } from '@/types/edition'
 
 // No variants — one shared instance for the board + its row/collapse pieces.
@@ -80,7 +81,7 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
                     <Text as="h4" variant="body" color="heading" className={s.eventName}>
                       <Link
                         className={s.nameButton}
-                        href={`/editions/${year}/events/${run.slug}`}
+                        href={eventHref(year, run.slug)}
                         scroll={false}
                       >
                         {run.name}
@@ -183,11 +184,7 @@ export function EventRow({ event, year }: { event: CalendarListEvent; year: numb
           </Wrap>
         )}
         <Text as="h4" variant="body" color="heading" className={s.eventName}>
-          <Link
-            className={s.nameButton}
-            href={`/editions/${year}/events/${event.slug}`}
-            scroll={false}
-          >
+          <Link className={s.nameButton} href={eventHref(year, event.slug)} scroll={false}>
             {event.name}
           </Link>
         </Text>

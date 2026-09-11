@@ -14,3 +14,7 @@ export const PROGRAM_SECTION_ID = 'program'
 export function editionProgramHref(year: number): string {
   return `${editionHref(year)}#${PROGRAM_SECTION_ID}`
 }
+
+export function eventHref(year: number, slug: string): string {
+  return `${editionHref(year)}/events/${slug}`
+}
