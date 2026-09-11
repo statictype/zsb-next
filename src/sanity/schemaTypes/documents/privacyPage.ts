@@ -19,7 +19,7 @@ export const privacyPage = defineType({
       name: 'body',
       title: 'Body',
       description:
-        'Long-form legal text. Supports headings, bold, italics, links, and lists. The "Change your mind" cookie-settings button is rendered automatically below the body — no need to include it here.',
+        'Long-form legal text. Supports headings, bold, links, and lists. The "Change your mind" cookie-settings button is rendered automatically below the body — no need to include it here.',
       type: 'array',
       of: [
         defineArrayMember({
@@ -36,10 +36,7 @@ export const privacyPage = defineType({
             { title: 'Numbered list', value: 'number' },
           ],
           marks: {
-            decorators: [
-              { title: 'Bold', value: 'strong' },
-              { title: 'Italic', value: 'em' },
-            ],
+            decorators: [{ title: 'Bold', value: 'strong' }],
             annotations: [
               {
                 name: 'link',

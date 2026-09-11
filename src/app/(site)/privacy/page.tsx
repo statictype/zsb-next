@@ -58,7 +58,7 @@ const portableTextComponents: PortableTextComponents = {
         {children}
       </Text>
     ),
-    em: ({ children }) => <em>{children}</em>,
+    em: ({ children }) => children,
     link: ({ value, children }: PortableTextMarkComponentProps<PrivacyLinkMark>) => {
       const href = value?.href ?? '#'
       const newTab = value?.newTab ?? false
