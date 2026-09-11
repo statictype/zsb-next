@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { getAllEventParams, getEdition } from '@/data/editions'
 import { eventWhenLabel } from '@/lib/edition-dates'
-import { asciiFold, BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
+import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
 import { PUBLISHED } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
 
@@ -51,11 +51,10 @@ export default async function Image({
 
   // Case 3: generated card — branded dark canvas with the event's essentials.
   const [fonts, logo] = await Promise.all([loadOgFonts(), loadOgLogo(BRAND.heading)])
-  // Fold diacritics — the OG fonts are basic-Latin subsets (see asciiFold).
-  const name = asciiFold(event?.name ?? '')
-  const venue = asciiFold(event?.venue.name ?? '')
-  const parent = event?.venue.partOf?.name ? asciiFold(event.venue.partOf.name) : undefined
-  const when = event ? asciiFold(eventWhenLabel(event)) : ''
+  const name = event?.name ?? ''
+  const venue = event?.venue.name ?? ''
+  const parent = event?.venue.partOf?.name
+  const when = event ? eventWhenLabel(event) : ''
 
   return new ImageResponse(
     <div

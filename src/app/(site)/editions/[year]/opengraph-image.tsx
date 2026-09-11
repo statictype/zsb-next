@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 import { getAllEditionYearParams, getEdition } from '@/data/editions'
-import { asciiFold, BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
+import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
 import { PUBLISHED } from '@/sanity/lib/live'
 
 // Per-edition share card. If the editor set a Custom share image it's rendered
@@ -37,9 +37,8 @@ export default async function Image({ params }: { params: Promise<{ year: string
   }
 
   const [fonts, logo] = await Promise.all([loadOgFonts(), loadOgLogo(BRAND.heading)])
-  // Fold diacritics — the OG fonts are basic-Latin subsets (see asciiFold).
-  const theme = asciiFold(edition?.theme ?? '')
-  const dates = asciiFold(edition?.dateRange ?? '')
+  const theme = edition?.theme ?? ''
+  const dates = edition?.dateRange ?? ''
   const hero = edition?.heroImage.src
 
   return new ImageResponse(
