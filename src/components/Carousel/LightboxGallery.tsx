@@ -1,7 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { Carousel } from '@/components/Carousel/Carousel'
 import { Lightbox, type LightboxImage } from '@/components/Lightbox/Lightbox'
 
@@ -31,7 +31,7 @@ export function LightboxGallery<T>({
   const [index, setIndex] = useState(0)
   const [origins] = useState(() => new Map<number, HTMLElement>())
 
-  const getOrigin = useCallback((image: number) => origins.get(image) ?? null, [origins])
+  const getOrigin = (image: number) => origins.get(image) ?? null
 
   const groups = slides.map((slide) => lightboxImages(slide))
   const starts = groups.map((_, slideIndex) => groups.slice(0, slideIndex).flat().length)

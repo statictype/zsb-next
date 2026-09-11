@@ -5,7 +5,7 @@ import { TypeChips } from '@program/TypeChips'
 import { shareCopied, useShareLink } from '@program/useShareLink'
 import { VenueLine } from '@program/VenueLine'
 import { RiExternalLinkLine } from '@remixicon/react'
-import { useCallback, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { css } from 'styled-system/css'
 import { Stack, Text } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
@@ -41,7 +41,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
   } = useShareLink(() => window.location.href)
   const [zoomed, setZoomed] = useState(false)
   const posterRef = useRef<HTMLButtonElement>(null)
-  const getPoster = useCallback(() => posterRef.current, [])
+  const getPoster = () => posterRef.current
 
   const s = eventDetail({ shell, poster: !!event.image })
   const Name = shell === 'page' ? 'h1' : 'h2'
