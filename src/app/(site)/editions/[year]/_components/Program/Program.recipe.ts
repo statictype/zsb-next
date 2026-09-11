@@ -1,11 +1,17 @@
 import { sva } from 'styled-system/css'
 
+const past = {
+  '&[data-past=true]': {
+    opacity: 0.6,
+    transition: 'interactive',
+  },
+  '&[data-past=true]:hover': { opacity: 1 },
+} as const
+
 export const program = sva({
   slots: [
-    'section',
     'layout',
     'count',
-    'pastToggle',
     'bandLabel',
     'run',
     'runMedia',
@@ -22,17 +28,11 @@ export const program = sva({
     'event',
     'eventBody',
     'eventTime',
-    'nameButton',
+    'link',
     'eventDesc',
     'poster',
-    'archive',
   ],
   base: {
-    section: {
-      // Shared by the marker column and the timeline spine's `left`, so the
-      // two can't drift apart.
-      '--marker-col': 'token(spacing.4xl)',
-    },
     layout: {
       minWidth: '0',
       borderTop: 'hairline',
@@ -42,9 +42,6 @@ export const program = sva({
       color: 'heading',
       fontVariantNumeric: 'tabular-nums',
     },
-    pastToggle: {
-      fontVariantNumeric: 'tabular-nums',
-    },
 
     bandLabel: {
       color: 'highlight',
@@ -52,7 +49,6 @@ export const program = sva({
     run: {
       display: 'flex',
       flexDirection: 'column',
-      background: 'surface',
       border: 'hairline',
       position: 'relative',
       _before: {
@@ -67,13 +63,7 @@ export const program = sva({
         '& img': { filter: '[token(assets.monoHover)]', transform: 'scale(1.03)' },
         '& a': { color: 'action' },
       },
-      // 0.6 is the floor that keeps `body` copy at 4.9:1 on black: a touch
-      // device never gets the hover back.
-      '&[data-past=true]': {
-        opacity: 0.6,
-        transition: 'interactive',
-      },
-      '&[data-past=true]:hover': { opacity: 1 },
+      ...past,
     },
     runMedia: {
       position: 'relative',
@@ -105,31 +95,15 @@ export const program = sva({
 
     dayByDay: {
       listStyle: 'none',
-      position: 'relative',
-      md: {
-        _before: {
-          content: '""',
-          position: 'absolute',
-          top: 'sm',
-          bottom: 'sm',
-          left: 'var(--marker-col)',
-          width: '[token(borderWidths.hairline)]',
-          background: 'divider',
-        },
-      },
     },
     day: {
       paddingBlock: 'lg',
       borderTop: 'hairline',
       _first: { borderTop: 'none', paddingTop: '0' },
-      '&[data-past=true]': {
-        opacity: 0.6,
-        transition: 'interactive',
-      },
-      '&[data-past=true]:hover': { opacity: 1 },
+      ...past,
       md: {
         display: 'grid',
-        gridTemplateColumns: 'var(--marker-col) 1fr',
+        gridTemplateColumns: '[token(spacing.4xl) 1fr]',
         gap: '0',
         alignItems: 'start',
       },
@@ -184,20 +158,11 @@ export const program = sva({
       fontVariantNumeric: 'tabular-nums',
     },
     eventName: {
-      textStyle: 'body',
       fontWeight: 'bold',
       lineHeight: '1.4',
       letterSpacing: 'tight',
     },
-    // The ::after stretches the hit target over the whole row.
-    nameButton: {
-      font: '[inherit]',
-      textAlign: 'left',
-      textDecoration: 'none',
-      background: 'transparent',
-      border: 'none',
-      padding: '0',
-      cursor: 'pointer',
+    link: {
       transition: 'interactive',
       _after: { content: '""', position: 'absolute', inset: '0', zIndex: '1' },
       _focusVisible: { color: 'action' },
@@ -231,43 +196,6 @@ export const program = sva({
         pointerEvents: 'none',
         zIndex: '3',
         '[data-poster=true]:hover &': { opacity: 1, transform: 'translateX(0)' },
-      },
-    },
-    archive: {
-      border: 'hairline',
-      transition: 'interactive',
-      '& [data-part=trigger]': {
-        padding: 'lg',
-        alignItems: 'center',
-      },
-      '& [data-collapsible-label]': {
-        textStyle: 'cardTitle',
-        color: 'heading',
-      },
-      '& [data-part=trigger]:hover [data-collapsible-label]': {
-        textDecoration: 'none',
-      },
-      '& [data-part=indicator]': {
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 'touch',
-        height: 'touch',
-        border: 'hairline',
-        color: 'heading',
-        transition: 'interactive',
-      },
-      '&:has([data-part=trigger]:hover), &:has([data-part=trigger]:focus-visible)': {
-        borderColor: 'action',
-      },
-      '& [data-part=trigger]:hover [data-part=indicator], & [data-part=trigger]:focus-visible [data-part=indicator]':
-        {
-          borderColor: 'action',
-          color: 'action',
-        },
-      '& [data-part=content]': {
-        paddingInline: 'lg',
-        paddingBottom: 'lg',
       },
     },
   },

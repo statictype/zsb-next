@@ -88,7 +88,7 @@ describe('ProgramBoard — Ongoing + day-by-day composition', () => {
 describe('ArchiveCollapse', () => {
   it('renders children directly while the edition is live', () => {
     render(
-      <ArchiveCollapse ended={false} count={3}>
+      <ArchiveCollapse ended={false}>
         <p>board</p>
       </ArchiveCollapse>,
     )
@@ -96,14 +96,13 @@ describe('ArchiveCollapse', () => {
     expect(screen.queryByRole('button')).toBeNull()
   })
 
-  it('folds a finished edition behind the program toggle with the event count', () => {
+  it('folds a finished edition behind the program toggle', () => {
     render(
-      <ArchiveCollapse ended={true} count={3}>
+      <ArchiveCollapse ended={true}>
         <p>board</p>
       </ArchiveCollapse>,
     )
     expect(screen.getByRole('button', { name: /Browse the full program/ })).toBeInTheDocument()
-    expect(screen.getByText('3 events')).toBeInTheDocument()
   })
 })
 

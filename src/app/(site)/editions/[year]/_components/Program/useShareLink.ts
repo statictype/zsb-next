@@ -28,8 +28,6 @@ export interface ShareLink {
   share: () => Promise<void>
   /** The fallback copied the link just now (clears itself after a beat). */
   copied: boolean
-  /** The fallback couldn't copy — blocked clipboard (clears after a beat). */
-  failed: boolean
   /** Button label reflecting the current capability + state. */
   label: string
   /** Text for the call site's `role="status"` region — '' while idle. Kept
@@ -79,7 +77,6 @@ export function useShareLink(resolveUrl: () => string): ShareLink {
   return {
     share,
     copied,
-    failed,
     label: canNativeShare
       ? 'Share'
       : failed
