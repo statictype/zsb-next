@@ -2,8 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import { cx } from 'styled-system/css'
+import { navigation } from 'styled-system/recipes'
 import { MobileMenu } from '@/components/Navigation/MobileMenu'
-import { navigation } from '@/components/Navigation/Navigation.recipe'
 import { NavLinks, NavLinksList } from '@/components/Navigation/NavLinks'
 
 const s = navigation()
