@@ -26,35 +26,30 @@ describe('Carousel', () => {
   beforeEach(() => setReducedMotion(false))
 
   it('renders the rail control contract', () => {
-    render(
-      <Carousel label="Gallery" mode="rail" loop={false} eyebrow="Photographs" slides={slides} />,
-    )
+    render(<Carousel label="Gallery" mode="rail" eyebrow="Photographs" slides={slides} />)
 
     expect(screen.getByRole('region', { name: 'Gallery' })).toBeInTheDocument()
     expect(screen.getByText('Photographs')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Previous gallery slide' })).toBeDisabled()
-    expect(screen.getByRole('button', { name: 'Next gallery slide' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Previous gallery slide' })).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Next gallery slide' })).toBeEnabled()
   })
 
   it('renders the stage with no chrome, only the slides', () => {
-    render(<Carousel label="Hero" mode="stage" loop slides={slides} />)
+    render(<Carousel label="Hero" mode="stage" slides={slides} />)
 
     expect(screen.getByRole('region', { name: 'Hero' })).toBeInTheDocument()
     expect(screen.getAllByRole('group', { name: /of 3$/ })).toHaveLength(3)
     expect(screen.queryAllByRole('button')).toHaveLength(0)
   })
 
-  it('bounds a non-looping rail at both ends', async () => {
+  it('wraps from the first slide to the last without the engine', async () => {
     const user = userEvent.setup()
-    render(<Carousel label="Gallery" mode="rail" loop={false} slides={slides} />)
+    render(<Carousel label="Gallery" mode="rail" slides={slides} />)
 
-    const prev = screen.getByRole('button', { name: 'Previous gallery slide' })
-    const next = screen.getByRole('button', { name: 'Next gallery slide' })
-    expect(prev).toBeDisabled()
-    expect(next).toBeEnabled()
-
-    await user.click(next)
-    await waitFor(() => expect(prev).toBeEnabled())
+    await user.click(screen.getByRole('button', { name: 'Previous gallery slide' }))
+    await waitFor(() =>
+      expect(screen.getByRole('group', { name: '3 of 3' })).toHaveAttribute('data-current'),
+    )
   })
 
   it('suppresses the click that ends a mouse drag but lets static clicks through', () => {
@@ -63,7 +58,6 @@ describe('Carousel', () => {
       <Carousel
         label="Gallery"
         mode="rail"
-        loop={false}
         slides={[
           {
             id: 'clickable',

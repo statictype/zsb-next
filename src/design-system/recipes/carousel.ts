@@ -20,12 +20,12 @@ export const carousel = defineSlotRecipe({
       scrollbarWidth: 'none',
       '&::-webkit-scrollbar': { display: 'none' },
       _motionReduce: { scrollBehavior: 'auto' },
-      '&[data-engine]': { scrollSnapType: 'none', cursor: 'grab', touchAction: 'pan-y' },
-      // Looping moves the items and leaves the track still, so the track keeps
-      // clipping; the bounded engine translates the track itself, so there the
-      // frame has to do the clipping instead.
-      '&[data-engine="loop"]': { overflowX: 'hidden' },
-      '&[data-engine="bounded"]': { overflow: 'visible' },
+      '&[data-engine]': {
+        scrollSnapType: 'none',
+        cursor: 'grab',
+        touchAction: 'pan-y',
+        overflowX: 'hidden',
+      },
       '&[data-engine]:active': { cursor: 'grabbing' },
       '&[data-moving] [data-carousel-slide-content]': { pointerEvents: 'none' },
       _focusVisible: { outline: 'none' },

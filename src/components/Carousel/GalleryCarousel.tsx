@@ -72,7 +72,6 @@ export function GalleryCarousel({
       id={id}
       label={label}
       mode="rail"
-      loop={false}
       eyebrow={eyebrow}
       className={className}
       lightboxImages={lightboxImages}
