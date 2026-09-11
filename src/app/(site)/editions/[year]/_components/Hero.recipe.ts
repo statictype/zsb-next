@@ -4,11 +4,8 @@ export const hero = sva({
   slots: [
     'hero',
     'inner',
-    'head',
     'mast',
-    'prefix',
     'plate',
-    'frame',
     'image',
     'thumb',
     'ledger',
@@ -46,40 +43,21 @@ export const hero = sva({
       gap: '2xl',
     },
 
-    head: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      gap: 'md',
-      minWidth: '0',
-      animationStyle: 'enter',
-    },
-    mast: {
-      margin: '0',
-      display: 'flex',
-      alignItems: 'baseline',
-      flexWrap: 'wrap',
-      columnGap: '[0.25em]',
-    },
-    prefix: { color: '[currentColor]' },
+    mast: { margin: '0', animationStyle: 'enter' },
 
     plate: {
       position: 'absolute',
       inset: '0',
       zIndex: '0',
+      overflow: 'hidden',
+      background: 'gray.900',
+      filter: '[token(assets.color)]',
       _portraitPhone: {
         position: 'relative',
         inset: 'auto',
         aspectRatio: '1 / 1',
         marginBottom: 'xl',
       },
-    },
-    frame: {
-      position: 'absolute',
-      inset: '0',
-      overflow: 'hidden',
-      background: 'gray.900',
-      filter: '[token(assets.color)]',
     },
     image: {
       objectFit: 'cover',
