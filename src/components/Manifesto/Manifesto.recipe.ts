@@ -1,26 +1,19 @@
 import { sva } from 'styled-system/css'
 
 export const manifesto = sva({
-  slots: ['section', 'container', 'title', 'content'],
+  slots: ['split', 'body'],
   base: {
-    section: {
-      // ground + rhythm come from `section()` in the component; `container` is
-      // the rail, so it owns the gutter.
-      position: 'relative',
-    },
-    container: {
+    split: {
+      layerStyle: 'sectionInner',
+      display: 'grid',
       gap: '2xl',
-      maxWidth: 'maxWidth',
-      marginInline: 'auto',
-      paddingInline: 'gutter',
       lg: {
+        gridTemplateColumns: '0.8fr 1.2fr',
         gap: 'gridGap',
         alignItems: 'start',
       },
+      xl: { gridTemplateColumns: '1fr 1fr' },
     },
-    title: {
-      textWrap: '[pretty]',
-    },
-    content: { paddingTop: { base: '0', lg: 'md' } },
+    body: { maxWidth: 'measure', lg: { paddingTop: 'md' } },
   },
 })
