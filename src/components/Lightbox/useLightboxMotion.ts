@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { token } from 'styled-system/tokens'
 import { clearDissolve, dissolveFrom } from '@/components/Lightbox/gridDissolve'
 import { containRect, elementRect, intersectsViewport } from '@/components/Lightbox/imageRect'
@@ -107,26 +107,23 @@ export function useLightboxMotion({
     })
   }, [isOpen, index, getOrigin])
 
-  const goTo = useCallback(
-    (next: number) => {
-      if (dissolvingRef.current) return
+  const goTo = (next: number) => {
+    if (dissolvingRef.current) return
 
-      const runtime = runtimeRef.current
-      const overlay = overlayRef.current
-      const image = imageLayerRef.current?.querySelector('img')
-      if (runtime && overlay && image) {
-        dissolvingRef.current = true
-        const started = dissolveFrom(runtime, image, overlay, () => {
-          dissolvingRef.current = false
-        })
-        if (!started) dissolvingRef.current = false
-      }
-      onIndexChange(next)
-    },
-    [onIndexChange],
-  )
+    const runtime = runtimeRef.current
+    const overlay = overlayRef.current
+    const image = imageLayerRef.current?.querySelector('img')
+    if (runtime && overlay && image) {
+      dissolvingRef.current = true
+      const started = dissolveFrom(runtime, image, overlay, () => {
+        dissolvingRef.current = false
+      })
+      if (!started) dissolvingRef.current = false
+    }
+    onIndexChange(next)
+  }
 
-  const requestClose = useCallback(() => {
+  const requestClose = () => {
     if (closingRef.current) return
 
     const runtime = runtimeRef.current
@@ -176,7 +173,7 @@ export function useLightboxMotion({
         origin.style.visibility = ''
       },
     })
-  }, [getOrigin, index, onClose])
+  }
 
   return { rootRef, stageRef, imageLayerRef, overlayRef, goTo, requestClose }
 }

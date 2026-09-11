@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   closestIndex,
   isLoopable,
@@ -352,6 +352,22 @@ function loopingTrack(
   }
 }
 
+let pendingRuntime: Promise<{ gsap: GSAP; Draggable: DraggableStatic }> | null = null
+
+function loadDragRuntime() {
+  pendingRuntime ??= Promise.all([
+    import('gsap'),
+    import('gsap/Draggable'),
+    import('gsap/InertiaPlugin'),
+  ]).then(([core, draggableModule, inertiaModule]) => {
+    const { gsap } = core
+    const { Draggable } = draggableModule
+    gsap.registerPlugin(Draggable, inertiaModule.InertiaPlugin)
+    return { gsap, Draggable }
+  })
+  return pendingRuntime
+}
+
 interface UseCarouselEngineOptions {
   slideCount: number
   animated: boolean
@@ -364,46 +380,37 @@ export function useCarouselEngine({ slideCount, animated }: UseCarouselEngineOpt
   const [page, setPage] = useState(0)
   const [pageCount, setPageCount] = useState(slideCount)
 
-  const report = useCallback(
-    (index: number, count = slideCount) => {
-      pageRef.current = index
-      setPage(index)
-      setPageCount(count)
-    },
-    [slideCount],
-  )
-
   useEffect(() => {
     const track = trackRef.current
     if (!track || !animated || slideCount < 2) return
     const state = { disposed: false }
     let context: gsap.Context | undefined
 
-    void (async () => {
-      const [core, draggableModule, inertiaModule] = await Promise.all([
-        import('gsap'),
-        import('gsap/Draggable'),
-        import('gsap/InertiaPlugin'),
-      ])
-      if (state.disposed || !track.isConnected) return
-      const { gsap } = core
-      const { Draggable } = draggableModule
-      gsap.registerPlugin(Draggable, inertiaModule.InertiaPlugin)
+    const report = (index: number, count: number) => {
+      pageRef.current = index
+      setPage(index)
+      setPageCount(count)
+    }
 
-      const items = Array.from(track.children).filter(
-        (node): node is HTMLElement => node instanceof HTMLElement,
-      )
+    loadDragRuntime()
+      .then(({ gsap, Draggable }) => {
+        if (state.disposed || !track.isConnected) return
 
-      context = gsap.context(() => {
-        const engine = loopingTrack(gsap, Draggable, items, report)
-        if (!engine) return
-        track.dataset.engine = ''
-        engineRef.current = engine
-        return engine.dispose
-      }, track)
-    })().catch((error: unknown) => {
-      console.error('Carousel engine failed to start; falling back to scroll.', error)
-    })
+        const items = Array.from(track.children).filter(
+          (node): node is HTMLElement => node instanceof HTMLElement,
+        )
+
+        context = gsap.context(() => {
+          const engine = loopingTrack(gsap, Draggable, items, report)
+          if (!engine) return
+          track.dataset.engine = ''
+          engineRef.current = engine
+          return engine.dispose
+        }, track)
+      })
+      .catch((error: unknown) => {
+        console.error('Carousel engine failed to start; falling back to scroll.', error)
+      })
 
     return () => {
       state.disposed = true
@@ -412,12 +419,12 @@ export function useCarouselEngine({ slideCount, animated }: UseCarouselEngineOpt
       delete track.dataset.engine
       setPageCount(slideCount)
     }
-  }, [animated, slideCount, report])
+  }, [animated, slideCount])
 
   /** Pre-hydration, reduced-motion, no-JS and strips too short to loop all
    *  land here: the track is still a scroll-snap strip, so navigation stays
    *  real without the engine. */
-  const scrollToIndex = useCallback((index: number) => {
+  const scrollToIndex = (index: number) => {
     pageRef.current = index
     setPage(index)
     const track = trackRef.current
@@ -426,28 +433,25 @@ export function useCarouselEngine({ slideCount, animated }: UseCarouselEngineOpt
     // Easing comes from the track's own `scroll-behavior`, which the recipe
     // already flips to `auto` under reduced motion.
     track.scrollLeft = item.offsetLeft - track.offsetLeft
-  }, [])
+  }
 
-  const next = useCallback(() => {
+  const next = () => {
     const engine = engineRef.current
     if (engine) engine.next()
     else scrollToIndex(wrapIndex(pageRef.current + 1, slideCount))
-  }, [scrollToIndex, slideCount])
+  }
 
-  const previous = useCallback(() => {
+  const previous = () => {
     const engine = engineRef.current
     if (engine) engine.previous()
     else scrollToIndex(wrapIndex(pageRef.current - 1, slideCount))
-  }, [scrollToIndex, slideCount])
+  }
 
-  const toIndex = useCallback(
-    (index: number) => {
-      const engine = engineRef.current
-      if (engine) engine.toIndex(index)
-      else scrollToIndex(wrapIndex(index, slideCount))
-    },
-    [scrollToIndex, slideCount],
-  )
+  const toIndex = (index: number) => {
+    const engine = engineRef.current
+    if (engine) engine.toIndex(index)
+    else scrollToIndex(wrapIndex(index, slideCount))
+  }
 
   return { trackRef, page, pageCount, next, previous, toIndex }
 }
