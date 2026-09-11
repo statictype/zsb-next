@@ -10,17 +10,10 @@ interface ManifestoProps {
   body: string
   accent?: string
   ground?: 'light' | 'dark'
-  flush?: boolean
 }
 
-export function Manifesto({
-  title,
-  body,
-  accent,
-  ground = 'light',
-  flush = false,
-}: ManifestoProps) {
-  const s = styles({ flush })
+export function Manifesto({ title, body, accent, ground = 'light' }: ManifestoProps) {
+  const s = styles()
 
   return (
     <section className={cx(section({ ground, rhythm: 'lg' }), s.section)}>

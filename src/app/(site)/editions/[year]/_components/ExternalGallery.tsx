@@ -34,7 +34,7 @@ export function ExternalGallery({ gallery, theme }: ExternalGalleryProps) {
             <Text variant="label">{theme}</Text>
           </HStack>
 
-          <Card asChild ground="onDark" interactive>
+          <Card asChild interactive>
             <a
               className={styles.card}
               href={href}

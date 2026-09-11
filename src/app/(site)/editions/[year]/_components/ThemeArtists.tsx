@@ -23,7 +23,6 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
           slides={carousel}
           eyebrow={theme}
           treatment="color"
-          size="large"
         />
       )}
 

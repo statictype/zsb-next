@@ -12,8 +12,7 @@ import { type CardVariantProps, card } from 'styled-system/recipes'
  * Card — the one unified card (ZSB-71).
  *
  * Every card on the site is a hairline-bordered surface (ZSB's signature).
- * `ground` (onDark|onLight) × `interactive` live in the Panda `card` recipe;
- * `interactive` adds the single shared hover (hairline → accent + lift). Pass
+ * `interactive` lives in the Panda `card` recipe and adds the single shared hover (hairline → accent + lift). Pass
  * `as={Link}` (with `href`) for a navigable card; per-consumer motion
  * (title-colour, image zoom) stays on the consumer via `className`.
  *
@@ -40,8 +39,8 @@ type CardAsChildProps = CardOwnProps & {
 
 type CardProps = CardAsProps | CardAsChildProps
 
-export function Card({ ground, interactive, className, asChild, ...rest }: CardProps) {
-  const cls = cx(card({ ground, interactive }), className)
+export function Card({ interactive, className, asChild, ...rest }: CardProps) {
+  const cls = cx(card({ interactive }), className)
   if (asChild && isValidElement(rest.children)) {
     const child = rest.children as ReactElement<{ className?: string | undefined }>
     return cloneElement(child, { className: cx(cls, child.props.className) })

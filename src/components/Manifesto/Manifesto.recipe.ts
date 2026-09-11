@@ -23,10 +23,4 @@ export const manifesto = sva({
     },
     content: { paddingTop: { base: '0', lg: 'md' } },
   },
-  variants: {
-    flush: {
-      true: { section: { paddingBottom: '0' } },
-    },
-  },
-  defaultVariants: { flush: false },
 })

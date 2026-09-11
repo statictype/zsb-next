@@ -13,14 +13,6 @@ const SIZE = {
   standardIcon: { base: '[20px]', md: '[26px]', xl: '[36px]' },
   footer: { base: '[100.8px]', md: '[115.2px]', xl: '[150px]' },
   footerIcon: { base: '[28px]', md: '[31.2px]', xl: '[43.2px]' },
-  hero: {
-    base: '[158.4px]',
-    md: '[172.8px]',
-    lg: '[158.4px]',
-    xl: '[218.75px]',
-    '3xl': '[231.25px]',
-  },
-  heroIcon: { base: '[44px]', md: '[46.8px]', lg: '[42.9px]', xl: '[63px]', '3xl': '[66.6px]' },
   upcoming: { base: '[108px]', md: '[144px]', xl: '[187.5px]' },
   upcomingIcon: { base: '[30px]', md: '[39px]', xl: '[54px]' },
 } as const
@@ -74,10 +66,6 @@ export const partnerBadge = sva({
       footer: {
         wrap: { width: SIZE.footer, height: SIZE.footer },
         icon: { width: SIZE.footerIcon, height: SIZE.footerIcon },
-      },
-      hero: {
-        wrap: { width: SIZE.hero, height: SIZE.hero },
-        icon: { width: SIZE.heroIcon, height: SIZE.heroIcon },
       },
       upcoming: {
         wrap: { width: SIZE.upcoming, height: SIZE.upcoming },

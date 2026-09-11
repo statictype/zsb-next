@@ -28,15 +28,6 @@ export const editionTheme = sva({
   },
   variants: {
     size: {
-      large: {
-        heading: { maxWidth: 'full', textStyle: 'editionTheme.large' },
-      },
-      normal: {
-        heading: { maxWidth: 'full', textStyle: 'editionTheme.normal' },
-      },
-      rail: {
-        heading: { maxWidth: 'full', textStyle: 'editionTheme.rail' },
-      },
       sub: {
         heading: { maxWidth: 'full', textStyle: 'editionTheme.sub' },
       },
@@ -56,7 +47,6 @@ export const editionTheme = sva({
     // Ignored when `interactive` — hover color there is always `action`.
     accent: {
       highlight: {},
-      action: {},
       none: {},
     },
     // De-emphasizes the whole heading (lead + theme text) — the rail's
@@ -69,7 +59,6 @@ export const editionTheme = sva({
   },
   compoundVariants: [
     { interactive: false, accent: 'highlight', css: { highlight: { color: 'highlight' } } },
-    { interactive: false, accent: 'action', css: { highlight: { color: 'action' } } },
   ],
-  defaultVariants: { size: 'normal', interactive: false, accent: 'highlight', muted: false },
+  defaultVariants: { interactive: false, accent: 'highlight', muted: false },
 })

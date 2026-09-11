@@ -5,16 +5,18 @@ import { LightboxGallery } from '@/components/Carousel/LightboxGallery'
 import { Figure } from '@/components/Figure/Figure'
 import type { CarouselLayout, CarouselSlide as GallerySlide } from '@/types/edition'
 
-type GallerySize = 'default' | 'large'
-
 type Band = 'base' | 'md' | 'lg' | 'xl' | '2xl' | '4xl'
 
 // Ceiling of `--slide-h` per breakpoint band, derived from the `--slide-h-max`
 // and `--slide-w-max` clamps in GalleryCarousel.recipe.ts; the layout column
 // widths there are multiples of it.
-const SLIDE_HEIGHT_CAP: Record<GallerySize, Record<Band, number>> = {
-  default: { base: 233, md: 351, lg: 398, xl: 379, '2xl': 452, '4xl': 560 },
-  large: { base: 260, md: 374, lg: 449, xl: 469, '2xl': 572, '4xl': 780 },
+const SLIDE_HEIGHT_CAP: Record<Band, number> = {
+  base: 260,
+  md: 374,
+  lg: 449,
+  xl: 469,
+  '2xl': 572,
+  '4xl': 780,
 }
 
 // Tracks the `_portraitPhone` cell width in GalleryCarousel.recipe.ts, where
@@ -29,11 +31,10 @@ const BAND_MIN_WIDTH: [Band, number][] = [
   ['md', 768],
 ]
 
-function sizesFor(layout: CarouselLayout, imgIndex: number, size: GallerySize): string {
-  const caps = SLIDE_HEIGHT_CAP[size]
+function sizesFor(layout: CarouselLayout, imgIndex: number): string {
   const featured = (layout === 'featured-portrait' || layout === 'featured-stack') && imgIndex === 0
   const ratio = layout === 'full' || featured ? 1.5 : layout === 'duo' ? 1 : 0.75
-  const cell = (band: Band) => `${Math.ceil(caps[band] * ratio)}px`
+  const cell = (band: Band) => `${Math.ceil(SLIDE_HEIGHT_CAP[band] * ratio)}px`
   const steps = BAND_MIN_WIDTH.map(([band, min]) => `(min-width: ${min}px) ${cell(band)}`)
   return [PORTRAIT_PHONE_SIZE, ...steps, cell('base')].join(', ')
 }
@@ -44,7 +45,6 @@ interface GalleryCarouselProps {
   slides: GallerySlide[]
   eyebrow?: string | undefined
   treatment: 'mono' | 'color'
-  size?: GallerySize
   preload?: boolean
   className?: string | undefined
 }
@@ -55,11 +55,10 @@ export function GalleryCarousel({
   slides,
   eyebrow,
   treatment,
-  size = 'default',
   preload = false,
   className,
 }: GalleryCarouselProps) {
-  const styles = galleryCarousel({ treatment, size })
+  const styles = galleryCarousel({ treatment })
 
   return (
     <LightboxGallery
@@ -71,7 +70,7 @@ export function GalleryCarousel({
       slides={slides}
       lightboxImages={(slide) => slide.images}
       renderSlide={(slide, trigger, slideIndex) => (
-        <div className={galleryCarousel({ layout: slide.layout, size }).slide}>
+        <div className={galleryCarousel({ layout: slide.layout }).slide}>
           {slide.images.map((image, imageIndex) => (
             <button
               key={image.image.src}
@@ -83,7 +82,7 @@ export function GalleryCarousel({
               <span className={styles.frame}>
                 <Figure
                   image={image.image}
-                  sizes={sizesFor(slide.layout, imageIndex, size)}
+                  sizes={sizesFor(slide.layout, imageIndex)}
                   className={styles.itemImage}
                   draggable={false}
                   preload={preload && slideIndex === 0 && imageIndex === 0}

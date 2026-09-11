@@ -18,7 +18,6 @@ const grayRamp = Object.fromEntries(
 )
 
 export const conditions = {
-  motionSafe: '@media (prefers-reduced-motion: no-preference)',
   motionReduce: '@media (prefers-reduced-motion: reduce)',
 
   portrait: '@media (orientation: portrait)',
@@ -156,7 +155,6 @@ export const tokens = {
 
     dialogPanel: { value: '540px' },
     dialogPanelWide: { value: '760px' },
-    dialogPanelXl: { value: '1000px' },
   },
   assets: {
     mono: { value: 'grayscale(1) brightness(1.08) contrast(1.06)' },
@@ -205,18 +203,10 @@ export const tokens = {
   shadows: {
     litEdge: { value: 'inset 0 1px 0 rgb(255 255 255 / 0.18)' },
 
-    card: { value: '0 2px 12px rgb(0 0 0 / 0.03)' },
     badge: { value: '0 1px 0 rgb(255 255 255 / 0.25) inset, 0 6px 16px rgb(0 0 0 / 0.25)' },
     modal: { value: '0 30px 80px rgb(0 0 0 / 0.5)' },
   },
   gradients: {
-    heroVignette: {
-      value:
-        'linear-gradient(115deg, rgb(14 11 16 / 0.34) 0%, rgb(14 11 16 / 0) 38%), radial-gradient(140% 90% at 50% 30%, transparent 55%, rgb(14 11 16 / 0.3) 100%)',
-    },
-    cardScrim: {
-      value: 'linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent 30%, rgb(0 0 0 / 0.55))',
-    },
     stageScrim: {
       value: 'linear-gradient(180deg, transparent, rgb(0 0 0 / 0.55))',
     },
@@ -407,33 +397,6 @@ export const textStyles = {
   },
 
   editionTheme: {
-    large: {
-      value: {
-        fontFamily: 'display',
-        fontSize: { base: '2xl', xl: '3xl' },
-        lineHeight: '1',
-        letterSpacing: 'theme',
-        textTransform: 'lowercase',
-      },
-    },
-    normal: {
-      value: {
-        fontFamily: 'display',
-        fontSize: 'xl',
-        lineHeight: '1',
-        letterSpacing: 'theme',
-        textTransform: 'lowercase',
-      },
-    },
-    rail: {
-      value: {
-        fontFamily: 'display',
-        fontSize: { base: 'md', lg: '2xl' },
-        lineHeight: '1',
-        letterSpacing: 'theme',
-        textTransform: 'lowercase',
-      },
-    },
     sub: {
       value: {
         fontFamily: 'display',

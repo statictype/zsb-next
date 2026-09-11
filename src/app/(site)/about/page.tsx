@@ -66,7 +66,6 @@ function AboutShell({ view }: { view: AboutView }) {
             slides={carousel}
             eyebrow={carouselEyebrow}
             treatment="mono"
-            size="large"
             preload
           />
         </section>
