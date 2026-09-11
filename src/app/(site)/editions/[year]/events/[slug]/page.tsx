@@ -38,7 +38,7 @@ export default async function EventPage(props: PageProps<'/editions/[year]/event
         event={event}
         year={edition.year}
         theme={edition.theme}
-        {...eventSteps(edition.events, slug, edition.year)}
+        steps={eventSteps(edition.events, slug, edition.year)}
       />
     </>
   )

@@ -1,5 +1,5 @@
+import { EventModal } from '@program/EventModal'
 import { eventSteps } from '@program/event-steps'
-import { RoutedEventModal } from '@program/RoutedEventModal'
 import { notFound } from 'next/navigation'
 import { getEdition } from '@/data/editions'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
@@ -16,10 +16,10 @@ export default async function InterceptedEventModal(
   if (!event) notFound()
 
   return (
-    <RoutedEventModal
+    <EventModal
       event={event}
       year={Number(year)}
-      {...eventSteps(edition?.events ?? [], slug, Number(year))}
+      steps={eventSteps(edition?.events ?? [], slug, Number(year))}
     />
   )
 }
