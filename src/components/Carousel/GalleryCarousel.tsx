@@ -1,7 +1,7 @@
 'use client'
 
 import { galleryCarousel } from '@/components/Carousel/GalleryCarousel.recipe'
-import { LightboxCarousel } from '@/components/Carousel/LightboxCarousel'
+import { LightboxGallery } from '@/components/Carousel/LightboxGallery'
 import { Figure } from '@/components/Figure/Figure'
 import type { CarouselLayout, CarouselSlide as GallerySlide } from '@/types/edition'
 
@@ -59,60 +59,45 @@ export function GalleryCarousel({
   preload = false,
   className,
 }: GalleryCarouselProps) {
-  const lightboxImages = slides.flatMap((slide) =>
-    slide.images.map((image) => ({ image: image.image, caption: image.caption })),
-  )
   const styles = galleryCarousel({ treatment, size })
-  const slideOffsets = slides.map((_, slideIndex) =>
-    slides.slice(0, slideIndex).reduce((imageCount, slide) => imageCount + slide.images.length, 0),
-  )
 
   return (
-    <LightboxCarousel
+    <LightboxGallery
       id={id}
       label={label}
       mode="rail"
       eyebrow={eyebrow}
       className={className}
-      lightboxImages={lightboxImages}
-      slides={(openLightbox, registerOrigin) =>
-        slides.map((slide, slideIndex) => {
-          const startIndex = slideOffsets[slideIndex] ?? 0
-          const content = (
-            <div className={galleryCarousel({ layout: slide.layout, size }).slide}>
-              {slide.images.map((image, imageIndex) => {
-                const imageFlatIndex = startIndex + imageIndex
-                return (
-                  <button
-                    key={image.image.src}
-                    type="button"
-                    className={styles.item}
-                    data-carousel-snap
-                    ref={(element) => registerOrigin(imageFlatIndex, element)}
-                    onClick={() => openLightbox(imageFlatIndex)}
-                  >
-                    <span className={styles.frame}>
-                      <Figure
-                        image={image.image}
-                        sizes={sizesFor(slide.layout, imageIndex, size)}
-                        className={styles.itemImage}
-                        draggable={false}
-                        preload={preload && imageFlatIndex === 0}
-                      />
-                    </span>
-                    {image.caption && (
-                      <span className={styles.caption} data-caption aria-hidden>
-                        {image.caption}
-                      </span>
-                    )}
-                  </button>
-                )
-              })}
-            </div>
-          )
-          return { id: `gallery-${slideIndex}`, content }
-        })
-      }
+      slides={slides}
+      lightboxImages={(slide) => slide.images}
+      renderSlide={(slide, trigger, slideIndex) => (
+        <div className={galleryCarousel({ layout: slide.layout, size }).slide}>
+          {slide.images.map((image, imageIndex) => (
+            <button
+              key={image.image.src}
+              type="button"
+              className={styles.item}
+              data-carousel-snap
+              {...trigger(imageIndex)}
+            >
+              <span className={styles.frame}>
+                <Figure
+                  image={image.image}
+                  sizes={sizesFor(slide.layout, imageIndex, size)}
+                  className={styles.itemImage}
+                  draggable={false}
+                  preload={preload && slideIndex === 0 && imageIndex === 0}
+                />
+              </span>
+              {image.caption && (
+                <span className={styles.caption} data-caption aria-hidden>
+                  {image.caption}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
     />
   )
 }

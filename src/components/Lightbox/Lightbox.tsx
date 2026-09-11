@@ -23,7 +23,8 @@ const KEY_REPEAT_INTERVAL_MS = 220
 
 interface LightboxProps {
   images: LightboxImage[]
-  index: number | null
+  open: boolean
+  index: number
   getOrigin: (index: number) => HTMLElement | null
   onClose: () => void
   onIndexChange: (index: number) => void
@@ -48,38 +49,35 @@ function stepIndex(index: number, dir: 1 | -1, count: number): number {
   return (index + dir + count) % count
 }
 
-export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: LightboxProps) {
+export function Lightbox({
+  images,
+  open,
+  index,
+  getOrigin,
+  onClose,
+  onIndexChange,
+}: LightboxProps) {
   const [drag, setDrag] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const dragRef = useRef<DragState | null>(null)
   const repeatAt = useRef(0)
 
-  const isOpen = index !== null
-  // Keep the exit transition on the image that was open once index goes null.
-  const [lastIndex, setLastIndex] = useState(0)
-  if (index !== null && index !== lastIndex) setLastIndex(index)
-  const displayIndex = index ?? lastIndex
-
   const { rootRef, stageRef, imageLayerRef, overlayRef, goTo, requestClose } = useLightboxMotion({
-    isOpen,
-    index: displayIndex,
+    isOpen: open,
+    index,
     getOrigin,
     onClose,
     onIndexChange,
   })
 
-  const onNext = () => {
-    if (index !== null) goTo(stepIndex(index, 1, images.length))
-  }
-  const onPrev = () => {
-    if (index !== null) goTo(stepIndex(index, -1, images.length))
-  }
+  const onNext = () => goTo(stepIndex(index, 1, images.length))
+  const onPrev = () => goTo(stepIndex(index, -1, images.length))
 
   // Depend on `index`, not onNext/onPrev — render-scoped fns would re-arm the
   // listener every render.
   const count = images.length
   useEffect(() => {
-    if (index === null) return
+    if (!open) return
 
     const handleKeydown = (e: KeyboardEvent) => {
       const dir = e.key === 'ArrowLeft' ? -1 : e.key === 'ArrowRight' ? 1 : 0
@@ -94,18 +92,18 @@ export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: L
 
     document.addEventListener('keydown', handleKeydown)
     return () => document.removeEventListener('keydown', handleKeydown)
-  }, [index, count, goTo])
+  }, [open, index, count, goTo])
 
   if (!images.length) return null
 
-  const current = images[displayIndex]
+  const current = images[index]
   if (!current) return null
   const caption = current.caption ?? ''
   const [firstName = '', ...restName] = caption.split(' ')
   const lastName = restName.join(' ')
 
-  const prevIndex = stepIndex(displayIndex, -1, images.length)
-  const nextIndex = stepIndex(displayIndex, 1, images.length)
+  const prevIndex = stepIndex(index, -1, images.length)
+  const nextIndex = stepIndex(index, 1, images.length)
   const preloadSrcs = Array.from(
     new Set(
       [images[prevIndex]?.image.src, images[nextIndex]?.image.src].filter(
@@ -178,12 +176,7 @@ export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: L
   const s = lightboxRecipe()
 
   return (
-    <Dialog
-      open={isOpen}
-      onClose={requestClose}
-      ariaLabel="Image lightbox"
-      presentation="fullscreen"
-    >
+    <Dialog open={open} onClose={requestClose} ariaLabel="Image lightbox" presentation="fullscreen">
       <div
         className={s.lightbox}
         ref={rootRef}
@@ -221,7 +214,7 @@ export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: L
             {images.length > 1 && (
               <>
                 <span className={s.counter}>
-                  {displayIndex + 1} / {images.length}
+                  {index + 1} / {images.length}
                 </span>
                 <Button variant="icon" onClick={onPrev} aria-label="Previous image">
                   <RiArrowLeftSLine size={20} />
@@ -253,7 +246,7 @@ export function Lightbox({ images, index, getOrigin, onClose, onIndexChange }: L
           </Button>
         </div>
 
-        {isOpen && preloadSrcs.length > 0 && (
+        {open && preloadSrcs.length > 0 && (
           <div className={s.preload} aria-hidden>
             {preloadSrcs.map((src) => (
               <div key={src} className={s.preloadFrame}>
