@@ -16,11 +16,10 @@ const HERO_INK_BY_YEAR: Record<number, 'black' | 'white'> = {
   2024: 'black',
 }
 
-const FACT_LABELS: Record<EditionFact['kind'], string> = {
+const FACT_LABELS: Record<Exclude<EditionFact['kind'], 'events'>, string> = {
   dates: 'Dates',
   venue: 'Venue',
   artists: 'Artists',
-  events: 'Events',
 }
 
 interface HeroProps {
@@ -33,11 +32,13 @@ export function Hero({ edition }: HeroProps) {
   const styles = hero({ ink })
 
   const facts: { key: string; label: string; value: ReactNode }[] = [
-    ...edition.facts.map((fact) => ({
-      key: fact.kind,
-      label: FACT_LABELS[fact.kind],
-      value: fact.kind === 'dates' || fact.kind === 'venue' ? fact.text : String(fact.count),
-    })),
+    ...edition.facts
+      .filter((fact) => fact.kind !== 'events')
+      .map((fact) => ({
+        key: fact.kind,
+        label: FACT_LABELS[fact.kind],
+        value: fact.kind === 'dates' || fact.kind === 'venue' ? fact.text : String(fact.count),
+      })),
     {
       key: 'theme',
       label: 'Theme',
@@ -48,29 +49,24 @@ export function Hero({ edition }: HeroProps) {
   return (
     <header className={styles.hero}>
       <div className={styles.plate}>
-        <div className={styles.frame}>
-          <Figure
-            image={heroImage}
-            sizes={HERO_SIZES}
-            preload
-            className={cx(styles.image, css({ animationStyle: 'enter.zoom' }))}
-          />
-          <Figure
-            image={thumbImage ?? heroImage}
-            sizes={THUMB_SIZES}
-            preload
-            className={cx(styles.thumb, css({ animationStyle: 'enter.zoom' }))}
-          />
-        </div>
+        <Figure
+          image={heroImage}
+          sizes={HERO_SIZES}
+          preload
+          className={cx(styles.image, css({ animationStyle: 'enter.zoom' }))}
+        />
+        <Figure
+          image={thumbImage ?? heroImage}
+          sizes={THUMB_SIZES}
+          preload
+          className={cx(styles.thumb, css({ animationStyle: 'enter.zoom' }))}
+        />
       </div>
 
       <div className={styles.inner}>
-        <div className={styles.head}>
-          <Text as="h1" variant="display" color="[currentColor]" className={styles.mast}>
-            <span className={styles.prefix}>ZSB</span>
-            {year}
-          </Text>
-        </div>
+        <Text as="h1" variant="display" color="[currentColor]" className={styles.mast}>
+          ZSB {year}
+        </Text>
 
         <dl className={styles.ledger}>
           {facts.map((fact) => (
