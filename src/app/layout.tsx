@@ -1,22 +1,21 @@
 import type { Metadata, Viewport } from 'next'
-import { Dela_Gothic_One, Montserrat } from 'next/font/google'
+import localFont from 'next/font/local'
 import { SITE_NAME, SITE_URL } from '@/lib/constants'
 import '@app/globals.css'
 import '@app/panda.css'
 
-const delaGothic = Dela_Gothic_One({
+const delaGothic = localFont({
+  src: '../../assets/fonts/DelaGothicOne-Latin.woff2',
   weight: '400',
-  subsets: ['latin', 'latin-ext'],
   variable: '--font-dela-gothic',
   display: 'swap',
 })
 
-const montserrat = Montserrat({
-  subsets: ['latin', 'latin-ext'],
+const montserrat = localFont({
+  src: '../../assets/fonts/Montserrat-Latin.woff2',
+  weight: '300 700',
   variable: '--font-montserrat',
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
 })
 
 export const metadata: Metadata = {
