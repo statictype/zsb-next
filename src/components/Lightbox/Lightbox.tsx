@@ -3,9 +3,10 @@
 import { RiArrowLeftSLine, RiArrowRightSLine, RiCloseLine } from '@remixicon/react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { css, cx } from 'styled-system/css'
+import { lightbox as lightboxRecipe } from 'styled-system/recipes'
 import { token } from 'styled-system/tokens'
 import { Figure } from '@/components/Figure/Figure'
-import { lightbox as lightboxRecipe } from '@/components/Lightbox/Lightbox.recipe'
 import { useLightboxMotion } from '@/components/Lightbox/useLightboxMotion'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { Button } from '@/components/ui/Button/Button'
@@ -18,6 +19,11 @@ export interface LightboxImage {
 }
 
 const SIZES = '100vw'
+const lightboxBarButton = css({
+  color: 'action',
+  _hover: { color: 'heading' },
+  '&:active:not(:disabled)': { color: 'heading' },
+})
 const CONTAIN = { objectFit: 'contain' } as const
 const KEY_REPEAT_INTERVAL_MS = 220
 
@@ -216,10 +222,20 @@ export function Lightbox({
                 <span className={s.counter}>
                   {index + 1} / {images.length}
                 </span>
-                <Button variant="icon" onClick={onPrev} aria-label="Previous image">
+                <Button
+                  variant="icon"
+                  className={lightboxBarButton}
+                  onClick={onPrev}
+                  aria-label="Previous image"
+                >
                   <RiArrowLeftSLine size={20} />
                 </Button>
-                <Button variant="icon" onClick={onNext} aria-label="Next image">
+                <Button
+                  variant="icon"
+                  className={lightboxBarButton}
+                  onClick={onNext}
+                  aria-label="Next image"
+                >
                   <RiArrowRightSLine size={20} />
                 </Button>
               </>
@@ -238,7 +254,7 @@ export function Lightbox({
 
           <Button
             variant="icon"
-            className={s.close}
+            className={cx(s.close, lightboxBarButton)}
             onClick={requestClose}
             aria-label="Close lightbox"
           >

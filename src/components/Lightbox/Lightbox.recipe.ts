@@ -1,8 +1,10 @@
-import { sva } from 'styled-system/css'
+import { defineSlotRecipe } from '@/design-system/define-recipe'
 
 // Full-screen image viewer: layout, controls, and gesture feedback. Dialog owns
 // the modal state and shell; the backdrop alpha + drag transform stay inline.
-export const lightbox = sva({
+export const lightbox = defineSlotRecipe({
+  className: 'lightbox',
+  jsx: ['Lightbox'],
   slots: [
     'lightbox',
     'bar',
@@ -39,11 +41,6 @@ export const lightbox = sva({
       paddingInline: 'sm',
       background: 'surface',
       color: 'heading',
-      '& button': {
-        color: 'action',
-        _hover: { color: 'heading' },
-        '&:active:not(:disabled)': { color: 'heading' },
-      },
       '3xl': {
         gridTemplateColumns: '[minmax(0, 1fr)]',
         gridTemplateRows: '[auto minmax(0, 1fr) auto]',

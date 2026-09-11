@@ -1,3 +1,5 @@
+import { lightbox } from '@/components/Lightbox/Lightbox.recipe'
+import { navigation, navigationSwap } from '@/components/Navigation/Navigation.recipe'
 import { accordion } from '@/design-system/recipes/accordion'
 import { badge } from '@/design-system/recipes/badge'
 import { button } from '@/design-system/recipes/button'
@@ -22,4 +24,7 @@ export const recipes = {
   dialog,
   carousel,
   tooltip,
+  navigation,
+  navigationSwap,
+  lightbox,
 }

@@ -1,4 +1,4 @@
-import { sva } from 'styled-system/css'
+import { defineSlotRecipe } from '@/design-system/define-recipe'
 
 /**
  * Navigation — co-located slot recipe.
@@ -8,13 +8,13 @@ import { sva } from 'styled-system/css'
  * visual `data-active`; exact page state also gets semantic
  * `aria-current="page"`. The private Ark Swap icon is styled below.
  */
-export const navigation = sva({
+export const navigation = defineSlotRecipe({
+  className: 'nav',
+  jsx: ['Navigation', 'MobileMenu'],
   slots: [
     'logo',
     'logoImg',
-    'toggle',
     'dialogLogo',
-    'dialogToggle',
     'desktopNav',
     'desktopNavLink',
     'mobileShell',
@@ -120,45 +120,14 @@ export const navigation = sva({
       paddingBlock: 'md',
       paddingInline: 'xl',
     },
-
-    // Hamburger — the <button> is the full touch-size surface (transparent); the
-    // visible mark is a smaller dark box drawn by ::before, so the tap target
-    // stays generous while the chrome reads compact.
-    toggle: {
-      flexDirection: 'column',
-      gap: 'xs',
-      position: 'fixed',
-      top: 'md',
-      right: 'gutter',
-      zIndex: 'navToggle',
-      pressable: 'inline',
-      _before: {
-        content: '""',
-        position: 'absolute',
-        inset: 'sm',
-        zIndex: '0',
-        background: 'black',
-        border: 'hairline',
-        pointerEvents: 'none',
-        transition: 'interactive',
-      },
-      '& > *': { position: 'relative', zIndex: '1' },
-      color: 'white',
-      _hover: { color: 'action' },
-      '&:focus-visible::before': {
-        outline: 'focus',
-        outlineOffset: 'xs',
-      },
-      '&[aria-expanded=true]': { color: 'highlight' },
-      md: { display: 'none' },
-    },
     dialogLogo: { zIndex: '1' },
-    dialogToggle: { zIndex: '1', md: { display: 'inline-flex' } },
   },
 })
 
 /** Private Ark Swap anatomy for the hamburger/close glyph transition. */
-export const navigationSwap = sva({
+export const navigationSwap = defineSlotRecipe({
+  className: 'nav-swap',
+  jsx: ['NavigationIcon'],
   slots: ['root', 'indicator'],
   base: {
     root: {

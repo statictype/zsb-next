@@ -4,14 +4,53 @@ import { Swap as ArkSwap } from '@ark-ui/react/swap'
 import { RiCloseLine } from '@remixicon/react'
 import Link from 'next/link'
 import { type ReactNode, Suspense, useState } from 'react'
-import { cx } from 'styled-system/css'
+import { cx, sva } from 'styled-system/css'
 import { Center } from 'styled-system/jsx'
-import { navigation, navigationSwap } from '@/components/Navigation/Navigation.recipe'
+import { navigation, navigationSwap } from 'styled-system/recipes'
 import { NavLinks, NavLinksList } from '@/components/Navigation/NavLinks'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
 
+const navigationToggle = sva({
+  slots: ['toggle', 'dialogToggle'],
+  base: {
+    // Hamburger — the <button> is the full touch-size surface (transparent); the
+    // visible mark is a smaller dark box drawn by ::before, so the tap target
+    // stays generous while the chrome reads compact.
+    toggle: {
+      flexDirection: 'column',
+      gap: 'xs',
+      position: 'fixed',
+      top: 'md',
+      right: 'gutter',
+      zIndex: 'navToggle',
+      pressable: 'inline',
+      _before: {
+        content: '""',
+        position: 'absolute',
+        inset: 'sm',
+        zIndex: '0',
+        background: 'black',
+        border: 'hairline',
+        pointerEvents: 'none',
+        transition: 'interactive',
+      },
+      '& > *': { position: 'relative', zIndex: '1' },
+      color: 'white',
+      _hover: { color: 'action' },
+      '&:focus-visible::before': {
+        outline: 'focus',
+        outlineOffset: 'xs',
+      },
+      '&[aria-expanded=true]': { color: 'highlight' },
+      md: { display: 'none' },
+    },
+    dialogToggle: { zIndex: '1', md: { display: 'inline-flex' } },
+  },
+})
+
 const s = navigation()
+const t = navigationToggle()
 const mobileLinkClass = cx(s.navLink, s.mobileNavLink)
 
 /**
@@ -28,7 +67,7 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
       <Button
         variant="icon"
         size="touch"
-        className={s.toggle}
+        className={t.toggle}
         aria-label={isOpen ? 'Close navigation' : 'Open navigation'}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
@@ -51,7 +90,7 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
           <Button
             variant="icon"
             size="touch"
-            className={cx(s.toggle, s.dialogToggle)}
+            className={cx(t.toggle, t.dialogToggle)}
             aria-label="Close navigation"
             aria-expanded={true}
             onClick={closeMenu}
