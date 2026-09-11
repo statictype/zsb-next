@@ -13,7 +13,6 @@ export function HomepageCarousel({ images }: { images: HeroImage[] }) {
       id="homepage-hero"
       label="Homepage photography"
       mode="stage"
-      loop
       lightboxImages={images.map((image) => ({ image }))}
       slides={(openLightbox, registerOrigin) =>
         images.map((image, index) => ({

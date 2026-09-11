@@ -18,7 +18,6 @@ export function MediaKitStrip({ items }: MediaKitStripProps) {
       id="media-kit-posters"
       label="Media kit posters"
       mode="rail"
-      loop={false}
       eyebrow="Media"
       lightboxImages={items.map((item) => ({
         image: item.image,

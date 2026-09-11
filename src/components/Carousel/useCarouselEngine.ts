@@ -1,14 +1,21 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  closestIndex,
+  isLoopable,
+  loopStops,
+  nearestTarget,
+  wheelStepLimit,
+  wheelStepper,
+  wrapIndex,
+} from '@/components/Carousel/carousel-geometry'
 
 type DraggableStatic = typeof import('gsap/Draggable').Draggable
 
 const GLIDE = { ease: 'power3', duration: 0.725 } as const
 const PIXELS_PER_SECOND = 100
-const WHEEL_GESTURE_MS = 140
 const WHEEL_LINE_PX = 16
-const WHEEL_STEP_PX = [340, 1100, 2600]
 const MOVING_QUIET_MS = 120
 
 /** Held for as long as frames keep arriving. The carousel recipe reads
@@ -44,44 +51,9 @@ function attachWheel(element: HTMLElement, scrollBy: (delta: number) => void) {
   return () => element.removeEventListener('wheel', onWheel)
 }
 
-function wheelStepper(begin: () => number, commit: (index: number) => void, maxSteps: number) {
-  let timer: number | undefined
-  let base = 0
-  let accumulated = 0
-  let issued = 0
-  let active = false
-  return {
-    push(delta: number) {
-      if (!active) {
-        active = true
-        accumulated = 0
-        issued = 0
-        base = begin()
-      }
-      accumulated += delta
-      if (timer) window.clearTimeout(timer)
-      timer = window.setTimeout(() => {
-        active = false
-      }, WHEEL_GESTURE_MS)
-      const magnitude = Math.abs(accumulated)
-      const crossed = WHEEL_STEP_PX.filter((threshold) => magnitude >= threshold).length
-      if (crossed === 0) return
-      const steps = Math.min(crossed, maxSteps) * Math.sign(accumulated)
-      if (steps === issued) return
-      issued = steps
-      commit(base + steps)
-    },
-    dispose() {
-      if (timer) window.clearTimeout(timer)
-    },
-  }
-}
-
 // `gsap.getProperty` returns a unit-suffixed string whenever a unit is asked
 // for, so every read has to be parsed, not coerced.
 const num = (value: string | number) => Number.parseFloat(String(value))
-
-const wrapIndex = (index: number, length: number) => ((index % length) + length) % length
 
 // How many slides sit ahead of the one the composition actually reads as
 // current — the stage masks its leading slides, so the timeline index and the
@@ -105,29 +77,11 @@ function pages(track: HTMLElement, slides: HTMLElement[]) {
 
 const at = (values: Float64Array, index: number) => values[index] ?? 0
 
-interface Controls {
+interface Engine {
   next: () => void
   previous: () => void
   toIndex: (index: number) => void
-}
-
-interface Engine extends Controls {
   dispose: () => void
-}
-
-function getClosest(values: Float64Array, value: number, wrap: number) {
-  let i = values.length
-  let closest = Number.POSITIVE_INFINITY
-  let index = 0
-  while (i--) {
-    let distance = Math.abs(at(values, i) - value)
-    if (distance > wrap / 2) distance = wrap - distance
-    if (distance < closest) {
-      closest = distance
-      index = i
-    }
-  }
-  return index
 }
 
 /**
@@ -140,7 +94,7 @@ function loopingTrack(
   gsap: GSAP,
   Draggable: DraggableStatic,
   items: HTMLElement[],
-  onChange: (index: number) => void,
+  onChange: (index: number, count: number) => void,
 ): Engine | null {
   const length = items.length
   const first = items[0]
@@ -150,14 +104,24 @@ function loopingTrack(
 
   if (items.some((el) => el.offsetWidth === 0)) return null
 
+  const firstBox = first.getBoundingClientRect()
+  const inset = firstBox.left - container.getBoundingClientRect().left + container.scrollLeft
+  const loopable = isLoopable({
+    loopWidth: last.getBoundingClientRect().right - firstBox.left + inset,
+    frameWidth: container.clientWidth,
+    widest: Math.max(...items.map((el) => el.offsetWidth)),
+  })
+  if (!loopable) return null
+  container.scrollTo({ left: 0, behavior: 'instant' })
+
   let focusOffset = readFocusOffset(container)
   const moving = movementFlag(container)
-  const report = (index: number) => onChange(wrapIndex(index + focusOffset, length))
 
-  const times = new Float64Array(length)
+  const starts = new Float64Array(length)
   const widths = new Float64Array(length)
   const spaceBefore = new Float64Array(length)
   const xPercents = new Float64Array(length)
+  let stops = new Float64Array(0)
   const startX = first.offsetLeft
   // Some browsers shift a flex item by a pixel between layouts, so percentages
   // alternate by a fraction and the wrap point drifts. Snapping removes it.
@@ -174,8 +138,11 @@ function loopingTrack(
   let lastSnap = 0
   let initChangeX = 0
 
-  const closestIndex = (setCurrent = false) => {
-    const index = getClosest(times, tl.time(), tl.duration())
+  const report = (index: number) =>
+    onChange(wrapIndex(index + focusOffset, stops.length), stops.length)
+
+  const closest = (setCurrent = false) => {
+    const index = closestIndex(stops, tl.time(), tl.duration())
     if (setCurrent) {
       curIndex = index
       indexIsDirty = false
@@ -188,7 +155,7 @@ function loopingTrack(
     defaults: { ease: 'none' },
     onUpdate() {
       moving.ping()
-      const index = closestIndex()
+      const index = closest()
       if (lastIndex === index) return
       lastIndex = index
       report(index)
@@ -248,30 +215,59 @@ function loopingTrack(
           distanceToLoop / PIXELS_PER_SECOND,
         )
         .add(`label${i}`, distanceToStart / PIXELS_PER_SECOND)
-      times[i] = distanceToStart / PIXELS_PER_SECOND
+      starts[i] = distanceToStart
     }
     timeWrap = gsap.utils.wrap(0, tl.duration())
+  }
+
+  const populateStops = () => {
+    const itemLefts = items.map((el) => el.getBoundingClientRect().left)
+    const owners: number[] = []
+    const offsets: number[] = []
+    for (const page of pages(container, items)) {
+      const owner = Math.max(
+        0,
+        items.findIndex((item) => item.contains(page)),
+      )
+      owners.push(owner)
+      offsets.push(page.getBoundingClientRect().left - (itemLefts[owner] ?? 0))
+    }
+    stops = loopStops({
+      itemStarts: starts,
+      owners,
+      offsets,
+      inset: at(spaceBefore, 0),
+      pixelsPerSecond: PIXELS_PER_SECOND,
+    })
+    curIndex = Math.min(curIndex, stops.length - 1)
   }
 
   const refresh = (deep: boolean) => {
     const progress = tl.progress()
     tl.progress(0, true)
     populateWidths()
-    if (deep) populateTimeline()
-    if (deep && draggable) tl.time(at(times, curIndex), true)
+    if (deep) {
+      populateTimeline()
+      populateStops()
+    }
+    if (deep && draggable) tl.time(at(stops, curIndex), true)
     else tl.progress(progress, true)
   }
 
   const onResize = () => {
+    const before = stops.length
     focusOffset = readFocusOffset(container)
     refresh(true)
+    if (stops.length === before) return
+    lastIndex = curIndex
+    report(curIndex)
   }
 
   const toIndex = (target: number, vars: GSAPTweenVars) => {
-    let index = target
-    if (Math.abs(index - curIndex) > length / 2) index += index > curIndex ? -length : length
-    const newIndex = gsap.utils.wrap(0, length, index)
-    let time = at(times, newIndex)
+    const count = stops.length
+    const index = nearestTarget(target, curIndex, count)
+    const newIndex = wrapIndex(index, count)
+    let time = at(stops, newIndex)
     if (time > tl.time() !== index > curIndex && index !== curIndex) {
       time += tl.duration() * (index > curIndex ? 1 : -1)
     }
@@ -282,11 +278,12 @@ function loopingTrack(
     tl.tweenTo(time, vars)
   }
 
-  const current = () => (indexIsDirty ? closestIndex(true) : curIndex)
+  const current = () => (indexIsDirty ? closest(true) : curIndex)
 
   gsap.set(items, { x: 0 })
   populateWidths()
   populateTimeline()
+  populateStops()
   window.addEventListener('resize', onResize)
   // Pre-render both ends so the first interaction is not the frame that pays
   // for building every tween.
@@ -318,29 +315,29 @@ function loopingTrack(
       if (Math.abs(startProgress / -ratio - this.x) < 10) return lastSnap + initChangeX
       const time = -(value * ratio) * tl.duration()
       const wrappedTime = timeWrap(time)
-      const snapTime = at(times, getClosest(times, wrappedTime, tl.duration()))
+      const snapTime = at(stops, closestIndex(stops, wrappedTime, tl.duration()))
       let dif = snapTime - wrappedTime
       if (Math.abs(dif) > tl.duration() / 2) dif += dif < 0 ? tl.duration() : -tl.duration()
       lastSnap = (time + dif) / tl.duration() / -ratio
       return lastSnap
     },
     onRelease() {
-      closestIndex(true)
+      closest(true)
       if (draggable?.isThrowing) indexIsDirty = true
     },
     onThrowComplete: () => {
-      closestIndex(true)
+      closest(true)
     },
   })[0]
 
   const stepper = wheelStepper(
     current,
     (index) => toIndex(index, { ...GLIDE }),
-    Math.min(WHEEL_STEP_PX.length, Math.max(1, Math.floor((length - 1) / 2))),
+    () => wheelStepLimit(stops.length),
   )
   const detachWheel = attachWheel(container.parentElement ?? container, stepper.push)
 
-  closestIndex(true)
+  closest(true)
   lastIndex = curIndex
   report(curIndex)
 
@@ -357,113 +354,12 @@ function loopingTrack(
   }
 }
 
-function boundedTrack(
-  gsap: GSAP,
-  Draggable: DraggableStatic,
-  track: HTMLElement,
-  slides: HTMLElement[],
-  onChange: (index: number, count: number) => void,
-): Engine | null {
-  const frame = track.parentElement
-  if (!slides[0] || !frame || slides.some((el) => el.offsetWidth === 0)) return null
-
-  let items = pages(track, slides)
-  let points = new Float64Array(items.length)
-  const moving = movementFlag(track)
-  let minX = 0
-
-  const measure = () => {
-    items = pages(track, slides)
-    points = new Float64Array(items.length)
-    // Measured against the track rather than read off `offsetLeft`: a page can
-    // be an image nested inside a slide, and `will-change: transform` on the
-    // slide makes it that image's `offsetParent` in Blink and WebKit. The
-    // track's own transform cancels out, since both rects carry it.
-    const origin = track.getBoundingClientRect().left
-    const spans = items.map((el) => {
-      const box = el.getBoundingClientRect()
-      return { left: box.left - origin, right: box.right - origin }
-    })
-    const base = spans[0]?.left ?? 0
-    // The strip's start carries the track's leading gutter, so the end is
-    // measured against the frame's width; netting the gutter out again stops
-    // the rail a gutter short and clips the last slide.
-    const end = spans[spans.length - 1]?.right ?? 0
-    minX = Math.min(frame.clientWidth - end, 0)
-    spans.forEach((span, i) => {
-      points[i] = Math.max(-(span.left - base), minX)
-    })
-  }
-
-  const indexAt = (x: number) => getClosest(points, x, Number.POSITIVE_INFINITY)
-
-  let lastIndex = 0
-  const report = () => {
-    moving.ping()
-    const index = indexAt(num(gsap.getProperty(track, 'x')))
-    if (lastIndex === index) return
-    lastIndex = index
-    onChange(index, items.length)
-  }
-
-  measure()
-  const onResize = () => {
-    const before = items.length
-    measure()
-    draggable?.applyBounds({ minX, maxX: 0 })
-    if (items.length === before) return
-    lastIndex = Math.min(lastIndex, items.length - 1)
-    onChange(lastIndex, items.length)
-  }
-  window.addEventListener('resize', onResize)
-
-  const draggable: Draggable | undefined = Draggable.create(track, {
-    type: 'x',
-    bounds: { minX, maxX: 0 },
-    inertia: true,
-    edgeResistance: 0.9,
-    snap: { x: (value: number) => at(points, indexAt(value)) },
-    onDrag: report,
-    onThrowUpdate: report,
-    onThrowComplete: report,
-  })[0]
-
-  const go = (target: number) => {
-    const index = Math.min(Math.max(target, 0), items.length - 1)
-    gsap.to(track, {
-      x: at(points, index),
-      ...GLIDE,
-      overwrite: true,
-      onUpdate: report,
-      onComplete: report,
-    })
-  }
-
-  const stepper = wheelStepper(() => lastIndex, go, WHEEL_STEP_PX.length)
-  const detachWheel = attachWheel(frame, stepper.push)
-
-  onChange(0, items.length)
-
-  return {
-    next: () => go(lastIndex + 1),
-    previous: () => go(lastIndex - 1),
-    toIndex: go,
-    dispose: () => {
-      window.removeEventListener('resize', onResize)
-      stepper.dispose()
-      detachWheel()
-      moving.dispose()
-    },
-  }
-}
-
 interface UseCarouselEngineOptions {
   slideCount: number
-  loop: boolean
   animated: boolean
 }
 
-export function useCarouselEngine({ slideCount, loop, animated }: UseCarouselEngineOptions) {
+export function useCarouselEngine({ slideCount, animated }: UseCarouselEngineOptions) {
   const trackRef = useRef<HTMLDivElement>(null)
   const engineRef = useRef<Engine | null>(null)
   const pageRef = useRef(0)
@@ -501,12 +397,9 @@ export function useCarouselEngine({ slideCount, loop, animated }: UseCarouselEng
       )
 
       context = gsap.context(() => {
-        const engine = loop
-          ? loopingTrack(gsap, Draggable, items, report)
-          : boundedTrack(gsap, Draggable, track, items, report)
+        const engine = loopingTrack(gsap, Draggable, items, report)
         if (!engine) return
-        track.scrollLeft = 0
-        track.dataset.engine = loop ? 'loop' : 'bounded'
+        track.dataset.engine = ''
         engineRef.current = engine
         return engine.dispose
       }, track)
@@ -521,10 +414,11 @@ export function useCarouselEngine({ slideCount, loop, animated }: UseCarouselEng
       delete track.dataset.engine
       setPageCount(slideCount)
     }
-  }, [animated, loop, slideCount, report])
+  }, [animated, slideCount, report])
 
-  /** Pre-hydration, reduced-motion and no-JS all land here: the track is still
-   *  a scroll-snap strip, so navigation stays real without the engine. */
+  /** Pre-hydration, reduced-motion, no-JS and strips too short to loop all
+   *  land here: the track is still a scroll-snap strip, so navigation stays
+   *  real without the engine. */
   const scrollToIndex = useCallback((index: number) => {
     pageRef.current = index
     setPage(index)
@@ -536,33 +430,25 @@ export function useCarouselEngine({ slideCount, loop, animated }: UseCarouselEng
     track.scrollLeft = item.offsetLeft - track.offsetLeft
   }, [])
 
-  const wrapIndex = useCallback(
-    (index: number) => {
-      if (loop) return ((index % slideCount) + slideCount) % slideCount
-      return Math.min(Math.max(index, 0), slideCount - 1)
-    },
-    [loop, slideCount],
-  )
-
   const next = useCallback(() => {
     const engine = engineRef.current
     if (engine) engine.next()
-    else scrollToIndex(wrapIndex(pageRef.current + 1))
-  }, [scrollToIndex, wrapIndex])
+    else scrollToIndex(wrapIndex(pageRef.current + 1, slideCount))
+  }, [scrollToIndex, slideCount])
 
   const previous = useCallback(() => {
     const engine = engineRef.current
     if (engine) engine.previous()
-    else scrollToIndex(wrapIndex(pageRef.current - 1))
-  }, [scrollToIndex, wrapIndex])
+    else scrollToIndex(wrapIndex(pageRef.current - 1, slideCount))
+  }, [scrollToIndex, slideCount])
 
   const toIndex = useCallback(
     (index: number) => {
       const engine = engineRef.current
       if (engine) engine.toIndex(index)
-      else scrollToIndex(wrapIndex(index))
+      else scrollToIndex(wrapIndex(index, slideCount))
     },
-    [scrollToIndex, wrapIndex],
+    [scrollToIndex, slideCount],
   )
 
   return { trackRef, page, pageCount, next, previous, toIndex }

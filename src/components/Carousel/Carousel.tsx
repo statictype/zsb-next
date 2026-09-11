@@ -20,14 +20,13 @@ interface CarouselProps {
   slides: CarouselSlide[]
   label: string
   mode: 'stage' | 'rail'
-  loop: boolean
   eyebrow?: ReactNode
   className?: string | undefined
 }
 
 const safeId = (value: string) => value.replace(/[^a-zA-Z0-9_-]+/g, '-')
 
-export function Carousel({ id, slides, label, mode, loop, eyebrow, className }: CarouselProps) {
+export function Carousel({ id, slides, label, mode, eyebrow, className }: CarouselProps) {
   const generatedId = useId()
   const rootId = safeId(id ?? `carousel-${generatedId}`)
   const reducedMotion = useReducedMotion()
@@ -36,14 +35,10 @@ export function Carousel({ id, slides, label, mode, loop, eyebrow, className }: 
 
   const { trackRef, page, pageCount, next, previous, toIndex } = useCarouselEngine({
     slideCount: slides.length,
-    loop,
     animated: !reducedMotion,
   })
 
   if (slides.length === 0) return null
-
-  const atStart = !loop && page === 0
-  const atEnd = !loop && page === pageCount - 1
 
   const controls = mode === 'rail' && (
     <div className={styles.control}>
@@ -53,7 +48,6 @@ export function Carousel({ id, slides, label, mode, loop, eyebrow, className }: 
           type="button"
           className={styles.trigger}
           aria-label={`Previous ${label.toLowerCase()} slide`}
-          disabled={atStart}
           onClick={previous}
         >
           <RiArrowLeftLine size={20} />
@@ -62,7 +56,6 @@ export function Carousel({ id, slides, label, mode, loop, eyebrow, className }: 
           type="button"
           className={styles.trigger}
           aria-label={`Next ${label.toLowerCase()} slide`}
-          disabled={atEnd}
           onClick={next}
         >
           <RiArrowRightLine size={20} />
@@ -109,10 +102,10 @@ export function Carousel({ id, slides, label, mode, loop, eyebrow, className }: 
             onKeyDown={(event) => {
               switch (event.key) {
                 case 'ArrowLeft':
-                  if (!atStart) previous()
+                  previous()
                   break
                 case 'ArrowRight':
-                  if (!atEnd) next()
+                  next()
                   break
                 case 'Home':
                   toIndex(0)

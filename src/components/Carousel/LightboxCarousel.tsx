@@ -9,7 +9,6 @@ interface LightboxCarouselProps {
   id?: string
   label: string
   mode: 'stage' | 'rail'
-  loop: boolean
   eyebrow?: ReactNode
   className?: string | undefined
   /** Flat list backing the lightbox; indices into it are handed to slides via
