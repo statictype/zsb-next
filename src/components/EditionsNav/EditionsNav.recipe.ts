@@ -26,7 +26,6 @@ export const editionsNav = sva({
       position: 'relative',
       borderBlockEnd: 'hairline',
       borderInlineEnd: 'hairline',
-      _focusVisible: { outlineOffset: '[-2px]' },
     },
     head: {
       display: 'flex',

@@ -22,10 +22,6 @@ export const dialog = defineSlotRecipe({
       position: 'relative',
       width: '100%',
       minWidth: 0,
-      _focusVisible: {
-        outline: 'focus',
-        outlineOffset: 'dialogInset',
-      },
     },
     title: { layerStyle: 'srOnly' },
   },

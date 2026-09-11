@@ -291,13 +291,13 @@ Every rectangle has 90° corners. `pill` and `circle` exist for objects that are
 | `hairline` | 1px `divider` | the default edge |
 | `highlight` | 1px `highlight` | selected chip, structural boundary |
 | `primary` | 1px `action` | primary button |
-| `focus` | 2px `action` outline, 4px offset | global `:focus-visible` |
+| `focus` | 0.5px `action` outline, inset (−0.5px offset) | global `:focus-visible` |
 
 `hairlineThin` (0.5px) is used on badges and the edition hero's info rows.
 
 ### Named Rules
 
-**The Hairline Rule.** One border weight, 1px; 0.5px on small chips and rows. The 2px focus outline is an outline, not a border.
+**The Hairline Rule.** One border weight, 1px; 0.5px on small chips and rows. The focus ring is a 0.5px inset outline, not a border.
 
 ## Motion
 
@@ -320,7 +320,7 @@ Loops, the complete set: `gradientBorder` (hover only), `shimmer` (skeleton), `s
 
 **The Two Verbs Rule.** CSS transitions use `interactive`, `develop`, or `none`. Any other value is a no-op.
 
-**The Hover Twin Rule.** Motion triggered by `:hover` on a focusable object also answers `:focus-visible`.
+**The Hover Twin Rule.** Motion triggered by `:hover` on a focusable object also answers `:focus-visible`. Where that state is visible on focus, the focus ring is removed: link-list rows, nav links, link buttons, and gallery images on hover-capable devices.
 
 **The Reduced-Motion Rule.** One global rule sets every animation and transition to 0.01ms. States still change. Marquees stop and wrap into a static grid. JS motion reads `useReducedMotion()`.
 
@@ -359,7 +359,7 @@ Label type, 12 × 6px padding, 0.5px edge, never wrapping. Tones: `highlight` (c
 
 ### Filter Chips
 
-Checkbox-based. Rest: hairline edge, gray-300 label, 14px control at 50% opacity. Selected: chartreuse edge, white label, magenta-filled control with a black check. Hover: magenta edge. Focus outline at 2px offset (chips sit 8px apart). All options start selected, so the informative state is a chip switched off; that is why selection is an edge and not a fill.
+Checkbox-based. Rest: hairline edge, gray-300 label, 14px control at 50% opacity. Selected: chartreuse edge, white label, magenta-filled control with a black check. Hover: magenta edge. Focus outline inset on the chip edge. All options start selected, so the informative state is a chip switched off; that is why selection is an edge and not a fill.
 
 ### Link Lists
 
@@ -367,7 +367,7 @@ Hairline-ruled rows. Hover: title turns magenta, arrow moves 4px up-right. `emph
 
 ### Navigation
 
-Floating, no bar. Logo top-left; a row of hairline-bordered links on black top-right; below `md`, a fullscreen black dialog. Display face at 12px with label tracking (17 → 23px in the dialog). Hover: the label rolls to magenta. Active (`data-active`) and pressed: chartreuse text, no roll. While a route is pending, the clicked link turns chartreuse and a 2px magenta bar sweeps along its bottom edge; the previously active link reverts.
+Floating, no bar. Logo top-left; a row of hairline-bordered links on black top-right; below `md`, a fullscreen black dialog. Display face at 12px with label tracking (17 → 23px in the dialog). Hover and focus: the label rolls to magenta. Active (`data-active`) and pressed: chartreuse text. The current-page link (`aria-current`) does not roll and is out of the tab order. While a route is pending, the clicked link turns chartreuse and a 2px magenta bar sweeps along its bottom edge; the previously active link reverts.
 
 ### Carousels
 
@@ -437,5 +437,4 @@ Places where the code does not yet follow this file.
 
 - Primary button `:active` fills magenta with white text (breaks Filled-Means-Black).
 - `manifesto` shares the `3xl` size with `display`.
-- The gallery develop answers `:hover` but not `:focus-visible`.
 - The event popup has no exit animation. Route transitions do not exist.

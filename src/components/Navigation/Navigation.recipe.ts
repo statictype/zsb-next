@@ -84,13 +84,14 @@ export const navigation = defineSlotRecipe({
         left: '0',
         color: 'action',
       },
-      '&:not([data-active=true]):hover [data-nav-label], &:not([data-active=true]):focus-visible [data-nav-label]':
+      '&:not([aria-current=page]):hover [data-nav-label], &:not([aria-current=page]):focus-visible [data-nav-label]':
         {
           transform: 'translateY(calc(var(--nav-roll-offset) * -1))',
         },
+      _focusVisible: { outline: 'none' },
       '&:active:not(:disabled), &:active:not(:disabled) [data-nav-copy]': { color: 'highlight' },
       '&[data-active=true], &:has([data-pending])': { color: 'highlight' },
-      '&[data-active=true] [data-nav-label], &:has([data-pending]) [data-nav-label]': {
+      '&[aria-current=page] [data-nav-label], &:has([data-pending]) [data-nav-label]': {
         transition: 'none',
         transform: 'none',
       },

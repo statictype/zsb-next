@@ -12,10 +12,12 @@ export const linkList = sva({
       alignItems: 'center',
       gap: { base: 'sm', md: 'md' },
       paddingBlock: 'lg',
+      paddingInline: 'sm',
       // The hover indent rides transform (not padding) so it composites
       // instead of relayouting the row.
       transition: 'develop',
-      _hover: { transform: 'translateX(token(spacing.md))' },
+      '&:hover, &:focus-visible': { transform: 'translateX(token(spacing.md))' },
+      _focusVisible: { outline: 'none' },
     },
     year: {
       fontVariantNumeric: 'tabular-nums',
@@ -24,7 +26,7 @@ export const linkList = sva({
     title: {
       display: 'block',
       transition: 'interactive',
-      'a:hover &': { color: 'action' },
+      'a:hover &, a:focus-visible &': { color: 'action' },
     },
     subtitle: {
       display: 'block',
@@ -43,7 +45,7 @@ export const linkList = sva({
       display: 'flex',
       flexShrink: '0',
       transition: 'interactive',
-      'a:hover &': { color: 'action', transform: 'translate(4px, -4px)' },
+      'a:hover &, a:focus-visible &': { color: 'action', transform: 'translate(4px, -4px)' },
     },
   },
   variants: {

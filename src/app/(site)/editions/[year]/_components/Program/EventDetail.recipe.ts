@@ -32,9 +32,6 @@ export const eventDetail = sva({
       cursor: 'zoom-in',
       '& img': { objectFit: 'contain', transition: 'develop' },
       _hover: { '& img': { transform: 'scale(1.02)' } },
-      // The poster is flush to the panel edge, which clips at `overflow:
-      // hidden` — the global 4px-offset ring would lose its outer sides.
-      _focusVisible: { outlineOffset: 'dialogInset' },
       lg: {
         aspectRatio: 'auto',
         maxHeight: '[none]',

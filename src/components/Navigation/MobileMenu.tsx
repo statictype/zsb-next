@@ -40,7 +40,7 @@ const navigationToggle = sva({
       _hover: { color: 'action' },
       '&:focus-visible::before': {
         outline: 'focus',
-        outlineOffset: 'xs',
+        outlineOffset: 'focusInset',
       },
       '&[aria-expanded=true]': { color: 'highlight' },
       md: { display: 'none' },

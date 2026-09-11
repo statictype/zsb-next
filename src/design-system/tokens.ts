@@ -101,7 +101,7 @@ export const tokens = {
     '0': { value: '0px' },
     xs: { value: '4px' },
     sm: { value: '8px' },
-    dialogInset: { value: 'calc({borderWidths.focus} * -1)' },
+    focusInset: { value: 'calc({borderWidths.focus} * -1)' },
     md: { value: 'clamp(16px, 15.03px + 0.2589vw, 20px)' },
     lg: { value: 'clamp(24px, 18.17px + 1.5534vw, 48px)' },
     xl: { value: 'clamp(32px, 22.29px + 2.5890vw, 72px)' },
@@ -138,7 +138,7 @@ export const tokens = {
     '0': { value: '0px' },
     hairlineThin: { value: '0.5px' },
     hairline: { value: '1px' },
-    focus: { value: '2px' },
+    focus: { value: '0.5px' },
   },
   sizes: {
     '0': { value: '0px' },

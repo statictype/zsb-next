@@ -127,7 +127,7 @@ export const homePage = sva({
     editionPrefix: {
       color: 'muted',
       transition: 'interactive',
-      'a:hover &': { color: 'current' },
+      'a:hover &, a:focus-visible &': { color: 'current' },
     },
     editionThemeRow: {
       flexWrap: 'wrap',
