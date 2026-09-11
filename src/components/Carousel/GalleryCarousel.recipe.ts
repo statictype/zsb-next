@@ -19,7 +19,29 @@ export const galleryCarousel = sva({
       gap: '[var(--slide-gap)]',
       height: '[var(--slide-h)]',
       width: '[max-content]',
-      md: { '--slide-gap': 'token(spacing.md)' },
+      '--slide-w-max': '[clamp(320px, 92vw, 600px)]',
+      '--slide-h-max': '[clamp(200px, 48vh, 400px)]',
+      md: {
+        '--slide-gap': 'token(spacing.md)',
+        '--slide-w-max': '[clamp(660px, 86vw, 1120px)]',
+        '--slide-h-max': '[clamp(300px, 56vh, 520px)]',
+      },
+      lg: {
+        '--slide-w-max': '[clamp(840px, 82vw, 1340px)]',
+        '--slide-h-max': '[clamp(360px, 60vh, 600px)]',
+      },
+      xl: {
+        '--slide-w-max': '[clamp(980px, 76vw, 1520px)]',
+        '--slide-h-max': '[clamp(400px, 64vh, 660px)]',
+      },
+      '2xl': {
+        '--slide-w-max': '[clamp(1120px, 74vw, 1700px)]',
+        '--slide-h-max': '[clamp(440px, 66vh, 720px)]',
+      },
+      '4xl': {
+        '--slide-w-max': '[clamp(1280px, 70vw, 1880px)]',
+        '--slide-h-max': '[clamp(480px, 68vh, 780px)]',
+      },
       _portraitPhone: {
         '--slide-gap': 'token(spacing.md)',
         '--slide-w': '[calc((100vw - token(spacing.gutter) - token(spacing.md)) / 1.125)]',
@@ -89,60 +111,6 @@ export const galleryCarousel = sva({
     },
   },
   variants: {
-    size: {
-      default: {
-        slide: {
-          '--slide-w-max': '[clamp(320px, 92vw, 540px)]',
-          '--slide-h-max': '[clamp(180px, 40vh, 340px)]',
-          md: {
-            '--slide-w-max': '[clamp(600px, 81vw, 990px)]',
-            '--slide-h-max': '[clamp(240px, 42vh, 400px)]',
-          },
-          lg: {
-            '--slide-w-max': '[clamp(730px, 73vw, 1140px)]',
-            '--slide-h-max': '[clamp(280px, 44vh, 440px)]',
-          },
-          xl: {
-            '--slide-w-max': '[clamp(830px, 62vw, 1250px)]',
-            '--slide-h-max': '[clamp(300px, 45vh, 480px)]',
-          },
-          '2xl': {
-            '--slide-w-max': '[clamp(940px, 59vw, 1350px)]',
-            '--slide-h-max': '[clamp(320px, 46vh, 520px)]',
-          },
-          '4xl': {
-            '--slide-w-max': '[clamp(1040px, 55vw, 1460px)]',
-            '--slide-h-max': '[clamp(340px, 47vh, 560px)]',
-          },
-        },
-      },
-      large: {
-        slide: {
-          '--slide-w-max': '[clamp(320px, 92vw, 600px)]',
-          '--slide-h-max': '[clamp(200px, 48vh, 400px)]',
-          md: {
-            '--slide-w-max': '[clamp(660px, 86vw, 1120px)]',
-            '--slide-h-max': '[clamp(300px, 56vh, 520px)]',
-          },
-          lg: {
-            '--slide-w-max': '[clamp(840px, 82vw, 1340px)]',
-            '--slide-h-max': '[clamp(360px, 60vh, 600px)]',
-          },
-          xl: {
-            '--slide-w-max': '[clamp(980px, 76vw, 1520px)]',
-            '--slide-h-max': '[clamp(400px, 64vh, 660px)]',
-          },
-          '2xl': {
-            '--slide-w-max': '[clamp(1120px, 74vw, 1700px)]',
-            '--slide-h-max': '[clamp(440px, 66vh, 720px)]',
-          },
-          '4xl': {
-            '--slide-w-max': '[clamp(1280px, 70vw, 1880px)]',
-            '--slide-h-max': '[clamp(480px, 68vh, 780px)]',
-          },
-        },
-      },
-    },
     layout: {
       trio: { slide: { gridTemplateColumns: '[repeat(3, calc(var(--slide-h) * 0.75))]' } },
       duo: { slide: { gridTemplateColumns: '[repeat(2, var(--slide-h))]' } },
@@ -175,5 +143,5 @@ export const galleryCarousel = sva({
       },
     },
   },
-  defaultVariants: { treatment: 'mono', size: 'default' },
+  defaultVariants: { treatment: 'mono' },
 })

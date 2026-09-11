@@ -55,12 +55,7 @@ function FeaturedCard({ event, year }: { event: CalendarEvent; year: number }) {
     // The whole frame is the hit target via the name link's stretched
     // ::after (see .cardLink in the CSS).
     <li className={styles.card}>
-      <Card
-        as="article"
-        ground="onDark"
-        interactive
-        className={cx(styles.frame, !event.image && styles.noPoster)}
-      >
+      <Card as="article" interactive className={cx(styles.frame, !event.image && styles.noPoster)}>
         {event.image && (
           <Figure
             image={event.image}

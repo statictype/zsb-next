@@ -3,7 +3,7 @@ import { marquee } from '@/components/Marquee/Marquee.recipe'
 
 interface MarqueeProps {
   count: number
-  gap?: 'lg' | 'xl' | '2xl'
+  gap?: 'xl' | '2xl'
   /** The `<li>` items. Rendered twice — the second run is the seam-free loop. */
   children: ReactNode
 }

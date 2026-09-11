@@ -52,10 +52,6 @@ export const dialog = defineSlotRecipe({
         content: { width: '100vw', height: '100dvh', overflow: 'hidden' },
       },
     },
-    size: {
-      default: {},
-      wide: { content: { md: { maxWidth: 'dialogPanelXl' } } },
-    },
   },
-  defaultVariants: { presentation: 'panel', size: 'default' },
+  defaultVariants: { presentation: 'panel' },
 })

@@ -12,7 +12,6 @@ type DialogProps = AccessibleName & {
   open: boolean
   onClose: () => void
   presentation: 'panel' | 'fullscreen'
-  size?: 'default' | 'wide' | undefined
   children: ReactNode
   className?: string | undefined
 }
@@ -35,13 +34,12 @@ export function Dialog({
   open,
   onClose,
   presentation,
-  size,
   title,
   ariaLabel,
   children,
   className,
 }: DialogProps) {
-  const styles = dialog({ presentation, size })
+  const styles = dialog({ presentation })
   // An initially-open machine starts before its portalled content exists during
   // hydration, so Ark cannot install dismissal/focus effects. Hydrate closed,
   // then let Ark perform the real closed → open transition on the client.

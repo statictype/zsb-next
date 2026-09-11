@@ -12,11 +12,11 @@ interface EditionThemeProps {
 
   as?: 'h1' | 'h2' | 'p' | 'span'
 
-  size?: 'large' | 'normal' | 'rail' | 'sub' | 'cell' | 'row'
+  size: 'sub' | 'cell' | 'row'
 
   interactive?: boolean
 
-  accent?: 'highlight' | 'action' | 'none'
+  accent?: 'highlight' | 'none'
 
   muted?: boolean
 
@@ -28,7 +28,7 @@ export function EditionTheme({
   lead,
   themeHighlight,
   as: Tag = 'h2',
-  size = 'normal',
+  size,
   interactive = false,
   accent = 'highlight',
   muted = false,
