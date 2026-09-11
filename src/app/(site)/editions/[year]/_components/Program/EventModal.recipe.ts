@@ -35,17 +35,5 @@ export const eventModal = sva({
       paddingBlock: 'xs',
       md: { paddingInline: 'md' },
     },
-    steps: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'xs',
-    },
-    count: {
-      display: 'none',
-      fontVariantNumeric: 'tabular-nums',
-      whiteSpace: 'nowrap',
-      paddingInline: 'xs',
-      sm: { display: 'block' },
-    },
   },
 })
