@@ -1,7 +1,6 @@
 import { definePattern, definePreset } from '@pandacss/dev'
 import { navigationLabel } from '@/design-system/patterns/typography'
 import { recipes } from '@/design-system/recipes'
-import { editorialSplit } from '@/design-system/recipes/editorial-split'
 import {
   animationStyles,
   breakpoints,
@@ -80,7 +79,6 @@ export const designSystemPreset = definePreset({
       container: {
         defaultValues: { maxWidth: 'maxWidth', px: 'gutter', position: 'static' },
       },
-      editorialSplit,
       navigationLabel,
       // Stock pattern only sets `borderColor`, leaving `borderStyle` unset —
       // with `preflight: false` (no UA border reset) that left every bare
