@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { getAllEventParams, getEdition } from '@/data/editions'
 import { eventWhenLabel } from '@/lib/edition-dates'
-import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
+import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE, ogImageSrc } from '@/lib/og'
 import { PUBLISHED } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
 
@@ -40,7 +40,7 @@ export default async function Image({
       <div style={{ display: 'flex', width: '100%', height: '100%' }}>
         {/* ImageResponse (Satori) renders only <img>, not next/image */}
         <img
-          src={passthrough}
+          src={ogImageSrc(passthrough)}
           alt=""
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

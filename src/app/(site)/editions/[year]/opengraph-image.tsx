@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 import { getAllEditionYearParams, getEdition } from '@/data/editions'
-import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
+import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE, ogImageSrc } from '@/lib/og'
 import { PUBLISHED } from '@/sanity/lib/live'
 
 // Per-edition share card. If the editor set a Custom share image it's rendered
@@ -27,7 +27,7 @@ export default async function Image({ params }: { params: Promise<{ year: string
       <div style={{ display: 'flex', width: '100%', height: '100%' }}>
         {/* ImageResponse (Satori) renders only <img>, not next/image */}
         <img
-          src={edition.ogImage.src}
+          src={ogImageSrc(edition.ogImage.src)}
           alt=""
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -39,7 +39,7 @@ export default async function Image({ params }: { params: Promise<{ year: string
   const [fonts, logo] = await Promise.all([loadOgFonts(), loadOgLogo(BRAND.heading)])
   const theme = edition?.theme ?? ''
   const dates = edition?.dateRange ?? ''
-  const hero = edition?.heroImage.src
+  const hero = edition ? ogImageSrc(edition.heroImage.src) : undefined
 
   return new ImageResponse(
     <div

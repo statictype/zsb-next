@@ -11,6 +11,14 @@ import { readFile } from 'node:fs/promises'
 export const OG_SIZE = { width: 1200, height: 630 } as const
 export const OG_CONTENT_TYPE = 'image/png'
 
+export function ogImageSrc(src: string): string {
+  const url = new URL(src)
+  url.searchParams.set('w', String(OG_SIZE.width))
+  url.searchParams.set('h', String(OG_SIZE.height))
+  url.searchParams.set('fit', 'crop')
+  return url.toString()
+}
+
 // Brand palette — mirrors the role tokens in src/app/globals.css.
 export const BRAND = {
   canvas: '#0e0b10',
