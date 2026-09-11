@@ -2,8 +2,7 @@ import { Credits } from '@edition-components/Credits'
 import { ExternalGallery } from '@edition-components/ExternalGallery'
 import { Hero } from '@edition-components/Hero'
 import { ThemeArtists } from '@edition-components/ThemeArtists'
-import { ComingSoon } from '@program/ComingSoon'
-import type { SocialLink } from '@program/FollowLinks'
+import { ComingSoon, type SocialLink } from '@program/ComingSoon'
 import { Program } from '@program/Program'
 import { computeFilterOptions } from '@program/program-filters'
 import { notFound } from 'next/navigation'
@@ -96,7 +95,7 @@ export async function CachedEdition({
             />
           </Suspense>
         ) : (
-          <ComingSoon year={edition.year} socials={socials} />
+          <ComingSoon socials={socials} />
         ))}
 
       {externalGallery && <ExternalGallery gallery={externalGallery} theme={edition.theme} />}

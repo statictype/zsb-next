@@ -9,14 +9,13 @@ import {
   type ProgramFilterOptions,
 } from '@program/program-filters'
 import { RiResetLeftLine } from '@remixicon/react'
-import { Divider, Stack, Text, Wrap } from 'styled-system/jsx'
+import { HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 
-interface CalendarFiltersProps {
+interface ProgramFiltersProps {
   filterOptions: ProgramFilterOptions
   filters: Filters
-  /** True once the filters deviate from the default — enables Reset. */
   canReset: boolean
   onToggleVenue: (slug: string) => void
   onToggleType: (slug: string) => void
@@ -66,41 +65,41 @@ export function ProgramFilters({
   onToggleVenue,
   onToggleType,
   onReset,
-}: CalendarFiltersProps) {
-  const s = programFilters()
+}: ProgramFiltersProps) {
+  const showVenues = filterOptions.venues.length > 1
+  const showTypes = filterOptions.types.length > 1
+  if (!showVenues && !showTypes) return null
+
   return (
-    <Stack gap="lg">
-      <Divider />
-      <Stack role="group" aria-label="Filter the program">
-        {filterOptions.venues.length > 1 && (
-          <FilterChips
-            labelId="filter-venue"
-            label="Venue"
-            options={filterOptions.venues}
-            selection={filters.venues}
-            onToggle={onToggleVenue}
-          />
-        )}
+    <Stack role="group" aria-label="Filter the program">
+      {showVenues && (
+        <FilterChips
+          labelId="filter-venue"
+          label="Venue"
+          options={filterOptions.venues}
+          selection={filters.venues}
+          onToggle={onToggleVenue}
+        />
+      )}
 
-        {filterOptions.types.length > 1 && (
-          <FilterChips
-            labelId="filter-type"
-            label="Type"
-            options={filterOptions.types}
-            selection={filters.types}
-            onToggle={onToggleType}
-          />
-        )}
+      {showTypes && (
+        <FilterChips
+          labelId="filter-type"
+          label="Type"
+          options={filterOptions.types}
+          selection={filters.types}
+          onToggle={onToggleType}
+        />
+      )}
 
-        {canReset && (
-          <div className={s.bar}>
-            <Button variant="quiet" size="sm" onClick={onReset}>
-              <RiResetLeftLine size={14} aria-hidden />
-              Reset
-            </Button>
-          </div>
-        )}
-      </Stack>
+      {canReset && (
+        <HStack justify="flex-end">
+          <Button variant="quiet" size="sm" onClick={onReset}>
+            <RiResetLeftLine size={14} aria-hidden />
+            Reset
+          </Button>
+        </HStack>
+      )}
     </Stack>
   )
 }

@@ -8,28 +8,18 @@ import { Text } from 'styled-system/jsx'
 import { collapsible } from 'styled-system/recipes'
 
 interface CollapsibleProps {
-  id?: string
   closedLabel: ReactNode
   openLabel: ReactNode
-  meta?: ReactNode
   children: ReactNode
   className?: string | undefined
 }
 
 /** One independent disclosure. Ark owns state and accessibility; callers only supply content labels. */
-export function Collapsible({
-  id,
-  closedLabel,
-  openLabel,
-  meta,
-  children,
-  className,
-}: CollapsibleProps) {
+export function Collapsible({ closedLabel, openLabel, children, className }: CollapsibleProps) {
   const styles = collapsible()
 
   return (
     <ArkCollapsible.Root
-      {...(id ? { id } : {})}
       className={cx(styles.root, className)}
       defaultOpen={false}
       lazyMount={false}
@@ -42,11 +32,6 @@ export function Collapsible({
         <Text variant="label" data-collapsible-label="open">
           {openLabel}
         </Text>
-        {meta !== undefined && (
-          <Text variant="label" data-collapsible-meta>
-            {meta}
-          </Text>
-        )}
         <ArkCollapsible.Indicator className={styles.indicator}>
           <RiArrowDownSLine size={20} aria-hidden />
         </ArkCollapsible.Indicator>

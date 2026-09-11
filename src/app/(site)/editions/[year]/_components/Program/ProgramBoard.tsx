@@ -15,22 +15,14 @@ import { formatShortRange } from '@/lib/edition-dates'
 import { eventHref } from '@/lib/edition-href'
 import type { CalendarListEvent } from '@/types/edition'
 
-// No variants — one shared instance for the board + its row/collapse pieces.
 const s = program()
 
 interface ProgramBoardProps {
   view: ProgramView
   year: number
-  /** Restore the default filters — wired to the empty state's "Show all". */
   onReset: () => void
 }
 
-/**
- * The board itself — empty state, "Ongoing" run grid, day-by-day list — a
- * pure render of a derived `ProgramView`. All decisions (filtering, counts,
- * past-greying clock) arrive on the view; the interactive shell (`Program`)
- * owns the hooks.
- */
 export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
   const { visible, ongoing, days, liveClock } = view
 
@@ -49,8 +41,6 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
     )
   }
 
-  // Ongoing exhibitions sit on top as a card grid; the one-off events
-  // follow below as the day-by-day list (ZSB-49).
   return (
     <Stack className={s.layout} gap="2xl">
       {ongoing.length > 0 && (
@@ -62,9 +52,6 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
             {ongoing.map((run) => {
               const runEnd = run.endDate ?? run.startDate
               const past = liveClock !== null && runEnd < liveClock
-              // Every run carries its own span — runs cover different
-              // stretches of the edition, so a shared band range read as
-              // "everything runs these dates" (ZSB-48).
               const runRange = formatShortRange(run.startDate, runEnd)
               return (
                 <li key={run.key} className={s.run} data-past={past}>
@@ -79,11 +66,7 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
                   <Stack className={s.runContent} gap="sm">
                     <TypeChips types={run.types} />
                     <Text as="h4" variant="body" color="heading" className={s.eventName}>
-                      <Link
-                        className={s.nameButton}
-                        href={eventHref(year, run.slug)}
-                        scroll={false}
-                      >
+                      <Link className={s.link} href={eventHref(year, run.slug)} scroll={false}>
                         {run.name}
                       </Link>
                     </Text>
@@ -103,8 +86,6 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
 
       {days.length > 0 && (
         <section aria-labelledby="program-day-by-day-heading">
-          {/* Pairs with the Ongoing band's own h3 — without it the event names
-              jump from the section h2 straight to h4. */}
           <h3 id="program-day-by-day-heading" className={css({ layerStyle: 'srOnly' })}>
             Day by day
           </h3>
@@ -145,24 +126,10 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
   )
 }
 
-export function ArchiveCollapse({
-  ended,
-  count,
-  children,
-}: {
-  ended: boolean
-  count: number
-  children: ReactNode
-}) {
+export function ArchiveCollapse({ ended, children }: { ended: boolean; children: ReactNode }) {
   if (!ended) return <>{children}</>
   return (
-    <Collapsible
-      id="program-archive"
-      className={s.archive}
-      closedLabel="Browse the full program"
-      openLabel="Hide the full program"
-      meta={`${count} ${count === 1 ? 'event' : 'events'}`}
-    >
+    <Collapsible closedLabel="Browse the full program" openLabel="Hide the full program">
       {children}
     </Collapsible>
   )
@@ -184,7 +151,7 @@ export function EventRow({ event, year }: { event: CalendarListEvent; year: numb
           </Wrap>
         )}
         <Text as="h4" variant="body" color="heading" className={s.eventName}>
-          <Link className={s.nameButton} href={eventHref(year, event.slug)} scroll={false}>
+          <Link className={s.link} href={eventHref(year, event.slug)} scroll={false}>
             {event.name}
           </Link>
         </Text>

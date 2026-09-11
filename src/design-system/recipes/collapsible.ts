@@ -32,10 +32,6 @@ export const collapsible = defineSlotRecipe({
       '& [data-collapsible-label=open]': { display: 'none' },
       '&[data-state=open] [data-collapsible-label=closed]': { display: 'none' },
       '&[data-state=open] [data-collapsible-label=open]': { display: 'inline' },
-      '& [data-collapsible-meta]': {
-        color: 'muted',
-        fontVariantNumeric: 'tabular-nums',
-      },
     },
     content: { paddingBottom: 'lg' },
     indicator: {
