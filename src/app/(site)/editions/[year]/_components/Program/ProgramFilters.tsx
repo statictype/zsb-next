@@ -13,6 +13,8 @@ import { HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 
+const s = programFilters()
+
 interface ProgramFiltersProps {
   filterOptions: ProgramFilterOptions
   filters: Filters
@@ -35,7 +37,6 @@ function FilterChips({
   selection: FilterSelection
   onToggle: (slug: string) => void
 }) {
-  const s = programFilters()
   return (
     <Stack className={s.filterRow} gap="sm">
       <Text variant="label" className={s.filterRowLabel} id={labelId}>
