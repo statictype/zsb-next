@@ -10,10 +10,7 @@ interface CreditsProps {
   credits: CreditEntry[]
 }
 
-const POOL_LABEL = 'Partners'
-
 const s = creditsRecipe()
-const teamRun = creditsRecipe({ wrap: true }).run
 
 type MarkedPartner = CreditPartner & { mark: PartnerMark }
 
@@ -21,23 +18,10 @@ type MarkedPartner = CreditPartner & { mark: PartnerMark }
 // back to the name list; `primary` adds a team credit line and so is never
 // listed by name twice; `secondary` is the team block alone, which is what
 // keeps the aegis row's logo out of the wall.
-function wallOrgs(credits: CreditEntry[]): CreditPartner[] {
-  const out: CreditPartner[] = []
-  for (const row of credits) {
-    if (row.type === 'secondary') continue
-    if (row.kind === 'org') out.push(row)
-    else if (row.kind === 'partners') out.push(...row.partners)
-  }
-  return out
-}
-
-function namedOrgs(credits: CreditEntry[]): CreditPartner[] {
-  const out: CreditPartner[] = []
-  for (const row of credits) {
-    if (row.type !== 'partner' || row.kind !== 'partners') continue
-    out.push(...row.partners)
-  }
-  return out
+function orgsOf(rows: CreditEntry[]): CreditPartner[] {
+  return rows.flatMap((row) =>
+    row.kind === 'org' ? [row] : row.kind === 'partners' ? row.partners : [],
+  )
 }
 
 function uniqueBy<T>(items: T[], key: (item: T) => string): T[] {
@@ -54,11 +38,15 @@ export function Credits({ credits }: CreditsProps) {
   if (credits.length === 0) return null
 
   const marks = uniqueBy(
-    wallOrgs(credits).filter((org): org is MarkedPartner => Boolean(org.mark) && !org.gallery),
+    orgsOf(credits.filter((row) => row.type !== 'secondary')).filter(
+      (org): org is MarkedPartner => Boolean(org.mark) && !org.gallery,
+    ),
     (org) => org.mark.src,
   )
   const named = uniqueBy(
-    namedOrgs(credits).filter((org) => !org.mark || org.gallery),
+    orgsOf(credits.filter((row) => row.type === 'partner')).filter(
+      (org) => !org.mark || org.gallery,
+    ),
     (org) => org.name,
   )
   const team = credits.filter((row) => row.type !== 'partner')
@@ -70,8 +58,8 @@ export function Credits({ credits }: CreditsProps) {
       <Container>
         <div className={s.ledger}>
           {(marks.length > 0 || named.length > 0) && (
-            <Text variant="title" className={s.title}>
-              {POOL_LABEL}
+            <Text as="h2" variant="title" className={s.title}>
+              Partners
             </Text>
           )}
 
@@ -141,7 +129,7 @@ function TeamValue({ row }: { row: CreditEntry }) {
 
   const names = row.kind === 'names' ? row.names : row.partners.map((partner) => partner.name)
   return (
-    <div className={teamRun}>
+    <div className={s.run}>
       {names.map((name) => (
         <Text variant="caption" key={name}>
           {name}
