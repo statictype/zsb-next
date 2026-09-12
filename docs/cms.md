@@ -43,7 +43,7 @@ src/
       revalidate/tag/route.ts     # Sanity webhook → revalidateTag
     (site)/                       # Route group — every public page
       layout.tsx                  # Footer, CookieBanner, JsonLd, SanityLive,
-                                  #   conditional VisualEditing + DisableDraftMode
+                                  #   conditional DisableDraftMode
       page.tsx                    # /
       about/, artists/, editions/, partners/, press/, privacy/, visit/
   sanity/
@@ -188,15 +188,15 @@ Pulled from the audit and applied as the rollout progresses.
 7. **Singletons can't be deleted or duplicated.** Enforced via the singleton pattern above.
 8. **Reverse references** wherever an editor would ask "where else is this used?". Custom views on `artist` (which editions), `organization` (which credits) — coming.
 
-## Live preview & Visual Editing
+## Live preview
 
 Wired via `next-sanity` v13 + the route-group split (`app/(site)/` vs `app/studio/`).
 
 - **Presentation tool** is configured in `sanity.config.ts` with `edition` + `artist` document locations. Opening a doc in Studio shows a live preview pane that the editor can click through to navigate.
 - **Draft mode routes** at `/api/draft-mode/{enable,disable}`. The Presentation tool calls `enable`; the floating "Exit preview" button (rendered by `<DisableDraftMode />`) calls `disable`.
 - **`<SanityLive />`** mounted in `src/app/(site)/layout.tsx` subscribes to Sanity sync-tag events and triggers `router.refresh()` when content the page depends on changes. Mounted on every site route — NOT on `/studio` (Sanity explicitly warns it causes unexpected reloads inside the Studio iframe). The route-group split is what enforces that boundary.
-- **`<VisualEditing />`** + **`<DisableDraftMode />`** mounted only when draft mode is on. Provides click-to-edit overlays; clicking a highlighted region jumps back into the Studio with the right field focused.
-- **`stegaClean`** at the SEO boundary in `src/lib/seo.ts` strips invisible Visual Editing characters from anything written to `<title>`, OG tags, or JSON-LD. Without this, search engines see polluted strings and click-through tanks.
+- **`<DisableDraftMode />`** mounted only when draft mode is on — a server component rendering the "Exit preview" link. Click-to-edit overlays are deliberately not enabled: `<VisualEditing />` is never mounted, so draft review happens in the Studio's Presentation pane rather than on the page itself. Mounting it would pull `@sanity/visual-editing` and `@sanity/ui` (~269 KB gzipped) into every public route.
+- **Stega encoding is off** at the fetch bridge — `queryData` in `live.ts` passes `stega: false` — so no invisible Visual Editing characters ever reach `<title>`, OG tags, or JSON-LD, and nothing downstream has to strip them.
 
 ### How draft-mode-aware fetching works
 
