@@ -18,6 +18,8 @@
 const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/
 
 // en-CA formats as `YYYY-MM-DD`.
+const DAY_FORMAT = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Bucharest' })
+
 export function todayInBucharest(now?: Date): string {
   if (now === undefined && process.env.NODE_ENV !== 'production') {
     const override = process.env.NEXT_PUBLIC_ZSB_TODAY
@@ -28,7 +30,5 @@ export function todayInBucharest(now?: Date): string {
       return override
     }
   }
-  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Bucharest' }).format(
-    now ?? new Date(),
-  )
+  return DAY_FORMAT.format(now ?? new Date())
 }
