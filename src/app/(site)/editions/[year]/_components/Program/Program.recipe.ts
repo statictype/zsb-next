@@ -31,6 +31,7 @@ export const program = sva({
     'link',
     'eventDesc',
     'poster',
+    'archive',
   ],
   base: {
     layout: {
@@ -196,6 +197,43 @@ export const program = sva({
         pointerEvents: 'none',
         zIndex: '3',
         '[data-poster=true]:hover &': { opacity: 1, transform: 'translateX(0)' },
+      },
+    },
+    archive: {
+      border: 'hairline',
+      transition: 'interactive',
+      '& [data-part=trigger]': {
+        padding: 'lg',
+        alignItems: 'center',
+      },
+      '& [data-collapsible-label]': {
+        textStyle: 'cardTitle',
+        color: 'heading',
+      },
+      '& [data-part=trigger]:hover [data-collapsible-label]': {
+        textDecoration: 'none',
+      },
+      '& [data-part=indicator]': {
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 'touch',
+        height: 'touch',
+        border: 'hairline',
+        color: 'heading',
+        transition: 'interactive',
+      },
+      '&:has([data-part=trigger]:hover), &:has([data-part=trigger]:focus-visible)': {
+        borderColor: 'action',
+      },
+      '& [data-part=trigger]:hover [data-part=indicator], & [data-part=trigger]:focus-visible [data-part=indicator]':
+        {
+          borderColor: 'action',
+          color: 'action',
+        },
+      '& [data-part=content]': {
+        paddingInline: 'lg',
+        paddingBottom: 'lg',
       },
     },
   },
