@@ -126,10 +126,24 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
   )
 }
 
-export function ArchiveCollapse({ ended, children }: { ended: boolean; children: ReactNode }) {
+export function ArchiveCollapse({
+  ended,
+  count,
+  children,
+}: {
+  ended: boolean
+  count: number
+  children: ReactNode
+}) {
   if (!ended) return <>{children}</>
   return (
-    <Collapsible closedLabel="Browse the full program" openLabel="Hide the full program">
+    <Collapsible
+      id="program-archive"
+      className={s.archive}
+      closedLabel="Browse the full program"
+      openLabel="Hide the full program"
+      meta={`${count} ${count === 1 ? 'event' : 'events'}`}
+    >
       {children}
     </Collapsible>
   )

@@ -7,7 +7,7 @@ describe('Collapsible', () => {
   it('starts closed, keeps archive content mounted, and exposes both state labels', async () => {
     const user = userEvent.setup()
     const { container } = render(
-      <Collapsible closedLabel="View full program" openLabel="Hide full program">
+      <Collapsible closedLabel="View full program" openLabel="Hide full program" meta="3 events">
         <p>Archived program</p>
       </Collapsible>,
     )

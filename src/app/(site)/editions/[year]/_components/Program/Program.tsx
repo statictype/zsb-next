@@ -33,7 +33,8 @@ export function Program({ year, events, filterOptions }: ProgramProps) {
   return (
     <section
       className={section({ ground: 'dark', rhythm: 'joined' })}
-      aria-labelledby="program-heading"
+      aria-label={ended ? 'Program' : undefined}
+      aria-labelledby={ended ? undefined : 'program-heading'}
     >
       {/* Zero-size anchor, past the section's own top padding — a shared link
           scrolls here instead of landing on blank padding. Nav clearance
@@ -42,32 +43,34 @@ export function Program({ year, events, filterOptions }: ProgramProps) {
       <HashScroller id={PROGRAM_SECTION_ID} />
       <Container>
         <Stack gap="xl">
-          <Stack as="header" gap="md">
-            <SectionHeading id="program-heading" flush>
-              Program
-            </SectionHeading>
-            <HStack justify="space-between" alignItems="flex-start" gap="md">
-              <Wrap gap="md">
-                <Text variant="label" className={s.count} aria-live="polite">
-                  {countLabel}
-                </Text>
-                {showPastControl && (
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    aria-pressed={showPast}
-                    onClick={() => setShowPast(!showPast)}
-                  >
-                    <RiHistoryLine size={15} aria-hidden />
-                    {showPast ? 'Hide' : 'Show'} {past} past {past === 1 ? 'event' : 'events'}
-                  </Button>
-                )}
-              </Wrap>
-              <ProgramShare />
-            </HStack>
-          </Stack>
+          {!ended && (
+            <Stack as="header" gap="md">
+              <SectionHeading id="program-heading" flush>
+                Program
+              </SectionHeading>
+              <HStack justify="space-between" alignItems="flex-start" gap="md">
+                <Wrap gap="md">
+                  <Text variant="label" className={s.count} aria-live="polite">
+                    {countLabel}
+                  </Text>
+                  {showPastControl && (
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      aria-pressed={showPast}
+                      onClick={() => setShowPast(!showPast)}
+                    >
+                      <RiHistoryLine size={15} aria-hidden />
+                      {showPast ? 'Hide' : 'Show'} {past} past {past === 1 ? 'event' : 'events'}
+                    </Button>
+                  )}
+                </Wrap>
+                <ProgramShare />
+              </HStack>
+            </Stack>
+          )}
 
-          <ArchiveCollapse ended={ended}>
+          <ArchiveCollapse ended={ended} count={events.length}>
             <Stack gap="2xl">
               <ProgramFilters
                 filterOptions={filterOptions}
