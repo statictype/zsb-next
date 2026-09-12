@@ -1,28 +1,14 @@
 'use client'
 
+import { useProgram } from '@program/ProgramContext'
 import { programFilters } from '@program/ProgramFilters.recipe'
-import {
-  type FilterOption,
-  type FilterSelection,
-  type ProgramFilters as Filters,
-  isSelected,
-  type ProgramFilterOptions,
-} from '@program/program-filters'
+import { type FilterOption, type FilterSelection, isSelected } from '@program/program-filters'
 import { RiResetLeftLine } from '@remixicon/react'
 import { HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 
 const s = programFilters()
-
-interface ProgramFiltersProps {
-  filterOptions: ProgramFilterOptions
-  filters: Filters
-  canReset: boolean
-  onToggleVenue: (slug: string) => void
-  onToggleType: (slug: string) => void
-  onReset: () => void
-}
 
 function FilterChips({
   labelId,
@@ -59,14 +45,10 @@ function FilterChips({
   )
 }
 
-export function ProgramFilters({
-  filterOptions,
-  filters,
-  canReset,
-  onToggleVenue,
-  onToggleType,
-  onReset,
-}: ProgramFiltersProps) {
+export function ProgramFilters() {
+  const { state, actions } = useProgram()
+  const { filterOptions, filters, view } = state
+
   const showVenues = filterOptions.venues.length > 1
   const showTypes = filterOptions.types.length > 1
   if (!showVenues && !showTypes) return null
@@ -79,7 +61,7 @@ export function ProgramFilters({
           label="Venue"
           options={filterOptions.venues}
           selection={filters.venues}
-          onToggle={onToggleVenue}
+          onToggle={actions.toggleVenue}
         />
       )}
 
@@ -89,13 +71,13 @@ export function ProgramFilters({
           label="Type"
           options={filterOptions.types}
           selection={filters.types}
-          onToggle={onToggleType}
+          onToggle={actions.toggleType}
         />
       )}
 
-      {canReset && (
+      {view.canReset && (
         <HStack justify="flex-end">
-          <Button variant="quiet" size="sm" onClick={onReset}>
+          <Button variant="quiet" size="sm" onClick={actions.reset}>
             <RiResetLeftLine size={14} aria-hidden />
             Reset
           </Button>

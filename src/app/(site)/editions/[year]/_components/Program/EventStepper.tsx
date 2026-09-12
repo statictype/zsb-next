@@ -14,6 +14,25 @@ type Dir = 'prev' | 'next'
 
 const LABEL: Record<Dir, string> = { prev: 'Previous event', next: 'Next event' }
 
+const modal = eventStepper({ chrome: 'modal' })
+const rail = eventStepper({ chrome: 'rail' })
+
+function StepCount({
+  className,
+  index,
+  total,
+}: {
+  className: string | undefined
+  index: number
+  total: number
+}) {
+  return (
+    <Text as="span" variant="caption" className={className}>
+      {index + 1} of {total}
+    </Text>
+  )
+}
+
 function ModalStep({ step, dir }: { step: EventStep; dir: Dir }) {
   const Arrow = dir === 'prev' ? RiArrowLeftSLine : RiArrowRightSLine
   return (
@@ -38,48 +57,43 @@ function ModalEnd({ dir }: { dir: Dir }) {
 // URL from anywhere under `/editions/[year]`, including from this page, which
 // would stack the next event's modal over the page being read.
 function RailStep({ step, dir }: { step: EventStep; dir: Dir }) {
-  const s = eventStepper({ chrome: 'rail' })
   const Arrow = dir === 'prev' ? RiArrowLeftLine : RiArrowRightLine
   return (
-    <a className={s.step} href={step.href} data-dir={dir}>
-      <Text as="span" variant="label" className={s.stepLabel}>
+    <a className={rail.step} href={step.href} data-dir={dir}>
+      <Text as="span" variant="label" className={rail.stepLabel}>
         {dir === 'prev' && <Arrow size={14} aria-hidden />}
         {LABEL[dir]}
         {dir === 'next' && <Arrow size={14} aria-hidden />}
       </Text>
-      <Text as="span" variant="body" className={s.stepName} data-step-name>
+      <Text as="span" variant="body" className={rail.stepName} data-step-name>
         {step.name}
       </Text>
     </a>
   )
 }
 
-export function EventStepper({ steps, chrome }: { steps: EventSteps; chrome: 'modal' | 'rail' }) {
+export function ModalStepper({ steps }: { steps: EventSteps }) {
   const { prev, next, index, total } = steps
   if (index === undefined || total === undefined) return null
 
-  const s = eventStepper({ chrome })
-  const count = (
-    <Text as="span" variant="caption" className={s.count}>
-      {index + 1} of {total}
-    </Text>
+  return (
+    <div className={modal.root}>
+      {prev ? <ModalStep step={prev} dir="prev" /> : <ModalEnd dir="prev" />}
+      <StepCount className={modal.count} index={index} total={total} />
+      {next ? <ModalStep step={next} dir="next" /> : <ModalEnd dir="next" />}
+    </div>
   )
+}
 
-  if (chrome === 'modal') {
-    return (
-      <div className={s.root}>
-        {prev ? <ModalStep step={prev} dir="prev" /> : <ModalEnd dir="prev" />}
-        {count}
-        {next ? <ModalStep step={next} dir="next" /> : <ModalEnd dir="next" />}
-      </div>
-    )
-  }
+export function RailStepper({ steps }: { steps: EventSteps }) {
+  const { prev, next, index, total } = steps
+  if (index === undefined || total === undefined) return null
 
   return (
-    <nav className={s.root} aria-label="Previous and next events">
-      {prev ? <RailStep step={prev} dir="prev" /> : <span className={s.end} />}
-      {count}
-      {next ? <RailStep step={next} dir="next" /> : <span className={s.end} />}
+    <nav className={rail.root} aria-label="Previous and next events">
+      {prev ? <RailStep step={prev} dir="prev" /> : <span className={rail.end} />}
+      <StepCount className={rail.count} index={index} total={total} />
+      {next ? <RailStep step={next} dir="next" /> : <span className={rail.end} />}
     </nav>
   )
 }
