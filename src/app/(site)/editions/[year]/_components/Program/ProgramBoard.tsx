@@ -1,30 +1,23 @@
 'use client'
 
 import { program } from '@program/Program.recipe'
-import type { ProgramView } from '@program/program-filters'
+import { useProgram } from '@program/ProgramContext'
 import { TypeChips } from '@program/TypeChips'
 import { VenueLine } from '@program/VenueLine'
 import Link from 'next/link'
-import type { ReactNode } from 'react'
 import { css } from 'styled-system/css'
 import { Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
-import { Collapsible } from '@/components/ui/Collapsible/Collapsible'
 import { formatShortRange } from '@/lib/edition-dates'
 import { eventHref } from '@/lib/edition-href'
 import type { CalendarListEvent } from '@/types/edition'
 
 const s = program()
 
-interface ProgramBoardProps {
-  view: ProgramView
-  year: number
-  onReset: () => void
-}
-
-export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
-  const { visible, ongoing, days, liveClock } = view
+export function ProgramBoard() {
+  const { state, actions, meta } = useProgram()
+  const { visible, ongoing, days, liveClock } = state.view
 
   if (visible.length === 0) {
     return (
@@ -33,7 +26,7 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
           <Text as="p" variant="heading" className={s.emptyText}>
             No events match these filters.
           </Text>
-          <Button variant="secondary" size="sm" onClick={onReset}>
+          <Button variant="secondary" size="sm" onClick={actions.reset}>
             Show all events
           </Button>
         </Stack>
@@ -66,7 +59,7 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
                   <Stack className={s.runContent} gap="sm">
                     <TypeChips types={run.types} />
                     <Text as="h4" variant="body" color="heading" className={s.eventName}>
-                      <Link className={s.link} href={eventHref(year, run.slug)} scroll={false}>
+                      <Link className={s.link} href={eventHref(meta.year, run.slug)} scroll={false}>
                         {run.name}
                       </Link>
                     </Text>
@@ -113,7 +106,7 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
                   </HStack>
                   <ul className={s.events}>
                     {day.events.map((event) => (
-                      <EventRow key={event.key} event={event} year={year} />
+                      <EventRow key={event.key} event={event} />
                     ))}
                   </ul>
                 </Stack>
@@ -126,30 +119,8 @@ export function ProgramBoard({ view, year, onReset }: ProgramBoardProps) {
   )
 }
 
-export function ArchiveCollapse({
-  ended,
-  count,
-  children,
-}: {
-  ended: boolean
-  count: number
-  children: ReactNode
-}) {
-  if (!ended) return <>{children}</>
-  return (
-    <Collapsible
-      id="program-archive"
-      className={s.archive}
-      closedLabel="Browse the full program"
-      openLabel="Hide the full program"
-      meta={`${count} ${count === 1 ? 'event' : 'events'}`}
-    >
-      {children}
-    </Collapsible>
-  )
-}
-
-export function EventRow({ event, year }: { event: CalendarListEvent; year: number }) {
+export function EventRow({ event }: { event: CalendarListEvent }) {
+  const { meta } = useProgram()
   const hasMeta = !!event.startTime || event.types.length > 0
   return (
     <li className={s.event} data-poster={!!event.image}>
@@ -165,7 +136,7 @@ export function EventRow({ event, year }: { event: CalendarListEvent; year: numb
           </Wrap>
         )}
         <Text as="h4" variant="body" color="heading" className={s.eventName}>
-          <Link className={s.link} href={eventHref(year, event.slug)} scroll={false}>
+          <Link className={s.link} href={eventHref(meta.year, event.slug)} scroll={false}>
             {event.name}
           </Link>
         </Text>

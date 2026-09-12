@@ -2,7 +2,7 @@
 
 import { EventDetail } from '@program/EventDetail'
 import { eventModal } from '@program/EventModal.recipe'
-import { EventStepper } from '@program/EventStepper'
+import { ModalStepper } from '@program/EventStepper'
 import type { EventSteps } from '@program/event-steps'
 import { RiArrowLeftLine, RiCloseLine } from '@remixicon/react'
 import { useRouter } from 'next/navigation'
@@ -35,7 +35,7 @@ export function EventModal({
             {year} program
           </Button>
 
-          <EventStepper steps={steps} chrome="modal" />
+          <ModalStepper steps={steps} />
 
           <Button variant="icon" onClick={onClose} aria-label="Close">
             <RiCloseLine size={22} aria-hidden />

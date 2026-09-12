@@ -1,5 +1,5 @@
 import { EventDetail } from '@program/EventDetail'
-import { EventStepper } from '@program/EventStepper'
+import { RailStepper } from '@program/EventStepper'
 import { eventView } from '@program/EventView.recipe'
 import type { EventSteps } from '@program/event-steps'
 import { RiArrowLeftLine } from '@remixicon/react'
@@ -41,7 +41,7 @@ export function EventView({
           <EventDetail event={event} shell="page" />
         </div>
 
-        <EventStepper steps={steps} chrome="rail" />
+        <RailStepper steps={steps} />
       </Container>
     </main>
   )
