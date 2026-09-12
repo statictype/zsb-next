@@ -20,7 +20,6 @@ export const credits = sva({
   base: {
     ledger: {
       width: 'full',
-      '& > :last-child > :last-child': { borderBottom: '[none]' },
     },
     wall: {
       display: 'flex',
@@ -62,7 +61,6 @@ export const credits = sva({
       lg: { gridColumn: '[1 / span 2]' },
     },
     orgBand: {
-      '& > :last-child': { borderBottom: '[none]' },
       md: {
         display: 'grid',
         gridTemplateColumns: '[repeat(2, minmax(0, 1fr))]',
@@ -92,10 +90,10 @@ export const credits = sva({
       rowGap: 'xs',
       paddingBlock: 'md',
       borderBottom: 'hairline',
+      _last: { borderBottom: '[none]' },
       md: { paddingBlock: '0', borderBottom: '[none]' },
     },
     title: {
-      display: 'block',
       color: 'action',
       paddingBlockEnd: 'sm',
     },
@@ -110,16 +108,13 @@ export const credits = sva({
     },
     run: {
       display: 'flex',
-      flexDirection: 'row',
       flexWrap: 'wrap',
       alignItems: 'baseline',
-      columnGap: '0',
       rowGap: 'xs',
       maxWidth: 'measure',
       '& span': {
         display: 'inline-flex',
         alignItems: 'center',
-        whiteSpace: 'nowrap',
       },
       '& span:not(:last-child)::after': {
         content: '""',
@@ -132,11 +127,4 @@ export const credits = sva({
       },
     },
   },
-  variants: {
-    wrap: {
-      true: { run: { '& span': { whiteSpace: 'normal' } } },
-      false: {},
-    },
-  },
-  defaultVariants: { wrap: false },
 })
