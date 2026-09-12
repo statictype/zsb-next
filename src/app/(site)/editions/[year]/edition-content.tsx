@@ -50,7 +50,7 @@ export async function CachedEdition({
   options: DynamicFetchOptions
 }) {
   'use cache'
-  const [edition, socials] = await Promise.all([getEdition(year, options), socialLinks(options)])
+  const edition = await getEdition(year, options)
 
   if (!edition) {
     notFound()
@@ -63,6 +63,7 @@ export async function CachedEdition({
   const events = edition.events
   const hasEvents = events.length > 0
   const externalGallery = EXTERNAL_GALLERY_BY_YEAR[edition.year]
+  const socials = edition.hasProgram && !hasEvents ? await socialLinks(options) : []
 
   return (
     <main className={css({ minHeight: 'svh' })}>
