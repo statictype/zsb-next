@@ -1,6 +1,5 @@
 import nextConfig from 'eslint-config-next'
 import nextTypescript from 'eslint-config-next/typescript'
-import reactCompiler from 'eslint-plugin-react-compiler'
 
 const customComponentProp =
   'JSXOpeningElement[name.name=/^[A-Z]/] > JSXAttribute[name.name!=/^(aria-|data-|style$|className$)/] > JSXExpressionContainer'
@@ -12,9 +11,6 @@ const config = [
   ...nextConfig,
   ...nextTypescript,
   {
-    plugins: {
-      'react-compiler': reactCompiler,
-    },
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -22,7 +18,6 @@ const config = [
       },
     },
     rules: {
-      'react-compiler/react-compiler': 'error',
       'no-console': ['warn', { allow: ['error'] }],
       '@typescript-eslint/no-unnecessary-condition': 'error',
       '@typescript-eslint/no-explicit-any': 'error',

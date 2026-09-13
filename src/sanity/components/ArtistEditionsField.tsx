@@ -67,7 +67,7 @@ export function ArtistEditionsField() {
   }
 
   return (
-    <Stack space={2}>
+    <Stack gap={2}>
       {editions.map((edition) => (
         <Card key={edition._id} padding={3} radius={2} shadow={1}>
           <Flex align="center" justify="space-between" gap={3}>
