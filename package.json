@@ -20,7 +20,7 @@
     "clean": "rm -rf .next",
     "images:unused": "tsx scripts/find-unused-images.ts",
     "images:unused:json": "tsx scripts/find-unused-images.ts --json",
-    "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
+    "typegen": "sanity schema extract --enforce-required-fields --force && sanity typegen generate",
     "typegen:watch": "sanity typegen generate --watch",
     "sanity": "sanity",
     "prepare": "git config core.hooksPath .githooks && panda codegen"

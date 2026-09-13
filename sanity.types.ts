@@ -1889,8 +1889,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
 } | null
 
 // Query TypeMap
-import '@sanity/client'
-declare module '@sanity/client' {
+declare global {
   interface SanityQueries {
     '\n  *[_id == "siteSettings"][0]{\n    contactEmail,\n    instagramUrl,\n    facebookUrl\n  }\n': SITE_SETTINGS_QUERY_RESULT
     '\n  *[_id == "siteSettings"][0].heroEdition\n': HERO_EDITION_QUERY_RESULT
@@ -1913,4 +1912,8 @@ declare module '@sanity/client' {
     '\n  *[_type == "edition" && defined(year) && status == "live"] | order(year desc) {\n    year,\n    theme,\n    themeHighlight,\n    "themeBody": themeSection.body,\n    dateStart,\n    dateEnd,\n    hasProgram,\n    venueLine,\n    "artistCount": count(artists),\n    "eventCount": count(events),\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip }\n  }\n': EDITION_CARDS_QUERY_RESULT
     '\n  *[_type == "edition" && year == $year && status == "live"][0] {\n    _id,\n    year,\n    theme,\n    themeHighlight,\n    themeGloss,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip },\n    ogImage,\n    metaDescription,\n    manifesto,\n    hasProgram,\n    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },\n    events[] {\n      _key,\n      "slug": slug.current,\n      name,\n      startDate,\n      startTime,\n      endDate,\n      "types": types[]->{ "title": title, "slug": slug.current },\n      "venue": venue->{\n        name,\n        "slug": slug.current,\n        address,\n        "partOf": partOf->{ name }\n      },\n      description,\n      image{ ..., "lqip": asset->metadata.lqip },\n      ogImage{ ... },\n      facebookUrl,\n      ticketUrl,\n      featured\n    },\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      lead,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      },\n      organizations[]->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
   }
+}
+// Lets @sanity/client releases that predate the global registry read it too
+declare module '@sanity/client' {
+  interface SanityQueries extends globalThis.SanityQueries {}
 }
