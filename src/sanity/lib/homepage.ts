@@ -2,10 +2,18 @@ import 'server-only'
 
 import type { HOMEPAGE_QUERY_RESULT } from '@/../sanity.types'
 import { definedFields } from '@/lib/defined-fields'
+import { deriveEditions } from '@/lib/derive-editions'
+import { todayInBucharest } from '@/lib/today'
+import {
+  type FeaturedEvents,
+  getEditionSummaries,
+  getFeaturedEvents,
+  getHeroEditionLead,
+} from '@/sanity/lib/editions'
 import { toShareImage, urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
 import { HOMEPAGE } from '@/sanity/lib/queries'
-import type { HeroImage, PartnerLogo, ShareImage } from '@/types/edition'
+import type { EditionSummary, HeroImage, PartnerLogo, ShareImage } from '@/types/edition'
 
 type RawHomepage = NonNullable<HOMEPAGE_QUERY_RESULT>
 
@@ -68,6 +76,31 @@ export async function getHomepage(options: DynamicFetchOptions): Promise<HomeVie
   'use cache'
   const raw = await queryData(HOMEPAGE, options)
   return raw ? normalizeHomepage(raw) : null
+}
+
+export interface HomeData {
+  view: HomeView
+  editions: EditionSummary[]
+  /** Set when the hero switch leads with Upcoming and a next edition exists. */
+  upcoming: EditionSummary | null
+  /** Newest live edition's featured events; past ones hidden client-side. */
+  featured: FeaturedEvents | undefined
+}
+
+export async function getHomeData(options: DynamicFetchOptions): Promise<HomeData | null> {
+  const [view, editions, lead] = await Promise.all([
+    getHomepage(options),
+    getEditionSummaries(options),
+    getHeroEditionLead(options),
+  ])
+  if (!view) return null
+  const { upcoming } = deriveEditions(editions, todayInBucharest())
+  return {
+    view,
+    editions,
+    upcoming: lead === 'upcoming' ? upcoming : null,
+    featured: await getFeaturedEvents(editions, options),
+  }
 }
 
 function normalizeHomepage(raw: RawHomepage): HomeView {

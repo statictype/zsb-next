@@ -202,24 +202,19 @@ Wired via `next-sanity` v13 + the route-group split (`app/(site)/` vs `app/studi
 
 Cache Components forbids reading request data (`draftMode()`, `cookies()`) inside `'use cache'` boundaries, so each draft-previewable page is split in two across the cache line: a **Dynamic** half that reads the request and a **Cached** half keyed on its result. The split itself is mandatory; two seams keep it from becoming per-page boilerplate:
 
-- **`<DraftAware cached={…} fallback={…} />`** (`src/components/DraftAware/`) owns the Dynamic half — the `draftMode()` branch, the published-default short-circuit (public path stays fully static), the Suspense wrapper, and the options resolution. A page supplies only its cached leaf and its fallback. The `'use cache'` leaf **stays lexically in the page** so the cache key remains local and serializable.
+- **`<DraftAware cached={…} fallback={…} />`** (`src/components/DraftAware/`) owns the Dynamic half — the `draftMode()` branch, the published-default short-circuit (public path stays fully static), the Suspense wrapper, and the options resolution. The caller supplies only its cached leaf and its fallback. The `'use cache'` leaf takes serializable props and closes over nothing else, so the cache key stays local.
 - **`queryData(taggedQuery, options, params?)`** (`live.ts`) is the single bridge from `DynamicFetchOptions` to `sanityFetch`; every fetcher routes through it.
 
 ```tsx
-// page.tsx — most pages
-export default function AboutRoute() {
-  return <DraftAware cached={(options) => <CachedAbout options={options} />} fallback={<AboutShell />} />
-}
-
-async function CachedAbout({ options }: { options: DynamicFetchOptions }) {
+// _lib/singleton-page.tsx — the one cached leaf behind every singleton route
+async function CachedSingleton({ page, options }: { page: PageKey; options: DynamicFetchOptions }) {
   'use cache'
-  const about = await getAboutPage(options)   // getAboutPage → queryData → sanityFetch
-  return <AboutShell about={about} />
+  return PAGES[page].render(options)   // load → queryData → sanityFetch, then <Shell {...props} />
 }
 ```
 
 Two variants:
-- **Most routes** use `<DraftAware>` for the Dynamic half: `page.tsx` (homepage), `about`, `partners`, `visit`, `privacy`, `press`, `editions` index. (`visit` shows the harness sitting inside page chrome — `<Navigation>` + `<main>` wrap it.)
+- **Singleton routes** (`page.tsx` (homepage), `about`, `partners`, `visit`, `privacy`, `press`, `editions` index) go through `singletonPage(key)`, which wraps `CachedSingleton` in `<DraftAware>`; the page file only exports what the registry returns.
 - **Routes with `loading.tsx`** (e.g. `/editions/[year]`): the loading file provides Suspense, so the page skips the `DraftAware` branch and resolves options directly:
   ```tsx
   const [{ year }, options] = await Promise.all([props.params, getDynamicFetchOptions()])
@@ -292,7 +287,7 @@ NEXT_PUBLIC_ZSB_TODAY     # optional, local preview only — see below
 
 Several surfaces only render during the event window, or only when documents exist that the dataset does not have — and the 2026 edition has not happened, so no real content can produce them. Two independent levers reach those states locally.
 
-**The clock.** Set `NEXT_PUBLIC_ZSB_TODAY=YYYY-MM-DD` in `.env.local` and restart the dev server. Both clock tiers read `todayInBucharest()` (`src/lib/today.ts`), so the yearly server tier and the daily client tier always move together — a client clock in October against a server clock in August renders states that cannot occur. A malformed value throws rather than silently falling back to the real date. The override is skipped when `NODE_ENV` is production, and an explicitly supplied date (tests, the injected `todayIso` on `getLatestAndUpcoming`) always wins over it.
+**The clock.** Set `NEXT_PUBLIC_ZSB_TODAY=YYYY-MM-DD` in `.env.local` and restart the dev server. Both clock tiers read `todayInBucharest()` (`src/lib/today.ts`), so the yearly server tier and the daily client tier always move together — a client clock in October against a server clock in August renders states that cannot occur. A malformed value throws rather than silently falling back to the real date. The override is skipped when `NODE_ENV` is production, and an explicitly supplied date (tests) always wins over it.
 
 Dates worth checking: before an edition is announced; after announcement, before its page goes live; the day the event opens; mid-event with both past and upcoming events; after it has ended.
 
@@ -377,32 +372,30 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
    }),
    ```
 
-8. **Page** (`src/app/(site)/contact/page.tsx`) — let `<DraftAware>` own the Dynamic half; the page declares only its cached leaf and fallback. Keep `'use cache'` on the leaf, lexically in the page:
+8. **Shell + registry entry** — the page renders through `singletonPage` (`src/app/(site)/_lib/singleton-page.tsx`), which owns the draft/cached split, the `notFound()` rule and the `'use cache'` leaf for every singleton route. Write a pure Shell (`src/app/(site)/contact/ContactShell.tsx`) taking the view as props, register it, and the route file is three lines:
    ```tsx
-   import { DraftAware } from '@/components/DraftAware/DraftAware'
-   import { type DynamicFetchOptions } from '@/sanity/lib/live'
-   import { type ContactPage, getContactPage } from '@/sanity/lib/staticPages'
+   // singleton-page.tsx
+   contact: defineSingleton({
+     load: async (options) => {
+       const view = await getContactPage(options)
+       return view && { view }
+     },
+     Shell: ContactShell,
+     generateMetadata: makePageMetadata(getContactPage, { title: 'Contact', path: '/contact' }),
+   }),
 
-   export default function ContactRoute() {
-     return (
-       <DraftAware cached={(options) => <CachedContact options={options} />} fallback={<ContactShell />} />
-     )
-   }
+   // contact/page.tsx
+   import { singletonPage } from '@site/_lib/singleton-page'
 
-   async function CachedContact({ options }: { options: DynamicFetchOptions }) {
-     'use cache'
-     const page = await getContactPage(options)
-     return <ContactShell page={page} />
-   }
+   const page = singletonPage('contact')
 
-   function ContactShell({ page }: { page?: ContactPage | null } = {}) {
-     // Render `page` fields with null-coalescing: text ?? '', arrays ?? [],
-     // images ?? PLACEHOLDER_IMAGE. See about/page.tsx, privacy/page.tsx.
-   }
+   export const generateMetadata = page.generateMetadata
+   export default page.Route
    ```
+   `load` fans in anything else the Shell needs (site settings, related lists) and returns `null` when the singleton is absent. `editionsNav: true` appends the editions band; `fallback` is what streams while draft mode resolves.
 
-   Variant with `loading.tsx` sibling: skip `<DraftAware>` and call `getDynamicFetchOptions` in the page directly; Next-provided loading state covers the Suspense. See `editions/[year]/page.tsx` for that shape.
+   Variant with `loading.tsx` sibling: skip the registry and call `getDynamicFetchOptions` in the page directly; Next-provided loading state covers the Suspense. See `editions/[year]/page.tsx` for that shape.
 
-9. **Missing singleton → 404; normalize in the layer.** A page singleton that isn't published is a 404 — the cached leaf calls `notFound()` on a null fetch (like `CachedEdition`), not a render-with-empties. For a *present* singleton, normalize in the **data layer**: the fetcher returns a **total view-model** — text coalesced to `''`, lists to `[]`, and only genuinely-optional members (images, optional sections, SEO) left absent — so the page Shell is a pure renderer with no `?? ''` / `?? []`. Missing *images* still resolve to `PLACEHOLDER_IMAGE` (`src/lib/placeholder.ts`). See `getAboutPage` / `normalizeAbout` for the pattern (About, Partners, Privacy, Home, Press all follow it; Visit + `siteSettings` stay genuine-optional consumers — their absence is branched on, not 404'd).
+9. **Missing singleton → 404; normalize in the layer.** A page singleton that isn't published is a 404 — `load` returns `null` and `singletonPage` calls `notFound()`, not a render-with-empties. For a *present* singleton, normalize in the **data layer**: the fetcher returns a **total view-model** — text coalesced to `''`, lists to `[]`, and only genuinely-optional members (images, optional sections, SEO) left absent — so the page Shell is a pure renderer with no `?? ''` / `?? []`. Missing *images* still resolve to `PLACEHOLDER_IMAGE` (`src/lib/placeholder.ts`). See `getAboutPage` / `normalizeAbout` for the pattern (About, Partners, Privacy, Home, Press all follow it; Visit + `siteSettings` stay genuine-optional consumers — their absence is branched on, not 404'd).
 
 10. **Webhook filter + query tags** — when adding a new doc type, add it to the GROQ filter on the `/api/revalidate/tag` webhook in [sanity.io/manage](https://sanity.io/manage), and give every query that reads it (including via `->` joins) the type in its `tags` in `queries.ts`. Both sides are required: the filter decides whether a publish fires at all, the tags decide whether it busts anything.

@@ -17,8 +17,8 @@ vi.mock('@/sanity/lib/live', () => ({
     table.get(query)?.(params) ?? null,
 }))
 
-import { getAllEditionYearParams, getFeaturedEvents, getHeroUpcoming } from '@/sanity/lib/editions'
-import { EDITION_BY_YEAR, EDITION_SUMMARIES, HERO_EDITION } from '@/sanity/lib/queries'
+import { getAllEditionYearParams, getFeaturedEvents } from '@/sanity/lib/editions'
+import { EDITION_BY_YEAR, EDITION_SUMMARIES } from '@/sanity/lib/queries'
 
 type RawEvents = Parameters<typeof mapEvents>[0]
 type RawCredits = Parameters<typeof mapCredits>[0]
@@ -394,26 +394,11 @@ describe('edition gateway — composition over the summaries', () => {
     rawSummary({ year: 2021, status: 'live', dateStart: null, dateEnd: null }),
   ]
 
+  const list = summaries.map(mapEditionSummary)
+
   beforeEach(() => {
     table.clear()
     table.set(EDITION_SUMMARIES.query, () => summaries)
-    vi.stubEnv('NEXT_PUBLIC_ZSB_TODAY', '2026-06-01')
-  })
-
-  it('leads the hero with the upcoming edition only when the switch says so', async () => {
-    table.set(HERO_EDITION.query, () => 'upcoming')
-    const lead = await getHeroUpcoming(OPTIONS)
-    expect(lead?.year).toBe(2027)
-    expect(lead?.dateLine).toBe('10–20 May 2027 · CFP')
-
-    table.set(HERO_EDITION.query, () => null)
-    expect(await getHeroUpcoming(OPTIONS)).toBeNull()
-  })
-
-  it('leads with Latest when the switch is on but no edition is ahead', async () => {
-    table.set(HERO_EDITION.query, () => 'upcoming')
-    vi.stubEnv('NEXT_PUBLIC_ZSB_TODAY', '2027-06-01')
-    expect(await getHeroUpcoming(OPTIONS)).toBeNull()
   })
 
   it('sources featured events from the newest live edition, not the newest edition', async () => {
@@ -425,18 +410,18 @@ describe('edition gateway — composition over the summaries', () => {
         events: events(ev({ _key: 'a', featured: true }), ev({ _key: 'b' })),
       })
     })
-    const featured = await getFeaturedEvents(OPTIONS)
+    const featured = await getFeaturedEvents(list, OPTIONS)
     expect(fetched).toEqual([2026])
     expect(featured?.year).toBe(2026)
     expect(featured?.events.map((e) => e.key)).toEqual(['a'])
   })
 
   it('returns nothing when no edition is live, without fetching one', async () => {
-    table.set(EDITION_SUMMARIES.query, () => [rawSummary({ year: 2027, status: 'announced' })])
+    const announced = [mapEditionSummary(rawSummary({ year: 2027, status: 'announced' }))]
     table.set(EDITION_BY_YEAR.query, () => {
       throw new Error('must not fetch')
     })
-    expect(await getFeaturedEvents(OPTIONS)).toBeUndefined()
+    expect(await getFeaturedEvents(announced, OPTIONS)).toBeUndefined()
   })
 
   it('enumerates live years only as route params', async () => {

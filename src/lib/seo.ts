@@ -51,7 +51,7 @@ interface PageMetaFields {
 }
 
 interface MakePageMetadataConfig {
-  title: string
+  title?: string
   path: string
   description?: string
   robots?: Metadata['robots']
@@ -67,7 +67,7 @@ export function makePageMetadata(
     const { perspective } = await getDynamicFetchOptions()
     const page = await fetcher({ perspective })
     const meta = pageMetadata({
-      title,
+      ...(title !== undefined && { title }),
       description: page?.metaDescription ?? description,
       path,
       shareImage: page?.ogImage,
