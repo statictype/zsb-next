@@ -9,7 +9,6 @@ import { css } from 'styled-system/css'
 import { Grid, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
-import { formatShortRange } from '@/lib/edition-dates'
 import { eventHref } from '@/lib/edition-href'
 import type { CalendarListEvent } from '@/types/edition'
 
@@ -17,7 +16,7 @@ const s = program()
 
 export function ProgramBoard() {
   const { state, actions, meta } = useProgram()
-  const { visible, ongoing, days, liveClock } = state.view
+  const { visible, ongoing, days } = state.view
 
   if (visible.length === 0) {
     return (
@@ -42,10 +41,7 @@ export function ProgramBoard() {
             Ongoing
           </Text>
           <Grid as="ul" gap="md" columns={{ base: 1, md: 2, lg: 3, '4xl': 4 }} listStyle="none">
-            {ongoing.map((run) => {
-              const runEnd = run.endDate ?? run.startDate
-              const past = liveClock !== null && runEnd < liveClock
-              const runRange = formatShortRange(run.startDate, runEnd)
+            {ongoing.map(({ event: run, past, range }) => {
               return (
                 <li key={run.key} className={s.run} data-past={past}>
                   {run.image && (
@@ -64,9 +60,9 @@ export function ProgramBoard() {
                       </Link>
                     </Text>
                     <VenueLine venue={run.venue} />
-                    {runRange && (
+                    {range && (
                       <Text className={s.runFoot} variant="label">
-                        {runRange}
+                        {range}
                       </Text>
                     )}
                   </Stack>
@@ -84,15 +80,14 @@ export function ProgramBoard() {
           </h3>
           <ol className={s.dayByDay}>
             {days.map((day) => {
-              const today = day.iso === liveClock
               return (
                 <Stack
                   as="li"
                   key={day.iso}
                   className={s.day}
-                  data-past={liveClock !== null && day.iso < liveClock}
-                  data-today={today}
-                  aria-current={today ? 'date' : undefined}
+                  data-past={day.past}
+                  data-today={day.today}
+                  aria-current={day.today ? 'date' : undefined}
                 >
                   <HStack
                     className={s.marker}

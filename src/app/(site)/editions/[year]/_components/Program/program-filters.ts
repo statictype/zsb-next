@@ -7,6 +7,8 @@ import {
   type DayToken,
   dayToken,
   editionWindow,
+  eventEndIso,
+  formatShortRange,
   isMultiDayRun,
   isPastEvent,
 } from '@/lib/edition-dates'
@@ -60,18 +62,18 @@ export interface ProgramFilterOptions {
 // CFP filters under CFP — and so these chips and the JSON-LD Places can't
 // disagree about which venues exist.
 
-export function hasUpcomingEvents(events: CalendarEvent[], todayIso: string): boolean {
+function hasUpcomingEvents(events: CalendarEvent[], todayIso: string): boolean {
   return events.some((e) => !isPastEvent(e, todayIso))
 }
 
-export function hasPastEvents(events: CalendarEvent[], todayIso: string): boolean {
+function hasPastEvents(events: CalendarEvent[], todayIso: string): boolean {
   return events.some((e) => isPastEvent(e, todayIso))
 }
 
 // Defaults to hiding past events, except on a finished edition, where that
 // would leave the program empty. `todayIso === null` is the null-clock
 // convention (`lib/today.ts`): before the clock resolves, hide nothing.
-export function resolveShowPast(
+function resolveShowPast(
   filters: ProgramFilters,
   events: CalendarEvent[],
   todayIso: string | null,
@@ -105,14 +107,14 @@ export function computeFilterOptions(events: CalendarEvent[]): ProgramFilterOpti
 
 // The time-independent half of the filter, shared by `applyFilters` and the
 // headline count.
-export function matchesFilters(event: CalendarEvent, filters: ProgramFilters): boolean {
+function matchesFilters(event: CalendarEvent, filters: ProgramFilters): boolean {
   const { venues, types } = filters
   if (venues !== null && !venues.includes(event.venue.rollUp.slug)) return false
   if (types !== null && !event.types.some((t) => types.includes(t.slug))) return false
   return true
 }
 
-export function applyFilters(
+function applyFilters(
   events: CalendarEvent[],
   filters: ProgramFilters,
   todayIso: string | null,
@@ -125,7 +127,7 @@ export function applyFilters(
   })
 }
 
-export function hasActiveFilters(filters: ProgramFilters): boolean {
+function hasActiveFilters(filters: ProgramFilters): boolean {
   return filters.venues !== null || filters.types !== null || filters.showPast !== null
 }
 
@@ -159,7 +161,7 @@ function setSelection(params: URLSearchParams, key: string, selection: FilterSel
 }
 
 // `base` preserves unrelated params already on the URL.
-export function serializeFilters(filters: ProgramFilters, base = ''): string {
+function serializeFilters(filters: ProgramFilters, base = ''): string {
   const params = new URLSearchParams(base)
   setSelection(params, PARAM_VENUE, filters.venues)
   setSelection(params, PARAM_TYPE, filters.types)
@@ -178,10 +180,18 @@ export interface ProgramDay {
   iso: string
   token: DayToken
   events: CalendarEvent[]
+  past: boolean
+  today: boolean
+}
+
+export interface ProgramRun {
+  event: CalendarEvent
+  past: boolean
+  range: string
 }
 
 interface Schedule {
-  ongoing: CalendarEvent[]
+  ongoing: ProgramRun[]
   days: ProgramDay[]
 }
 
@@ -195,9 +205,6 @@ export interface ProgramView extends Schedule {
   showPastControl: boolean
   canReset: boolean
   ended: boolean
-  /** Non-null exactly while the edition is live, so the board's past-greying
-   *  narrows instead of asserting on `todayIso`. */
-  liveClock: string | null
   countLabel: string
 }
 
@@ -206,13 +213,13 @@ function byTimeThenName(a: CalendarEvent, b: CalendarEvent): number {
   return (a.startTime ?? '').localeCompare(b.startTime ?? '') || a.name.localeCompare(b.name)
 }
 
-function buildSchedule(events: CalendarEvent[]): Schedule {
-  const ongoing: CalendarEvent[] = []
+function buildSchedule(events: CalendarEvent[], clock: string | null): Schedule {
+  const runs: CalendarEvent[] = []
   const byDay = new Map<string, CalendarEvent[]>()
 
   for (const event of events) {
     if (isMultiDayRun(event.startDate, event.endDate)) {
-      ongoing.push(event)
+      runs.push(event)
     } else {
       const bucket = byDay.get(event.startDate)
       if (bucket) bucket.push(event)
@@ -220,12 +227,17 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
     }
   }
 
-  ongoing.sort(
+  runs.sort(
     (a, b) =>
       a.startDate.localeCompare(b.startDate) ||
       (a.endDate ?? '').localeCompare(b.endDate ?? '') ||
       a.name.localeCompare(b.name),
   )
+  const ongoing: ProgramRun[] = runs.map((event) => ({
+    event,
+    past: clock !== null && isPastEvent(event, clock),
+    range: formatShortRange(event.startDate, eventEndIso(event)) ?? '',
+  }))
 
   const days: ProgramDay[] = [...byDay.keys()]
     .sort((a, b) => a.localeCompare(b))
@@ -241,6 +253,8 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
         year: 0,
       },
       events: (byDay.get(iso) ?? []).sort(byTimeThenName),
+      past: clock !== null && iso < clock,
+      today: iso === clock,
     }))
 
   return { ongoing, days }
@@ -251,8 +265,8 @@ function buildSchedule(events: CalendarEvent[]): Schedule {
 // never reach an event route, so a neighbour derived from them would differ
 // between a soft navigation and the same link opened cold.
 export function programOrder(events: CalendarEvent[]): CalendarEvent[] {
-  const { ongoing, days } = buildSchedule(events)
-  return [...ongoing, ...days.flatMap((day) => day.events)]
+  const { ongoing, days } = buildSchedule(events, null)
+  return [...ongoing.map((run) => run.event), ...days.flatMap((day) => day.events)]
 }
 
 // Before the clock resolves everything counts as upcoming and no past
@@ -264,7 +278,6 @@ export function deriveProgramView(
   todayIso: string | null,
 ): ProgramView {
   const visible = applyFilters(events, filters, todayIso)
-  const { ongoing, days } = buildSchedule(visible)
 
   const showPast = resolveShowPast(filters, events, todayIso)
   const showPastControl =
@@ -295,7 +308,7 @@ export function deriveProgramView(
   // past-only on a live edition must not flip the board into archive mode.
   const [, editionEnd] = editionWindow(events)
   const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
-  const liveClock = ended ? null : todayIso
+  const { ongoing, days } = buildSchedule(visible, ended ? null : todayIso)
 
   const countLabel =
     upcoming === 0
@@ -315,7 +328,6 @@ export function deriveProgramView(
     showPastControl,
     canReset,
     ended,
-    liveClock,
     countLabel,
   }
 }
