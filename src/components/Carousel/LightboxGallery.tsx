@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { Carousel } from '@/components/Carousel/Carousel'
-import { Lightbox, type LightboxImage } from '@/components/Lightbox/Lightbox'
+import { Lightbox, type LightboxImage, useLightbox } from '@/components/Lightbox/Lightbox'
 
 export interface LightboxTrigger {
   ref: (element: HTMLElement | null) => void
@@ -27,8 +27,7 @@ export function LightboxGallery<T>({
   renderSlide,
   ...carouselProps
 }: LightboxGalleryProps<T>) {
-  const [open, setOpen] = useState(false)
-  const [index, setIndex] = useState(0)
+  const lightbox = useLightbox()
   const [origins] = useState(() => new Map<number, HTMLElement>())
 
   const getOrigin = (image: number) => origins.get(image) ?? null
@@ -41,10 +40,7 @@ export function LightboxGallery<T>({
       if (element) origins.set(image, element)
       else origins.delete(image)
     },
-    onClick: () => {
-      setIndex(image)
-      setOpen(true)
-    },
+    onClick: () => lightbox.open(image),
   })
 
   return (
@@ -60,14 +56,7 @@ export function LightboxGallery<T>({
           ),
         }))}
       />
-      <Lightbox
-        images={groups.flat()}
-        open={open}
-        index={index}
-        getOrigin={getOrigin}
-        onClose={() => setOpen(false)}
-        onIndexChange={setIndex}
-      />
+      <Lightbox {...lightbox.props} images={groups.flat()} getOrigin={getOrigin} />
     </>
   )
 }

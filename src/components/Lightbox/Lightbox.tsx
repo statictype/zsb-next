@@ -27,13 +27,27 @@ const lightboxBarButton = css({
 const CONTAIN = { objectFit: 'contain' } as const
 const KEY_REPEAT_INTERVAL_MS = 220
 
-interface LightboxProps {
-  images: LightboxImage[]
+export interface LightboxState {
   open: boolean
   index: number
-  getOrigin: (index: number) => HTMLElement | null
   onClose: () => void
   onIndexChange: (index: number) => void
+}
+
+interface LightboxProps extends LightboxState {
+  images: LightboxImage[]
+  getOrigin: (index: number) => HTMLElement | null
+}
+
+export function useLightbox() {
+  const [state, setState] = useState({ open: false, index: 0 })
+  const props: LightboxState = {
+    open: state.open,
+    index: state.index,
+    onClose: () => setState((current) => ({ ...current, open: false })),
+    onIndexChange: (index: number) => setState((current) => ({ ...current, index })),
+  }
+  return { open: (index: number) => setState({ open: true, index }), props }
 }
 
 interface DragState {
