@@ -1,4 +1,52 @@
 import { sva } from 'styled-system/css'
+import { breakpoints } from '@/design-system/tokens'
+
+type Clamp = [min: number, preferredViewportPercent: number, max: number]
+
+interface SlideBand {
+  minWidth: number
+  gap: number
+  width: Clamp
+  height: Clamp
+}
+
+const px = (value: string) => Number.parseInt(value, 10)
+
+export const SLIDE_BANDS = {
+  base: { minWidth: 0, gap: 8, width: [320, 92, 600], height: [200, 48, 400] },
+  md: { minWidth: px(breakpoints.md), gap: 20, width: [660, 86, 1120], height: [300, 56, 520] },
+  lg: { minWidth: px(breakpoints.lg), gap: 20, width: [840, 82, 1340], height: [360, 60, 600] },
+  xl: { minWidth: px(breakpoints.xl), gap: 20, width: [980, 76, 1520], height: [400, 64, 660] },
+  '2xl': {
+    minWidth: px(breakpoints['2xl']),
+    gap: 20,
+    width: [1120, 74, 1700],
+    height: [440, 66, 720],
+  },
+  '4xl': {
+    minWidth: px(breakpoints['4xl']),
+    gap: 20,
+    width: [1280, 70, 1880],
+    height: [480, 68, 780],
+  },
+} satisfies Record<string, SlideBand>
+
+export type SlideBandKey = keyof typeof SLIDE_BANDS
+
+export const SLIDE_BAND_KEYS = Object.keys(SLIDE_BANDS) as SlideBandKey[]
+
+export const SLIDE_ASPECT = 2.25
+
+export const clampCss = ([min, viewport, max]: Clamp, unit: 'vw' | 'vh') =>
+  `clamp(${min}px, ${viewport}${unit}, ${max}px)`
+
+export function slideHeightCap(key: SlideBandKey) {
+  const band = SLIDE_BANDS[key]
+  const next = SLIDE_BAND_KEYS[SLIDE_BAND_KEYS.indexOf(key) + 1]
+  const viewport = next ? SLIDE_BANDS[next].minWidth - 1 : Number.POSITIVE_INFINITY
+  const width = Math.min(band.width[2], (band.width[1] / 100) * viewport)
+  return Math.ceil(Math.min(band.height[2], (width - band.gap * 2) / SLIDE_ASPECT))
+}
 
 export const galleryCarousel = sva({
   slots: ['slide', 'item', 'itemImage', 'caption'],

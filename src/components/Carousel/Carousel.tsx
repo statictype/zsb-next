@@ -4,11 +4,14 @@ import { RiArrowLeftLine, RiArrowRightLine } from '@remixicon/react'
 import { type ReactNode, useId, useRef } from 'react'
 import { cx } from 'styled-system/css'
 import { carousel } from 'styled-system/recipes'
+import { CURRENT_ATTR, SLIDE_CONTENT_ATTR } from '@/components/Carousel/carousel-contract'
 import { useCarouselEngine } from '@/components/Carousel/useCarouselEngine'
+import { useMediaQuery } from '@/components/media-query'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { useReducedMotion } from '@/components/reduced-motion'
 import { Button } from '@/components/ui/Button/Button'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
+import { breakpoints, portraitPhoneQuery } from '@/design-system/tokens'
 
 export interface CarouselSlide {
   id: string
@@ -26,16 +29,26 @@ interface CarouselProps {
 
 const safeId = (value: string) => value.replace(/[^a-zA-Z0-9_-]+/g, '-')
 
+// The stage recipe masks the leading slide from `2xl` up, and the rail recipe
+// lays a slide's images out as separate pages on portrait phones.
+const stageMaskQuery = `(min-width: ${breakpoints['2xl']})`
+
 export function Carousel({ id, slides, label, mode, eyebrow, className }: CarouselProps) {
   const generatedId = useId()
   const rootId = safeId(id ?? `carousel-${generatedId}`)
   const reducedMotion = useReducedMotion()
+  const stageMasked = useMediaQuery(stageMaskQuery, false)
+  const portraitPhone = useMediaQuery(portraitPhoneQuery, false)
+  const trackRef = useRef<HTMLDivElement>(null)
   const dragOrigin = useRef<{ x: number; y: number } | null>(null)
   const styles = carousel({ mode })
 
-  const { trackRef, page, pageCount, next, previous, toIndex } = useCarouselEngine({
+  const { page, pageCount, next, previous, toIndex } = useCarouselEngine({
+    trackRef,
     slideCount: slides.length,
     animated: !reducedMotion,
+    focusOffset: mode === 'stage' && stageMasked ? 1 : 0,
+    snap: mode === 'rail' && portraitPhone ? 'image' : 'slide',
   })
 
   if (slides.length === 0) return null
@@ -119,12 +132,12 @@ export function Carousel({ id, slides, label, mode, eyebrow, className }: Carous
               role="group"
               aria-roledescription="slide"
               aria-label={`${index + 1} of ${slides.length}`}
-              data-current={index === page || undefined}
+              {...{ [CURRENT_ATTR]: index === page ? '' : undefined }}
               onFocus={(event) => {
                 if (event.target.matches(':focus-visible')) toIndex(index)
               }}
             >
-              <div data-carousel-slide-content>{slide.content}</div>
+              <div {...{ [SLIDE_CONTENT_ATTR]: '' }}>{slide.content}</div>
             </div>
           ))}
         </div>

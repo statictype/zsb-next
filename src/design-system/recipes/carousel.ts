@@ -1,4 +1,14 @@
 import { defineSlotRecipe } from '@pandacss/dev'
+import {
+  CURRENT_ATTR,
+  ENGINE_ATTR,
+  MOVING_ATTR,
+  SLIDE_CONTENT_ATTR,
+} from '@/components/Carousel/carousel-contract'
+
+const engine = `[${ENGINE_ATTR}]`
+const content = `[${SLIDE_CONTENT_ATTR}]`
+const restingContent = `${engine} &:not([${CURRENT_ATTR}]) > ${content}`
 
 export const carousel = defineSlotRecipe({
   className: 'carousel',
@@ -15,9 +25,6 @@ export const carousel = defineSlotRecipe({
       minWidth: 0,
     },
     frame: { position: 'relative', isolation: 'isolate', overflow: 'hidden' },
-    // `data-engine` and `data-moving` are both stamped by useCarouselEngine —
-    // the first once GSAP owns the transforms (until then the track is its own
-    // scroll-snap strip), the second for as long as the strip is under way.
     track: {
       display: 'flex',
       alignItems: 'stretch',
@@ -27,14 +34,14 @@ export const carousel = defineSlotRecipe({
       scrollbarWidth: 'none',
       '&::-webkit-scrollbar': { display: 'none' },
       _motionReduce: { scrollBehavior: 'auto' },
-      '&[data-engine]': {
+      [`&${engine}`]: {
         scrollSnapType: 'none',
         cursor: 'grab',
         touchAction: 'pan-y',
         overflowX: 'hidden',
       },
-      '&[data-engine]:active': { cursor: 'grabbing' },
-      '&[data-moving] [data-carousel-slide-content]': { pointerEvents: 'none' },
+      [`&${engine}:active`]: { cursor: 'grabbing' },
+      [`&[${MOVING_ATTR}] ${content}`]: { pointerEvents: 'none' },
       _focusVisible: { outline: 'none' },
     },
     item: {
@@ -45,8 +52,8 @@ export const carousel = defineSlotRecipe({
       paddingRight: 'md',
       // The item carries GSAP's per-frame transform, so its own transition
       // property must stay empty or the two fight.
-      '& > [data-carousel-slide-content]': { transition: 'develop' },
-      '[data-engine] &:not([data-current]) > [data-carousel-slide-content]': { opacity: '[0.2]' },
+      [`& > ${content}`]: { transition: 'develop' },
+      [restingContent]: { opacity: '[0.2]' },
     },
     control: { display: 'flex', alignItems: 'center', gap: 'md' },
     arrows: { display: 'flex', alignItems: 'center', gap: 'sm', marginInlineStart: 'auto' },
@@ -54,12 +61,7 @@ export const carousel = defineSlotRecipe({
   variants: {
     mode: {
       stage: {
-        // `--stage-pitch` is the slide's outer width, and every other stage
-        // measurement derives from it: the mask ramp straddles the first slide
-        // boundary, and `--carousel-focus-offset` tells the engine that the
-        // slide before it is the one the mask is hiding.
         frame: {
-          '--carousel-focus-offset': '0',
           aspectRatio: '1 / 1',
           _portraitPhone: {
             '--stage-pitch': '[calc((100% - token(spacing.md)) / 1.125)]',
@@ -73,7 +75,6 @@ export const carousel = defineSlotRecipe({
           },
           '2xl': {
             '--stage-pitch': '[min(calc((100% - 72px) / 2), 900px)]',
-            '--carousel-focus-offset': '1',
             // The hero copy sits over the frame's leading edge (page.recipe.ts),
             // so the slides under it are masked out rather than clipped.
             maskImage: [
@@ -98,7 +99,7 @@ export const carousel = defineSlotRecipe({
             height: '[auto]',
           },
           md: { width: '[var(--stage-pitch)]', height: '[auto]' },
-          '& > [data-carousel-slide-content]': {
+          [`& > ${content}`]: {
             width: '100%',
             height: '100%',
             _portraitPhone: {
@@ -110,17 +111,11 @@ export const carousel = defineSlotRecipe({
         },
       },
       rail: {
-        // useCarouselEngine reads `--carousel-snap-mode` off the track: only
-        // the CSS knows the slide is laid out as one page per image here.
-        track: { paddingInline: 'gutter', _portraitPhone: { '--carousel-snap-mode': 'image' } },
+        track: { paddingInline: 'gutter' },
         control: { paddingInline: 'gutter' },
         item: {
-          '& > [data-carousel-slide-content]': { height: '100%' },
-          _portraitPhone: {
-            '[data-engine] &:not([data-current]) > [data-carousel-slide-content]': {
-              opacity: '[1]',
-            },
-          },
+          [`& > ${content}`]: { height: '100%' },
+          _portraitPhone: { [restingContent]: { opacity: '[1]' } },
         },
       },
     },
