@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  computeFilterOptions,
   deriveProgramView,
   type ProgramFilterOptions,
   type ProgramFilters,
@@ -38,15 +39,14 @@ export function useProgram(): ProgramContextValue {
 export function ProgramProvider({
   year,
   events,
-  filterOptions,
   children,
 }: {
   year: number
   events: CalendarEvent[]
-  filterOptions: ProgramFilterOptions
   children: ReactNode
 }) {
   const todayIso = useTodayIso()
+  const filterOptions = computeFilterOptions(events)
   const { filters, toggleVenue, toggleType, setShowPast, reset } = useProgramFilters(filterOptions)
   const view = deriveProgramView(events, filters, todayIso)
 

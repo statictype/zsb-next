@@ -1,17 +1,15 @@
 import { FinishedProgram, LiveProgram } from '@program/Program'
 import { EventRow, ProgramBoard } from '@program/ProgramBoard'
-import { ProgramContext, type ProgramContextValue } from '@program/ProgramContext'
-import {
-  computeFilterOptions,
-  DEFAULT_FILTERS,
-  deriveProgramView,
-  type ProgramFilters,
-} from '@program/program-filters'
+import { ProgramProvider } from '@program/ProgramContext'
+import { currentUrl, resetFakes } from '@program/program-fakes'
 import { fireEvent, render, screen } from '@testing-library/react'
 import type { ReactNode } from 'react'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
+
+vi.mock('next/navigation', async () => (await import('@program/program-fakes')).fakeNavigation())
+vi.mock('@/lib/use-today-iso', async () => (await import('@program/program-fakes')).fakeClock())
 
 // Same production-shaped event factory as program-filters.test.ts: only the
 // fields the board renders, the venue rollup stamped with the real rule.
@@ -31,50 +29,35 @@ function ev(
   }
 }
 
-const noop = () => {}
-
-function programValue({
-  events,
-  filters = DEFAULT_FILTERS,
-  todayIso = null,
-  reset = noop,
-}: {
-  events: CalendarEvent[]
-  filters?: ProgramFilters
-  todayIso?: string | null
-  reset?: () => void
-}): ProgramContextValue {
-  return {
-    state: {
-      filters,
-      filterOptions: computeFilterOptions(events),
-      view: deriveProgramView(events, filters, todayIso),
-      total: events.length,
-    },
-    actions: { toggleVenue: noop, toggleType: noop, setShowPast: noop, reset },
-    meta: { year: 2026 },
-  }
+function renderInProgram(
+  ui: ReactNode,
+  {
+    events,
+    search = '',
+    today = null,
+  }: { events: CalendarEvent[]; search?: string; today?: string | null },
+) {
+  resetFakes({ search, today })
+  return render(
+    <ProgramProvider year={2026} events={events}>
+      {ui}
+    </ProgramProvider>,
+  )
 }
 
-function renderInProgram(ui: ReactNode, value: ProgramContextValue) {
-  return render(<ProgramContext value={value}>{ui}</ProgramContext>)
-}
+beforeEach(() => resetFakes({}))
 
 describe('ProgramBoard — empty state', () => {
   it('renders the no-match notice and resets from it', () => {
-    const onReset = vi.fn()
-    renderInProgram(
-      <ProgramBoard />,
-      programValue({
-        events: [ev({ key: 'a', startDate: '2026-04-20' })],
-        filters: { ...DEFAULT_FILTERS, venues: [] },
-        reset: onReset,
-      }),
-    )
+    renderInProgram(<ProgramBoard />, {
+      events: [ev({ key: 'a', startDate: '2026-04-20' })],
+      search: 'venue=',
+    })
 
     expect(screen.getByRole('status')).toHaveTextContent('No events match these filters.')
     fireEvent.click(screen.getByRole('button', { name: 'Show all events' }))
-    expect(onReset).toHaveBeenCalledOnce()
+    expect(currentUrl()).toBe('/editions/2026')
+    expect(screen.getByRole('link', { name: 'a' })).toBeInTheDocument()
   })
 })
 
@@ -86,7 +69,7 @@ describe('ProgramBoard — Ongoing + day-by-day composition', () => {
   ]
 
   it('splits multi-day runs into the Ongoing band, one-offs into the day-by-day list', () => {
-    renderInProgram(<ProgramBoard />, programValue({ events }))
+    renderInProgram(<ProgramBoard />, { events })
 
     const ongoing = screen.getByRole('region', { name: 'Ongoing throughout the edition' })
     expect(ongoing).toHaveTextContent('run')
@@ -102,23 +85,17 @@ describe('ProgramBoard — Ongoing + day-by-day composition', () => {
   })
 
   it('greys past days against the live clock', () => {
-    const { container } = renderInProgram(
-      <ProgramBoard />,
-      programValue({
-        events,
-        filters: { ...DEFAULT_FILTERS, showPast: true },
-        todayIso: '2026-04-21',
-      }),
-    )
+    const { container } = renderInProgram(<ProgramBoard />, {
+      events,
+      search: 'past=1',
+      today: '2026-04-21',
+    })
     const days = [...container.querySelectorAll('ol li[data-past]')]
     expect(days.map((d) => d.getAttribute('data-past'))).toEqual(['true', 'false'])
   })
 
   it('never greys on a finished edition — the clean-archive view', () => {
-    const { container } = renderInProgram(
-      <ProgramBoard />,
-      programValue({ events, todayIso: '2026-06-01' }),
-    )
+    const { container } = renderInProgram(<ProgramBoard />, { events, today: '2026-06-01' })
     expect(container.querySelector('[data-past="true"]')).toBeNull()
   })
 })
@@ -131,14 +108,14 @@ describe('Program — live and finished variants', () => {
   ]
 
   it('folds a finished edition behind the program toggle with the event count', () => {
-    renderInProgram(<FinishedProgram />, programValue({ events, todayIso: '2026-06-01' }))
+    renderInProgram(<FinishedProgram />, { events, today: '2026-06-01' })
 
     expect(screen.getByRole('button', { name: /Browse the full program/ })).toBeInTheDocument()
     expect(screen.getByText('3 events')).toBeInTheDocument()
   })
 
   it('shows the live board with its heading and no archive toggle', () => {
-    renderInProgram(<LiveProgram />, programValue({ events }))
+    renderInProgram(<LiveProgram />, { events })
 
     expect(screen.getByRole('heading', { name: 'Program' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /Browse the full program/ })).toBeNull()
@@ -155,7 +132,7 @@ describe('EventRow', () => {
       description: 'Opening drinks',
       image: { src: '/img/poster.jpg', alt: 'Poster' },
     })
-    renderInProgram(<EventRow event={event} />, programValue({ events: [event] }))
+    renderInProgram(<EventRow event={event} />, { events: [event] })
 
     expect(screen.getByRole('link', { name: 'vernissage' })).toHaveAttribute(
       'href',

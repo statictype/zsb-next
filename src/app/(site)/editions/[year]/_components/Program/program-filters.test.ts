@@ -1,16 +1,10 @@
 import {
-  applyFilters,
   computeFilterOptions,
   DEFAULT_FILTERS,
   deriveProgramView,
   filterUrl,
-  hasActiveFilters,
-  hasPastEvents,
-  hasUpcomingEvents,
   isSelected,
   parseFilters,
-  resolveShowPast,
-  serializeFilters,
   toggleSelection,
 } from '@program/program-filters'
 import { describe, expect, it } from 'vitest'
@@ -37,41 +31,6 @@ function ev(
     venue: { ...venue, rollUp: rollUpVenue(venue) },
   }
 }
-
-describe('hasUpcomingEvents / hasPastEvents', () => {
-  const events = [
-    ev({ key: 'past', startDate: '2026-04-10' }),
-    ev({ key: 'future', startDate: '2026-04-20' }),
-  ]
-  it('detects upcoming and past presence against today', () => {
-    expect(hasUpcomingEvents(events, '2026-04-15')).toBe(true)
-    expect(hasPastEvents(events, '2026-04-15')).toBe(true)
-    expect(hasUpcomingEvents(events, '2026-05-01')).toBe(false)
-    expect(hasPastEvents(events, '2026-04-01')).toBe(false)
-  })
-})
-
-describe('resolveShowPast', () => {
-  const mixed = [
-    ev({ key: 'past', startDate: '2026-04-10' }),
-    ev({ key: 'future', startDate: '2026-04-20' }),
-  ]
-  it('shows everything before the client clock resolves', () => {
-    expect(resolveShowPast(DEFAULT_FILTERS, mixed, null)).toBe(true)
-  })
-  it('hides past by default on a live edition (has upcoming)', () => {
-    expect(resolveShowPast(DEFAULT_FILTERS, mixed, '2026-04-15')).toBe(false)
-  })
-  it('shows past by default on a finished edition (nothing upcoming)', () => {
-    expect(resolveShowPast(DEFAULT_FILTERS, mixed, '2026-05-01')).toBe(true)
-  })
-  it('honours an explicit choice over the default', () => {
-    expect(resolveShowPast({ ...DEFAULT_FILTERS, showPast: true }, mixed, '2026-04-15')).toBe(true)
-    expect(resolveShowPast({ ...DEFAULT_FILTERS, showPast: false }, mixed, '2026-05-01')).toBe(
-      false,
-    )
-  })
-})
 
 describe('computeFilterOptions', () => {
   it('rolls sub-venues into their parent and counts events under the parent', () => {
@@ -116,7 +75,7 @@ describe('computeFilterOptions', () => {
   })
 })
 
-describe('applyFilters', () => {
+describe('deriveProgramView — filtering', () => {
   const events = [
     ev({
       key: 'cfp-ex',
@@ -140,64 +99,85 @@ describe('applyFilters', () => {
       ],
     }),
   ]
+  const keys = (view: ReturnType<typeof deriveProgramView>) => view.visible.map((e) => e.key)
 
   it('imposes no constraint when a filter is null (all selected)', () => {
-    expect(applyFilters(events, DEFAULT_FILTERS, '2026-04-01')).toHaveLength(3)
+    const view = deriveProgramView(events, DEFAULT_FILTERS, '2026-04-01')
+    expect(view.visible).toHaveLength(3)
+    expect(view.canReset).toBe(false)
   })
 
   it('matches sub-venues through their parent slug', () => {
-    const out = applyFilters(
+    const view = deriveProgramView(
       events,
       { ...DEFAULT_FILTERS, venues: ['combinatul-fondului-plastic'] },
       '2026-04-01',
     )
-    expect(out.map((e) => e.key)).toEqual(['cfp-ex', 'una-talk'])
+    expect(keys(view)).toEqual(['cfp-ex', 'una-talk'])
+    expect(view.canReset).toBe(true)
   })
 
   it('shows nothing when a filter is empty (none selected)', () => {
-    expect(applyFilters(events, { ...DEFAULT_FILTERS, venues: [] }, '2026-04-01')).toHaveLength(0)
+    const view = deriveProgramView(events, { ...DEFAULT_FILTERS, venues: [] }, '2026-04-01')
+    expect(view.visible).toHaveLength(0)
+    expect(view.canReset).toBe(true)
   })
 
   it('OR-combines within the type filter, matching any of an event’s types', () => {
-    const out = applyFilters(events, { ...DEFAULT_FILTERS, types: ['talk'] }, '2026-04-01')
-    expect(out.map((e) => e.key)).toEqual(['una-talk', 'simeza-ex'])
+    const view = deriveProgramView(events, { ...DEFAULT_FILTERS, types: ['talk'] }, '2026-04-01')
+    expect(keys(view)).toEqual(['una-talk', 'simeza-ex'])
   })
 
   it('AND-combines across filters', () => {
-    const out = applyFilters(
+    const view = deriveProgramView(
       events,
       { ...DEFAULT_FILTERS, venues: ['galeria-simeza'], types: ['exhibition'] },
       '2026-04-01',
     )
-    expect(out.map((e) => e.key)).toEqual(['simeza-ex'])
-  })
-
-  it('hides past events by default on a live edition, reveals them when asked', () => {
-    const mixed = [
-      ev({ key: 'past', startDate: '2026-04-10' }),
-      ev({ key: 'future', startDate: '2026-04-20' }),
-    ]
-    expect(applyFilters(mixed, DEFAULT_FILTERS, '2026-04-15').map((e) => e.key)).toEqual(['future'])
-    expect(
-      applyFilters(mixed, { ...DEFAULT_FILTERS, showPast: true }, '2026-04-15').map((e) => e.key),
-    ).toEqual(['past', 'future'])
-  })
-
-  it('never hides anything before the clock resolves', () => {
-    const mixed = [
-      ev({ key: 'past', startDate: '2026-04-10' }),
-      ev({ key: 'future', startDate: '2026-04-20' }),
-    ]
-    expect(applyFilters(mixed, DEFAULT_FILTERS, null)).toHaveLength(2)
+    expect(keys(view)).toEqual(['simeza-ex'])
   })
 })
 
-describe('hasActiveFilters', () => {
-  it('is false at the default and true on any deviation', () => {
-    expect(hasActiveFilters(DEFAULT_FILTERS)).toBe(false)
-    expect(hasActiveFilters({ ...DEFAULT_FILTERS, venues: ['cfp'] })).toBe(true)
-    expect(hasActiveFilters({ ...DEFAULT_FILTERS, venues: [] })).toBe(true)
-    expect(hasActiveFilters({ ...DEFAULT_FILTERS, showPast: true })).toBe(true)
+describe('deriveProgramView — past events', () => {
+  const mixed = [
+    ev({ key: 'past', startDate: '2026-04-10' }),
+    ev({ key: 'future', startDate: '2026-04-20' }),
+  ]
+  const keys = (view: ReturnType<typeof deriveProgramView>) => view.visible.map((e) => e.key)
+
+  it('hides past by default on a live edition and offers the control', () => {
+    const view = deriveProgramView(mixed, DEFAULT_FILTERS, '2026-04-15')
+    expect(view.showPast).toBe(false)
+    expect(view.showPastControl).toBe(true)
+    expect(keys(view)).toEqual(['future'])
+    expect(view.past).toBe(1)
+  })
+
+  it('reveals past events when asked, and counts that as an active filter', () => {
+    const view = deriveProgramView(mixed, { ...DEFAULT_FILTERS, showPast: true }, '2026-04-15')
+    expect(view.showPast).toBe(true)
+    expect(keys(view)).toEqual(['past', 'future'])
+    expect(view.canReset).toBe(true)
+  })
+
+  it('shows past by default on a finished edition, with no control', () => {
+    const view = deriveProgramView(mixed, DEFAULT_FILTERS, '2026-05-01')
+    expect(view.showPast).toBe(true)
+    expect(view.showPastControl).toBe(false)
+    expect(keys(view)).toEqual(['past', 'future'])
+  })
+
+  it('honours an explicit hide on a finished edition', () => {
+    const view = deriveProgramView(mixed, { ...DEFAULT_FILTERS, showPast: false }, '2026-05-01')
+    expect(view.showPast).toBe(false)
+    expect(view.visible).toHaveLength(0)
+  })
+
+  it('never hides anything before the clock resolves', () => {
+    const view = deriveProgramView(mixed, DEFAULT_FILTERS, null)
+    expect(view.showPast).toBe(true)
+    expect(view.showPastControl).toBe(false)
+    expect(view.visible).toHaveLength(2)
   })
 })
 
@@ -222,7 +202,7 @@ describe('filter selection helpers', () => {
   })
 })
 
-describe('parseFilters / serializeFilters', () => {
+describe('parseFilters', () => {
   it('reads an absent param as all-selected (null) and a present one as a selection', () => {
     expect(parseFilters('?venue=cfp,galeria&type=talk&past=1')).toEqual({
       venues: ['cfp', 'galeria'],
@@ -236,20 +216,10 @@ describe('parseFilters / serializeFilters', () => {
     expect(parseFilters('?venue=')).toEqual({ venues: [], types: null, showPast: null })
   })
 
-  it('round-trips through serialize → parse, including the none state', () => {
+  it('round-trips through the URL, including the none state', () => {
     const filters = { venues: ['cfp', 'galeria'], types: [], showPast: false }
-    expect(parseFilters(serializeFilters(filters))).toEqual(filters)
-  })
-
-  it('emits an empty string at the default', () => {
-    expect(serializeFilters(DEFAULT_FILTERS)).toBe('')
-  })
-
-  it('preserves unrelated params already on the URL', () => {
-    const query = serializeFilters({ ...DEFAULT_FILTERS, venues: ['cfp'] }, 'utm=fb')
-    const params = new URLSearchParams(query)
-    expect(params.get('utm')).toBe('fb')
-    expect(params.get('venue')).toBe('cfp')
+    const url = filterUrl('/editions/2026', '', filters)
+    expect(parseFilters(new URL(url, 'https://x.test').search)).toEqual(filters)
   })
 })
 
@@ -292,24 +262,36 @@ describe('filterUrl', () => {
   })
 })
 
-describe('deriveProgramView — ended / liveClock / labels', () => {
+describe('deriveProgramView — ended / past stamps / labels', () => {
   const mixed = [
     ev({ key: 'past', startDate: '2026-04-10', venue: { name: 'Galeria Simeza' } }),
     ev({ key: 'future', startDate: '2026-04-20', venue: { name: CFP } }),
   ]
+  const run = ev({ key: 'run', startDate: '2026-04-01', endDate: '2026-04-12' })
 
-  it('judges a live edition live, with the clock exposed for past-greying', () => {
-    const view = deriveProgramView(mixed, DEFAULT_FILTERS, '2026-04-15')
+  it('judges a live edition live and stamps past/today on days and runs', () => {
+    const view = deriveProgramView(
+      [...mixed, run],
+      { ...DEFAULT_FILTERS, showPast: true },
+      '2026-04-20',
+    )
     expect(view.ended).toBe(false)
-    expect(view.liveClock).toBe('2026-04-15')
+    expect(view.days.map((d) => [d.iso, d.past, d.today])).toEqual([
+      ['2026-04-10', true, false],
+      ['2026-04-20', false, true],
+    ])
+    expect(view.ongoing.map((r) => [r.event.key, r.past, r.range])).toEqual([
+      ['run', true, '1–12 Apr'],
+    ])
     expect(view.countLabel).toBe('1 upcoming event')
   })
 
-  it('judges a finished edition ended, clock nulled, archive-total label', () => {
-    const view = deriveProgramView(mixed, DEFAULT_FILTERS, '2026-05-01')
+  it('judges a finished edition ended, nothing stamped past, archive-total label', () => {
+    const view = deriveProgramView([...mixed, run], DEFAULT_FILTERS, '2026-05-01')
     expect(view.ended).toBe(true)
-    expect(view.liveClock).toBeNull()
-    expect(view.countLabel).toBe('2 events')
+    expect(view.days.every((d) => !d.past && !d.today)).toBe(true)
+    expect(view.ongoing.every((r) => !r.past)).toBe(true)
+    expect(view.countLabel).toBe('3 events')
   })
 
   it('judges ended/live on the whole edition — filtering to past-only keeps the live greying', () => {
@@ -320,7 +302,7 @@ describe('deriveProgramView — ended / liveClock / labels', () => {
     )
     expect(view.visible.map((e) => e.key)).toEqual(['past'])
     expect(view.ended).toBe(false)
-    expect(view.liveClock).toBe('2026-04-15')
+    expect(view.days.map((d) => d.past)).toEqual([true])
   })
 
   it('counts "X of Y" only when the venue/type filters narrow the upcoming set', () => {
@@ -341,7 +323,7 @@ describe('deriveProgramView — ended / liveClock / labels', () => {
   it('treats everything as upcoming before the clock resolves, no window judgement', () => {
     const view = deriveProgramView(mixed, DEFAULT_FILTERS, null)
     expect(view.ended).toBe(false)
-    expect(view.liveClock).toBeNull()
+    expect(view.days.every((d) => !d.past && !d.today)).toBe(true)
     expect(view.countLabel).toBe('2 upcoming events')
   })
 

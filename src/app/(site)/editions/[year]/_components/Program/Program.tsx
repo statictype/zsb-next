@@ -6,7 +6,6 @@ import { ProgramBoard } from '@program/ProgramBoard'
 import { ProgramProvider, useProgram } from '@program/ProgramContext'
 import { ProgramFilters } from '@program/ProgramFilters'
 import { ProgramShare } from '@program/ProgramShare'
-import type { ProgramFilterOptions } from '@program/program-filters'
 import { RiHistoryLine } from '@remixicon/react'
 import type { AriaAttributes, ReactNode } from 'react'
 import { Container, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
@@ -119,12 +118,11 @@ function ProgramSection() {
 interface ProgramProps {
   year: number
   events: CalendarEvent[]
-  filterOptions: ProgramFilterOptions
 }
 
-export function Program({ year, events, filterOptions }: ProgramProps) {
+export function Program({ year, events }: ProgramProps) {
   return (
-    <ProgramProvider year={year} events={events} filterOptions={filterOptions}>
+    <ProgramProvider year={year} events={events}>
       <ProgramSection />
     </ProgramProvider>
   )
