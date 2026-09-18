@@ -1,42 +1,32 @@
 'use client'
 
-import { galleryCarousel } from '@/components/Carousel/GalleryCarousel.recipe'
+import { SNAP_PAGE_ATTR } from '@/components/Carousel/carousel-contract'
+import {
+  galleryCarousel,
+  SLIDE_BAND_KEYS,
+  SLIDE_BANDS,
+  type SlideBandKey,
+  slideHeightCap,
+} from '@/components/Carousel/GalleryCarousel.recipe'
 import { LightboxGallery } from '@/components/Carousel/LightboxGallery'
 import { Figure } from '@/components/Figure/Figure'
 import { Button } from '@/components/ui/Button/Button'
+import { portraitPhoneQuery } from '@/design-system/tokens'
 import type { CarouselLayout, CarouselSlide as GallerySlide } from '@/types/edition'
-
-type Band = 'base' | 'md' | 'lg' | 'xl' | '2xl' | '4xl'
-
-// Ceiling of `--slide-h` per breakpoint band, derived from the `--slide-h-max`
-// and `--slide-w-max` clamps in GalleryCarousel.recipe.ts; the layout column
-// widths there are multiples of it.
-const SLIDE_HEIGHT_CAP: Record<Band, number> = {
-  base: 260,
-  md: 374,
-  lg: 449,
-  xl: 469,
-  '2xl': 572,
-  '4xl': 780,
-}
 
 // Tracks the `_portraitPhone` cell width in GalleryCarousel.recipe.ts, where
 // every image takes a page of its own instead of a share of `--slide-h`.
-const PORTRAIT_PHONE_SIZE = '(max-width: 599.98px) and (orientation: portrait) 82vw'
+const PORTRAIT_PHONE_SIZE = `${portraitPhoneQuery} 82vw`
 
-const BAND_MIN_WIDTH: [Band, number][] = [
-  ['4xl', 1792],
-  ['2xl', 1440],
-  ['xl', 1280],
-  ['lg', 1024],
-  ['md', 768],
-]
+const STEPPED_BANDS = SLIDE_BAND_KEYS.filter((band) => band !== 'base').reverse()
 
 function sizesFor(layout: CarouselLayout, imgIndex: number): string {
   const featured = (layout === 'featured-portrait' || layout === 'featured-stack') && imgIndex === 0
   const ratio = layout === 'full' || featured ? 1.5 : layout === 'duo' ? 1 : 0.75
-  const cell = (band: Band) => `${Math.ceil(SLIDE_HEIGHT_CAP[band] * ratio)}px`
-  const steps = BAND_MIN_WIDTH.map(([band, min]) => `(min-width: ${min}px) ${cell(band)}`)
+  const cell = (band: SlideBandKey) => `${Math.ceil(slideHeightCap(band) * ratio)}px`
+  const steps = STEPPED_BANDS.map(
+    (band) => `(min-width: ${SLIDE_BANDS[band].minWidth}px) ${cell(band)}`,
+  )
   return [PORTRAIT_PHONE_SIZE, ...steps, cell('base')].join(', ')
 }
 
@@ -77,7 +67,7 @@ export function GalleryCarousel({
               key={image.image.src}
               variant="plain"
               className={styles.item}
-              data-carousel-snap
+              {...{ [SNAP_PAGE_ATTR]: '' }}
               {...trigger(imageIndex)}
             >
               <Figure

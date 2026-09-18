@@ -1,0 +1,5 @@
+export const ENGINE_ATTR = 'data-engine'
+export const MOVING_ATTR = 'data-moving'
+export const CURRENT_ATTR = 'data-current'
+export const SLIDE_CONTENT_ATTR = 'data-carousel-slide-content'
+export const SNAP_PAGE_ATTR = 'data-carousel-snap'

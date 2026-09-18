@@ -17,11 +17,13 @@ const grayRamp = Object.fromEntries(
   ]),
 )
 
+export const portraitPhoneQuery = '(max-width: 599.98px) and (orientation: portrait)'
+
 export const conditions = {
   motionReduce: '@media (prefers-reduced-motion: reduce)',
 
   portrait: '@media (orientation: portrait)',
-  portraitPhone: '@media (max-width: 599.98px) and (orientation: portrait)',
+  portraitPhone: `@media ${portraitPhoneQuery}`,
   portraitTablet:
     '@media (min-width: 600px) and (max-width: 1023.98px) and (orientation: portrait)',
   portraitLarge: '@media (min-width: 1024px) and (orientation: portrait)',

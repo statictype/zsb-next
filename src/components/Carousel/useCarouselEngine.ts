@@ -1,38 +1,105 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import {
-  closestIndex,
-  isLoopable,
-  loopStops,
-  nearestTarget,
-  wheelStepLimit,
-  wheelStepper,
-  wrapIndex,
-} from '@/components/Carousel/carousel-geometry'
+import { type RefObject, useEffect, useRef, useState } from 'react'
+import { ENGINE_ATTR, MOVING_ATTR, SNAP_PAGE_ATTR } from '@/components/Carousel/carousel-contract'
 
 type DraggableStatic = typeof import('gsap/Draggable').Draggable
 
 const GLIDE = { ease: 'power3', duration: 0.725 } as const
 const PIXELS_PER_SECOND = 100
 const WHEEL_LINE_PX = 16
+const WHEEL_STEP_PX = [340, 1100, 2600]
+const WHEEL_GESTURE_MS = 140
 const MOVING_QUIET_MS = 120
 
-/** Held for as long as frames keep arriving. The carousel recipe reads
- *  `data-moving` to make slide content inert while the strip is under way. */
+export type SnapMode = 'slide' | 'image'
+
+export interface CarouselLayout {
+  focusOffset: number
+  snap: SnapMode
+}
+
+export interface CarouselEngineOptions extends CarouselLayout {
+  trackRef: RefObject<HTMLDivElement | null>
+  slideCount: number
+  animated: boolean
+}
+
+const wrapIndex = (index: number, length: number) => ((index % length) + length) % length
+
+function closestIndex(values: ArrayLike<number>, value: number, wrap: number) {
+  let i = values.length
+  let closest = Number.POSITIVE_INFINITY
+  let index = 0
+  while (i--) {
+    let distance = Math.abs((values[i] ?? 0) - value)
+    if (distance > wrap / 2) distance = wrap - distance
+    if (distance < closest) {
+      closest = distance
+      index = i
+    }
+  }
+  return index
+}
+
+function nearestTarget(target: number, current: number, length: number) {
+  if (Math.abs(target - current) <= length / 2) return target
+  return target + (target > current ? -length : length)
+}
+
+const wheelStepLimit = (pageCount: number) =>
+  Math.min(WHEEL_STEP_PX.length, Math.max(1, Math.floor((pageCount - 1) / 2)))
+
+function wheelStepper(
+  begin: () => number,
+  commit: (index: number) => void,
+  maxSteps: () => number,
+) {
+  let timer: ReturnType<typeof setTimeout> | undefined
+  let base = 0
+  let accumulated = 0
+  let issued = 0
+  let active = false
+  return {
+    push(delta: number) {
+      if (!active) {
+        active = true
+        accumulated = 0
+        issued = 0
+        base = begin()
+      }
+      accumulated += delta
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        active = false
+      }, WHEEL_GESTURE_MS)
+      const magnitude = Math.abs(accumulated)
+      const crossed = WHEEL_STEP_PX.filter((threshold) => magnitude >= threshold).length
+      if (crossed === 0) return
+      const steps = Math.min(crossed, maxSteps()) * Math.sign(accumulated)
+      if (steps === issued) return
+      issued = steps
+      commit(base + steps)
+    },
+    dispose() {
+      if (timer) clearTimeout(timer)
+    },
+  }
+}
+
 function movementFlag(element: HTMLElement) {
   let timer: number | undefined
   return {
     ping() {
-      element.dataset.moving = ''
+      element.setAttribute(MOVING_ATTR, '')
       if (timer) window.clearTimeout(timer)
       timer = window.setTimeout(() => {
-        delete element.dataset.moving
+        element.removeAttribute(MOVING_ATTR)
       }, MOVING_QUIET_MS)
     },
     dispose() {
       if (timer) window.clearTimeout(timer)
-      delete element.dataset.moving
+      element.removeAttribute(MOVING_ATTR)
     },
   }
 }
@@ -55,23 +122,9 @@ function attachWheel(element: HTMLElement, scrollBy: (delta: number) => void) {
 // for, so every read has to be parsed, not coerced.
 const num = (value: string | number) => Number.parseFloat(String(value))
 
-// How many slides sit ahead of the one the composition actually reads as
-// current — the stage masks its leading slides, so the timeline index and the
-// displayed index differ. Declared by the recipe, because only the CSS knows
-// how wide the mask is at this breakpoint.
-function readFocusOffset(element: Element) {
-  const raw = getComputedStyle(element).getPropertyValue('--carousel-focus-offset')
-  const parsed = Number.parseInt(raw, 10)
-  return Number.isFinite(parsed) ? parsed : 0
-}
-
-/** The elements the rail comes to rest on. Declared by the recipe, because
- *  only the CSS knows that on a portrait phone a slide's images are laid out
- *  as separate pages rather than as one composed grid. */
-function pages(track: HTMLElement, slides: HTMLElement[]) {
-  const mode = getComputedStyle(track).getPropertyValue('--carousel-snap-mode').trim()
-  if (mode !== 'image') return slides
-  const marked = Array.from(track.querySelectorAll<HTMLElement>('[data-carousel-snap]'))
+function pages(track: HTMLElement, slides: HTMLElement[], snap: SnapMode) {
+  if (snap !== 'image') return slides
+  const marked = Array.from(track.querySelectorAll<HTMLElement>(`[${SNAP_PAGE_ATTR}]`))
   return marked.length > 0 ? marked : slides
 }
 
@@ -81,6 +134,7 @@ interface Engine {
   next: () => void
   previous: () => void
   toIndex: (index: number) => void
+  relayout: (layout: CarouselLayout) => void
   dispose: () => void
 }
 
@@ -94,6 +148,7 @@ function loopingTrack(
   gsap: GSAP,
   Draggable: DraggableStatic,
   items: HTMLElement[],
+  initialLayout: CarouselLayout,
   onChange: (index: number, count: number) => void,
 ): Engine | null {
   const length = items.length
@@ -106,15 +161,12 @@ function loopingTrack(
 
   const firstBox = first.getBoundingClientRect()
   const inset = firstBox.left - container.getBoundingClientRect().left + container.scrollLeft
-  const loopable = isLoopable({
-    loopWidth: last.getBoundingClientRect().right - firstBox.left + inset,
-    frameWidth: container.clientWidth,
-    widest: Math.max(...items.map((el) => el.offsetWidth)),
-  })
-  if (!loopable) return null
+  const loopWidth = last.getBoundingClientRect().right - firstBox.left + inset
+  const widest = Math.max(...items.map((el) => el.offsetWidth))
+  if (loopWidth < container.clientWidth + widest) return null
   container.scrollTo({ left: 0, behavior: 'instant' })
 
-  let focusOffset = readFocusOffset(container)
+  let layout = initialLayout
   const moving = movementFlag(container)
 
   const starts = new Float64Array(length)
@@ -139,7 +191,7 @@ function loopingTrack(
   let initChangeX = 0
 
   const report = (index: number) =>
-    onChange(wrapIndex(index + focusOffset, stops.length), stops.length)
+    onChange(wrapIndex(index + layout.focusOffset, stops.length), stops.length)
 
   const closest = (setCurrent = false) => {
     const index = closestIndex(stops, tl.time(), tl.duration())
@@ -220,22 +272,15 @@ function loopingTrack(
 
   const populateStops = () => {
     const itemLefts = items.map((el) => el.getBoundingClientRect().left)
-    const owners: number[] = []
-    const offsets: number[] = []
-    for (const page of pages(container, items)) {
+    const pageList = pages(container, items, layout.snap)
+    stops = new Float64Array(pageList.length)
+    pageList.forEach((page, index) => {
       const owner = Math.max(
         0,
         items.findIndex((item) => item.contains(page)),
       )
-      owners.push(owner)
-      offsets.push(page.getBoundingClientRect().left - (itemLefts[owner] ?? 0))
-    }
-    stops = loopStops({
-      itemStarts: starts,
-      owners,
-      offsets,
-      inset: at(spaceBefore, 0),
-      pixelsPerSecond: PIXELS_PER_SECOND,
+      const offset = page.getBoundingClientRect().left - (itemLefts[owner] ?? 0)
+      stops[index] = (at(starts, owner) + offset - at(spaceBefore, 0)) / PIXELS_PER_SECOND
     })
     curIndex = Math.min(curIndex, stops.length - 1)
   }
@@ -252,14 +297,17 @@ function loopingTrack(
     else tl.progress(progress, true)
   }
 
-  const onResize = () => {
-    const before = stops.length
-    focusOffset = readFocusOffset(container)
+  const relayout = (next: CarouselLayout) => {
+    const count = stops.length
+    const focusOffset = layout.focusOffset
+    layout = next
     refresh(true)
-    if (stops.length === before) return
+    if (stops.length === count && layout.focusOffset === focusOffset) return
     lastIndex = curIndex
     report(curIndex)
   }
+
+  const onResize = () => relayout(layout)
 
   const toIndex = (target: number, vars: GSAPTweenVars) => {
     const count = stops.length
@@ -342,7 +390,8 @@ function loopingTrack(
   return {
     next: () => toIndex(current() + 1, { ...GLIDE }),
     previous: () => toIndex(current() - 1, { ...GLIDE }),
-    toIndex: (index: number) => toIndex(index - focusOffset, { ...GLIDE }),
+    toIndex: (index: number) => toIndex(index - layout.focusOffset, { ...GLIDE }),
+    relayout,
     dispose: () => {
       window.removeEventListener('resize', onResize)
       stepper.dispose()
@@ -368,17 +417,23 @@ function loadDragRuntime() {
   return pendingRuntime
 }
 
-interface UseCarouselEngineOptions {
-  slideCount: number
-  animated: boolean
-}
-
-export function useCarouselEngine({ slideCount, animated }: UseCarouselEngineOptions) {
-  const trackRef = useRef<HTMLDivElement>(null)
+export function useCarouselEngine({
+  trackRef,
+  slideCount,
+  animated,
+  focusOffset,
+  snap,
+}: CarouselEngineOptions) {
   const engineRef = useRef<Engine | null>(null)
+  const layoutRef = useRef<CarouselLayout>({ focusOffset, snap })
   const pageRef = useRef(0)
   const [page, setPage] = useState(0)
   const [pageCount, setPageCount] = useState(slideCount)
+
+  useEffect(() => {
+    layoutRef.current = { focusOffset, snap }
+    engineRef.current?.relayout(layoutRef.current)
+  }, [focusOffset, snap])
 
   useEffect(() => {
     const track = trackRef.current
@@ -401,9 +456,9 @@ export function useCarouselEngine({ slideCount, animated }: UseCarouselEngineOpt
         )
 
         context = gsap.context(() => {
-          const engine = loopingTrack(gsap, Draggable, items, report)
+          const engine = loopingTrack(gsap, Draggable, items, layoutRef.current, report)
           if (!engine) return
-          track.dataset.engine = ''
+          track.setAttribute(ENGINE_ATTR, '')
           engineRef.current = engine
           return engine.dispose
         }, track)
@@ -416,10 +471,10 @@ export function useCarouselEngine({ slideCount, animated }: UseCarouselEngineOpt
       state.disposed = true
       engineRef.current = null
       context?.revert()
-      delete track.dataset.engine
+      track.removeAttribute(ENGINE_ATTR)
       setPageCount(slideCount)
     }
-  }, [animated, slideCount])
+  }, [trackRef, animated, slideCount])
 
   /** Pre-hydration, reduced-motion, no-JS and strips too short to loop all
    *  land here: the track is still a scroll-snap strip, so navigation stays
@@ -453,5 +508,5 @@ export function useCarouselEngine({ slideCount, animated }: UseCarouselEngineOpt
     else scrollToIndex(wrapIndex(index, slideCount))
   }
 
-  return { trackRef, page, pageCount, next, previous, toIndex }
+  return { page, pageCount, next, previous, toIndex }
 }
