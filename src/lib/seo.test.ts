@@ -59,7 +59,12 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
     hasProgram: true,
     events: [event('Combinatul Fondului Plastic'), event('Partner Venues')],
     carousel: [],
-    credits: [{ kind: 'names', type: 'primary', label: 'Curator', names: ['Reka Csapo Dup'] }],
+    credits: {
+      marks: [],
+      named: [],
+      teamOrgs: [],
+      teamNames: [{ kind: 'names', label: 'Curator', names: ['Reka Csapo Dup'] }],
+    },
     facts: [],
     ...overrides,
   }

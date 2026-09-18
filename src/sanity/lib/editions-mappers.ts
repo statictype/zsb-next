@@ -11,11 +11,13 @@ import { mapCarousel } from '@/sanity/lib/carousel'
 import { requireImageData, type SanityImageField, toImageData } from '@/sanity/lib/image'
 import type {
   CalendarEvent,
-  CreditEntry,
   Edition,
+  EditionCredits,
   EditionFact,
   EditionSummary,
+  MarkedPartner,
   PartnerMark,
+  TeamCredit,
 } from '@/types/edition'
 
 export type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
@@ -126,53 +128,86 @@ function toPartnerMark(
   return { ...image, width, height, scale: markScale(aspectRatio, lead) }
 }
 
-function toPartner(
-  org: {
-    name: string
-    url?: string | null
-    kind?: string | null
-    logo?: SanityLogo | null
-  },
-  lead: boolean,
-) {
-  return definedFields({
-    name: org.name,
-    gallery: org.kind === 'gallery',
-    mark: toPartnerMark(org.logo, lead),
-    url: org.url,
+interface SanityOrg {
+  name: string
+  url?: string | null
+  kind?: string | null
+  logo?: SanityLogo | null
+}
+
+function markedPartner(org: SanityOrg, lead: boolean): MarkedPartner | undefined {
+  if (org.kind === 'gallery') return undefined
+  const mark = toPartnerMark(org.logo, lead)
+  return mark ? definedFields({ name: org.name, mark, url: org.url }) : undefined
+}
+
+function uniqueBy<T>(items: T[], key: (item: T) => string): T[] {
+  const seen = new Set<string>()
+  return items.filter((item) => {
+    const id = key(item)
+    if (seen.has(id)) return false
+    seen.add(id)
+    return true
   })
 }
 
-export function mapCredits(rows: SanityEdition['credits']): CreditEntry[] {
-  const out: CreditEntry[] = []
-  if (!rows) return out
-  for (const row of rows) {
-    if (row._type === 'creditOrg') {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a dereferenced reference is null when it dangles (unpublished/deleted org); TypeGen types the deref non-null
-      if (!row.organization) continue
-      out.push(
-        definedFields({
-          kind: 'org' as const,
-          type: row.type,
-          label: row.label,
-          detail: row.detail,
-          ...toPartner(row.organization, row.lead ?? false),
-        }),
-      )
-    } else if (row._type === 'creditOrgList') {
-      out.push({
-        kind: 'partners',
-        type: row.type,
-        label: row.label,
-        partners: row.organizations.map((org) => toPartner(org, row.lead ?? false)),
-      })
-    } else {
+type SanityOrgRow = Exclude<NonNullable<SanityEdition['credits']>[number], { _type: 'creditText' }>
+
+function rowOrgs(row: SanityOrgRow): SanityOrg[] {
+  if (row._type === 'creditOrgList') return row.organizations
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a dereferenced reference is null when it dangles (unpublished/deleted org); TypeGen types the deref non-null
+  return row.organization ? [row.organization] : []
+}
+
+// `type` is the block a row belongs to: `partner` is credited by logo, falling
+// back to the name list; `primary` adds a team credit line and so is never
+// listed by name twice; `secondary` is the team block alone, which is what
+// keeps the aegis row's logo out of the wall.
+export function mapCredits(rows: SanityEdition['credits']): EditionCredits {
+  const marks: MarkedPartner[] = []
+  const named: string[] = []
+  const teamOrgs: TeamCredit[] = []
+  const teamNames: TeamCredit[] = []
+
+  for (const row of rows ?? []) {
+    if (row._type === 'creditText') {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a cleared entry in a primitive array is null at runtime; TypeGen types the elements non-null
       const names = row.names?.filter((n): n is string => Boolean(n?.trim())) ?? []
-      out.push({ kind: 'names', type: row.type, label: row.label, names })
+      if (row.type !== 'partner') teamNames.push({ kind: 'names', label: row.label, names })
+      continue
+    }
+
+    const lead = row.lead ?? false
+    const orgs = rowOrgs(row)
+    if (orgs.length === 0) continue
+
+    if (row.type !== 'secondary') {
+      for (const org of orgs) {
+        const marked = markedPartner(org, lead)
+        if (marked) marks.push(marked)
+        else if (row.type === 'partner') named.push(org.name)
+      }
+    }
+    if (row.type !== 'partner') {
+      teamOrgs.push(
+        row._type === 'creditOrg'
+          ? definedFields({
+              kind: 'org' as const,
+              label: row.label,
+              name: row.organization.name,
+              detail: row.detail,
+            })
+          : { kind: 'names', label: row.label, names: orgs.map((org) => org.name) },
+      )
     }
   }
-  return out
+
+  return {
+    marks: uniqueBy(marks, (m) => m.mark.src),
+    named: uniqueBy(named, (n) => n),
+    teamOrgs,
+    teamNames,
+  }
 }
 
 export function editionFacts({

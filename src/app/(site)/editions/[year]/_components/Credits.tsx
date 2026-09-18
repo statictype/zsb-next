@@ -4,54 +4,17 @@ import type { CSSProperties } from 'react'
 import { Container, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Marquee } from '@/components/Marquee/Marquee'
-import type { CreditEntry, CreditPartner, PartnerMark } from '@/types/edition'
+import type { EditionCredits, MarkedPartner, TeamCredit } from '@/types/edition'
 
 interface CreditsProps {
-  credits: CreditEntry[]
+  credits: EditionCredits
 }
 
 const s = creditsRecipe()
 
-type MarkedPartner = CreditPartner & { mark: PartnerMark }
-
-// `type` is the block a row belongs to: `partner` is credited by logo, falling
-// back to the name list; `primary` adds a team credit line and so is never
-// listed by name twice; `secondary` is the team block alone, which is what
-// keeps the aegis row's logo out of the wall.
-function orgsOf(rows: CreditEntry[]): CreditPartner[] {
-  return rows.flatMap((row) =>
-    row.kind === 'org' ? [row] : row.kind === 'partners' ? row.partners : [],
-  )
-}
-
-function uniqueBy<T>(items: T[], key: (item: T) => string): T[] {
-  const seen = new Set<string>()
-  return items.filter((item) => {
-    const id = key(item)
-    if (seen.has(id)) return false
-    seen.add(id)
-    return true
-  })
-}
-
 export function Credits({ credits }: CreditsProps) {
-  if (credits.length === 0) return null
-
-  const marks = uniqueBy(
-    orgsOf(credits.filter((row) => row.type !== 'secondary')).filter(
-      (org): org is MarkedPartner => Boolean(org.mark) && !org.gallery,
-    ),
-    (org) => org.mark.src,
-  )
-  const named = uniqueBy(
-    orgsOf(credits.filter((row) => row.type === 'partner')).filter(
-      (org) => !org.mark || org.gallery,
-    ),
-    (org) => org.name,
-  )
-  const team = credits.filter((row) => row.type !== 'partner')
-  const teamOrgs = team.filter((row) => row.kind !== 'names')
-  const teamNames = team.filter((row) => row.kind === 'names')
+  const { marks, named, teamOrgs, teamNames } = credits
+  if (marks.length + named.length + teamOrgs.length + teamNames.length === 0) return null
 
   return (
     <section className={section({ ground: 'light' })}>
@@ -80,9 +43,9 @@ export function Credits({ credits }: CreditsProps) {
               {named.length > 0 && (
                 <div className={s.pool}>
                   <div className={s.run}>
-                    {named.map((org) => (
-                      <Text variant="caption" key={org.name}>
-                        {org.name}
+                    {named.map((name) => (
+                      <Text variant="caption" key={name}>
+                        {name}
                       </Text>
                     ))}
                   </div>
@@ -99,7 +62,7 @@ export function Credits({ credits }: CreditsProps) {
   )
 }
 
-function TeamBand({ className, rows }: { className: string | undefined; rows: CreditEntry[] }) {
+function TeamBand({ className, rows }: { className: string | undefined; rows: TeamCredit[] }) {
   if (rows.length === 0) return null
   return (
     <div className={className}>
@@ -113,7 +76,7 @@ function TeamBand({ className, rows }: { className: string | undefined; rows: Cr
   )
 }
 
-function TeamValue({ row }: { row: CreditEntry }) {
+function TeamValue({ row }: { row: TeamCredit }) {
   if (row.kind === 'org') {
     return (
       <div className={s.value}>
@@ -127,10 +90,9 @@ function TeamValue({ row }: { row: CreditEntry }) {
     )
   }
 
-  const names = row.kind === 'names' ? row.names : row.partners.map((partner) => partner.name)
   return (
     <div className={s.run}>
-      {names.map((name) => (
+      {row.names.map((name) => (
         <Text variant="caption" key={name}>
           {name}
         </Text>

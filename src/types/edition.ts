@@ -133,35 +133,23 @@ export interface PartnerMark extends ImageData {
   scale: number
 }
 
-export interface CreditPartner {
+export interface MarkedPartner {
   name: string
-  /** Galleries are credited by name even when a mark exists. */
-  gallery: boolean
-  mark?: PartnerMark
+  mark: PartnerMark
   url?: string
 }
 
-interface CreditRowBase {
-  type: 'primary' | 'partner' | 'secondary'
-  label: string
-}
+export type TeamCredit = { label: string } & (
+  | { kind: 'org'; name: string; detail?: string }
+  | { kind: 'names'; names: string[] }
+)
 
-export interface CreditOrgRow extends CreditRowBase, CreditPartner {
-  kind: 'org'
-  detail?: string
+export interface EditionCredits {
+  marks: MarkedPartner[]
+  named: string[]
+  teamOrgs: TeamCredit[]
+  teamNames: TeamCredit[]
 }
-
-export interface CreditPartnersRow extends CreditRowBase {
-  kind: 'partners'
-  partners: CreditPartner[]
-}
-
-export interface CreditNamesRow extends CreditRowBase {
-  kind: 'names'
-  names: string[]
-}
-
-export type CreditEntry = CreditOrgRow | CreditPartnersRow | CreditNamesRow
 
 // ---- Media Kit ----
 
@@ -241,7 +229,7 @@ export interface Edition {
   // all read from this list; it replaced the old program/venues format (ZSB-38).
   events: CalendarEvent[]
   carousel: CarouselSlide[]
-  credits: CreditEntry[]
+  credits: EditionCredits
   facts: EditionFact[]
 }
 
