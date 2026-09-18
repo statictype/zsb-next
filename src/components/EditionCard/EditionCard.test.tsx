@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
-import type { EditionCardData } from '@/types/edition'
+import type { EditionSummary } from '@/types/edition'
 
 describe('EditionCard', () => {
-  const edition: EditionCardData = {
+  const edition: EditionSummary = {
     year: 2026,
     theme: 'the weight of light',
     themeHighlight: 'light',
@@ -16,6 +16,8 @@ describe('EditionCard', () => {
     ],
     heroImage: { src: '/img/hero.jpg', alt: 'Hero' },
     href: '/editions/2026',
+    status: 'live',
+    dateLine: '10–20 May',
   }
 
   it('links the year block to the edition page', () => {
@@ -48,7 +50,7 @@ describe('EditionCard', () => {
   })
 
   it('renders a venue fact in the position it is given', () => {
-    const withVenue: EditionCardData = {
+    const withVenue: EditionSummary = {
       ...edition,
       facts: [
         { kind: 'dates', text: '10–20 May' },
@@ -67,7 +69,7 @@ describe('EditionCard', () => {
   })
 
   it('starts the line without a separator when the first fact is a count', () => {
-    const countsOnly: EditionCardData = {
+    const countsOnly: EditionSummary = {
       ...edition,
       facts: [
         { kind: 'artists', count: 44 },
@@ -91,7 +93,7 @@ describe('EditionCard', () => {
   })
 
   it('singularises a count of one', () => {
-    const single: EditionCardData = {
+    const single: EditionSummary = {
       ...edition,
       facts: [
         { kind: 'dates', text: '10–20 May' },

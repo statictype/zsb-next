@@ -1,7 +1,7 @@
 import { EventModal } from '@program/EventModal'
 import { eventSteps } from '@program/event-steps'
 import { notFound } from 'next/navigation'
-import { getEdition } from '@/data/editions'
+import { getEdition } from '@/sanity/lib/editions'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
 

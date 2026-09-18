@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
-import { getAllEditionYearParams, getEdition } from '@/data/editions'
 import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE, ogImageSrc } from '@/lib/og'
+import { getAllEditionYearParams, getEdition } from '@/sanity/lib/editions'
 import { PUBLISHED } from '@/sanity/lib/live'
 
 // Per-edition share card. If the editor set a Custom share image it's rendered

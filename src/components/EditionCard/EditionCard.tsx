@@ -7,14 +7,14 @@ import type { RecipeVariantProps } from 'styled-system/types'
 import { editionCard } from '@/components/EditionCard/EditionCard.recipe'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
-import type { EditionCardData, EditionFact } from '@/types/edition'
+import type { EditionFact, EditionSummary } from '@/types/edition'
 
 /** Bound to the recipe's variants: renaming or removing one there resurfaces
  *  here as a type error, not a silently ignored prop. */
 type EditionCardMedia = NonNullable<RecipeVariantProps<typeof editionCard>>['media']
 
 interface EditionCardProps {
-  edition: EditionCardData
+  edition: EditionSummary
   href: string
   media?: EditionCardMedia
   preload?: boolean

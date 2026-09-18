@@ -62,11 +62,11 @@ src/
       presentation.ts             # Document locations for the Presentation tool
       queries.ts                  # defineQuery-typed GROQ
       image.ts                    # urlFor() — image URL builder
-      editions.ts                 # Server-only mapper: SanityEdition → Edition
+      editions.ts                 # Edition gateway: getEdition, getEditionSummaries, derived Latest/Upcoming
+      editions-mappers.ts         # SanityEdition → Edition / EditionSummary
       settings.ts                 # getSiteSettings — siteSettings fetcher
       homepage.ts                 # getHomepage — homepage fetcher
       staticPages.ts              # getAboutPage / getPartnersPage / getVisitPage / getPrivacyPage
-  data/editions/                  # index.ts gateway (every edition lives in Sanity)
   types/edition.ts                # Runtime edition shape (Sanity is mapped to this)
   components/
     DisableDraftMode/             # Floating "Exit preview" button in draft mode
@@ -254,7 +254,7 @@ Stega = Sanity's mechanism for embedding invisible characters in strings so the 
 
 `next.config.ts` sets `cacheLife: { default: sanity }` (the `next-sanity/live/cache-life` preset) — every cached `sanityFetch` lives until a sync-tag invalidates it, no 15-minute timer.
 
-Cached helpers (`'use cache'` directive) live in `src/sanity/lib/editions.ts` and `src/data/editions/index.ts`. Each call inside a cache boundary tags itself two ways via `sanityFetch`: opaque per-query **sync tags** (automatic — what `<SanityLive />` revalidates for open tabs) and the query's **type-level tags** — the `tags` field exported with each query in `queries.ts`, naming every document type the query reads including `->` joins. The type-level tags are what the webhook channel matches; a query missing them is invisible to webhook invalidation. Tags propagate from inner cache scopes to outer ones, so tagging the `queryData` leaf covers wrapper caches and page shells.
+Cached helpers (`'use cache'` directive) live in `src/sanity/lib/editions.ts`. Each call inside a cache boundary tags itself two ways via `sanityFetch`: opaque per-query **sync tags** (automatic — what `<SanityLive />` revalidates for open tabs) and the query's **type-level tags** — the `tags` field exported with each query in `queries.ts`, naming every document type the query reads including `->` joins. The type-level tags are what the webhook channel matches; a query missing them is invisible to webhook invalidation. Tags propagate from inner cache scopes to outer ones, so tagging the `queryData` leaf covers wrapper caches and page shells.
 
 For HTML cache invalidation (visitors hitting a deeply cached response, not just open tabs), the Sanity webhook target is `/api/revalidate/tag`. It expects a GROQ-projected payload of `{ tags: string[] }`, validates the signature against `SANITY_REVALIDATE_SECRET`, calls `revalidateTag(tag, { expire: 0 })` for each, then **warms** the affected pages (homepage, `/visit`, `/editions`, plus every live year's edition page when an edition changed) in an `after()` callback so the refill cost lands at publish time, not on the first visitor. Configure the webhook in [sanity.io/manage](https://sanity.io/manage) → API → Webhooks:
 
@@ -269,7 +269,7 @@ For HTML cache invalidation (visitors hitting a deeply cached response, not just
 
 ## Editions: all in Sanity
 
-`src/data/editions/index.ts` is the gateway. `getEdition(year, options)` is a thin pass-through to the Sanity fetch; `getAllEditionYears()` reads the years from Sanity. Every year — including 2021, the online-only edition migrated in ZSB-20 — is an `edition` document. To add a brand-new year, author it in Sanity; there are no static edition files.
+`src/sanity/lib/editions.ts` is the gateway. `getEdition(year, options)` fetches and maps one live edition; `getEditionSummaries(options)` returns every edition's summary, newest first, and the live-year enumeration, the homepage list, the archive cards, and the Latest/Upcoming derivation all read it. Every year — including 2021, the online-only edition migrated in ZSB-20 — is an `edition` document. To add a brand-new year, author it in Sanity; there are no static edition files.
 
 ## Environment variables
 

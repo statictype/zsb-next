@@ -2,8 +2,8 @@ import { EventView } from '@program/EventView'
 import { eventSteps } from '@program/event-steps'
 import { notFound } from 'next/navigation'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
-import { getAllEventParams, getEdition, getEditionForMetadata } from '@/data/editions'
 import { eventBreadcrumbJsonLd, eventJsonLd, eventMetadata } from '@/lib/seo'
+import { getAllEventParams, getEdition } from '@/sanity/lib/editions'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
 
@@ -13,7 +13,7 @@ export async function generateMetadata(props: PageProps<'/editions/[year]/events
     props.params,
     getDynamicFetchOptions(),
   ])
-  const edition = await getEditionForMetadata(Number(year), perspective)
+  const edition = await getEdition(Number(year), { perspective })
   const event = findEvent(edition, slug)
   return event ? eventMetadata(Number(year), event) : {}
 }

@@ -6,7 +6,7 @@ import { editionsNav } from '@/components/EditionsNav/EditionsNav.recipe'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
-import type { EditionListItem } from '@/sanity/lib/editions'
+import type { EditionSummary } from '@/types/edition'
 
 const styles = editionsNav()
 
@@ -18,7 +18,10 @@ const STATUS_BADGE = {
 
 type CellStatus = keyof typeof STATUS_BADGE
 
-export type EditionEntry = Pick<EditionListItem, 'year' | 'theme' | 'themeHighlight' | 'href'>
+export type EditionEntry = Pick<
+  EditionSummary,
+  'year' | 'theme' | 'themeHighlight' | 'status' | 'href'
+>
 
 // The band stays mounted under the intercepted event route
 // (`editions/[year]/@modal/(.)events/[slug]`), where the pathname is a
@@ -42,7 +45,7 @@ export function EditionsNavBandList({
         <div className={styles.grid}>
           {editions.map((edition) => {
             const status: CellStatus =
-              edition.href == null
+              edition.status !== 'live'
                 ? 'announced'
                 : pathname !== null && isSectionActive(pathname, edition.href)
                   ? 'current'
@@ -76,7 +79,7 @@ export function EditionsNavBandList({
                 />
               </>
             )
-            return edition.href != null ? (
+            return status !== 'announced' ? (
               <Link
                 key={edition.year}
                 href={edition.href}

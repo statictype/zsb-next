@@ -4,8 +4,8 @@ import { section } from 'styled-system/recipes'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionCard } from '@/components/EditionCard/EditionCard'
 import { PageHero } from '@/components/PageHero/PageHero'
-import { getEditionCards } from '@/data/editions'
 import { pageMetadata } from '@/lib/seo'
+import { getEditionSummaries } from '@/sanity/lib/editions'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 
 const styles = editionsPage()
@@ -27,7 +27,7 @@ export default function EditionsPage() {
 
 async function CachedEditionsList({ options }: { options: DynamicFetchOptions }) {
   'use cache'
-  const editions = await getEditionCards(options)
+  const editions = (await getEditionSummaries(options)).filter((e) => e.status === 'live')
 
   return (
     <EditionsListShell>
