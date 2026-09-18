@@ -5,20 +5,16 @@ import { TypeChips } from '@program/TypeChips'
 import { shareCopied, useShareLink } from '@program/useShareLink'
 import { VenueLine } from '@program/VenueLine'
 import { RiExternalLinkLine } from '@remixicon/react'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { css } from 'styled-system/css'
 import { Stack, Text } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
-import { Lightbox } from '@/components/Lightbox/Lightbox'
+import { Lightbox, useLightbox } from '@/components/Lightbox/Lightbox'
 import { Button } from '@/components/ui/Button/Button'
 import { eventWhenLabel } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 
 const srOnly = css({ layerStyle: 'srOnly' })
-
-// A single poster has nothing to step to; hoisted so the Lightbox's arrow-key
-// effect isn't re-armed on every render.
-const noStep = () => {}
 
 function NewTab() {
   return (
@@ -39,7 +35,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
     status: shareStatus,
     Icon: ShareIcon,
   } = useShareLink(() => window.location.href)
-  const [zoomed, setZoomed] = useState(false)
+  const lightbox = useLightbox()
   const posterRef = useRef<HTMLButtonElement>(null)
   const getPoster = () => posterRef.current
 
@@ -54,7 +50,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
             variant="plain"
             className={s.poster}
             ref={posterRef}
-            onClick={() => setZoomed(true)}
+            onClick={() => lightbox.open(0)}
             aria-label={`View the poster for ${event.name} full size`}
           >
             <Figure image={event.image} sizes="(min-width: 1024px) 38vw, 100vw" />
@@ -126,14 +122,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
       </div>
 
       {event.image && (
-        <Lightbox
-          images={[{ image: event.image }]}
-          open={zoomed}
-          index={0}
-          getOrigin={getPoster}
-          onClose={() => setZoomed(false)}
-          onIndexChange={noStep}
-        />
+        <Lightbox {...lightbox.props} images={[{ image: event.image }]} getOrigin={getPoster} />
       )}
     </>
   )
