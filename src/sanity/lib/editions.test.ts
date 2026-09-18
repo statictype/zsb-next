@@ -6,12 +6,7 @@ import {
   mapEditionSummary,
   mapEvents,
 } from '@/sanity/lib/editions-mappers'
-import {
-  type CreditNamesRow,
-  type CreditOrgRow,
-  type CreditPartnersRow,
-  findEvent,
-} from '@/types/edition'
+import { findEvent } from '@/types/edition'
 
 const table = new Map<string, (params?: Record<string, unknown>) => unknown>()
 
@@ -126,43 +121,44 @@ describe('mapEvents — venue rollup stamp (ZSB-65)', () => {
   })
 })
 
-describe('mapCredits — row type dispatch', () => {
-  it('maps an organization row, carrying the mark when the logo has dimensions', () => {
-    const rows = [
-      {
-        _type: 'creditOrg',
-        type: 'organizer',
-        label: 'Organized by',
-        organization: { name: 'Aurora', url: 'https://example.org', logo: LOGO },
-      },
-      {
-        _type: 'creditOrg',
-        type: 'partner',
-        label: 'Partner',
-        organization: { name: 'No Logo Org' },
-      },
-    ] as unknown as RawCredits
-    const [withLogo, without] = mapCredits(rows) as CreditOrgRow[]
-    expect(withLogo?.name).toBe('Aurora')
-    expect(withLogo?.url).toBe('https://example.org')
-    expect(withLogo?.mark?.src).toContain('abc123def456-1200x800.jpg')
-    expect(withLogo?.mark?.alt).toBe('an alt')
-    expect(without?.name).toBe('No Logo Org')
-    expect(without && 'mark' in without).toBe(false)
+const org = (name: string, fields: Record<string, unknown> = {}) => ({ name, ...fields })
+const creditOrg = (type: string, label: string, organization: unknown, fields = {}) => ({
+  _type: 'creditOrg',
+  type,
+  label,
+  organization,
+  ...fields,
+})
+const creditOrgList = (type: string, label: string, organizations: unknown[], fields = {}) => ({
+  _type: 'creditOrgList',
+  type,
+  label,
+  organizations,
+  ...fields,
+})
+const creditText = (type: string, label: string, names: unknown[]) => ({
+  _type: 'creditText',
+  type,
+  label,
+  names,
+})
+const credits = (...rows: unknown[]) => mapCredits(rows as unknown as RawCredits)
+
+describe('mapCredits — the logo wall', () => {
+  it('puts a logo-bearing partner on the wall with its mark and link', () => {
+    const { marks } = credits(
+      creditOrg('partner', 'Partner', org('Aurora', { url: 'https://example.org', logo: LOGO })),
+    )
+    expect(marks.map((m) => m.name)).toEqual(['Aurora'])
+    expect(marks[0]?.url).toBe('https://example.org')
+    expect(marks[0]?.mark.src).toContain('abc123def456-1200x800.jpg')
+    expect(marks[0]?.mark.alt).toBe('an alt')
   })
 
   it('scales a mark to equal area, clamped at both ends', () => {
-    const scaleOf = (aspectRatio: number) => {
-      const rows = [
-        {
-          _type: 'creditOrg',
-          type: 'partner',
-          label: 'Partner',
-          organization: { name: 'Org', logo: logoWithAspect(aspectRatio) },
-        },
-      ] as unknown as RawCredits
-      return (mapCredits(rows)[0] as CreditOrgRow).mark?.scale
-    }
+    const scaleOf = (aspectRatio: number) =>
+      credits(creditOrg('partner', 'Partner', org('Org', { logo: logoWithAspect(aspectRatio) })))
+        .marks[0]?.mark.scale
     expect(scaleOf(1)).toBe(1)
     expect(scaleOf(4)).toBe(0.5)
     expect(scaleOf(6.59)).toBe(0.39)
@@ -171,59 +167,96 @@ describe('mapCredits — row type dispatch', () => {
   })
 
   it('draws a lead row larger, up to its own cap', () => {
-    const scaleOf = (aspectRatio: number, lead: boolean) => {
-      const rows = [
-        {
-          _type: 'creditOrgList',
-          type: 'partner',
-          lead,
-          label: 'Supported by',
-          organizations: [{ name: 'Org', logo: logoWithAspect(aspectRatio) }],
-        },
-      ] as unknown as RawCredits
-      return (mapCredits(rows)[0] as CreditPartnersRow).partners[0]?.mark?.scale
-    }
+    const scaleOf = (aspectRatio: number, lead: boolean) =>
+      credits(
+        creditOrgList(
+          'partner',
+          'Supported by',
+          [org('Org', { logo: logoWithAspect(aspectRatio) })],
+          {
+            lead,
+          },
+        ),
+      ).marks[0]?.mark.scale
     expect(scaleOf(3.14, false)).toBe(0.56)
     expect(scaleOf(3.14, true)).toBe(0.79)
     expect(scaleOf(1, true)).toBe(1.15)
   })
 
+  it('keeps a secondary row off the wall and a primary row on it', () => {
+    const { marks } = credits(
+      creditOrg('secondary', 'Under the aegis of', org('Aegis', { logo: LOGO })),
+      creditOrg('primary', 'Organized by', org('Organizer', { logo: logoWithAspect(2) })),
+    )
+    expect(marks.map((m) => m.name)).toEqual(['Organizer'])
+  })
+
+  it('shows each mark once, keyed by its image', () => {
+    const { marks } = credits(
+      creditOrg('primary', 'Organized by', org('Aurora', { logo: LOGO })),
+      creditOrgList('partner', 'Partners', [
+        org('Aurora', { logo: LOGO }),
+        org('Other', { logo: LOGO }),
+      ]),
+    )
+    expect(marks.map((m) => m.name)).toEqual(['Aurora'])
+  })
+})
+
+describe('mapCredits — the partner name list', () => {
+  it('names a partner without a logo, and a gallery even with one, each once', () => {
+    const { marks, named } = credits(
+      creditOrgList('partner', 'Partners', [
+        org('A', { logo: LOGO }),
+        org('B'),
+        org('C', { kind: 'gallery', logo: LOGO }),
+      ]),
+      creditOrg('partner', 'Partner', org('B')),
+    )
+    expect(marks.map((m) => m.name)).toEqual(['A'])
+    expect(named).toEqual(['B', 'C'])
+  })
+
+  it('never names a primary or secondary organization', () => {
+    const { named } = credits(
+      creditOrg('primary', 'Organized by', org('Organizer')),
+      creditOrg('secondary', 'Under the aegis of', org('Aegis')),
+    )
+    expect(named).toEqual([])
+  })
+})
+
+describe('mapCredits — the team block', () => {
+  it('credits primary and secondary organizations by label, with the detail line', () => {
+    const { teamOrgs } = credits(
+      creditOrg('primary', 'Organized by', org('Organizer'), { detail: 'Sculpture branch' }),
+      creditOrg('secondary', 'Under the aegis of', org('Aegis')),
+      creditOrgList('secondary', 'With', [org('X'), org('Y')]),
+      creditOrg('partner', 'Partner', org('P', { logo: LOGO })),
+    )
+    expect(teamOrgs).toEqual([
+      { kind: 'org', label: 'Organized by', name: 'Organizer', detail: 'Sculpture branch' },
+      { kind: 'org', label: 'Under the aegis of', name: 'Aegis' },
+      { kind: 'names', label: 'With', names: ['X', 'Y'] },
+    ])
+  })
+
+  it('keeps text rows apart, filtering blank names', () => {
+    const { teamNames } = credits(creditText('secondary', 'Team', ['Ana', '  ', null, 'Bogdan']))
+    expect(teamNames).toEqual([{ kind: 'names', label: 'Team', names: ['Ana', 'Bogdan'] }])
+  })
+
   it('skips an organization row whose reference is unresolved', () => {
-    const rows = [
-      { _type: 'creditOrg', type: 'organizer', label: 'Organized by', organization: null },
-    ] as unknown as RawCredits
-    expect(mapCredits(rows)).toEqual([])
+    expect(credits(creditOrg('primary', 'Organized by', null))).toEqual({
+      marks: [],
+      named: [],
+      teamOrgs: [],
+      teamNames: [],
+    })
   })
 
-  it('keeps an organization-list row as one partner per organization', () => {
-    const rows = [
-      {
-        _type: 'creditOrgList',
-        type: 'partners',
-        label: 'Partners',
-        organizations: [
-          { name: 'A', logo: LOGO },
-          { name: 'B' },
-          { name: 'C', kind: 'gallery', logo: LOGO },
-        ],
-      },
-    ] as unknown as RawCredits
-    const row = mapCredits(rows)[0] as CreditPartnersRow
-    expect(row.partners.map((p) => p.name)).toEqual(['A', 'B', 'C'])
-    expect(row.partners[0]?.mark?.scale).toBe(0.82)
-    expect(row.partners[1]?.mark).toBeUndefined()
-    expect(row.partners.map((p) => p.gallery)).toEqual([false, false, true])
-  })
-
-  it('filters blank names out of a text row', () => {
-    const rows = [
-      { _type: 'creditText', type: 'team', label: 'Team', names: ['Ana', '  ', null, 'Bogdan'] },
-    ] as unknown as RawCredits
-    expect((mapCredits(rows)[0] as CreditNamesRow).names).toEqual(['Ana', 'Bogdan'])
-  })
-
-  it('returns an empty list for missing rows', () => {
-    expect(mapCredits(null as unknown as RawCredits)).toEqual([])
+  it('returns empty buckets for missing rows', () => {
+    expect(mapCredits(null as unknown as RawCredits).marks).toEqual([])
   })
 })
 
@@ -251,7 +284,7 @@ describe('mapEdition', () => {
     expect(edition.dateLine).toBe('10–20 May 2026')
     expect(edition.manifesto).toEqual({ title: '', highlight: '', body: '' })
     expect(edition.artists).toEqual([])
-    expect(edition.credits).toEqual([])
+    expect(edition.credits.teamNames).toEqual([])
     expect(edition.events).toEqual([])
     expect(edition.carousel).toEqual([])
     expect(edition.heroImage.src).toContain('abc123def456-1200x800.jpg')
