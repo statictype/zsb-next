@@ -5,8 +5,8 @@
 // - Yearly facts (latest/upcoming edition split): server fill-time clock.
 //   Every transition is editor-driven — the announced → live flip is a publish
 //   that busts the caches — so fill-time is correct by the operating model.
-//   `getLatestAndUpcoming` is not a 'use cache' boundary itself; the freeze
-//   comes from its callers' surface cache boundaries.
+//   `getHomeData` is not a 'use cache' boundary itself; the freeze comes from
+//   its caller's surface cache boundary.
 // - Daily facts (event past-ness): client view-time clock (`useTodayIso`) — a
 //   mid-edition day rollover must not depend on a publish. ADR 0016's
 //   "computed client-side" means this tier only.

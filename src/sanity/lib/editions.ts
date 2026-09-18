@@ -1,7 +1,6 @@
 import 'server-only'
 
-import { type DerivedEditions, deriveEditions, type EditionLead } from '@/lib/derive-editions'
-import { todayInBucharest } from '@/lib/today'
+import type { EditionLead } from '@/lib/derive-editions'
 import { mapEdition, mapEditionSummary } from '@/sanity/lib/editions-mappers'
 import { type DynamicFetchOptions, PUBLISHED, queryData } from '@/sanity/lib/live'
 import { EDITION_BY_YEAR, EDITION_SUMMARIES, HERO_EDITION, SITEMAP } from '@/sanity/lib/queries'
@@ -22,41 +21,14 @@ export async function getEditionSummaries(options: DynamicFetchOptions): Promise
   return data.map(mapEditionSummary)
 }
 
-async function getHeroEditionLead(options: DynamicFetchOptions): Promise<EditionLead> {
+export async function getHeroEditionLead(options: DynamicFetchOptions): Promise<EditionLead> {
   'use cache'
   return (await queryData(HERO_EDITION, options)) === 'upcoming' ? 'upcoming' : 'latest'
 }
 
-/**
- * The Latest/Upcoming edition pair (ADR 0016), judged against the server
- * fill-time clock (yearly tier, `lib/today.ts`). The one place that owns
- * "which editions are latest/upcoming right now".
- * Lightweight (list items, not full editions); `todayIso` is injectable
- * for tests.
- */
-export async function getLatestAndUpcoming(
-  options: DynamicFetchOptions,
-  todayIso: string = todayInBucharest(),
-): Promise<DerivedEditions<EditionSummary>> {
-  const list = await getEditionSummaries(options)
-  return deriveEditions(list, todayIso)
-}
-
-/**
- * The upcoming edition the home hero should lead with (ZSB-44) — returned only
- * when the hero switch is 'upcoming' AND there is a next edition to promote.
- * `null` means lead with Latest, i.e. render the standard homepage hero. The
- * lead pulls the edition's own theme + dates (it has no homepage photography of
- * its own yet); the kept Latest slideshow + CTA come from the homepage doc.
- */
-export async function getHeroUpcoming(
-  options: DynamicFetchOptions,
-): Promise<EditionSummary | null> {
-  const [lead, { upcoming }] = await Promise.all([
-    getHeroEditionLead(options),
-    getLatestAndUpcoming(options),
-  ])
-  return lead === 'upcoming' ? upcoming : null
+export interface FeaturedEvents {
+  year: number
+  events: CalendarEvent[]
 }
 
 /**
@@ -67,9 +39,9 @@ export async function getHeroUpcoming(
  * hides past events client-side (daily tier, `lib/today.ts`).
  */
 export async function getFeaturedEvents(
+  list: EditionSummary[],
   options: DynamicFetchOptions,
-): Promise<{ year: number; events: CalendarEvent[] } | undefined> {
-  const list = await getEditionSummaries(options)
+): Promise<FeaturedEvents | undefined> {
   const newestLive = list.find((e) => e.status === 'live')
   if (!newestLive) return undefined
   const edition = await getEdition(newestLive.year, options)

@@ -1,0 +1,108 @@
+import { MediaKitStrip } from '@site/press/_components/MediaKitStrip'
+import { Container, Stack } from 'styled-system/jsx'
+import { section } from 'styled-system/recipes'
+import { JsonLd } from '@/components/JsonLd/JsonLd'
+import { PageHero } from '@/components/PageHero/PageHero'
+import { Badge } from '@/components/ui/Badge/Badge'
+import { LinkList, LinkListItem } from '@/components/ui/LinkList/LinkList'
+import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
+import { organizationJsonLd, pressAppearancesJsonLd } from '@/lib/seo'
+import type { PressAppearance, PressPageView, PressRelease } from '@/sanity/lib/press'
+import type { SiteSettings } from '@/sanity/lib/settings'
+import type { MediaKitStripItem } from '@/types/edition'
+
+type Medium = PressAppearance['medium']
+
+const MEDIUM_LABEL: Record<Medium, string> = {
+  article: 'Article',
+  video: 'Video',
+  audio: 'Audio',
+}
+
+export interface PressShellProps {
+  view: PressPageView
+  appearances: PressAppearance[]
+  releases: PressRelease[]
+  kit: MediaKitStripItem[]
+  settings: SiteSettings | null
+}
+
+export function PressShell({ view, appearances, releases, kit, settings }: PressShellProps) {
+  const { hero } = view
+
+  return (
+    <>
+      <JsonLd
+        data={organizationJsonLd({
+          sameAs: [settings?.instagramUrl, settings?.facebookUrl],
+        })}
+      />
+      {appearances.length > 0 && <JsonLd data={pressAppearancesJsonLd(appearances)} />}
+      <main>
+        <PageHero flush title={hero.title} lead={hero.lead} />
+
+        {kit.length > 0 && (
+          <section id="media-kit" className={section()}>
+            <MediaKitStrip items={kit} />
+          </section>
+        )}
+
+        {appearances.length > 0 && (
+          <section className={section()}>
+            <Container>
+              <Stack gap="xl">
+                <SectionHeading>Press appearances</SectionHeading>
+
+                <LinkList>
+                  {appearances.map((item) => {
+                    if (!item.url) return null
+                    return (
+                      <LinkListItem
+                        key={item._id}
+                        year={item.year}
+                        title={item.title}
+                        href={item.url}
+                        excerpt={item.excerpt}
+                        external
+                        tags={[
+                          <Badge key="tag" tone="outline">
+                            {item.tag}
+                          </Badge>,
+                          <Badge key="medium" tone="outline">
+                            {MEDIUM_LABEL[item.medium]}
+                          </Badge>,
+                        ]}
+                      />
+                    )
+                  })}
+                </LinkList>
+              </Stack>
+            </Container>
+          </section>
+        )}
+
+        {releases.length > 0 && (
+          <section className={section()}>
+            <Container>
+              <Stack gap="xl">
+                <SectionHeading>Press releases</SectionHeading>
+
+                <LinkList>
+                  {releases.map((release) => (
+                    <LinkListItem
+                      key={release._id}
+                      year={release.publishedAt.slice(0, 4)}
+                      title={release.title}
+                      href={release.pdfUrl ?? undefined}
+                      external
+                    />
+                  ))}
+                </LinkList>
+              </Stack>
+            </Container>
+          </section>
+        )}
+      </main>
+    </>
+  )
+}
