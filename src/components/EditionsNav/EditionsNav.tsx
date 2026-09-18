@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNavBand, EditionsNavBandList } from '@/components/EditionsNav/EditionsNavBand'
-import { getEditionListItems } from '@/data/editions'
+import { getEditionSummaries } from '@/sanity/lib/editions'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 
 /**
@@ -18,10 +18,7 @@ export function EditionsNav() {
 
 async function CachedEditionsNav({ options }: { options: DynamicFetchOptions }) {
   'use cache'
-  // `getEditionListItems` is already sorted year-desc. The band declares the
-  // slice it reads (`EditionEntry` picks off `EditionListItem`), so the list
-  // passes through unmapped; link/plate policy lives in the band.
-  const editions = await getEditionListItems(options)
+  const editions = await getEditionSummaries(options)
   if (editions.length === 0) return null
   // The band reads `usePathname()` — runtime data under `cacheComponents` when
   // the route's params aren't known at build time. Without this boundary the

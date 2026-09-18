@@ -1,11 +1,29 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { EditionsNavBandList } from '@/components/EditionsNav/EditionsNavBand'
+import { type EditionEntry, EditionsNavBandList } from '@/components/EditionsNav/EditionsNavBand'
 
-const editions = [
-  { year: 2027, theme: 'open field', themeHighlight: 'field' },
-  { year: 2026, theme: 'the weight of light', themeHighlight: 'light', href: '/editions/2026' },
-  { year: 2025, theme: 'soft ground', themeHighlight: 'ground', href: '/editions/2025' },
+const editions: EditionEntry[] = [
+  {
+    year: 2027,
+    theme: 'open field',
+    themeHighlight: 'field',
+    status: 'announced',
+    href: '/editions/2027',
+  },
+  {
+    year: 2026,
+    theme: 'the weight of light',
+    themeHighlight: 'light',
+    status: 'live',
+    href: '/editions/2026',
+  },
+  {
+    year: 2025,
+    theme: 'soft ground',
+    themeHighlight: 'ground',
+    status: 'live',
+    href: '/editions/2025',
+  },
 ]
 
 const cell = (year: number) => screen.getByRole('link', { name: new RegExp(`ZSB ${year}`) })

@@ -251,13 +251,18 @@ export type EditionFact =
   | { kind: 'artists'; count: number }
   | { kind: 'events'; count: number }
 
-export type EditionCardData = Pick<
-  Edition,
-  'year' | 'theme' | 'themeHighlight' | 'thumbImage' | 'facts'
-> & {
-  href: string
+export interface EditionSummary {
+  year: number
+  theme: string
+  themeHighlight: string
   themeBody: string
+  status: 'announced' | 'live'
+  href: string
+  dateStart?: string
+  dateLine: string
+  facts: EditionFact[]
   heroImage?: ImageData
+  thumbImage?: ImageData
 }
 
 /** Find one event in an edition by its URL `slug` (ADR 0015). Shared by the

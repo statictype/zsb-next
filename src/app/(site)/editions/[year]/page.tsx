@@ -1,7 +1,7 @@
 import { CachedEdition } from '@edition/edition-content'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
-import { getAllEditionYearParams, getEditionForMetadata } from '@/data/editions'
 import { editionMetadata } from '@/lib/seo'
+import { getAllEditionYearParams, getEdition } from '@/sanity/lib/editions'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 
 export async function generateStaticParams() {
@@ -10,7 +10,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: PageProps<'/editions/[year]'>) {
   const [{ year }, { perspective }] = await Promise.all([props.params, getDynamicFetchOptions()])
-  const edition = await getEditionForMetadata(Number(year), perspective)
+  const edition = await getEdition(Number(year), { perspective })
   return edition ? editionMetadata(edition) : {}
 }
 

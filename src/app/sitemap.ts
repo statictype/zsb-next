@@ -1,8 +1,7 @@
 import type { MetadataRoute } from 'next'
-import { getAllEventParams } from '@/data/editions'
 import { SITE_URL } from '@/lib/constants'
 import { editionHref, eventHref } from '@/lib/edition-href'
-import { getSitemapMetadataFromSanity } from '@/sanity/lib/editions'
+import { getAllEventParams, getSitemapMetadata } from '@/sanity/lib/editions'
 
 function lastMod(iso: string | null | undefined): Date | undefined {
   return iso ? new Date(iso) : undefined
@@ -32,10 +31,7 @@ function entry(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [meta, eventParams] = await Promise.all([
-    getSitemapMetadataFromSanity(),
-    getAllEventParams(),
-  ])
+  const [meta, eventParams] = await Promise.all([getSitemapMetadata(), getAllEventParams()])
 
   // SITEMAP_QUERY.editions is already status-filtered (`== "live"`), the
   // same gate as the edition page — the sitemap never advertises a year that

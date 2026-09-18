@@ -3,7 +3,7 @@ import { after, type NextRequest, NextResponse } from 'next/server'
 import { parseBody } from 'next-sanity/webhook'
 import { editionHref } from '@/lib/edition-href'
 import { client } from '@/sanity/lib/client'
-import { EDITION_YEARS } from '@/sanity/lib/queries'
+import { EDITION_SUMMARIES } from '@/sanity/lib/queries'
 
 interface WebhookPayload {
   tags: string[]
@@ -74,9 +74,9 @@ async function warmAffectedPages(origin: string, tags: string[]) {
   try {
     const paths = ['/', '/visit', '/editions']
     if (tags.some((tag) => tag === 'edition' || tag.startsWith('edition:'))) {
-      const rows = await client.fetch(EDITION_YEARS.query)
+      const rows = await client.fetch(EDITION_SUMMARIES.query)
       for (const row of rows) {
-        paths.push(editionHref(row.year))
+        if (row.status === 'live') paths.push(editionHref(row.year))
       }
     }
     await Promise.allSettled(

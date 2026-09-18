@@ -16,7 +16,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createClient } from '@sanity/client'
-import { getEdition, getEditionListItems } from '@/data/editions'
+import { getEdition, getEditionSummaries } from '@/sanity/lib/editions'
 
 if (typeof process.loadEnvFile === 'function') {
   try {
@@ -101,7 +101,7 @@ async function collect(): Promise<Map<string, CollectedOrg>> {
 
   // Every edition, announced included — an announced edition's credits are
   // just as importable as a live one's.
-  const editions = await getEditionListItems({ perspective: 'published' })
+  const editions = await getEditionSummaries({ perspective: 'published' })
   for (const { year } of editions) {
     const edition = await getEdition(year, { perspective: 'published' })
     if (!edition) continue

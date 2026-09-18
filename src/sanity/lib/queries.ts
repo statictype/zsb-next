@@ -21,7 +21,7 @@ export const SITE_SETTINGS = { query: SITE_SETTINGS_QUERY, tags: ['siteSettings'
 
 // The home-hero edition switch (ZSB-44): 'latest' or 'upcoming'. The hero leads
 // with whichever edition this resolves to against the derived editions (ADR
-// 0016). Null until set — getHeroEditionLeadFromSanity defaults to latest.
+// 0016). Null until set — getHeroEditionLead defaults to latest.
 const HERO_EDITION_QUERY = defineQuery(`
   *[_id == "siteSettings"][0].heroEdition
 `)
@@ -52,18 +52,6 @@ const HOMEPAGE_QUERY = defineQuery(`
 `)
 
 export const HOMEPAGE = { query: HOMEPAGE_QUERY, tags: ['homepage', 'edition', 'organization'] }
-
-const EDITIONS_LIST_QUERY = defineQuery(`
-  *[_type == "edition" && defined(year)] | order(year desc) {
-    year,
-    theme,
-    themeHighlight,
-    status,
-    dateStart
-  }
-`)
-
-export const EDITIONS_LIST = { query: EDITIONS_LIST_QUERY, tags: ['edition'] }
 
 const ABOUT_PAGE_QUERY = defineQuery(`
   *[_id == "aboutPage"][0]{
@@ -260,15 +248,6 @@ const ARTIST_BY_SLUG_QUERY = defineQuery(`
 
 export const ARTIST_BY_SLUG = { query: ARTIST_BY_SLUG_QUERY, tags: ['artist'] }
 
-// Live edition years, newest first. Live-only because the consumers enumerate
-// reachable pages: the edition page is gated `status == "live"`, so any other
-// year would bake a 404.
-const EDITION_YEARS_QUERY = defineQuery(`
-  *[_type == "edition" && defined(year) && status == "live"] | order(year desc){ year }
-`)
-
-export const EDITION_YEARS = { query: EDITION_YEARS_QUERY, tags: ['edition'] }
-
 // Everything the sitemap needs to emit honest `lastModified` dates in a
 // single round trip: each live edition's content-update time, the six
 // page singletons' update times, and the newest artist edit (the /artists
@@ -300,15 +279,15 @@ export const SITEMAP = {
   ],
 }
 
-// The /editions archive index: exactly the card slice (`EditionCardData`) —
-// theme, date inputs, counts, imagery — instead of N full-edition fetches.
-// Status-filtered and year-desc like the page itself.
-const EDITION_CARDS_QUERY = defineQuery(`
-  *[_type == "edition" && defined(year) && status == "live"] | order(year desc) {
+// Every status on purpose: the homepage list and the editions nav show
+// announced editions as "coming soon" rows; live-only consumers filter.
+const EDITION_SUMMARIES_QUERY = defineQuery(`
+  *[_type == "edition" && defined(year) && defined(theme)] | order(year desc) {
     year,
     theme,
     themeHighlight,
     "themeBody": themeSection.body,
+    status,
     dateStart,
     dateEnd,
     hasProgram,
@@ -320,7 +299,7 @@ const EDITION_CARDS_QUERY = defineQuery(`
   }
 `)
 
-export const EDITION_CARDS = { query: EDITION_CARDS_QUERY, tags: ['edition'] }
+export const EDITION_SUMMARIES = { query: EDITION_SUMMARIES_QUERY, tags: ['edition'] }
 
 // Only live editions have a viewable page — the gate tests the stable value
 // (`== "live"`), so any other status (announced, legacy values, future

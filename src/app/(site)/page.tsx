@@ -16,20 +16,14 @@ import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
 import { LinkList, LinkListItem } from '@/components/ui/LinkList/LinkList'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
-import {
-  getEditionListItems,
-  getFeaturedEvents,
-  getHeroUpcoming,
-  type UpcomingHero,
-} from '@/data/editions'
 import { SITE_DESCRIPTION } from '@/lib/constants'
 import { editionHref } from '@/lib/edition-href'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import { pageMetadata } from '@/lib/seo'
-import { type EditionListItem } from '@/sanity/lib/editions'
+import { getEditionSummaries, getFeaturedEvents, getHeroUpcoming } from '@/sanity/lib/editions'
 import { getHomepage, type HomeView } from '@/sanity/lib/homepage'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
-import type { CalendarEvent } from '@/types/edition'
+import type { CalendarEvent, EditionSummary } from '@/types/edition'
 
 const styles = homePage()
 
@@ -51,7 +45,7 @@ async function CachedHome({ options }: { options: DynamicFetchOptions }) {
   'use cache'
   const [home, editions, upcoming, featured] = await Promise.all([
     getHomepage(options),
-    getEditionListItems(options),
+    getEditionSummaries(options),
     getHeroUpcoming(options),
     getFeaturedEvents(options),
   ])
@@ -61,9 +55,9 @@ async function CachedHome({ options }: { options: DynamicFetchOptions }) {
 
 interface HomeShellProps {
   view: HomeView
-  editions: EditionListItem[]
+  editions: EditionSummary[]
   /** Set when the hero switch leads with Upcoming and a next edition exists. */
-  upcoming: UpcomingHero | null
+  upcoming: EditionSummary | null
   /** Newest live edition's featured events; past ones hidden client-side. */
   featured: { year: number; events: CalendarEvent[] } | undefined
 }
@@ -181,28 +175,28 @@ function HomeShell({ view, editions, upcoming, featured }: HomeShellProps) {
                   <span className={styles.editionPrefix}>ZSB</span> {edition.year}
                 </>
               )
-              const theme =
-                edition.href != null ? (
-                  <EditionTheme
-                    as="span"
-                    size="row"
-                    interactive
-                    className={styles.editionThemeRow}
-                    theme={edition.theme}
-                    themeHighlight={edition.themeHighlight}
-                  />
-                ) : (
-                  <EditionTheme
-                    as="span"
-                    size="row"
-                    muted
-                    accent="none"
-                    className={styles.editionThemeRow}
-                    theme={edition.theme}
-                    themeHighlight={edition.themeHighlight}
-                  />
-                )
-              return edition.href ? (
+              const live = edition.status === 'live'
+              const theme = live ? (
+                <EditionTheme
+                  as="span"
+                  size="row"
+                  interactive
+                  className={styles.editionThemeRow}
+                  theme={edition.theme}
+                  themeHighlight={edition.themeHighlight}
+                />
+              ) : (
+                <EditionTheme
+                  as="span"
+                  size="row"
+                  muted
+                  accent="none"
+                  className={styles.editionThemeRow}
+                  theme={edition.theme}
+                  themeHighlight={edition.themeHighlight}
+                />
+              )
+              return live ? (
                 <LinkListItem
                   key={edition.year}
                   emphasis="year"

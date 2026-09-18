@@ -1,4 +1,7 @@
-import type { EDITION_BY_YEAR_QUERY_RESULT, EDITION_CARDS_QUERY_RESULT } from '@/../sanity.types'
+import type {
+  EDITION_BY_YEAR_QUERY_RESULT,
+  EDITION_SUMMARIES_QUERY_RESULT,
+} from '@/../sanity.types'
 import { definedFields } from '@/lib/defined-fields'
 import { composeDateLine, composeDateRange, composeDateSpan, dayToken } from '@/lib/edition-dates'
 import { editionHref } from '@/lib/edition-href'
@@ -10,8 +13,8 @@ import type {
   CalendarEvent,
   CreditEntry,
   Edition,
-  EditionCardData,
   EditionFact,
+  EditionSummary,
   PartnerMark,
 } from '@/types/edition'
 
@@ -191,18 +194,16 @@ export function editionFacts({
   return facts
 }
 
-/**
- * The /editions archive card slice — same field conventions as `mapEdition`
- * below (required hero fails loudly, optional thumb flows as absence, the
- * mapper owns the date composition).
- */
-export function mapEditionCard(raw: EDITION_CARDS_QUERY_RESULT[number]): EditionCardData {
+export function mapEditionSummary(raw: EDITION_SUMMARIES_QUERY_RESULT[number]): EditionSummary {
   return definedFields({
     year: raw.year,
-    href: editionHref(raw.year),
     theme: raw.theme,
     themeHighlight: raw.themeHighlight ?? '',
     themeBody: raw.themeBody ?? '',
+    status: raw.status === 'live' ? ('live' as const) : ('announced' as const),
+    href: editionHref(raw.year),
+    dateStart: raw.dateStart ?? undefined,
+    dateLine: composeDateLine(raw),
     facts: editionFacts({
       dates: composeDateSpan(raw),
       venue: raw.hasProgram === false ? (raw.venueLine ?? '') : '',

@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
-import { getAllEventParams, getEdition } from '@/data/editions'
 import { eventWhenLabel } from '@/lib/edition-dates'
 import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE, ogImageSrc } from '@/lib/og'
+import { getAllEventParams, getEdition } from '@/sanity/lib/editions'
 import { PUBLISHED } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
 

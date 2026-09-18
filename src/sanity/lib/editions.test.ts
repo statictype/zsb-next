@@ -1,9 +1,9 @@
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   editionFacts,
   mapCredits,
   mapEdition,
-  mapEditionCard,
+  mapEditionSummary,
   mapEvents,
 } from '@/sanity/lib/editions-mappers'
 import {
@@ -13,10 +13,22 @@ import {
   findEvent,
 } from '@/types/edition'
 
+const table = new Map<string, (params?: Record<string, unknown>) => unknown>()
+
+vi.mock('server-only', () => ({}))
+vi.mock('@/sanity/lib/live', () => ({
+  PUBLISHED: { perspective: 'published' },
+  queryData: async ({ query }: { query: string }, _o: unknown, params?: Record<string, unknown>) =>
+    table.get(query)?.(params) ?? null,
+}))
+
+import { getAllEditionYearParams, getFeaturedEvents, getHeroUpcoming } from '@/sanity/lib/editions'
+import { EDITION_BY_YEAR, EDITION_SUMMARIES, HERO_EDITION } from '@/sanity/lib/queries'
+
 type RawEvents = Parameters<typeof mapEvents>[0]
 type RawCredits = Parameters<typeof mapCredits>[0]
 type RawEdition = Parameters<typeof mapEdition>[0]
-type RawCard = Parameters<typeof mapEditionCard>[0]
+type RawSummary = Parameters<typeof mapEditionSummary>[0]
 
 // A well-formed Sanity asset ref so the image adapters can build a CDN URL.
 const ASSET = { asset: { _ref: 'image-abc123def456-1200x800-jpg' }, alt: 'an alt' }
@@ -277,7 +289,7 @@ describe('editionFacts', () => {
   })
 })
 
-function rawCard(fields: Record<string, unknown> = {}): RawCard {
+function rawSummary(fields: Record<string, unknown> = {}): RawSummary {
   return {
     year: 2026,
     theme: 'Theme',
@@ -287,12 +299,12 @@ function rawCard(fields: Record<string, unknown> = {}): RawCard {
     artistCount: 44,
     eventCount: 13,
     ...fields,
-  } as unknown as RawCard
+  } as unknown as RawSummary
 }
 
-describe('mapEditionCard', () => {
+describe('mapEditionSummary', () => {
   it('leaves the venue out of the facts for an edition with a program', () => {
-    expect(mapEditionCard(rawCard({ hasProgram: true })).facts).toEqual([
+    expect(mapEditionSummary(rawSummary({ hasProgram: true })).facts).toEqual([
       { kind: 'dates', text: '10–20 May' },
       { kind: 'artists', count: 44 },
       { kind: 'events', count: 13 },
@@ -300,8 +312,8 @@ describe('mapEditionCard', () => {
   })
 
   it('includes the venue in the facts for an edition without a program', () => {
-    const card = mapEditionCard(
-      rawCard({ hasProgram: false, venueLine: 'Online', eventCount: null }),
+    const card = mapEditionSummary(
+      rawSummary({ hasProgram: false, venueLine: 'Online', eventCount: null }),
     )
     expect(card.facts).toEqual([
       { kind: 'dates', text: '10–20 May' },
@@ -338,5 +350,63 @@ describe('event slug round trip — derive then resolve', () => {
 
   it('returns null for an unknown slug', () => {
     expect(findEvent(edition, '15-may-cfp-opening-4')).toBeNull()
+  })
+})
+
+describe('edition gateway — composition over the summaries', () => {
+  const OPTIONS = { perspective: 'published' as const }
+  const summaries = [
+    rawSummary({ year: 2027, status: 'announced', dateStart: '2027-05-10', dateEnd: '2027-05-20' }),
+    rawSummary({ year: 2026, status: 'live' }),
+    rawSummary({ year: 2021, status: 'live', dateStart: null, dateEnd: null }),
+  ]
+
+  beforeEach(() => {
+    table.clear()
+    table.set(EDITION_SUMMARIES.query, () => summaries)
+    vi.stubEnv('NEXT_PUBLIC_ZSB_TODAY', '2026-06-01')
+  })
+
+  it('leads the hero with the upcoming edition only when the switch says so', async () => {
+    table.set(HERO_EDITION.query, () => 'upcoming')
+    const lead = await getHeroUpcoming(OPTIONS)
+    expect(lead?.year).toBe(2027)
+    expect(lead?.dateLine).toBe('10–20 May 2027 · CFP')
+
+    table.set(HERO_EDITION.query, () => null)
+    expect(await getHeroUpcoming(OPTIONS)).toBeNull()
+  })
+
+  it('leads with Latest when the switch is on but no edition is ahead', async () => {
+    table.set(HERO_EDITION.query, () => 'upcoming')
+    vi.stubEnv('NEXT_PUBLIC_ZSB_TODAY', '2027-06-01')
+    expect(await getHeroUpcoming(OPTIONS)).toBeNull()
+  })
+
+  it('sources featured events from the newest live edition, not the newest edition', async () => {
+    const fetched: unknown[] = []
+    table.set(EDITION_BY_YEAR.query, (params) => {
+      fetched.push(params?.year)
+      return rawEdition({
+        year: 2026,
+        events: events(ev({ _key: 'a', featured: true }), ev({ _key: 'b' })),
+      })
+    })
+    const featured = await getFeaturedEvents(OPTIONS)
+    expect(fetched).toEqual([2026])
+    expect(featured?.year).toBe(2026)
+    expect(featured?.events.map((e) => e.key)).toEqual(['a'])
+  })
+
+  it('returns nothing when no edition is live, without fetching one', async () => {
+    table.set(EDITION_SUMMARIES.query, () => [rawSummary({ year: 2027, status: 'announced' })])
+    table.set(EDITION_BY_YEAR.query, () => {
+      throw new Error('must not fetch')
+    })
+    expect(await getFeaturedEvents(OPTIONS)).toBeUndefined()
+  })
+
+  it('enumerates live years only as route params', async () => {
+    expect(await getAllEditionYearParams()).toEqual([{ year: '2026' }, { year: '2021' }])
   })
 })
