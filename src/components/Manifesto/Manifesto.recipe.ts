@@ -1,18 +1,25 @@
 import { sva } from 'styled-system/css'
 
 export const manifesto = sva({
-  slots: ['split', 'body'],
+  slots: ['split', 'title', 'body'],
   base: {
     split: {
       layerStyle: 'sectionInner',
       display: 'grid',
       gap: '2xl',
       lg: {
-        gridTemplateColumns: '0.8fr 1.2fr',
-        gap: 'gridGap',
+        containerType: 'inline-size',
+        gridTemplateColumns: 'auto minmax(0, 1fr)',
+        gap: 'md',
         alignItems: 'start',
       },
-      xl: { gridTemplateColumns: '1fr 1fr' },
+      '2xl': { gap: 'xl' },
+    },
+    title: {
+      lg: {
+        width: '[10em]',
+        fontSize: '[clamp(48px, 5cqi, token(fontSizes.3xl))]',
+      },
     },
     body: { maxWidth: 'measure', lg: { paddingTop: 'md' } },
   },
