@@ -4,22 +4,21 @@ export const nameCloud = sva({
   slots: ['list', 'item', 'name', 'years'],
   base: {
     list: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'baseline',
       listStyleType: 'none',
-      columnGap: 'md',
-      rowGap: 'lg',
-      md: {
-        justifyContent: 'center',
-        maxWidth: '[900px]',
-        marginInline: 'auto',
-        paddingInline: 'xl',
-      },
+      marginBlock: '[calc(token(spacing.lg) / -2)]',
+      fontSize: '[0]',
+      lineHeight: '0',
+      wordSpacing: '[clamp(40px, 27.38px + 3.3657vw, 92px)]',
+      textWrap: '[pretty]',
+      md: { textAlign: 'center' },
     },
     item: {
       position: 'relative',
+      display: 'inline-block',
+      marginBlock: '[calc(token(spacing.lg) / 2)]',
       lineHeight: '[1]',
+      wordSpacing: 'normal',
+      whiteSpace: 'nowrap',
       '@media (hover: hover)': {
         _hover: { zIndex: '1' },
       },

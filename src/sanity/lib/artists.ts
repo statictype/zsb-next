@@ -3,7 +3,7 @@ import 'server-only'
 import { mapArtistCloud } from '@/sanity/lib/artists-mappers'
 import { PUBLISHED, queryData } from '@/sanity/lib/live'
 import { ARTIST_CLOUD, ARTIST_INDEX } from '@/sanity/lib/queries'
-import type { ArtistCloudItem, ArtistListItem } from '@/types/edition'
+import type { ArtistCloud, ArtistListItem } from '@/types/edition'
 
 /**
  * All artists as `{ _id, name }`, surname-ordered (by `sortName`, falling back
@@ -19,7 +19,7 @@ export async function getArtistIndex(): Promise<ArtistListItem[]> {
 
 // The homepage banner stays on getArtistIndex: its cache entry must not carry
 // the per-artist years it never reads.
-export async function getArtistCloud(): Promise<ArtistCloudItem[]> {
+export async function getArtistCloud(): Promise<ArtistCloud> {
   'use cache'
   const raw = await queryData(ARTIST_CLOUD, PUBLISHED)
   return mapArtistCloud(raw)

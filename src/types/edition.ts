@@ -195,6 +195,11 @@ export interface ArtistCloudItem {
   tier: ArtistTier
 }
 
+export interface ArtistCloud {
+  cloud: ArtistCloudItem[]
+  onlineOnly: ArtistListItem[]
+}
+
 // ---- Full Edition ----
 
 export interface Edition {
