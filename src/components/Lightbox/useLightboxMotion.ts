@@ -250,10 +250,6 @@ export function useLightboxMotion({
     const runtime = runtimeRef.current
     const overlay = overlayRef.current
     if (runtime && overlay) clearDissolve(runtime, overlay)
-    if (runtime) {
-      if (rootRef.current) runtime.gsap.set(rootRef.current, { clearProps: 'opacity' })
-      if (imageLayerRef.current) runtime.gsap.set(imageLayerRef.current, { clearProps: 'opacity' })
-    }
   }, [isOpen])
 
   useLayoutEffect(() => {
@@ -264,6 +260,8 @@ export function useLightboxMotion({
     const root = rootRef.current
     const stage = stageRef.current
     const imageLayer = imageLayerRef.current
+    if (runtime && root && imageLayer)
+      runtime.gsap.set([root, imageLayer], { clearProps: 'opacity' })
     const origin = getOrigin(index)
     const originImage = origin?.querySelector('img')
     if (!runtime || !root || !stage || !imageLayer || !origin || !originImage) return
