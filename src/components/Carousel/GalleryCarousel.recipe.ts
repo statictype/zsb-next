@@ -94,11 +94,6 @@ export const galleryCarousel = sva({
         width: '[auto]',
         height: '[var(--slide-w)]',
       },
-      '@media (hover: hover)': {
-        '&:has(> :is(:hover, :focus-visible)) > :not(:hover, :focus-visible)': {
-          opacity: 0.32,
-        },
-      },
     },
 
     item: {
