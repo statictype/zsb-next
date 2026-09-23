@@ -355,6 +355,15 @@ export const textStyles = {
       textWrap: 'balance',
     },
   },
+  rowTitle: {
+    value: {
+      fontFamily: 'body',
+      fontSize: 'md',
+      fontWeight: 'bold',
+      lineHeight: '1.3',
+      textWrap: 'balance',
+    },
+  },
   detailTitle: {
     value: {
       fontFamily: 'display',
