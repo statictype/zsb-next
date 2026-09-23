@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import { cx } from 'styled-system/css'
 import { navigation } from 'styled-system/recipes'
 import { MobileMenu } from '@/components/Navigation/MobileMenu'
+import { NavigationProgress } from '@/components/Navigation/NavigationProgress'
 import { NavLinks, NavLinksList } from '@/components/Navigation/NavLinks'
 
 const s = navigation()
@@ -29,6 +30,7 @@ export function Navigation() {
 
   return (
     <>
+      <NavigationProgress />
       <div className={s.logo}>
         <Link href="/">{logo}</Link>
       </div>

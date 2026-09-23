@@ -20,6 +20,7 @@ export const navigation = defineSlotRecipe({
     'mobileShell',
     'mobileNavLink',
     'navLink',
+    'progress',
   ],
   base: {
     logo: {
@@ -50,14 +51,12 @@ export const navigation = defineSlotRecipe({
         zIndex: 'nav',
       },
       lg: { top: '[40px]' },
-      '&:has([data-pending]) [data-active=true]:not(:has([data-pending]))': { color: '[inherit]' },
     },
     mobileShell: {
       position: 'relative',
       width: 'full',
       height: 'full',
       background: 'black',
-      '&:has([data-pending]) [data-active=true]:not(:has([data-pending]))': { color: '[inherit]' },
     },
     navLink: {
       pressable: 'fill',
@@ -90,25 +89,10 @@ export const navigation = defineSlotRecipe({
         },
       _focusVisible: { outline: 'none' },
       '&:active:not(:disabled), &:active:not(:disabled) [data-nav-copy]': { color: 'highlight' },
-      '&[data-active=true], &:has([data-pending])': { color: 'highlight' },
-      '&[aria-current=page] [data-nav-label], &:has([data-pending]) [data-nav-label]': {
+      '&[data-active=true]': { color: 'highlight' },
+      '&[aria-current=page] [data-nav-label]': {
         transition: 'none',
         transform: 'none',
-      },
-      '&:has([data-pending])::after': {
-        content: '""',
-        position: 'absolute',
-        left: '0',
-        bottom: '0',
-        width: '[40%]',
-        height: '[2px]',
-        background: 'action',
-        opacity: '0',
-        animationName: 'progressSweep',
-        animationDuration: 'sweep',
-        animationTimingFunction: '[linear]',
-        animationIterationCount: 'infinite',
-        animationDelay: 'fast',
       },
     },
     desktopNavLink: {
@@ -122,6 +106,32 @@ export const navigation = defineSlotRecipe({
       paddingInline: 'xl',
     },
     dialogLogo: { zIndex: '1' },
+    progress: {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      width: 'full',
+      height: '[2px]',
+      zIndex: 'progress',
+      overflow: 'hidden',
+      pointerEvents: 'none',
+      _after: {
+        content: '""',
+        position: 'absolute',
+        inset: '0',
+        width: '[40%]',
+        background: 'action',
+        opacity: '0',
+        animationName: 'progressSweep',
+        animationDuration: 'sweep',
+        animationTimingFunction: '[linear]',
+        animationIterationCount: 'infinite',
+        animationDelay: 'fast',
+      },
+      _motionReduce: {
+        _after: { animation: '[none]', opacity: '1', width: 'full' },
+      },
+    },
   },
 })
 

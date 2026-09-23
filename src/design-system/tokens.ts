@@ -239,6 +239,7 @@ export const semanticTokens = {
     navToggle: { value: '300' },
     lightboxFlip: { value: '1020' },
     draftBadge: { value: '1030' },
+    progress: { value: '1040' },
     '0': { value: '0' },
     '1': { value: '1' },
     '2': { value: '2' },
