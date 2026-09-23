@@ -62,7 +62,7 @@ export function AboutShell({ view }: { view: AboutView }) {
           <Container>
             <PillarGrid
               items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
-              rhythm="pair"
+              rhythm="bookend"
               titleTone="highlight"
             />
           </Container>

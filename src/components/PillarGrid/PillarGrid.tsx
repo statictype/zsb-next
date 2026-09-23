@@ -1,4 +1,4 @@
-import { Divider, Grid, Stack, Text } from 'styled-system/jsx'
+import { Divider, Stack, Text } from 'styled-system/jsx'
 import { pillarGrid } from '@/components/PillarGrid/PillarGrid.recipe'
 
 export interface PillarGridItem {
@@ -23,7 +23,7 @@ export function PillarGrid({
 
   return (
     <Stack gap="0">
-      <Grid columns={{ base: 1, md: 2 }} gap="0">
+      <div className={styles.grid}>
         {items.map((item) => (
           <Stack as="article" key={item.title} className={styles.item}>
             <Text as={Title} variant="heading" className={styles.title}>
@@ -34,7 +34,7 @@ export function PillarGrid({
             </Text>
           </Stack>
         ))}
-      </Grid>
+      </div>
       {rhythm === 'bookend' && <Divider />}
     </Stack>
   )
