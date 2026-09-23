@@ -44,7 +44,7 @@ function swipe(stage: HTMLElement, dx: number, dy: number) {
 describe('Lightbox', () => {
   it('opens at the requested image and steps with the arrow buttons', async () => {
     const { user } = await openLightbox()
-    expect(screen.getByText('2 / 3')).toBeInTheDocument()
+    expect(screen.getByText('Beta')).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Next image' }))
     expect(screen.getByText('Gamma')).toBeInTheDocument()
@@ -84,12 +84,12 @@ describe('Lightbox', () => {
     expect(dialog).toHaveAttribute('data-state', 'closed')
   })
 
-  it('shows no counter or arrows for a single image', async () => {
+  it('shows no arrows for a single image', async () => {
     const user = userEvent.setup()
     render(<Harness images={[images[0]!]} at={0} />)
     await user.click(screen.getByRole('button', { name: 'open lightbox' }))
     await screen.findByRole('dialog', { name: 'Image lightbox' })
     expect(screen.queryByRole('button', { name: 'Next image' })).not.toBeInTheDocument()
-    expect(screen.queryByText(/\/ 1/)).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Previous image' })).not.toBeInTheDocument()
   })
 })

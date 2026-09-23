@@ -58,7 +58,7 @@ export const credits = sva({
       },
     },
     pool: {
-      lg: { gridColumn: '[1 / span 2]' },
+      lg: { gridColumn: '[span 2]' },
     },
     orgBand: {
       md: {
@@ -69,8 +69,14 @@ export const credits = sva({
         paddingBlockStart: 'md',
       },
       lg: {
-        gridColumn: '[3 / span 2]',
+        gridColumn: '[span 2]',
         paddingBlockStart: '0',
+      },
+      '&:only-child': {
+        lg: {
+          gridColumn: '[span 4]',
+          gridTemplateColumns: '[repeat(4, minmax(0, 1fr))]',
+        },
       },
     },
     band: {

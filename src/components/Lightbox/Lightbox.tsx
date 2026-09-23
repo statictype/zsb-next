@@ -23,6 +23,7 @@ const lightboxBarButton = css({
   color: 'action',
   _hover: { color: 'heading' },
   '&:active:not(:disabled)': { color: 'heading' },
+  '3xl': { _focusVisible: { outline: 'none', color: 'heading' } },
 })
 const CONTAIN = { objectFit: 'contain' } as const
 const KEY_REPEAT_INTERVAL_MS = 220
@@ -230,12 +231,28 @@ export function Lightbox({
         </div>
 
         <div className={s.bar}>
+          <Button
+            variant="icon"
+            className={cx(s.close, lightboxBarButton)}
+            onClick={requestClose}
+            aria-label="Close lightbox"
+          >
+            <RiCloseLine size={20} />
+          </Button>
+
+          <span className={s.caption}>
+            {lastName ? (
+              <>
+                <span>{firstName}</span> <span>{lastName}</span>
+              </>
+            ) : (
+              caption
+            )}
+          </span>
+
           <div className={s.barNav}>
             {images.length > 1 && (
               <>
-                <span className={s.counter}>
-                  {index + 1} / {images.length}
-                </span>
                 <Button
                   variant="icon"
                   className={lightboxBarButton}
@@ -255,25 +272,6 @@ export function Lightbox({
               </>
             )}
           </div>
-
-          <span className={s.caption}>
-            {lastName ? (
-              <>
-                <span>{firstName}</span> <span>{lastName}</span>
-              </>
-            ) : (
-              caption
-            )}
-          </span>
-
-          <Button
-            variant="icon"
-            className={cx(s.close, lightboxBarButton)}
-            onClick={requestClose}
-            aria-label="Close lightbox"
-          >
-            <RiCloseLine size={20} />
-          </Button>
         </div>
 
         {open && preloadSrcs.length > 0 && (
