@@ -1,7 +1,12 @@
 'use client'
 
 import { type RefObject, useEffect, useRef, useState } from 'react'
-import { ENGINE_ATTR, MOVING_ATTR, SNAP_PAGE_ATTR } from '@/components/Carousel/carousel-contract'
+import {
+  ENGINE_ATTR,
+  ENGINE_IDLE_ATTR,
+  MOVING_ATTR,
+  SNAP_PAGE_ATTR,
+} from '@/components/Carousel/carousel-contract'
 
 type DraggableStatic = typeof import('gsap/Draggable').Draggable
 
@@ -271,6 +276,7 @@ function loopingTrack(
   }
 
   const populateStops = () => {
+    const gutterInset = num(getComputedStyle(container).scrollPaddingLeft) || 0
     const itemLefts = items.map((el) => el.getBoundingClientRect().left)
     const pageList = pages(container, items, layout.snap)
     stops = new Float64Array(pageList.length)
@@ -279,8 +285,12 @@ function loopingTrack(
         0,
         items.findIndex((item) => item.contains(page)),
       )
-      const offset = page.getBoundingClientRect().left - (itemLefts[owner] ?? 0)
-      stops[index] = (at(starts, owner) + offset - at(spaceBefore, 0)) / PIXELS_PER_SECOND
+      const box = page.getBoundingClientRect()
+      const offset = box.left - (itemLefts[owner] ?? 0)
+      const lead = layout.snap === 'image' ? (container.clientWidth - box.width) / 2 : gutterInset
+      stops[index] = timeWrap(
+        (at(starts, owner) + offset - at(spaceBefore, 0) - lead) / PIXELS_PER_SECOND,
+      )
     })
     curIndex = Math.min(curIndex, stops.length - 1)
   }
@@ -334,6 +344,7 @@ function loopingTrack(
   // Pre-render both ends so the first interaction is not the frame that pays
   // for building every tween.
   tl.progress(1, true).progress(0, true)
+  tl.time(at(stops, 0), true)
 
   const proxy = document.createElement('div')
   const align = () => {
@@ -437,7 +448,11 @@ export function useCarouselEngine({
 
   useEffect(() => {
     const track = trackRef.current
-    if (!track || !animated || slideCount < 2) return
+    if (!track) return
+    if (!animated || slideCount < 2) {
+      track.setAttribute(ENGINE_IDLE_ATTR, '')
+      return () => track.removeAttribute(ENGINE_IDLE_ATTR)
+    }
     const state = { disposed: false }
     let context: gsap.Context | undefined
 
@@ -456,14 +471,19 @@ export function useCarouselEngine({
         )
 
         context = gsap.context(() => {
-          const engine = loopingTrack(gsap, Draggable, items, layoutRef.current, report)
-          if (!engine) return
           track.setAttribute(ENGINE_ATTR, '')
+          const engine = loopingTrack(gsap, Draggable, items, layoutRef.current, report)
+          if (!engine) {
+            track.removeAttribute(ENGINE_ATTR)
+            track.setAttribute(ENGINE_IDLE_ATTR, '')
+            return
+          }
           engineRef.current = engine
           return engine.dispose
         }, track)
       })
       .catch((error: unknown) => {
+        track.setAttribute(ENGINE_IDLE_ATTR, '')
         console.error('Carousel engine failed to start; falling back to scroll.', error)
       })
 
@@ -472,6 +492,7 @@ export function useCarouselEngine({
       engineRef.current = null
       context?.revert()
       track.removeAttribute(ENGINE_ATTR)
+      track.removeAttribute(ENGINE_IDLE_ATTR)
       setPageCount(slideCount)
     }
   }, [trackRef, animated, slideCount])
