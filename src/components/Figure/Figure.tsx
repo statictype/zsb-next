@@ -5,10 +5,10 @@ import type { ImageData } from '@/types/edition'
 
 export type FigurePassthroughProps = Pick<
   ImageProps,
-  'className' | 'preload' | 'draggable' | 'style' | 'onClick'
+  'className' | 'preload' | 'draggable' | 'style' | 'onClick' | 'loading'
 >
 
-type FigureProps = {
+export type FigureProps = {
   image?: ImageData | undefined
   sizes: string
 } & FigurePassthroughProps

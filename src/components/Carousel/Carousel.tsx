@@ -6,6 +6,7 @@ import { cx } from 'styled-system/css'
 import { carousel } from 'styled-system/recipes'
 import { CURRENT_ATTR, SLIDE_CONTENT_ATTR } from '@/components/Carousel/carousel-contract'
 import { useCarouselEngine } from '@/components/Carousel/useCarouselEngine'
+import { type SlideLoading, useSlideLoading } from '@/components/Carousel/useSlideLoading'
 import { useMediaQuery } from '@/components/media-query'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { useReducedMotion } from '@/components/reduced-motion'
@@ -15,7 +16,7 @@ import { breakpoints, portraitPhoneQuery } from '@/design-system/tokens'
 
 export interface CarouselSlide {
   id: string
-  content: ReactNode
+  content: (loading: SlideLoading) => ReactNode
 }
 
 interface CarouselProps {
@@ -39,6 +40,7 @@ export function Carousel({ id, slides, label, mode, eyebrow, className }: Carous
   const reducedMotion = useReducedMotion()
   const stageMasked = useMediaQuery(stageMaskQuery, false)
   const portraitPhone = useMediaQuery(portraitPhoneQuery, false)
+  const frameRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const dragOrigin = useRef<{ x: number; y: number } | null>(null)
   const styles = carousel({ mode })
@@ -50,6 +52,7 @@ export function Carousel({ id, slides, label, mode, eyebrow, className }: Carous
     focusOffset: mode === 'stage' && stageMasked ? 1 : 0,
     snap: mode === 'rail' && portraitPhone ? 'image' : 'slide',
   })
+  const { loadingFor, engage } = useSlideLoading({ frameRef, trackRef, page })
 
   if (slides.length === 0) return null
 
@@ -84,7 +87,10 @@ export function Carousel({ id, slides, label, mode, eyebrow, className }: Carous
       // the drag lifecycle is racy (timers may run between pointerup and
       // click), so suppress by measured pointer travel instead: a real click
       // doesn't move, a drag does.
+      onPointerEnter={engage}
+      onFocusCapture={engage}
       onPointerDownCapture={(event) => {
+        engage()
         dragOrigin.current = { x: event.clientX, y: event.clientY }
       }}
       onClickCapture={(event) => {
@@ -98,7 +104,7 @@ export function Carousel({ id, slides, label, mode, eyebrow, className }: Carous
         event.stopPropagation()
       }}
     >
-      <div className={styles.frame}>
+      <div ref={frameRef} className={styles.frame}>
         <div
           ref={trackRef}
           className={styles.track}
@@ -137,7 +143,7 @@ export function Carousel({ id, slides, label, mode, eyebrow, className }: Carous
                 if (event.target.matches(':focus-visible')) toIndex(index)
               }}
             >
-              <div {...{ [SLIDE_CONTENT_ATTR]: '' }}>{slide.content}</div>
+              <div {...{ [SLIDE_CONTENT_ATTR]: '' }}>{slide.content(loadingFor(index))}</div>
             </div>
           ))}
         </div>
