@@ -14,9 +14,9 @@ export function Manifesto({ title, body, accent, ground = 'light' }: ManifestoPr
   const s = styles()
 
   return (
-    <section className={section({ ground, rhythm: 'lg' })}>
+    <section className={section({ ground, rhythm: 'normal' })}>
       <div className={s.split}>
-        <Text variant="manifesto">
+        <Text variant="manifesto" className={s.title}>
           <AccentSplit text={title} accent={accent} />
         </Text>
         <Text as="p" variant="lead" className={s.body}>
