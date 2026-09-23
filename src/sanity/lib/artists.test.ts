@@ -41,12 +41,8 @@ describe('artistTier', () => {
 })
 
 describe('formatEditionYears', () => {
-  it('orders ascending and marks the online edition', () => {
-    expect(formatEditionYears([2023, 2021])).toBe('2021 (online), 2023')
-  })
-
-  it('leaves an all-in-person run unmarked', () => {
-    expect(formatEditionYears([2025, 2022])).toBe('2022, 2025')
+  it('orders ascending', () => {
+    expect(formatEditionYears([2023, 2021])).toBe('2021, 2023')
   })
 
   it('returns an empty string for no years', () => {
@@ -58,45 +54,58 @@ describe('mapArtistCloud', () => {
   it('inverts edition refs onto each artist, years ascending', () => {
     const [ana] = mapArtistCloud(
       raw({ artists: ['Ana'], editions: { 2024: ['Ana'], 2021: ['Ana'] } }),
-    )
+    ).cloud
     expect(ana).toEqual({ _id: 'id-Ana', name: 'Ana', years: [2021, 2024], tier: 5 })
   })
 
   it('drops artists no live edition lists', () => {
-    const mapped = mapArtistCloud(raw({ artists: ['Ana', 'Bogdan'], editions: { 2024: ['Ana'] } }))
-    expect(mapped.map((a) => a.name)).toEqual(['Ana'])
+    const { cloud, onlineOnly } = mapArtistCloud(
+      raw({ artists: ['Ana', 'Bogdan'], editions: { 2024: ['Ana'] } }),
+    )
+    expect(cloud.map((a) => a.name)).toEqual(['Ana'])
+    expect(onlineOnly).toEqual([])
   })
 
   it('preserves the order the query returned', () => {
-    const mapped = mapArtistCloud(
+    const { cloud } = mapArtistCloud(
       raw({
         artists: ['Ana', 'Bogdan', 'Corina'],
         editions: { 2024: ['Corina', 'Ana', 'Bogdan'] },
       }),
     )
-    expect(mapped.map((a) => a.name)).toEqual(['Ana', 'Bogdan', 'Corina'])
+    expect(cloud.map((a) => a.name)).toEqual(['Ana', 'Bogdan', 'Corina'])
   })
 
   it('counts an artist once when one edition lists them twice', () => {
     const [ana] = mapArtistCloud(
       raw({ artists: ['Ana', 'Bogdan'], editions: { 2024: ['Ana', 'Ana'], 2025: ['Bogdan'] } }),
-    )
+    ).cloud
     expect(ana?.years).toEqual([2024])
     expect(ana?.tier).toBe(5)
   })
 
-  it('gives every artist tier 1 when the only live edition was online', () => {
-    const mapped = mapArtistCloud(
-      raw({ artists: ['Ana', 'Bogdan'], editions: { 2021: ['Ana', 'Bogdan'] } }),
+  it('moves artists shown only online out of the cloud, in query order', () => {
+    const { cloud, onlineOnly } = mapArtistCloud(
+      raw({
+        artists: ['Ana', 'Bogdan', 'Corina'],
+        editions: { 2021: ['Corina', 'Ana', 'Bogdan'], 2024: ['Bogdan'] },
+      }),
     )
-    expect(mapped.map((a) => a.tier)).toEqual([1, 1])
+    expect(cloud.map((a) => a.name)).toEqual(['Bogdan'])
+    expect(onlineOnly).toEqual([
+      { _id: 'id-Ana', name: 'Ana' },
+      { _id: 'id-Corina', name: 'Corina' },
+    ])
   })
 
   it('excludes online editions from the tier but keeps them in the years', () => {
     const [ana, bogdan] = mapArtistCloud(
-      raw({ artists: ['Ana', 'Bogdan'], editions: { 2021: ['Ana'], 2024: ['Bogdan'] } }),
-    )
-    expect(ana).toEqual({ _id: 'id-Ana', name: 'Ana', years: [2021], tier: 1 })
-    expect(bogdan?.tier).toBe(5)
+      raw({
+        artists: ['Ana', 'Bogdan'],
+        editions: { 2021: ['Ana'], 2022: ['Ana'], 2024: ['Bogdan', 'Ana'] },
+      }),
+    ).cloud
+    expect(ana).toEqual({ _id: 'id-Ana', name: 'Ana', years: [2021, 2022, 2024], tier: 5 })
+    expect(bogdan?.tier).toBe(3)
   })
 })

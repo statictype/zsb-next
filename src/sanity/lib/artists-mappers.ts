@@ -1,6 +1,6 @@
 import type { ARTIST_CLOUD_QUERY_RESULT } from '@/../sanity.types'
 import { ONLINE_EDITION_YEARS } from '@/lib/constants'
-import type { ArtistCloudItem, ArtistTier } from '@/types/edition'
+import type { ArtistCloud, ArtistTier } from '@/types/edition'
 
 const TIERS = [1, 2, 3, 4, 5] as const satisfies readonly ArtistTier[]
 
@@ -12,17 +12,11 @@ export function artistTier(inPerson: number, maxObserved: number): ArtistTier {
 
 export const EDITION_YEAR_SEPARATOR = ', '
 
-export function formatEditionYearList(years: readonly number[]): string[] {
-  return [...years]
-    .sort((a, b) => a - b)
-    .map((year) => (ONLINE_EDITION_YEARS.includes(year) ? `${year} (online)` : String(year)))
-}
-
 export function formatEditionYears(years: readonly number[]): string {
-  return formatEditionYearList(years).join(EDITION_YEAR_SEPARATOR)
+  return [...years].sort((a, b) => a - b).join(EDITION_YEAR_SEPARATOR)
 }
 
-export function mapArtistCloud(raw: ARTIST_CLOUD_QUERY_RESULT): ArtistCloudItem[] {
+export function mapArtistCloud(raw: ARTIST_CLOUD_QUERY_RESULT): ArtistCloud {
   const yearsById = new Map<string, number[]>()
   for (const edition of raw.editions) {
     for (const ref of edition.refs ?? []) {
@@ -41,10 +35,17 @@ export function mapArtistCloud(raw: ARTIST_CLOUD_QUERY_RESULT): ArtistCloudItem[
 
   const maxObserved = shown.reduce((max, entry) => Math.max(max, entry.inPerson), 0)
 
-  return shown.map(({ _id, name, years, inPerson }) => ({
-    _id,
-    name,
-    years,
-    tier: artistTier(inPerson, maxObserved),
-  }))
+  return {
+    cloud: shown
+      .filter(({ inPerson }) => inPerson > 0)
+      .map(({ _id, name, years, inPerson }) => ({
+        _id,
+        name,
+        years,
+        tier: artistTier(inPerson, maxObserved),
+      })),
+    onlineOnly: shown
+      .filter(({ inPerson }) => inPerson === 0)
+      .map(({ _id, name }) => ({ _id, name })),
+  }
 }
