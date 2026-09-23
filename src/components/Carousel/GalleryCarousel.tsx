@@ -9,7 +9,7 @@ import {
   slideHeightCap,
 } from '@/components/Carousel/GalleryCarousel.recipe'
 import { LightboxGallery } from '@/components/Carousel/LightboxGallery'
-import { Figure } from '@/components/Figure/Figure'
+import { SlideFigure } from '@/components/Carousel/SlideFigure'
 import { Button } from '@/components/ui/Button/Button'
 import { portraitPhoneQuery } from '@/design-system/tokens'
 import type { CarouselLayout, CarouselSlide as GallerySlide } from '@/types/edition'
@@ -60,7 +60,7 @@ export function GalleryCarousel({
       className={className}
       slides={slides}
       lightboxImages={(slide) => slide.images}
-      renderSlide={(slide, trigger, slideIndex) => (
+      renderSlide={(slide, trigger, slideIndex, loading) => (
         <div className={galleryCarousel({ layout: slide.layout }).slide}>
           {slide.images.map((image, imageIndex) => (
             <Button
@@ -70,7 +70,8 @@ export function GalleryCarousel({
               {...{ [SNAP_PAGE_ATTR]: '' }}
               {...trigger(imageIndex)}
             >
-              <Figure
+              <SlideFigure
+                loading={loading}
                 image={image.image}
                 sizes={sizesFor(slide.layout, imageIndex)}
                 className={styles.itemImage}

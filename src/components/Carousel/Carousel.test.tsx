@@ -4,9 +4,9 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Carousel } from '@/components/Carousel/Carousel'
 
 const slides = [
-  { id: 'one', content: <span>First slide</span> },
-  { id: 'two', content: <span>Second slide</span> },
-  { id: 'three', content: <span>Third slide</span> },
+  { id: 'one', content: () => <span>First slide</span> },
+  { id: 'two', content: () => <span>Second slide</span> },
+  { id: 'three', content: () => <span>Third slide</span> },
 ]
 
 function setReducedMotion(matches: boolean) {
@@ -61,7 +61,7 @@ describe('Carousel', () => {
         slides={[
           {
             id: 'clickable',
-            content: (
+            content: () => (
               <button type="button" onClick={onSlideClick}>
                 Open me
               </button>

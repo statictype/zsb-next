@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { Carousel } from '@/components/Carousel/Carousel'
+import type { SlideLoading } from '@/components/Carousel/useSlideLoading'
 import { Lightbox, type LightboxImage, useLightbox } from '@/components/Lightbox/Lightbox'
 
 export interface LightboxTrigger {
@@ -18,7 +19,12 @@ interface LightboxGalleryProps<T> {
   className?: string | undefined
   slides: T[]
   lightboxImages: (slide: T) => LightboxImage[]
-  renderSlide: (slide: T, trigger: (image: number) => LightboxTrigger, index: number) => ReactNode
+  renderSlide: (
+    slide: T,
+    trigger: (image: number) => LightboxTrigger,
+    index: number,
+    loading: SlideLoading,
+  ) => ReactNode
 }
 
 export function LightboxGallery<T>({
@@ -49,11 +55,13 @@ export function LightboxGallery<T>({
         {...carouselProps}
         slides={slides.map((slide, slideIndex) => ({
           id: String(slideIndex),
-          content: renderSlide(
-            slide,
-            (image) => trigger((starts[slideIndex] ?? 0) + image),
-            slideIndex,
-          ),
+          content: (loading) =>
+            renderSlide(
+              slide,
+              (image) => trigger((starts[slideIndex] ?? 0) + image),
+              slideIndex,
+              loading,
+            ),
         }))}
       />
       <Lightbox {...lightbox.props} images={groups.flat()} getOrigin={getOrigin} />
