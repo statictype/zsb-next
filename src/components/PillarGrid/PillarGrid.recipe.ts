@@ -1,8 +1,12 @@
 import { sva } from 'styled-system/css'
 
 export const pillarGrid = sva({
-  slots: ['item', 'title', 'body'],
+  slots: ['grid', 'item', 'title', 'body'],
   base: {
+    grid: {
+      display: 'grid',
+      gridTemplateColumns: 'minmax(0, 1fr)',
+    },
     item: {
       paddingBlock: 'xl',
       borderBottom: 'hairline',
@@ -14,20 +18,25 @@ export const pillarGrid = sva({
   variants: {
     rhythm: {
       bookend: {
+        grid: {
+          lg: { gridAutoFlow: 'column', gridAutoColumns: 'fr' },
+        },
         item: {
           '&:last-child': { borderBottom: 'none' },
-          md: {
+          lg: {
             paddingBlock: 'xl',
-            paddingInline: 'xl',
+            paddingInline: 'lg',
             borderBottom: 'none',
-            borderRight: 'hairline',
             marginBlock: '4xl',
             '&:first-child': { paddingLeft: '0' },
-            '&:last-child': { paddingRight: '0', borderRight: 'none' },
+            '&:last-child': { paddingRight: '0' },
           },
         },
       },
       pair: {
+        grid: {
+          md: { gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' },
+        },
         item: {
           md: {
             paddingInline: 'xl',
