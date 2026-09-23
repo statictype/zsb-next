@@ -1,4 +1,3 @@
-import { cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import { artistRoster } from '@/components/ArtistRoster/ArtistRoster.recipe'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
@@ -16,7 +15,7 @@ interface ArtistRosterProps {
 
 export function ArtistRoster({ artists, designation, className }: ArtistRosterProps) {
   return (
-    <section aria-labelledby={HEADING_ID} className={cx(styles.root, className)}>
+    <section aria-labelledby={HEADING_ID} className={className}>
       <div className={styles.head}>
         <SectionHeading as="h2" id={HEADING_ID} flush>
           Artists

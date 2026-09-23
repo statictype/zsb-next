@@ -92,7 +92,7 @@ export async function CachedEdition({
           <ComingSoon socials={socials} />
         ))}
 
-      {externalGallery && <ExternalGallery gallery={externalGallery} theme={edition.theme} />}
+      {externalGallery && <ExternalGallery gallery={externalGallery} />}
 
       <Credits credits={edition.credits} />
     </main>

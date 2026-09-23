@@ -10,10 +10,7 @@ export interface SocialLink {
 
 export function ComingSoon({ socials }: { socials: SocialLink[] }) {
   return (
-    <section
-      className={section({ ground: 'dark', rhythm: 'joined' })}
-      aria-labelledby="program-heading"
-    >
+    <section className={section({ ground: 'dark' })} aria-labelledby="program-heading">
       <Container>
         <Stack gap="xl">
           <SectionHeading id="program-heading" flush>

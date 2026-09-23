@@ -1,13 +1,8 @@
 import { sva } from 'styled-system/css'
 
 export const artistRoster = sva({
-  slots: ['root', 'head', 'wall', 'entry'],
+  slots: ['head', 'wall', 'entry'],
   base: {
-    root: {
-      borderTop: 'hairline',
-      paddingTop: 'md',
-    },
-
     head: {
       display: 'flex',
       flexWrap: 'wrap',
