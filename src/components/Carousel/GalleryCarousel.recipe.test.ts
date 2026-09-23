@@ -29,11 +29,11 @@ describe('gallery slide bands', () => {
   it('cap the slide height at the top of each band', () => {
     expect(SLIDE_BAND_KEYS.map((band) => [band, slideHeightCap(band)])).toEqual([
       ['base', 260],
-      ['md', 374],
-      ['lg', 449],
-      ['xl', 469],
-      ['2xl', 572],
-      ['4xl', 780],
+      ['md', 387],
+      ['lg', 494],
+      ['xl', 514],
+      ['2xl', 627],
+      ['4xl', 852],
     ])
   })
 })

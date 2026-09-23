@@ -14,20 +14,20 @@ const px = (value: string) => Number.parseInt(value, 10)
 
 export const SLIDE_BANDS = {
   base: { minWidth: 0, gap: 8, width: [320, 92, 600], height: [200, 48, 400] },
-  md: { minWidth: px(breakpoints.md), gap: 20, width: [660, 86, 1120], height: [300, 56, 520] },
-  lg: { minWidth: px(breakpoints.lg), gap: 20, width: [840, 82, 1340], height: [360, 60, 600] },
-  xl: { minWidth: px(breakpoints.xl), gap: 20, width: [980, 76, 1520], height: [400, 64, 660] },
+  md: { minWidth: px(breakpoints.md), gap: 20, width: [685, 89, 1162], height: [311, 58, 540] },
+  lg: { minWidth: px(breakpoints.lg), gap: 20, width: [918, 90, 1464], height: [393, 66, 655] },
+  xl: { minWidth: px(breakpoints.xl), gap: 20, width: [1071, 83, 1661], height: [437, 70, 721] },
   '2xl': {
     minWidth: px(breakpoints['2xl']),
     gap: 20,
-    width: [1120, 74, 1700],
-    height: [440, 66, 720],
+    width: [1224, 81, 1857],
+    height: [481, 72, 787],
   },
   '4xl': {
     minWidth: px(breakpoints['4xl']),
     gap: 20,
-    width: [1280, 70, 1880],
-    height: [480, 68, 780],
+    width: [1398, 76, 2054],
+    height: [524, 74, 852],
   },
 } satisfies Record<string, SlideBand>
 
@@ -65,24 +65,24 @@ export const galleryCarousel = sva({
       '--slide-h-max': '[clamp(200px, 48vh, 400px)]',
       md: {
         '--slide-gap': 'token(spacing.md)',
-        '--slide-w-max': '[clamp(660px, 86vw, 1120px)]',
-        '--slide-h-max': '[clamp(300px, 56vh, 520px)]',
+        '--slide-w-max': '[clamp(685px, 89vw, 1162px)]',
+        '--slide-h-max': '[clamp(311px, 58vh, 540px)]',
       },
       lg: {
-        '--slide-w-max': '[clamp(840px, 82vw, 1340px)]',
-        '--slide-h-max': '[clamp(360px, 60vh, 600px)]',
+        '--slide-w-max': '[clamp(918px, 90vw, 1464px)]',
+        '--slide-h-max': '[clamp(393px, 66vh, 655px)]',
       },
       xl: {
-        '--slide-w-max': '[clamp(980px, 76vw, 1520px)]',
-        '--slide-h-max': '[clamp(400px, 64vh, 660px)]',
+        '--slide-w-max': '[clamp(1071px, 83vw, 1661px)]',
+        '--slide-h-max': '[clamp(437px, 70vh, 721px)]',
       },
       '2xl': {
-        '--slide-w-max': '[clamp(1120px, 74vw, 1700px)]',
-        '--slide-h-max': '[clamp(440px, 66vh, 720px)]',
+        '--slide-w-max': '[clamp(1224px, 81vw, 1857px)]',
+        '--slide-h-max': '[clamp(481px, 72vh, 787px)]',
       },
       '4xl': {
-        '--slide-w-max': '[clamp(1280px, 70vw, 1880px)]',
-        '--slide-h-max': '[clamp(480px, 68vh, 780px)]',
+        '--slide-w-max': '[clamp(1398px, 76vw, 2054px)]',
+        '--slide-h-max': '[clamp(524px, 74vh, 852px)]',
       },
       _portraitPhone: {
         '--slide-gap': 'token(spacing.md)',
@@ -98,7 +98,7 @@ export const galleryCarousel = sva({
 
     item: {
       border: 'hairline',
-      _portraitPhone: { scrollSnapAlign: 'start' },
+      _portraitPhone: { scrollSnapAlign: 'center' },
       position: 'relative',
       overflow: 'hidden',
       transition: 'develop',

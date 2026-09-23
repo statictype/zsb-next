@@ -2,13 +2,14 @@ import { defineSlotRecipe } from '@pandacss/dev'
 import {
   CURRENT_ATTR,
   ENGINE_ATTR,
+  ENGINE_IDLE_ATTR,
   MOVING_ATTR,
   SLIDE_CONTENT_ATTR,
 } from '@/components/Carousel/carousel-contract'
 
 const engine = `[${ENGINE_ATTR}]`
 const content = `[${SLIDE_CONTENT_ATTR}]`
-const restingContent = `${engine} &:not([${CURRENT_ATTR}]) > ${content}`
+const restingContent = `:not([${ENGINE_IDLE_ATTR}]) > &:not([${CURRENT_ATTR}]) > ${content}`
 
 export const carousel = defineSlotRecipe({
   className: 'carousel',
@@ -111,7 +112,11 @@ export const carousel = defineSlotRecipe({
         },
       },
       rail: {
-        track: { paddingInline: 'gutter' },
+        track: {
+          paddingInline: 'gutter',
+          scrollPaddingInline: 'gutter',
+          [`&${engine}`]: { paddingInline: '0' },
+        },
         control: { paddingInline: 'gutter' },
         item: {
           [`& > ${content}`]: { height: '100%' },
