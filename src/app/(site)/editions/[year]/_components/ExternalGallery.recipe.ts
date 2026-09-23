@@ -3,7 +3,6 @@ import { sva } from 'styled-system/css'
 export const externalGallery = sva({
   slots: [
     'section',
-    'header',
     'card',
     'cardLeft',
     'titleHighlight',
@@ -19,10 +18,6 @@ export const externalGallery = sva({
       position: 'relative',
     },
 
-    header: {
-      maxWidth: 'maxWidth',
-      marginInline: 'auto',
-    },
     card: {
       maxWidth: 'maxWidth',
       marginInline: 'auto',
