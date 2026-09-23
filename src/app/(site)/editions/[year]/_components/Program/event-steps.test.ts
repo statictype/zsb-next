@@ -69,6 +69,7 @@ describe('eventSteps', () => {
 
   it('builds hrefs on the event route', () => {
     expect(eventSteps(events, 'wed', 2026).next).toEqual({
+      slug: 'thu-early',
       href: '/editions/2026/events/thu-early',
       name: 'thu-early',
     })

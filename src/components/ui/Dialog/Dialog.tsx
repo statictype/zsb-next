@@ -6,7 +6,10 @@ import { type ReactNode, useSyncExternalStore } from 'react'
 import { cx } from 'styled-system/css'
 import { dialog } from 'styled-system/recipes'
 
-type AccessibleName = { title: ReactNode; ariaLabel?: never } | { title?: never; ariaLabel: string }
+type AccessibleName =
+  | { title: ReactNode; ariaLabel?: never; childTitle?: never }
+  | { title?: never; ariaLabel: string; childTitle?: never }
+  | { title?: never; ariaLabel?: never; childTitle: true }
 
 type DialogProps = AccessibleName & {
   open: boolean
@@ -14,6 +17,10 @@ type DialogProps = AccessibleName & {
   presentation: 'panel' | 'fullscreen'
   children: ReactNode
   className?: string | undefined
+}
+
+export function DialogTitle({ children }: { children: ReactNode }) {
+  return <ArkDialog.Title className={dialog().title}>{children}</ArkDialog.Title>
 }
 
 const emptySubscribe = () => () => {}

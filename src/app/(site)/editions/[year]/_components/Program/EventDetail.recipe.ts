@@ -30,7 +30,7 @@ export const eventDetail = sva({
       background: 'black',
       borderBlockEnd: 'hairline',
       cursor: 'zoom-in',
-      '& img': { objectFit: 'contain', transition: 'develop' },
+      '& img': { transition: 'develop' },
       _hover: { '& img': { transform: 'scale(1.02)' } },
       lg: {
         aspectRatio: 'auto',
