@@ -5,6 +5,8 @@ import type { ImageData, ShareImage } from '@/types/edition'
 
 const builder = createImageUrlBuilder({ projectId, dataset })
 
+const MAX_SOURCE_WIDTH = 2560
+
 export function urlFor(source: SanityImageSource) {
   return builder.image(source).auto('format').fit('max')
 }
@@ -42,7 +44,9 @@ export interface SanityImageField {
 export function toImageData(field: SanityImageField | null | undefined): ImageData | undefined {
   if (!field?.asset) return undefined
   return {
-    src: urlFor(field as SanityImageSource).url(),
+    src: urlFor(field as SanityImageSource)
+      .width(MAX_SOURCE_WIDTH)
+      .url(),
     alt: field.alt ?? '',
     ...(field.lqip ? { blurDataURL: field.lqip } : {}),
   }

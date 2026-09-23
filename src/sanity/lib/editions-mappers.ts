@@ -1,3 +1,4 @@
+import type { SanityImageSource } from '@sanity/image-url'
 import type {
   EDITION_BY_YEAR_QUERY_RESULT,
   EDITION_SUMMARIES_QUERY_RESULT,
@@ -8,7 +9,7 @@ import { editionHref } from '@/lib/edition-href'
 import { slugify } from '@/lib/slugify'
 import { rollUpVenue } from '@/lib/venues'
 import { mapCarousel } from '@/sanity/lib/carousel'
-import { requireImageData, type SanityImageField, toImageData } from '@/sanity/lib/image'
+import { requireImageData, type SanityImageField, toImageData, urlFor } from '@/sanity/lib/image'
 import type {
   CalendarEvent,
   Edition,
@@ -105,6 +106,7 @@ const MIN_MARK_SCALE = 0.35
 const MAX_MARK_SCALE = 1
 const LEAD_MARK_BOOST = 1.4
 const MAX_LEAD_MARK_SCALE = 1.15
+const MARK_SOURCE_HEIGHT = 264
 
 interface SanityLogo extends SanityImageField {
   dimensions?: { width: number; height: number; aspectRatio: number } | null
@@ -123,9 +125,17 @@ function toPartnerMark(
 ): PartnerMark | undefined {
   const image = toImageData(logo)
   const dimensions = logo?.dimensions
-  if (!image || !dimensions) return undefined
+  if (!logo || !image || !dimensions) return undefined
   const { width, height, aspectRatio } = dimensions
-  return { ...image, width, height, scale: markScale(aspectRatio, lead) }
+  return {
+    ...image,
+    src: urlFor(logo as SanityImageSource)
+      .height(MARK_SOURCE_HEIGHT)
+      .url(),
+    width,
+    height,
+    scale: markScale(aspectRatio, lead),
+  }
 }
 
 interface SanityOrg {
