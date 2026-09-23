@@ -51,7 +51,7 @@ export function PressShell({ view, appearances, releases, kit, settings }: Press
           <section className={section()}>
             <Container>
               <Stack gap="xl">
-                <SectionHeading>Press appearances</SectionHeading>
+                <SectionHeading>Coverage</SectionHeading>
 
                 <LinkList>
                   {appearances.map((item) => {

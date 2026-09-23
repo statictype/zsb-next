@@ -112,6 +112,7 @@ export const designSystemPreset = definePreset({
               'title',
               'detailTitle',
               'heading',
+              'rowTitle',
               'manifesto',
               'lead',
               'body',
@@ -133,7 +134,14 @@ export const designSystemPreset = definePreset({
         // Panda serializes this function into `styled-system/patterns`, so it
         // cannot reference anything outside its own body.
         transform({ variant, ...rest }) {
-          const ink = ['display', 'title', 'detailTitle', 'heading', 'manifesto'].includes(variant)
+          const ink = [
+            'display',
+            'title',
+            'detailTitle',
+            'heading',
+            'rowTitle',
+            'manifesto',
+          ].includes(variant)
             ? 'heading'
             : variant === 'label'
               ? 'muted'

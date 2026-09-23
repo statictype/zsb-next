@@ -43,7 +43,7 @@ export function Accordion({ id, items, multiple = false, className }: AccordionP
       {items.map((item) => {
         const trigger = (
           <ArkAccordion.ItemTrigger className={styles.itemTrigger}>
-            <Text variant="heading">{item.trigger}</Text>
+            <Text variant="rowTitle">{item.trigger}</Text>
             {item.meta !== undefined && (
               <Text variant="label" data-accordion-meta>
                 {item.meta}
