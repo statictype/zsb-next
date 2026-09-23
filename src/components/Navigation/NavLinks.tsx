@@ -3,8 +3,9 @@
 import Link, { useLinkStatus } from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NavigationLabel } from 'styled-system/jsx'
+import { useReportPending } from '@/components/Navigation/navigation-pending'
 
-const NAV_ITEMS = [
+export const NAV_ITEMS = [
   { label: 'About', href: '/about' },
   { label: 'Editions', href: '/editions' },
   { label: 'Artists', href: '/artists' },
@@ -27,9 +28,10 @@ type NavLinksProps = {
 
 function NavLinkLabel({ label, context }: { label: string; context: 'desktop' | 'mobile' }) {
   const { pending } = useLinkStatus()
+  useReportPending(pending)
 
   return (
-    <span data-nav-mask data-pending={pending ? true : undefined}>
+    <span data-nav-mask>
       <NavigationLabel context={context} data-nav-label>
         {label}
         <NavigationLabel context={context} aria-hidden data-nav-copy>
@@ -53,6 +55,7 @@ export function NavLinksList({
   return NAV_ITEMS.map((item) => {
     const exactPage = pathname !== null && isExactPage(pathname, item.href)
     const sectionActive = pathname !== null && isSectionActive(pathname, item.href)
+    const closesOnClick = pathname === null || exactPage
 
     return (
       <Link
@@ -62,7 +65,7 @@ export function NavLinksList({
         aria-current={exactPage ? 'page' : undefined}
         data-active={sectionActive ? true : undefined}
         {...(exactPage ? { tabIndex: -1 } : {})}
-        {...(onNavigate ? { onClick: onNavigate } : {})}
+        {...(onNavigate && closesOnClick ? { onClick: onNavigate } : {})}
       >
         <NavLinkLabel label={item.label} context={context} />
       </Link>

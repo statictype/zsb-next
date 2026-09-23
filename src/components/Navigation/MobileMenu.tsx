@@ -3,11 +3,12 @@
 import { Swap as ArkSwap } from '@ark-ui/react/swap'
 import { RiCloseLine } from '@remixicon/react'
 import Link from 'next/link'
-import { type ReactNode, Suspense, useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { type ReactNode, Suspense, useEffect, useRef, useState } from 'react'
 import { cx, sva } from 'styled-system/css'
 import { Center } from 'styled-system/jsx'
 import { navigation, navigationSwap } from 'styled-system/recipes'
-import { NavLinks, NavLinksList } from '@/components/Navigation/NavLinks'
+import { NAV_ITEMS, NavLinks, NavLinksList } from '@/components/Navigation/NavLinks'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
 
@@ -53,14 +54,16 @@ const s = navigation()
 const t = navigationToggle()
 const mobileLinkClass = cx(s.navLink, s.mobileNavLink)
 
-/**
- * Hamburger toggle + fullscreen menu Dialog. Navigation persists across route
- * changes (mounted once in the site layout), so every in-dialog link — nav
- * items and the logo — closes the menu on click.
- */
 export function MobileMenu({ logo }: { logo: ReactNode }) {
+  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const closeMenu = () => setIsOpen(false)
+  const toggleMenu = () => {
+    if (!isOpen) {
+      for (const item of NAV_ITEMS) router.prefetch(item.href)
+    }
+    setIsOpen((prev) => !prev)
+  }
 
   return (
     <>
@@ -70,10 +73,14 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
         className={t.toggle}
         aria-label={isOpen ? 'Close navigation' : 'Open navigation'}
         aria-expanded={isOpen}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={toggleMenu}
       >
         <NavigationIcon open={isOpen} />
       </Button>
+
+      <Suspense fallback={null}>
+        <CloseOnPathChange onChange={closeMenu} />
+      </Suspense>
 
       <Dialog
         open={isOpen}
@@ -83,7 +90,12 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
       >
         <Center className={s.mobileShell}>
           <div className={cx(s.logo, s.dialogLogo)}>
-            <Link href="/" onClick={closeMenu}>
+            <Link
+              href="/"
+              onClick={() => {
+                if (window.location.pathname === '/') closeMenu()
+              }}
+            >
               {logo}
             </Link>
           </div>
@@ -115,6 +127,17 @@ export function MobileMenu({ logo }: { logo: ReactNode }) {
       </Dialog>
     </>
   )
+}
+
+function CloseOnPathChange({ onChange }: { onChange: () => void }) {
+  const pathname = usePathname()
+  const previous = useRef(pathname)
+  useEffect(() => {
+    if (previous.current === pathname) return
+    previous.current = pathname
+    onChange()
+  }, [pathname, onChange])
+  return null
 }
 
 function NavigationIcon({ open }: { open: boolean }) {
