@@ -41,7 +41,13 @@ export const nameCloudSheet = sva({
       cursor: 'pointer',
     },
     name: { textStyle: 'heading', color: 'heading' },
-    years: { display: 'flex', flexWrap: 'wrap', gap: 'sm', listStyleType: 'none' },
+    years: {
+      marginBlockStart: 'md',
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: 'sm',
+      listStyleType: 'none',
+    },
     year: {
       textStyle: 'caption',
       color: 'body',
