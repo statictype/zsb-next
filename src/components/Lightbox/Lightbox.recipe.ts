@@ -67,11 +67,11 @@ export const lightbox = defineSlotRecipe({
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
+      paddingInline: '[calc((token(sizes.touch) - 20px) / 2)]',
       '3xl': {
         gridRow: '2',
         alignSelf: 'end',
         marginBlockEnd: 'lg',
-        paddingInline: '[calc((token(sizes.touch) - 20px) / 2)]',
         maxHeight: 'full',
         overflowY: 'auto',
         textOverflow: 'clip',
