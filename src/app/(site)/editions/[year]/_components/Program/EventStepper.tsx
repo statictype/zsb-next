@@ -6,7 +6,6 @@ import {
   RiArrowRightLine,
   RiArrowRightSLine,
 } from '@remixicon/react'
-import Link from 'next/link'
 import { Text } from 'styled-system/jsx'
 import { Button } from '@/components/ui/Button/Button'
 
@@ -33,13 +32,29 @@ function StepCount({
   )
 }
 
-function ModalStep({ step, dir }: { step: EventStep; dir: Dir }) {
+function ModalStep({
+  step,
+  dir,
+  onStep,
+}: {
+  step: EventStep
+  dir: Dir
+  onStep: (step: EventStep) => void
+}) {
   const Arrow = dir === 'prev' ? RiArrowLeftSLine : RiArrowRightSLine
   return (
     <Button asChild variant="icon">
-      <Link href={step.href} replace scroll={false} aria-label={`${LABEL[dir]}: ${step.name}`}>
+      <a
+        href={step.href}
+        aria-label={`${LABEL[dir]}: ${step.name}`}
+        onClick={(e) => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return
+          e.preventDefault()
+          onStep(step)
+        }}
+      >
         <Arrow size={22} aria-hidden />
-      </Link>
+      </a>
     </Button>
   )
 }
@@ -72,15 +87,21 @@ function RailStep({ step, dir }: { step: EventStep; dir: Dir }) {
   )
 }
 
-export function ModalStepper({ steps }: { steps: EventSteps }) {
+export function ModalStepper({
+  steps,
+  onStep,
+}: {
+  steps: EventSteps
+  onStep: (step: EventStep) => void
+}) {
   const { prev, next, index, total } = steps
   if (index === undefined || total === undefined) return null
 
   return (
     <div className={modal.root}>
-      {prev ? <ModalStep step={prev} dir="prev" /> : <ModalEnd dir="prev" />}
+      {prev ? <ModalStep step={prev} dir="prev" onStep={onStep} /> : <ModalEnd dir="prev" />}
       <StepCount className={modal.count} index={index} total={total} />
-      {next ? <ModalStep step={next} dir="next" /> : <ModalEnd dir="next" />}
+      {next ? <ModalStep step={next} dir="next" onStep={onStep} /> : <ModalEnd dir="next" />}
     </div>
   )
 }

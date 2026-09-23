@@ -15,6 +15,8 @@ import { eventWhenLabel } from '@/lib/edition-dates'
 import type { CalendarEvent } from '@/types/edition'
 
 const srOnly = css({ layerStyle: 'srOnly' })
+export const POSTER_SIZES = '(min-width: 1024px) 38vw, 100vw'
+const CONTAIN = { objectFit: 'contain' } as const
 
 function NewTab() {
   return (
@@ -53,7 +55,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
             onClick={() => lightbox.open(0)}
             aria-label={`View the poster for ${event.name} full size`}
           >
-            <Figure image={event.image} sizes="(min-width: 1024px) 38vw, 100vw" />
+            <Figure image={event.image} sizes={POSTER_SIZES} style={CONTAIN} />
           </Button>
         )}
 

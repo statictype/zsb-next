@@ -1,5 +1,4 @@
 import { EventModal } from '@program/EventModal'
-import { eventSteps } from '@program/event-steps'
 import { notFound } from 'next/navigation'
 import { getEdition } from '@/sanity/lib/editions'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
@@ -12,14 +11,7 @@ export default async function InterceptedEventModal(
 ) {
   const [{ year, slug }, options] = await Promise.all([props.params, getDynamicFetchOptions()])
   const edition = await getEdition(Number(year), options)
-  const event = findEvent(edition, slug)
-  if (!event) notFound()
+  if (!edition || !findEvent(edition, slug)) notFound()
 
-  return (
-    <EventModal
-      event={event}
-      year={Number(year)}
-      steps={eventSteps(edition?.events ?? [], slug, Number(year))}
-    />
-  )
+  return <EventModal events={edition.events} slug={slug} year={Number(year)} />
 }
