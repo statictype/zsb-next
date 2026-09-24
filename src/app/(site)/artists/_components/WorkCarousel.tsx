@@ -90,54 +90,58 @@ function WorkSlide({ work, lang, labels }: WorkSlideProps) {
 
   return (
     <li id={`${WORK_PARAM}-${work.key}`} className={styles.slide}>
-      <div className={styles.cover}>
-        <Figure image={work.images[active]} sizes="(min-width: 640px) 640px, 100vw" />
-      </div>
-      {work.images.length > 1 && (
-        <ul className={styles.thumbs}>
-          {work.images.map((image, index) => (
-            <li key={image.src}>
-              <Button
-                variant="plain"
-                className={styles.thumb}
-                aria-pressed={index === active}
-                aria-label={`${labels.showImage} ${index + 1}`}
-                onClick={() => setActive(index)}
-              >
-                <Figure image={image} sizes="56px" />
-              </Button>
-            </li>
-          ))}
-        </ul>
-      )}
       <h3 className={styles.title} lang={title.lang}>
         {title.value}
       </h3>
-      <dl className={styles.meta}>
-        {material && (
-          <>
-            <dt className={styles.metaTerm}>{labels.material}</dt>
-            <dd lang={material.lang}>{material.value}</dd>
-          </>
-        )}
-        {work.dimensions && (
-          <>
-            <dt className={styles.metaTerm}>{labels.dimensions}</dt>
-            <dd>{work.dimensions}</dd>
-          </>
-        )}
-        {work.year && (
-          <>
-            <dt className={styles.metaTerm}>{labels.year}</dt>
-            <dd>{work.year}</dd>
-          </>
-        )}
-      </dl>
-      {description.value.length > 0 && (
-        <div className={styles.description} lang={description.lang}>
-          <PortableText value={description.value} />
+      <div className={styles.media}>
+        <div className={styles.cover}>
+          <Figure image={work.images[active]} sizes="(min-width: 768px) 60vw, 100vw" />
         </div>
-      )}
+        {work.images.length > 1 && (
+          <ul className={styles.thumbs}>
+            {work.images.map((image, index) => (
+              <li key={image.src}>
+                <Button
+                  variant="plain"
+                  className={styles.thumb}
+                  aria-pressed={index === active}
+                  aria-label={`${labels.showImage} ${index + 1}`}
+                  onClick={() => setActive(index)}
+                >
+                  <Figure image={image} sizes="56px" />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <div className={styles.details}>
+        <dl className={styles.meta}>
+          {material && (
+            <>
+              <dt className={styles.metaTerm}>{labels.material}</dt>
+              <dd lang={material.lang}>{material.value}</dd>
+            </>
+          )}
+          {work.dimensions && (
+            <>
+              <dt className={styles.metaTerm}>{labels.dimensions}</dt>
+              <dd>{work.dimensions}</dd>
+            </>
+          )}
+          {work.year && (
+            <>
+              <dt className={styles.metaTerm}>{labels.year}</dt>
+              <dd>{work.year}</dd>
+            </>
+          )}
+        </dl>
+        {description.value.length > 0 && (
+          <div className={styles.description} lang={description.lang}>
+            <PortableText value={description.value} />
+          </div>
+        )}
+      </div>
     </li>
   )
 }

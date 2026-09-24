@@ -20,7 +20,7 @@ export function ArtistProfile({ artist }: ArtistProfileProps) {
   const [lang, setLang] = useLang()
   const labels = ARTIST_LABELS[lang]
   const bio = artist.bio[lang]
-  const styles = artistProfile()
+  const styles = artistProfile({ withPortrait: artist.portrait !== undefined })
 
   return (
     <Container className={styles.root} lang={lang}>
@@ -41,25 +41,20 @@ export function ArtistProfile({ artist }: ArtistProfileProps) {
         </div>
       </header>
 
-      {artist.portrait && (
-        <div className={styles.portrait}>
-          <Figure image={artist.portrait} sizes="(min-width: 640px) 480px, 100vw" preload />
-        </div>
-      )}
+      <div className={styles.intro}>
+        {artist.portrait && (
+          <div className={styles.portrait}>
+            <Figure image={artist.portrait} sizes="(min-width: 768px) 40vw, 100vw" preload />
+          </div>
+        )}
+        {bio.value.length > 0 && (
+          <section aria-label={labels.bio} className={styles.bio} lang={bio.lang}>
+            <PortableText value={bio.value} />
+          </section>
+        )}
+      </div>
 
-      {bio.value.length > 0 && (
-        <section aria-labelledby="artist-bio" className={styles.bio} lang={bio.lang}>
-          <h2 id="artist-bio" className={styles.heading}>
-            {labels.bio}
-          </h2>
-          <PortableText value={bio.value} />
-        </section>
-      )}
-
-      <section aria-labelledby="artist-works">
-        <h2 id="artist-works" className={styles.heading}>
-          {labels.works}
-        </h2>
+      <section aria-label={labels.works}>
         <WorkCarousel works={artist.works} lang={lang} labels={labels} />
       </section>
     </Container>
