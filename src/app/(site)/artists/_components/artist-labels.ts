@@ -4,6 +4,8 @@ export const ARTIST_LABELS = {
   ro: {
     switchLabel: 'Limba',
     bio: 'Despre artist',
+    readMore: 'Citește mai mult',
+    readLess: 'Arată mai puțin',
     works: 'Lucrări',
     material: 'Material',
     dimensions: 'Dimensiuni',
@@ -15,6 +17,8 @@ export const ARTIST_LABELS = {
   en: {
     switchLabel: 'Language',
     bio: 'About the artist',
+    readMore: 'Read more',
+    readLess: 'Show less',
     works: 'Works',
     material: 'Material',
     dimensions: 'Dimensions',
