@@ -67,6 +67,52 @@ export type PageHero = {
   lead: string
 }
 
+export type LocaleString = {
+  _type: 'localeString'
+  ro?: string
+  en?: string
+}
+
+export type LocaleBlock = {
+  _type: 'localeBlock'
+  ro?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  en?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+}
+
 export type HeroSlide = {
   _type: 'heroSlide'
   image: {
@@ -306,6 +352,37 @@ export type SanityImageHotspot = {
   width: number
 }
 
+export type ArtistReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'artist'
+}
+
+export type Work = {
+  _id: string
+  _type: 'work'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  key: number
+  artist: ArtistReference
+  title?: LocaleString
+  material?: LocaleString
+  dimensions?: string
+  year?: string
+  description?: LocaleBlock
+  images?: Array<{
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+    _key: string
+  }>
+}
+
 export type Artist = {
   _id: string
   _type: 'artist'
@@ -342,6 +419,7 @@ export type Artist = {
     _type: 'block'
     _key: string
   }>
+  bio?: LocaleBlock
   discipline?: string
   country?: string
   externalLinks?: Array<{
@@ -583,13 +661,6 @@ export type Homepage = {
   metaDescription: string
 }
 
-export type ArtistReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'artist'
-}
-
 export type Edition = {
   _id: string
   _type: 'edition'
@@ -806,6 +877,8 @@ export type AllSanitySchemaTypes =
   | TransportRoute
   | Pillar
   | PageHero
+  | LocaleString
+  | LocaleBlock
   | HeroSlide
   | FaqItem
   | EventTypeReference
@@ -828,6 +901,8 @@ export type AllSanitySchemaTypes =
   | Organization
   | SanityImageCrop
   | SanityImageHotspot
+  | ArtistReference
+  | Work
   | Artist
   | PrivacyPage
   | PressPage
@@ -835,7 +910,6 @@ export type AllSanitySchemaTypes =
   | PartnersPage
   | AboutPage
   | Homepage
-  | ArtistReference
   | Edition
   | SiteSettings
   | SanityImagePaletteSwatch
@@ -1614,47 +1688,36 @@ export type ARTIST_CLOUD_QUERY_RESULT = {
 }
 
 // Source: src/sanity/lib/queries.ts
-// Variable: ARTIST_BY_SLUG_QUERY
-// Query: *[_type == "artist" && slug.current == $slug][0] {    _id,    name,    "slug": slug.current,    portrait,    shortBio,    discipline,    country,    externalLinks  }
-export type ARTIST_BY_SLUG_QUERY_RESULT = {
-  _id: string
+// Variable: ARTIST_PAGE_QUERY
+// Query: *[_type == "artist" && slug.current == $slug    && count(*[_type == "work" && artist._ref == ^._id]) > 0][0]{    name,    "slug": slug.current,    portrait{ asset, alt, "lqip": asset->metadata.lqip },    bio,    "works": *[_type == "work" && artist._ref == ^._id] | order(key asc){      key,      title,      material,      dimensions,      year,      description,      images[]{ asset, alt, "lqip": asset->metadata.lqip }    }  }
+export type ARTIST_PAGE_QUERY_RESULT = {
   name: string
   slug: string
   portrait: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    _type: 'image'
+    asset: SanityImageAssetReference | null
+    alt: string | null
+    lqip: string | null
   } | null
-  shortBio: Array<{
-    children?: Array<{
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
-      _key: string
-    }>
-    style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
-    listItem?: 'bullet' | 'number'
-    markDefs?: Array<{
-      href?: string
-      _type: 'link'
-      _key: string
-    }>
-    level?: number
-    _type: 'block'
-    _key: string
-  }> | null
-  discipline: string | null
-  country: string | null
-  externalLinks: Array<{
-    label: string
-    url: string
-    _type: 'externalLink'
-    _key: string
-  }> | null
+  bio: LocaleBlock | null
+  works: Array<{
+    key: number
+    title: LocaleString | null
+    material: LocaleString | null
+    dimensions: string | null
+    year: string | null
+    description: LocaleBlock | null
+    images: Array<{
+      asset: SanityImageAssetReference | null
+      alt: string | null
+      lqip: string | null
+    }> | null
+  }>
 } | null
+
+// Source: src/sanity/lib/queries.ts
+// Variable: ARTIST_PAGE_SLUGS_QUERY
+// Query: *[_type == "artist" && defined(slug.current)    && count(*[_type == "work" && artist._ref == ^._id]) > 0].slug.current
+export type ARTIST_PAGE_SLUGS_QUERY_RESULT = Array<string>
 
 // Source: src/sanity/lib/queries.ts
 // Variable: SITEMAP_QUERY
@@ -1888,7 +1951,8 @@ declare global {
     '\n  *[_type == "artist" && defined(slug.current)] | order(coalesce(sortName, name) asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country\n  }\n': ARTISTS_QUERY_RESULT
     '\n  *[_type == "artist" && defined(slug.current)\n    && _id in *[_type == "edition" && status == "live"].artists[]._ref]\n    | order(coalesce(sortName, name) asc){ _id, name }\n': ARTIST_INDEX_QUERY_RESULT
     '\n  {\n    "artists": *[_type == "artist" && defined(slug.current)]\n      | order(coalesce(sortName, name) asc){ _id, name },\n    "editions": *[_type == "edition" && status == "live" && defined(year)]{\n      year,\n      "refs": artists[]._ref\n    }\n  }\n': ARTIST_CLOUD_QUERY_RESULT
-    '\n  *[_type == "artist" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    portrait,\n    shortBio,\n    discipline,\n    country,\n    externalLinks\n  }\n': ARTIST_BY_SLUG_QUERY_RESULT
+    '\n  *[_type == "artist" && slug.current == $slug\n    && count(*[_type == "work" && artist._ref == ^._id]) > 0][0]{\n    name,\n    "slug": slug.current,\n    portrait{ asset, alt, "lqip": asset->metadata.lqip },\n    bio,\n    "works": *[_type == "work" && artist._ref == ^._id] | order(key asc){\n      key,\n      title,\n      material,\n      dimensions,\n      year,\n      description,\n      images[]{ asset, alt, "lqip": asset->metadata.lqip }\n    }\n  }\n': ARTIST_PAGE_QUERY_RESULT
+    '\n  *[_type == "artist" && defined(slug.current)\n    && count(*[_type == "work" && artist._ref == ^._id]) > 0].slug.current\n': ARTIST_PAGE_SLUGS_QUERY_RESULT
     '\n  {\n    "editions": *[_type == "edition" && defined(year) && status == "live"]\n      | order(year desc){ year, _updatedAt },\n    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{\n      _id,\n      _updatedAt\n    },\n    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]\n      | order(_updatedAt desc)[0]._updatedAt\n  }\n': SITEMAP_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year) && defined(theme)] | order(year desc) {\n    year,\n    theme,\n    themeHighlight,\n    "themeBody": themeSection.body,\n    status,\n    dateStart,\n    dateEnd,\n    hasProgram,\n    venueLine,\n    "artistCount": count(artists),\n    "eventCount": count(events),\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip }\n  }\n': EDITION_SUMMARIES_QUERY_RESULT
     '\n  *[_type == "edition" && year == $year && status == "live"][0] {\n    _id,\n    year,\n    theme,\n    themeHighlight,\n    themeGloss,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip },\n    ogImage,\n    metaDescription,\n    manifesto,\n    hasProgram,\n    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },\n    events[] {\n      _key,\n      "slug": slug.current,\n      name,\n      startDate,\n      startTime,\n      endDate,\n      "types": types[]->{ "title": title, "slug": slug.current },\n      "venue": venue->{\n        name,\n        "slug": slug.current,\n        address,\n        "partOf": partOf->{ name }\n      },\n      description,\n      image{ ..., "lqip": asset->metadata.lqip },\n      ogImage{ ... },\n      facebookUrl,\n      ticketUrl,\n      featured\n    },\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      lead,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      },\n      organizations[]->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT

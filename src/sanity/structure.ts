@@ -2,6 +2,7 @@ import type { StructureResolver } from 'sanity/structure'
 import {
   CaseIcon,
   CogIcon,
+  CubeIcon,
   DocumentsIcon,
   HeartIcon,
   HomeIcon,
@@ -77,6 +78,7 @@ export const structure: StructureResolver = (S) =>
       // editions that reference an artist show up in the document's
       // "Used on N pages" panel (see the `artist` location resolver).
       S.documentTypeListItem('artist').title('Artists').icon(UsersIcon),
+      S.documentTypeListItem('work').title('Works').icon(CubeIcon),
       S.documentTypeListItem('organization').title('Organizations').icon(CaseIcon),
 
       // Anything else the schema adds that isn't a singleton or pressed-up
@@ -85,7 +87,7 @@ export const structure: StructureResolver = (S) =>
       ...S.documentTypeListItems().filter((item) => {
         const id = item.getId()
         if (!id) return false
-        if (['edition', 'artist', 'organization'].includes(id)) return false
+        if (['edition', 'artist', 'work', 'organization'].includes(id)) return false
         if (['pressAppearance', 'pressRelease'].includes(id)) return false
         if (['venue', 'eventType', 'venueType'].includes(id)) return false
         return !isSingletonType(id)

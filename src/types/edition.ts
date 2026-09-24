@@ -1,3 +1,5 @@
+import type { PortableTextBlock } from '@portabletext/react'
+
 // ---- Images ----
 
 export interface ImageData {
@@ -198,6 +200,33 @@ export interface ArtistCloudItem {
 export interface ArtistCloud {
   cloud: ArtistCloudItem[]
   onlineOnly: ArtistListItem[]
+}
+
+export type Lang = 'ro' | 'en'
+
+export interface LangText<T> {
+  lang: Lang
+  value: T
+}
+
+export type Bilingual<T> = Record<Lang, LangText<T>>
+
+export interface ArtistWork {
+  key: number
+  title: Bilingual<string>
+  material?: Bilingual<string>
+  dimensions?: string
+  year?: string
+  description: Bilingual<PortableTextBlock[]>
+  images: ImageData[]
+}
+
+export interface ArtistPage {
+  name: string
+  slug: string
+  portrait?: ImageData
+  bio: Bilingual<PortableTextBlock[]>
+  works: ArtistWork[]
 }
 
 // ---- Full Edition ----

@@ -1,6 +1,7 @@
 export { CalendarIcon } from '@sanity/icons/Calendar'
 export { CaseIcon } from '@sanity/icons/Case'
 export { CogIcon } from '@sanity/icons/Cog'
+export { CubeIcon } from '@sanity/icons/Cube'
 export { DocumentsIcon } from '@sanity/icons/Documents'
 export { HeartIcon } from '@sanity/icons/Heart'
 export { HomeIcon } from '@sanity/icons/Home'

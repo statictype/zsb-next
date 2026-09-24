@@ -14,12 +14,14 @@ import { siteSettings } from '@/sanity/schemaTypes/documents/siteSettings'
 import { venue } from '@/sanity/schemaTypes/documents/venue'
 import { venueType } from '@/sanity/schemaTypes/documents/venueType'
 import { visitPage } from '@/sanity/schemaTypes/documents/visitPage'
+import { work } from '@/sanity/schemaTypes/documents/work'
 import { amenity } from '@/sanity/schemaTypes/objects/amenity'
 import { carouselSlide } from '@/sanity/schemaTypes/objects/carouselSlide'
 import { creditOrg, creditOrgList, creditText } from '@/sanity/schemaTypes/objects/creditRow'
 import { event } from '@/sanity/schemaTypes/objects/event'
 import { faqItem } from '@/sanity/schemaTypes/objects/faqItem'
 import { heroSlide } from '@/sanity/schemaTypes/objects/heroSlide'
+import { localeBlock, localeString } from '@/sanity/schemaTypes/objects/locale'
 import { pageHero } from '@/sanity/schemaTypes/objects/pageHero'
 import { pillar } from '@/sanity/schemaTypes/objects/pillar'
 import { transportRoute } from '@/sanity/schemaTypes/objects/transportRoute'
@@ -36,6 +38,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   privacyPage,
   // Documents
   artist,
+  work,
   edition,
   organization,
   pressAppearance,
@@ -52,6 +55,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   event,
   faqItem,
   heroSlide,
+  localeBlock,
+  localeString,
   pageHero,
   pillar,
   transportRoute,

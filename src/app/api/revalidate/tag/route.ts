@@ -15,7 +15,7 @@ interface WebhookPayload {
  * publisher's dime, not the first visitor's. Configure a GROQ-powered
  * webhook in sanity.io/manage with:
  *   URL:        https://sculpturedays.com/api/revalidate/tag
- *   Filter:     _type in ["edition", "artist", "organization", "venue",
+ *   Filter:     _type in ["edition", "artist", "work", "organization", "venue",
  *               "venueType", "eventType", "siteSettings", "homepage",
  *               "aboutPage", "partnersPage", "visitPage", "privacyPage",
  *               "pressPage", "pressAppearance", "pressRelease"]

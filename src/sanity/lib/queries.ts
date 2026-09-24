@@ -233,20 +233,33 @@ const ARTIST_CLOUD_QUERY = defineQuery(`
 
 export const ARTIST_CLOUD = { query: ARTIST_CLOUD_QUERY, tags: ['artist', 'edition'] }
 
-const ARTIST_BY_SLUG_QUERY = defineQuery(`
-  *[_type == "artist" && slug.current == $slug][0] {
-    _id,
+const ARTIST_PAGE_QUERY = defineQuery(`
+  *[_type == "artist" && slug.current == $slug
+    && count(*[_type == "work" && artist._ref == ^._id]) > 0][0]{
     name,
     "slug": slug.current,
-    portrait,
-    shortBio,
-    discipline,
-    country,
-    externalLinks
+    portrait{ asset, alt, "lqip": asset->metadata.lqip },
+    bio,
+    "works": *[_type == "work" && artist._ref == ^._id] | order(key asc){
+      key,
+      title,
+      material,
+      dimensions,
+      year,
+      description,
+      images[]{ asset, alt, "lqip": asset->metadata.lqip }
+    }
   }
 `)
 
-export const ARTIST_BY_SLUG = { query: ARTIST_BY_SLUG_QUERY, tags: ['artist'] }
+export const ARTIST_PAGE = { query: ARTIST_PAGE_QUERY, tags: ['artist', 'work'] }
+
+const ARTIST_PAGE_SLUGS_QUERY = defineQuery(`
+  *[_type == "artist" && defined(slug.current)
+    && count(*[_type == "work" && artist._ref == ^._id]) > 0].slug.current
+`)
+
+export const ARTIST_PAGE_SLUGS = { query: ARTIST_PAGE_SLUGS_QUERY, tags: ['artist', 'work'] }
 
 // Everything the sitemap needs to emit honest `lastModified` dates in a
 // single round trip: each live edition's content-update time, the six
