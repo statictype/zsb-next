@@ -2,6 +2,7 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 import { ArtistEditionsField } from '@/sanity/components/ArtistEditionsField'
 import { UserIcon } from '@/sanity/icons'
 import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
+import { lockedOncePublished } from '@/sanity/schemaTypes/shared/lockedOncePublished'
 
 export const artist = defineType({
   name: 'artist',
@@ -37,7 +38,7 @@ export const artist = defineType({
       title: 'Slug',
       type: 'slug',
       options: { source: 'name', maxLength: 96 },
-      validation: (rule) => rule.required(),
+      validation: (rule) => rule.required().custom(lockedOncePublished('slug.current')),
     }),
     imageFieldWithAlt({
       name: 'portrait',
@@ -50,6 +51,12 @@ export const artist = defineType({
       title: 'Short bio',
       type: 'array',
       of: [defineArrayMember({ type: 'block' })],
+    }),
+    defineField({
+      name: 'bio',
+      title: 'Bio',
+      description: 'Shown on the artist page. Only artists with at least one work have a page.',
+      type: 'localeBlock',
     }),
     defineField({
       name: 'discipline',
