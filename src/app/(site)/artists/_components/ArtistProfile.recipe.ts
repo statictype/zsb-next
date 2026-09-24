@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const artistProfile = sva({
-  slots: ['root', 'header', 'name', 'switch', 'portrait', 'bio', 'heading'],
+  slots: ['root', 'header', 'name', 'switch', 'intro', 'portrait', 'bio'],
   base: {
     root: {
       display: 'flex',
@@ -18,12 +18,18 @@ export const artistProfile = sva({
     },
     name: { textStyle: 'display', color: 'heading' },
     switch: { display: 'flex', gap: 'sm' },
+    intro: {
+      display: 'grid',
+      gap: 'xl',
+      alignItems: 'start',
+    },
     portrait: {
       position: 'relative',
       overflow: 'hidden',
       width: 'full',
-      maxWidth: 'narrowColumn',
+      maxWidth: { base: 'narrowColumn', md: '[none]' },
       aspectRatio: '4 / 5',
+      maxHeight: { md: '[80svh]' },
     },
     bio: {
       display: 'flex',
@@ -33,6 +39,13 @@ export const artistProfile = sva({
       textStyle: 'body',
       color: 'body',
     },
-    heading: { textStyle: 'title', color: 'heading' },
+  },
+  variants: {
+    withPortrait: {
+      true: {
+        intro: { gridTemplateColumns: { md: '[minmax(0, 2fr) minmax(0, 3fr)]' } },
+      },
+      false: {},
+    },
   },
 })
