@@ -5,6 +5,7 @@ export const workCarousel = sva({
     'root',
     'controls',
     'counter',
+    'arrows',
     'track',
     'slide',
     'media',
@@ -18,8 +19,20 @@ export const workCarousel = sva({
     'description',
   ],
   base: {
-    root: { display: 'flex', flexDirection: 'column', gap: 'lg' },
-    controls: { display: 'flex', alignItems: 'center', gap: 'md' },
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'lg',
+      borderTop: 'hairline',
+      paddingTop: 'md',
+    },
+    controls: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 'md',
+    },
+    arrows: { display: 'flex' },
     counter: { textStyle: 'label', color: 'muted', fontVariantNumeric: 'tabular-nums' },
     track: {
       display: 'flex',
@@ -34,12 +47,6 @@ export const workCarousel = sva({
       flex: '[0 0 100%]',
       scrollSnapAlign: 'start',
       display: 'grid',
-      gridTemplateAreas: {
-        base: '"title" "media" "details"',
-        md: '"title media" "details media"',
-      },
-      gridTemplateColumns: { md: '[minmax(0, 2fr) minmax(0, 3fr)]' },
-      gridTemplateRows: { md: '[auto 1fr]' },
       alignContent: 'start',
       columnGap: 'xl',
       rowGap: 'md',
@@ -94,6 +101,23 @@ export const workCarousel = sva({
       maxWidth: 'measure',
       textStyle: 'body',
       color: 'body',
+    },
+  },
+  variants: {
+    withMedia: {
+      true: {
+        slide: {
+          gridTemplateAreas: {
+            base: '"title" "media" "details"',
+            md: '"title media" "details media"',
+          },
+          gridTemplateColumns: { md: '[minmax(0, 2fr) minmax(0, 3fr)]' },
+          gridTemplateRows: { md: '[auto 1fr]' },
+        },
+      },
+      false: {
+        slide: { gridTemplateAreas: '"title" "details"' },
+      },
     },
   },
 })
