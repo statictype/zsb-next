@@ -33,29 +33,28 @@ export function AboutShell({ view }: { view: AboutView }) {
     <main>
       <PageHero flush title={hero.title} lead={hero.lead} />
 
-      {carousel.length > 0 && (
-        <section className={cx(section({ ground: 'dark', rhythm: 'none' }), styles.plates)}>
-          <GalleryCarousel
-            id="about-gallery"
-            label="Archive photo carousel"
-            slides={carousel}
-            eyebrow={carouselEyebrow}
-            treatment="mono"
-            preload
-          />
-        </section>
-      )}
-
-      <Manifesto ground="dark" title={manifestoTitle} body={manifestoBody} />
-
       <figure className={styles.plateFrame}>
-        <Figure image={placeImage} sizes="100vw" className={styles.plateImg} />
+        <Figure image={placeImage} sizes="100vw" preload className={styles.plateImg} />
         {placeImage?.alt && (
           <Text as="figcaption" variant="caption" color="muted" className={styles.plateCredit}>
             {placeImage.alt}
           </Text>
         )}
       </figure>
+
+      <Manifesto ground="dark" title={manifestoTitle} body={manifestoBody} />
+
+      {carousel.length > 0 && (
+        <section className={section({ ground: 'dark', rhythm: 'none' })}>
+          <GalleryCarousel
+            id="about-gallery"
+            label="Archive photo carousel"
+            slides={carousel}
+            eyebrow={carouselEyebrow}
+            treatment="mono"
+          />
+        </section>
+      )}
 
       {pillars.length > 0 && (
         <section className={section({ ground: 'dark' })}>
@@ -71,7 +70,7 @@ export function AboutShell({ view }: { view: AboutView }) {
                     />
                   </div>
                   <Stack gap="lg" className={styles.pillarBody}>
-                    <Text as="h2" variant="title">
+                    <Text as="h2" variant="detailTitle">
                       {pillar.label}
                     </Text>
                     <Text as="p" variant="lead" className={styles.pillarText}>
