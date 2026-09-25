@@ -1,16 +1,17 @@
 import { aboutPage } from '@site/about/page.recipe'
 import { cx } from 'styled-system/css'
-import { Container, Divider, Stack, Text } from 'styled-system/jsx'
+import { Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
 import { Figure } from '@/components/Figure/Figure'
 import { Manifesto } from '@/components/Manifesto/Manifesto'
 import { PageHero } from '@/components/PageHero/PageHero'
-import { PillarGrid } from '@/components/PillarGrid/PillarGrid'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { AboutView } from '@/sanity/lib/staticPages'
 
 const styles = aboutPage()
+
+const PILLAR_SIZES = '(min-width: 2024px) 858px, (min-width: 1024px) 48vw, 100vw'
 
 export function AboutShell({ view }: { view: AboutView }) {
   const {
@@ -57,14 +58,29 @@ export function AboutShell({ view }: { view: AboutView }) {
       </figure>
 
       {pillars.length > 0 && (
-        <section className={cx(section({ ground: 'dark', rhythm: 'none' }), styles.supports)}>
-          <Divider />
+        <section className={section({ ground: 'dark' })}>
           <Container>
-            <PillarGrid
-              items={pillars.map((pillar) => ({ title: pillar.label, body: pillar.body }))}
-              rhythm="bookend"
-              titleTone="highlight"
-            />
+            <ol className={styles.pillars}>
+              {pillars.map((pillar) => (
+                <li key={pillar.label} className={styles.pillar}>
+                  <div className={styles.pillarPlate}>
+                    <Figure
+                      image={pillar.image}
+                      sizes={PILLAR_SIZES}
+                      className={styles.pillarImg}
+                    />
+                  </div>
+                  <Stack gap="lg" className={styles.pillarBody}>
+                    <Text as="h2" variant="title">
+                      {pillar.label}
+                    </Text>
+                    <Text as="p" variant="lead" className={styles.pillarText}>
+                      {pillar.body}
+                    </Text>
+                  </Stack>
+                </li>
+              ))}
+            </ol>
           </Container>
         </section>
       )}

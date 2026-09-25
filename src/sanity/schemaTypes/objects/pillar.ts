@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
 
 /**
  * About-page pillar: numbered short essay. The number is derived from
@@ -24,8 +25,14 @@ export const pillar = defineType({
       rows: 5,
       validation: (rule) => rule.required().max(500),
     }),
+    imageFieldWithAlt({
+      name: 'image',
+      title: 'Image',
+      altDescription: 'Describe the photo for screen readers and SEO.',
+      validation: (rule) => rule.required(),
+    }),
   ],
   preview: {
-    select: { title: 'label', subtitle: 'body' },
+    select: { title: 'label', subtitle: 'body', media: 'image' },
   },
 })
