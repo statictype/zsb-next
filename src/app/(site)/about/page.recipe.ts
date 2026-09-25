@@ -3,7 +3,12 @@ import { sva } from 'styled-system/css'
 export const aboutPage = sva({
   slots: [
     'plates',
-    'supports',
+    'pillars',
+    'pillar',
+    'pillarPlate',
+    'pillarImg',
+    'pillarBody',
+    'pillarText',
     'plateFrame',
     'plateImg',
     'plateCredit',
@@ -19,6 +24,42 @@ export const aboutPage = sva({
   base: {
     plates: {
       paddingTop: 'xl',
+    },
+
+    pillars: { listStyle: 'none', margin: '0', padding: '0' },
+    pillar: {
+      display: 'grid',
+      gridTemplateColumns: 'minmax(0, 1fr)',
+      gridTemplateAreas: '"plate" "body"',
+      rowGap: 'lg',
+      paddingBlock: '3xl',
+      borderTop: 'hairline',
+      '&:first-child': { borderTop: 'none', paddingTop: '0' },
+      '&:last-child': { paddingBottom: '0' },
+      lg: {
+        gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
+        gridTemplateAreas: '"plate body"',
+        columnGap: 'gridGap',
+        alignItems: 'center',
+        '&:nth-child(even)': { gridTemplateAreas: '"body plate"' },
+      },
+    },
+    pillarPlate: {
+      gridArea: 'plate',
+      position: 'relative',
+      overflow: 'hidden',
+      border: 'hairline',
+      background: 'gray.900',
+      aspectRatio: { base: '1 / 1', md: '16 / 9', lg: '3 / 2' },
+    },
+    pillarImg: {
+      layerStyle: 'coverMono',
+    },
+    pillarBody: {
+      gridArea: 'body',
+    },
+    pillarText: {
+      maxWidth: 'measure',
     },
 
     plateFrame: {

@@ -30,7 +30,7 @@ export interface AboutView {
   hero: { title: string; lead: string }
   manifestoTitle: string
   manifestoBody: string
-  pillars: Array<{ label: string; body: string }>
+  pillars: Array<{ label: string; body: string; image?: ImageData }>
   carouselEyebrow: string
   carousel: CarouselSlide[]
   curatorHeadline: string
@@ -82,7 +82,11 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
     },
     manifestoTitle: raw.manifestoTitle ?? '',
     manifestoBody: raw.manifestoBody ?? '',
-    pillars: (raw.pillars ?? []).map((p) => ({ label: p.label, body: p.body })),
+    pillars: (raw.pillars ?? []).map((p) => ({
+      label: p.label,
+      body: p.body,
+      ...definedFields({ image: toImageData(p.image) }),
+    })),
     carouselEyebrow: raw.carouselEyebrow ?? 'From the archive',
     curatorHeadline: raw.curatorHeadline ?? '',
     curatorName: raw.curatorName ?? '',

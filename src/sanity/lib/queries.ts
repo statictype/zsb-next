@@ -58,7 +58,12 @@ const ABOUT_PAGE_QUERY = defineQuery(`
     hero,
     manifestoTitle,
     manifestoBody,
-    pillars,
+    pillars[] {
+      _key,
+      label,
+      body,
+      image{ ..., "lqip": asset->metadata.lqip }
+    },
     placeImage{ ..., "lqip": asset->metadata.lqip },
     carouselEyebrow,
     carousel[] {
