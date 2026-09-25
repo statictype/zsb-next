@@ -2,7 +2,6 @@ import { sva } from 'styled-system/css'
 
 export const aboutPage = sva({
   slots: [
-    'plates',
     'pillars',
     'pillar',
     'pillarPlate',
@@ -22,10 +21,6 @@ export const aboutPage = sva({
     'statementLetter',
   ],
   base: {
-    plates: {
-      paddingTop: 'xl',
-    },
-
     pillars: { listStyle: 'none', margin: '0', padding: '0' },
     pillar: {
       display: 'grid',
@@ -38,10 +33,10 @@ export const aboutPage = sva({
       '&:last-child': { paddingBottom: '0' },
       lg: {
         gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
-        gridTemplateAreas: '"plate body"',
+        gridTemplateAreas: '"body plate"',
         columnGap: 'gridGap',
         alignItems: 'center',
-        '&:nth-child(even)': { gridTemplateAreas: '"body plate"' },
+        '&:nth-child(even)': { gridTemplateAreas: '"plate body"' },
       },
     },
     pillarPlate: {
@@ -63,6 +58,7 @@ export const aboutPage = sva({
     },
 
     plateFrame: {
+      marginTop: 'xl',
       position: 'relative',
       isolation: 'isolate',
       aspectRatio: '1 / 1',
