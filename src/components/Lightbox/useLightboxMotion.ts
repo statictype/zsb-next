@@ -116,8 +116,8 @@ function fly({ gsap, Flip }: MotionRuntime, flight: Flight): void {
 }
 
 const COLUMNS_NARROW = 6
-const COLUMNS_WIDE = 14
-const NARROW_MAX_WIDTH = 768
+const COLUMNS_WIDE = 4
+const NARROW_MAX_WIDTH = 1280
 const TILE_DURATION = 0.35
 const TILE_SPREAD = 0.45
 const SEAM_OVERLAP_PX = 1
@@ -158,13 +158,6 @@ function dissolveFrom(
     for (let column = 0; column < columns; column++) {
       const left = column * tileWidth
       const top = row * tileHeight
-      const covered =
-        left < content.left + content.width &&
-        left + tileWidth > content.left &&
-        top < content.top + content.height &&
-        top + tileHeight > content.top
-      if (!covered) continue
-
       const tile = document.createElement('div')
       const style = tile.style
       style.position = 'absolute'
@@ -172,6 +165,7 @@ function dissolveFrom(
       style.top = `${top}px`
       style.width = `${tileWidth + SEAM_OVERLAP_PX}px`
       style.height = `${tileHeight + SEAM_OVERLAP_PX}px`
+      style.backgroundColor = token('colors.surface.scrim')
       // Reuses the browser's decoded copy of `currentSrc`; no second request.
       style.backgroundImage = `url("${source}")`
       style.backgroundSize = `${content.width}px ${content.height}px`
