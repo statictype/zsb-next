@@ -16,6 +16,14 @@ const HERO_INK_BY_YEAR: Record<number, 'black' | 'white'> = {
   2024: 'black',
 }
 
+const HERO_ALIGN_BY_YEAR: Record<number, 'top' | 'center' | 'bottom'> = {
+  2022: 'top',
+  2023: 'center',
+  2024: 'bottom',
+}
+
+const HERO_RULED_YEARS = [2022]
+
 const FACT_LABELS: Record<Exclude<EditionFact['kind'], 'events'>, string> = {
   dates: 'Dates',
   venue: 'Venue',
@@ -29,7 +37,8 @@ interface HeroProps {
 export function Hero({ edition }: HeroProps) {
   const { year, theme, themeGloss, heroImage, thumbImage } = edition
   const ink = HERO_INK_BY_YEAR[year] ?? 'white'
-  const styles = hero({ ink })
+  const align = HERO_ALIGN_BY_YEAR[year] ?? 'center'
+  const styles = hero({ ink, align, ruled: HERO_RULED_YEARS.includes(year) })
 
   const facts: { key: string; label: string; value: ReactNode }[] = [
     ...edition.facts

@@ -56,7 +56,6 @@ export const hero = sva({
     },
     image: {
       objectFit: 'cover',
-      objectPosition: 'right',
       _portraitPhone: { display: 'none' },
     },
     thumb: {
@@ -99,6 +98,21 @@ export const hero = sva({
       },
       white: { inner: { color: 'white' } },
     },
+    align: {
+      top: { image: { objectPosition: 'right top' } },
+      center: { image: { objectPosition: 'right center' } },
+      bottom: { image: { objectPosition: 'right bottom' } },
+    },
+    ruled: {
+      true: {
+        hero: {
+          borderBottomStyle: 'solid',
+          borderBottomWidth: 'hairline',
+          borderBottomColor: 'gray.200',
+        },
+      },
+      false: {},
+    },
   },
-  defaultVariants: { ink: 'white' },
+  defaultVariants: { ink: 'white', align: 'center', ruled: false },
 })
