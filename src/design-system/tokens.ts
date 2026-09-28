@@ -28,6 +28,7 @@ export const conditions = {
     '@media (min-width: 600px) and (max-width: 1023.98px) and (orientation: portrait)',
   portraitLarge: '@media (min-width: 1024px) and (orientation: portrait)',
   landscapeLg: '@media (min-width: 1024px) and (orientation: landscape)',
+  landscapePhone: '@media (max-height: 499.98px) and (orientation: landscape)',
 
   hover: '&:is(:hover, [data-hover]):not(:disabled, [aria-disabled=true], [data-disabled])',
   active: '&:is(:active, [data-active]):not(:disabled, [aria-disabled=true], [data-disabled])',

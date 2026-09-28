@@ -4,7 +4,7 @@ import { Credits } from '@edition-components/Credits'
 import { Program } from '@program/Program'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import { Container } from 'styled-system/jsx'
+import { Container, Divider } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { ArtistRoster } from '@/components/ArtistRoster/ArtistRoster'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
@@ -28,9 +28,14 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
       <Manifesto title={page.info.title} body={page.info.body} ground="dark" />
 
       {page.events.length > 0 && (
-        <Suspense fallback={null}>
-          <Program scope={bellerProgramScope} events={page.events} intro={page.programIntro} />
-        </Suspense>
+        <>
+          <Container>
+            <Divider />
+          </Container>
+          <Suspense fallback={null}>
+            <Program scope={bellerProgramScope} events={page.events} intro={page.programIntro} />
+          </Suspense>
+        </>
       )}
 
       {page.artists.length > 0 && (
