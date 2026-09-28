@@ -1,5 +1,7 @@
 import { defineLocations } from 'sanity/presentation'
+import { artistHref } from '@/lib/artist-href'
 import { editionHref } from '@/lib/edition-href'
+import { GALERIA_BELLER_PATH } from '@/lib/galeria-beller-href'
 
 export const locations = {
   homepage: defineLocations({
@@ -25,6 +27,10 @@ export const locations = {
   privacyPage: defineLocations({
     select: { _id: '_id' },
     resolve: () => ({ locations: [{ title: 'Privacy', href: '/privacy' }] }),
+  }),
+  galeriaBeller: defineLocations({
+    select: { _id: '_id' },
+    resolve: () => ({ locations: [{ title: 'Galeria Beller', href: GALERIA_BELLER_PATH }] }),
   }),
   siteSettings: defineLocations({
     // Site settings affect every page; the footer is the most visible
@@ -57,7 +63,7 @@ export const locations = {
       if (!doc?.slug) return { locations: [{ title: 'Artists index', href: '/artists' }] }
       return {
         locations: [
-          { title: doc.name ?? 'Artist', href: `/artists/${doc.slug}` },
+          { title: doc.name ?? 'Artist', href: artistHref(doc.slug) },
           { title: 'Artists index', href: '/artists' },
         ],
       }

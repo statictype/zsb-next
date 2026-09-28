@@ -3,6 +3,7 @@ import { aboutPage } from '@/sanity/schemaTypes/documents/aboutPage'
 import { artist } from '@/sanity/schemaTypes/documents/artist'
 import { edition } from '@/sanity/schemaTypes/documents/edition'
 import { eventType } from '@/sanity/schemaTypes/documents/eventType'
+import { galeriaBeller } from '@/sanity/schemaTypes/documents/galeriaBeller'
 import { homepage } from '@/sanity/schemaTypes/documents/homepage'
 import { organization } from '@/sanity/schemaTypes/documents/organization'
 import { partnersPage } from '@/sanity/schemaTypes/documents/partnersPage'
@@ -36,6 +37,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   visitPage,
   pressPage,
   privacyPage,
+  galeriaBeller,
   // Documents
   artist,
   work,

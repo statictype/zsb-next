@@ -9,16 +9,17 @@ const HEADING_ID = 'edition-artists'
 
 interface ArtistRosterProps {
   artists: ArtistListItem[]
+  title: string
   designation: string
   className?: string | undefined
 }
 
-export function ArtistRoster({ artists, designation, className }: ArtistRosterProps) {
+export function ArtistRoster({ artists, title, designation, className }: ArtistRosterProps) {
   return (
     <section aria-labelledby={HEADING_ID} className={className}>
       <div className={styles.head}>
         <SectionHeading as="h2" id={HEADING_ID} flush>
-          Artists
+          {title}
         </SectionHeading>
         <Text variant="label">{designation}</Text>
       </div>
@@ -26,7 +27,13 @@ export function ArtistRoster({ artists, designation, className }: ArtistRosterPr
       <ul className={styles.wall}>
         {artists.map((artist) => (
           <li key={artist._id} className={styles.entry}>
-            {artist.name}
+            {artist.href ? (
+              <a href={artist.href} className={styles.link}>
+                {artist.name}
+              </a>
+            ) : (
+              artist.name
+            )}
           </li>
         ))}
       </ul>

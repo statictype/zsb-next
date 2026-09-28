@@ -1,7 +1,10 @@
 import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/constants'
 import { editionHref, eventHref } from '@/lib/edition-href'
+import { bellerEventHref, GALERIA_BELLER_PATH } from '@/lib/galeria-beller-href'
 import { getAllEventParams, getSitemapMetadata } from '@/sanity/lib/editions'
+import { getGaleriaBeller } from '@/sanity/lib/galeria-beller'
+import { PUBLISHED } from '@/sanity/lib/live'
 
 function lastMod(iso: string | null | undefined): Date | undefined {
   return iso ? new Date(iso) : undefined
@@ -31,7 +34,11 @@ function entry(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [meta, eventParams] = await Promise.all([getSitemapMetadata(), getAllEventParams()])
+  const [meta, eventParams, beller] = await Promise.all([
+    getSitemapMetadata(),
+    getAllEventParams(),
+    getGaleriaBeller(PUBLISHED),
+  ])
 
   // SITEMAP_QUERY.editions is already status-filtered (`== "live"`), the
   // same gate as the edition page — the sitemap never advertises a year that
@@ -56,6 +63,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const editionsListLastMod = newest(editions.map((e) => e._updatedAt))
   const artistsLastMod = lastMod(meta.lastArtistUpdate)
 
+  const bellerEntries = beller
+    ? [
+        entry(GALERIA_BELLER_PATH, updatedAt('galeriaBeller'), 'weekly', 0.8),
+        ...beller.events.map((event) =>
+          entry(bellerEventHref(event.slug), updatedAt('galeriaBeller'), 'weekly', 0.5),
+        ),
+      ]
+    : []
+
   return [
     entry('/', updatedAt('homepage'), 'monthly', 1),
     entry('/editions', editionsListLastMod, 'yearly', 0.8),
@@ -66,5 +82,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry('/partners', updatedAt('partnersPage'), 'yearly', 0.5),
     entry('/press', updatedAt('pressPage'), 'monthly', 0.6),
     entry('/privacy', updatedAt('privacyPage'), 'yearly', 0.3),
+    ...bellerEntries,
   ]
 }

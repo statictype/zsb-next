@@ -29,6 +29,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
       {artists.length > 0 && (
         <ArtistRoster
           artists={artists}
+          title="Artists"
           designation={`Edition ${year - 2020}-${year}`}
           className={styles.inner}
         />

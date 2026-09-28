@@ -4,6 +4,8 @@ import { EventDetail, POSTER_SIZES } from '@program/EventDetail'
 import { eventModal } from '@program/EventModal.recipe'
 import { ModalStepper } from '@program/EventStepper'
 import { type EventStep, eventSteps } from '@program/event-steps'
+import { PROGRAM_LABELS } from '@program/program-labels'
+import type { ProgramScope } from '@program/program-scope'
 import { RiArrowLeftLine, RiCloseLine } from '@remixicon/react'
 import { getImageProps } from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -32,12 +34,13 @@ function preloadPoster(event: CalendarEvent | undefined) {
 export function EventModal({
   events,
   slug: initialSlug,
-  year,
+  scope,
 }: {
   events: CalendarEvent[]
   slug: string
-  year: number
+  scope: ProgramScope
 }) {
+  const labels = PROGRAM_LABELS[scope.lang]
   const router = useRouter()
   const headerRef = useRef<HTMLElement>(null)
   const [slug, setSlug] = useState(initialSlug)
@@ -46,7 +49,7 @@ export function EventModal({
   const event = events.find((e) => e.slug === slug)
   if (!event) return null
 
-  const steps = eventSteps(events, slug, year)
+  const steps = eventSteps(events, slug, scope)
   const bySlug = (step: EventStep | undefined) => events.find((e) => e.slug === step?.slug)
   preloadPoster(bySlug(steps.prev))
   preloadPoster(bySlug(steps.next))
@@ -63,17 +66,17 @@ export function EventModal({
       <header ref={headerRef} className={s.chrome}>
         <Button variant="quiet" size="sm" onClick={onClose}>
           <RiArrowLeftLine size={16} aria-hidden />
-          {year} program
+          {scope.backLabel}
         </Button>
 
-        <ModalStepper steps={steps} onStep={onStep} />
+        <ModalStepper steps={steps} onStep={onStep} labels={labels} />
 
-        <Button variant="icon" onClick={onClose} aria-label="Close">
+        <Button variant="icon" onClick={onClose} aria-label={labels.close}>
           <RiCloseLine size={22} aria-hidden />
         </Button>
       </header>
 
-      <EventDetail key={event.slug} event={event} shell="modal" />
+      <EventDetail key={event.slug} event={event} shell="modal" scope={scope} />
     </>
   )
 }

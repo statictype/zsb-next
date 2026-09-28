@@ -7,6 +7,8 @@ import {
   type ProgramFilters,
   type ProgramView,
 } from '@program/program-filters'
+import { PROGRAM_LABELS, type ProgramLabels } from '@program/program-labels'
+import type { ProgramScope } from '@program/program-scope'
 import { useProgramFilters } from '@program/useProgramFilters'
 import { createContext, type ReactNode, use } from 'react'
 import { useTodayIso } from '@/lib/use-today-iso'
@@ -25,7 +27,7 @@ export interface ProgramContextValue {
     setShowPast: (value: boolean) => void
     reset: () => void
   }
-  meta: { year: number }
+  meta: { scope: ProgramScope; labels: ProgramLabels }
 }
 
 export const ProgramContext = createContext<ProgramContextValue | null>(null)
@@ -37,25 +39,25 @@ export function useProgram(): ProgramContextValue {
 }
 
 export function ProgramProvider({
-  year,
+  scope,
   events,
   children,
 }: {
-  year: number
+  scope: ProgramScope
   events: CalendarEvent[]
   children: ReactNode
 }) {
   const todayIso = useTodayIso()
   const filterOptions = computeFilterOptions(events)
   const { filters, toggleVenue, toggleType, setShowPast, reset } = useProgramFilters(filterOptions)
-  const view = deriveProgramView(events, filters, todayIso)
+  const view = deriveProgramView(events, filters, todayIso, scope.lang)
 
   return (
     <ProgramContext
       value={{
         state: { filters, filterOptions, view, total: events.length },
         actions: { toggleVenue, toggleType, setShowPast, reset },
-        meta: { year },
+        meta: { scope, labels: PROGRAM_LABELS[scope.lang] },
       }}
     >
       {children}

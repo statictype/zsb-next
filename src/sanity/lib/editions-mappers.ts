@@ -84,6 +84,7 @@ export function mapEvents(raw: SanityEdition['events']): CalendarEvent[] {
       name: e.name,
       startDate: e.startDate,
       startTime: e.startTime,
+      endTime: e.endTime,
       endDate: e.endDate,
       types: e.types.map((t) => ({ title: t.title, slug: t.slug })),
       venue: definedFields({

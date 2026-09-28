@@ -1,5 +1,5 @@
 import { programOrder } from '@program/program-filters'
-import { eventHref } from '@/lib/edition-href'
+import { type ProgramScope, scopeEventHref } from '@program/program-scope'
 import type { CalendarEvent } from '@/types/edition'
 
 /** One neighbour of the open event: where it lives and what to call it. */
@@ -21,13 +21,15 @@ export interface EventSteps {
 // intercepted modal and the cold-load page — derive them here so a shared link
 // steps through the same sequence a soft navigation does. The ends don't wrap:
 // the program has a first and a last event, and a panel that loops hides that.
-export function eventSteps(events: CalendarEvent[], slug: string, year: number): EventSteps {
+export function eventSteps(events: CalendarEvent[], slug: string, scope: ProgramScope): EventSteps {
   const order = programOrder(events)
   const at = order.findIndex((event) => event.slug === slug)
   if (at === -1) return {}
 
   const step = (event: CalendarEvent | undefined): EventStep | undefined =>
-    event ? { slug: event.slug, href: eventHref(year, event.slug), name: event.name } : undefined
+    event
+      ? { slug: event.slug, href: scopeEventHref(scope, event.slug), name: event.name }
+      : undefined
 
   return { prev: step(order[at - 1]), next: step(order[at + 1]), index: at, total: order.length }
 }

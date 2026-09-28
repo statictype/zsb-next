@@ -11,7 +11,7 @@ import { useLightboxMotion } from '@/components/Lightbox/useLightboxMotion'
 import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { Button } from '@/components/ui/Button/Button'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
-import type { ImageData } from '@/types/edition'
+import type { ImageData, Lang } from '@/types/edition'
 
 export interface LightboxImage {
   image: ImageData
@@ -35,9 +35,15 @@ export interface LightboxState {
   onIndexChange: (index: number) => void
 }
 
+const LIGHTBOX_LABELS: Record<Lang, { close: string; prev: string; next: string }> = {
+  en: { close: 'Close lightbox', prev: 'Previous image', next: 'Next image' },
+  ro: { close: 'Închide galeria', prev: 'Imaginea anterioară', next: 'Imaginea următoare' },
+}
+
 interface LightboxProps extends LightboxState {
   images: LightboxImage[]
   getOrigin: (index: number) => HTMLElement | null
+  lang: Lang
 }
 
 export function useLightbox() {
@@ -77,7 +83,9 @@ export function Lightbox({
   getOrigin,
   onClose,
   onIndexChange,
+  lang,
 }: LightboxProps) {
+  const labels = LIGHTBOX_LABELS[lang]
   const [drag, setDrag] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const dragRef = useRef<DragState | null>(null)
@@ -235,7 +243,7 @@ export function Lightbox({
             variant="icon"
             className={cx(s.close, lightboxBarButton)}
             onClick={requestClose}
-            aria-label="Close lightbox"
+            aria-label={labels.close}
           >
             <RiCloseLine size={20} />
           </Button>
@@ -257,7 +265,7 @@ export function Lightbox({
                   variant="icon"
                   className={lightboxBarButton}
                   onClick={onPrev}
-                  aria-label="Previous image"
+                  aria-label={labels.prev}
                 >
                   <RiArrowLeftSLine size={20} />
                 </Button>
@@ -265,7 +273,7 @@ export function Lightbox({
                   variant="icon"
                   className={lightboxBarButton}
                   onClick={onNext}
-                  aria-label="Next image"
+                  aria-label={labels.next}
                 >
                   <RiArrowRightSLine size={20} />
                 </Button>

@@ -64,7 +64,7 @@ export function LightboxGallery<T>({
             ),
         }))}
       />
-      <Lightbox {...lightbox.props} images={groups.flat()} getOrigin={getOrigin} />
+      <Lightbox {...lightbox.props} images={groups.flat()} getOrigin={getOrigin} lang="en" />
     </>
   )
 }

@@ -7,6 +7,7 @@ export const credits = sva({
     'tile',
     'link',
     'mark',
+    'grid',
     'row',
     'pool',
     'orgBand',
@@ -28,6 +29,14 @@ export const credits = sva({
       borderBottom: 'hairline',
       md: { paddingBlock: 'xl' },
     },
+    grid: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      columnGap: { base: 'xl', md: '2xl' },
+      rowGap: 'lg',
+      listStyleType: 'none',
+    },
     tile: {
       flex: 'none',
       display: 'flex',
@@ -39,13 +48,13 @@ export const credits = sva({
     mark: {
       maxWidth: 'full',
       width: 'auto',
-      height: '[calc(56px * var(--mark-scale, 1))]',
+      height: '[calc(56px * var(--mark-scale, 1) * var(--mark-boost, 1))]',
       objectFit: 'contain',
       objectPosition: 'left',
       filter: '[token(assets.grayscaleFull)]',
       transition: 'develop',
       _hover: { filter: '[none]' },
-      md: { height: '[calc(76px * var(--mark-scale, 1))]' },
+      md: { height: '[calc(76px * var(--mark-scale, 1) * var(--mark-boost, 1))]' },
     },
     row: {
       paddingBlock: 'md',

@@ -23,6 +23,7 @@ What's authored in Sanity, what's static:
 | Press appearances, releases | Sanity docs `pressAppearance`, `pressRelease` (shipped) |
 | Press kit assets (posters, covers) | `pressKit` object on each Edition doc (shipped) |
 | Footer contact + social links | Sanity singleton `siteSettings` (shipped) |
+| Galeria Beller landing (`/galeria-beller`, Romanian, own root layout) | Sanity singleton `galeriaBeller` — hero, info, events, artists, credits, press-kit zip. Seed: `scripts/sanity-import-galeria-beller-page.ts` |
 | Footer Explore + Connect labels | Hard-coded in `src/components/Footer/Footer.tsx` (structural, not editorial) |
 | Navigation labels | Hard-coded in `src/components/Navigation/Navigation.tsx` — 4 items, stable |
 | Blog | Out of scope for now |
@@ -109,6 +110,8 @@ Content
   ├─ Privacy              (singleton)
   ├─ ────────
   ├─ Editions
+  ├─ ────────
+  ├─ Galeria Beller       (singleton)
   ├─ ────────
   ├─ Artists
   ├─ Organizations

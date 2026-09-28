@@ -11,6 +11,7 @@ const past = {
 export const program = sva({
   slots: [
     'layout',
+    'intro',
     'count',
     'bandLabel',
     'run',
@@ -34,6 +35,9 @@ export const program = sva({
     'archive',
   ],
   base: {
+    intro: {
+      maxWidth: 'measure',
+    },
     layout: {
       minWidth: '0',
       borderTop: 'hairline',

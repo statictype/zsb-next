@@ -2,6 +2,7 @@ import { revalidateTag } from 'next/cache'
 import { after, type NextRequest, NextResponse } from 'next/server'
 import { parseBody } from 'next-sanity/webhook'
 import { editionHref } from '@/lib/edition-href'
+import { GALERIA_BELLER_PATH } from '@/lib/galeria-beller-href'
 import { client } from '@/sanity/lib/client'
 import { EDITION_SUMMARIES } from '@/sanity/lib/queries'
 
@@ -18,7 +19,7 @@ interface WebhookPayload {
  *   Filter:     _type in ["edition", "artist", "work", "organization", "venue",
  *               "venueType", "eventType", "siteSettings", "homepage",
  *               "aboutPage", "partnersPage", "visitPage", "privacyPage",
- *               "pressPage", "pressAppearance", "pressRelease"]
+ *               "pressPage", "pressAppearance", "pressRelease", "galeriaBeller"]
  *               (every document type in the schema — a type missing here
  *               fires no webhook at all, even if queries subscribe to it)
  *   Projection: { "tags": [_type, _type + ":" + _id] }
@@ -72,7 +73,7 @@ export async function POST(req: NextRequest) {
  */
 async function warmAffectedPages(origin: string, tags: string[]) {
   try {
-    const paths = ['/', '/visit', '/editions']
+    const paths = ['/', '/visit', '/editions', GALERIA_BELLER_PATH]
     if (tags.some((tag) => tag === 'edition' || tag.startsWith('edition:'))) {
       const rows = await client.fetch(EDITION_SUMMARIES.query)
       for (const row of rows) {

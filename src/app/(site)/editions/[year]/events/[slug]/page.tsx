@@ -2,6 +2,7 @@ import { EventView } from '@program/EventView'
 import { eventSteps } from '@program/event-steps'
 import { notFound } from 'next/navigation'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
+import { editionProgramScope } from '@/lib/edition-href'
 import { eventBreadcrumbJsonLd, eventJsonLd, eventMetadata } from '@/lib/seo'
 import { getAllEventParams, getEdition } from '@/sanity/lib/editions'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
@@ -36,9 +37,9 @@ export default async function EventPage(props: PageProps<'/editions/[year]/event
       <JsonLd data={eventBreadcrumbJsonLd(edition.year, edition.theme, event)} />
       <EventView
         event={event}
-        year={edition.year}
+        scope={editionProgramScope(edition.year)}
         theme={edition.theme}
-        steps={eventSteps(edition.events, slug, edition.year)}
+        steps={eventSteps(edition.events, slug, editionProgramScope(edition.year))}
       />
     </>
   )

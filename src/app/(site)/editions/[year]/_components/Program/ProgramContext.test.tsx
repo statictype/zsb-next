@@ -4,6 +4,7 @@ import { currentUrl, resetFakes } from '@program/program-fakes'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { editionProgramScope } from '@/lib/edition-href'
 import { rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
 
@@ -58,7 +59,7 @@ function Probe() {
 
 function renderProgram() {
   return render(
-    <ProgramProvider year={2026} events={events}>
+    <ProgramProvider scope={editionProgramScope(2026)} events={events}>
       <ProgramFilters />
       <Probe />
     </ProgramProvider>,

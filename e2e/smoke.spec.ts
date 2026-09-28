@@ -52,4 +52,24 @@ test.describe('site smoke', () => {
     expect(response?.status()).toBe(404)
     await expect(page.getByText(/not be found|404/i).first()).toBeVisible()
   })
+
+  test('Galeria Beller landing renders in Romanian with its own menu', async ({ page }) => {
+    const errors = trackErrors(page)
+    const response = await page.goto('/galeria-beller')
+    expect(response?.status()).toBe(200)
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ro')
+    const nav = page.getByRole('navigation', { name: 'Secțiuni' })
+    for (const label of ['Info', 'Program', 'Artiști']) {
+      await expect(nav.getByRole('link', { name: label })).toBeVisible()
+    }
+    await expect(page.locator('a[href="/"]').first()).toBeVisible()
+
+    expectErrorClean(errors)
+  })
+
+  test('edition pages keep lang="en"', async ({ page }) => {
+    await page.goto('/editions/2021')
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+  })
 })

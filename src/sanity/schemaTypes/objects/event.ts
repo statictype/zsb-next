@@ -9,8 +9,8 @@ import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt
 // /editions/[year]/events/[slug], with the `slug` field below either
 // editor-set or derived at read time (ADR 0015).
 // Timing is a Bucharest-local `startDate` + optional
-// `startTime` (only when the time matters) + optional `endDate`; we store no UTC
-// instants and no end-times. "Ongoing" (multi-day) and "past vs upcoming" are
+// `startTime` (only when the time matters) + optional `endTime` + optional
+// `endDate`; we store no UTC instants. "Ongoing" (multi-day) and "past vs upcoming" are
 // *derived* by the renderer, never stored here.
 export const event = defineType({
   name: 'event',
@@ -41,6 +41,23 @@ export const event = defineType({
         rule
           .regex(/^([01]\d|2[0-3]):[0-5]\d$/, { name: 'time (HH:mm)' })
           .error('Use 24-hour HH:mm, e.g. 18:00'),
+    }),
+    defineField({
+      name: 'endTime',
+      title: 'End time',
+      description:
+        'Optional. Local (Bucharest) time the event ends, shown as a range (10:30–20:00). Format HH:mm. Needs a start time.',
+      type: 'string',
+      validation: (rule) =>
+        rule
+          .regex(/^([01]\d|2[0-3]):[0-5]\d$/, { name: 'time (HH:mm)' })
+          .error('Use 24-hour HH:mm, e.g. 20:00')
+          .custom((end, context) => {
+            const start = (context.parent as { startTime?: string } | undefined)?.startTime
+            if (typeof end !== 'string') return true
+            if (typeof start !== 'string') return 'Set a start time first'
+            return end > start ? true : 'End time must be after the start time'
+          }),
     }),
     defineField({
       name: 'endDate',

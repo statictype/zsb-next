@@ -1,5 +1,6 @@
 import { EventModal } from '@program/EventModal'
 import { notFound } from 'next/navigation'
+import { editionProgramScope } from '@/lib/edition-href'
 import { getEdition } from '@/sanity/lib/editions'
 import { getDynamicFetchOptions } from '@/sanity/lib/live'
 import { findEvent } from '@/types/edition'
@@ -13,5 +14,7 @@ export default async function InterceptedEventModal(
   const edition = await getEdition(Number(year), options)
   if (!edition || !findEvent(edition, slug)) notFound()
 
-  return <EventModal events={edition.events} slug={slug} year={Number(year)} />
+  return (
+    <EventModal events={edition.events} slug={slug} scope={editionProgramScope(edition.year)} />
+  )
 }

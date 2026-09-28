@@ -1,5 +1,6 @@
 'use client'
 
+import type { ProgramLabels } from '@program/program-labels'
 import {
   type RemixiconComponentType,
   RiCheckLine,
@@ -39,7 +40,13 @@ export interface ShareLink {
 
 // `resolveUrl` is read at click time, so callers can hand back the live URL
 // (e.g. `window.location.href`) without re-running the hook on every change.
-export function useShareLink(resolveUrl: () => string): ShareLink {
+export function useShareLink(
+  resolveUrl: () => string,
+  labels: Pick<
+    ProgramLabels,
+    'share' | 'copyLink' | 'linkCopied' | 'copyFailed' | 'copyFailedStatus'
+  >,
+): ShareLink {
   const canNativeShare = useSyncExternalStore(subscribeNoop, getCanShare, () => false)
   const [outcome, setOutcome] = useState<'idle' | 'copied' | 'failed'>('idle')
 
@@ -78,12 +85,12 @@ export function useShareLink(resolveUrl: () => string): ShareLink {
     share,
     copied,
     label: canNativeShare
-      ? 'Share'
+      ? labels.share
       : failed
-        ? "Couldn't copy"
+        ? labels.copyFailed
         : copied
-          ? 'Link copied'
-          : 'Copy link',
+          ? labels.linkCopied
+          : labels.copyLink,
     Icon: canNativeShare
       ? RiShareLine
       : failed
@@ -91,11 +98,7 @@ export function useShareLink(resolveUrl: () => string): ShareLink {
         : copied
           ? RiCheckLine
           : RiLinkM,
-    status: failed
-      ? "Couldn't copy the link — copy it from the address bar."
-      : copied
-        ? 'Link copied'
-        : '',
+    status: failed ? labels.copyFailedStatus : copied ? labels.linkCopied : '',
   }
 }
 

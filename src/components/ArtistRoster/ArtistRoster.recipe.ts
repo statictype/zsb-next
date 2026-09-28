@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const artistRoster = sva({
-  slots: ['head', 'wall', 'entry'],
+  slots: ['head', 'wall', 'entry', 'link'],
   base: {
     head: {
       display: 'flex',
@@ -33,6 +33,16 @@ export const artistRoster = sva({
         background: 'highlight',
       },
       '&:last-child::after': { display: 'none' },
+    },
+    link: {
+      color: '[inherit]',
+      textDecorationLine: 'underline',
+      textDecorationColor: 'highlight',
+      textDecorationThickness: '[1px]',
+      textUnderlineOffset: '[0.2em]',
+      transition: 'colors',
+      _hover: { color: 'highlight' },
+      _focusVisible: { outline: 'focus', outlineOffset: '[2px]' },
     },
   },
 })
