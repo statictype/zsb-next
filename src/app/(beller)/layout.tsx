@@ -2,6 +2,8 @@ import { baseMetadata } from '@app/_root/base-metadata'
 import { fontVariables } from '@app/_root/fonts'
 import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
+import { Umami } from '@/components/Analytics/Umami'
+import { CookieBanner } from '@/components/CookieBanner/CookieBanner'
 import { DisableDraftMode } from '@/components/DisableDraftMode/DisableDraftMode'
 import { SanityLive } from '@/sanity/lib/live'
 import '@app/globals.css'
@@ -28,6 +30,8 @@ export default async function BellerRootLayout({ children }: { children: React.R
     <html lang="ro" className={fontVariables} data-scroll-behavior="smooth">
       <body>
         {children}
+        <CookieBanner lang="ro" />
+        <Umami />
         <SanityLive includeDrafts={isDraftMode} />
         {isDraftMode && <DisableDraftMode />}
       </body>

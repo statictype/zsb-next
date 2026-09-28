@@ -23,7 +23,7 @@ export function BellerPressKit({ pressKit }: { pressKit: PressKit }) {
             </Text>
           ))}
           <Button asChild variant="primary" size="md">
-            <a href={pressKit.href} download>
+            <a href={pressKit.href} download data-umami-event="press_kit_download">
               <RiDownloadLine size={16} aria-hidden />
               {pressKit.buttonLabel}
               {pressKit.sizeBytes > 0 && ` · ZIP, ${formatMegabytes(pressKit.sizeBytes)}`}

@@ -38,7 +38,14 @@ export function PartnerStrip({ partners }: PartnerStripProps) {
                 return (
                   <li key={partner.id} className={s.cell}>
                     {partner.url ? (
-                      <a href={partner.url} className={s.link} target="_blank" rel="noreferrer">
+                      <a
+                        href={partner.url}
+                        className={s.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        data-umami-event="partner_click"
+                        data-umami-event-partner={partner.name}
+                      >
                         {logo}
                       </a>
                     ) : (

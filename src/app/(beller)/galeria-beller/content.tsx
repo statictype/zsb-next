@@ -1,5 +1,6 @@
 import { BellerHero } from '@beller/_components/BellerHero'
 import { BellerPressKit } from '@beller/_components/BellerPressKit'
+import { SectionViews } from '@beller/_components/SectionViews'
 import { Credits } from '@edition-components/Credits'
 import { Program } from '@program/Program'
 import { notFound } from 'next/navigation'
@@ -14,6 +15,9 @@ import { BELLER_SECTION_IDS, bellerProgramScope } from '@/lib/galeria-beller-hre
 import { bellerEventJsonLd } from '@/lib/seo'
 import { getGaleriaBeller } from '@/sanity/lib/galeria-beller'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
+
+const PARTNERS_ID = 'parteneri'
+const TRACKED_SECTIONS = [...Object.values(BELLER_SECTION_IDS), PARTNERS_ID]
 
 export async function CachedBeller({ options }: { options: DynamicFetchOptions }) {
   'use cache'
@@ -57,6 +61,7 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
 
       {page.pressKit && <BellerPressKit pressKit={page.pressKit} />}
 
+      <div id={PARTNERS_ID} />
       <Credits
         credits={page.credits}
         title="Parteneri"
@@ -64,6 +69,7 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
         markSize="large"
         titleInk="heading"
       />
+      <SectionViews ids={TRACKED_SECTIONS} />
     </main>
   )
 }
