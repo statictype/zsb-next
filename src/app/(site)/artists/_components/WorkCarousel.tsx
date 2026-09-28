@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Figure } from '@/components/Figure/Figure'
 import { useReducedMotion } from '@/components/reduced-motion'
 import { Button } from '@/components/ui/Button/Button'
+import { trackEvent } from '@/lib/analytics'
 import type { ArtistWork, Lang } from '@/types/edition'
 
 const WORK_PARAM = 'w'
@@ -21,12 +22,14 @@ interface WorkCarouselProps {
 export function WorkCarousel({ works, lang, labels }: WorkCarouselProps) {
   const track = useRef<HTMLOListElement>(null)
   const [current, setCurrent] = useState(0)
+  const seen = useRef(new Set<number>())
   const reducedMotion = useReducedMotion()
   const styles = workCarousel()
 
   useEffect(() => {
     const requested = Number(new URLSearchParams(window.location.search).get(WORK_PARAM))
     const index = works.findIndex((work) => work.key === requested)
+    seen.current.add(Math.max(index, 0))
     const el = track.current
     if (el && index > 0) el.scrollTo({ left: index * el.clientWidth, behavior: 'instant' })
   }, [works])
@@ -39,7 +42,14 @@ export function WorkCarousel({ works, lang, labels }: WorkCarouselProps) {
 
   const onScroll = () => {
     const el = track.current
-    if (el) setCurrent(Math.round(el.scrollLeft / el.clientWidth))
+    if (!el) return
+    const index = Math.round(el.scrollLeft / el.clientWidth)
+    setCurrent(index)
+    const work = works[index]
+    if (work && !seen.current.has(index)) {
+      seen.current.add(index)
+      trackEvent('work_view', { key: work.key })
+    }
   }
 
   return (

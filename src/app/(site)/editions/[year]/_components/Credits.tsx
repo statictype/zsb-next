@@ -139,7 +139,14 @@ function Mark({ org }: { org: MarkedPartner }) {
   )
   if (!url) return image
   return (
-    <a href={url} className={s.link} target="_blank" rel="noreferrer">
+    <a
+      href={url}
+      className={s.link}
+      target="_blank"
+      rel="noreferrer"
+      data-umami-event="partner_click"
+      data-umami-event-partner={name}
+    >
       {image}
     </a>
   )

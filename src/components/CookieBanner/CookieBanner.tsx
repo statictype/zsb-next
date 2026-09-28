@@ -9,6 +9,7 @@ import { HStack, Stack, Text } from 'styled-system/jsx'
 import { cookieBanner } from '@/components/CookieBanner/CookieBanner.recipe'
 import { Button } from '@/components/ui/Button/Button'
 import { CONSENT_COOKIE, CONSENT_REOPEN_EVENT, GA_MEASUREMENT_ID } from '@/lib/constants'
+import type { Lang } from '@/types/edition'
 
 type Consent = 'granted' | 'denied' | 'unset'
 
@@ -41,11 +42,28 @@ function getServerSnapshot(): Consent {
   return 'unset'
 }
 
+const COPY = {
+  en: {
+    title: 'We use cookies',
+    body: 'We use Google Analytics to understand how visitors use this site. No ads, no tracking across other sites.',
+    policy: 'Read our privacy policy',
+    reject: 'Reject',
+    accept: 'Accept',
+  },
+  ro: {
+    title: 'Folosim cookie-uri',
+    body: 'Folosim Google Analytics pentru a înțelege cum este folosit site-ul. Fără reclame, fără urmărire pe alte site-uri.',
+    policy: 'Citește politica de confidențialitate',
+    reject: 'Refuz',
+    accept: 'Accept',
+  },
+} satisfies Record<Lang, Record<string, string>>
+
 const emptySubscribe = () => () => {}
 const hydratedClient = () => true
 const hydratedServer = () => false
 
-export function CookieBanner() {
+export function CookieBanner({ lang = 'en' }: { lang?: Lang }) {
   const consent = useSyncExternalStore(subscribe, readConsent, getServerSnapshot)
   const hydrated = useSyncExternalStore(emptySubscribe, hydratedClient, hydratedServer)
 
@@ -57,6 +75,7 @@ export function CookieBanner() {
   const showBanner = consent === 'unset'
   const loadAnalytics = consent === 'granted' && GA_MEASUREMENT_ID !== ''
   const s = cookieBanner()
+  const copy = COPY[lang]
 
   return (
     <>
@@ -78,23 +97,22 @@ export function CookieBanner() {
               >
                 <Stack className={s.copy} gap="xs">
                   <Text as="p" variant="heading" id="cookie-consent-title">
-                    We use cookies
+                    {copy.title}
                   </Text>
                   <Text as="p" variant="caption">
-                    We use Google Analytics to understand how visitors use this site. No ads, no
-                    tracking across other sites.{' '}
+                    {copy.body}{' '}
                     <Link href="/privacy" className={s.link}>
-                      Read our privacy policy
+                      {copy.policy}
                     </Link>
                     .
                   </Text>
                 </Stack>
                 <div className={s.actions}>
                   <Button variant="secondary" size="sm" onClick={reject}>
-                    Reject
+                    {copy.reject}
                   </Button>
                   <Button variant="primary" size="sm" onClick={accept}>
-                    Accept
+                    {copy.accept}
                   </Button>
                 </div>
               </HStack>
