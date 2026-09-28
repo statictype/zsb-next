@@ -2,9 +2,9 @@ import type { GALERIA_BELLER_QUERY_RESULT } from '@/../sanity.types'
 import { artistHref } from '@/lib/artist-href'
 import { definedFields } from '@/lib/defined-fields'
 import { mapCredits, mapEvents } from '@/sanity/lib/editions-mappers'
-import { toImageData, toShareImage } from '@/sanity/lib/image'
+import { type SanityImageField, toImageData, toShareImage } from '@/sanity/lib/image'
 import type { ArtistListItem } from '@/types/edition'
-import type { BellerFact, BellerPressKit, GaleriaBeller } from '@/types/galeria-beller'
+import type { BellerFact, BellerImage, BellerPressKit, GaleriaBeller } from '@/types/galeria-beller'
 
 export type SanityGaleriaBeller = NonNullable<GALERIA_BELLER_QUERY_RESULT>
 
@@ -13,6 +13,14 @@ export function paragraphs(text: string | null | undefined): string[] {
     .split(/\n\s*\n/)
     .map((p) => p.trim())
     .filter(Boolean)
+}
+
+function toBellerImage(field: SanityImageField | null | undefined): BellerImage | undefined {
+  const image = toImageData(field)
+  const ref = (field?.asset as { _ref?: string } | undefined)?._ref
+  const size = ref?.match(/-(\d+)x(\d+)-\w+$/)
+  if (!image || !size) return undefined
+  return { ...image, width: Number(size[1]), height: Number(size[2]) }
 }
 
 function mapArtists(raw: SanityGaleriaBeller['artists']): ArtistListItem[] {
@@ -55,8 +63,8 @@ export function mapGaleriaBeller(raw: SanityGaleriaBeller): GaleriaBeller {
   return definedFields({
     title: raw.title,
     heroColor: raw.heroColor,
-    wordmark: toImageData(raw.wordmark),
-    keyVisual: toImageData(raw.keyVisual),
+    wordmark: toBellerImage(raw.wordmark),
+    keyVisual: toBellerImage(raw.keyVisual),
     facts: bellerFacts(raw, artists.length),
     info: { title: raw.info.title, body: raw.info.body },
     artists,

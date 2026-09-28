@@ -249,6 +249,8 @@ export const semanticTokens = {
   },
   sizes: {
     nav: { value: { base: '60px', md: '72px', lg: '84px', xl: '100px' } },
+    bellerBar: { value: { base: '56px', md: '60px' } },
+    heroFold: { value: '60svh' },
   },
 } as const
 

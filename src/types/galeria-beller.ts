@@ -6,6 +6,11 @@ import type {
   ShareImage,
 } from '@/types/edition'
 
+export interface BellerImage extends ImageData {
+  width: number
+  height: number
+}
+
 export interface BellerFact {
   label: string
   value: string
@@ -22,8 +27,8 @@ export interface BellerPressKit {
 export interface GaleriaBeller {
   title: string
   heroColor: string
-  wordmark?: ImageData
-  keyVisual?: ImageData
+  wordmark?: BellerImage
+  keyVisual?: BellerImage
   facts: BellerFact[]
   info: { title: string; body: string }
   programIntro: string[]
