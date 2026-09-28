@@ -65,7 +65,7 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
         title="Parteneri"
         wall="static"
         markSize="large"
-        titleInk="heading"
+        density="compact"
       />
       <SectionViews />
     </main>

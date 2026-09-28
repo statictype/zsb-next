@@ -192,7 +192,7 @@ export type Event = {
 
 export type CreditText = {
   _type: 'creditText'
-  type: 'primary' | 'partner' | 'secondary'
+  type: 'primary' | 'partner' | 'secondary' | 'media'
   label: string
   names: Array<string>
 }
@@ -206,7 +206,7 @@ export type OrganizationReference = {
 
 export type CreditOrgList = {
   _type: 'creditOrgList'
-  type: 'primary' | 'partner' | 'secondary'
+  type: 'primary' | 'partner' | 'secondary' | 'media'
   lead?: boolean
   label: string
   organizations: Array<
@@ -218,7 +218,7 @@ export type CreditOrgList = {
 
 export type CreditOrg = {
   _type: 'creditOrg'
-  type: 'primary' | 'partner' | 'secondary'
+  type: 'primary' | 'partner' | 'secondary' | 'media'
   lead?: boolean
   label: string
   organization: OrganizationReference
@@ -1997,7 +1997,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
   credits: Array<
     | {
         _type: 'creditOrg'
-        type: 'partner' | 'primary' | 'secondary'
+        type: 'media' | 'partner' | 'primary' | 'secondary'
         lead: boolean | null
         label: string
         detail: string | null
@@ -2020,7 +2020,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
       }
     | {
         _type: 'creditOrgList'
-        type: 'partner' | 'primary' | 'secondary'
+        type: 'media' | 'partner' | 'primary' | 'secondary'
         lead: boolean | null
         label: string
         detail: null
@@ -2043,7 +2043,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
       }
     | {
         _type: 'creditText'
-        type: 'partner' | 'primary' | 'secondary'
+        type: 'media' | 'partner' | 'primary' | 'secondary'
         lead: null
         label: string
         detail: null
@@ -2140,7 +2140,7 @@ export type GALERIA_BELLER_QUERY_RESULT = {
   credits: Array<
     | {
         _type: 'creditOrg'
-        type: 'partner' | 'primary' | 'secondary'
+        type: 'media' | 'partner' | 'primary' | 'secondary'
         lead: boolean | null
         label: string
         detail: string | null
@@ -2163,7 +2163,7 @@ export type GALERIA_BELLER_QUERY_RESULT = {
       }
     | {
         _type: 'creditOrgList'
-        type: 'partner' | 'primary' | 'secondary'
+        type: 'media' | 'partner' | 'primary' | 'secondary'
         lead: boolean | null
         label: string
         detail: null
@@ -2186,7 +2186,7 @@ export type GALERIA_BELLER_QUERY_RESULT = {
       }
     | {
         _type: 'creditText'
-        type: 'partner' | 'primary' | 'secondary'
+        type: 'media' | 'partner' | 'primary' | 'secondary'
         lead: null
         label: string
         detail: null
