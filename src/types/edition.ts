@@ -142,14 +142,20 @@ export interface MarkedPartner {
   url?: string
 }
 
-export type TeamCredit = { label: string } & (
+export type TeamCredit = { label: string; marks: MarkedPartner[] } & (
   | { kind: 'org'; name: string; detail?: string }
   | { kind: 'names'; names: string[] }
 )
 
+export interface CreditGroup {
+  label: string
+  marks: MarkedPartner[]
+}
+
 export interface EditionCredits {
   marks: MarkedPartner[]
   named: string[]
+  media: CreditGroup[]
   teamOrgs: TeamCredit[]
   teamNames: TeamCredit[]
 }

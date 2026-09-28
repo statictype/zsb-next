@@ -1194,6 +1194,10 @@
               {
                 "type": "string",
                 "value": "secondary"
+              },
+              {
+                "type": "string",
+                "value": "media"
               }
             ]
           },
@@ -1278,6 +1282,10 @@
               {
                 "type": "string",
                 "value": "secondary"
+              },
+              {
+                "type": "string",
+                "value": "media"
               }
             ]
           },
@@ -1351,6 +1359,10 @@
               {
                 "type": "string",
                 "value": "secondary"
+              },
+              {
+                "type": "string",
+                "value": "media"
               }
             ]
           },

@@ -1,6 +1,7 @@
 import { credits as creditsRecipe } from '@edition-components/Credits.recipe'
 import Image from 'next/image'
 import type { CSSProperties } from 'react'
+import { cx } from 'styled-system/css'
 import { Container, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Marquee } from '@/components/Marquee/Marquee'
@@ -11,7 +12,7 @@ interface CreditsProps {
   title: string
   wall?: 'marquee' | 'static'
   markSize?: 'standard' | 'large'
-  titleInk?: 'action' | 'heading'
+  density?: 'standard' | 'compact'
 }
 
 const s = creditsRecipe()
@@ -21,40 +22,35 @@ export function Credits({
   title,
   wall = 'marquee',
   markSize = 'standard',
-  titleInk = 'action',
+  density = 'standard',
 }: CreditsProps) {
-  const { marks, named, teamOrgs, teamNames } = credits
-  if (marks.length + named.length + teamOrgs.length + teamNames.length === 0) return null
+  const { marks, named, media, teamOrgs, teamNames } = credits
+  if (marks.length + named.length + media.length + teamOrgs.length + teamNames.length === 0) {
+    return null
+  }
+  const d = creditsRecipe({ density })
 
   return (
-    <section className={section({ ground: 'light' })}>
+    <section className={cx(section({ ground: 'light' }), d.root)}>
       <Container>
         <div className={s.ledger}>
-          {(marks.length > 0 || named.length > 0) && (
-            <Text as="h2" variant="title" className={creditsRecipe({ titleInk }).title}>
+          {(marks.length > 0 || named.length > 0 || media.length > 0) && (
+            <Text as="h2" variant="title" className={s.title}>
               {title}
             </Text>
           )}
 
           {marks.length > 0 && (
             <div
-              className={s.wall}
+              className={d.wall}
               style={markSize === 'large' ? ({ '--mark-boost': 1.1 } as CSSProperties) : undefined}
             >
-              {wall === 'marquee' ? (
-                <Marquee count={marks.length} gap="xl">
-                  <MarkTiles marks={marks} />
-                </Marquee>
-              ) : (
-                <ul className={s.grid}>
-                  <MarkTiles marks={marks} />
-                </ul>
-              )}
+              <MarkWall marks={marks} wall={wall} />
             </div>
           )}
 
           {(named.length > 0 || teamOrgs.length > 0) && (
-            <div className={s.row}>
+            <div className={d.row}>
               {named.length > 0 && (
                 <div className={s.pool}>
                   <div className={s.run}>
@@ -70,10 +66,39 @@ export function Credits({
             </div>
           )}
 
-          <TeamBand className={s.band} rows={teamNames} />
+          {media.length > 0 ? (
+            <div className={d.tail}>
+              {media.map((group) => (
+                <div className={d.group} key={group.label}>
+                  <Text variant="label">{group.label}</Text>
+                  <div className={s.groupMarks}>
+                    <MarkWall marks={group.marks} wall="marquee" />
+                  </div>
+                </div>
+              ))}
+              <TeamBand className={d.tailBand} rows={teamNames} />
+            </div>
+          ) : (
+            <TeamBand className={d.band} rows={teamNames} />
+          )}
         </div>
       </Container>
     </section>
+  )
+}
+
+function MarkWall({ marks, wall }: { marks: MarkedPartner[]; wall: 'marquee' | 'static' }) {
+  if (wall === 'marquee') {
+    return (
+      <Marquee count={marks.length} gap="xl">
+        <MarkTiles marks={marks} />
+      </Marquee>
+    )
+  }
+  return (
+    <ul className={s.grid}>
+      <MarkTiles marks={marks} />
+    </ul>
   )
 }
 
@@ -89,12 +114,24 @@ function TeamBand({ className, rows }: { className: string | undefined; rows: Te
   if (rows.length === 0) return null
   return (
     <div className={className}>
-      {rows.map((row) => (
-        <div className={s.cell} key={row.label}>
-          <Text variant="label">{row.label}</Text>
-          <TeamValue row={row} />
-        </div>
-      ))}
+      {rows.map((row) =>
+        row.marks.length > 0 ? (
+          <div className={cx(s.cell, s.cellSplit)} key={row.label}>
+            <div className={s.cellText}>
+              <Text variant="label">{row.label}</Text>
+              <TeamValue row={row} />
+            </div>
+            <ul className={s.cellMarks}>
+              <MarkTiles marks={row.marks} />
+            </ul>
+          </div>
+        ) : (
+          <div className={s.cell} key={row.label}>
+            <Text variant="label">{row.label}</Text>
+            <TeamValue row={row} />
+          </div>
+        ),
+      )}
     </div>
   )
 }

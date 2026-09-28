@@ -62,8 +62,9 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
     credits: {
       marks: [],
       named: [],
+      media: [],
       teamOrgs: [],
-      teamNames: [{ kind: 'names', label: 'Curator', names: ['Reka Csapo Dup'] }],
+      teamNames: [{ kind: 'names', label: 'Curator', names: ['Reka Csapo Dup'], marks: [] }],
     },
     facts: [],
     ...overrides,

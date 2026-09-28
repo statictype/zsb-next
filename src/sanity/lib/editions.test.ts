@@ -183,23 +183,45 @@ describe('mapCredits — the logo wall', () => {
     expect(scaleOf(1, true)).toBe(1.15)
   })
 
-  it('keeps a secondary row off the wall and a primary row on it', () => {
+  it('keeps primary and secondary rows off the wall', () => {
     const { marks } = credits(
       creditOrg('secondary', 'Under the aegis of', org('Aegis', { logo: LOGO })),
       creditOrg('primary', 'Organized by', org('Organizer', { logo: logoWithAspect(2) })),
     )
-    expect(marks.map((m) => m.name)).toEqual(['Organizer'])
+    expect(marks).toEqual([])
   })
 
   it('shows each mark once, keyed by its image', () => {
     const { marks } = credits(
-      creditOrg('primary', 'Organized by', org('Aurora', { logo: LOGO })),
       creditOrgList('partner', 'Partners', [
         org('Aurora', { logo: LOGO }),
         org('Other', { logo: LOGO }),
       ]),
     )
     expect(marks.map((m) => m.name)).toEqual(['Aurora'])
+  })
+})
+
+describe('mapCredits — media groups', () => {
+  it('groups a media row under its label, in order, leaving out organizations without a logo', () => {
+    const { marks, named, media, teamOrgs } = credits(
+      creditOrgList('partner', 'Partners', [org('P', { logo: logoWithAspect(2) })]),
+      creditOrgList('media', 'Media partners', [
+        org('M1', { logo: logoWithAspect(3) }),
+        org('M2'),
+        org('M3', { logo: logoWithAspect(4) }),
+      ]),
+    )
+    expect(media.map((g) => [g.label, g.marks.map((m) => m.name)])).toEqual([
+      ['Media partners', ['M1', 'M3']],
+    ])
+    expect(marks.map((m) => m.name)).toEqual(['P'])
+    expect(named).toEqual([])
+    expect(teamOrgs).toEqual([])
+  })
+
+  it('skips a media row with no logos', () => {
+    expect(credits(creditOrgList('media', 'Media partners', [org('M')])).media).toEqual([])
   })
 })
 
@@ -235,21 +257,42 @@ describe('mapCredits — the team block', () => {
       creditOrg('partner', 'Partner', org('P', { logo: LOGO })),
     )
     expect(teamOrgs).toEqual([
-      { kind: 'org', label: 'Organized by', name: 'Organizer', detail: 'Sculpture branch' },
-      { kind: 'org', label: 'Under the aegis of', name: 'Aegis' },
-      { kind: 'names', label: 'With', names: ['X', 'Y'] },
+      {
+        kind: 'org',
+        label: 'Organized by',
+        name: 'Organizer',
+        detail: 'Sculpture branch',
+        marks: [],
+      },
+      { kind: 'org', label: 'Under the aegis of', name: 'Aegis', marks: [] },
+      { kind: 'names', label: 'With', names: ['X', 'Y'], marks: [] },
     ])
+  })
+
+  it('puts primary logos on the team line and keeps secondary logos off it', () => {
+    const { teamOrgs } = credits(
+      creditOrgList('primary', 'Organizers', [
+        org('A', { logo: logoWithAspect(2) }),
+        org('B'),
+        org('C', { logo: logoWithAspect(3) }),
+      ]),
+      creditOrg('secondary', 'Under the aegis of', org('Aegis', { logo: LOGO })),
+    )
+    expect(teamOrgs.map((row) => row.marks.map((m) => m.name))).toEqual([['A', 'C'], []])
   })
 
   it('keeps text rows apart, filtering blank names', () => {
     const { teamNames } = credits(creditText('secondary', 'Team', ['Ana', '  ', null, 'Bogdan']))
-    expect(teamNames).toEqual([{ kind: 'names', label: 'Team', names: ['Ana', 'Bogdan'] }])
+    expect(teamNames).toEqual([
+      { kind: 'names', label: 'Team', names: ['Ana', 'Bogdan'], marks: [] },
+    ])
   })
 
   it('skips an organization row whose reference is unresolved', () => {
     expect(credits(creditOrg('primary', 'Organized by', null))).toEqual({
       marks: [],
       named: [],
+      media: [],
       teamOrgs: [],
       teamNames: [],
     })

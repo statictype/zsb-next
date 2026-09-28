@@ -2,8 +2,11 @@ import { sva } from 'styled-system/css'
 
 export const credits = sva({
   slots: [
+    'root',
     'ledger',
     'wall',
+    'group',
+    'groupMarks',
     'tile',
     'link',
     'mark',
@@ -12,7 +15,12 @@ export const credits = sva({
     'pool',
     'orgBand',
     'band',
+    'tail',
+    'tailBand',
     'cell',
+    'cellSplit',
+    'cellText',
+    'cellMarks',
     'title',
     'value',
     'detail',
@@ -28,6 +36,21 @@ export const credits = sva({
       paddingBlock: 'lg',
       borderBottom: 'hairline',
       md: { paddingBlock: 'xl' },
+    },
+    group: {
+      display: 'flex',
+      flexDirection: 'column',
+      rowGap: 'md',
+      width: 'full',
+      paddingBlock: 'lg',
+      borderBottom: 'hairline',
+      md: { paddingBlock: 'xl' },
+      lg: { flex: '[1 1 0]', minWidth: '0', borderBottom: '[none]' },
+    },
+    groupMarks: {
+      '--mark-boost': '0.8',
+      display: 'flex',
+      width: 'full',
     },
     grid: {
       display: 'flex',
@@ -98,6 +121,24 @@ export const credits = sva({
       },
       lg: { gridTemplateColumns: '[repeat(4, minmax(0, 1fr))]' },
     },
+    tail: {
+      lg: {
+        display: 'flex',
+        alignItems: 'center',
+        columnGap: 'lg',
+        borderBottom: 'hairline',
+      },
+    },
+    tailBand: {
+      md: {
+        display: 'grid',
+        gridTemplateColumns: '[repeat(2, minmax(0, 1fr))]',
+        columnGap: 'lg',
+        rowGap: 'md',
+        paddingBlock: 'md',
+      },
+      lg: { flex: '[0 0 25%]', gridTemplateColumns: '[minmax(0, 1fr)]' },
+    },
     cell: {
       display: 'flex',
       flexDirection: 'column',
@@ -109,8 +150,33 @@ export const credits = sva({
       md: { paddingBlock: '0', borderBottom: '[none]' },
       '&:only-child': { gridColumn: '[1 / -1]', '& > *': { maxWidth: '[none]' } },
     },
+    cellSplit: {
+      rowGap: 'md',
+      md: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        columnGap: 'xl',
+      },
+    },
+    cellText: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      rowGap: 'xs',
+      minWidth: '0',
+    },
+    cellMarks: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      columnGap: { base: 'xl', md: '2xl' },
+      rowGap: 'md',
+      listStyleType: 'none',
+    },
     title: {
       paddingBlockEnd: 'sm',
+      color: 'heading',
     },
     value: {
       display: 'flex',
@@ -143,10 +209,17 @@ export const credits = sva({
     },
   },
   variants: {
-    titleInk: {
-      action: { title: { color: 'action' } },
-      heading: { title: { color: 'heading' } },
+    density: {
+      standard: {},
+      compact: {
+        root: { paddingBlock: 'xl' },
+        wall: { paddingBlock: 'md', md: { paddingBlock: 'md' } },
+        group: { rowGap: 'sm', paddingBlock: 'md', md: { paddingBlock: 'md' } },
+        row: { paddingBlock: 'sm' },
+        band: { md: { paddingBlock: 'sm' } },
+        tailBand: { md: { paddingBlock: 'sm' } },
+      },
     },
   },
-  defaultVariants: { titleInk: 'action' },
+  defaultVariants: { density: 'standard' },
 })

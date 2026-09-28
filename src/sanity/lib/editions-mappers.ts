@@ -12,6 +12,7 @@ import { mapCarousel } from '@/sanity/lib/carousel'
 import { requireImageData, type SanityImageField, toImageData, urlFor } from '@/sanity/lib/image'
 import type {
   CalendarEvent,
+  CreditGroup,
   Edition,
   EditionCredits,
   EditionFact,
@@ -177,6 +178,7 @@ function rowOrgs(row: SanityOrgRow): SanityOrg[] {
 export function mapCredits(rows: SanityEdition['credits']): EditionCredits {
   const marks: MarkedPartner[] = []
   const named: string[] = []
+  const media: CreditGroup[] = []
   const teamOrgs: TeamCredit[] = []
   const teamNames: TeamCredit[] = []
 
@@ -184,7 +186,9 @@ export function mapCredits(rows: SanityEdition['credits']): EditionCredits {
     if (row._type === 'creditText') {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- a cleared entry in a primitive array is null at runtime; TypeGen types the elements non-null
       const names = row.names?.filter((n): n is string => Boolean(n?.trim())) ?? []
-      if (row.type !== 'partner') teamNames.push({ kind: 'names', label: row.label, names })
+      if (row.type === 'primary' || row.type === 'secondary') {
+        teamNames.push({ kind: 'names', label: row.label, names, marks: [] })
+      }
       continue
     }
 
@@ -192,30 +196,40 @@ export function mapCredits(rows: SanityEdition['credits']): EditionCredits {
     const orgs = rowOrgs(row)
     if (orgs.length === 0) continue
 
-    if (row.type !== 'secondary') {
+    if (row.type === 'media') {
+      const groupMarks = orgs.flatMap((org) => markedPartner(org, false) ?? [])
+      if (groupMarks.length > 0) media.push({ label: row.label, marks: groupMarks })
+      continue
+    }
+
+    if (row.type === 'partner') {
       for (const org of orgs) {
         const marked = markedPartner(org, lead)
         if (marked) marks.push(marked)
-        else if (row.type === 'partner') named.push(org.name)
+        else named.push(org.name)
       }
+      continue
     }
-    if (row.type !== 'partner') {
-      teamOrgs.push(
-        row._type === 'creditOrg'
-          ? definedFields({
-              kind: 'org' as const,
-              label: row.label,
-              name: row.organization.name,
-              detail: row.detail,
-            })
-          : { kind: 'names', label: row.label, names: orgs.map((org) => org.name) },
-      )
-    }
+
+    const rowMarks =
+      row.type === 'primary' ? orgs.flatMap((org) => markedPartner(org, lead) ?? []) : []
+    teamOrgs.push(
+      row._type === 'creditOrg'
+        ? definedFields({
+            kind: 'org' as const,
+            label: row.label,
+            name: row.organization.name,
+            detail: row.detail,
+            marks: rowMarks,
+          })
+        : { kind: 'names', label: row.label, names: orgs.map((org) => org.name), marks: rowMarks },
+    )
   }
 
   return {
     marks: uniqueBy(marks, (m) => m.mark.src),
     named: uniqueBy(named, (n) => n),
+    media,
     teamOrgs,
     teamNames,
   }

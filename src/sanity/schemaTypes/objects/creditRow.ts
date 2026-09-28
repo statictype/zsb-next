@@ -4,6 +4,7 @@ const ROW_TYPES = [
   { title: 'Logo + credit line', value: 'primary' },
   { title: 'Logo only', value: 'partner' },
   { title: 'Credit line only', value: 'secondary' },
+  { title: 'Media partner logos', value: 'media' },
 ] as const
 
 function typeField() {
@@ -11,7 +12,7 @@ function typeField() {
     name: 'type',
     title: 'Shown as',
     description:
-      'Logo rows feed the logo wall at the top, in this list’s order — an organization with no logo, or one marked as a gallery, drops to the Partners name list instead. Credit-line rows are the labelled block at the bottom (curator, critics, PR).',
+      'Logo rows feed the logo wall at the top, in this list’s order — an organization with no logo, or one marked as a gallery, drops to the Partners name list instead. Credit-line rows are the labelled block at the bottom (curator, critics, PR); a logo + credit line row shows its logos beside its credit line. Media partner rows form their own logo group under the wall, headed by this row’s label; an organization with no logo is left out.',
     type: 'string',
     options: { list: [...ROW_TYPES], layout: 'radio' },
     initialValue: 'secondary' as const,
