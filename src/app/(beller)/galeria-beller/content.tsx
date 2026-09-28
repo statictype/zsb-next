@@ -16,9 +16,6 @@ import { bellerEventJsonLd } from '@/lib/seo'
 import { getGaleriaBeller } from '@/sanity/lib/galeria-beller'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
 
-const PARTNERS_ID = 'parteneri'
-const TRACKED_SECTIONS = [...Object.values(BELLER_SECTION_IDS), PARTNERS_ID]
-
 export async function CachedBeller({ options }: { options: DynamicFetchOptions }) {
   'use cache'
   const page = await getGaleriaBeller(options)
@@ -29,7 +26,7 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
       <JsonLd data={bellerEventJsonLd(page)} />
       <BellerHero page={page} />
 
-      <div id={BELLER_SECTION_IDS.info} />
+      <div id={BELLER_SECTION_IDS.info} data-section-view="info" />
       <Manifesto title={page.info.title} body={page.info.body} ground="dark" />
 
       {page.events.length > 0 && (
@@ -37,6 +34,7 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
           <Container>
             <Divider />
           </Container>
+          <div data-section-view="program" />
           <Suspense fallback={null}>
             <Program scope={bellerProgramScope} events={page.events} intro={page.programIntro} />
           </Suspense>
@@ -52,7 +50,7 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
           )}
           <section className={section({ ground: 'dark' })}>
             <Container>
-              <div id={BELLER_SECTION_IDS.artists} />
+              <div id={BELLER_SECTION_IDS.artists} data-section-view="artists" />
               <ArtistRoster artists={page.artists} title="Artiști" accent="action" />
             </Container>
           </section>
@@ -61,7 +59,7 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
 
       {page.pressKit && <BellerPressKit pressKit={page.pressKit} />}
 
-      <div id={PARTNERS_ID} />
+      <div data-section-view="partners" />
       <Credits
         credits={page.credits}
         title="Parteneri"
@@ -69,7 +67,7 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
         markSize="large"
         titleInk="heading"
       />
-      <SectionViews ids={TRACKED_SECTIONS} />
+      <SectionViews />
     </main>
   )
 }
