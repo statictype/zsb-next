@@ -11,6 +11,7 @@ export const artistRoster = sva({
       columnGap: 'lg',
       rowGap: 'sm',
       marginBottom: 'xl',
+      color: 'muted',
     },
     wall: {
       textStyle: 'cardTitle',
@@ -45,4 +46,14 @@ export const artistRoster = sva({
       _focusVisible: { outline: 'focus', outlineOffset: '[2px]' },
     },
   },
+  variants: {
+    accent: {
+      highlight: {},
+      action: {
+        entry: { _after: { background: 'action' } },
+        link: { textDecorationLine: 'none', _hover: { color: 'action' } },
+      },
+    },
+  },
+  defaultVariants: { accent: 'highlight' },
 })

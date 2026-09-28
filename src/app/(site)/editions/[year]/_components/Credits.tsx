@@ -11,11 +11,18 @@ interface CreditsProps {
   title: string
   wall?: 'marquee' | 'static'
   markSize?: 'standard' | 'large'
+  titleInk?: 'action' | 'heading'
 }
 
 const s = creditsRecipe()
 
-export function Credits({ credits, title, wall = 'marquee', markSize = 'standard' }: CreditsProps) {
+export function Credits({
+  credits,
+  title,
+  wall = 'marquee',
+  markSize = 'standard',
+  titleInk = 'action',
+}: CreditsProps) {
   const { marks, named, teamOrgs, teamNames } = credits
   if (marks.length + named.length + teamOrgs.length + teamNames.length === 0) return null
 
@@ -24,7 +31,7 @@ export function Credits({ credits, title, wall = 'marquee', markSize = 'standard
       <Container>
         <div className={s.ledger}>
           {(marks.length > 0 || named.length > 0) && (
-            <Text as="h2" variant="title" className={s.title}>
+            <Text as="h2" variant="title" className={creditsRecipe({ titleInk }).title}>
               {title}
             </Text>
           )}

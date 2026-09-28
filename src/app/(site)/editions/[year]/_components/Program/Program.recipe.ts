@@ -119,11 +119,11 @@ export const program = sva({
         paddingRight: 'lg',
         textAlign: 'right',
         position: 'sticky',
-        top: 'lg',
+        top: '[calc(var(--program-sticky-offset, 0px) + token(spacing.lg))]',
       },
     },
     markerDay: {
-      textStyle: 'heading',
+      textStyle: 'detailTitle',
       color: 'heading',
       fontVariantNumeric: 'tabular-nums',
       '[data-today=true] &': { color: 'highlight' },
@@ -159,7 +159,6 @@ export const program = sva({
       minWidth: '0',
     },
     eventTime: {
-      color: 'heading',
       fontVariantNumeric: 'tabular-nums',
     },
     eventName: {

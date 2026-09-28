@@ -109,7 +109,6 @@ export const credits = sva({
       md: { paddingBlock: '0', borderBottom: '[none]' },
     },
     title: {
-      color: 'action',
       paddingBlockEnd: 'sm',
     },
     value: {
@@ -142,4 +141,11 @@ export const credits = sva({
       },
     },
   },
+  variants: {
+    titleInk: {
+      action: { title: { color: 'action' } },
+      heading: { title: { color: 'heading' } },
+    },
+  },
+  defaultVariants: { titleInk: 'action' },
 })
