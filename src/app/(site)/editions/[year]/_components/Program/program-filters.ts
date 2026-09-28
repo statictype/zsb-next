@@ -3,6 +3,7 @@
 // the edition page is cached — "what's past" is the visitor's clock, not the
 // build's.
 
+import { PROGRAM_LABELS } from '@program/program-labels'
 import {
   type DayToken,
   dayToken,
@@ -12,7 +13,7 @@ import {
   isMultiDayRun,
   isPastEvent,
 } from '@/lib/edition-dates'
-import type { CalendarEvent } from '@/types/edition'
+import type { CalendarEvent, Lang } from '@/types/edition'
 
 // `null` means every option is selected, and serializes to no URL param at all
 // — which is also what makes a shared link survive the option list changing.
@@ -213,7 +214,7 @@ function byTimeThenName(a: CalendarEvent, b: CalendarEvent): number {
   return (a.startTime ?? '').localeCompare(b.startTime ?? '') || a.name.localeCompare(b.name)
 }
 
-function buildSchedule(events: CalendarEvent[], clock: string | null): Schedule {
+function buildSchedule(events: CalendarEvent[], clock: string | null, lang: Lang): Schedule {
   const runs: CalendarEvent[] = []
   const byDay = new Map<string, CalendarEvent[]>()
 
@@ -236,14 +237,14 @@ function buildSchedule(events: CalendarEvent[], clock: string | null): Schedule 
   const ongoing: ProgramRun[] = runs.map((event) => ({
     event,
     past: clock !== null && isPastEvent(event, clock),
-    range: formatShortRange(event.startDate, eventEndIso(event)) ?? '',
+    range: formatShortRange(event.startDate, eventEndIso(event), lang) ?? '',
   }))
 
   const days: ProgramDay[] = [...byDay.keys()]
     .sort((a, b) => a.localeCompare(b))
     .map((iso) => ({
       iso,
-      token: dayToken(iso) ?? {
+      token: dayToken(iso, lang) ?? {
         weekday: '',
         weekdayLong: '',
         day: 0,
@@ -265,7 +266,7 @@ function buildSchedule(events: CalendarEvent[], clock: string | null): Schedule 
 // never reach an event route, so a neighbour derived from them would differ
 // between a soft navigation and the same link opened cold.
 export function programOrder(events: CalendarEvent[]): CalendarEvent[] {
-  const { ongoing, days } = buildSchedule(events, null)
+  const { ongoing, days } = buildSchedule(events, null, 'en')
   return [...ongoing.map((run) => run.event), ...days.flatMap((day) => day.events)]
 }
 
@@ -276,6 +277,7 @@ export function deriveProgramView(
   events: CalendarEvent[],
   filters: ProgramFilters,
   todayIso: string | null,
+  lang: Lang = 'en',
 ): ProgramView {
   const visible = applyFilters(events, filters, todayIso)
 
@@ -308,14 +310,13 @@ export function deriveProgramView(
   // past-only on a live edition must not flip the board into archive mode.
   const [, editionEnd] = editionWindow(events)
   const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
-  const { ongoing, days } = buildSchedule(visible, ended ? null : todayIso)
+  const { ongoing, days } = buildSchedule(visible, ended ? null : todayIso, lang)
 
-  const countLabel =
-    upcoming === 0
-      ? `${events.length} ${events.length === 1 ? 'event' : 'events'}`
-      : upcomingMatching === upcoming
-        ? `${upcoming} upcoming ${upcoming === 1 ? 'event' : 'events'}`
-        : `${upcomingMatching} of ${upcoming} upcoming events`
+  const countLabel = PROGRAM_LABELS[lang].count({
+    total: events.length,
+    upcoming,
+    upcomingMatching,
+  })
 
   return {
     visible,

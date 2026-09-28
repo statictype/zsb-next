@@ -9,6 +9,7 @@ import { Suspense } from 'react'
 import { css } from 'styled-system/css'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { Manifesto } from '@/components/Manifesto/Manifesto'
+import { editionProgramScope } from '@/lib/edition-href'
 import { editionBreadcrumbJsonLd, editionEventJsonLd } from '@/lib/seo'
 import { getEdition } from '@/sanity/lib/editions'
 import type { DynamicFetchOptions } from '@/sanity/lib/live'
@@ -86,7 +87,7 @@ export async function CachedEdition({
           // only this subtree client-renders, keeping the route partial-prerender
           // rather than fully dynamic (ADR 0015).
           <Suspense fallback={null}>
-            <Program year={edition.year} events={events} />
+            <Program scope={editionProgramScope(edition.year)} events={events} />
           </Suspense>
         ) : (
           <ComingSoon socials={socials} />
@@ -94,7 +95,7 @@ export async function CachedEdition({
 
       {externalGallery && <ExternalGallery gallery={externalGallery} />}
 
-      <Credits credits={edition.credits} />
+      <Credits credits={edition.credits} title="Partners" />
     </main>
   )
 }

@@ -6,6 +6,7 @@ import { ProgramBoard } from '@program/ProgramBoard'
 import { ProgramProvider, useProgram } from '@program/ProgramContext'
 import { ProgramFilters } from '@program/ProgramFilters'
 import { ProgramShare } from '@program/ProgramShare'
+import type { ProgramScope } from '@program/program-scope'
 import { RiHistoryLine } from '@remixicon/react'
 import type { AriaAttributes, ReactNode } from 'react'
 import { Container, HStack, Stack, Text, Wrap } from 'styled-system/jsx'
@@ -41,7 +42,7 @@ function ProgramCount() {
 }
 
 function PastEventsToggle() {
-  const { state, actions } = useProgram()
+  const { state, actions, meta } = useProgram()
   const { past, showPast, showPastControl } = state.view
   if (!showPastControl) return null
 
@@ -53,31 +54,47 @@ function PastEventsToggle() {
       onClick={() => actions.setShowPast(!showPast)}
     >
       <RiHistoryLine size={15} aria-hidden />
-      {showPast ? 'Hide' : 'Show'} {past} past {past === 1 ? 'event' : 'events'}
+      {meta.labels.pastToggle(showPast, past)}
     </Button>
   )
 }
 
 function ProgramBody() {
+  const { meta } = useProgram()
   return (
     <Stack gap="2xl">
-      <ProgramFilters />
+      {meta.scope.variant === 'full' && <ProgramFilters />}
       <ProgramBoard />
     </Stack>
   )
 }
 
-export function LiveProgram() {
+function ProgramIntro({ paragraphs }: { paragraphs: string[] }) {
+  if (paragraphs.length === 0) return null
+  return (
+    <Stack gap="sm" className={s.intro}>
+      {paragraphs.map((p) => (
+        <Text as="p" variant="caption" key={p}>
+          {p}
+        </Text>
+      ))}
+    </Stack>
+  )
+}
+
+export function LiveProgram({ intro = [] }: { intro?: string[] }) {
+  const { meta } = useProgram()
   return (
     <ProgramFrame aria-labelledby="program-heading">
       <Stack gap="xl">
         <Stack as="header" gap="md">
           <SectionHeading id="program-heading" flush>
-            Program
+            {meta.labels.heading}
           </SectionHeading>
+          <ProgramIntro paragraphs={intro} />
           <HStack justify="space-between" alignItems="flex-start" gap="md">
             <Wrap gap="md">
-              <ProgramCount />
+              {meta.scope.variant === 'full' && <ProgramCount />}
               <PastEventsToggle />
             </Wrap>
             <ProgramShare />
@@ -89,19 +106,21 @@ export function LiveProgram() {
   )
 }
 
-export function FinishedProgram() {
-  const { state } = useProgram()
+export function FinishedProgram({ intro = [] }: { intro?: string[] }) {
+  const { state, meta } = useProgram()
   const { total } = state
+  const { labels } = meta
 
   return (
-    <ProgramFrame aria-label="Program">
+    <ProgramFrame aria-label={labels.heading}>
       <Stack gap="xl">
+        <ProgramIntro paragraphs={intro} />
         <Collapsible
           id="program-archive"
           className={s.archive}
-          closedLabel="Browse the full program"
-          openLabel="Hide the full program"
-          meta={`${total} ${total === 1 ? 'event' : 'events'}`}
+          closedLabel={labels.archiveClosed}
+          openLabel={labels.archiveOpen}
+          meta={labels.events(total)}
         >
           <ProgramBody />
         </Collapsible>
@@ -110,20 +129,21 @@ export function FinishedProgram() {
   )
 }
 
-function ProgramSection() {
+function ProgramSection({ intro }: { intro: string[] }) {
   const { state } = useProgram()
-  return state.view.ended ? <FinishedProgram /> : <LiveProgram />
+  return state.view.ended ? <FinishedProgram intro={intro} /> : <LiveProgram intro={intro} />
 }
 
 interface ProgramProps {
-  year: number
+  scope: ProgramScope
   events: CalendarEvent[]
+  intro?: string[]
 }
 
-export function Program({ year, events }: ProgramProps) {
+export function Program({ scope, events, intro = [] }: ProgramProps) {
   return (
-    <ProgramProvider year={year} events={events}>
-      <ProgramSection />
+    <ProgramProvider scope={scope} events={events}>
+      <ProgramSection intro={intro} />
     </ProgramProvider>
   )
 }

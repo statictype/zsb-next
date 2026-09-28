@@ -1,6 +1,8 @@
 'use client'
 
 import { eventDetail } from '@program/EventDetail.recipe'
+import { PROGRAM_LABELS, type ProgramLabels } from '@program/program-labels'
+import type { ProgramScope } from '@program/program-scope'
 import { TypeChips } from '@program/TypeChips'
 import { shareCopied, useShareLink } from '@program/useShareLink'
 import { VenueLine } from '@program/VenueLine'
@@ -18,25 +20,35 @@ const srOnly = css({ layerStyle: 'srOnly' })
 export const POSTER_SIZES = '(min-width: 1024px) 38vw, 100vw'
 const CONTAIN = { objectFit: 'contain' } as const
 
-function NewTab() {
+function NewTab({ labels }: { labels: ProgramLabels }) {
   return (
     <>
       <RiExternalLinkLine size={14} aria-hidden />
-      <span className={srOnly}> (opens in a new tab)</span>
+      <span className={srOnly}>{labels.newTab}</span>
     </>
   )
 }
 
 // Returns the split and the action row as siblings, so `EventModal` and
 // `EventView` can each place them as their own rows.
-export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'modal' | 'page' }) {
+export function EventDetail({
+  event,
+  shell,
+  scope,
+}: {
+  event: CalendarEvent
+  shell: 'modal' | 'page'
+  scope: ProgramScope
+}) {
+  const { lang } = scope
+  const labels = PROGRAM_LABELS[lang]
   const {
     share,
     copied,
     label: shareLabel,
     status: shareStatus,
     Icon: ShareIcon,
-  } = useShareLink(() => window.location.href)
+  } = useShareLink(() => window.location.href, labels)
   const lightbox = useLightbox()
   const posterRef = useRef<HTMLButtonElement>(null)
   const getPoster = () => posterRef.current
@@ -53,7 +65,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
             className={s.poster}
             ref={posterRef}
             onClick={() => lightbox.open(0)}
-            aria-label={`View the poster for ${event.name} full size`}
+            aria-label={labels.viewPoster(event.name)}
           >
             <Figure image={event.image} sizes={POSTER_SIZES} style={CONTAIN} />
           </Button>
@@ -65,7 +77,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
               <Name className={s.name}>{event.name}</Name>
               <Stack gap="xs">
                 <Text as="p" variant="body" className={s.when}>
-                  {eventWhenLabel(event)}
+                  {eventWhenLabel(event, lang)}
                 </Text>
                 <VenueLine venue={event.venue} />
               </Stack>
@@ -77,7 +89,7 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
               </Text>
             )}
 
-            <TypeChips types={event.types} className={s.types} />
+            {scope.variant === 'full' && <TypeChips types={event.types} className={s.types} />}
           </div>
         </div>
       </div>
@@ -87,21 +99,21 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
           {event.facebookUrl && (
             <Button asChild variant="secondary" size="sm">
               <a href={event.facebookUrl} target="_blank" rel="noopener noreferrer">
-                Event
-                <NewTab />
+                {labels.facebook}
+                <NewTab labels={labels} />
               </a>
             </Button>
           )}
           {event.ticketUrl ? (
             <Button asChild variant="secondary" size="sm">
               <a href={event.ticketUrl} target="_blank" rel="noopener noreferrer">
-                Tickets
-                <NewTab />
+                {labels.tickets}
+                <NewTab labels={labels} />
               </a>
             </Button>
           ) : (
             <Text as="p" variant="label" className={s.freeEntry}>
-              Free entry
+              {labels.freeEntry}
             </Text>
           )}
         </div>
@@ -124,7 +136,12 @@ export function EventDetail({ event, shell }: { event: CalendarEvent; shell: 'mo
       </div>
 
       {event.image && (
-        <Lightbox {...lightbox.props} images={[{ image: event.image }]} getOrigin={getPoster} />
+        <Lightbox
+          {...lightbox.props}
+          images={[{ image: event.image }]}
+          getOrigin={getPoster}
+          lang={lang}
+        />
       )}
     </>
   )

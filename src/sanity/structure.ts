@@ -11,6 +11,7 @@ import {
   LinkIcon,
   LockIcon,
   PinIcon,
+  StarIcon,
   TagIcon,
   TagsIcon,
   TransferIcon,
@@ -35,6 +36,10 @@ export const structure: StructureResolver = (S) =>
 
       // Editions — primary content
       S.documentTypeListItem('edition').title('Editions').icon(ImageIcon),
+
+      S.divider(),
+
+      singletonListItem(S, 'galeriaBeller', 'Galeria Beller').icon(StarIcon),
 
       S.divider(),
 

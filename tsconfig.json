@@ -30,6 +30,7 @@
       "@edition-components/*": ["./src/app/(site)/editions/[year]/_components/*"],
       "@root/*": ["./*"],
       "@scripts/*": ["./scripts/*"],
+      "@beller/*": ["./src/app/(beller)/galeria-beller/*"],
       "@site/*": ["./src/app/(site)/*"],
       "@site-components/*": ["./src/app/(site)/_components/*"],
       "@studio/*": ["./src/app/studio/[[...tool]]/*"],

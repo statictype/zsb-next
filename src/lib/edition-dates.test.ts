@@ -11,6 +11,7 @@ import {
   formatShortRange,
   isMultiDayRun,
   isPastEvent,
+  timeLabel,
 } from '@/lib/edition-dates'
 
 describe('dateParts', () => {
@@ -180,5 +181,34 @@ describe('editionWindow', () => {
       ]),
     ).toEqual(['2026-04-10', '2026-04-25'])
     expect(editionWindow([])).toEqual([null, null])
+  })
+})
+
+describe('Romanian calendar', () => {
+  it('names days and months in Romanian', () => {
+    expect(dayToken('2026-10-03', 'ro')).toMatchObject({
+      weekday: 'sâm',
+      weekdayLong: 'sâmbătă',
+      month: 'oct',
+      monthLong: 'octombrie',
+    })
+  })
+
+  it('formats a short range in Romanian', () => {
+    expect(formatShortRange('2026-10-03', '2026-10-04', 'ro')).toBe('3–4 oct')
+  })
+
+  it('formats the when line with a time range', () => {
+    const ev = { startDate: '2026-10-03', startTime: '10:30', endTime: '20:00' }
+    expect(eventWhenLabel(ev, 'ro')).toBe('sâmbătă 3 octombrie · 10:30–20:00')
+    expect(eventWhenLabelShort(ev, 'ro')).toBe('sâm 3 oct · 10:30–20:00')
+  })
+})
+
+describe('timeLabel', () => {
+  it('renders the start alone, a range, or nothing', () => {
+    expect(timeLabel({ startTime: '18:00' })).toBe('18:00')
+    expect(timeLabel({ startTime: '10:30', endTime: '20:00' })).toBe('10:30–20:00')
+    expect(timeLabel({ endTime: '20:00' })).toBe('')
   })
 })

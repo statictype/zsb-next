@@ -8,11 +8,14 @@ import type { EditionCredits, MarkedPartner, TeamCredit } from '@/types/edition'
 
 interface CreditsProps {
   credits: EditionCredits
+  title: string
+  wall?: 'marquee' | 'static'
+  markSize?: 'standard' | 'large'
 }
 
 const s = creditsRecipe()
 
-export function Credits({ credits }: CreditsProps) {
+export function Credits({ credits, title, wall = 'marquee', markSize = 'standard' }: CreditsProps) {
   const { marks, named, teamOrgs, teamNames } = credits
   if (marks.length + named.length + teamOrgs.length + teamNames.length === 0) return null
 
@@ -22,19 +25,24 @@ export function Credits({ credits }: CreditsProps) {
         <div className={s.ledger}>
           {(marks.length > 0 || named.length > 0) && (
             <Text as="h2" variant="title" className={s.title}>
-              Partners
+              {title}
             </Text>
           )}
 
           {marks.length > 0 && (
-            <div className={s.wall}>
-              <Marquee count={marks.length} gap="xl">
-                {marks.map((org) => (
-                  <li className={s.tile} key={org.mark.src}>
-                    <Mark org={org} />
-                  </li>
-                ))}
-              </Marquee>
+            <div
+              className={s.wall}
+              style={markSize === 'large' ? ({ '--mark-boost': 1.1 } as CSSProperties) : undefined}
+            >
+              {wall === 'marquee' ? (
+                <Marquee count={marks.length} gap="xl">
+                  <MarkTiles marks={marks} />
+                </Marquee>
+              ) : (
+                <ul className={s.grid}>
+                  <MarkTiles marks={marks} />
+                </ul>
+              )}
             </div>
           )}
 
@@ -60,6 +68,14 @@ export function Credits({ credits }: CreditsProps) {
       </Container>
     </section>
   )
+}
+
+function MarkTiles({ marks }: { marks: MarkedPartner[] }) {
+  return marks.map((org) => (
+    <li className={s.tile} key={org.mark.src}>
+      <Mark org={org} />
+    </li>
+  ))
 }
 
 function TeamBand({ className, rows }: { className: string | undefined; rows: TeamCredit[] }) {

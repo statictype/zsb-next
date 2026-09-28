@@ -24,7 +24,7 @@ export type SanityImageAssetReference = {
 
 export type CarouselImageImage = {
   asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "media" in schema
+  media?: unknown // Unable to locate the referenced type "image.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   alt?: string
@@ -159,6 +159,7 @@ export type Event = {
   name: string
   startDate: string
   startTime?: string
+  endTime?: string
   endDate?: string
   types: Array<
     {
@@ -436,6 +437,83 @@ export type Artist = {
     _type: 'externalLink'
     _key: string
   }>
+}
+
+export type GaleriaBeller = {
+  _id: string
+  _type: 'galeriaBeller'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  heroColor: string
+  wordmark: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  keyVisual: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  facts: {
+    period: string
+    location: string
+    theme: string
+  }
+  info: {
+    title: string
+    body: string
+  }
+  programIntro?: string
+  events?: Array<
+    {
+      _key: string
+    } & Event
+  >
+  artists?: Array<
+    {
+      _key: string
+    } & ArtistReference
+  >
+  credits?: Array<
+    | ({
+        _key: string
+      } & CreditOrg)
+    | ({
+        _key: string
+      } & CreditOrgList)
+    | ({
+        _key: string
+      } & CreditText)
+  >
+  pressKit?: {
+    title: string
+    body?: string
+    buttonLabel: string
+    file?: {
+      asset?: SanityFileAssetReference
+      media?: unknown
+      _type: 'file'
+    }
+  }
+  footerText?: string
+  ogImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  metaDescription?: string
 }
 
 export type PrivacyPage = {
@@ -912,6 +990,7 @@ export type AllSanitySchemaTypes =
   | ArtistReference
   | Work
   | Artist
+  | GaleriaBeller
   | PrivacyPage
   | PressPage
   | VisitPage
@@ -1119,13 +1198,36 @@ export type ABOUT_PAGE_QUERY_RESULT =
       pillars: null
       placeImage: null
       carouselEyebrow: null
+      carousel: null
+      curatorHeadline: null
+      curatorPortrait: null
+      curatorName: null
+      curatorRole: null
+      curatorLetter: null
+      ogImage: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        alt?: string
+        _type: 'image'
+      } | null
+      metaDescription: string | null
+    }
+  | {
+      hero: null
+      manifestoTitle: null
+      manifestoBody: null
+      pillars: null
+      placeImage: null
+      carouselEyebrow: null
       carousel: Array<{
         layout: 'duo' | 'featured-portrait' | 'featured-stack' | 'full' | 'trio'
         images: Array<{
           caption: string
           image: {
             asset?: SanityImageAssetReference
-            media?: unknown // Unable to locate the referenced type "media" in schema
+            media?: unknown // Unable to locate the referenced type "image.media" in schema
             hotspot?: SanityImageHotspot
             crop?: SanityImageCrop
             alt?: string
@@ -1183,7 +1285,7 @@ export type ABOUT_PAGE_QUERY_RESULT =
           caption: string
           image: {
             asset?: SanityImageAssetReference
-            media?: unknown // Unable to locate the referenced type "media" in schema
+            media?: unknown // Unable to locate the referenced type "image.media" in schema
             hotspot?: SanityImageHotspot
             crop?: SanityImageCrop
             alt?: string
@@ -1738,7 +1840,7 @@ export type ARTIST_PAGE_SLUGS_QUERY_RESULT = Array<string>
 
 // Source: src/sanity/lib/queries.ts
 // Variable: SITEMAP_QUERY
-// Query: {    "editions": *[_type == "edition" && defined(year) && status == "live"]      | order(year desc){ year, _updatedAt },    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{      _id,      _updatedAt    },    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]      | order(_updatedAt desc)[0]._updatedAt  }
+// Query: {    "editions": *[_type == "edition" && defined(year) && status == "live"]      | order(year desc){ year, _updatedAt },    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage", "galeriaBeller"]]{      _id,      _updatedAt    },    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]      | order(_updatedAt desc)[0]._updatedAt  }
 export type SITEMAP_QUERY_RESULT = {
   editions: Array<{
     year: number
@@ -1788,7 +1890,7 @@ export type EDITION_SUMMARIES_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: EDITION_BY_YEAR_QUERY
-// Query: *[_type == "edition" && year == $year && status == "live"][0] {    _id,    year,    theme,    themeHighlight,    themeGloss,    dateStart,    dateEnd,    venueLine,    heroImage{ ..., "lqip": asset->metadata.lqip },    thumbImage{ ..., "lqip": asset->metadata.lqip },    ogImage,    metaDescription,    manifesto,    hasProgram,    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },    events[] {      _key,      "slug": slug.current,      name,      startDate,      startTime,      endDate,      "types": types[]->{ "title": title, "slug": slug.current },      "venue": venue->{        name,        "slug": slug.current,        address,        "partOf": partOf->{ name }      },      description,      image{ ..., "lqip": asset->metadata.lqip },      ogImage{ ... },      facebookUrl,      ticketUrl,      featured    },    carousel[] {      layout,      images[] {        caption,        image{ ..., "lqip": asset->metadata.lqip }      }    },    credits[] {      _type,      type,      lead,      label,      detail,      names,      organization->{        name,        url,        kind,        logo{ ..., "dimensions": asset->metadata.dimensions }      },      organizations[]->{        name,        url,        kind,        logo{ ..., "dimensions": asset->metadata.dimensions }      }    }  }
+// Query: *[_type == "edition" && year == $year && status == "live"][0] {    _id,    year,    theme,    themeHighlight,    themeGloss,    dateStart,    dateEnd,    venueLine,    heroImage{ ..., "lqip": asset->metadata.lqip },    thumbImage{ ..., "lqip": asset->metadata.lqip },    ogImage,    metaDescription,    manifesto,    hasProgram,    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },    events[] {      _key,      "slug": slug.current,      name,      startDate,      startTime,      endTime,      endDate,      "types": types[]->{ "title": title, "slug": slug.current },      "venue": venue->{        name,        "slug": slug.current,        address,        "partOf": partOf->{ name }      },      description,      image{ ..., "lqip": asset->metadata.lqip },      ogImage{ ... },      facebookUrl,      ticketUrl,      featured    },    carousel[] {      layout,      images[] {        caption,        image{ ..., "lqip": asset->metadata.lqip }      }    },    credits[] {      _type,      type,      lead,      label,      detail,      names,      organization->{        name,        url,        kind,        logo{ ..., "dimensions": asset->metadata.dimensions }      },      organizations[]->{        name,        url,        kind,        logo{ ..., "dimensions": asset->metadata.dimensions }      }    }  }
 export type EDITION_BY_YEAR_QUERY_RESULT = {
   _id: string
   year: number
@@ -1841,6 +1943,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
     name: string
     startDate: string
     startTime: string | null
+    endTime: string | null
     endDate: string | null
     types: Array<{
       title: string
@@ -1882,7 +1985,7 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
       caption: string
       image: {
         asset?: SanityImageAssetReference
-        media?: unknown // Unable to locate the referenced type "media" in schema
+        media?: unknown // Unable to locate the referenced type "image.media" in schema
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
         alt?: string
@@ -1951,6 +2054,169 @@ export type EDITION_BY_YEAR_QUERY_RESULT = {
   > | null
 } | null
 
+// Source: src/sanity/lib/queries.ts
+// Variable: GALERIA_BELLER_QUERY
+// Query: *[_type == "galeriaBeller" && _id == "galeriaBeller"][0] {    title,    heroColor,    wordmark{ ..., "lqip": asset->metadata.lqip },    keyVisual{ ..., "lqip": asset->metadata.lqip },    facts,    info,    programIntro,    "artists": artists[]->{      _id,      name,      sortName,      "slug": slug.current,      "hasPage": defined(slug.current) && count(*[_type == "work" && artist._ref == ^._id]) > 0    } | order(coalesce(sortName, name) asc),    events[] {      _key,      "slug": slug.current,      name,      startDate,      startTime,      endTime,      endDate,      "types": types[]->{ "title": title, "slug": slug.current },      "venue": venue->{        name,        "slug": slug.current,        address,        "partOf": partOf->{ name }      },      description,      image{ ..., "lqip": asset->metadata.lqip },      ogImage{ ... },      facebookUrl,      ticketUrl,      featured    },    credits[] {      _type,      type,      lead,      label,      detail,      names,      organization->{        name,        url,        kind,        logo{ ..., "dimensions": asset->metadata.dimensions }      },      organizations[]->{        name,        url,        kind,        logo{ ..., "dimensions": asset->metadata.dimensions }      }    },    pressKit{      title,      body,      buttonLabel,      "file": file.asset->{ url, size, originalFilename }    },    footerText,    ogImage,    metaDescription  }
+export type GALERIA_BELLER_QUERY_RESULT = {
+  title: string
+  heroColor: string
+  wordmark: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+    lqip: string | null
+  }
+  keyVisual: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+    lqip: string | null
+  }
+  facts: {
+    period: string
+    location: string
+    theme: string
+  }
+  info: {
+    title: string
+    body: string
+  }
+  programIntro: string | null
+  artists: Array<{
+    _id: string
+    name: string
+    sortName: string | null
+    slug: string
+    hasPage: boolean
+  }> | null
+  events: Array<{
+    _key: string
+    slug: string | null
+    name: string
+    startDate: string
+    startTime: string | null
+    endTime: string | null
+    endDate: string | null
+    types: Array<{
+      title: string
+      slug: string
+    }>
+    venue: {
+      name: string
+      slug: string | null
+      address: string | null
+      partOf: {
+        name: string
+      } | null
+    }
+    description: string
+    image: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+      lqip: string | null
+    } | null
+    ogImage: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    } | null
+    facebookUrl: string | null
+    ticketUrl: string | null
+    featured: boolean | null
+  }> | null
+  credits: Array<
+    | {
+        _type: 'creditOrg'
+        type: 'partner' | 'primary' | 'secondary'
+        lead: boolean | null
+        label: string
+        detail: string | null
+        names: null
+        organization: {
+          name: string
+          url: string | null
+          kind: 'gallery' | 'institution'
+          logo: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            alt?: string
+            _type: 'image'
+            dimensions: SanityImageDimensions | null
+          } | null
+        }
+        organizations: null
+      }
+    | {
+        _type: 'creditOrgList'
+        type: 'partner' | 'primary' | 'secondary'
+        lead: boolean | null
+        label: string
+        detail: null
+        names: null
+        organization: null
+        organizations: Array<{
+          name: string
+          url: string | null
+          kind: 'gallery' | 'institution'
+          logo: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            alt?: string
+            _type: 'image'
+            dimensions: SanityImageDimensions | null
+          } | null
+        }>
+      }
+    | {
+        _type: 'creditText'
+        type: 'partner' | 'primary' | 'secondary'
+        lead: null
+        label: string
+        detail: null
+        names: Array<string>
+        organization: null
+        organizations: null
+      }
+  > | null
+  pressKit: {
+    title: string
+    body: string | null
+    buttonLabel: string
+    file: {
+      url: string
+      size: number
+      originalFilename: string | null
+    } | null
+  } | null
+  footerText: string | null
+  ogImage: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  } | null
+  metaDescription: string | null
+} | null
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
@@ -1970,9 +2236,10 @@ declare global {
     '\n  {\n    "artists": *[_type == "artist" && defined(slug.current)]\n      | order(coalesce(sortName, name) asc){ _id, name },\n    "editions": *[_type == "edition" && status == "live" && defined(year)]{\n      year,\n      "refs": artists[]._ref\n    }\n  }\n': ARTIST_CLOUD_QUERY_RESULT
     '\n  *[_type == "artist" && slug.current == $slug\n    && count(*[_type == "work" && artist._ref == ^._id]) > 0][0]{\n    name,\n    "slug": slug.current,\n    portrait{ asset, alt, "lqip": asset->metadata.lqip },\n    bio,\n    "works": *[_type == "work" && artist._ref == ^._id] | order(key asc){\n      key,\n      title,\n      material,\n      dimensions,\n      year,\n      description,\n      images[]{ asset, alt, "lqip": asset->metadata.lqip }\n    }\n  }\n': ARTIST_PAGE_QUERY_RESULT
     '\n  *[_type == "artist" && defined(slug.current)\n    && count(*[_type == "work" && artist._ref == ^._id]) > 0].slug.current\n': ARTIST_PAGE_SLUGS_QUERY_RESULT
-    '\n  {\n    "editions": *[_type == "edition" && defined(year) && status == "live"]\n      | order(year desc){ year, _updatedAt },\n    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{\n      _id,\n      _updatedAt\n    },\n    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]\n      | order(_updatedAt desc)[0]._updatedAt\n  }\n': SITEMAP_QUERY_RESULT
+    '\n  {\n    "editions": *[_type == "edition" && defined(year) && status == "live"]\n      | order(year desc){ year, _updatedAt },\n    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage", "galeriaBeller"]]{\n      _id,\n      _updatedAt\n    },\n    "lastArtistUpdate": *[_type == "artist" && defined(slug.current)]\n      | order(_updatedAt desc)[0]._updatedAt\n  }\n': SITEMAP_QUERY_RESULT
     '\n  *[_type == "edition" && defined(year) && defined(theme)] | order(year desc) {\n    year,\n    theme,\n    themeHighlight,\n    "themeBody": themeSection.body,\n    status,\n    dateStart,\n    dateEnd,\n    hasProgram,\n    venueLine,\n    "artistCount": count(artists),\n    "eventCount": count(events),\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip }\n  }\n': EDITION_SUMMARIES_QUERY_RESULT
-    '\n  *[_type == "edition" && year == $year && status == "live"][0] {\n    _id,\n    year,\n    theme,\n    themeHighlight,\n    themeGloss,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip },\n    ogImage,\n    metaDescription,\n    manifesto,\n    hasProgram,\n    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },\n    events[] {\n      _key,\n      "slug": slug.current,\n      name,\n      startDate,\n      startTime,\n      endDate,\n      "types": types[]->{ "title": title, "slug": slug.current },\n      "venue": venue->{\n        name,\n        "slug": slug.current,\n        address,\n        "partOf": partOf->{ name }\n      },\n      description,\n      image{ ..., "lqip": asset->metadata.lqip },\n      ogImage{ ... },\n      facebookUrl,\n      ticketUrl,\n      featured\n    },\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      lead,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      },\n      organizations[]->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
+    '\n  *[_type == "edition" && year == $year && status == "live"][0] {\n    _id,\n    year,\n    theme,\n    themeHighlight,\n    themeGloss,\n    dateStart,\n    dateEnd,\n    venueLine,\n    heroImage{ ..., "lqip": asset->metadata.lqip },\n    thumbImage{ ..., "lqip": asset->metadata.lqip },\n    ogImage,\n    metaDescription,\n    manifesto,\n    hasProgram,\n    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },\n    events[] {\n      _key,\n      "slug": slug.current,\n      name,\n      startDate,\n      startTime,\n      endTime,\n      endDate,\n      "types": types[]->{ "title": title, "slug": slug.current },\n      "venue": venue->{\n        name,\n        "slug": slug.current,\n        address,\n        "partOf": partOf->{ name }\n      },\n      description,\n      image{ ..., "lqip": asset->metadata.lqip },\n      ogImage{ ... },\n      facebookUrl,\n      ticketUrl,\n      featured\n    },\n    carousel[] {\n      layout,\n      images[] {\n        caption,\n        image{ ..., "lqip": asset->metadata.lqip }\n      }\n    },\n    credits[] {\n      _type,\n      type,\n      lead,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      },\n      organizations[]->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      }\n    }\n  }\n': EDITION_BY_YEAR_QUERY_RESULT
+    '\n  *[_type == "galeriaBeller" && _id == "galeriaBeller"][0] {\n    title,\n    heroColor,\n    wordmark{ ..., "lqip": asset->metadata.lqip },\n    keyVisual{ ..., "lqip": asset->metadata.lqip },\n    facts,\n    info,\n    programIntro,\n    "artists": artists[]->{\n      _id,\n      name,\n      sortName,\n      "slug": slug.current,\n      "hasPage": defined(slug.current) && count(*[_type == "work" && artist._ref == ^._id]) > 0\n    } | order(coalesce(sortName, name) asc),\n    events[] {\n      _key,\n      "slug": slug.current,\n      name,\n      startDate,\n      startTime,\n      endTime,\n      endDate,\n      "types": types[]->{ "title": title, "slug": slug.current },\n      "venue": venue->{\n        name,\n        "slug": slug.current,\n        address,\n        "partOf": partOf->{ name }\n      },\n      description,\n      image{ ..., "lqip": asset->metadata.lqip },\n      ogImage{ ... },\n      facebookUrl,\n      ticketUrl,\n      featured\n    },\n    credits[] {\n      _type,\n      type,\n      lead,\n      label,\n      detail,\n      names,\n      organization->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      },\n      organizations[]->{\n        name,\n        url,\n        kind,\n        logo{ ..., "dimensions": asset->metadata.dimensions }\n      }\n    },\n    pressKit{\n      title,\n      body,\n      buttonLabel,\n      "file": file.asset->{ url, size, originalFilename }\n    },\n    footerText,\n    ogImage,\n    metaDescription\n  }\n': GALERIA_BELLER_QUERY_RESULT
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

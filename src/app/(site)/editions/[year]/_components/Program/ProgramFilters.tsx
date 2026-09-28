@@ -46,19 +46,20 @@ function FilterChips({
 }
 
 export function ProgramFilters() {
-  const { state, actions } = useProgram()
+  const { state, actions, meta } = useProgram()
   const { filterOptions, filters, view } = state
+  const { labels } = meta
 
   const showVenues = filterOptions.venues.length > 1
   const showTypes = filterOptions.types.length > 1
   if (!showVenues && !showTypes) return null
 
   return (
-    <Stack role="group" aria-label="Filter the program">
+    <Stack role="group" aria-label={labels.filterGroup}>
       {showVenues && (
         <FilterChips
           labelId="filter-venue"
-          label="Venue"
+          label={labels.venue}
           options={filterOptions.venues}
           selection={filters.venues}
           onToggle={actions.toggleVenue}
@@ -68,7 +69,7 @@ export function ProgramFilters() {
       {showTypes && (
         <FilterChips
           labelId="filter-type"
-          label="Type"
+          label={labels.type}
           options={filterOptions.types}
           selection={filters.types}
           onToggle={actions.toggleType}
@@ -79,7 +80,7 @@ export function ProgramFilters() {
         <HStack justify="flex-end">
           <Button variant="quiet" size="sm" onClick={actions.reset}>
             <RiResetLeftLine size={14} aria-hidden />
-            Reset
+            {labels.reset}
           </Button>
         </HStack>
       )}

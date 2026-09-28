@@ -5,6 +5,7 @@ import { currentUrl, resetFakes } from '@program/program-fakes'
 import { fireEvent, render, screen } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { editionProgramScope } from '@/lib/edition-href'
 import { rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
 
@@ -39,7 +40,7 @@ function renderInProgram(
 ) {
   resetFakes({ search, today })
   return render(
-    <ProgramProvider year={2026} events={events}>
+    <ProgramProvider scope={editionProgramScope(2026)} events={events}>
       {ui}
     </ProgramProvider>,
   )

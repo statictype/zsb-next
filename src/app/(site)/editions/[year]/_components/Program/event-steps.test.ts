@@ -1,9 +1,12 @@
 import { eventSteps } from '@program/event-steps'
 import { describe, expect, it } from 'vitest'
+import { editionProgramScope } from '@/lib/edition-href'
+import { bellerProgramScope } from '@/lib/galeria-beller-href'
 import { rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, EventVenue } from '@/types/edition'
 
 const CFP = 'Combinatul Fondului Plastic'
+const SCOPE = editionProgramScope(2026)
 
 // Mirrors the factory in program-filters.test.ts — only the fields the step
 // derivation touches, with the venue stamped by the real roll-up rule.
@@ -39,7 +42,7 @@ const ORDER = ['run-a', 'run-b', 'wed', 'thu-early', 'thu-late']
 describe('eventSteps', () => {
   it('walks the whole program in board order', () => {
     const walked = ORDER.map((slug) => {
-      const { prev, next } = eventSteps(events, slug, 2026)
+      const { prev, next } = eventSteps(events, slug, SCOPE)
       return [prev?.name, next?.name]
     })
 
@@ -54,7 +57,7 @@ describe('eventSteps', () => {
 
   it("reports this event's position in the full program", () => {
     const positions = ORDER.map((slug) => {
-      const { index, total } = eventSteps(events, slug, 2026)
+      const { index, total } = eventSteps(events, slug, SCOPE)
       return [index, total]
     })
 
@@ -68,7 +71,7 @@ describe('eventSteps', () => {
   })
 
   it('builds hrefs on the event route', () => {
-    expect(eventSteps(events, 'wed', 2026).next).toEqual({
+    expect(eventSteps(events, 'wed', SCOPE).next).toEqual({
       slug: 'thu-early',
       href: '/editions/2026/events/thu-early',
       name: 'thu-early',
@@ -76,20 +79,25 @@ describe('eventSteps', () => {
   })
 
   it('does not wrap at either end', () => {
-    expect(eventSteps(events, ORDER[0] as string, 2026).prev).toBeUndefined()
-    expect(eventSteps(events, ORDER.at(-1) as string, 2026).next).toBeUndefined()
+    expect(eventSteps(events, ORDER[0] as string, SCOPE).prev).toBeUndefined()
+    expect(eventSteps(events, ORDER.at(-1) as string, SCOPE).next).toBeUndefined()
   })
 
   it('returns no steps for a slug outside the edition', () => {
-    expect(eventSteps(events, 'not-an-event', 2026)).toEqual({})
+    expect(eventSteps(events, 'not-an-event', SCOPE)).toEqual({})
   })
 
   it('returns no steps for a lone event', () => {
-    expect(eventSteps([ev({ key: 'only', startDate: '2026-04-15' })], 'only', 2026)).toEqual({
+    expect(eventSteps([ev({ key: 'only', startDate: '2026-04-15' })], 'only', SCOPE)).toEqual({
       prev: undefined,
       next: undefined,
       index: 0,
       total: 1,
     })
+  })
+
+  it('builds hrefs from the scope', () => {
+    const { next } = eventSteps(events, 'run-a', bellerProgramScope)
+    expect(next?.href).toBe('/galeria-beller/evenimente/run-b')
   })
 })

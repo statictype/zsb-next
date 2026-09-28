@@ -1,3 +1,5 @@
+import type { ProgramScope } from '@program/program-scope'
+
 /**
  * The one place the `/editions/[year]` route template is written. Everything
  * else either receives an `href` stamped by the edition mappers (present iff
@@ -17,4 +19,14 @@ export function editionProgramHref(year: number): string {
 
 export function eventHref(year: number, slug: string): string {
   return `${editionHref(year)}/events/${slug}`
+}
+
+export function editionProgramScope(year: number): ProgramScope {
+  return {
+    lang: 'en',
+    programHref: editionProgramHref(year),
+    eventBase: `${editionHref(year)}/events`,
+    backLabel: `${year} program`,
+    variant: 'full',
+  }
 }

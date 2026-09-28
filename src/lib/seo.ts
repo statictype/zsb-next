@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
+import { editionWindow } from '@/lib/edition-dates'
 import { editionHref, eventHref } from '@/lib/edition-href'
+import { bellerEventHref, GALERIA_BELLER_PATH } from '@/lib/galeria-beller-href'
 import { OG_IMAGE_SIZE } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import type {
@@ -10,6 +12,7 @@ import type {
   PressAppearance,
   ShareImage,
 } from '@/types/edition'
+import type { GaleriaBeller } from '@/types/galeria-beller'
 
 // Undefined lets Next fall back to the root opengraph-image route.
 function shareImages(image: ShareImage | undefined): NonNullable<Metadata['openGraph']>['images'] {
@@ -303,4 +306,116 @@ export function editionBreadcrumbJsonLd(edition: Edition) {
       },
     ],
   }
+}
+
+type BellerSeoFields = Pick<
+  GaleriaBeller,
+  'title' | 'info' | 'metaDescription' | 'ogImage' | 'events' | 'keyVisual' | 'artists'
+>
+
+export function galeriaBellerMetadata(page: BellerSeoFields): Metadata {
+  const description = page.metaDescription || truncate(page.info.body, 155)
+  return {
+    title: { absolute: page.title },
+    description,
+    alternates: { canonical: GALERIA_BELLER_PATH },
+    openGraph: {
+      siteName: page.title,
+      title: page.title,
+      description,
+      locale: 'ro_RO',
+      type: 'website',
+      url: GALERIA_BELLER_PATH,
+      images: shareImages(page.ogImage),
+    },
+  }
+}
+
+export function bellerEventMetadata(page: BellerSeoFields, event: CalendarEvent): Metadata {
+  const description = truncate(event.description, 155)
+  const path = bellerEventHref(event.slug)
+  return {
+    title: event.name,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      siteName: page.title,
+      title: event.name,
+      description,
+      locale: 'ro_RO',
+      type: 'article',
+      url: path,
+      images: shareImages(page.ogImage),
+    },
+  }
+}
+
+function bellerPlace(event: CalendarEvent) {
+  return {
+    '@type': 'Place',
+    name: event.venue.name,
+    address: {
+      '@type': 'PostalAddress',
+      ...(event.venue.address && { streetAddress: event.venue.address }),
+      addressLocality: 'București',
+      addressCountry: 'RO',
+    },
+  }
+}
+
+export function bellerEventJsonLd(page: BellerSeoFields) {
+  const [start, end] = editionWindow(page.events)
+  const places = uniqueByName(page.events.map(bellerPlace))
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ExhibitionEvent',
+    name: page.title,
+    description: page.info.body,
+    inLanguage: 'ro',
+    ...(start && { startDate: start }),
+    ...(end && { endDate: end }),
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    isAccessibleForFree: true,
+    ...(page.keyVisual && { image: [page.keyVisual.src] }),
+    url: `${SITE_URL}${GALERIA_BELLER_PATH}`,
+    ...(places.length > 0 && { location: places.length === 1 ? places[0] : places }),
+    organizer: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    performer: page.artists.map((artist) => ({ '@type': 'Person', name: artist.name })),
+  }
+}
+
+export function bellerSubEventJsonLd(page: BellerSeoFields, event: CalendarEvent) {
+  const time = (t: string | undefined) => (t ? `T${t}` : '')
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: event.name,
+    description: event.description,
+    inLanguage: 'ro',
+    startDate: `${event.startDate}${time(event.startTime)}`,
+    ...((event.endDate || event.endTime) && {
+      endDate: `${event.endDate ?? event.startDate}${time(event.endTime)}`,
+    }),
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    ...(event.image && { image: [event.image.src] }),
+    url: `${SITE_URL}${bellerEventHref(event.slug)}`,
+    location: bellerPlace(event),
+    organizer: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    superEvent: {
+      '@type': 'ExhibitionEvent',
+      name: page.title,
+      url: `${SITE_URL}${GALERIA_BELLER_PATH}`,
+    },
+  }
+}
+
+function uniqueByName<T extends { name: string }>(items: T[]): T[] {
+  const seen = new Set<string>()
+  return items.filter((item) => {
+    if (seen.has(item.name)) return false
+    seen.add(item.name)
+    return true
+  })
 }

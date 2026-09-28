@@ -1,3 +1,5 @@
+import type { Lang } from '@/types/edition'
+
 const MONTHS = [
   'January',
   'February',
@@ -94,6 +96,60 @@ const MONTHS_SHORT = [
   'Dec',
 ] as const
 
+const RO_WEEKDAYS_SHORT = ['dum', 'lun', 'mar', 'mie', 'joi', 'vin', 'sâm'] as const
+const RO_WEEKDAYS_LONG = [
+  'duminică',
+  'luni',
+  'marți',
+  'miercuri',
+  'joi',
+  'vineri',
+  'sâmbătă',
+] as const
+const RO_MONTHS_SHORT = [
+  'ian',
+  'feb',
+  'mar',
+  'apr',
+  'mai',
+  'iun',
+  'iul',
+  'aug',
+  'sep',
+  'oct',
+  'noi',
+  'dec',
+] as const
+const RO_MONTHS = [
+  'ianuarie',
+  'februarie',
+  'martie',
+  'aprilie',
+  'mai',
+  'iunie',
+  'iulie',
+  'august',
+  'septembrie',
+  'octombrie',
+  'noiembrie',
+  'decembrie',
+] as const
+
+const CALENDAR = {
+  en: {
+    weekdays: WEEKDAYS_SHORT,
+    weekdaysLong: WEEKDAYS_LONG,
+    months: MONTHS_SHORT,
+    monthsLong: MONTHS,
+  },
+  ro: {
+    weekdays: RO_WEEKDAYS_SHORT,
+    weekdaysLong: RO_WEEKDAYS_LONG,
+    months: RO_MONTHS_SHORT,
+    monthsLong: RO_MONTHS,
+  },
+} as const satisfies Record<Lang, Record<string, readonly string[]>>
+
 export interface DayToken {
   weekday: string
   weekdayLong: string
@@ -107,17 +163,18 @@ export interface DayToken {
 
 // Break an ISO `YYYY-MM-DD` into the pieces the day-by-day date marker renders.
 // Weekday is derived via UTC so it never drifts by a day across timezones.
-export function dayToken(iso: string): DayToken | undefined {
+export function dayToken(iso: string, lang: Lang = 'en'): DayToken | undefined {
   const p = dateParts(iso)
   if (!p) return undefined
   const wd = new Date(Date.UTC(p.y, p.m - 1, p.d)).getUTCDay()
+  const cal = CALENDAR[lang]
   return {
-    weekday: WEEKDAYS_SHORT[wd] ?? '',
-    weekdayLong: WEEKDAYS_LONG[wd] ?? '',
+    weekday: cal.weekdays[wd] ?? '',
+    weekdayLong: cal.weekdaysLong[wd] ?? '',
     day: p.d,
     dayPadded: String(p.d).padStart(2, '0'),
-    month: MONTHS_SHORT[p.m - 1] ?? '',
-    monthLong: MONTHS[p.m - 1] ?? '',
+    month: cal.months[p.m - 1] ?? '',
+    monthLong: cal.monthsLong[p.m - 1] ?? '',
     year: p.y,
   }
 }
@@ -131,12 +188,16 @@ export function isMultiDayRun(startIso: string, endIso?: string | null): boolean
 // Compact span for the "Ongoing" run ranges, short months, year only when it spans
 // one: "26 Apr – 11 May", same month "26–28 Apr", same day "24 Apr", cross-year
 // full both sides.
-export function formatShortRange(startIso: string, endIso: string): string | undefined {
+export function formatShortRange(
+  startIso: string,
+  endIso: string,
+  lang: Lang = 'en',
+): string | undefined {
   const s = dateParts(startIso)
   const e = dateParts(endIso)
   if (!s || !e) return undefined
-  const sm = MONTHS_SHORT[s.m - 1]
-  const em = MONTHS_SHORT[e.m - 1]
+  const sm = CALENDAR[lang].months[s.m - 1]
+  const em = CALENDAR[lang].months[e.m - 1]
   if (s.y === e.y && s.m === e.m && s.d === e.d) return `${s.d} ${sm}`
   if (s.y === e.y && s.m === e.m) return `${s.d}–${e.d} ${sm}`
   if (s.y === e.y) return `${s.d} ${sm} – ${e.d} ${em}`
@@ -148,20 +209,27 @@ export function formatShortRange(startIso: string, endIso: string): string | und
 export interface EventWhen {
   startDate: string
   startTime?: string
+  endTime?: string
   endDate?: string
 }
 
-function whenLabel(event: EventWhen, register: 'long' | 'short'): string {
+export function timeLabel(event: Pick<EventWhen, 'startTime' | 'endTime'>): string {
+  if (!event.startTime) return ''
+  return event.endTime ? `${event.startTime}–${event.endTime}` : event.startTime
+}
+
+function whenLabel(event: EventWhen, register: 'long' | 'short', lang: Lang): string {
   if (isMultiDayRun(event.startDate, event.endDate)) {
-    return formatShortRange(event.startDate, event.endDate as string) ?? event.startDate
+    return formatShortRange(event.startDate, event.endDate as string, lang) ?? event.startDate
   }
-  const token = dayToken(event.startDate)
+  const token = dayToken(event.startDate, lang)
   const date = token
     ? register === 'long'
       ? `${token.weekdayLong} ${token.day} ${token.monthLong}`
       : `${token.weekday} ${token.day} ${token.month}`
     : event.startDate
-  return event.startTime ? `${date} · ${event.startTime}` : date
+  const time = timeLabel(event)
+  return time ? `${date} · ${time}` : date
 }
 
 // The human "when" line for a single event — the run span for a multi-day
@@ -169,12 +237,12 @@ function whenLabel(event: EventWhen, register: 'long' | 'short'): string {
 // One implementation, two registers, so every surface phrases "when"
 // identically: the long form for the event detail modal and the share card
 // (ZSB-41), the short form for the poster cards and venue rows.
-export function eventWhenLabel(event: EventWhen): string {
-  return whenLabel(event, 'long')
+export function eventWhenLabel(event: EventWhen, lang: Lang = 'en'): string {
+  return whenLabel(event, 'long', lang)
 }
 
-export function eventWhenLabelShort(event: EventWhen): string {
-  return whenLabel(event, 'short')
+export function eventWhenLabelShort(event: EventWhen, lang: Lang = 'en'): string {
+  return whenLabel(event, 'short', lang)
 }
 
 // ---- Past / upcoming judgement ----

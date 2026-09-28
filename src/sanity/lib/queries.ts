@@ -274,7 +274,7 @@ const SITEMAP_QUERY = defineQuery(`
   {
     "editions": *[_type == "edition" && defined(year) && status == "live"]
       | order(year desc){ year, _updatedAt },
-    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage"]]{
+    "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage", "galeriaBeller"]]{
       _id,
       _updatedAt
     },
@@ -293,6 +293,7 @@ export const SITEMAP = {
     'partnersPage',
     'pressPage',
     'privacyPage',
+    'galeriaBeller',
     'artist',
   ],
 }
@@ -346,6 +347,7 @@ const EDITION_BY_YEAR_QUERY = defineQuery(`
       name,
       startDate,
       startTime,
+      endTime,
       endDate,
       "types": types[]->{ "title": title, "slug": slug.current },
       "venue": venue->{
@@ -394,4 +396,79 @@ const EDITION_BY_YEAR_QUERY = defineQuery(`
 export const EDITION_BY_YEAR = {
   query: EDITION_BY_YEAR_QUERY,
   tags: ['edition', 'artist', 'eventType', 'venue', 'organization'],
+}
+
+const GALERIA_BELLER_QUERY = defineQuery(`
+  *[_type == "galeriaBeller" && _id == "galeriaBeller"][0] {
+    title,
+    heroColor,
+    wordmark{ ..., "lqip": asset->metadata.lqip },
+    keyVisual{ ..., "lqip": asset->metadata.lqip },
+    facts,
+    info,
+    programIntro,
+    "artists": artists[]->{
+      _id,
+      name,
+      sortName,
+      "slug": slug.current,
+      "hasPage": defined(slug.current) && count(*[_type == "work" && artist._ref == ^._id]) > 0
+    } | order(coalesce(sortName, name) asc),
+    events[] {
+      _key,
+      "slug": slug.current,
+      name,
+      startDate,
+      startTime,
+      endTime,
+      endDate,
+      "types": types[]->{ "title": title, "slug": slug.current },
+      "venue": venue->{
+        name,
+        "slug": slug.current,
+        address,
+        "partOf": partOf->{ name }
+      },
+      description,
+      image{ ..., "lqip": asset->metadata.lqip },
+      ogImage{ ... },
+      facebookUrl,
+      ticketUrl,
+      featured
+    },
+    credits[] {
+      _type,
+      type,
+      lead,
+      label,
+      detail,
+      names,
+      organization->{
+        name,
+        url,
+        kind,
+        logo{ ..., "dimensions": asset->metadata.dimensions }
+      },
+      organizations[]->{
+        name,
+        url,
+        kind,
+        logo{ ..., "dimensions": asset->metadata.dimensions }
+      }
+    },
+    pressKit{
+      title,
+      body,
+      buttonLabel,
+      "file": file.asset->{ url, size, originalFilename }
+    },
+    footerText,
+    ogImage,
+    metaDescription
+  }
+`)
+
+export const GALERIA_BELLER = {
+  query: GALERIA_BELLER_QUERY,
+  tags: ['galeriaBeller', 'artist', 'work', 'eventType', 'venue', 'organization'],
 }

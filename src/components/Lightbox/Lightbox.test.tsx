@@ -18,7 +18,7 @@ function Harness({ images: list = images, at = 1 }: { images?: LightboxImage[]; 
       <button type="button" onClick={() => lightbox.open(at)}>
         open lightbox
       </button>
-      <Lightbox {...lightbox.props} images={list} getOrigin={noOrigin} />
+      <Lightbox {...lightbox.props} images={list} getOrigin={noOrigin} lang="en" />
     </>
   )
 }
