@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { css } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
@@ -17,7 +18,7 @@ const bar = css({
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: 'md',
-  paddingBlock: 'sm',
+  height: 'bellerBar',
   paddingInline: 'gutter',
   background: 'black',
   color: 'white',
@@ -25,9 +26,25 @@ const bar = css({
   borderColor: 'divider',
 })
 
+const brand = css({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 'sm',
+})
+
+const zsb = css({
+  display: 'inline-flex',
+  _focusVisible: { outline: 'focus', outlineOffset: '[2px]' },
+})
+
+const zsbLogo = css({ width: 'auto', height: '[40px]', md: { height: '[44px]' } })
+
 const home = css({
+  display: 'flex',
+  flexDirection: 'column',
   fontFamily: 'display',
   fontSize: 'base',
+  lineHeight: '[1.1]',
   color: 'white',
   textDecoration: 'none',
   whiteSpace: 'nowrap',
@@ -41,6 +58,9 @@ const list = css({
 })
 
 const link = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  minHeight: 'touch',
   color: 'white',
   textDecoration: 'none',
   transition: 'colors',
@@ -51,9 +71,23 @@ const link = css({
 export function BellerNav() {
   return (
     <header className={bar}>
-      <Link href={GALERIA_BELLER_PATH} className={home}>
-        Galeria Beller
-      </Link>
+      <div className={brand}>
+        <Link href="/" className={zsb}>
+          <Image
+            src="/img/logo_ZSB.svg"
+            alt="Zilele Sculpturii București"
+            width={32}
+            height={44}
+            className={zsbLogo}
+            unoptimized
+            priority
+          />
+        </Link>
+        <Link href={GALERIA_BELLER_PATH} className={home}>
+          <span>Galeria</span>
+          <span>Beller</span>
+        </Link>
+      </div>
       <nav aria-label="Secțiuni">
         <ul className={list}>
           {LINKS.map(({ label, id }) => (

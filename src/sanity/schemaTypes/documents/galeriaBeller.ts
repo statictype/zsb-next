@@ -4,6 +4,16 @@ import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt
 import { metaDescriptionField } from '@/sanity/schemaTypes/shared/metaDescriptionField'
 import { ogImageField } from '@/sanity/schemaTypes/shared/ogImageField'
 
+const HEX = /^#[0-9a-fA-F]{6}$/
+
+function contrastWithBlack(hex: string): number {
+  const [r = 0, g = 0, b = 0] = [1, 3, 5].map((i) => {
+    const c = Number.parseInt(hex.slice(i, i + 2), 16) / 255
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
+  })
+  return (0.2126 * r + 0.7152 * g + 0.0722 * b + 0.05) / 0.05
+}
+
 export const galeriaBeller = defineType({
   name: 'galeriaBeller',
   title: 'Galeria Beller',
@@ -36,11 +46,21 @@ export const galeriaBeller = defineType({
       type: 'string',
       group: 'hero',
       initialValue: '#e89124',
-      validation: (rule) =>
+      validation: (rule) => [
         rule
           .required()
-          .regex(/^#[0-9a-fA-F]{6}$/, { name: 'hex colour' })
+          .regex(HEX, { name: 'hex colour' })
           .error('Use a 6-digit hex colour, e.g. #e89124'),
+        rule
+          .custom(
+            (hex) =>
+              !hex ||
+              !HEX.test(hex) ||
+              contrastWithBlack(hex) >= 4.5 ||
+              'The black hero text is hard to read on this colour. Use a lighter colour.',
+          )
+          .warning(),
+      ],
     }),
     imageFieldWithAlt({
       name: 'wordmark',

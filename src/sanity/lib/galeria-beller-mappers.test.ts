@@ -37,6 +37,12 @@ describe('mapGaleriaBeller', () => {
     ])
   })
 
+  it('reads the hero image dimensions from the asset ref', () => {
+    const { wordmark, keyVisual } = mapGaleriaBeller(raw())
+    expect(wordmark).toMatchObject({ width: 1200, height: 800 })
+    expect(keyVisual).toMatchObject({ width: 1200, height: 800 })
+  })
+
   it('derives the artist count fact', () => {
     const { facts } = mapGaleriaBeller(raw())
     expect(facts.map((f) => f.label)).toEqual(['Perioada', 'Locație', 'Artiști', 'Temă'])
