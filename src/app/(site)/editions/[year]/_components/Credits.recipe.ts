@@ -107,6 +107,7 @@ export const credits = sva({
       borderBottom: 'hairline',
       _last: { borderBottom: '[none]' },
       md: { paddingBlock: '0', borderBottom: '[none]' },
+      '&:only-child': { gridColumn: '[1 / -1]', '& > *': { maxWidth: '[none]' } },
     },
     title: {
       paddingBlockEnd: 'sm',
