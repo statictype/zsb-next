@@ -52,6 +52,7 @@ export const bellerHero = sva({
     row: {
       display: 'grid',
       gridTemplateColumns: '[7rem 1fr]',
+      alignItems: 'baseline',
       gap: 'md',
       paddingBlock: 'sm',
       borderTop: '[1px solid currentColor]',

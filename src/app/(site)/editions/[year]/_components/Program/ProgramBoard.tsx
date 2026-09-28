@@ -125,8 +125,9 @@ export function EventRow({ event }: { event: CalendarListEvent }) {
   const time = timeLabel(event)
   const showTypes = meta.scope.variant === 'full' && event.types.length > 0
   const hasMeta = !!time || showTypes
+  const poster = meta.scope.variant === 'full' ? event.image : undefined
   return (
-    <li className={s.event} data-poster={!!event.image}>
+    <li className={s.event} data-poster={!!poster}>
       <Stack className={s.eventBody} gap="sm">
         {hasMeta && (
           <Wrap>
@@ -150,9 +151,9 @@ export function EventRow({ event }: { event: CalendarListEvent }) {
           </Text>
         )}
       </Stack>
-      {event.image && (
+      {poster && (
         <div className={s.poster}>
-          <Figure image={event.image} sizes="(min-width: 1280px) 240px, 70vw" />
+          <Figure image={poster} sizes="(min-width: 1280px) 240px, 70vw" />
         </div>
       )}
     </li>

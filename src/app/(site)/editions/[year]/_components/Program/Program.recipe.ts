@@ -36,7 +36,7 @@ export const program = sva({
   ],
   base: {
     intro: {
-      maxWidth: '[72ch]',
+      maxWidth: 'measure',
     },
     layout: {
       minWidth: '0',
