@@ -4,6 +4,7 @@ import { Credits } from '@edition-components/Credits'
 import { Program } from '@program/Program'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
+import { css } from 'styled-system/css'
 import { Container, Divider } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { ArtistRoster } from '@/components/ArtistRoster/ArtistRoster'
@@ -20,7 +21,7 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
   if (!page) notFound()
 
   return (
-    <main id="top">
+    <main id="top" className={css({ '--program-sticky-offset': 'sizes.bellerBar' })}>
       <JsonLd data={bellerEventJsonLd(page)} />
       <BellerHero page={page} />
 
@@ -39,21 +40,30 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
       )}
 
       {page.artists.length > 0 && (
-        <section className={section({ ground: 'dark' })}>
-          <Container>
-            <div id={BELLER_SECTION_IDS.artists} />
-            <ArtistRoster
-              artists={page.artists}
-              title="Artiști"
-              designation={`${page.artists.length} artiști`}
-            />
-          </Container>
-        </section>
+        <>
+          {page.events.length > 0 && (
+            <Container>
+              <Divider />
+            </Container>
+          )}
+          <section className={section({ ground: 'dark' })}>
+            <Container>
+              <div id={BELLER_SECTION_IDS.artists} />
+              <ArtistRoster artists={page.artists} title="Artiști" accent="action" />
+            </Container>
+          </section>
+        </>
       )}
 
       {page.pressKit && <BellerPressKit pressKit={page.pressKit} />}
 
-      <Credits credits={page.credits} title="Parteneri" wall="static" markSize="large" />
+      <Credits
+        credits={page.credits}
+        title="Parteneri"
+        wall="static"
+        markSize="large"
+        titleInk="heading"
+      />
     </main>
   )
 }

@@ -132,7 +132,7 @@ export function EventRow({ event }: { event: CalendarListEvent }) {
         {hasMeta && (
           <Wrap>
             {time && (
-              <Text variant="label" className={s.eventTime}>
+              <Text variant="label" color="highlight" className={s.eventTime}>
                 {time}
               </Text>
             )}

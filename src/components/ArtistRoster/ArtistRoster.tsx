@@ -1,27 +1,40 @@
 import { Text } from 'styled-system/jsx'
+import type { RecipeVariantProps } from 'styled-system/types'
 import { artistRoster } from '@/components/ArtistRoster/ArtistRoster.recipe'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { ArtistListItem } from '@/types/edition'
 
-const styles = artistRoster()
-
 const HEADING_ID = 'edition-artists'
+
+type RosterAccent = NonNullable<NonNullable<RecipeVariantProps<typeof artistRoster>>['accent']>
 
 interface ArtistRosterProps {
   artists: ArtistListItem[]
   title: string
-  designation: string
+  designation?: string
+  accent?: RosterAccent
   className?: string | undefined
 }
 
-export function ArtistRoster({ artists, title, designation, className }: ArtistRosterProps) {
+export function ArtistRoster({
+  artists,
+  title,
+  designation,
+  accent = 'highlight',
+  className,
+}: ArtistRosterProps) {
+  const styles = artistRoster({ accent })
   return (
     <section aria-labelledby={HEADING_ID} className={className}>
       <div className={styles.head}>
         <SectionHeading as="h2" id={HEADING_ID} flush>
           {title}
         </SectionHeading>
-        <Text variant="label">{designation}</Text>
+        {designation && (
+          <Text variant="label" color="[currentColor]">
+            {designation}
+          </Text>
+        )}
       </div>
 
       <ul className={styles.wall}>
