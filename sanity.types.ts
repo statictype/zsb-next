@@ -75,6 +75,25 @@ export type PageHero = {
   lead: string
 }
 
+export type WorkReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'work'
+}
+
+export type MapPoint = {
+  _type: 'mapPoint'
+  kind: 'work' | 'stand' | 'atelier' | 'proiectie' | 'food' | 'info'
+  work?: WorkReference
+  label?: string
+  pointId?: Slug
+  note?: string
+  url?: string
+  coordinates?: string
+  events?: Array<string>
+}
+
 export type LocaleString = {
   _type: 'localeString'
   ro?: string
@@ -482,6 +501,11 @@ export type GaleriaBeller = {
     {
       _key: string
     } & ArtistReference
+  >
+  mapPoints?: Array<
+    {
+      _key: string
+    } & MapPoint
   >
   credits?: Array<
     | ({
@@ -963,6 +987,8 @@ export type AllSanitySchemaTypes =
   | TransportRoute
   | Pillar
   | PageHero
+  | WorkReference
+  | MapPoint
   | LocaleString
   | LocaleBlock
   | HeroSlide
