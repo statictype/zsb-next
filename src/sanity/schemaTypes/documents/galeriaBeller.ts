@@ -24,6 +24,7 @@ export const galeriaBeller = defineType({
     { name: 'info', title: 'Info' },
     { name: 'program', title: 'Program' },
     { name: 'artists', title: 'Artiști' },
+    { name: 'map', title: 'Hartă' },
     { name: 'credits', title: 'Credits' },
     { name: 'pressKit', title: 'Press kit' },
     { name: 'site', title: 'Footer' },
@@ -159,6 +160,15 @@ export const galeriaBeller = defineType({
       group: 'artists',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'artist' }] })],
       validation: (rule) => rule.unique(),
+    }),
+    defineField({
+      name: 'mapPoints',
+      title: 'Puncte pe hartă',
+      description:
+        'Punctele de pe harta Galeria Beller. După publicare, harta se reconstruiește în 1–2 minute.',
+      type: 'array',
+      group: 'map',
+      of: [defineArrayMember({ type: 'mapPoint' })],
     }),
     defineField({
       name: 'credits',

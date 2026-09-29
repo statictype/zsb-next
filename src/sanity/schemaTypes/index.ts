@@ -23,6 +23,7 @@ import { event } from '@/sanity/schemaTypes/objects/event'
 import { faqItem } from '@/sanity/schemaTypes/objects/faqItem'
 import { heroSlide } from '@/sanity/schemaTypes/objects/heroSlide'
 import { localeBlock, localeString } from '@/sanity/schemaTypes/objects/locale'
+import { mapPoint } from '@/sanity/schemaTypes/objects/mapPoint'
 import { pageHero } from '@/sanity/schemaTypes/objects/pageHero'
 import { pillar } from '@/sanity/schemaTypes/objects/pillar'
 import { transportRoute } from '@/sanity/schemaTypes/objects/transportRoute'
@@ -59,6 +60,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   heroSlide,
   localeBlock,
   localeString,
+  mapPoint,
   pageHero,
   pillar,
   transportRoute,

@@ -356,6 +356,139 @@
     }
   },
   {
+    "type": "type",
+    "name": "work.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "work"
+    }
+  },
+  {
+    "name": "mapPoint",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "mapPoint"
+          }
+        },
+        "kind": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "work"
+              },
+              {
+                "type": "string",
+                "value": "stand"
+              },
+              {
+                "type": "string",
+                "value": "atelier"
+              },
+              {
+                "type": "string",
+                "value": "proiectie"
+              },
+              {
+                "type": "string",
+                "value": "food"
+              },
+              {
+                "type": "string",
+                "value": "info"
+              }
+            ]
+          },
+          "optional": false
+        },
+        "work": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "work.reference"
+          },
+          "optional": true
+        },
+        "label": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "pointId": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "slug"
+          },
+          "optional": true
+        },
+        "note": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "url": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "coordinates": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "events": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "array",
+            "of": {
+              "type": "string"
+            }
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
     "name": "localeString",
     "type": "type",
     "value": {
@@ -2995,6 +3128,28 @@
             "rest": {
               "type": "inline",
               "name": "artist.reference"
+            }
+          }
+        },
+        "optional": true
+      },
+      "mapPoints": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "mapPoint"
             }
           }
         },
