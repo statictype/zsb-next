@@ -67,10 +67,6 @@ export function BellerHero({
               sizes="(min-width: 768px) 55vw, 100vw"
               className={s.visualImg}
               priority
-              {...(keyVisual.blurDataURL && {
-                placeholder: 'blur' as const,
-                blurDataURL: keyVisual.blurDataURL,
-              })}
             />
           </div>
         )}

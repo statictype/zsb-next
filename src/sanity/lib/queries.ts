@@ -402,8 +402,8 @@ const GALERIA_BELLER_QUERY = defineQuery(`
   *[_type == "galeriaBeller" && _id == "galeriaBeller"][0] {
     title,
     heroColor,
-    wordmark{ ..., "lqip": asset->metadata.lqip },
-    keyVisual{ ..., "lqip": asset->metadata.lqip },
+    wordmark,
+    keyVisual,
     facts,
     info,
     programIntro,
