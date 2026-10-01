@@ -12,6 +12,7 @@ export const ARTIST_LABELS = {
     year: 'An',
     previous: 'Lucrarea anterioară',
     next: 'Lucrarea următoare',
+    enlarge: 'Mărește imaginea',
     showImage: 'Arată imaginea',
   },
   en: {
@@ -25,6 +26,7 @@ export const ARTIST_LABELS = {
     year: 'Year',
     previous: 'Previous work',
     next: 'Next work',
+    enlarge: 'View larger',
     showImage: 'Show image',
   },
 } as const satisfies Record<Lang, Record<string, string>>

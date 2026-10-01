@@ -52,6 +52,14 @@ export function toImageData(field: SanityImageField | null | undefined): ImageDa
   }
 }
 
+export function imageSize(
+  field: SanityImageField | null | undefined,
+): { width: number; height: number } | undefined {
+  const ref = (field?.asset as { _ref?: string } | undefined)?._ref
+  const size = ref?.match(/-(\d+)x(\d+)-\w+$/)
+  return size ? { width: Number(size[1]), height: Number(size[2]) } : undefined
+}
+
 // The OpenGraph card dimensions every share image is cropped to.
 export const OG_IMAGE_SIZE = { width: 1200, height: 630 } as const
 
