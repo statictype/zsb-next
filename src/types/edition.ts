@@ -219,6 +219,10 @@ export interface LangText<T> {
 
 export type Bilingual<T> = Record<Lang, LangText<T>>
 
+export interface WorkImage extends ImageData {
+  aspectRatio: number
+}
+
 export interface ArtistWork {
   key: number
   title: Bilingual<string>
@@ -226,7 +230,7 @@ export interface ArtistWork {
   dimensions?: string
   year?: string
   description: Bilingual<PortableTextBlock[]>
-  images: ImageData[]
+  images: WorkImage[]
 }
 
 export interface ArtistPage {

@@ -1,20 +1,38 @@
 import { sva } from 'styled-system/css'
 
 export const artistProfile = sva({
-  slots: ['root', 'header', 'name', 'switch', 'about', 'portrait', 'bio', 'bioBody', 'more'],
+  slots: [
+    'root',
+    'header',
+    'intro',
+    'name',
+    'switch',
+    'about',
+    'aboutHeading',
+    'portrait',
+    'bio',
+    'bioBody',
+    'more',
+  ],
   base: {
     root: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '2xl',
-      layerStyle: 'pageHero',
+      paddingTop: '2xl',
+      paddingBottom: 'sectionY',
     },
     header: {
+      display: 'grid',
+      gap: 'xl',
+      alignItems: 'end',
+      paddingBottom: 'xl',
+      gridTemplateColumns: { lg: '[minmax(0, 7fr) minmax(0, 5fr)]' },
+    },
+    intro: {
       display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'baseline',
-      justifyContent: 'space-between',
-      gap: 'md',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: 'lg',
     },
     name: {
       textStyle: 'display',
@@ -22,14 +40,15 @@ export const artistProfile = sva({
       animationStyle: 'enter',
       animationDelay: 'stagger',
     },
-    switch: { display: 'flex', gap: 'sm' },
+    switch: { display: 'flex', gap: 'xs' },
     about: {
       display: 'grid',
       gap: 'lg',
       alignItems: 'start',
       borderTop: 'hairline',
-      paddingTop: 'md',
+      paddingTop: { base: 'xl', lg: '2xl' },
     },
+    aboutHeading: { gridColumn: '[1 / -1]' },
     portrait: {
       position: 'relative',
       overflow: 'hidden',
@@ -51,7 +70,7 @@ export const artistProfile = sva({
       textStyle: 'body',
       color: 'body',
     },
-    more: { display: { md: 'none' } },
+    more: { textStyle: 'body', display: { md: 'none' } },
   },
   variants: {
     withPortrait: {

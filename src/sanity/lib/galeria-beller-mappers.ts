@@ -2,7 +2,7 @@ import type { GALERIA_BELLER_QUERY_RESULT } from '@/../sanity.types'
 import { artistHref } from '@/lib/artist-href'
 import { definedFields } from '@/lib/defined-fields'
 import { mapCredits, mapEvents } from '@/sanity/lib/editions-mappers'
-import { type SanityImageField, toImageData, toShareImage } from '@/sanity/lib/image'
+import { imageSize, type SanityImageField, toImageData, toShareImage } from '@/sanity/lib/image'
 import type { ArtistListItem } from '@/types/edition'
 import type { BellerFact, BellerImage, BellerPressKit, GaleriaBeller } from '@/types/galeria-beller'
 
@@ -17,10 +17,9 @@ export function paragraphs(text: string | null | undefined): string[] {
 
 function toBellerImage(field: SanityImageField | null | undefined): BellerImage | undefined {
   const image = toImageData(field)
-  const ref = (field?.asset as { _ref?: string } | undefined)?._ref
-  const size = ref?.match(/-(\d+)x(\d+)-\w+$/)
+  const size = imageSize(field)
   if (!image || !size) return undefined
-  return { ...image, width: Number(size[1]), height: Number(size[2]) }
+  return { ...image, ...size }
 }
 
 function mapArtists(raw: SanityGaleriaBeller['artists']): ArtistListItem[] {

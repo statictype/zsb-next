@@ -7,8 +7,8 @@ import type {
 } from '@/../sanity.types'
 import { ONLINE_EDITION_YEARS } from '@/lib/constants'
 import { definedFields } from '@/lib/defined-fields'
-import { toImageData } from '@/sanity/lib/image'
-import type { ArtistCloud, ArtistPage, ArtistTier, Bilingual, ImageData } from '@/types/edition'
+import { imageSize, toImageData } from '@/sanity/lib/image'
+import type { ArtistCloud, ArtistPage, ArtistTier, Bilingual, WorkImage } from '@/types/edition'
 
 const TIERS = [1, 2, 3, 4, 5] as const satisfies readonly ArtistTier[]
 
@@ -99,9 +99,10 @@ export function mapArtistPage(raw: ARTIST_PAGE_QUERY_RESULT): ArtistPage | null 
         dimensions: text(work.dimensions ?? undefined),
         year: text(work.year ?? undefined),
         description: localeBlock(work.description),
-        images: (work.images ?? []).flatMap((image): ImageData[] => {
+        images: (work.images ?? []).flatMap((image): WorkImage[] => {
           const data = toImageData(image)
-          return data ? [data] : []
+          const size = imageSize(image)
+          return data ? [{ ...data, aspectRatio: size ? size.width / size.height : 1 }] : []
         }),
       }),
     ),
