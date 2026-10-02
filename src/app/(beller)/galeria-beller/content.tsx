@@ -1,4 +1,5 @@
 import { BellerHero } from '@beller/_components/BellerHero'
+import { BellerMap } from '@beller/_components/BellerMap'
 import { BellerPressKit } from '@beller/_components/BellerPressKit'
 import { SectionViews } from '@beller/_components/SectionViews'
 import { Credits } from '@edition-components/Credits'
@@ -28,6 +29,12 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
 
       <div id={BELLER_SECTION_IDS.info} data-section-view="info" />
       <Manifesto title={page.info.title} body={page.info.body} ground="dark" />
+
+      <Container>
+        <Divider />
+      </Container>
+      <div id={BELLER_SECTION_IDS.map} data-section-view="map" />
+      <BellerMap />
 
       {page.events.length > 0 && (
         <>

@@ -6,6 +6,7 @@ import { BELLER_SECTION_IDS, GALERIA_BELLER_PATH } from '@/lib/galeria-beller-hr
 
 const LINKS = [
   { label: 'Info', id: BELLER_SECTION_IDS.info },
+  { label: 'Hartă', id: BELLER_SECTION_IDS.map },
   { label: 'Program', id: BELLER_SECTION_IDS.program },
   { label: 'Artiști', id: BELLER_SECTION_IDS.artists },
 ] as const
