@@ -53,6 +53,8 @@ export const eventDetail = sva({
       textStyle: 'detailTitle',
       color: 'heading',
       textWrap: 'balance',
+      overflowWrap: 'break-word',
+      hyphens: 'auto',
     },
     when: {
       color: 'highlight',
@@ -62,6 +64,7 @@ export const eventDetail = sva({
     },
     description: {
       whiteSpace: 'pre-line',
+      overflowWrap: 'break-word',
       maxWidth: 'measure',
     },
     types: { marginTop: 'sm' },
@@ -123,5 +126,31 @@ export const eventDetail = sva({
       },
     },
   },
+  compoundVariants: [
+    {
+      shell: 'page',
+      poster: true,
+      css: {
+        layout: { lg: { alignItems: 'start' } },
+        poster: {
+          lg: {
+            position: 'sticky',
+            top: '[token(sizes.nav)]',
+            aspectRatio: '3 / 4',
+            maxHeight: '[calc(100svh - token(sizes.nav))]',
+            borderInlineEnd: 'none',
+            '& img': { objectPosition: 'top' },
+          },
+        },
+        column: {
+          lg: {
+            alignSelf: 'stretch',
+            alignContent: 'start',
+            borderInlineStart: 'hairline',
+          },
+        },
+      },
+    },
+  ],
   defaultVariants: { shell: 'modal', poster: false },
 })
