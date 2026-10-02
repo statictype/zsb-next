@@ -1,21 +1,20 @@
 import { eventLoading } from '@edition/events/[slug]/loading.recipe'
-import { eventModal } from '@program/EventModal.recipe'
+import { EventModalLoadingChrome } from '@program/EventModal'
 import { cx } from 'styled-system/css'
 import { Stack } from 'styled-system/jsx'
 import { DialogTitle } from '@/components/ui/Dialog/Dialog'
 
-const s = eventLoading()
-const m = eventModal()
+const s = eventLoading({ shell: 'modal' })
 
 export default function EventModalLoading() {
   return (
     <>
       <DialogTitle>Loading event</DialogTitle>
-      <header className={m.chrome}>
+      <EventModalLoadingChrome>
         <div className={cx(s.bone, s.meta)} />
-      </header>
+      </EventModalLoadingChrome>
 
-      <div className={s.detail}>
+      <div className={s.layout}>
         <div className={cx(s.bone, s.poster)} />
         <div className={s.column}>
           <div className={cx(s.bone, s.name)} />
@@ -26,6 +25,9 @@ export default function EventModalLoading() {
             <div className={cx(s.bone, s.line)} />
           </Stack>
         </div>
+      </div>
+      <div className={s.actions}>
+        <div className={cx(s.bone, s.action)} />
       </div>
     </>
   )

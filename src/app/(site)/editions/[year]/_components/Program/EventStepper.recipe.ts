@@ -10,6 +10,7 @@ export const eventStepper = sva({
       textDecoration: 'none',
       _hover: { '& [data-step-name]': { color: 'action' } },
       _focusVisible: { '& [data-step-name]': { color: 'action' } },
+      _active: { '& [data-step-name]': { color: 'highlight', transitionDuration: '[0ms]' } },
       '&[data-dir=next]': { justifySelf: 'end', textAlign: 'right' },
     },
     stepLabel: {
@@ -25,7 +26,7 @@ export const eventStepper = sva({
       transition: 'interactive',
       fontWeight: 'bold',
       lineHeight: '1.4',
-      letterSpacing: '[-0.018em]',
+      letterSpacing: 'tight',
     },
     count: {
       display: 'none',

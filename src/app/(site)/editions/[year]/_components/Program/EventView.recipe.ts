@@ -1,18 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const eventView = sva({
-  slots: [
-    'page',
-    'crumb',
-    'theme',
-    'detail',
-    'rail',
-    'step',
-    'stepLabel',
-    'stepName',
-    'count',
-    'end',
-  ],
+  slots: ['page', 'crumb', 'theme', 'detail'],
   base: {
     page: {
       minHeight: 'svh',

@@ -31,7 +31,7 @@ export const eventDetail = sva({
       borderBlockEnd: 'hairline',
       cursor: 'zoom-in',
       '& img': { transition: 'develop' },
-      _hover: { '& img': { transform: 'scale(1.02)' } },
+      '&:is(:hover, :focus-visible) img': { transform: 'scale(1.02)' },
       lg: {
         aspectRatio: 'auto',
         maxHeight: '[none]',
@@ -60,7 +60,7 @@ export const eventDetail = sva({
       color: 'highlight',
       fontWeight: 'bold',
       lineHeight: '1.4',
-      letterSpacing: '[-0.018em]',
+      letterSpacing: 'tight',
     },
     description: {
       whiteSpace: 'pre-line',
@@ -121,6 +121,7 @@ export const eventDetail = sva({
         },
       },
       page: {
+        facts: { animationStyle: 'enter', animationDelay: 'stagger' },
         layout: { lg: { minHeight: '[min(70vh, 720px)]' } },
         column: { lg: { alignContent: '[safe center]' } },
       },
