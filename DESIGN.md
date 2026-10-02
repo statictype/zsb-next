@@ -231,7 +231,7 @@ Components use role tokens. The `ground` maps (`recipes/ground.ts`) set each rol
 | `caption` | 12 → 13px | captions, secondary meta |
 | `label` | 9 → 10px, 1.2px tracking, uppercase | eyebrows, badges, nav, chips |
 
-Display rungs set `text-wrap: balance`; `lead` and `body` set `pretty`. Edition themes have their own lowercase ladder (`editionTheme.sub` / `cell` / `row`), built from the same font-size tokens; `sub` carries +0.007em tracking. `tight` (-0.01em) is used only on bold Montserrat rows.
+Display rungs set `text-wrap: balance`; `lead` and `body` set `pretty`. Edition themes have their own lowercase ladder (`editionTheme.sub` / `cell` / `row`), built from the same font-size tokens; `sub` carries +0.007em tracking. `tight` (-0.018em) is used only on bold Montserrat rows.
 
 ### Named Rules
 
