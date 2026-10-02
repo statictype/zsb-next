@@ -6,7 +6,9 @@ import { BELLER_MAP_URL } from '@/lib/galeria-beller-href'
 const frame = css({
   display: 'block',
   width: 'full',
-  height: '[640px]',
+  aspectRatio: { base: '4 / 5', md: 'auto' },
+  maxHeight: '[640px]',
+  height: { md: '[640px]' },
   border: 'none',
 })
 
