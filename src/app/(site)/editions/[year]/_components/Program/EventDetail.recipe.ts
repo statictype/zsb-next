@@ -31,7 +31,7 @@ export const eventDetail = sva({
       borderBlockEnd: 'hairline',
       cursor: 'zoom-in',
       '& img': { transition: 'develop' },
-      _hover: { '& img': { transform: 'scale(1.02)' } },
+      '&:is(:hover, :focus-visible) img': { transform: 'scale(1.02)' },
       lg: {
         aspectRatio: 'auto',
         maxHeight: '[none]',
@@ -53,15 +53,18 @@ export const eventDetail = sva({
       textStyle: 'detailTitle',
       color: 'heading',
       textWrap: 'balance',
+      overflowWrap: 'break-word',
+      hyphens: 'auto',
     },
     when: {
       color: 'highlight',
       fontWeight: 'bold',
       lineHeight: '1.4',
-      letterSpacing: '[-0.018em]',
+      letterSpacing: 'tight',
     },
     description: {
       whiteSpace: 'pre-line',
+      overflowWrap: 'break-word',
       maxWidth: 'measure',
     },
     types: { marginTop: 'sm' },
@@ -118,10 +121,37 @@ export const eventDetail = sva({
         },
       },
       page: {
+        facts: { animationStyle: 'enter', animationDelay: 'stagger' },
         layout: { lg: { minHeight: '[min(70vh, 720px)]' } },
         column: { lg: { alignContent: '[safe center]' } },
       },
     },
   },
+  compoundVariants: [
+    {
+      shell: 'page',
+      poster: true,
+      css: {
+        layout: { lg: { alignItems: 'start' } },
+        poster: {
+          lg: {
+            position: 'sticky',
+            top: '[token(sizes.nav)]',
+            aspectRatio: '3 / 4',
+            maxHeight: '[calc(100svh - token(sizes.nav))]',
+            borderInlineEnd: 'none',
+            '& img': { objectPosition: 'top' },
+          },
+        },
+        column: {
+          lg: {
+            alignSelf: 'stretch',
+            alignContent: 'start',
+            borderInlineStart: 'hairline',
+          },
+        },
+      },
+    },
+  ],
   defaultVariants: { shell: 'modal', poster: false },
 })

@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
 export const eventModal = sva({
-  slots: ['shell', 'chrome', 'steps', 'count'],
+  slots: ['shell', 'chrome'],
   base: {
     shell: {
       display: 'grid',

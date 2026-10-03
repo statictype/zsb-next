@@ -59,6 +59,19 @@ function PastEventsToggle() {
   )
 }
 
+function ProgramMeta() {
+  const { state, meta } = useProgram()
+  const full = meta.scope.variant === 'full'
+  if (!full && !state.view.showPastControl) return null
+
+  return (
+    <Wrap gap="md">
+      {full && <ProgramCount />}
+      <PastEventsToggle />
+    </Wrap>
+  )
+}
+
 function ProgramBody() {
   const { meta } = useProgram()
   return (
@@ -88,17 +101,14 @@ export function LiveProgram({ intro = [] }: { intro?: string[] }) {
     <ProgramFrame aria-labelledby="program-heading">
       <Stack gap="xl">
         <Stack as="header" gap="md">
-          <SectionHeading id="program-heading" flush>
-            {meta.labels.heading}
-          </SectionHeading>
-          <ProgramIntro paragraphs={intro} />
-          <HStack justify="space-between" alignItems="flex-start" gap="md">
-            <Wrap gap="md">
-              {meta.scope.variant === 'full' && <ProgramCount />}
-              <PastEventsToggle />
-            </Wrap>
+          <HStack justify="space-between" gap="md">
+            <SectionHeading id="program-heading" flush>
+              {meta.labels.heading}
+            </SectionHeading>
             <ProgramShare />
           </HStack>
+          <ProgramIntro paragraphs={intro} />
+          <ProgramMeta />
         </Stack>
         <ProgramBody />
       </Stack>

@@ -19,13 +19,12 @@ export function ProgramShare() {
   return (
     <>
       <Button
-        variant="secondary"
-        size="sm"
+        variant="icon"
         className={copied ? shareCopied : undefined}
         onClick={share}
+        aria-label={label}
       >
-        <Icon size={15} aria-hidden />
-        {label}
+        <Icon size={22} aria-hidden />
       </Button>
       <span role="status" className={srOnly}>
         {status}

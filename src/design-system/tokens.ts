@@ -170,7 +170,7 @@ export const tokens = {
     grayscaleFull: { value: 'grayscale(1)' },
   },
   letterSpacings: {
-    tight: { value: '-0.01em' },
+    tight: { value: '-0.018em' },
     theme: { value: '0.007em' },
     label: { value: '1.2px' },
   },
