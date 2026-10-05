@@ -26,7 +26,6 @@ export const linkList = sva({
     title: {
       display: 'block',
       transition: 'interactive',
-      'a:hover &, a:focus-visible &': { color: 'action' },
     },
     subtitle: {
       display: 'block',
@@ -57,6 +56,7 @@ export const linkList = sva({
             md: '60px minmax(0, 1fr) auto auto',
           },
         },
+        title: { 'a:hover &, a:focus-visible &': { color: 'action' } },
         tags: { gridColumn: { base: '2 / 4', md: 'auto' } },
       },
       year: {
