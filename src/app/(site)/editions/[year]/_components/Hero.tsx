@@ -4,12 +4,12 @@ import { css, cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Tooltip } from '@/components/ui/Tooltip/Tooltip'
+import { portraitPhoneQuery } from '@/design-system/tokens'
 import type { Edition, EditionFact } from '@/types/edition'
 
-const PHONE = '(max-width: 599.98px) and (orientation: portrait)'
 // Only one of the two is ever displayed; the other is asked for at 1px.
-const HERO_SIZES = `${PHONE} 1px, 100vw`
-const THUMB_SIZES = `${PHONE} 100vw, 1px`
+const HERO_SIZES = `${portraitPhoneQuery} 1px, 100vw`
+const THUMB_SIZES = `${portraitPhoneQuery} 100vw, 1px`
 
 const HERO_INK_BY_YEAR: Record<number, 'black' | 'white'> = {
   2022: 'black',

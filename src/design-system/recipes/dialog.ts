@@ -38,7 +38,7 @@ export const dialog = defineSlotRecipe({
       panel: {
         root: { padding: 'lg', overflowY: 'auto' },
         content: {
-          maxWidth: 'dialogPanel',
+          maxWidth: 'narrowColumn',
           maxHeight: 'full',
           display: 'flex',
           flexDirection: 'column',

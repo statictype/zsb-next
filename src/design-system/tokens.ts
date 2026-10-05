@@ -24,10 +24,6 @@ export const conditions = {
 
   portrait: '@media (orientation: portrait)',
   portraitPhone: `@media ${portraitPhoneQuery}`,
-  portraitTablet:
-    '@media (min-width: 600px) and (max-width: 1023.98px) and (orientation: portrait)',
-  portraitLarge: '@media (min-width: 1024px) and (orientation: portrait)',
-  landscapeLg: '@media (min-width: 1024px) and (orientation: landscape)',
   landscapePhone: '@media (max-height: 499.98px) and (orientation: landscape)',
 
   hover: '&:is(:hover, [data-hover]):not(:disabled, [aria-disabled=true], [data-disabled])',
@@ -111,11 +107,8 @@ export const tokens = {
     '2xl': { value: 'clamp(48px, 32.47px + 4.1424vw, 112px)' },
     '3xl': { value: 'clamp(64px, 44.58px + 5.1780vw, 144px)' },
     '4xl': { value: 'clamp(96px, 64.93px + 8.2848vw, 224px)' },
-    sectionY: { value: 'clamp(80px, 70.29px + 2.5890vw, 120px)' },
-    sectionYLg: { value: 'clamp(150px, 120.87px + 7.7670vw, 270px)' },
 
     gutter: { value: 'clamp(16px, -7.30px + 6.2136vw, 112px)' },
-    gridGap: { value: 'clamp(16px, -0.50px + 4.4013vw, 84px)' },
   },
   radii: {
     none: { value: '0px' },
@@ -155,8 +148,6 @@ export const tokens = {
     maxWidth: { value: '1800px' },
 
     narrowColumn: { value: '520px' },
-
-    dialogPanel: { value: '540px' },
     dialogPanelWide: { value: '760px' },
   },
   assets: {
@@ -515,10 +506,6 @@ export const layerStyles = {
       transitionDuration: 'fast',
       transitionTimingFunction: 'feedback',
     },
-  },
-
-  ruleLine: {
-    value: { content: '""', width: 'lg', height: '2px', background: 'current', flexShrink: '0' },
   },
 
   disclosureIndicator: {

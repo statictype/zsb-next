@@ -18,7 +18,7 @@ export function BellerPressKit({ pressKit }: { pressKit: PressKit }) {
             {pressKit.title}
           </SectionHeading>
           {pressKit.body.map((p) => (
-            <Text as="p" variant="body" key={p} maxWidth="[60ch]">
+            <Text as="p" variant="body" key={p} maxWidth="measure">
               {p}
             </Text>
           ))}

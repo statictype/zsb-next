@@ -84,7 +84,7 @@ export const editionLoading = sva({
     section: {
       maxWidth: 'maxWidth',
       marginInline: 'auto',
-      paddingBlock: 'sectionY',
+      paddingBlock: '3xl',
       paddingInline: 'gutter',
     },
     sectionTitle: { width: '[180px]', height: '[28px]' },
