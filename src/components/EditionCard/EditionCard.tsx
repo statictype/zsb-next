@@ -21,10 +21,10 @@ interface EditionCardProps {
 }
 
 // Read off tokens.ts: the container caps at maxWidth 1800 + 2×gutter 112, and
-// the plate is then (1800 − gridGap 84) / 2. The last entry is the mobile
+// the plate is then (1800 − xl 72) / 2. The last entry is the mobile
 // thumbnail's own clamp ceiling, not a share of the viewport.
 const PLATE_SIZES =
-  '(min-width: 2024px) 858px, (min-width: 1024px) 48vw, (min-width: 768px) 90vw, 104px'
+  '(min-width: 2024px) 864px, (min-width: 1024px) 48vw, (min-width: 768px) 90vw, 104px'
 
 const COUNT_NOUNS = {
   artists: ['artist', 'artists'],

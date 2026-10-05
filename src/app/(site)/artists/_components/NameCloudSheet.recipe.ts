@@ -34,7 +34,7 @@ export const nameCloudSheet = sva({
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      marginInlineEnd: '[calc(token(spacing.sm) * -1)]',
+      marginInlineEnd: '-sm',
       border: 'none',
       background: 'transparent',
       color: 'muted',

@@ -34,7 +34,7 @@ export const aboutPage = sva({
       lg: {
         gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
         gridTemplateAreas: '"body plate"',
-        columnGap: 'gridGap',
+        columnGap: 'xl',
         alignItems: 'center',
         '&:nth-child(even)': { gridTemplateAreas: '"plate body"' },
       },
@@ -121,7 +121,7 @@ export const aboutPage = sva({
     authorPhoto: {
       position: 'relative',
       aspectRatio: '1 / 1',
-      width: '[100%]',
+      width: 'full',
       maxWidth: '[200px]',
       overflow: 'hidden',
       background: 'gray.200',

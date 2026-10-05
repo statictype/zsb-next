@@ -8,13 +8,11 @@ import { carousel } from '@/design-system/recipes/carousel'
 import { checkbox } from '@/design-system/recipes/checkbox'
 import { collapsible } from '@/design-system/recipes/collapsible'
 import { dialog } from '@/design-system/recipes/dialog'
-import { eyebrow } from '@/design-system/recipes/eyebrow'
 import { section } from '@/design-system/recipes/section'
 import { tooltip } from '@/design-system/recipes/tooltip'
 
 export const recipes = {
   badge,
-  eyebrow,
   button,
   card,
   section,

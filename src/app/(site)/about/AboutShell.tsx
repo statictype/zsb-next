@@ -11,7 +11,7 @@ import type { AboutView } from '@/sanity/lib/staticPages'
 
 const styles = aboutPage()
 
-const PILLAR_SIZES = '(min-width: 2024px) 858px, (min-width: 1024px) 48vw, 100vw'
+const PILLAR_SIZES = '(min-width: 2024px) 864px, (min-width: 1024px) 48vw, 100vw'
 
 export function AboutShell({ view }: { view: AboutView }) {
   const {

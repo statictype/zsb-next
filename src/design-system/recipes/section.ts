@@ -22,11 +22,9 @@ export const section = defineRecipe({
         ...groundLightVars,
       },
     },
-    /** Vertical rhythm — the standard cadence vs the looser breathing-room one
-     *  (manifesto, About editorial spreads). */
     rhythm: {
-      normal: { paddingBlock: 'sectionY' },
-      lg: { paddingBlock: 'sectionYLg' },
+      normal: { paddingBlock: '3xl' },
+      lg: { paddingBlock: '4xl' },
       none: { paddingBlock: '0' },
     },
   },

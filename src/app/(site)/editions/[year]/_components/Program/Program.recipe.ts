@@ -147,11 +147,13 @@ export const program = sva({
         '& a': { color: 'action' },
         '& img': { filter: '[token(assets.monoHover)]', transform: 'scale(1.03)' },
       },
-      '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
-        '&[data-poster=true]': {
-          display: 'grid',
-          gridTemplateColumns: '[minmax(0, 1fr) 220px]',
-          columnGap: 'lg',
+      xl: {
+        '@media (hover: hover) and (pointer: fine)': {
+          '&[data-poster=true]': {
+            display: 'grid',
+            gridTemplateColumns: '[minmax(0, 1fr) 220px]',
+            columnGap: 'lg',
+          },
         },
       },
     },
@@ -187,19 +189,21 @@ export const program = sva({
         filter: '[token(assets.mono)]',
         transition: 'develop',
       },
-      '@media (hover: hover) and (pointer: fine) and (min-width: 1280px)': {
-        position: 'absolute',
-        gridColumn: '2',
-        top: 'md',
-        right: '0',
-        width: '[220px]',
-        maxWidth: '[none]',
-        opacity: 0,
-        transform: 'translateX(20px)',
-        transition: 'develop',
-        pointerEvents: 'none',
-        zIndex: '3',
-        '[data-poster=true]:hover &': { opacity: 1, transform: 'translateX(0)' },
+      xl: {
+        '@media (hover: hover) and (pointer: fine)': {
+          position: 'absolute',
+          gridColumn: '2',
+          top: 'md',
+          right: '0',
+          width: '[220px]',
+          maxWidth: '[none]',
+          opacity: 0,
+          transform: 'translateX(20px)',
+          transition: 'develop',
+          pointerEvents: 'none',
+          zIndex: '3',
+          '[data-poster=true]:hover &': { opacity: 1, transform: 'translateX(0)' },
+        },
       },
     },
     archive: {

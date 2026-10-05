@@ -21,7 +21,7 @@ export function PartnerStrip({ partners }: PartnerStripProps) {
     <section className={section({ ground: 'light' })}>
       <Container>
         <div className={s.layout}>
-          <Eyebrow rule>With the support of</Eyebrow>
+          <Eyebrow>With the support of</Eyebrow>
           <div className={s.body}>
             <Marquee count={partners.length} gap="xl">
               {partners.map((partner) => {

@@ -15,7 +15,7 @@ export const onlineArtistList = sva({
     list: {
       listStyleType: 'none',
       columnCount: { base: 2, md: 3, lg: 4 },
-      columnGap: 'gridGap',
+      columnGap: 'xl',
     },
     item: {
       breakInside: 'avoid',

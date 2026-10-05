@@ -19,7 +19,7 @@ export const artistProfile = sva({
       display: 'flex',
       flexDirection: 'column',
       paddingTop: '2xl',
-      paddingBottom: 'sectionY',
+      paddingBottom: '3xl',
     },
     header: {
       display: 'grid',

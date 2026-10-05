@@ -73,7 +73,7 @@ export const designSystemPreset = definePreset({
       wrap: { defaultValues: { gap: 'sm', align: 'center' } },
       grid: {
         defaultValues: (props) => ({
-          gap: props.columnGap || props.rowGap ? undefined : 'gridGap',
+          gap: props.columnGap || props.rowGap ? undefined : 'xl',
         }),
       },
       container: {
@@ -151,7 +151,6 @@ export const designSystemPreset = definePreset({
       }),
     },
   },
-  // Mirror the stepped breakpoints from globals.css (mobile-first).
   theme: {
     extend: {
       breakpoints,

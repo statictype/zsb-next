@@ -46,7 +46,7 @@ export function VisitSection({
       <Container>
         <Grid
           gridTemplateColumns={{ lg: '5fr 6fr' }}
-          gap={{ base: '2xl', lg: 'gridGap' }}
+          gap={{ base: '2xl', lg: 'xl' }}
           alignItems="start"
         >
           <div className={frame.frame}>

@@ -70,9 +70,7 @@ export function PartnersShell({
             marginBottom="3xl"
           >
             <div>
-              <Eyebrow rule className={css({ marginBottom: 'xl' })}>
-                {whyEyebrow}
-              </Eyebrow>
+              <Eyebrow className={css({ marginBottom: 'xl' })}>{whyEyebrow}</Eyebrow>
               <SectionHeading flush className={css({ maxWidth: '[700px]' })}>
                 {whyTitle}
               </SectionHeading>

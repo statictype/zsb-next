@@ -28,7 +28,7 @@ export const editionCard = sva({
       md: {
         gridTemplateColumns: 'minmax(0, 1fr)',
         gridTemplateAreas: '"plate" "body"',
-        columnGap: 'gridGap',
+        columnGap: 'xl',
         rowGap: 'lg',
         alignItems: 'stretch',
       },
