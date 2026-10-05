@@ -14,7 +14,7 @@ export const eventModal = sva({
       color: 'body',
       // The `fullscreen` dialog has a transparent backdrop, so the shell has to
       // paint its own ground and arrive on its own.
-      animationStyle: 'arrive.fade',
+      animationStyle: 'arriveFade',
       lg: {
         gridTemplateRows: '[auto minmax(0, 1fr) auto]',
         overflow: 'hidden',

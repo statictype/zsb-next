@@ -18,6 +18,9 @@ export const recipes = {
   button,
   card,
   section,
+}
+
+export const slotRecipes = {
   accordion,
   collapsible,
   checkbox,
