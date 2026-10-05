@@ -20,7 +20,7 @@ export const editionTheme = sva({
       alignItems: 'center',
       gap: 'xs',
       alignSelf: 'center',
-      marginRight: '[0.6em]',
+      marginRight: '0.6em',
     },
     highlight: {
       transition: 'interactive',
@@ -29,13 +29,13 @@ export const editionTheme = sva({
   variants: {
     size: {
       sub: {
-        heading: { maxWidth: 'full', textStyle: 'editionTheme.sub' },
+        heading: { maxWidth: '100%', textStyle: 'editionTheme.sub' },
       },
       cell: {
-        heading: { maxWidth: 'full', textStyle: 'editionTheme.cell' },
+        heading: { maxWidth: '100%', textStyle: 'editionTheme.cell' },
       },
       row: {
-        heading: { maxWidth: 'full', textStyle: 'editionTheme.row' },
+        heading: { maxWidth: '100%', textStyle: 'editionTheme.row' },
       },
     },
     interactive: {

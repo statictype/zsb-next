@@ -12,23 +12,13 @@ import {
   tokens,
 } from '@/design-system/tokens'
 
-// `strictTokens` is ON (panda.config.ts): every value is a token; remaining
-// `[bracketed]` literals in recipes are migration backlog to tokenize, not
-// sanctioned exceptions.
 export const designSystemPreset = definePreset({
   name: 'zsb-design-system',
   conditions: { extend: conditions },
-  // The motion contract: two verbs, one spring each. `interactive` is state
-  // feedback (hovers, glyph nudges); `develop` is movement/reveal (image
-  // develops, label rolls, panel slides). Call sites say which verb, never
-  // the physics — raw transition longhands belong to this preset only.
   utilities: {
     extend: {
       transition: {
         values: ['interactive', 'develop', 'none'],
-        // Panda merges (not replaces) the built-in value names into the
-        // type union; anything but the three verbs is a deliberate no-op so
-        // a legacy name can never smuggle its own physics back in.
         transform(value: string, { token }) {
           if (value === 'none') return { transition: 'none' }
           if (value !== 'interactive' && value !== 'develop') return {}
@@ -80,11 +70,6 @@ export const designSystemPreset = definePreset({
         defaultValues: { maxWidth: 'maxWidth', px: 'gutter', position: 'static' },
       },
       navigationLabel,
-      // Stock pattern only sets `borderColor`, leaving `borderStyle` unset —
-      // with `preflight: false` (no UA border reset) that left every bare
-      // `<Divider />` invisible. Draw it with the same `hairline` composite
-      // border token every other rule in the app already uses, rather than
-      // re-deriving width/style/color by hand.
       divider: definePattern({
         properties: {
           orientation: { type: 'enum', value: ['horizontal', 'vertical'] },
@@ -107,18 +92,7 @@ export const designSystemPreset = definePreset({
         properties: {
           variant: {
             type: 'enum',
-            value: [
-              'display',
-              'title',
-              'detailTitle',
-              'heading',
-              'rowTitle',
-              'manifesto',
-              'lead',
-              'body',
-              'caption',
-              'label',
-            ],
+            value: Object.keys(textStyles).filter((name) => name !== 'editionTheme'),
           },
         },
         defaultValues: { variant: 'body' },
@@ -131,21 +105,12 @@ export const designSystemPreset = definePreset({
           'textTransform',
           'textStyle',
         ],
-        // Panda serializes this function into `styled-system/patterns`, so it
-        // cannot reference anything outside its own body.
         transform({ variant, ...rest }) {
-          const ink = [
-            'display',
-            'title',
-            'detailTitle',
-            'heading',
-            'rowTitle',
-            'manifesto',
-          ].includes(variant)
-            ? 'heading'
+          const ink = ['lead', 'body', 'caption'].includes(variant)
+            ? 'body'
             : variant === 'label'
               ? 'muted'
-              : 'body'
+              : 'heading'
           return { textStyle: variant, color: ink, ...rest }
         },
       }),
@@ -170,7 +135,6 @@ export const designSystemPreset = definePreset({
     ':focus-visible': { outline: 'focus', outlineOffset: 'token(spacing.focusInset)' },
     'a, button, [role=button], summary, label': { WebkitTapHighlightColor: 'transparent' },
     ':disabled, [aria-disabled=true], [data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
-    // The one reduced-motion rule: states still change, they just snap.
     '@media (prefers-reduced-motion: reduce)': {
       '*, *::before, *::after': {
         animationDuration: '0.01ms!',

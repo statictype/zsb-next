@@ -73,17 +73,17 @@ export function Hero({ edition }: HeroProps) {
       </div>
 
       <div className={styles.inner}>
-        <Text as="h1" variant="display" color="[currentColor]" className={styles.mast}>
+        <Text as="h1" variant="display" color="currentColor" className={styles.mast}>
           ZSB {year}
         </Text>
 
         <dl className={styles.ledger}>
           {facts.map((fact) => (
             <div key={fact.key} className={styles.row}>
-              <Text as="dt" variant="label" color="[currentColor]" className={styles.rowLabel}>
+              <Text as="dt" variant="label" color="currentColor" className={styles.rowLabel}>
                 {fact.label}
               </Text>
-              <Text as="dd" variant="caption" color="[currentColor]" className={styles.rowValue}>
+              <Text as="dd" variant="caption" color="currentColor" className={styles.rowValue}>
                 {fact.value}
               </Text>
             </div>

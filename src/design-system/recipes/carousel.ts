@@ -1,4 +1,3 @@
-import { defineSlotRecipe } from '@pandacss/dev'
 import {
   CURRENT_ATTR,
   ENGINE_ATTR,
@@ -6,10 +5,12 @@ import {
   MOVING_ATTR,
   SLIDE_CONTENT_ATTR,
 } from '@/components/Carousel/carousel-contract'
+import { defineSlotRecipe } from '@/design-system/define-recipe'
 
 const engine = `[${ENGINE_ATTR}]`
 const content = `[${SLIDE_CONTENT_ATTR}]`
-const restingContent = `:not([${ENGINE_IDLE_ATTR}]) > &:not([${CURRENT_ATTR}]) > ${content}`
+const engineBusy = `:not([${ENGINE_IDLE_ATTR}]) > &` as const
+const restingContent = `&:not([${CURRENT_ATTR}]) > ${content}` as const
 
 export const carousel = defineSlotRecipe({
   className: 'carousel',
@@ -54,7 +55,7 @@ export const carousel = defineSlotRecipe({
       // The item carries GSAP's per-frame transform, so its own transition
       // property must stay empty or the two fight.
       [`& > ${content}`]: { transition: 'develop' },
-      [restingContent]: { opacity: '[0.2]' },
+      [engineBusy]: { [restingContent]: { opacity: '0.2' } },
     },
     control: { display: 'flex', alignItems: 'center', gap: 'md' },
     arrows: { display: 'flex', alignItems: 'center', gap: 'sm', marginInlineStart: 'auto' },
@@ -65,17 +66,17 @@ export const carousel = defineSlotRecipe({
         frame: {
           aspectRatio: '1 / 1',
           _portraitPhone: {
-            '--stage-pitch': '[calc((100% - token(spacing.md)) / 1.125)]',
-            aspectRatio: '[auto]',
-            height: '[auto]',
+            '--stage-pitch': 'calc((100% - token(spacing.md)) / 1.125)',
+            aspectRatio: 'auto',
+            height: 'auto',
           },
           md: {
-            '--stage-pitch': '[78%]',
-            aspectRatio: '[auto]',
-            height: '[auto]',
+            '--stage-pitch': '78%',
+            aspectRatio: 'auto',
+            height: 'auto',
           },
           lg: {
-            '--stage-pitch': '[min(calc((100% - 72px) / 2), 900px)]',
+            '--stage-pitch': 'min(calc((100% - 72px) / 2), 900px)',
             // The hero copy sits over the frame's leading edge (page.recipe.ts),
             // so the slides under it are masked out rather than clipped.
             maskImage: [
@@ -96,18 +97,18 @@ export const carousel = defineSlotRecipe({
           width: '100%',
           height: '100%',
           _portraitPhone: {
-            width: '[var(--stage-pitch)]',
-            height: '[auto]',
+            width: 'var(--stage-pitch)',
+            height: 'auto',
           },
-          md: { width: '[var(--stage-pitch)]', height: '[auto]' },
+          md: { width: 'var(--stage-pitch)', height: 'auto' },
           [`& > ${content}`]: {
             width: '100%',
             height: '100%',
             _portraitPhone: {
-              height: '[auto]',
+              height: 'auto',
               aspectRatio: '1 / 1',
             },
-            md: { height: '[auto]', aspectRatio: '3 / 2' },
+            md: { height: 'auto', aspectRatio: '3 / 2' },
           },
         },
       },
@@ -120,7 +121,7 @@ export const carousel = defineSlotRecipe({
         control: { paddingInline: 'gutter' },
         item: {
           [`& > ${content}`]: { height: '100%' },
-          _portraitPhone: { [restingContent]: { opacity: '[1]' } },
+          _portraitPhone: { [engineBusy]: { [restingContent]: { opacity: '1' } } },
         },
       },
     },

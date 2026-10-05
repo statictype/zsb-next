@@ -17,8 +17,8 @@ export const manifesto = sva({
     },
     title: {
       lg: {
-        width: '[10em]',
-        fontSize: '[clamp(48px, 5cqi, token(fontSizes.3xl))]',
+        width: '10em',
+        fontSize: 'clamp(48px, 5cqi, token(fontSizes.3xl))',
       },
     },
     body: { maxWidth: 'measure', lg: { paddingTop: 'md' } },

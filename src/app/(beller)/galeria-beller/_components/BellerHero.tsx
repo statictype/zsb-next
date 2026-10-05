@@ -29,7 +29,7 @@ export function BellerHero({
                 priority
               />
             ) : (
-              <Text as="span" variant="display" color="[currentColor]">
+              <Text as="span" variant="display" color="currentColor">
                 {title}
               </Text>
             )}
@@ -39,10 +39,10 @@ export function BellerHero({
             <dl className={s.ledger}>
               {facts.map((fact) => (
                 <div key={fact.label} className={s.row}>
-                  <Text as="dt" variant="label" color="[currentColor]" className={s.rowLabel}>
+                  <Text as="dt" variant="label" color="currentColor" className={s.rowLabel}>
                     {fact.label}
                   </Text>
-                  <Text as="dd" variant="body" color="[currentColor]" className={s.rowValue}>
+                  <Text as="dd" variant="body" color="currentColor" className={s.rowValue}>
                     {fact.value}
                   </Text>
                 </div>

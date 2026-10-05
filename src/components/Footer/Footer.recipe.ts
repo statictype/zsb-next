@@ -37,14 +37,14 @@ export const footer = sva({
       },
     },
     colTitle: {
-      width: 'full',
+      width: '100%',
       textAlign: 'center',
-      md: { width: 'fit', textAlign: 'left' },
+      md: { width: 'fit-content', textAlign: 'left' },
     },
     // Footer-link typography layered onto the Button link variant.
     link: {
       pressable: 'inline',
-      width: 'fit',
+      width: 'fit-content',
     },
 
     stamp: {

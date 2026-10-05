@@ -1,4 +1,4 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { defineSlotRecipe } from '@/design-system/define-recipe'
 
 export const collapsible = defineSlotRecipe({
   className: 'collapsible',

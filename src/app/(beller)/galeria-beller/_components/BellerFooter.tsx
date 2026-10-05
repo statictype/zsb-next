@@ -16,10 +16,10 @@ const footer = css({
 const link = css({
   color: 'heading',
   textDecoration: 'underline',
-  textUnderlineOffset: '[0.2em]',
+  textUnderlineOffset: '0.2em',
   transition: 'colors',
   _hover: { color: 'highlight' },
-  _focusVisible: { outline: 'focus', outlineOffset: '[2px]' },
+  _focusVisible: { outline: 'focus', outlineOffset: '2px' },
 })
 
 export async function BellerFooter({ options }: { options: DynamicFetchOptions }) {
@@ -67,7 +67,7 @@ export async function BellerFooter({ options }: { options: DynamicFetchOptions }
                   data-umami-event={event}
                   data-umami-event-link={label}
                 >
-                  <Text as="span" variant="label" color="[currentColor]">
+                  <Text as="span" variant="label" color="currentColor">
                     {label}
                   </Text>
                 </a>

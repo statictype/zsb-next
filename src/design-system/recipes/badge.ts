@@ -1,4 +1,4 @@
-import { defineRecipe } from '@pandacss/dev'
+import { defineRecipe } from '@/design-system/define-recipe'
 
 export const badge = defineRecipe({
   jsx: ['Badge'],
@@ -9,8 +9,8 @@ export const badge = defineRecipe({
     alignItems: 'center',
     width: 'fit-content',
     whiteSpace: 'nowrap',
-    paddingInline: '[12px]',
-    paddingBlock: '[6px]',
+    paddingInline: '12px',
+    paddingBlock: '6px',
     borderWidth: 'hairlineThin',
     borderStyle: 'solid',
     borderColor: 'highlight',

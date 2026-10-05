@@ -59,13 +59,13 @@ export const program = sva({
       _before: {
         content: '""',
         layerStyle: 'gradientBorder',
-        inset: '[calc(token(borderWidths.hairline) * -1)]',
-        padding: '[token(borderWidths.hairline)]',
+        inset: 'calc(token(borderWidths.hairline) * -1)',
+        padding: 'token(borderWidths.hairline)',
       },
       _hover: {
         borderColor: 'transparent',
         '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
-        '& img': { filter: '[token(assets.monoHover)]', transform: 'scale(1.03)' },
+        '& img': { filter: 'token(assets.monoHover)', transform: 'scale(1.03)' },
         '& a': { color: 'action' },
       },
       ...past,
@@ -77,7 +77,7 @@ export const program = sva({
       background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: '[token(assets.mono)]',
+        filter: 'token(assets.mono)',
         transition: 'develop',
       },
     },
@@ -108,7 +108,7 @@ export const program = sva({
       ...past,
       md: {
         display: 'grid',
-        gridTemplateColumns: '[token(spacing.4xl) 1fr]',
+        gridTemplateColumns: 'token(spacing.4xl) 1fr',
         gap: '0',
         alignItems: 'start',
       },
@@ -119,7 +119,7 @@ export const program = sva({
         paddingRight: 'lg',
         textAlign: 'right',
         position: 'sticky',
-        top: '[calc(var(--program-sticky-offset, 0px) + token(spacing.lg))]',
+        top: 'calc(var(--program-sticky-offset, 0px) + token(spacing.lg))',
       },
     },
     markerDay: {
@@ -145,13 +145,13 @@ export const program = sva({
       _first: { borderTop: 'none' },
       _hover: {
         '& a': { color: 'action' },
-        '& img': { filter: '[token(assets.monoHover)]', transform: 'scale(1.03)' },
+        '& img': { filter: 'token(assets.monoHover)', transform: 'scale(1.03)' },
       },
       xl: {
         '@media (hover: hover) and (pointer: fine)': {
           '&[data-poster=true]': {
             display: 'grid',
-            gridTemplateColumns: '[minmax(0, 1fr) 220px]',
+            gridTemplateColumns: 'minmax(0, 1fr) 220px',
             columnGap: 'lg',
           },
         },
@@ -180,13 +180,13 @@ export const program = sva({
     poster: {
       position: 'relative',
       aspectRatio: '3 / 4',
-      width: 'full',
-      maxWidth: '[260px]',
+      width: '100%',
+      maxWidth: '260px',
       overflow: 'hidden',
       background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: '[token(assets.mono)]',
+        filter: 'token(assets.mono)',
         transition: 'develop',
       },
       xl: {
@@ -195,8 +195,8 @@ export const program = sva({
           gridColumn: '2',
           top: 'md',
           right: '0',
-          width: '[220px]',
-          maxWidth: '[none]',
+          width: '220px',
+          maxWidth: 'none',
           opacity: 0,
           transform: 'translateX(20px)',
           transition: 'develop',

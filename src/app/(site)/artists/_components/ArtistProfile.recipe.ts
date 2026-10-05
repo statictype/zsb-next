@@ -26,7 +26,7 @@ export const artistProfile = sva({
       gap: 'xl',
       alignItems: 'end',
       paddingBottom: 'xl',
-      gridTemplateColumns: { lg: '[minmax(0, 7fr) minmax(0, 5fr)]' },
+      gridTemplateColumns: { lg: 'minmax(0, 7fr) minmax(0, 5fr)' },
     },
     intro: {
       display: 'flex',
@@ -48,11 +48,11 @@ export const artistProfile = sva({
       borderTop: 'hairline',
       paddingTop: { base: 'xl', lg: '2xl' },
     },
-    aboutHeading: { gridColumn: '[1 / -1]' },
+    aboutHeading: { gridColumn: '1 / -1' },
     portrait: {
       position: 'relative',
       overflow: 'hidden',
-      width: '[clamp(96px, 70.76px + 6.7314vw, 200px)]',
+      width: 'clamp(96px, 70.76px + 6.7314vw, 200px)',
       aspectRatio: '4 / 5',
       '& img': { objectFit: 'cover' },
     },
@@ -75,7 +75,7 @@ export const artistProfile = sva({
   variants: {
     withPortrait: {
       true: {
-        about: { gridTemplateColumns: { sm: '[auto minmax(0, 1fr)]' } },
+        about: { gridTemplateColumns: { sm: 'auto minmax(0, 1fr)' } },
       },
       false: {},
     },

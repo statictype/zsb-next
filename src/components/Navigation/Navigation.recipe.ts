@@ -27,22 +27,22 @@ export const navigation = defineSlotRecipe({
       position: 'absolute',
       top: 'md',
       left: 'gutter',
-      width: '[40px]',
-      height: '[40px]',
+      width: '40px',
+      height: '40px',
       zIndex: 'nav',
       display: 'flex',
-      md: { top: '[24px]', width: 'touch', height: 'touch' },
-      lg: { width: '[56px]', height: '[56px]' },
-      xl: { width: '[60px]', height: '[60px]' },
+      md: { top: '24px', width: 'touch', height: 'touch' },
+      lg: { width: '56px', height: '56px' },
+      xl: { width: '60px', height: '60px' },
     },
-    logoImg: { width: 'full', height: 'full', objectFit: 'contain', display: 'block' },
+    logoImg: { width: '100%', height: '100%', objectFit: 'contain', display: 'block' },
 
     desktopNav: {
       display: 'none',
       md: {
         display: 'flex',
         position: 'absolute',
-        top: '[32px]',
+        top: '32px',
         right: 'gutter',
         gap: '0',
         // Match the logo's z-index so the menu paints above positioned hero
@@ -50,12 +50,12 @@ export const navigation = defineSlotRecipe({
         // they paint over the z-auto nav and hide the links).
         zIndex: 'nav',
       },
-      lg: { top: '[40px]' },
+      lg: { top: '40px' },
     },
     mobileShell: {
       position: 'relative',
-      width: 'full',
-      height: 'full',
+      width: '100%',
+      height: '100%',
       background: 'black',
     },
     navLink: {
@@ -72,7 +72,7 @@ export const navigation = defineSlotRecipe({
       // leaks into the link's padding.
       '& [data-nav-mask]': { display: 'block', overflow: 'hidden' },
       '& [data-nav-label]': {
-        '--nav-roll-offset': 'token(sizes.rollOffset)',
+        '--nav-roll-offset': '110%',
         display: 'block',
         position: 'relative',
         transition: 'develop',
@@ -98,7 +98,7 @@ export const navigation = defineSlotRecipe({
     desktopNavLink: {
       paddingBlock: 'sm',
       paddingInline: 'md',
-      marginRight: '[calc(token(borderWidths.hairline) * -1)]',
+      marginRight: 'calc(token(borderWidths.hairline) * -1)',
       '&:last-child': { marginRight: '0' },
     },
     mobileNavLink: {
@@ -110,8 +110,8 @@ export const navigation = defineSlotRecipe({
       position: 'fixed',
       top: '0',
       left: '0',
-      width: 'full',
-      height: '[2px]',
+      width: '100%',
+      height: '2px',
       zIndex: 'progress',
       overflow: 'hidden',
       pointerEvents: 'none',
@@ -119,17 +119,17 @@ export const navigation = defineSlotRecipe({
         content: '""',
         position: 'absolute',
         inset: '0',
-        width: '[40%]',
+        width: '40%',
         background: 'action',
         opacity: '0',
         animationName: 'progressSweep',
         animationDuration: 'sweep',
-        animationTimingFunction: '[linear]',
+        animationTimingFunction: 'linear',
         animationIterationCount: 'infinite',
         animationDelay: 'fast',
       },
       _motionReduce: {
-        _after: { animation: '[none]', opacity: '1', width: 'full' },
+        _after: { animation: 'none', opacity: '1', width: '100%' },
       },
     },
   },
@@ -142,8 +142,8 @@ export const navigationSwap = defineSlotRecipe({
   base: {
     root: {
       display: 'inline-grid',
-      width: 'navIcon',
-      height: 'navIcon',
+      width: '24px',
+      height: '24px',
       placeItems: 'center',
       '& [data-type]': {
         opacity: 0,
@@ -155,8 +155,8 @@ export const navigationSwap = defineSlotRecipe({
     indicator: {
       display: 'inline-flex',
       gridArea: '1 / 1',
-      width: 'navIcon',
-      height: 'navIcon',
+      width: '24px',
+      height: '24px',
       alignItems: 'center',
       justifyContent: 'center',
       color: 'white',
@@ -164,11 +164,11 @@ export const navigationSwap = defineSlotRecipe({
       '&[data-type=off]': { flexDirection: 'column', gap: 'xs' },
       '&[data-type=off] > span': {
         display: 'block',
-        width: '[18px]',
-        height: '[2px]',
+        width: '18px',
+        height: '2px',
         background: 'white',
       },
-      '& svg': { width: 'full', height: 'full' },
+      '& svg': { width: '100%', height: '100%' },
     },
   },
 })

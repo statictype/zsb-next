@@ -6,8 +6,8 @@ export const eventModal = sva({
     shell: {
       display: 'grid',
 
-      gridTemplateRows: '[auto 1fr auto]',
-      height: 'full',
+      gridTemplateRows: 'auto 1fr auto',
+      height: '100%',
       overflowY: 'auto',
       overscrollBehavior: 'contain',
       background: 'surface',
@@ -16,7 +16,7 @@ export const eventModal = sva({
       // paint its own ground and arrive on its own.
       animationStyle: 'arriveFade',
       lg: {
-        gridTemplateRows: '[auto minmax(0, 1fr) auto]',
+        gridTemplateRows: 'auto minmax(0, 1fr) auto',
         overflow: 'hidden',
       },
     },

@@ -1,4 +1,4 @@
-import { defineRecipe } from '@pandacss/dev'
+import { defineRecipe } from '@/design-system/define-recipe'
 
 const roll = {
   '& [data-btn-mask]': {
@@ -20,12 +20,12 @@ const roll = {
     justifyContent: 'center',
     gap: 'inherit',
     position: 'absolute',
-    top: 'token(sizes.rollOffset)',
+    top: '110%',
     left: '0',
     right: '0',
   },
   '&:is(:hover, :focus-visible):not(:disabled, [aria-disabled=true]) [data-btn-label]': {
-    transform: 'translateY(calc(token(sizes.rollOffset) * -1))',
+    transform: 'translateY(-110%)',
   },
   '&[aria-pressed=true] [data-btn-label]': { transform: 'none' },
 } as const
@@ -89,8 +89,8 @@ export const button = defineRecipe({
         _before: {
           content: '""',
           layerStyle: 'gradientBorder',
-          inset: '[calc(token(borderWidths.hairline) * -1)]',
-          padding: '[token(borderWidths.hairline)]',
+          inset: 'calc(token(borderWidths.hairline) * -1)',
+          padding: 'token(borderWidths.hairline)',
         },
         _hover: {
           borderColor: 'transparent',

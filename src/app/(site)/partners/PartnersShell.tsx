@@ -71,7 +71,7 @@ export function PartnersShell({
           >
             <div>
               <Eyebrow className={css({ marginBottom: 'xl' })}>{whyEyebrow}</Eyebrow>
-              <SectionHeading flush className={css({ maxWidth: '[700px]' })}>
+              <SectionHeading flush className={css({ maxWidth: '700px' })}>
                 {whyTitle}
               </SectionHeading>
             </div>

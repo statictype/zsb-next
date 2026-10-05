@@ -11,7 +11,7 @@ export const visitImageFrame = sva({
       marginInline: 'auto',
       md: { aspectRatio: '4 / 5' },
       lg: {
-        maxWidth: '[none]',
+        maxWidth: 'none',
         marginInline: '0',
         aspectRatio: 'auto',
         alignSelf: 'stretch',
