@@ -1,6 +1,6 @@
 import { definePattern, definePreset } from '@pandacss/dev'
 import { navigationLabel } from '@/design-system/patterns/typography'
-import { recipes } from '@/design-system/recipes'
+import { recipes, slotRecipes } from '@/design-system/recipes'
 import {
   animationStyles,
   breakpoints,
@@ -162,6 +162,7 @@ export const designSystemPreset = definePreset({
       textStyles,
       layerStyles,
       recipes,
+      slotRecipes,
     },
   },
   globalCss: {

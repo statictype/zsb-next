@@ -89,7 +89,7 @@ export const bellerHero = sva({
         marginRight: '-gutter',
       },
       lg: { marginBlock: '-2xl' },
-      animationStyle: 'enter.zoom',
+      animationStyle: 'enterZoom',
     },
     visualImg: { objectFit: 'contain' },
   },

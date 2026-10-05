@@ -3,18 +3,24 @@ import {
   defineSlotRecipe as pandaDefineSlotRecipe,
 } from '@pandacss/dev'
 import type {
-  RecipeConfig,
+  RecipeDefinition,
   RecipeVariantRecord,
-  SlotRecipeConfig,
+  SlotRecipeDefinition,
   SlotRecipeVariantRecord,
 } from 'styled-system/types'
 
-export function defineRecipe<V extends RecipeVariantRecord>(config: RecipeConfig<V>) {
-  return pandaDefineRecipe(config)
+type PandaRecipeConfig = Parameters<typeof pandaDefineRecipe>[0]
+type PandaSlotRecipeConfig = Parameters<typeof pandaDefineSlotRecipe>[0]
+type RecipeMeta = Pick<PandaRecipeConfig, 'className' | 'description' | 'jsx' | 'staticCss'>
+
+export function defineRecipe<V extends RecipeVariantRecord>(
+  config: RecipeDefinition<V> & RecipeMeta,
+) {
+  return pandaDefineRecipe(config as unknown as PandaRecipeConfig)
 }
 
 export function defineSlotRecipe<S extends string, V extends SlotRecipeVariantRecord<S>>(
-  config: SlotRecipeConfig<S, V>,
+  config: SlotRecipeDefinition<S, V> & Omit<RecipeMeta, 'className'>,
 ) {
-  return pandaDefineSlotRecipe(config)
+  return pandaDefineSlotRecipe(config as unknown as PandaSlotRecipeConfig)
 }

@@ -62,13 +62,13 @@ export function Hero({ edition }: HeroProps) {
           image={heroImage}
           sizes={HERO_SIZES}
           preload
-          className={cx(styles.image, css({ animationStyle: 'enter.zoom' }))}
+          className={cx(styles.image, css({ animationStyle: 'enterZoom' }))}
         />
         <Figure
           image={thumbImage ?? heroImage}
           sizes={THUMB_SIZES}
           preload
-          className={cx(styles.thumb, css({ animationStyle: 'enter.zoom' }))}
+          className={cx(styles.thumb, css({ animationStyle: 'enterZoom' }))}
         />
       </div>
 

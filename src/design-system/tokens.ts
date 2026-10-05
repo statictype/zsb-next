@@ -257,53 +257,49 @@ export const semanticTokens = {
 
 export const animationStyles = {
   enter: {
-    DEFAULT: {
-      value: {
-        animationName: 'enter',
-        animationDuration: 'entrance',
-        animationTimingFunction: 'motion',
-        animationFillMode: 'both',
-        '--enter-y': '30px',
-      },
+    value: {
+      animationName: 'enter',
+      animationDuration: 'entrance',
+      animationTimingFunction: 'motion',
+      animationFillMode: 'both',
+      '--enter-y': '30px',
     },
-    fade: {
-      value: {
-        animationName: 'enter',
-        animationDuration: 'entrance',
-        animationTimingFunction: 'motion',
-        animationFillMode: 'both',
-        '--enter-y': '0px',
-      },
+  },
+  enterFade: {
+    value: {
+      animationName: 'enter',
+      animationDuration: 'entrance',
+      animationTimingFunction: 'motion',
+      animationFillMode: 'both',
+      '--enter-y': '0px',
     },
-    zoom: {
-      value: {
-        animationName: 'enter',
-        animationDuration: 'entrance',
-        animationTimingFunction: 'motion',
-        animationFillMode: 'both',
-        '--enter-y': '0px',
-        '--enter-scale': '1.06',
-      },
+  },
+  enterZoom: {
+    value: {
+      animationName: 'enter',
+      animationDuration: 'entrance',
+      animationTimingFunction: 'motion',
+      animationFillMode: 'both',
+      '--enter-y': '0px',
+      '--enter-scale': '1.06',
     },
   },
   arrive: {
-    DEFAULT: {
-      value: {
-        animationName: 'enter',
-        animationDuration: 'normal',
-        animationTimingFunction: 'motion',
-        animationFillMode: 'both',
-        '--enter-y': '12px',
-      },
+    value: {
+      animationName: 'enter',
+      animationDuration: 'normal',
+      animationTimingFunction: 'motion',
+      animationFillMode: 'both',
+      '--enter-y': '12px',
     },
-    fade: {
-      value: {
-        animationName: 'enter',
-        animationDuration: 'normal',
-        animationTimingFunction: 'motion',
-        animationFillMode: 'both',
-        '--enter-y': '0px',
-      },
+  },
+  arriveFade: {
+    value: {
+      animationName: 'enter',
+      animationDuration: 'normal',
+      animationTimingFunction: 'motion',
+      animationFillMode: 'both',
+      '--enter-y': '0px',
     },
   },
   spin: {
