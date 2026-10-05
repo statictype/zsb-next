@@ -10,12 +10,10 @@ import {
   getFeaturedEvents,
   getHeroEditionLead,
 } from '@/sanity/lib/editions'
-import { getGaleriaBeller } from '@/sanity/lib/galeria-beller'
 import { toShareImage, urlFor } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
 import { HOMEPAGE } from '@/sanity/lib/queries'
 import type { EditionSummary, HeroImage, PartnerLogo, ShareImage } from '@/types/edition'
-import type { BellerImage } from '@/types/galeria-beller'
 
 type RawHomepage = NonNullable<HOMEPAGE_QUERY_RESULT>
 
@@ -87,15 +85,13 @@ export interface HomeData {
   upcoming: EditionSummary | null
   /** Newest live edition's featured events; past ones hidden client-side. */
   featured: FeaturedEvents | undefined
-  bellerVisual: { image: BellerImage; background: string } | undefined
 }
 
 export async function getHomeData(options: DynamicFetchOptions): Promise<HomeData | null> {
-  const [view, editions, lead, beller] = await Promise.all([
+  const [view, editions, lead] = await Promise.all([
     getHomepage(options),
     getEditionSummaries(options),
     getHeroEditionLead(options),
-    getGaleriaBeller(options),
   ])
   if (!view) return null
   const { upcoming } = deriveEditions(editions, todayInBucharest())
@@ -104,7 +100,6 @@ export async function getHomeData(options: DynamicFetchOptions): Promise<HomeDat
     editions,
     upcoming: lead === 'upcoming' ? upcoming : null,
     featured: await getFeaturedEvents(editions, options),
-    bellerVisual: beller?.keyVisual && { image: beller.keyVisual, background: beller.heroColor },
   }
 }
 

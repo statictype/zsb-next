@@ -2,9 +2,7 @@ import { baseMetadata } from '@app/_root/base-metadata'
 import { fontVariables } from '@app/_root/fonts'
 import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
-import { css } from 'styled-system/css'
 import { Umami } from '@/components/Analytics/Umami'
-import { BellerBanner } from '@/components/BellerBanner/BellerBanner'
 import { CookieBanner } from '@/components/CookieBanner/CookieBanner'
 import { DisableDraftMode } from '@/components/DisableDraftMode/DisableDraftMode'
 import { DraftAware } from '@/components/DraftAware/DraftAware'
@@ -46,7 +44,6 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className={fontVariables} data-scroll-behavior="smooth">
       <body>
-        <BellerBanner />
         <JsonLd
           data={{
             '@context': 'https://schema.org',
@@ -72,10 +69,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
             ],
           }}
         />
-        <div className={css({ position: 'relative' })}>
-          <Navigation />
-          {children}
-        </div>
+        <Navigation />
+        {children}
         <DraftAware cached={(options) => <Footer fetchOptions={options} />} fallback={null} />
         <CookieBanner />
         <Umami />
