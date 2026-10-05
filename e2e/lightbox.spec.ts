@@ -21,7 +21,7 @@ test('edition gallery lightbox arrows survive a soft navigation', async ({ page 
   await gallery.scrollIntoViewIfNeeded()
   await gallery.locator('button:has(img)').first().click()
 
-  const content = page.locator('[data-scope="dialog"][data-part="content"][data-state="open"]')
+  const content = page.getByRole('dialog', { name: 'Image lightbox' })
   await expect(content).toBeVisible()
   const firstSrc = await content.locator('img').first().getAttribute('src')
 

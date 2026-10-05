@@ -1,8 +1,7 @@
 'use client'
 
-import { Accordion as ArkAccordion } from '@ark-ui/react/accordion'
 import { RiArrowDownSLine } from '@remixicon/react'
-import type { ReactNode } from 'react'
+import { type ReactNode, useId, useState } from 'react'
 import { css, cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import { accordion } from 'styled-system/recipes'
@@ -23,52 +22,66 @@ interface AccordionProps {
   className?: string | undefined
 }
 
-/**
- * The site's one-piece disclosure list. Ark owns state, IDs, keyboard behavior,
- * and ARIA; Panda owns the anatomy-aligned visual contract.
- */
 export function Accordion({ id, items, multiple = false, className }: AccordionProps) {
   const styles = accordion()
+  const baseId = useId()
+  const [openIds, setOpenIds] = useState<string[]>([])
+
+  const toggle = (itemId: string) =>
+    setOpenIds((current) => {
+      if (current.includes(itemId)) return current.filter((openId) => openId !== itemId)
+      return multiple ? [...current, itemId] : [itemId]
+    })
 
   return (
-    <ArkAccordion.Root
-      {...(id ? { id } : {})}
-      className={cx(styles.root, className)}
-      defaultValue={[]}
-      multiple={multiple}
-      collapsible
-      lazyMount={false}
-      unmountOnExit={false}
-    >
-      {items.map((item) => {
+    <div id={id} className={cx(styles.root, className)}>
+      {items.map((item, index) => {
+        const open = openIds.includes(item.id)
+        const state = open ? 'open' : 'closed'
+        const triggerId = `${baseId}-trigger-${index}`
+        const contentId = `${baseId}-content-${index}`
         const trigger = (
-          <ArkAccordion.ItemTrigger className={styles.itemTrigger}>
+          <button
+            type="button"
+            id={triggerId}
+            className={styles.itemTrigger}
+            aria-expanded={open}
+            aria-controls={contentId}
+            data-state={state}
+            onClick={() => toggle(item.id)}
+          >
             <Text variant="rowTitle">{item.trigger}</Text>
             {item.meta !== undefined && (
               <Text variant="label" data-accordion-meta>
                 {item.meta}
               </Text>
             )}
-            <ArkAccordion.ItemIndicator className={styles.itemIndicator}>
+            <span className={styles.itemIndicator} data-state={state} aria-hidden>
               <RiArrowDownSLine size={20} aria-hidden />
-            </ArkAccordion.ItemIndicator>
-          </ArkAccordion.ItemTrigger>
+            </span>
+          </button>
         )
         const TriggerHeading = item.triggerHeading
 
         return (
-          <ArkAccordion.Item key={item.id} value={item.id} className={styles.item}>
+          <div key={item.id} className={styles.item} data-state={state}>
             {TriggerHeading ? (
               <TriggerHeading className={css({ margin: '0' })}>{trigger}</TriggerHeading>
             ) : (
               trigger
             )}
-            <ArkAccordion.ItemContent className={styles.itemContent}>
+            <div
+              id={contentId}
+              role="region"
+              aria-labelledby={triggerId}
+              className={styles.itemContent}
+              hidden={!open}
+            >
               {item.content}
-            </ArkAccordion.ItemContent>
-          </ArkAccordion.Item>
+            </div>
+          </div>
         )
       })}
-    </ArkAccordion.Root>
+    </div>
   )
 }

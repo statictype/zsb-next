@@ -4,19 +4,27 @@ export const dialog = defineSlotRecipe({
   className: 'dialog',
   jsx: ['Dialog'],
   description: 'Modal shell with panel and fullscreen spatial presentations',
-  slots: ['trigger', 'backdrop', 'positioner', 'content', 'title', 'description', 'closeTrigger'],
+  slots: ['root', 'content', 'title'],
   base: {
-    backdrop: {
+    root: {
       position: 'fixed',
       inset: 0,
-      background: 'surface.scrim',
-    },
-    positioner: {
-      position: 'fixed',
-      inset: 0,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      width: '100%',
+      height: '100%',
+      maxWidth: '[none]',
+      maxHeight: '[none]',
+      margin: '0',
+      padding: '0',
+      border: '0',
+      background: 'transparent',
+      textStyle: 'body',
+      color: 'body',
+      '&[open]': {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      _backdrop: { background: 'surface.scrim' },
     },
     content: {
       position: 'relative',
@@ -28,8 +36,7 @@ export const dialog = defineSlotRecipe({
   variants: {
     presentation: {
       panel: {
-        backdrop: { zIndex: 'overlay' },
-        positioner: { zIndex: 'modal', padding: 'lg', overflowY: 'auto' },
+        root: { padding: 'lg', overflowY: 'auto' },
         content: {
           maxWidth: 'dialogPanel',
           maxHeight: 'full',
@@ -43,8 +50,7 @@ export const dialog = defineSlotRecipe({
         },
       },
       fullscreen: {
-        backdrop: { zIndex: 'overlay', background: 'transparent' },
-        positioner: { zIndex: 'modal' },
+        root: { _backdrop: { background: 'transparent' } },
         content: { width: '100vw', height: '100dvh', overflow: 'hidden' },
       },
     },

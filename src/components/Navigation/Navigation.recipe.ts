@@ -6,7 +6,7 @@ import { defineSlotRecipe } from '@/design-system/define-recipe'
  * Floating logo + pill menu, no top bar. Desktop navigation is a plain nav;
  * mobile placement lives inside the shared fullscreen Dialog. Active state is
  * visual `data-active`; exact page state also gets semantic
- * `aria-current="page"`. The private Ark Swap icon is styled below.
+ * `aria-current="page"`.
  */
 export const navigation = defineSlotRecipe({
   className: 'nav',
@@ -135,13 +135,13 @@ export const navigation = defineSlotRecipe({
   },
 })
 
-/** Private Ark Swap anatomy for the hamburger/close glyph transition. */
 export const navigationSwap = defineSlotRecipe({
   className: 'nav-swap',
   jsx: ['NavigationIcon'],
   slots: ['root', 'indicator'],
   base: {
     root: {
+      display: 'inline-grid',
       width: 'navIcon',
       height: 'navIcon',
       placeItems: 'center',
@@ -153,13 +153,14 @@ export const navigationSwap = defineSlotRecipe({
       },
     },
     indicator: {
+      display: 'inline-flex',
+      gridArea: '1 / 1',
       width: 'navIcon',
       height: 'navIcon',
       alignItems: 'center',
       justifyContent: 'center',
       color: 'white',
       transition: 'develop',
-      '&[hidden]': { display: 'inline-flex!' },
       '&[data-type=off]': { flexDirection: 'column', gap: 'xs' },
       '&[data-type=off] > span': {
         display: 'block',

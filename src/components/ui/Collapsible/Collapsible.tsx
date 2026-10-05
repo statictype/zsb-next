@@ -1,8 +1,7 @@
 'use client'
 
-import { Collapsible as ArkCollapsible } from '@ark-ui/react/collapsible'
 import { RiArrowDownSLine } from '@remixicon/react'
-import type { ReactNode } from 'react'
+import { type ReactNode, useId, useState } from 'react'
 import { cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import { collapsible } from 'styled-system/recipes'
@@ -16,7 +15,6 @@ interface CollapsibleProps {
   className?: string | undefined
 }
 
-/** One independent disclosure. Ark owns state and accessibility; callers only supply content labels. */
 export function Collapsible({
   id,
   closedLabel,
@@ -26,16 +24,21 @@ export function Collapsible({
   className,
 }: CollapsibleProps) {
   const styles = collapsible()
+  const contentId = useId()
+  const [open, setOpen] = useState(false)
+  const state = open ? 'open' : 'closed'
 
   return (
-    <ArkCollapsible.Root
-      {...(id ? { id } : {})}
-      className={cx(styles.root, className)}
-      defaultOpen={false}
-      lazyMount={false}
-      unmountOnExit={false}
-    >
-      <ArkCollapsible.Trigger className={styles.trigger}>
+    <div id={id} className={cx(styles.root, className)} data-state={state}>
+      <button
+        type="button"
+        className={styles.trigger}
+        aria-expanded={open}
+        aria-controls={contentId}
+        data-part="trigger"
+        data-state={state}
+        onClick={() => setOpen((current) => !current)}
+      >
         <Text variant="label" data-collapsible-label="closed">
           {closedLabel}
         </Text>
@@ -47,11 +50,13 @@ export function Collapsible({
             {meta}
           </Text>
         )}
-        <ArkCollapsible.Indicator className={styles.indicator}>
+        <span className={styles.indicator} data-part="indicator" data-state={state} aria-hidden>
           <RiArrowDownSLine size={20} aria-hidden />
-        </ArkCollapsible.Indicator>
-      </ArkCollapsible.Trigger>
-      <ArkCollapsible.Content className={styles.content}>{children}</ArkCollapsible.Content>
-    </ArkCollapsible.Root>
+        </span>
+      </button>
+      <div id={contentId} className={styles.content} data-part="content" hidden={!open}>
+        {children}
+      </div>
+    </div>
   )
 }

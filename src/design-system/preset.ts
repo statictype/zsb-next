@@ -167,6 +167,7 @@ export const designSystemPreset = definePreset({
   },
   globalCss: {
     body: { textStyle: 'body', color: 'body', background: 'surface' },
+    'html:has(dialog:modal)': { overflow: 'hidden' },
     ':focus-visible': { outline: 'focus', outlineOffset: 'token(spacing.focusInset)' },
     'a, button, [role=button], summary, label': { WebkitTapHighlightColor: 'transparent' },
     ':disabled, [aria-disabled=true], [data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
