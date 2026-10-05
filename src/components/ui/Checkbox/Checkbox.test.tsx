@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox'
 
 describe('Checkbox', () => {
-  it('translates Ark interaction into a controlled boolean callback', async () => {
+  it('reports the next checked state through a controlled boolean callback', async () => {
     const user = userEvent.setup()
     const changes = vi.fn()
 

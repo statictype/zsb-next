@@ -1,6 +1,5 @@
 'use client'
 
-import { Swap as ArkSwap } from '@ark-ui/react/swap'
 import { RiCloseLine } from '@remixicon/react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -143,21 +142,15 @@ function CloseOnPathChange({ onChange }: { onChange: () => void }) {
 function NavigationIcon({ open }: { open: boolean }) {
   const icon = navigationSwap()
   return (
-    <ArkSwap.Root
-      swap={open}
-      lazyMount={false}
-      unmountOnExit={false}
-      className={icon.root}
-      aria-hidden
-    >
-      <ArkSwap.Indicator type="off" className={icon.indicator}>
+    <span data-swap={open ? 'on' : 'off'} className={icon.root} aria-hidden>
+      <span data-type="off" className={icon.indicator}>
         <span />
         <span />
         <span />
-      </ArkSwap.Indicator>
-      <ArkSwap.Indicator type="on" className={icon.indicator}>
+      </span>
+      <span data-type="on" className={icon.indicator}>
         <RiCloseLine />
-      </ArkSwap.Indicator>
-    </ArkSwap.Root>
+      </span>
+    </span>
   )
 }

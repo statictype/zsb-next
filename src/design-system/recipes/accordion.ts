@@ -3,7 +3,7 @@ import { defineSlotRecipe } from '@pandacss/dev'
 export const accordion = defineSlotRecipe({
   className: 'accordion',
   jsx: ['Accordion'],
-  description: 'Site accordion with Ark-owned behavior and normalized disclosure chrome',
+  description: 'Site accordion with normalized disclosure chrome',
   slots: ['root', 'item', 'itemTrigger', 'itemContent', 'itemIndicator'],
   base: {
     root: { width: '100%' },
@@ -35,7 +35,7 @@ export const accordion = defineSlotRecipe({
       flexDirection: 'column',
       gap: 'lg',
       paddingBottom: 'lg',
-      // Ark sets `hidden` on the collapsed panel; this `display` outranks the
+      // The collapsed panel carries `hidden`; this `display` outranks the
       // UA rule that would act on it.
       _hidden: { display: 'none' },
     },

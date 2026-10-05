@@ -73,6 +73,7 @@ interface Flight {
   objectPosition: string
   filter: string
   zIndex: string
+  container: Element
   onSettle: () => void
 }
 
@@ -83,7 +84,7 @@ function applyRect(style: CSSStyleDeclaration, rect: Rect): void {
   style.height = `${rect.height}px`
 }
 
-function fly({ gsap, Flip }: MotionRuntime, flight: Flight): void {
+function fly({ gsap, Flip }: MotionRuntime, flight: Flight): HTMLImageElement {
   const clone = document.createElement('img')
   clone.src = flight.source
   clone.alt = ''
@@ -96,7 +97,7 @@ function fly({ gsap, Flip }: MotionRuntime, flight: Flight): void {
   style.zIndex = flight.zIndex
   style.pointerEvents = 'none'
   applyRect(style, flight.from)
-  document.body.append(clone)
+  flight.container.append(clone)
 
   const state = Flip.getState(clone)
   applyRect(style, flight.to)
@@ -113,6 +114,7 @@ function fly({ gsap, Flip }: MotionRuntime, flight: Flight): void {
       })
     },
   })
+  return clone
 }
 
 const COLUMNS_NARROW = 6
@@ -283,6 +285,7 @@ export function useLightboxMotion({
       from,
       to,
       zIndex: token('zIndex.lightboxFlip'),
+      container: root.closest('dialog') ?? document.body,
       onSettle: () => {
         origin.style.visibility = ''
         gsap.to(imageLayer, { opacity: 1, duration: REVEAL_DURATION })
@@ -343,17 +346,24 @@ export function useLightboxMotion({
 
     origin.style.visibility = 'hidden'
     gsap.set(imageLayer, { opacity: 0 })
-    gsap.to(root, { opacity: 0, duration: CHROME_DURATION, onComplete: onClose })
-
-    fly(runtime, {
+    const clone = fly(runtime, {
       source: image.currentSrc || image.src,
       objectPosition: getComputedStyle(originImage).objectPosition,
       filter: 'none',
       from,
       to,
       zIndex: token('zIndex.lightboxFlip'),
+      container: root.closest('dialog') ?? document.body,
       onSettle: () => {
         origin.style.visibility = ''
+      },
+    })
+    gsap.to(root, {
+      opacity: 0,
+      duration: CHROME_DURATION,
+      onComplete: () => {
+        if (clone.isConnected) document.body.append(clone)
+        onClose()
       },
     })
   }

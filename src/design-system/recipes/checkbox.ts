@@ -3,8 +3,8 @@ import { defineSlotRecipe } from '@pandacss/dev'
 export const checkbox = defineSlotRecipe({
   className: 'checkbox',
   jsx: ['Checkbox'],
-  description: 'Controlled filter-option checkbox with Ark-owned interaction and site chip styling',
-  slots: ['root', 'control', 'indicator', 'label'],
+  description: 'Controlled filter-option checkbox with site chip styling',
+  slots: ['root', 'input', 'control', 'indicator', 'label'],
   base: {
     root: {
       pressable: 'fill',
@@ -25,16 +25,16 @@ export const checkbox = defineSlotRecipe({
       border: 'hairline',
       cursor: 'pointer',
       transition: 'interactive',
-      '&[data-state=checked]': {
+      '&:has(input:checked)': {
         color: 'white',
         borderColor: 'highlight',
       },
       // After `checked`, so hover wins on both props.
-      '&[data-hover]': {
+      _hover: {
         color: 'white',
         borderColor: 'action',
       },
-      '&[data-focus-visible]': {
+      '&:has(input:focus-visible)': {
         outline: 'focus',
         outlineOffset: 'focusInset',
       },
@@ -44,6 +44,7 @@ export const checkbox = defineSlotRecipe({
         fontVariantNumeric: 'tabular-nums',
       },
     },
+    input: { layerStyle: 'srOnly' },
     control: {
       width: '14px',
       height: '14px',
@@ -56,9 +57,9 @@ export const checkbox = defineSlotRecipe({
       borderColor: 'currentColor',
       opacity: 0.5,
       transition: 'interactive',
-      '&[data-hover]': { opacity: 0.8 },
+      ':hover > &': { opacity: 0.8 },
       // The only slot that fills, so the state survives a hover.
-      '&[data-state=checked]': {
+      'input:checked + &': {
         opacity: 1,
         background: 'action',
         borderColor: 'action',

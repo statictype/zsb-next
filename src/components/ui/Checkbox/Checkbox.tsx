@@ -1,6 +1,5 @@
 'use client'
 
-import { Checkbox as ArkCheckbox } from '@ark-ui/react/checkbox'
 import { RiCheckLine } from '@remixicon/react'
 import type { ReactNode } from 'react'
 import { cx } from 'styled-system/css'
@@ -16,35 +15,34 @@ interface CheckboxProps {
   className?: string | undefined
 }
 
-/**
- * Controlled site checkbox. Ark's value object and anatomy stay private; the
- * public callback receives only the next boolean state.
- */
 export function Checkbox({ id, label, checked, onCheckedChange, count, className }: CheckboxProps) {
   const styles = checkbox()
+  const labelId = `${id}-label`
   return (
-    <ArkCheckbox.Root
-      id={id}
-      checked={checked}
-      onCheckedChange={(details) => onCheckedChange(details.checked === true)}
-      className={cx(styles.root, className)}
-    >
-      <ArkCheckbox.HiddenInput />
-      <ArkCheckbox.Control className={styles.control}>
-        <ArkCheckbox.Indicator className={styles.indicator}>
+    <label className={cx(styles.root, className)}>
+      <input
+        id={id}
+        type="checkbox"
+        className={styles.input}
+        checked={checked}
+        aria-labelledby={labelId}
+        onChange={(event) => onCheckedChange(event.target.checked)}
+      />
+      <span className={styles.control} aria-hidden>
+        <span className={styles.indicator} hidden={!checked}>
           <RiCheckLine size={12} />
-        </ArkCheckbox.Indicator>
-      </ArkCheckbox.Control>
-      <ArkCheckbox.Label className={styles.label}>
+        </span>
+      </span>
+      <span id={labelId} className={styles.label}>
         <Text variant="label" color="current">
           {label}
         </Text>
-      </ArkCheckbox.Label>
+      </span>
       {count != null && (
         <Text variant="label" color="current" data-checkbox-count>
           {count}
         </Text>
       )}
-    </ArkCheckbox.Root>
+    </label>
   )
 }

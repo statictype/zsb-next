@@ -75,13 +75,13 @@ describe('Lightbox', () => {
     expect(screen.getByText('Beta')).toBeInTheDocument()
 
     swipe(stage, 0, 200)
-    await waitFor(() => expect(dialog).toHaveAttribute('data-state', 'closed'))
+    await waitFor(() => expect(dialog).not.toHaveAttribute('open'))
   })
 
   it('closes from the bar button', async () => {
     const { user, dialog } = await openLightbox()
     await user.click(screen.getByRole('button', { name: 'Close lightbox' }))
-    expect(dialog).toHaveAttribute('data-state', 'closed')
+    expect(dialog).not.toHaveAttribute('open')
   })
 
   it('shows no arrows for a single image', async () => {

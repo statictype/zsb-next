@@ -3,7 +3,7 @@ import { defineSlotRecipe } from '@pandacss/dev'
 export const collapsible = defineSlotRecipe({
   className: 'collapsible',
   jsx: ['Collapsible'],
-  description: 'Independent disclosure with Ark-owned state and site archive styling',
+  description: 'Independent disclosure with site archive styling',
   slots: ['root', 'trigger', 'content', 'indicator'],
   base: {
     root: {
