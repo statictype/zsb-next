@@ -74,6 +74,7 @@ interface Flight {
   filter: string
   zIndex: string
   container: Element
+  ready: Promise<void>
   onSettle: () => void
 }
 
@@ -82,6 +83,11 @@ function applyRect(style: CSSStyleDeclaration, rect: Rect): void {
   style.top = `${rect.top}px`
   style.width = `${rect.width}px`
   style.height = `${rect.height}px`
+}
+
+function decoded(image: HTMLImageElement | null): Promise<void> {
+  if (!image) return Promise.resolve()
+  return image.decode().catch(() => {})
 }
 
 function fly({ gsap, Flip }: MotionRuntime, flight: Flight): HTMLImageElement {
@@ -106,11 +112,13 @@ function fly({ gsap, Flip }: MotionRuntime, flight: Flight): HTMLImageElement {
     duration: FLIGHT_DURATION,
     ease: 'power3.inOut',
     onComplete: () => {
-      flight.onSettle()
-      gsap.to(clone, {
-        opacity: 0,
-        duration: SETTLE_DURATION,
-        onComplete: () => clone.remove(),
+      void flight.ready.then(() => {
+        flight.onSettle()
+        gsap.to(clone, {
+          opacity: 0,
+          duration: SETTLE_DURATION,
+          onComplete: () => clone.remove(),
+        })
       })
     },
   })
@@ -195,8 +203,6 @@ function dissolveFrom(
   return true
 }
 
-const REVEAL_DURATION = 0.18
-
 interface UseLightboxMotionOptions {
   isOpen: boolean
   index: number
@@ -220,6 +226,7 @@ export function useLightboxMotion({
   const flownRef = useRef(false)
   const closingRef = useRef(false)
   const dissolvingRef = useRef(false)
+  const openCloneRef = useRef<HTMLImageElement | null>(null)
 
   const reducedMotion = useReducedMotion()
 
@@ -278,7 +285,7 @@ export function useLightboxMotion({
     gsap.to(root, { opacity: 1, duration: CHROME_DURATION })
     origin.style.visibility = 'hidden'
 
-    fly(runtime, {
+    openCloneRef.current = fly(runtime, {
       source: originImage.currentSrc || originImage.src,
       objectPosition: computed.objectPosition,
       filter: computed.filter,
@@ -286,9 +293,11 @@ export function useLightboxMotion({
       to,
       zIndex: token('zIndex.lightboxFlip'),
       container: root.closest('dialog') ?? document.body,
+      ready: decoded(imageLayer.querySelector('img')),
       onSettle: () => {
+        if (closingRef.current) return
         origin.style.visibility = ''
-        gsap.to(imageLayer, { opacity: 1, duration: REVEAL_DURATION })
+        gsap.set(imageLayer, { opacity: 1 })
       },
     })
   }, [isOpen, index, getOrigin])
@@ -335,6 +344,7 @@ export function useLightboxMotion({
     }
 
     closingRef.current = true
+    openCloneRef.current?.remove()
     const from = containRect(
       { width: image.naturalWidth, height: image.naturalHeight },
       elementRect(stage),
@@ -354,6 +364,7 @@ export function useLightboxMotion({
       to,
       zIndex: token('zIndex.lightboxFlip'),
       container: root.closest('dialog') ?? document.body,
+      ready: Promise.resolve(),
       onSettle: () => {
         origin.style.visibility = ''
       },
