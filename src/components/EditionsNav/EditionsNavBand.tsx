@@ -51,32 +51,61 @@ export function EditionsNavBandList({
                   ? 'current'
                   : 'live'
             const statusBadge = STATUS_BADGE[status]
-            const { cell, year: yearClass, theme: themeClass } = editionsNav({ status })
+            const {
+              cell,
+              year: yearClass,
+              theme: themeClass,
+              tag,
+              face,
+              faceIn,
+            } = editionsNav({ status })
+            const rolls = status === 'live'
             const body = (
               <>
                 <div className={styles.head}>
                   <p className={yearClass}>
-                    <span className={styles.prefix}>ZSB</span> {edition.year}
+                    <span className={styles.clip}>
+                      <span className={face}>
+                        <span className={styles.prefix}>ZSB</span> {edition.year}
+                      </span>
+                      {rolls ? (
+                        <span className={faceIn} aria-hidden="true">
+                          <span className={styles.prefixIn}>ZSB</span> {edition.year}
+                        </span>
+                      ) : null}
+                    </span>
                   </p>
                   {statusBadge ? (
-                    <Badge
-                      tone={status === 'announced' ? 'muted' : 'outline'}
-                      className={styles.tag}
-                    >
+                    <Badge tone={status === 'announced' ? 'muted' : 'highlight'} className={tag}>
                       {statusBadge}
                     </Badge>
                   ) : null}
                 </div>
-                <EditionTheme
-                  as="p"
-                  size="cell"
-                  interactive={status === 'live'}
-                  muted={status === 'announced'}
-                  accent={status === 'announced' ? 'none' : 'highlight'}
-                  theme={edition.theme}
-                  themeHighlight={edition.themeHighlight}
-                  className={themeClass}
-                />
+                <p className={styles.clip}>
+                  <span className={face}>
+                    <EditionTheme
+                      as="span"
+                      size="cell"
+                      interactive={rolls}
+                      muted={status === 'announced'}
+                      accent={status === 'announced' ? 'none' : 'highlight'}
+                      theme={edition.theme}
+                      themeHighlight={edition.themeHighlight}
+                      className={themeClass}
+                    />
+                  </span>
+                  {rolls ? (
+                    <span className={faceIn} aria-hidden="true">
+                      <EditionTheme
+                        as="span"
+                        size="cell"
+                        interactive
+                        theme={edition.theme}
+                        themeHighlight={edition.themeHighlight}
+                      />
+                    </span>
+                  ) : null}
+                </p>
               </>
             )
             return status !== 'announced' ? (

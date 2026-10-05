@@ -1,7 +1,21 @@
 import { sva } from 'styled-system/css'
 
 export const editionsNav = sva({
-  slots: ['band', 'inner', 'grid', 'cell', 'head', 'year', 'prefix', 'tag', 'theme'],
+  slots: [
+    'band',
+    'inner',
+    'grid',
+    'cell',
+    'head',
+    'year',
+    'prefix',
+    'tag',
+    'theme',
+    'clip',
+    'face',
+    'faceIn',
+    'prefixIn',
+  ],
   base: {
     band: { background: 'surface', paddingBlock: 'xl' },
     inner: { layerStyle: 'sectionInner' },
@@ -38,14 +52,47 @@ export const editionsNav = sva({
     prefix: { color: 'muted' },
     tag: { marginInlineStart: 'auto' },
     theme: { flexWrap: 'wrap', overflowWrap: 'anywhere' },
+    clip: { display: 'block', position: 'relative', overflow: 'clip', margin: '0' },
+    face: { display: 'block', transition: 'develop', 'p > &': { transitionDelay: 'stagger' } },
+    faceIn: {
+      display: 'block',
+      position: 'absolute',
+      insetInline: '0',
+      top: '[100%]',
+      color: 'heading',
+      transition: 'develop',
+      'p > &': { transitionDelay: 'stagger' },
+    },
+    prefixIn: { color: 'action' },
   },
   variants: {
     status: {
       live: {
         cell: { pressable: 'fill' },
         theme: { '@media (hover: none)': { '& > span': { color: 'action' } } },
+        face: {
+          '@media (hover: hover)': { 'a:hover &': { translate: '[0 -100%]' } },
+          'a:focus-visible &': { translate: '[0 -100%]' },
+        },
+        faceIn: {
+          '@media (hover: hover)': { 'a:hover &': { translate: '[0 -100%]' } },
+          'a:focus-visible &': { translate: '[0 -100%]' },
+          'a:active & span span': { color: 'highlight', transitionDuration: '0ms' },
+        },
       },
-      current: { cell: { cursor: 'default' } },
+      current: {
+        cell: { cursor: 'default' },
+        tag: {
+          position: 'absolute',
+          insetBlockStart: '[-1px]',
+          insetInlineEnd: '[calc(token(spacing.lg) * 0.75)]',
+          paddingInline: '[12px]',
+          paddingBlockStart: '[10px]',
+          paddingBlockEnd: '[7px]',
+          borderWidth: '0',
+          boxShadow: 'litEdge',
+        },
+      },
       announced: {
         cell: { cursor: 'default' },
         year: { color: 'body' },
