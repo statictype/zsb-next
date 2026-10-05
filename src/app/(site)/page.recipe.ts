@@ -37,7 +37,7 @@ export const homePage = sva({
       lg: {
         paddingTop: '[calc(token(sizes.nav) + token(spacing.xl) + token(spacing.md))]',
         paddingBottom: '[calc(token(spacing.2xl) + token(spacing.md))]',
-        minHeight: '[calc(100svh - 90px)]',
+        minHeight: '[min(calc(100svh - 90px), 70vw)]',
       },
     },
     heroRail: {
@@ -45,6 +45,7 @@ export const homePage = sva({
       maxWidth: 'maxWidth',
       marginInline: 'auto',
       width: 'full',
+      lg: { marginTop: '[100px]' },
       '2xl': { marginTop: '[150px]' },
     },
     heroVisual: {
@@ -55,7 +56,7 @@ export const homePage = sva({
       lg: {
         // Runs the full width of the row, under the hero copy; the stage's own
         // mask fades its leading slides out behind the text.
-        gridColumn: '2',
+        gridColumn: '1 / -1',
         gridRow: '1',
         zIndex: '0',
         // `width: full` would pin the box to its grid track, leaving the
@@ -64,17 +65,12 @@ export const homePage = sva({
         marginRight:
           '[calc((min(100vw - 2 * token(spacing.gutter), token(sizes.maxWidth)) - 100vw) / 2)]',
       },
-      // Wide enough for a faded leading slide: the stage spans the whole row and
-      // runs under the hero copy, which the stage mask fades it out behind.
-      '2xl': { gridColumn: '1 / -1' },
     },
     heroPanel: {
       order: '1',
       position: 'relative',
       minWidth: '0',
-      // From 2xl the row drops 150px and the copy climbs back out of it, so the
-      // copy holds its position while the slideshow sits low against it.
-      lg: { gridColumn: '1', gridRow: '1', zIndex: '1' },
+      lg: { gridColumn: '1', gridRow: '1', zIndex: '1', transform: '[translateY(-100px)]' },
       '2xl': { transform: '[translateY(-150px)]' },
     },
     // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
