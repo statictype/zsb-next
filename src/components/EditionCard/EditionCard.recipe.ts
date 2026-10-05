@@ -13,11 +13,11 @@ export const editionCard = sva({
     'theme',
     'prefix',
     'count',
-    'arrow',
     'prose',
   ],
   base: {
     root: {
+      position: 'relative',
       display: 'grid',
       gridTemplateColumns: 'auto minmax(0, 1fr)',
       gridTemplateAreas: '"plate link"',
@@ -77,30 +77,20 @@ export const editionCard = sva({
       gap: 'md',
       color: 'body',
       textDecoration: 'none',
+      _after: { content: '""', position: 'absolute', inset: '0' },
     },
     head: { minWidth: '0', display: 'flex', flexDirection: 'column', gap: 'xs' },
-    title: {
-      fontVariantNumeric: 'tabular-nums',
-      transition: 'interactive',
-      'a:hover &, a:focus-visible &': { color: 'action' },
-    },
+    title: { fontVariantNumeric: 'tabular-nums' },
     // Themes are single hashtag words with no wrap opportunity of their own.
     theme: { overflowWrap: 'anywhere' },
     prefix: {
       color: 'muted',
       transition: 'interactive',
-      'a:hover &, a:focus-visible &': { color: 'current' },
+      'a:hover &, a:focus-visible &': { color: 'action' },
     },
     count: { color: 'heading' },
-    arrow: {
-      display: { base: 'none', lg: 'inline-block' },
-      marginLeft: '[0.3em]',
-      color: 'muted',
-      transition: 'interactive',
-      '& svg': { width: '[0.5em]', height: '[0.5em]' },
-      'a:hover &, a:focus-visible &': { color: 'action', transform: 'translate(4px, -4px)' },
-    },
     prose: {
+      position: 'relative',
       display: { base: 'none', lg: 'block' },
       maxWidth: 'measure',
     },
