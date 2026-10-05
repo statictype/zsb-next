@@ -37,7 +37,7 @@ export const homePage = sva({
       lg: {
         paddingTop: '[calc(token(sizes.nav) + token(spacing.xl) + token(spacing.md))]',
         paddingBottom: '[calc(token(spacing.2xl) + token(spacing.md))]',
-        minHeight: '[calc(100svh - 90px)]',
+        minHeight: '[min(calc(100svh - 90px), 70vw)]',
       },
     },
     heroRail: {
