@@ -74,7 +74,7 @@ export const carousel = defineSlotRecipe({
             aspectRatio: '[auto]',
             height: '[auto]',
           },
-          '2xl': {
+          lg: {
             '--stage-pitch': '[min(calc((100% - 72px) / 2), 900px)]',
             // The hero copy sits over the frame's leading edge (page.recipe.ts),
             // so the slides under it are masked out rather than clipped.

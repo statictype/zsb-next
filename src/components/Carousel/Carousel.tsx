@@ -30,9 +30,9 @@ interface CarouselProps {
 
 const safeId = (value: string) => value.replace(/[^a-zA-Z0-9_-]+/g, '-')
 
-// The stage recipe masks the leading slide from `2xl` up, and the rail recipe
+// The stage recipe masks the leading slide from `lg` up, and the rail recipe
 // lays a slide's images out as separate pages on portrait phones.
-const stageMaskQuery = `(min-width: ${breakpoints['2xl']})`
+const stageMaskQuery = `(min-width: ${breakpoints.lg})`
 
 export function Carousel({ id, slides, label, mode, eyebrow, className }: CarouselProps) {
   const generatedId = useId()
