@@ -10,7 +10,7 @@ export const eventStepper = sva({
       textDecoration: 'none',
       _hover: { '& [data-step-name]': { color: 'action' } },
       _focusVisible: { '& [data-step-name]': { color: 'action' } },
-      _active: { '& [data-step-name]': { color: 'highlight', transitionDuration: '[0ms]' } },
+      _active: { '& [data-step-name]': { color: 'highlight', transitionDuration: '0ms' } },
       '&[data-dir=next]': { justifySelf: 'end', textAlign: 'right' },
     },
     stepLabel: {
@@ -49,9 +49,9 @@ export const eventStepper = sva({
       rail: {
         root: {
           display: 'grid',
-          gridTemplateColumns: '[repeat(2, minmax(0, 1fr))]',
+          gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
           alignItems: 'start',
-          sm: { gridTemplateColumns: '[minmax(0, 1fr) auto minmax(0, 1fr)]', alignItems: 'center' },
+          sm: { gridTemplateColumns: 'minmax(0, 1fr) auto minmax(0, 1fr)', alignItems: 'center' },
           gap: 'md',
           marginTop: 'lg',
         },

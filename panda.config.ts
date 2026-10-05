@@ -8,7 +8,6 @@ export default defineConfig({
   include: ['./src/**/*.{ts,tsx}'],
   jsxFramework: 'react',
   jsxStyleProps: 'all',
-  strictTokens: true,
   strictPropertyValues: true,
   outdir: 'styled-system',
   validation: 'error',

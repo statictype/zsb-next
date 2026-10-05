@@ -23,9 +23,9 @@ export const eventDetail = sva({
 
     poster: {
       position: 'relative',
-      width: 'full',
+      width: '100%',
       aspectRatio: '3 / 4',
-      maxHeight: '[52dvh]',
+      maxHeight: '52dvh',
       overflow: 'hidden',
       background: 'black',
       borderBlockEnd: 'hairline',
@@ -34,7 +34,7 @@ export const eventDetail = sva({
       '&:is(:hover, :focus-visible) img': { transform: 'scale(1.02)' },
       lg: {
         aspectRatio: 'auto',
-        maxHeight: '[none]',
+        maxHeight: 'none',
         borderBlockEnd: 'none',
         borderInlineEnd: 'hairline',
       },
@@ -94,17 +94,17 @@ export const eventDetail = sva({
     freeEntry: {
       display: 'inline-flex',
       alignItems: 'center',
-      minHeight: '[32px]',
+      minHeight: '32px',
     },
   },
   variants: {
     poster: {
       true: {
-        layout: { lg: { gridTemplateColumns: '[minmax(0, 38%) minmax(0, 1fr)]' } },
+        layout: { lg: { gridTemplateColumns: 'minmax(0, 38%) minmax(0, 1fr)' } },
       },
       false: {
         column: { justifyItems: 'center' },
-        facts: { width: 'full', maxWidth: 'measure' },
+        facts: { width: '100%', maxWidth: 'measure' },
       },
     },
     shell: {
@@ -114,7 +114,7 @@ export const eventDetail = sva({
         layout: { lg: { minHeight: '0', overflow: 'hidden' } },
         column: {
           lg: {
-            alignContent: '[safe center]',
+            alignContent: 'safe center',
             overflowY: 'auto',
             overscrollBehavior: 'contain',
           },
@@ -122,8 +122,8 @@ export const eventDetail = sva({
       },
       page: {
         facts: { animationStyle: 'enter', animationDelay: 'stagger' },
-        layout: { lg: { minHeight: '[min(70vh, 720px)]' } },
-        column: { lg: { alignContent: '[safe center]' } },
+        layout: { lg: { minHeight: 'min(70vh, 720px)' } },
+        column: { lg: { alignContent: 'safe center' } },
       },
     },
   },
@@ -136,9 +136,9 @@ export const eventDetail = sva({
         poster: {
           lg: {
             position: 'sticky',
-            top: '[token(sizes.nav)]',
+            top: 'token(sizes.nav)',
             aspectRatio: '3 / 4',
-            maxHeight: '[calc(100svh - token(sizes.nav))]',
+            maxHeight: 'calc(100svh - token(sizes.nav))',
             borderInlineEnd: 'none',
             '& img': { objectPosition: 'top' },
           },

@@ -35,21 +35,21 @@ const brand = css({
 
 const zsb = css({
   display: 'inline-flex',
-  _focusVisible: { outline: 'focus', outlineOffset: '[2px]' },
+  _focusVisible: { outline: 'focus', outlineOffset: '2px' },
 })
 
-const zsbLogo = css({ width: 'auto', height: '[40px]', md: { height: '[44px]' } })
+const zsbLogo = css({ width: 'auto', height: '40px', md: { height: '44px' } })
 
 const home = css({
   display: 'flex',
   flexDirection: 'column',
   fontFamily: 'display',
   fontSize: 'base',
-  lineHeight: '[1.1]',
+  lineHeight: '1.1',
   color: 'white',
   textDecoration: 'none',
   whiteSpace: 'nowrap',
-  _focusVisible: { outline: 'focus', outlineOffset: '[2px]' },
+  _focusVisible: { outline: 'focus', outlineOffset: '2px' },
 })
 
 const list = css({
@@ -66,7 +66,7 @@ const link = css({
   textDecoration: 'none',
   transition: 'colors',
   _hover: { color: 'highlight' },
-  _focusVisible: { outline: 'focus', outlineOffset: '[4px]' },
+  _focusVisible: { outline: 'focus', outlineOffset: '4px' },
 })
 
 export function BellerNav() {
@@ -94,7 +94,7 @@ export function BellerNav() {
           {LINKS.map(({ label, id }) => (
             <li key={id}>
               <Link href={`${GALERIA_BELLER_PATH}#${id}`} className={link}>
-                <Text as="span" variant="label" color="[currentColor]">
+                <Text as="span" variant="label" color="currentColor">
                   {label}
                 </Text>
               </Link>

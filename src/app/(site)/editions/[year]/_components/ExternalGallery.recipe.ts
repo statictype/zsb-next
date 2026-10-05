@@ -42,17 +42,17 @@ export const externalGallery = sva({
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      maxWidth: 'full',
+      maxWidth: '100%',
       '@media (max-width: 540px)': { display: 'none' },
     },
 
     cardRight: {
       lg: {
         position: 'relative',
-        minHeight: '[420px]',
+        minHeight: '420px',
         padding: '2xl',
         borderLeft: 'hairline',
-        background: '[rgb(255 255 255 / 0.015)]',
+        background: 'rgb(255 255 255 / 0.015)',
       },
     },
     plate: {

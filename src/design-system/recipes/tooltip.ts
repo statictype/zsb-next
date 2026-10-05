@@ -1,4 +1,4 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { defineSlotRecipe } from '@/design-system/define-recipe'
 
 export const tooltip = defineSlotRecipe({
   className: 'tooltip',
@@ -13,15 +13,15 @@ export const tooltip = defineSlotRecipe({
       textDecoration: 'underline',
       textDecorationStyle: 'dotted',
       textDecorationColor: 'muted',
-      textUnderlineOffset: '[3px]',
+      textUnderlineOffset: '3px',
     },
     bubble: {
       position: 'absolute',
-      insetBlockEnd: '[calc(100% + token(spacing.xs))]',
+      insetBlockEnd: 'calc(100% + token(spacing.xs))',
       insetInlineStart: '0',
       zIndex: '10',
       width: 'max-content',
-      maxWidth: '[min(240px, 60vw)]',
+      maxWidth: 'min(240px, 60vw)',
       paddingBlock: 'xs',
       paddingInline: 'sm',
       background: 'gray.900',

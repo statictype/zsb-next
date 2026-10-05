@@ -31,7 +31,7 @@ export function ArtistRoster({
           {title}
         </SectionHeading>
         {designation && (
-          <Text variant="label" color="[currentColor]">
+          <Text variant="label" color="currentColor">
             {designation}
           </Text>
         )}

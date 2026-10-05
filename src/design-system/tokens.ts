@@ -17,6 +17,12 @@ const grayRamp = Object.fromEntries(
   ]),
 )
 
+const fluid = (min: number, max: number, from = 375, to = 1920) => {
+  const slope = ((max - min) / (to - from)) * 100
+  const intercept = min - (slope * from) / 100
+  return `clamp(${min}px, ${intercept.toFixed(2)}px + ${slope.toFixed(4)}vw, ${max}px)`
+}
+
 export const portraitPhoneQuery = '(max-width: 599.98px) and (orientation: portrait)'
 
 export const conditions = {
@@ -86,29 +92,27 @@ export const tokens = {
     body: { value: 'var(--font-montserrat), sans-serif' },
   },
   fontSizes: {
-    xs: { value: 'clamp(9px, 8.76px + 0.0647vw, 10px)' },
+    xs: { value: fluid(9, 10) },
     nav: { value: '12px' },
-    sm: { value: 'clamp(12px, 11.76px + 0.0647vw, 13px)' },
-    base: { value: 'clamp(14px, 11.71px + 0.2232vw, 16px)' },
-    md: { value: 'clamp(17px, 10.14px + 0.6696vw, 23px)' },
-    lg: { value: 'clamp(22px, 19.33px + 0.7120vw, 33px)' },
-    xl: { value: 'clamp(27px, 22.87px + 1.1003vw, 44px)' },
-    '2xl': { value: 'clamp(34px, 27.93px + 1.6181vw, 59px)' },
-    '3xl': { value: 'min(clamp(42px, 32.78px + 2.4595vw, 80px), 11vw)' },
+    sm: { value: fluid(12, 13) },
+    base: { value: fluid(14, 16, 1024) },
+    md: { value: fluid(17, 23, 1024) },
+    lg: { value: fluid(22, 33) },
+    xl: { value: fluid(27, 44) },
+    '2xl': { value: fluid(34, 59) },
+    '3xl': { value: `min(${fluid(42, 80)}, 11vw)` },
   },
   spacing: {
-    '0': { value: '0px' },
     xs: { value: '4px' },
     sm: { value: '8px' },
     focusInset: { value: 'calc({borderWidths.focus} * -1)' },
-    md: { value: 'clamp(16px, 15.03px + 0.2589vw, 20px)' },
-    lg: { value: 'clamp(24px, 18.17px + 1.5534vw, 48px)' },
-    xl: { value: 'clamp(32px, 22.29px + 2.5890vw, 72px)' },
-    '2xl': { value: 'clamp(48px, 32.47px + 4.1424vw, 112px)' },
-    '3xl': { value: 'clamp(64px, 44.58px + 5.1780vw, 144px)' },
-    '4xl': { value: 'clamp(96px, 64.93px + 8.2848vw, 224px)' },
-
-    gutter: { value: 'clamp(16px, -7.30px + 6.2136vw, 112px)' },
+    md: { value: fluid(16, 20) },
+    lg: { value: fluid(24, 48) },
+    xl: { value: fluid(32, 72) },
+    '2xl': { value: fluid(48, 112) },
+    '3xl': { value: fluid(64, 144) },
+    '4xl': { value: fluid(96, 224) },
+    gutter: { value: fluid(16, 112) },
   },
   radii: {
     none: { value: '0px' },
@@ -131,19 +135,12 @@ export const tokens = {
     },
   },
   borderWidths: {
-    '0': { value: '0px' },
     hairlineThin: { value: '0.5px' },
     hairline: { value: '1px' },
     focus: { value: '0.5px' },
   },
   sizes: {
-    '0': { value: '0px' },
-    full: { value: '100%' },
-    fit: { value: 'fit-content' },
-
     touch: { value: '48px' },
-    navIcon: { value: '24px' },
-    rollOffset: { value: '110%' },
     measure: { value: '60ch' },
     maxWidth: { value: '1800px' },
 
@@ -232,12 +229,6 @@ export const semanticTokens = {
     lightboxFlip: { value: '1020' },
     draftBadge: { value: '1030' },
     progress: { value: '1040' },
-    '0': { value: '0' },
-    '1': { value: '1' },
-    '2': { value: '2' },
-    '3': { value: '3' },
-    '10': { value: '10' },
-    '20': { value: '20' },
   },
   sizes: {
     nav: { value: { base: '60px', md: '72px', lg: '84px', xl: '100px' } },
@@ -246,53 +237,23 @@ export const semanticTokens = {
   },
 } as const
 
+const enter = (duration: string, y: string, extra: Record<string, string> = {}) => ({
+  value: {
+    animationName: 'enter',
+    animationDuration: duration,
+    animationTimingFunction: 'motion',
+    animationFillMode: 'both',
+    '--enter-y': y,
+    ...extra,
+  },
+})
+
 export const animationStyles = {
-  enter: {
-    value: {
-      animationName: 'enter',
-      animationDuration: 'entrance',
-      animationTimingFunction: 'motion',
-      animationFillMode: 'both',
-      '--enter-y': '30px',
-    },
-  },
-  enterFade: {
-    value: {
-      animationName: 'enter',
-      animationDuration: 'entrance',
-      animationTimingFunction: 'motion',
-      animationFillMode: 'both',
-      '--enter-y': '0px',
-    },
-  },
-  enterZoom: {
-    value: {
-      animationName: 'enter',
-      animationDuration: 'entrance',
-      animationTimingFunction: 'motion',
-      animationFillMode: 'both',
-      '--enter-y': '0px',
-      '--enter-scale': '1.06',
-    },
-  },
-  arrive: {
-    value: {
-      animationName: 'enter',
-      animationDuration: 'normal',
-      animationTimingFunction: 'motion',
-      animationFillMode: 'both',
-      '--enter-y': '12px',
-    },
-  },
-  arriveFade: {
-    value: {
-      animationName: 'enter',
-      animationDuration: 'normal',
-      animationTimingFunction: 'motion',
-      animationFillMode: 'both',
-      '--enter-y': '0px',
-    },
-  },
+  enter: enter('entrance', '30px'),
+  enterFade: enter('entrance', '0px'),
+  enterZoom: enter('entrance', '0px', { '--enter-scale': '1.06' }),
+  arrive: enter('normal', '12px'),
+  arriveFade: enter('normal', '0px'),
   spin: {
     value: {
       animationName: 'spin',
@@ -456,7 +417,7 @@ export const layerStyles = {
   coverMono: {
     value: {
       objectFit: 'cover',
-      filter: '[token(assets.mono)]',
+      filter: 'token(assets.mono)',
     },
   },
 
@@ -502,7 +463,7 @@ export const layerStyles = {
       opacity: '0',
       zIndex: '2',
       pointerEvents: 'none',
-      transitionProperty: '[opacity]',
+      transitionProperty: 'opacity',
       transitionDuration: 'fast',
       transitionTimingFunction: 'feedback',
     },
@@ -511,7 +472,7 @@ export const layerStyles = {
   disclosureIndicator: {
     value: {
       display: 'inline-flex',
-      transitionProperty: '[transform]',
+      transitionProperty: 'transform',
       transitionDuration: 'fast',
       transitionTimingFunction: 'feedback',
       '&[data-state=open]': { transform: 'rotate(180deg)' },

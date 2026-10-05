@@ -25,8 +25,8 @@ const code = css({
 })
 
 const divider = css({
-  width: '[48px]',
-  height: '[2px]',
+  width: '48px',
+  height: '2px',
   background: 'highlight',
   marginTop: 'lg',
   marginInline: 'auto',

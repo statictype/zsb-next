@@ -7,7 +7,7 @@ export const programFilters = sva({
       md: { flexDirection: 'row', alignItems: 'baseline', gap: 'md' },
     },
     filterRowLabel: {
-      md: { flexShrink: '0', width: '[56px]', paddingTop: 'md' },
+      md: { flexShrink: '0', width: '56px', paddingTop: 'md' },
     },
   },
 })

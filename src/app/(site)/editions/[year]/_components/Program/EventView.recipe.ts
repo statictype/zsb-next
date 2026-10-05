@@ -5,7 +5,7 @@ export const eventView = sva({
   base: {
     page: {
       minHeight: 'svh',
-      paddingTop: '[calc(token(sizes.nav) + token(spacing.md))]',
+      paddingTop: 'calc(token(sizes.nav) + token(spacing.md))',
       paddingBottom: 'xl',
     },
 

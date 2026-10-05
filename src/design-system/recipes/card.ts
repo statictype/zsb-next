@@ -1,4 +1,4 @@
-import { defineRecipe } from '@pandacss/dev'
+import { defineRecipe } from '@/design-system/define-recipe'
 import { groundDarkVars } from '@/design-system/recipes/ground'
 
 /**

@@ -19,10 +19,8 @@ describe('gallery slide bands', () => {
       `min(var(--slide-h-max), calc((var(--slide-w-max) - var(--slide-gap) * 2) / ${SLIDE_ASPECT}))`,
     )
     for (const band of SLIDE_BAND_KEYS) {
-      expect(bandStyles(band)['--slide-w-max']).toBe(`[${clampCss(SLIDE_BANDS[band].width, 'vw')}]`)
-      expect(bandStyles(band)['--slide-h-max']).toBe(
-        `[${clampCss(SLIDE_BANDS[band].height, 'vh')}]`,
-      )
+      expect(bandStyles(band)['--slide-w-max']).toBe(clampCss(SLIDE_BANDS[band].width, 'vw'))
+      expect(bandStyles(band)['--slide-h-max']).toBe(clampCss(SLIDE_BANDS[band].height, 'vh'))
     }
   })
 

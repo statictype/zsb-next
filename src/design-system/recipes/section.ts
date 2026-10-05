@@ -1,4 +1,4 @@
-import { defineRecipe } from '@pandacss/dev'
+import { defineRecipe } from '@/design-system/define-recipe'
 import { groundDarkVars, groundLightVars } from '@/design-system/recipes/ground'
 
 export const section = defineRecipe({

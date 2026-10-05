@@ -5,8 +5,8 @@ import { Figure, type FigureProps } from '@/components/Figure/Figure'
 const placeholder = css({
   position: 'absolute',
   inset: '0',
-  width: 'full',
-  height: 'full',
+  width: '100%',
+  height: '100%',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
 })

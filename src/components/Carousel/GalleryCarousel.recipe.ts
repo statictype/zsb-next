@@ -58,41 +58,41 @@ export const galleryCarousel = sva({
       '--slide-gap': 'token(spacing.sm)',
       '--slide-h':
         'min(var(--slide-h-max), calc((var(--slide-w-max) - var(--slide-gap) * 2) / 2.25))',
-      gap: '[var(--slide-gap)]',
-      height: '[var(--slide-h)]',
-      width: '[max-content]',
-      '--slide-w-max': '[clamp(320px, 92vw, 600px)]',
-      '--slide-h-max': '[clamp(200px, 48vh, 400px)]',
+      gap: 'var(--slide-gap)',
+      height: 'var(--slide-h)',
+      width: 'max-content',
+      '--slide-w-max': 'clamp(320px, 92vw, 600px)',
+      '--slide-h-max': 'clamp(200px, 48vh, 400px)',
       md: {
         '--slide-gap': 'token(spacing.md)',
-        '--slide-w-max': '[clamp(685px, 89vw, 1162px)]',
-        '--slide-h-max': '[clamp(311px, 58vh, 540px)]',
+        '--slide-w-max': 'clamp(685px, 89vw, 1162px)',
+        '--slide-h-max': 'clamp(311px, 58vh, 540px)',
       },
       lg: {
-        '--slide-w-max': '[clamp(918px, 90vw, 1464px)]',
-        '--slide-h-max': '[clamp(393px, 66vh, 655px)]',
+        '--slide-w-max': 'clamp(918px, 90vw, 1464px)',
+        '--slide-h-max': 'clamp(393px, 66vh, 655px)',
       },
       xl: {
-        '--slide-w-max': '[clamp(1071px, 83vw, 1661px)]',
-        '--slide-h-max': '[clamp(437px, 70vh, 721px)]',
+        '--slide-w-max': 'clamp(1071px, 83vw, 1661px)',
+        '--slide-h-max': 'clamp(437px, 70vh, 721px)',
       },
       '2xl': {
-        '--slide-w-max': '[clamp(1224px, 81vw, 1857px)]',
-        '--slide-h-max': '[clamp(481px, 72vh, 787px)]',
+        '--slide-w-max': 'clamp(1224px, 81vw, 1857px)',
+        '--slide-h-max': 'clamp(481px, 72vh, 787px)',
       },
       '4xl': {
-        '--slide-w-max': '[clamp(1398px, 76vw, 2054px)]',
-        '--slide-h-max': '[clamp(524px, 74vh, 852px)]',
+        '--slide-w-max': 'clamp(1398px, 76vw, 2054px)',
+        '--slide-h-max': 'clamp(524px, 74vh, 852px)',
       },
       _portraitPhone: {
         '--slide-gap': 'token(spacing.md)',
-        '--slide-w': '[calc((100vw - token(spacing.gutter) - token(spacing.md)) / 1.125)]',
-        gridTemplateColumns: '[none]',
-        gridTemplateRows: '[1fr]',
+        '--slide-w': 'calc((100vw - token(spacing.gutter) - token(spacing.md)) / 1.125)',
+        gridTemplateColumns: 'none',
+        gridTemplateRows: '1fr',
         gridAutoFlow: 'column',
-        gridAutoColumns: '[var(--slide-w)]',
-        width: '[auto]',
-        height: '[var(--slide-w)]',
+        gridAutoColumns: 'var(--slide-w)',
+        width: 'auto',
+        height: 'var(--slide-w)',
       },
     },
 
@@ -136,33 +136,33 @@ export const galleryCarousel = sva({
   },
   variants: {
     layout: {
-      trio: { slide: { gridTemplateColumns: '[repeat(3, calc(var(--slide-h) * 0.75))]' } },
-      duo: { slide: { gridTemplateColumns: '[repeat(2, var(--slide-h))]' } },
+      trio: { slide: { gridTemplateColumns: 'repeat(3, calc(var(--slide-h) * 0.75))' } },
+      duo: { slide: { gridTemplateColumns: 'repeat(2, var(--slide-h))' } },
       'featured-portrait': {
         slide: {
-          gridTemplateColumns: '[calc(var(--slide-h) * 1.5) calc(var(--slide-h) * 0.75)]',
+          gridTemplateColumns: 'calc(var(--slide-h) * 1.5) calc(var(--slide-h) * 0.75)',
         },
       },
       'featured-stack': {
         slide: {
           gridTemplateColumns:
-            '[calc(var(--slide-h) * 1.5) calc((var(--slide-h) - var(--slide-gap)) * 0.75)]',
-          gridTemplateRows: '[1fr 1fr]',
+            'calc(var(--slide-h) * 1.5) calc((var(--slide-h) - var(--slide-gap)) * 0.75)',
+          gridTemplateRows: '1fr 1fr',
           '& > *:first-child': { gridRow: '1 / -1' },
         },
       },
-      full: { slide: { gridTemplateColumns: '[calc(var(--slide-h) * 1.5)]' } },
+      full: { slide: { gridTemplateColumns: 'calc(var(--slide-h) * 1.5)' } },
     },
     treatment: {
       mono: {
         item: {
-          '& img': { filter: '[token(assets.mono)]' },
-          '&:hover, &:focus-visible': { '& img': { filter: '[token(assets.monoReveal)]' } },
+          '& img': { filter: 'token(assets.mono)' },
+          '&:hover, &:focus-visible': { '& img': { filter: 'token(assets.monoReveal)' } },
         },
       },
       color: {
         item: {
-          '& img': { filter: '[token(assets.color)]' },
+          '& img': { filter: 'token(assets.color)' },
         },
       },
     },

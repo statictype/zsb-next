@@ -1,4 +1,4 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { defineSlotRecipe } from '@/design-system/define-recipe'
 
 export const dialog = defineSlotRecipe({
   className: 'dialog',
@@ -11,8 +11,8 @@ export const dialog = defineSlotRecipe({
       inset: 0,
       width: '100%',
       height: '100%',
-      maxWidth: '[none]',
-      maxHeight: '[none]',
+      maxWidth: 'none',
+      maxHeight: 'none',
       margin: '0',
       padding: '0',
       border: '0',
@@ -39,7 +39,7 @@ export const dialog = defineSlotRecipe({
         root: { padding: 'lg', overflowY: 'auto' },
         content: {
           maxWidth: 'narrowColumn',
-          maxHeight: 'full',
+          maxHeight: '100%',
           display: 'flex',
           flexDirection: 'column',
           background: 'black',

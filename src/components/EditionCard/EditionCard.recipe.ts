@@ -40,7 +40,7 @@ export const editionCard = sva({
     plate: {
       gridArea: 'plate',
       position: 'relative',
-      width: { base: '[clamp(72px, 22vw, 104px)]', md: 'full' },
+      width: { base: 'clamp(72px, 22vw, 104px)', md: '100%' },
       border: 'hairline',
       aspectRatio: { base: '1 / 1', md: '16 / 9', lg: '3 / 2' },
     },
@@ -53,11 +53,11 @@ export const editionCard = sva({
     image: {
       objectFit: 'cover',
       background: 'gray.900',
-      filter: '[token(assets.color)]',
+      filter: 'token(assets.color)',
       transform: 'scale(1.01)',
       transition: 'develop',
       'article:has([data-card-link]:hover) &, article:has([data-card-link]:focus-visible) &': {
-        filter: '[token(assets.colorHover)]',
+        filter: 'token(assets.colorHover)',
         transform: 'scale(1.05)',
       },
     },

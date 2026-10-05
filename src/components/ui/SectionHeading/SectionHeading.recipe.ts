@@ -2,7 +2,7 @@ import { cva } from 'styled-system/css'
 
 export const sectionHeading = cva({
   base: {
-    textWrap: '[pretty]',
+    textWrap: 'pretty',
     textTransform: 'uppercase',
   },
   variants: {
