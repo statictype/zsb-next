@@ -1,7 +1,6 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { homePage } from '@site/page.recipe'
 import { ArtistsBanner } from '@site-components/ArtistsBanner'
-import { BellerCallout } from '@site-components/BellerCallout'
 import { FeaturedSpotlight } from '@site-components/FeaturedSpotlight'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
@@ -10,6 +9,7 @@ import { section } from 'styled-system/recipes'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
+import { PartnerStrip } from '@/components/PartnerStrip/PartnerStrip'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
 import { LinkList, LinkListItem } from '@/components/ui/LinkList/LinkList'
@@ -20,7 +20,7 @@ import type { HomeData } from '@/sanity/lib/homepage'
 
 const styles = homePage()
 
-export function HomeShell({ view, editions, upcoming, featured, bellerVisual }: HomeData) {
+export function HomeShell({ view, editions, upcoming, featured }: HomeData) {
   const {
     heroTitle: title,
     heroLead: lead,
@@ -28,6 +28,7 @@ export function HomeShell({ view, editions, upcoming, featured, bellerVisual }: 
     heroCtaEditionYear: ctaYear,
     editionsIntro,
     slideshow: slides,
+    partners,
   } = view
   const slideshow = slides.length > 0 ? slides : [{ ...PLACEHOLDER_IMAGE, position: 'center' }]
   const list = editions
@@ -113,9 +114,7 @@ export function HomeShell({ view, editions, upcoming, featured, bellerVisual }: 
         </section>
       )}
 
-      {bellerVisual && (
-        <BellerCallout visual={bellerVisual.image} background={bellerVisual.background} />
-      )}
+      <PartnerStrip partners={partners} />
 
       {featured && <FeaturedSpotlight year={featured.year} events={featured.events} />}
 
