@@ -1,4 +1,3 @@
-import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { Fragment, type ReactNode } from 'react'
 import { cx } from 'styled-system/css'
@@ -69,9 +68,6 @@ export function EditionCard({
           <div className={styles.head}>
             <Text as="h2" variant="title" className={styles.title}>
               <span className={styles.prefix}>ZSB</span> {edition.year}
-              <span className={styles.arrow} aria-hidden>
-                <RiArrowRightUpLine size={24} />
-              </span>
             </Text>
             <EditionTheme
               as="p"
