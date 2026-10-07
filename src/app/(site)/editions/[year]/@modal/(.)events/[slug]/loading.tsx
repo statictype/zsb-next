@@ -1,10 +1,10 @@
-import { eventLoading } from '@edition/events/[slug]/loading.recipe'
+import { eventModalLoading } from '@edition/@modal/(.)events/[slug]/loading.recipe'
 import { EventModalLoadingChrome } from '@program/EventModal'
 import { cx } from 'styled-system/css'
 import { Stack } from 'styled-system/jsx'
 import { DialogTitle } from '@/components/ui/Dialog/Dialog'
 
-const s = eventLoading({ shell: 'modal' })
+const s = eventModalLoading()
 
 export default function EventModalLoading() {
   return (

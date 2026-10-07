@@ -218,11 +218,12 @@ async function CachedSingleton({ page, options }: { page: PageKey; options: Dyna
 
 Two variants:
 - **Singleton routes** (`page.tsx` (homepage), `about`, `partners`, `visit`, `privacy`, `press`, `editions` index) go through `singletonPage(key)`, which wraps `CachedSingleton` in `<DraftAware>`; the page file only exports what the registry returns.
-- **Routes with `loading.tsx`** (e.g. `/editions/[year]`): the loading file provides Suspense, so the page skips the `DraftAware` branch and resolves options directly:
+- **Dynamic-segment routes** (`/editions/[year]`): the page awaits `params`, then wraps its cached leaf in `<DraftAware>` directly:
   ```tsx
-  const [{ year }, options] = await Promise.all([props.params, getDynamicFetchOptions()])
-  return <CachedEdition year={Number(year)} options={options} />
+  const { year } = await props.params
+  return <DraftAware cached={(options) => <CachedEdition year={Number(year)} options={options} />} fallback={null} />
   ```
+  No `loading.tsx` on these routes. React places a Suspense fallback ahead of large content in static HTML, so a route-level skeleton paints before the prerendered page. The intercepted `@modal/(.)events/[slug]` route sets `export const instant = false`, because its prerender has no concrete `year`.
 - **A component embedded on several pages** (`EditionsNav`, shown on the edition, About, and Partners routes) owns its own `<DraftAware>` internally rather than each page re-resolving it — the component is the reusable unit, so it's also the one that should wrap the triplet. A page just renders `<EditionsNav />`; there's no per-page Suspense to remember.
 
 ### Rendering when a singleton is missing
@@ -397,7 +398,7 @@ Walk-through with a hypothetical `/contact` singleton page. For a non-singleton 
    ```
    `load` fans in anything else the Shell needs (site settings, related lists) and returns `null` when the singleton is absent. `editionsNav: true` appends the editions band; `fallback` is what streams while draft mode resolves.
 
-   Variant with `loading.tsx` sibling: skip the registry and call `getDynamicFetchOptions` in the page directly; Next-provided loading state covers the Suspense. See `editions/[year]/page.tsx` for that shape.
+   Dynamic-segment variant: skip the registry, await `params` in the page, and wrap the cached leaf in `<DraftAware>`. See `editions/[year]/page.tsx`.
 
 9. **Missing singleton → 404; normalize in the layer.** A page singleton that isn't published is a 404 — `load` returns `null` and `singletonPage` calls `notFound()`, not a render-with-empties. For a *present* singleton, normalize in the **data layer**: the fetcher returns a **total view-model** — text coalesced to `''`, lists to `[]`, and only genuinely-optional members (images, optional sections, SEO) left absent — so the page Shell is a pure renderer with no `?? ''` / `?? []`. Missing *images* still resolve to `PLACEHOLDER_IMAGE` (`src/lib/placeholder.ts`). See `getAboutPage` / `normalizeAbout` for the pattern (About, Partners, Privacy, Home, Press all follow it; Visit + `siteSettings` stay genuine-optional consumers — their absence is branched on, not 404'd).
 
