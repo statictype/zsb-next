@@ -1,5 +1,6 @@
 'use client'
 
+import { STAGE_SIZES } from '@/components/Carousel/carousel-contract'
 import { homepageCarousel } from '@/components/Carousel/HomepageCarousel.recipe'
 import { LightboxGallery } from '@/components/Carousel/LightboxGallery'
 import { SlideFigure } from '@/components/Carousel/SlideFigure'
@@ -26,8 +27,9 @@ export function HomepageCarousel({ images }: { images: HeroImage[] }) {
           <SlideFigure
             loading={loading}
             image={image}
-            sizes="(min-width: 1024px) 940px, (min-width: 768px) 70vw, 100vw"
+            sizes={STAGE_SIZES}
             preload={index === 0}
+            fetchPriority={index === 0 ? 'high' : 'auto'}
             className={styles.image}
             style={image.position ? { objectPosition: image.position } : undefined}
             draggable={false}

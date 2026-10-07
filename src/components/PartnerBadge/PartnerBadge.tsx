@@ -14,7 +14,7 @@ export function PartnerBadge({ size = 'standard' }: PartnerBadgeProps = {}) {
 
   return (
     <div className={s.wrap}>
-      <Link href="/partners" className={s.link} aria-label="Become a partner">
+      <Link href="/partners" className={s.link} aria-label="Support the mission, become a partner">
         <Center className={s.body}>
           <div className={s.textRing}>
             <svg viewBox="0 0 500 500" aria-hidden="true">

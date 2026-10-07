@@ -129,14 +129,15 @@ function toPartnerMark(
   const dimensions = logo?.dimensions
   if (!logo || !image || !dimensions) return undefined
   const { width, height, aspectRatio } = dimensions
+  const scale = markScale(aspectRatio, lead)
   return {
     ...image,
     src: urlFor(logo as SanityImageSource)
-      .height(MARK_SOURCE_HEIGHT)
+      .height(Math.min(MARK_SOURCE_HEIGHT, Math.ceil(MARK_SOURCE_HEIGHT * scale)))
       .url(),
     width,
     height,
-    scale: markScale(aspectRatio, lead),
+    scale,
   }
 }
 

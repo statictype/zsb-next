@@ -10,7 +10,9 @@
    panda.css) so Panda's recipes/utilities (later layers) override the element
    base styles below. Unlayered rules outrank ALL layers, so the reset must be
    layered or it beats every Panda padding/margin. */
-@layer reset, base, tokens, recipes, utilities;
+/* Panda's PostCSS plugin injects its full output into every file whose @layer
+   statement lists all of its layers; listing all five here emits it twice. */
+@layer reset, base;
 
 /* ---- Reset + base element styles ----
    Wrapped in @layer base so Panda recipes/utilities win over them. The body

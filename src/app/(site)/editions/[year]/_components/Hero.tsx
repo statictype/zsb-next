@@ -62,6 +62,7 @@ export function Hero({ edition }: HeroProps) {
           image={heroImage}
           sizes={HERO_SIZES}
           preload
+          fetchPriority="high"
           className={cx(styles.image, css({ animationStyle: 'enterZoom' }))}
         />
         <Figure
