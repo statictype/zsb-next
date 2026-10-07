@@ -8,6 +8,7 @@ import { useReportPending } from '@/components/Navigation/navigation-pending'
 export const NAV_ITEMS = [
   { label: 'About', href: '/about' },
   { label: 'Editions', href: '/editions' },
+  { label: 'Partners', href: '/partners' },
   { label: 'Visit', href: '/visit' },
 ] as const
 
