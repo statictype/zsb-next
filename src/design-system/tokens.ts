@@ -76,7 +76,7 @@ export const keyframes = {
   },
   marquee: {
     from: { transform: 'translate3d(0, 0, 0)' },
-    to: { transform: 'translate3d(-50%, 0, 0)' },
+    to: { transform: 'translate3d(-25%, 0, 0)' },
   },
 } as const
 
@@ -212,7 +212,7 @@ export const semanticTokens = {
     heading: { value: { base: '{colors.white}', _groundLight: '{colors.black}' } },
     body: { value: { base: '{colors.gray.400}', _groundLight: '{colors.gray.700}' } },
     muted: { value: { base: '{colors.gray.500}', _groundLight: '{colors.gray.600}' } },
-    divider: { value: { base: '{colors.gray.900}', _groundLight: '{colors.gray.200}' } },
+    divider: { value: { base: '{colors.gray.800}', _groundLight: '{colors.gray.200}' } },
     action: { value: '{colors.pink}' },
     highlight: { value: '{colors.chartreuse}' },
   },
