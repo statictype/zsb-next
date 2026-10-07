@@ -10,7 +10,13 @@ vi.mock('@/sanity/lib/live', () => ({
 }))
 
 import { getHomeData } from '@/sanity/lib/homepage'
-import { EDITION_BY_YEAR, EDITION_SUMMARIES, HERO_EDITION, HOMEPAGE } from '@/sanity/lib/queries'
+import {
+  ARTIST_INDEX,
+  EDITION_BY_YEAR,
+  EDITION_SUMMARIES,
+  HERO_EDITION,
+  HOMEPAGE,
+} from '@/sanity/lib/queries'
 
 const OPTIONS = { perspective: 'published' as const }
 
@@ -31,6 +37,7 @@ describe('getHomeData', () => {
       summary({ year: 2026, status: 'live' }),
     ])
     table.set(EDITION_BY_YEAR.query, () => null)
+    table.set(ARTIST_INDEX.query, () => [])
     vi.stubEnv('NEXT_PUBLIC_ZSB_TODAY', '2026-06-01')
   })
 

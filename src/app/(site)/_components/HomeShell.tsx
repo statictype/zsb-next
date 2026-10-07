@@ -8,19 +8,20 @@ import { Divider, Grid, HStack, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { HomepageCarousel } from '@/components/Carousel/HomepageCarousel'
 import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
+import { Figure } from '@/components/Figure/Figure'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { PartnerStrip } from '@/components/PartnerStrip/PartnerStrip'
 import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
-import { LinkList, LinkListItem } from '@/components/ui/LinkList/LinkList'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { editionHref } from '@/lib/edition-href'
 import { PLACEHOLDER_IMAGE } from '@/lib/placeholder'
 import type { HomeData } from '@/sanity/lib/homepage'
+import type { EditionSummary } from '@/types/edition'
 
 const styles = homePage()
 
-export function HomeShell({ view, editions, upcoming, featured }: HomeData) {
+export function HomeShell({ view, editions, upcoming, featured, artistCount }: HomeData) {
   const {
     heroTitle: title,
     heroLead: lead,
@@ -120,24 +121,33 @@ export function HomeShell({ view, editions, upcoming, featured }: HomeData) {
 
       <section id="editions" className={cx(styles.panel, section())}>
         <div className={styles.editionsLayout}>
-          <Stack className={styles.editionsHead}>
-            <SectionHeading flush>Editions</SectionHeading>
-            <Text as="p" variant="caption" className={styles.editionsSubtext}>
-              {editionsIntro}
-            </Text>
-          </Stack>
-          <LinkList className={styles.editionList}>
+          <div className={styles.editionsHead}>
+            <Stack gap="md">
+              <SectionHeading flush>Editions</SectionHeading>
+              <Text as="p" variant="caption" className={styles.editionsSubtext}>
+                {editionsIntro}
+              </Text>
+            </Stack>
+            <dl className={styles.editionsLedger}>
+              {editionTotals(list, artistCount).map((stat) => (
+                <div key={stat.label} className={styles.editionsStat}>
+                  <Text as="dt" variant="label">
+                    {stat.label}
+                  </Text>
+                  <Text as="dd" variant="caption" color="heading">
+                    {stat.value}
+                  </Text>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <ol className={styles.editionsWall}>
             {list.map((edition) => {
-              const year = (
-                <>
-                  <span className={styles.editionPrefix}>ZSB</span> {edition.year}
-                </>
-              )
               const live = edition.status === 'live'
               const theme = live ? (
                 <EditionTheme
                   as="span"
-                  size="row"
+                  size="cell"
                   interactive
                   className={styles.editionThemeRow}
                   theme={edition.theme}
@@ -146,7 +156,7 @@ export function HomeShell({ view, editions, upcoming, featured }: HomeData) {
               ) : (
                 <EditionTheme
                   as="span"
-                  size="row"
+                  size="cell"
                   muted
                   accent="none"
                   className={styles.editionThemeRow}
@@ -154,30 +164,80 @@ export function HomeShell({ view, editions, upcoming, featured }: HomeData) {
                   themeHighlight={edition.themeHighlight}
                 />
               )
-              return live ? (
-                <LinkListItem
-                  key={edition.year}
-                  emphasis="year"
-                  year={year}
-                  title={theme}
-                  href={edition.href}
-                />
-              ) : (
-                <LinkListItem
-                  key={edition.year}
-                  emphasis="year"
-                  year={year}
-                  title={theme}
-                  tags={[<Badge key="status">Coming soon</Badge>]}
-                  disabled
-                />
+              const body = (
+                <>
+                  <div className={styles.editionPlate}>
+                    <Figure
+                      image={edition.thumbImage ?? edition.heroImage}
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      className={styles.editionImage}
+                    />
+                  </div>
+                  <div className={styles.editionMeta}>
+                    <Text as="span" variant="cardTitle">
+                      <span className={styles.editionPrefix}>ZSB</span> {edition.year}
+                    </Text>
+                    {theme}
+                    <span className={styles.editionLines}>
+                      <Text as="span" variant="label">
+                        {live ? editionFactLine(edition) : editionDates(edition)}
+                      </Text>
+                      {!live && <Badge>Coming soon</Badge>}
+                    </span>
+                  </div>
+                </>
+              )
+              return (
+                <li key={edition.year}>
+                  {live ? (
+                    <Link className={styles.editionTile} href={edition.href}>
+                      {body}
+                    </Link>
+                  ) : (
+                    <div className={styles.editionTile} aria-disabled="true">
+                      {body}
+                    </div>
+                  )}
+                </li>
               )
             })}
-          </LinkList>
+          </ol>
         </div>
       </section>
 
       <ArtistsBanner />
     </main>
   )
+}
+
+function editionDates(edition: EditionSummary) {
+  for (const fact of edition.facts) if (fact.kind === 'dates') return fact.text
+  return ''
+}
+
+function factCount(edition: EditionSummary, kind: 'artists' | 'events') {
+  let total = 0
+  for (const fact of edition.facts) if ('count' in fact && fact.kind === kind) total += fact.count
+  return total
+}
+
+function editionFactLine(edition: EditionSummary) {
+  const counts = [
+    [factCount(edition, 'artists'), 'artists'] as const,
+    [factCount(edition, 'events'), 'events'] as const,
+  ]
+    .filter(([count]) => count > 0)
+    .map(([count, noun]) => `${count} ${noun}`)
+  return [editionDates(edition), ...counts].filter(Boolean).join(' · ')
+}
+
+function editionTotals(editions: EditionSummary[], artistCount: number) {
+  const live = editions.filter((edition) => edition.status === 'live')
+  const sum = (kind: 'artists' | 'events') =>
+    live.reduce((total, edition) => total + factCount(edition, kind), 0)
+  return [
+    { label: 'Editions', value: live.length },
+    { label: 'Artists', value: artistCount },
+    { label: 'Events', value: sum('events') },
+  ]
 }
