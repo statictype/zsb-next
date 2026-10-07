@@ -145,7 +145,7 @@ export const homePage = sva({
     editionPlate: {
       position: 'relative',
       overflow: 'hidden',
-      aspectRatio: { base: '1 / 1', md: '16 / 9', lg: '3 / 2' },
+      aspectRatio: { base: '3 / 2', md: '16 / 9', lg: '3 / 2' },
       '[aria-disabled] > &': { opacity: '0.5' },
     },
     editionImage: {
