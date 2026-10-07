@@ -99,21 +99,12 @@ const PARTNERS_PAGE_QUERY = defineQuery(`
     ctaHeadingAccent,
     ctaBody,
     ctaLabel,
-    "partners": *[_id == "homepage"][0].partnerStrip[]->{
-      _id,
-      name,
-      url,
-      logo{ ..., "aspectRatio": asset->metadata.dimensions.aspectRatio }
-    },
     ogImage,
     metaDescription
   }
 `)
 
-export const PARTNERS_PAGE = {
-  query: PARTNERS_PAGE_QUERY,
-  tags: ['partnersPage', 'homepage', 'organization'],
-}
+export const PARTNERS_PAGE = { query: PARTNERS_PAGE_QUERY, tags: ['partnersPage'] }
 
 const VISIT_PAGE_QUERY = defineQuery(`
   *[_id == "visitPage"][0]{

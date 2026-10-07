@@ -8,13 +8,11 @@ import { definedFields } from '@/lib/defined-fields'
 import type { FaqEntry } from '@/lib/seo'
 import { mapCarousel } from '@/sanity/lib/carousel'
 import { toImageData, toShareImage } from '@/sanity/lib/image'
-import { mapPartnerLogos } from '@/sanity/lib/partner-logos'
 import type {
   Amenity,
   CarouselSlide,
   IconKey,
   ImageData,
-  PartnerLogo,
   ShareImage,
   TransportRoute,
   VisitData,
@@ -57,7 +55,6 @@ export interface PartnersView {
   ctaHeadingAccent: string
   ctaBody: string
   ctaLabel: string
-  partners: PartnerLogo[]
   eventImage?: ImageData
   whyImage?: ImageData
   ogImage?: ShareImage
@@ -124,7 +121,6 @@ export function normalizePartners(raw: PartnersPageRaw): PartnersView {
     ctaHeadingAccent: raw.ctaHeadingAccent ?? '',
     ctaBody: raw.ctaBody ?? '',
     ctaLabel: raw.ctaLabel ?? '',
-    partners: mapPartnerLogos(raw.partners),
     ...definedFields({
       eventImage: toImageData(raw.eventImage),
       whyImage: toImageData(raw.whyImage),

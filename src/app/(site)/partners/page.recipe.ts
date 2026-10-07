@@ -3,6 +3,7 @@ import { sva } from 'styled-system/css'
 export const partnersPage = sva({
   slots: [
     'topPlate',
+    'topPlateImg',
     'plateImg',
     'eventSpread',
     'eventHeading',
@@ -13,10 +14,6 @@ export const partnersPage = sva({
     'plateBody',
     'platePhoto',
     'plateText',
-    'supporters',
-    'supporterGrid',
-    'supporterLink',
-    'supporterLogo',
     'partnerCta',
     'partnerCtaInner',
     'partnerCtaBody',
@@ -29,6 +26,9 @@ export const partnersPage = sva({
       marginBottom: '2xl',
       border: 'hairline',
       background: 'gray.900',
+    },
+    topPlateImg: {
+      objectPosition: { base: 'right center', md: 'center' },
     },
     plateImg: {
       layerStyle: 'coverMono',
@@ -102,40 +102,6 @@ export const partnersPage = sva({
       lg: { gridColumn: '8 / -1' },
     },
 
-    supporters: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'lg',
-      marginTop: '3xl',
-      paddingTop: 'xl',
-      borderTop: 'hairline',
-    },
-    supporterGrid: {
-      listStyle: 'none',
-      margin: '0',
-      padding: '0',
-      display: 'flex',
-      flexWrap: 'wrap',
-      alignItems: 'center',
-      columnGap: '2xl',
-      rowGap: 'xl',
-    },
-    supporterLink: {
-      display: 'inline-flex',
-      pressable: 'inline',
-    },
-    supporterLogo: {
-      height: '29px',
-      width: 'auto',
-      objectFit: 'contain',
-      filter: 'token(assets.grayscaleFull)',
-      transition: 'develop',
-      sm: { height: '22px' },
-      md: { height: '30px' },
-      lg: { height: '38px' },
-      'a:is(:hover, :focus-visible) &': { filter: 'none' },
-    },
-
     partnerCta: {
       borderTop: 'hairline',
     },
@@ -144,7 +110,7 @@ export const partnersPage = sva({
       textAlign: 'center',
     },
     partnerCtaBody: {
-      maxWidth: 'measure',
+      maxWidth: 'narrowColumn',
     },
   },
 })
