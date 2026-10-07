@@ -1,5 +1,7 @@
+import { RiArrowLeftLine, RiArrowRightLine, RiArrowRightUpLine } from '@remixicon/react'
 import {
   type ButtonHTMLAttributes,
+  Children,
   cloneElement,
   isValidElement,
   type ReactElement,
@@ -40,16 +42,45 @@ type Variant = NonNullable<ButtonVariantProps['variant']>
 
 const ROLLING: readonly Variant[] = ['primary', 'secondary', 'quiet']
 
-function rollingLabel(children: ReactNode) {
+const ARROWS = new Map<unknown, string>([
+  [RiArrowRightLine, 'right'],
+  [RiArrowRightUpLine, 'up-right'],
+  [RiArrowLeftLine, 'left'],
+])
+
+function isArrow(node: unknown): node is ReactElement {
+  return isValidElement(node) && ARROWS.has(node.type)
+}
+
+function arrow(node: ReactElement) {
   return (
-    <span data-btn-mask>
-      <span data-btn-label>
-        {children}
-        <span data-btn-copy aria-hidden>
-          {children}
+    <span key={node.key} data-btn-arrow={ARROWS.get(node.type)}>
+      {node}
+    </span>
+  )
+}
+
+function rollingLabel(children: ReactNode) {
+  const nodes = Children.toArray(children)
+  let start = 0
+  while (isArrow(nodes[start])) start++
+  let end = nodes.length
+  while (end > start && isArrow(nodes[end - 1])) end--
+  const label = nodes.slice(start, end)
+
+  return (
+    <>
+      {nodes.slice(0, start).filter(isArrow).map(arrow)}
+      <span data-btn-mask>
+        <span data-btn-label>
+          {label}
+          <span data-btn-copy aria-hidden>
+            {label}
+          </span>
         </span>
       </span>
-    </span>
+      {nodes.slice(end).filter(isArrow).map(arrow)}
+    </>
   )
 }
 

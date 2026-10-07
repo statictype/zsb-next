@@ -58,6 +58,10 @@ export const keyframes = {
   },
 
   spin: { to: { transform: 'rotate(-360deg)' } },
+  nudge: {
+    '0%, 100%': { translate: '0 0' },
+    '50%': { translate: 'var(--nudge)' },
+  },
   gradientBorderShift: {
     '0%': { backgroundPosition: '0% 50%' },
     '100%': { backgroundPosition: '200% 50%' },
@@ -169,6 +173,7 @@ export const tokens = {
     entrance: { value: '600ms' },
     stagger: { value: '80ms' },
 
+    pulse: { value: '900ms' },
     sweep: { value: '1600ms' },
     travel: { value: '2s' },
     orbit: { value: '32s' },
@@ -204,10 +209,6 @@ export const semanticTokens = {
       DEFAULT: { value: { base: '{colors.black}', _groundLight: '{colors.white}' } },
       scrim: { value: 'rgb(0 0 0 / 0.95)' },
     },
-    tint: {
-      DEFAULT: { value: { base: '{colors.gray.800}', _groundLight: '{colors.gray.200}' } },
-      hover: { value: { base: '{colors.gray.700}', _groundLight: '{colors.gray.300}' } },
-    },
     heading: { value: { base: '{colors.white}', _groundLight: '{colors.black}' } },
     body: { value: { base: '{colors.gray.400}', _groundLight: '{colors.gray.700}' } },
     muted: { value: { base: '{colors.gray.500}', _groundLight: '{colors.gray.600}' } },
@@ -220,6 +221,12 @@ export const semanticTokens = {
       value: {
         base: '{borderWidths.hairline} solid {colors.divider}',
         _groundLight: '{borderWidths.hairline} solid {colors.divider}',
+      },
+    },
+    subtle: {
+      value: {
+        base: '{borderWidths.hairline} solid {colors.gray.700}',
+        _groundLight: '{borderWidths.hairline} solid {colors.gray.300}',
       },
     },
   },
@@ -268,6 +275,14 @@ export const animationStyles = {
       animationIterationCount: 'infinite',
     },
   },
+  nudge: {
+    value: {
+      animationName: 'nudge',
+      animationDuration: 'pulse',
+      animationTimingFunction: 'ease-in-out',
+      animationIterationCount: 'infinite',
+    },
+  },
   shimmer: {
     value: {
       animationName: 'shimmer',
@@ -299,7 +314,7 @@ export const textStyles = {
   title: {
     value: {
       fontFamily: 'display',
-      fontSize: '2xl',
+      fontSize: 'xl',
       lineHeight: '1.16',
       textTransform: 'uppercase',
       textWrap: 'balance',

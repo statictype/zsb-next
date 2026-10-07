@@ -96,7 +96,7 @@ export function CookieBanner({ lang = 'en' }: { lang?: Lang }) {
                 gap={{ base: 'md', md: 'xl' }}
               >
                 <Stack className={s.copy} gap="xs">
-                  <Text as="p" variant="heading" id="cookie-consent-title">
+                  <Text as="p" variant="rowTitle" id="cookie-consent-title">
                     {copy.title}
                   </Text>
                   <Text as="p" variant="caption">

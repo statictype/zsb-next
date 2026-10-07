@@ -58,7 +58,7 @@ export function VisitSection({
           </div>
 
           <Stack gap="xl">
-            <SectionHeading flush size="detail" className={css({ whiteSpace: 'pre-line' })}>
+            <SectionHeading flush className={css({ whiteSpace: 'pre-line' })}>
               {venueName.join('\n')}
             </SectionHeading>
 

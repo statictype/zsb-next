@@ -22,9 +22,7 @@ export function VisitFaq({ entries }: VisitFaqProps) {
     <section className={cx(section(), s.section)} aria-labelledby="visit-faq-title">
       <Container>
         <Stack gap="xl">
-          <SectionHeading id="visit-faq-title" size="detail">
-            Good to know
-          </SectionHeading>
+          <SectionHeading id="visit-faq-title">Good to know</SectionHeading>
           <Accordion
             id="visit-faq"
             className={s.list}
