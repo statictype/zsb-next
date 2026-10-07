@@ -437,8 +437,8 @@ export function useCarouselEngine({
 }: CarouselEngineOptions) {
   const engineRef = useRef<Engine | null>(null)
   const layoutRef = useRef<CarouselLayout>({ focusOffset, snap })
-  const pageRef = useRef(0)
-  const [page, setPage] = useState(0)
+  const pageRef = useRef(focusOffset)
+  const [page, setPage] = useState(focusOffset)
   const [pageCount, setPageCount] = useState(slideCount)
 
   useEffect(() => {
@@ -449,8 +449,13 @@ export function useCarouselEngine({
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
-    if (!animated || slideCount < 2) {
+    const idle = () => {
       track.setAttribute(ENGINE_IDLE_ATTR, '')
+      pageRef.current = 0
+      setPage(0)
+    }
+    if (!animated || slideCount < 2) {
+      idle()
       return () => track.removeAttribute(ENGINE_IDLE_ATTR)
     }
     const state = { disposed: false }
@@ -475,7 +480,7 @@ export function useCarouselEngine({
           const engine = loopingTrack(gsap, Draggable, items, layoutRef.current, report)
           if (!engine) {
             track.removeAttribute(ENGINE_ATTR)
-            track.setAttribute(ENGINE_IDLE_ATTR, '')
+            idle()
             return
           }
           engineRef.current = engine
@@ -483,7 +488,7 @@ export function useCarouselEngine({
         }, track)
       })
       .catch((error: unknown) => {
-        track.setAttribute(ENGINE_IDLE_ATTR, '')
+        idle()
         console.error('Carousel engine failed to start; falling back to scroll.', error)
       })
 

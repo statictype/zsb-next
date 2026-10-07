@@ -12,7 +12,7 @@ import { POINTER_DRAG_TOLERANCE_PX } from '@/components/pointer-gesture'
 import { useReducedMotion } from '@/components/reduced-motion'
 import { Button } from '@/components/ui/Button/Button'
 import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
-import { breakpoints, portraitPhoneQuery } from '@/design-system/tokens'
+import { portraitPhoneQuery } from '@/design-system/tokens'
 
 export interface CarouselSlide {
   id: string
@@ -30,15 +30,12 @@ interface CarouselProps {
 
 const safeId = (value: string) => value.replace(/[^a-zA-Z0-9_-]+/g, '-')
 
-// The stage recipe masks the leading slide from `lg` up, and the rail recipe
-// lays a slide's images out as separate pages on portrait phones.
-const stageMaskQuery = `(min-width: ${breakpoints.lg})`
+// The rail recipe lays a slide's images out as separate pages on portrait phones.
 
 export function Carousel({ id, slides, label, mode, eyebrow, className }: CarouselProps) {
   const generatedId = useId()
   const rootId = safeId(id ?? `carousel-${generatedId}`)
   const reducedMotion = useReducedMotion()
-  const stageMasked = useMediaQuery(stageMaskQuery, false)
   const portraitPhone = useMediaQuery(portraitPhoneQuery, false)
   const frameRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
@@ -49,7 +46,7 @@ export function Carousel({ id, slides, label, mode, eyebrow, className }: Carous
     trackRef,
     slideCount: slides.length,
     animated: !reducedMotion,
-    focusOffset: mode === 'stage' && stageMasked ? 1 : 0,
+    focusOffset: mode === 'stage' ? 1 : 0,
     snap: mode === 'rail' && portraitPhone ? 'image' : 'slide',
   })
   const { loadingFor, engage } = useSlideLoading({ frameRef, trackRef, page })
