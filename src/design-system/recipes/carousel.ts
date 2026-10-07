@@ -66,13 +66,14 @@ export const carousel = defineSlotRecipe({
       stage: {
         frame: {
           aspectRatio: '1 / 1',
+          containerType: 'inline-size',
           _portraitPhone: {
-            '--stage-pitch': 'calc((100% - token(spacing.md)) / 1.125)',
+            '--stage-pitch': 'calc((100cqi - token(spacing.md)) / 1.125)',
             aspectRatio: 'auto',
             height: 'auto',
           },
           md: {
-            '--stage-pitch': '78%',
+            '--stage-pitch': '78cqi',
             aspectRatio: 'auto',
             height: 'auto',
           },
@@ -93,9 +94,18 @@ export const carousel = defineSlotRecipe({
             ].join(' '),
           },
         },
-        track: { height: '100%' },
+        track: {
+          height: '100%',
+          lgDown: {
+            _motionSafe: {
+              [`&:not([${ENGINE_IDLE_ATTR}])`]: {
+                marginInlineStart: 'calc(-1 * var(--stage-pitch, 100cqi))',
+              },
+            },
+          },
+        },
         item: {
-          width: '100%',
+          width: '100cqi',
           height: '100%',
           _portraitPhone: {
             width: 'var(--stage-pitch)',

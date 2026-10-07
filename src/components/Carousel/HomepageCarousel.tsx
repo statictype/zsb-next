@@ -28,8 +28,8 @@ export function HomepageCarousel({ images }: { images: HeroImage[] }) {
             loading={loading}
             image={image}
             sizes={STAGE_SIZES}
-            preload={index === 0}
-            fetchPriority={index === 0 ? 'high' : 'auto'}
+            preload={index === 1}
+            fetchPriority={index === 1 ? 'high' : 'auto'}
             className={styles.image}
             style={image.position ? { objectPosition: image.position } : undefined}
             draggable={false}
