@@ -451,6 +451,7 @@ export function useCarouselEngine({
     if (!track) return
     const idle = () => {
       track.setAttribute(ENGINE_IDLE_ATTR, '')
+      if (pageRef.current !== layoutRef.current.focusOffset) return
       pageRef.current = 0
       setPage(0)
     }
