@@ -1,4 +1,5 @@
 import { CachedEdition } from '@edition/edition-content'
+import { DraftAware } from '@/components/DraftAware/DraftAware'
 import { EditionsNav } from '@/components/EditionsNav/EditionsNav'
 import { editionMetadata } from '@/lib/seo'
 import { getAllEditionYearParams, getEdition } from '@/sanity/lib/editions'
@@ -14,15 +15,14 @@ export async function generateMetadata(props: PageProps<'/editions/[year]'>) {
   return edition ? editionMetadata(edition) : {}
 }
 
-// Sibling loading.tsx provides the Suspense fallback — see Next 16
-// Cache Components docs ("Routes with loading.tsx" pattern). The body lives in
-// `edition-content.tsx` so the per-event route (`events/[key]`) can render the
-// same cached edition with the modal over it (ADR 0015).
 export default async function EditionPage(props: PageProps<'/editions/[year]'>) {
-  const [{ year }, options] = await Promise.all([props.params, getDynamicFetchOptions()])
+  const { year } = await props.params
   return (
     <>
-      <CachedEdition year={Number(year)} options={options} />
+      <DraftAware
+        cached={(options) => <CachedEdition year={Number(year)} options={options} />}
+        fallback={null}
+      />
       <EditionsNav />
     </>
   )
