@@ -4,6 +4,7 @@ import type { HOMEPAGE_QUERY_RESULT } from '@/../sanity.types'
 import { definedFields } from '@/lib/defined-fields'
 import { deriveEditions } from '@/lib/derive-editions'
 import { todayInBucharest } from '@/lib/today'
+import { getArtistIndex } from '@/sanity/lib/artists'
 import {
   type FeaturedEvents,
   getEditionSummaries,
@@ -85,13 +86,15 @@ export interface HomeData {
   upcoming: EditionSummary | null
   /** Newest live edition's featured events; past ones hidden client-side. */
   featured: FeaturedEvents | undefined
+  artistCount: number
 }
 
 export async function getHomeData(options: DynamicFetchOptions): Promise<HomeData | null> {
-  const [view, editions, lead] = await Promise.all([
+  const [view, editions, lead, artists] = await Promise.all([
     getHomepage(options),
     getEditionSummaries(options),
     getHeroEditionLead(options),
+    getArtistIndex(),
   ])
   if (!view) return null
   const { upcoming } = deriveEditions(editions, todayInBucharest())
@@ -100,6 +103,7 @@ export async function getHomeData(options: DynamicFetchOptions): Promise<HomeDat
     editions,
     upcoming: lead === 'upcoming' ? upcoming : null,
     featured: await getFeaturedEvents(editions, options),
+    artistCount: artists.length,
   }
 }
 
