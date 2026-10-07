@@ -94,7 +94,7 @@ const PARTNERS_PAGE_QUERY = defineQuery(`
     whyEyebrow,
     whyTitle,
     whyImage{ ..., "lqip": asset->metadata.lqip },
-    whyPoints,
+    whyPoints[]{ title, text, image{ ..., "lqip": asset->metadata.lqip } },
     ctaHeading,
     ctaHeadingAccent,
     ctaBody,

@@ -50,7 +50,7 @@ export interface PartnersView {
   eventBody: string[]
   whyEyebrow: string
   whyTitle: string
-  whyPoints: Array<{ title: string; text: string }>
+  whyPoints: Array<{ title: string; text: string; image?: ImageData }>
   ctaHeading: string
   ctaHeadingAccent: string
   ctaBody: string
@@ -112,7 +112,11 @@ export function normalizePartners(raw: PartnersPageRaw): PartnersView {
     eventBody: (raw.eventBody ?? []).filter(Boolean),
     whyEyebrow: raw.whyEyebrow ?? '',
     whyTitle: raw.whyTitle ?? '',
-    whyPoints: (raw.whyPoints ?? []).map((p) => ({ title: p.title, text: p.text })),
+    whyPoints: (raw.whyPoints ?? []).map((p) => ({
+      title: p.title,
+      text: p.text,
+      ...definedFields({ image: toImageData(p.image) }),
+    })),
     ctaHeading: raw.ctaHeading ?? '',
     ctaHeadingAccent: raw.ctaHeadingAccent ?? '',
     ctaBody: raw.ctaBody ?? '',

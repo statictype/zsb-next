@@ -51,7 +51,6 @@ const PAGES = {
     },
     Shell: PartnersShell,
     generateMetadata: makePageMetadata(getPartnersPage, { title: 'Partners', path: '/partners' }),
-    editionsNav: true,
   }),
   visit: defineSingleton({
     load: getVisitPage,
