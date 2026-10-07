@@ -1,6 +1,5 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { homePage } from '@site/page.recipe'
-import { ArtistsBanner } from '@site-components/ArtistsBanner'
 import { FeaturedSpotlight } from '@site-components/FeaturedSpotlight'
 import Link from 'next/link'
 import { cx } from 'styled-system/css'
@@ -204,8 +203,6 @@ export function HomeShell({ view, editions, upcoming, featured, artistCount }: H
           </ol>
         </div>
       </section>
-
-      <ArtistsBanner />
     </main>
   )
 }
