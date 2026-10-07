@@ -18,7 +18,6 @@ const s = footer()
 const PRIMARY_LINKS = [
   { label: 'About', href: '/about' },
   { label: 'Editions', href: '/editions' },
-  { label: 'Artists', href: '/artists' },
   { label: 'Visit', href: '/visit' },
 ] as const
 

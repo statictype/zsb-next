@@ -59,9 +59,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry(eventHref(Number(year), slug), lastMod(editionUpdatedByYear.get(year)), 'yearly', 0.5),
   )
 
-  // The two index pages date themselves by their freshest member.
+  // The editions index dates itself by its freshest member.
   const editionsListLastMod = newest(editions.map((e) => e._updatedAt))
-  const artistsLastMod = lastMod(meta.lastArtistUpdate)
 
   const bellerEntries = beller
     ? [
@@ -77,7 +76,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry('/editions', editionsListLastMod, 'yearly', 0.8),
     ...editionEntries,
     ...eventEntries,
-    entry('/artists', artistsLastMod, 'yearly', 0.7),
     entry('/visit', updatedAt('visitPage'), 'yearly', 0.7),
     entry('/partners', updatedAt('partnersPage'), 'yearly', 0.5),
     entry('/press', updatedAt('pressPage'), 'monthly', 0.6),
