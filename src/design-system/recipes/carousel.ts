@@ -4,6 +4,7 @@ import {
   ENGINE_IDLE_ATTR,
   MOVING_ATTR,
   SLIDE_CONTENT_ATTR,
+  STAGE_MAX_WIDTH,
 } from '@/components/Carousel/carousel-contract'
 import { defineSlotRecipe } from '@/design-system/define-recipe'
 
@@ -76,7 +77,7 @@ export const carousel = defineSlotRecipe({
             height: 'auto',
           },
           lg: {
-            '--stage-pitch': 'min(calc((100% - 72px) / 2), 900px)',
+            '--stage-pitch': `min(calc((100% - 72px) / 2), ${STAGE_MAX_WIDTH}px)`,
             // The hero copy sits over the frame's leading edge (page.recipe.ts),
             // so the slides under it are masked out rather than clipped.
             maskImage: [

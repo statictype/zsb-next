@@ -52,7 +52,7 @@ export function VisitSection({
           <div className={frame.frame}>
             <Figure
               image={image}
-              sizes="(max-width: 1023px) min(100vw, 520px), 45vw"
+              sizes="(max-width: 1023px) min(100vw, 520px), 100vw"
               className={frame.image}
             />
           </div>
