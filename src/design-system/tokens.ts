@@ -92,8 +92,7 @@ export const tokens = {
     body: { value: 'var(--font-montserrat), sans-serif' },
   },
   fontSizes: {
-    xs: { value: fluid(9, 10) },
-    nav: { value: '12px' },
+    xs: { value: '11px' },
     sm: { value: fluid(12, 13) },
     base: { value: fluid(14, 16, 1024) },
     md: { value: fluid(17, 23, 1024) },
@@ -116,7 +115,6 @@ export const tokens = {
   },
   radii: {
     none: { value: '0px' },
-    pill: { value: '100px' },
     circle: { value: '50%' },
   },
   borders: {
@@ -137,7 +135,7 @@ export const tokens = {
   borderWidths: {
     hairlineThin: { value: '0.5px' },
     hairline: { value: '1px' },
-    focus: { value: '0.5px' },
+    focus: { value: '2px' },
   },
   sizes: {
     touch: { value: '48px' },
@@ -209,6 +207,10 @@ export const semanticTokens = {
     surface: {
       DEFAULT: { value: '{colors.black}' },
       scrim: { value: 'rgb(0 0 0 / 0.95)' },
+    },
+    tint: {
+      DEFAULT: { value: '{colors.gray.800}' },
+      hover: { value: '{colors.gray.700}' },
     },
     heading: { value: '{colors.white}' },
     body: { value: '{colors.gray.400}' },

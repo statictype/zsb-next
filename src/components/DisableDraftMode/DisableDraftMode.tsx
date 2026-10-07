@@ -14,7 +14,6 @@ export function DisableDraftMode() {
         paddingInline: 'md',
         background: 'heading',
         color: 'surface',
-        borderRadius: 'pill',
         boxShadow: 'badge',
         transition: 'interactive',
         _hover: { transform: 'translateY(-1px)' },

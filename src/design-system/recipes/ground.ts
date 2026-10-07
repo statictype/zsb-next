@@ -11,6 +11,8 @@ export const groundDarkVars = {
   '--colors-body': '{colors.gray.400}',
   '--colors-muted': '{colors.gray.500}',
   '--colors-divider': '{colors.gray.900}',
+  '--colors-tint': '{colors.gray.800}',
+  '--colors-tint-hover': '{colors.gray.700}',
 }
 
 export const groundLightVars = {
@@ -19,5 +21,7 @@ export const groundLightVars = {
   '--colors-body': '{colors.gray.700}',
   '--colors-muted': '{colors.gray.600}',
   '--colors-divider': '{colors.gray.200}',
+  '--colors-tint': '{colors.gray.200}',
+  '--colors-tint-hover': '{colors.gray.300}',
   '--borders-hairline': '1px solid var(--colors-divider)',
 }

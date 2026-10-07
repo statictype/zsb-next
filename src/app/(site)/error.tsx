@@ -16,9 +16,6 @@ export default function ErrorPage({
 }) {
   return (
     <Center className={styles.page} flexDirection="column">
-      <div className={styles.noise} />
-      <div className={styles.glow} />
-
       <Stack className={styles.content} gap="2xl" alignItems="center">
         <Stack gap="xl" alignItems="center">
           <div className={styles.icon}>
