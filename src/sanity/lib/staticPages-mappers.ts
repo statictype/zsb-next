@@ -8,11 +8,13 @@ import { definedFields } from '@/lib/defined-fields'
 import type { FaqEntry } from '@/lib/seo'
 import { mapCarousel } from '@/sanity/lib/carousel'
 import { toImageData, toShareImage } from '@/sanity/lib/image'
+import { mapPartnerLogos } from '@/sanity/lib/partner-logos'
 import type {
   Amenity,
   CarouselSlide,
   IconKey,
   ImageData,
+  PartnerLogo,
   ShareImage,
   TransportRoute,
   VisitData,
@@ -50,11 +52,12 @@ export interface PartnersView {
   eventBody: string[]
   whyEyebrow: string
   whyTitle: string
-  whyPoints: Array<{ title: string; text: string }>
+  whyPoints: Array<{ title: string; text: string; image?: ImageData }>
   ctaHeading: string
   ctaHeadingAccent: string
   ctaBody: string
   ctaLabel: string
+  partners: PartnerLogo[]
   eventImage?: ImageData
   whyImage?: ImageData
   ogImage?: ShareImage
@@ -112,11 +115,16 @@ export function normalizePartners(raw: PartnersPageRaw): PartnersView {
     eventBody: (raw.eventBody ?? []).filter(Boolean),
     whyEyebrow: raw.whyEyebrow ?? '',
     whyTitle: raw.whyTitle ?? '',
-    whyPoints: (raw.whyPoints ?? []).map((p) => ({ title: p.title, text: p.text })),
+    whyPoints: (raw.whyPoints ?? []).map((p) => ({
+      title: p.title,
+      text: p.text,
+      ...definedFields({ image: toImageData(p.image) }),
+    })),
     ctaHeading: raw.ctaHeading ?? '',
     ctaHeadingAccent: raw.ctaHeadingAccent ?? '',
     ctaBody: raw.ctaBody ?? '',
     ctaLabel: raw.ctaLabel ?? '',
+    partners: mapPartnerLogos(raw.partners),
     ...definedFields({
       eventImage: toImageData(raw.eventImage),
       whyImage: toImageData(raw.whyImage),

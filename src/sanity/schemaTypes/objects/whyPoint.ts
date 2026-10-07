@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
 
 /**
  * Partners-page "Why Sculpture" point. Same shape as pillar but kept
@@ -23,8 +24,13 @@ export const whyPoint = defineType({
       rows: 4,
       validation: (rule) => rule.required().max(500),
     }),
+    imageFieldWithAlt({
+      name: 'image',
+      title: 'Image',
+      validation: (rule) => rule.required(),
+    }),
   ],
   preview: {
-    select: { title: 'title', subtitle: 'text' },
+    select: { title: 'title', subtitle: 'text', media: 'image' },
   },
 })

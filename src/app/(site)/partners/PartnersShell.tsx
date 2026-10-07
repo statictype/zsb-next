@@ -1,17 +1,18 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import { partnersPage } from '@site/partners/page.recipe'
+import Image from 'next/image'
+import type { CSSProperties } from 'react'
 import { css, cx } from 'styled-system/css'
-import { Center, Container, Grid, Stack, Text } from 'styled-system/jsx'
+import { Center, Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { AccentSplit } from '@/components/AccentSplit/AccentSplit'
 import { Figure } from '@/components/Figure/Figure'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
-import { PillarGrid } from '@/components/PillarGrid/PillarGrid'
 import { Button } from '@/components/ui/Button/Button'
-import { Eyebrow } from '@/components/ui/Eyebrow/Eyebrow'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { PartnersView } from '@/sanity/lib/staticPages'
+import type { PartnerLogo } from '@/types/edition'
 
 const styles = partnersPage()
 
@@ -28,9 +29,8 @@ export function PartnersShell({
     eventBody,
     eventImage,
     whyEyebrow,
-    whyTitle,
-    whyImage,
     whyPoints,
+    partners,
     ctaHeading,
     ctaHeadingAccent,
     ctaBody,
@@ -41,54 +41,76 @@ export function PartnersShell({
     <main>
       <PageHero flush title={hero.title} lead={hero.lead} />
 
-      <section className={section()}>
+      <section className={cx(section(), css({ paddingTop: '2xl' }))}>
         <Container>
-          <Stack gap="2xl">
-            <Stack gap="xl">
-              <SectionHeading>{eventTitle}</SectionHeading>
-              <Stack className={styles.eventBody}>
-                {eventBody.map((para) => (
-                  <Text as="p" variant="body" key={para}>
-                    {para}
-                  </Text>
-                ))}
-              </Stack>
+          <div className={styles.topPlate}>
+            <Figure image={eventImage} sizes="100vw" preload className={styles.plateImg} />
+          </div>
+          <div className={styles.eventSpread}>
+            <SectionHeading flush className={styles.eventHeading}>
+              {eventTitle}
+            </SectionHeading>
+            <Stack gap="md" className={styles.eventBody}>
+              {eventBody.map((para) => (
+                <Text as="p" variant="body" key={para}>
+                  {para}
+                </Text>
+              ))}
             </Stack>
-            <figure className={styles.eventImage}>
-              <Figure image={eventImage} sizes="100vw" className={styles.eventImageImg} />
-            </figure>
-          </Stack>
+          </div>
         </Container>
       </section>
 
       <section data-ground="light" className={section()}>
         <Container>
-          <Grid
-            columns={{ base: 1, lg: 2 }}
-            gap={{ base: '2xl', lg: '3xl' }}
-            alignItems={{ lg: 'end' }}
-            marginBottom="3xl"
-          >
-            <div>
-              <Eyebrow className={css({ marginBottom: 'xl' })}>{whyEyebrow}</Eyebrow>
-              <SectionHeading flush className={css({ maxWidth: '700px' })}>
-                {whyTitle}
-              </SectionHeading>
-            </div>
-            <div className={styles.whySculptureImage}>
-              <Figure
-                image={whyImage}
-                sizes="(max-width: 1023px) 100vw, 50vw"
-                className={styles.whySculptureImg}
-              />
-            </div>
-          </Grid>
+          <Stack gap="2xl">
+            <SectionHeading flush>{whyEyebrow}</SectionHeading>
+            <ol className={styles.plates}>
+              {whyPoints.map((point, index) => (
+                <li
+                  key={point.title}
+                  className={styles.plate}
+                  style={
+                    {
+                      '--plate-index': index,
+                      '--plate-rest': whyPoints.length - 1 - index,
+                    } as CSSProperties
+                  }
+                >
+                  <Text as="h3" variant="heading" className={styles.plateTab}>
+                    {point.title}
+                  </Text>
+                  <div className={styles.plateBody}>
+                    <div className={styles.platePhoto}>
+                      <Figure
+                        image={point.image}
+                        sizes="(min-width: 1024px) 48vw, 100vw"
+                        className={styles.plateImg}
+                      />
+                    </div>
+                    <Text as="p" variant="body" className={styles.plateText}>
+                      {point.text}
+                    </Text>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </Stack>
 
-          <PillarGrid
-            items={whyPoints.map((point) => ({ title: point.title, body: point.text }))}
-            titleLevel="h3"
-            rhythm="pair"
-          />
+          {partners.length > 0 && (
+            <div className={styles.supporters}>
+              <Text as="h2" variant="label">
+                With the support of
+              </Text>
+              <ul className={styles.supporterGrid}>
+                {partners.map((partner) => (
+                  <li key={partner.id}>
+                    <Supporter partner={partner} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </Container>
       </section>
 
@@ -115,5 +137,33 @@ export function PartnersShell({
         </section>
       )}
     </main>
+  )
+}
+
+function Supporter({ partner }: { partner: PartnerLogo }) {
+  const logo = (
+    <Image
+      src={partner.src}
+      alt={partner.alt}
+      width={partner.width}
+      height={partner.height}
+      className={styles.supporterLogo}
+      unoptimized
+    />
+  )
+
+  if (!partner.url) return logo
+
+  return (
+    <a
+      href={partner.url}
+      className={styles.supporterLink}
+      target="_blank"
+      rel="noreferrer"
+      data-umami-event="partner_click"
+      data-umami-event-partner={partner.name}
+    >
+      {logo}
+    </a>
   )
 }

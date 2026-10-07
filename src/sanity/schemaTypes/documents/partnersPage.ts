@@ -53,16 +53,16 @@ export const partnersPage = defineType({
 
     defineField({
       name: 'whyEyebrow',
-      title: 'Eyebrow',
-      description: 'Small label above the section title.',
+      title: 'Section title',
+      description: 'e.g. "Why sculpture".',
       type: 'string',
       group: 'why',
       validation: (rule) => rule.required().max(40),
     }),
     defineField({
       name: 'whyTitle',
-      title: 'Section title',
-      description: 'e.g. "The most resilient art form".',
+      title: 'Eyebrow',
+      description: 'Small label above the section title, e.g. "The most resilient art form".',
       type: 'string',
       group: 'why',
       validation: (rule) => rule.required().max(80),
