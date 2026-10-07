@@ -42,7 +42,7 @@ export function VisitSection({
   const facts = visitFacts()
 
   return (
-    <section id="visit" className={section({ ground: 'dark' })}>
+    <section id="visit" className={section()}>
       <Container>
         <Grid
           gridTemplateColumns={{ lg: '5fr 6fr' }}

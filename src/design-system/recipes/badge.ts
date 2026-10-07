@@ -11,7 +11,7 @@ export const badge = defineRecipe({
     whiteSpace: 'nowrap',
     paddingInline: '12px',
     paddingBlock: '6px',
-    borderWidth: 'hairlineThin',
+    borderWidth: 'hairline',
     borderStyle: 'solid',
     borderColor: 'highlight',
     fontFamily: 'body',

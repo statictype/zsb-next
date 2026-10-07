@@ -14,7 +14,7 @@ export function Manifesto({ title, body, accent, ground = 'light' }: ManifestoPr
   const s = styles()
 
   return (
-    <section className={section({ ground, rhythm: 'normal' })}>
+    <section data-ground={ground} className={section({ rhythm: 'normal' })}>
       <div className={s.split}>
         <Text variant="manifesto" className={s.title}>
           <AccentSplit text={title} accent={accent} />

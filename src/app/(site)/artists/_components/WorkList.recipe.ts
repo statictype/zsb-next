@@ -164,7 +164,6 @@ export const workIndex = sva({
       paddingInlineEnd: '2rem',
       borderBlock: 'hairline',
       borderInline: 'none',
-      borderRadius: 'none',
       background: 'transparent',
       colorScheme: 'dark',
       textStyle: 'body',

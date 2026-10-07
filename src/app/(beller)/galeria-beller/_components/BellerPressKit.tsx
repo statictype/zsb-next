@@ -11,7 +11,7 @@ function formatMegabytes(bytes: number): string {
 
 export function BellerPressKit({ pressKit }: { pressKit: PressKit }) {
   return (
-    <section className={section({ ground: 'dark' })} aria-labelledby="press-kit-heading">
+    <section className={section()} aria-labelledby="press-kit-heading">
       <Container>
         <Stack gap="lg" alignItems="flex-start">
           <SectionHeading as="h2" id="press-kit-heading" flush>

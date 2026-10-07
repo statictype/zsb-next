@@ -61,7 +61,6 @@ export const button = defineRecipe({
     justifyContent: 'center',
     isolation: 'isolate',
     appearance: 'none',
-    borderRadius: 'none',
     border: 'none',
     cursor: 'pointer',
     transition: 'interactive',

@@ -50,6 +50,13 @@
     max-width: 100%;
   }
 
+  button,
+  input,
+  select,
+  textarea {
+    border-radius: 0;
+  }
+
   /* Hide layout footer on fullpage-scroll pages (they include their own footer as a section) */
   [data-fullpage] ~ footer {
     display: none;

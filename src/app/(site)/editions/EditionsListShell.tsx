@@ -16,7 +16,7 @@ export function EditionsListShell({ editions = [] }: { editions?: EditionSummary
         lead="Each # is a curatorial position, not a title. Together they trace a movement: from the space sculpture inhabits, to the emotional conditions it holds, to the forces it models, to the body it refuses to idealise."
       />
 
-      <section className={section({ ground: 'dark' })}>
+      <section className={section()}>
         <Container>
           {editions.length > 0 && (
             <ol className={styles.index}>
