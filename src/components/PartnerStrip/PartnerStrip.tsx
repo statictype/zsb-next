@@ -1,6 +1,7 @@
 import { RiArrowRightLine } from '@remixicon/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { cx } from 'styled-system/css'
 import { Container } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { Marquee } from '@/components/Marquee/Marquee'
@@ -18,10 +19,10 @@ export function PartnerStrip({ partners }: PartnerStripProps) {
   const s = partnerStrip()
 
   return (
-    <section data-ground="light" className={section()}>
+    <section data-ground="light" className={cx(section({ rhythm: 'none' }), s.root)}>
       <Container>
         <div className={s.layout}>
-          <Eyebrow>With the support of</Eyebrow>
+          <Eyebrow className={s.title}>With the support of</Eyebrow>
           <div className={s.body}>
             <Marquee count={partners.length} gap="xl">
               {partners.map((partner) => {
