@@ -19,10 +19,7 @@ export function VisitFaq({ entries }: VisitFaqProps) {
   if (entries.length === 0) return null
   const s = visitFaq()
   return (
-    <section
-      className={cx(section({ ground: 'dark' }), s.section)}
-      aria-labelledby="visit-faq-title"
-    >
+    <section className={cx(section(), s.section)} aria-labelledby="visit-faq-title">
       <Container>
         <Stack gap="xl">
           <SectionHeading id="visit-faq-title" size="detail">

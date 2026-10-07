@@ -41,7 +41,7 @@ export function PartnersShell({
     <main>
       <PageHero flush title={hero.title} lead={hero.lead} />
 
-      <section className={section({ ground: 'dark' })}>
+      <section className={section()}>
         <Container>
           <Stack gap="2xl">
             <Stack gap="xl">
@@ -61,7 +61,7 @@ export function PartnersShell({
         </Container>
       </section>
 
-      <section className={section({ ground: 'light' })}>
+      <section data-ground="light" className={section()}>
         <Container>
           <Grid
             columns={{ base: 1, lg: 2 }}
@@ -95,7 +95,7 @@ export function PartnersShell({
       {/* No contact email in settings would mean a broken `mailto:` — hide
             the ask entirely rather than render a CTA that goes nowhere. */}
       {contactEmail && (
-        <section className={cx(section({ ground: 'dark' }), styles.partnerCta)}>
+        <section className={cx(section(), styles.partnerCta)}>
           <Center className={styles.partnerCtaInner} flexDirection="column" gap="2xl">
             <PartnerBadge />
             <Stack gap="lg" alignItems="center">

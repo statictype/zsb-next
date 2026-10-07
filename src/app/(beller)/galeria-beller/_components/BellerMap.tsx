@@ -14,7 +14,7 @@ const frame = css({
 
 export function BellerMap() {
   return (
-    <section className={section({ ground: 'dark' })}>
+    <section className={section()}>
       <Container>
         <iframe
           src={BELLER_MAP_URL}

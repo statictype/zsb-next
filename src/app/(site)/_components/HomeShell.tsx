@@ -118,7 +118,7 @@ export function HomeShell({ view, editions, upcoming, featured }: HomeData) {
 
       {featured && <FeaturedSpotlight year={featured.year} events={featured.events} />}
 
-      <section id="editions" className={cx(styles.panel, section({ ground: 'dark' }))}>
+      <section id="editions" className={cx(styles.panel, section())}>
         <div className={styles.editionsLayout}>
           <Stack className={styles.editionsHead}>
             <SectionHeading flush>Editions</SectionHeading>

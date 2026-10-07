@@ -27,6 +27,7 @@ export const portraitPhoneQuery = '(max-width: 599.98px) and (orientation: portr
 
 export const conditions = {
   motionReduce: '@media (prefers-reduced-motion: reduce)',
+  groundLight: '[data-ground=light] &',
 
   portrait: '@media (orientation: portrait)',
   portraitPhone: `@media ${portraitPhoneQuery}`,
@@ -114,14 +115,10 @@ export const tokens = {
     gutter: { value: fluid(16, 112) },
   },
   radii: {
-    none: { value: '0px' },
     circle: { value: '50%' },
   },
   borders: {
     none: { value: 'none' },
-    hairline: {
-      value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.divider}' },
-    },
     highlight: {
       value: { width: '{borderWidths.hairline}', style: 'solid', color: '{colors.highlight}' },
     },
@@ -133,8 +130,7 @@ export const tokens = {
     },
   },
   borderWidths: {
-    hairlineThin: { value: '0.5px' },
-    hairline: { value: '1px' },
+    hairline: { value: '0.5px' },
     focus: { value: '2px' },
   },
   sizes: {
@@ -205,19 +201,27 @@ export const tokens = {
 export const semanticTokens = {
   colors: {
     surface: {
-      DEFAULT: { value: '{colors.black}' },
+      DEFAULT: { value: { base: '{colors.black}', _groundLight: '{colors.white}' } },
       scrim: { value: 'rgb(0 0 0 / 0.95)' },
     },
     tint: {
-      DEFAULT: { value: '{colors.gray.800}' },
-      hover: { value: '{colors.gray.700}' },
+      DEFAULT: { value: { base: '{colors.gray.800}', _groundLight: '{colors.gray.200}' } },
+      hover: { value: { base: '{colors.gray.700}', _groundLight: '{colors.gray.300}' } },
     },
-    heading: { value: '{colors.white}' },
-    body: { value: '{colors.gray.400}' },
-    muted: { value: '{colors.gray.500}' },
-    divider: { value: '{colors.gray.900}' },
+    heading: { value: { base: '{colors.white}', _groundLight: '{colors.black}' } },
+    body: { value: { base: '{colors.gray.400}', _groundLight: '{colors.gray.700}' } },
+    muted: { value: { base: '{colors.gray.500}', _groundLight: '{colors.gray.600}' } },
+    divider: { value: { base: '{colors.gray.900}', _groundLight: '{colors.gray.200}' } },
     action: { value: '{colors.pink}' },
     highlight: { value: '{colors.chartreuse}' },
+  },
+  borders: {
+    hairline: {
+      value: {
+        base: '{borderWidths.hairline} solid {colors.divider}',
+        _groundLight: '{borderWidths.hairline} solid {colors.divider}',
+      },
+    },
   },
   zIndex: {
     nav: { value: '100' },

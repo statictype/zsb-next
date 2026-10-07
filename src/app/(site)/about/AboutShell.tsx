@@ -32,7 +32,6 @@ export function AboutShell({ view }: { view: AboutView }) {
   return (
     <main>
       <PageHero flush title={hero.title} lead={hero.lead} />
-
       <figure className={styles.plateFrame}>
         <Figure image={placeImage} sizes="100vw" preload className={styles.plateImg} />
         {placeImage?.alt && (
@@ -41,11 +40,9 @@ export function AboutShell({ view }: { view: AboutView }) {
           </Text>
         )}
       </figure>
-
       <Manifesto ground="dark" title={manifestoTitle} body={manifestoBody} />
-
       {carousel.length > 0 && (
-        <section className={section({ ground: 'dark', rhythm: 'none' })}>
+        <section className={section({ rhythm: 'none' })}>
           <GalleryCarousel
             id="about-gallery"
             label="Archive photo carousel"
@@ -55,9 +52,8 @@ export function AboutShell({ view }: { view: AboutView }) {
           />
         </section>
       )}
-
       {pillars.length > 0 && (
-        <section className={section({ ground: 'dark' })}>
+        <section className={section()}>
           <Container>
             <ol className={styles.pillars}>
               {pillars.map((pillar) => (
@@ -83,8 +79,7 @@ export function AboutShell({ view }: { view: AboutView }) {
           </Container>
         </section>
       )}
-
-      <section className={cx(section({ ground: 'light', rhythm: 'lg' }), styles.statement)}>
+      <section data-ground="light" className={cx(section({ rhythm: 'lg' }), styles.statement)}>
         <div className={styles.statementInner}>
           <Stack as="aside" className={styles.statementAside} gap="xl">
             <SectionHeading>{curatorHeadline}</SectionHeading>

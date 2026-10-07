@@ -31,7 +31,7 @@ export function Credits({
   const d = creditsRecipe({ density })
 
   return (
-    <section className={cx(section({ ground: 'light' }), d.root)}>
+    <section data-ground="light" className={cx(section(), d.root)}>
       <Container>
         <div className={s.ledger}>
           {(marks.length > 0 || named.length > 0 || media.length > 0) && (

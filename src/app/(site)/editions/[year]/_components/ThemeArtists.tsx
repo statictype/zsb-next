@@ -15,7 +15,7 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
   const { year, theme, artists, carousel } = edition
 
   return (
-    <section className={cx(section({ ground: 'dark' }), styles.section)}>
+    <section className={cx(section(), styles.section)}>
       {carousel.length > 0 && (
         <GalleryCarousel
           id="edition-gallery"

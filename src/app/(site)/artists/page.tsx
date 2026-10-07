@@ -27,7 +27,7 @@ export default async function ArtistsPage() {
         />
 
         {(cloud.length > 0 || onlineOnly.length > 0) && (
-          <section className={section({ ground: 'dark' })}>
+          <section className={section()}>
             <Container>
               {cloud.length > 0 && <NameCloud artists={cloud} />}
               {onlineOnly.length > 0 && <OnlineArtistList artists={onlineOnly} />}

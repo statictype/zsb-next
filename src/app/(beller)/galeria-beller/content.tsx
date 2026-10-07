@@ -55,7 +55,7 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
               <Divider />
             </Container>
           )}
-          <section className={section({ ground: 'dark' })}>
+          <section className={section()}>
             <Container>
               <div id={BELLER_SECTION_IDS.artists} data-section-view="artists" />
               <ArtistRoster artists={page.artists} title="Artiști" accent="action" />

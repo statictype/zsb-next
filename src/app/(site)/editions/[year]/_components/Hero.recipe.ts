@@ -80,7 +80,7 @@ export const hero = sva({
       paddingBlock: 'sm',
       paddingRight: 'md',
       borderBottomStyle: 'solid',
-      borderBottomWidth: 'hairlineThin',
+      borderBottomWidth: 'hairline',
       borderBottomColor: 'color-mix(in srgb, currentColor 40%, transparent)',
       _last: { borderBottomWidth: '0' },
       _portraitPhone: { paddingRight: '0' },

@@ -19,7 +19,7 @@ export async function ArtistsBanner() {
   const s = artistsBanner()
 
   return (
-    <section id="artists" className={cx(section({ ground: 'light' }), s.root)}>
+    <section data-ground="light" id="artists" className={cx(section(), s.root)}>
       <div className={s.inner}>
         <SectionHeading as="h2" flush>
           Artists

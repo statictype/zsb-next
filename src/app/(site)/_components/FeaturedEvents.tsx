@@ -23,7 +23,7 @@ export function FeaturedEvents({ year, events }: FeaturedEventsProps) {
   if (events.length === 0) return null
 
   return (
-    <section className={section({ ground: 'dark' })} aria-labelledby="featured-heading">
+    <section className={section()} aria-labelledby="featured-heading">
       <Container>
         <HStack
           as="header"

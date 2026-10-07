@@ -18,7 +18,7 @@ export function PartnerStrip({ partners }: PartnerStripProps) {
   const s = partnerStrip()
 
   return (
-    <section className={section({ ground: 'light' })}>
+    <section data-ground="light" className={section()}>
       <Container>
         <div className={s.layout}>
           <Eyebrow>With the support of</Eyebrow>

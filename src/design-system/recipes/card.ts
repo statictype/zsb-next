@@ -1,5 +1,4 @@
 import { defineRecipe } from '@/design-system/define-recipe'
-import { groundDarkVars } from '@/design-system/recipes/ground'
 
 /**
  * Card — the one unified card (ZSB-71).
@@ -23,7 +22,6 @@ export const card = defineRecipe({
     textDecoration: 'none',
     background: 'transparent',
     border: 'hairline',
-    ...groundDarkVars,
   },
   variants: {
     /** The one hover every card shares: the hairline warms to the accent.

@@ -71,7 +71,7 @@ export function PrivacyShell({ view }: { view: PrivacyView }) {
     <main>
       <PageHero title={hero.title} lead={hero.lead} />
 
-      <section className={section({ ground: 'dark' })}>
+      <section className={section()}>
         <Container>
           <Stack as="article" className={styles.article} gap="xl">
             <Stack gap="lg">

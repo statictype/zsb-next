@@ -19,7 +19,7 @@ export function ExternalGallery({ gallery }: ExternalGalleryProps) {
   const { tag, title, highlight, description, linkLabel, href } = gallery
 
   return (
-    <section className={cx(section({ ground: 'dark' }), styles.section)}>
+    <section className={cx(section(), styles.section)}>
       <Container>
         <Card asChild interactive>
           <a
