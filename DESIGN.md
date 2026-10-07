@@ -200,9 +200,9 @@ Components use role tokens. The `ground` maps (`recipes/ground.ts`) set each rol
 | `heading` | white | black |
 | `body` | gray-400 | gray-700 |
 | `muted` | gray-500 (5.53:1) | gray-600 (5.52:1) |
-| `divider` | gray-900 | gray-200 |
+| `divider` | gray-800 | gray-200 |
 
-`surface.scrim` is `rgb(0 0 0 / 0.95)`, behind dialogs and the lightbox. `gray-800` is the skeleton ground only.
+`surface.scrim` is `rgb(0 0 0 / 0.95)`, behind dialogs and the lightbox. `gray-800` is also the skeleton ground.
 
 ### Named Rules
 
