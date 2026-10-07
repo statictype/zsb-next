@@ -64,7 +64,7 @@ export function ArtistProfile({ artist }: ArtistProfileProps) {
 
       {(artist.portrait || bio.value.length > 0) && (
         <section aria-labelledby={aboutId} className={styles.about}>
-          <SectionHeading id={aboutId} size="detail" flush className={styles.aboutHeading}>
+          <SectionHeading id={aboutId} flush className={styles.aboutHeading}>
             {labels.bio}
           </SectionHeading>
           {artist.portrait && (

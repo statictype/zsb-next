@@ -28,6 +28,13 @@ const roll = {
     transform: 'translateY(-110%)',
   },
   '&[aria-pressed=true] [data-btn-label]': { transform: 'none' },
+  '& [data-btn-arrow]': { display: 'inline-flex' },
+  '& [data-btn-arrow=right]': { '--nudge': '4px 0' },
+  '& [data-btn-arrow=left]': { '--nudge': '-4px 0' },
+  '& [data-btn-arrow=up-right]': { '--nudge': '3px -3px' },
+  '&:is(:hover, :focus-visible):not(:disabled, [aria-disabled=true]) [data-btn-arrow]': {
+    animationStyle: 'nudge',
+  },
 } as const
 
 const selected = {
@@ -100,12 +107,11 @@ export const button = defineRecipe({
         ...labelType,
         ...roll,
         ...selected,
-        pressable: 'dim',
-        background: 'tint',
+        pressable: 'fill',
+        background: 'transparent',
         color: 'heading',
-        border: 'hairline',
-        borderColor: 'transparent',
-        '&:not([aria-pressed=true])': { _hover: { background: 'tint.hover' } },
+        border: 'subtle',
+        _hover: { borderColor: 'heading' },
       },
       quiet: {
         ...labelType,
