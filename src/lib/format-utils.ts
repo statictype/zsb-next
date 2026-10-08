@@ -1,5 +1,5 @@
 // Assumes the last token is the surname. Particles ("van der") and double surnames
-// are overridden by `sortName` in Sanity. Used by scripts/sanity-backfill-artist-sortname.ts.
+// are overridden by `sortName` in Sanity.
 export function surnameSortKey(name: string): string {
   const parts = name.trim().split(/\s+/)
   if (parts.length < 2) return name.trim()

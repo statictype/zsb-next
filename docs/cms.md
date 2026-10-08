@@ -137,7 +137,7 @@ Content: author stand-in documents as drafts in the dataset and view them throug
 
 ## Scripts
 
-`scripts/` holds Sanity import, backfill and migration scripts. They run with `pnpm exec tsx scripts/<name>.ts`, load `.env.local` through `scripts/_load-env.ts`, need `SANITY_API_WRITE_TOKEN`, and write to the dataset named in the environment. Each `sanity-*` script accepts `--dry`. The `@scripts/*` path alias in `tsconfig.json` points at this directory.
+`scripts/sanity-upload-organization-logos.ts` uploads organization logos to the dataset. It runs with `pnpm exec tsx scripts/sanity-upload-organization-logos.ts`, loads `.env.local` through `scripts/_load-env.ts`, needs `SANITY_API_WRITE_TOKEN`, and writes to the dataset named in the environment. The other scripts are image tooling (`images:unused`, `optimize-images.sh`) and `generate-app-icons.ts`.
 
 ## TypeGen
 

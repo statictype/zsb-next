@@ -90,7 +90,7 @@ src/
   sanity/            Studio config, schema, GROQ queries, fetchers, mappers
   lib/               Constants, SEO and JSON-LD builders, date and format helpers
   types/             Runtime types such as Edition
-scripts/             Sanity import and migration scripts, image tooling
+scripts/             Image tooling, app icon generation, organization logo upload
 e2e/                 Playwright specs
 docs/                CMS and testing guides
 ```
