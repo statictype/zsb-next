@@ -11,17 +11,6 @@ import {
 import { cx } from 'styled-system/css'
 import { type ButtonVariantProps, button } from 'styled-system/recipes'
 
-/**
- * Button — the one action primitive (ADR 0019): primary | secondary | quiet |
- * icon | link | plain × size. The `link` variant absorbs the retired
- * `textLink`; `icon` absorbs the retired `IconButton`; `plain` is a pressable
- * surface that carries its own look (a media plate, an image card).
- *
- * Renders a `<button>` by default. With **`asChild`** it renders *as* its single
- * child instead — merging the button className onto the call site's own
- * `<a>`/`<Link>` (no wrapper, no nested-interactive). Element-specific props
- * belong on that child so its own native types remain authoritative.
- */
 type ButtonOwnProps = ButtonVariantProps & { className?: string | undefined }
 
 type NativeButtonProps = ButtonOwnProps &

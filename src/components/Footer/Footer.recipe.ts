@@ -1,15 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/**
- * Footer — co-located slot recipe.
- *
- * Dark editorial footer: partner badge, Connect/Follow link register, catalogue
- * stamp, baseline meta row. Mobile-first — `base` is the mobile (centered,
- * stacked) layout and `md` is the spread desktop row.
- *
- * The links adopt the `Button` link variant; the `link` slot only carries the
- * footer's typographic treatment layered on top.
- */
 export const footer = sva({
   slots: ['footer', 'inner', 'badge', 'navCol', 'colTitle', 'link', 'stamp', 'baseline'],
   base: {
@@ -41,7 +31,6 @@ export const footer = sva({
       textAlign: 'center',
       md: { width: 'fit-content', textAlign: 'left' },
     },
-    // Footer-link typography layered onto the Button link variant.
     link: {
       pressable: 'inline',
       width: 'fit-content',

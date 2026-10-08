@@ -30,8 +30,6 @@ interface CarouselProps {
 
 const safeId = (value: string) => value.replace(/[^a-zA-Z0-9_-]+/g, '-')
 
-// The rail recipe lays a slide's images out as separate pages on portrait phones.
-
 export function Carousel({ id, slides, label, mode, eyebrow, className }: CarouselProps) {
   const generatedId = useId()
   const rootId = safeId(id ?? `carousel-${generatedId}`)
@@ -78,12 +76,8 @@ export function Carousel({ id, slides, label, mode, eyebrow, className }: Carous
       role="region"
       aria-roledescription="carousel"
       aria-label={label}
-      // A mouse drag on the strip ends with a native click on whatever sits
-      // under the pointer, which would activate slide content — open the
-      // gallery lightbox, follow a card link. Timing-based suppression around
-      // the drag lifecycle is racy (timers may run between pointerup and
-      // click), so suppress by measured pointer travel instead: a real click
-      // doesn't move, a drag does.
+      // A mouse drag ends with a native click on the element under the pointer.
+      // Timers around pointerup/click are racy, so suppress by pointer travel.
       onPointerEnter={engage}
       onFocusCapture={engage}
       onPointerDownCapture={(event) => {

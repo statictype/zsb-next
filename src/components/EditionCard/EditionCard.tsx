@@ -8,8 +8,6 @@ import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import type { EditionFact, EditionSummary } from '@/types/edition'
 
-/** Bound to the recipe's variants: renaming or removing one there resurfaces
- *  here as a type error, not a silently ignored prop. */
 type EditionCardMedia = NonNullable<RecipeVariantProps<typeof editionCard>>['media']
 
 interface EditionCardProps {
@@ -20,9 +18,7 @@ interface EditionCardProps {
   className?: string | undefined
 }
 
-// Read off tokens.ts: the container caps at maxWidth 1800 + 2×gutter 112, and
-// the plate is then (1800 − xl 72) / 2. The last entry is the mobile
-// thumbnail's own clamp ceiling, not a share of the viewport.
+// Derived from tokens.ts: container maxWidth 1800, plate = (1800 − xl 72) / 2.
 const PLATE_SIZES =
   '(min-width: 2024px) 864px, (min-width: 1024px) 48vw, (min-width: 768px) 90vw, 104px'
 

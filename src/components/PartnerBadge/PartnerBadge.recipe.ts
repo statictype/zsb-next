@@ -1,13 +1,5 @@
 import { sva } from 'styled-system/css'
 
-/**
- * PartnerBadge — co-located slot recipe.
- *
- * Size variants keep the badge and center icon geometry together, so parent
- * layouts choose the placement context without reaching into the badge internals.
- * The hover-scale lives on `body` below, which is what lets the component
- * itself stay a server component.
- */
 const SIZE = {
   standard: { base: '72px', md: '96px', xl: '125px' },
   standardIcon: { base: '20px', md: '26px', xl: '36px' },
@@ -35,7 +27,6 @@ export const partnerBadge = sva({
       position: 'relative',
       width: '100%',
       height: '100%',
-      // `body` fills the link, so hovering anywhere on the badge scales it.
       transition: 'develop',
       _hover: { transform: 'scale(1.12)' },
     },

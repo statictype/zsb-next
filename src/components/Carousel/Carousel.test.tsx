@@ -72,17 +72,14 @@ describe('Carousel', () => {
     )
     const target = screen.getByText('Open me')
 
-    // Drag: pointer travels well past the tolerance before the click lands.
     fireEvent.pointerDown(target, { clientX: 200, clientY: 100 })
     fireEvent.click(target, { clientX: 80, clientY: 100, detail: 1 })
     expect(onSlideClick).not.toHaveBeenCalled()
 
-    // Static click: no travel, must pass through.
     fireEvent.pointerDown(target, { clientX: 200, clientY: 100 })
     fireEvent.click(target, { clientX: 201, clientY: 100, detail: 1 })
     expect(onSlideClick).toHaveBeenCalledTimes(1)
 
-    // Keyboard activation (click detail 0, no preceding pointerdown) passes.
     fireEvent.click(target, { detail: 0 })
     expect(onSlideClick).toHaveBeenCalledTimes(2)
   })

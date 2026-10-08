@@ -10,11 +10,6 @@ import { getSiteSettings, type SiteSettings } from '@/sanity/lib/settings'
 
 const s = footer()
 
-// Internal navigation labels are structural, not editorial — they live
-// in code so editors don't accidentally rename the link to its own page.
-// Together the complete route index: the header carries only the four in
-// PRIMARY_LINKS, so the footer is the one place every surface is reachable
-// from every page.
 const PRIMARY_LINKS = [
   { label: 'About', href: '/about' },
   { label: 'Editions', href: '/editions' },
@@ -66,10 +61,7 @@ async function CachedFooter({ options }: { options: DynamicFetchOptions }) {
 function FooterShell({ settings }: { settings: SiteSettings | null }) {
   const socials = buildSocialLinks(settings)
   const contactHref = settings?.contactEmail ? `mailto:${settings.contactEmail}` : undefined
-  // Per render, not module scope: across a year boundary the stamp and © lag
-  // only until the next revalidation, not until the next server process.
   const currentYear = new Date().getFullYear()
-  // Reads like an edition-catalogue stamp — the span the event has run.
   const catalogStamp = `ZSB · 2021—${currentYear}`
 
   return (

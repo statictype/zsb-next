@@ -51,7 +51,6 @@ describe('EditionsNavBandList', () => {
     )
 
     expect(cell(2026)).toHaveTextContent('Viewing')
-    // The event is the page, the edition is not.
     expect(cell(2026)).not.toHaveAttribute('aria-current')
   })
 
@@ -67,7 +66,6 @@ describe('EditionsNavBandList', () => {
 
     expect(screen.getByText('Soon')).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /ZSB 2027/ })).toBeNull()
-    // The highlight substring is still wrapped in its own span.
     expect(screen.getByText('field')).toBeInTheDocument()
   })
 })

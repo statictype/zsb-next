@@ -4,12 +4,6 @@ import { EditionsNavBand, EditionsNavBandList } from '@/components/EditionsNav/E
 import { getEditionSummaries } from '@/sanity/lib/editions'
 import { type DynamicFetchOptions } from '@/sanity/lib/live'
 
-/**
- * Full-width "browse the editions" band, placed just above the footer on the
- * edition pages and About. Self-contained: it's `DraftAware`'s
- * page→dynamic→cached triplet (ADR 0012) already wired up, so a page just
- * renders `<EditionsNav />` with no Suspense wrapper of its own.
- */
 export function EditionsNav() {
   return (
     <DraftAware cached={(options) => <CachedEditionsNav options={options} />} fallback={null} />

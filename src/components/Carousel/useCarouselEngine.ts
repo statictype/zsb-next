@@ -143,12 +143,7 @@ interface Engine {
   dispose: () => void
 }
 
-/**
- * GreenSock's published `horizontalLoop` helper, ported from
- * https://codepen.io/osmosupply/pen/NPKqByd. It builds a seamless wrap by
- * tweening every item's `xPercent` across the combined track width on one
- * timeline, then scrubbing that timeline instead of moving a container.
- */
+// Port of GreenSock's `horizontalLoop`: https://codepen.io/osmosupply/pen/NPKqByd
 function loopingTrack(
   gsap: GSAP,
   Draggable: DraggableStatic,
@@ -341,8 +336,6 @@ function loopingTrack(
   populateTimeline()
   populateStops()
   window.addEventListener('resize', onResize)
-  // Pre-render both ends so the first interaction is not the frame that pays
-  // for building every tween.
   tl.progress(1, true).progress(0, true)
   tl.time(at(stops, 0), true)
 
@@ -503,9 +496,6 @@ export function useCarouselEngine({
     }
   }, [trackRef, animated, slideCount])
 
-  /** Pre-hydration, reduced-motion, no-JS and strips too short to loop all
-   *  land here: the track is still a scroll-snap strip, so navigation stays
-   *  real without the engine. */
   const scrollToIndex = (index: number) => {
     pageRef.current = index
     setPage(index)

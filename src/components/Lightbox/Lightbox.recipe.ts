@@ -1,7 +1,5 @@
 import { defineSlotRecipe } from '@/design-system/define-recipe'
 
-// Full-screen image viewer: layout, controls, and gesture feedback. Dialog owns
-// the modal state and shell; the backdrop alpha + drag transform stay inline.
 export const lightbox = defineSlotRecipe({
   className: 'lightbox',
   jsx: ['Lightbox'],
@@ -104,7 +102,6 @@ export const lightbox = defineSlotRecipe({
       overflow: 'hidden',
     },
 
-    // Off-screen N±1 prefetch of optimized variants.
     preload: {
       position: 'fixed',
       top: '0',

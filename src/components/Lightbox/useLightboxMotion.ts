@@ -176,7 +176,6 @@ function dissolveFrom(
       style.width = `${tileWidth + SEAM_OVERLAP_PX}px`
       style.height = `${tileHeight + SEAM_OVERLAP_PX}px`
       style.backgroundColor = token('colors.surface.scrim')
-      // Reuses the browser's decoded copy of `currentSrc`; no second request.
       style.backgroundImage = `url("${source}")`
       style.backgroundSize = `${content.width}px ${content.height}px`
       style.backgroundPosition = `${content.left - left}px ${content.top - top}px`

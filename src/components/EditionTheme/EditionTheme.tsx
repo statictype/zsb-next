@@ -37,9 +37,7 @@ export function EditionTheme({
   const styles = editionTheme({ size, interactive, accent, muted })
   return (
     <Tag className={cx(styles.heading, className)}>
-      {/* The trailing space is invisible to flex layout but keeps the
-          heading's accessible name from fusing lead and theme ("2026 the…"
-          instead of "2026the…"). */}
+      {/* The space keeps the accessible name from fusing lead and theme. */}
       {lead ? <span className={styles.lead}>{lead}</span> : null}
       {lead ? ' ' : null}
       <AccentSplit text={theme} accent={themeHighlight} className={styles.highlight} />
