@@ -1,7 +1,6 @@
 'use client'
 
-// Renders only when the root layout itself crashes, replacing <html> entirely —
-// no fonts, no panda.css, no styled-system guarantees. Inline styles only.
+// Replaces the root layout, so fonts and panda.css are not loaded. Inline styles only.
 export default function GlobalError({ reset }: { reset: () => void }) {
   return (
     <html lang="en">

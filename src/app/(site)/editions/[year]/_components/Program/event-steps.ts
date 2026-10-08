@@ -2,7 +2,6 @@ import { programOrder } from '@program/program-filters'
 import { type ProgramScope, scopeEventHref } from '@program/program-scope'
 import type { CalendarEvent } from '@/types/edition'
 
-/** One neighbour of the open event: where it lives and what to call it. */
 export interface EventStep {
   slug: string
   href: string
@@ -12,15 +11,11 @@ export interface EventStep {
 export interface EventSteps {
   prev?: EventStep | undefined
   next?: EventStep | undefined
-  /** This event's 0-based position in the program, alongside `total`. */
   index?: number | undefined
   total?: number | undefined
 }
 
-// The event panel's neighbours in the program. Both event routes — the
-// intercepted modal and the cold-load page — derive them here so a shared link
-// steps through the same sequence a soft navigation does. The ends don't wrap:
-// the program has a first and a last event, and a panel that loops hides that.
+// Shared by the intercepted modal and the cold-load event page.
 export function eventSteps(events: CalendarEvent[], slug: string, scope: ProgramScope): EventSteps {
   const order = programOrder(events)
   const at = order.findIndex((event) => event.slug === slug)

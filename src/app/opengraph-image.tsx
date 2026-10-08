@@ -1,14 +1,7 @@
 import { ImageResponse } from 'next/og'
 import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE } from '@/lib/og'
 
-// Default social-share card for every route that doesn't supply its own image.
-// Lives at the app root (not in (site)) so the homepage — one segment deeper —
-// can override it via metadata without a same-segment collision. /studio
-// inherits it too, which is harmless (robots-blocked, never shared).
-//
-// Pages override by setting openGraph.images in generateMetadata; editions
-// supply their own via editions/[year]/opengraph-image. A child segment's
-// openGraph replaces the inherited one wholesale, so this never duplicates.
+// Lives at the app root, outside (site), so the homepage can override it via metadata without a same-segment collision.
 
 export const alt =
   'Bucharest Sculpture Days (ZSB) — Zilele Sculpturii București, a contemporary sculpture event in Bucharest, Romania.'

@@ -17,9 +17,7 @@ export const baseMetadata = {
   },
 } satisfies Metadata
 
-// themeColor tints the mobile browser chrome / installed-PWA title bar; it
-// belongs in `viewport`, not `metadata`, in the App Router. Matches the dark
-// brand canvas and the manifest's theme_color.
+// Matches the manifest's theme_color.
 export const viewport: Viewport = {
   themeColor: '#0e0b10',
 }

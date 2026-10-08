@@ -10,15 +10,12 @@ function lastMod(iso: string | null | undefined): Date | undefined {
   return iso ? new Date(iso) : undefined
 }
 
-// Newest of a set of ISO timestamps, or undefined if none are present.
 function newest(isos: Array<string | null | undefined>): Date | undefined {
   const dates = isos.filter((v): v is string => Boolean(v)).map((v) => new Date(v))
   if (dates.length === 0) return undefined
   return dates.reduce((a, b) => (a > b ? a : b))
 }
 
-// Build one entry, omitting `lastModified` entirely when we don't have an
-// honest date rather than faking "now".
 function entry(
   path: string,
   lastModified: Date | undefined,
@@ -40,9 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getGaleriaBeller(PUBLISHED),
   ])
 
-  // SITEMAP_QUERY.editions is already status-filtered (`== "live"`), the
-  // same gate as the edition page — the sitemap never advertises a year that
-  // would 404 while an announced edition exists between editions.
+  // SITEMAP_QUERY.editions is filtered to `== "live"`, the same gate as the edition page.
   const editions = meta.editions
   const editionUpdatedByYear = new Map(editions.map((e) => [String(e.year), e._updatedAt]))
   const pageUpdatedById = new Map(meta.pages.map((p) => [p._id, p._updatedAt]))
@@ -52,14 +47,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry(editionHref(e.year), lastMod(e._updatedAt), 'yearly', 0.8),
   )
 
-  // Event pages are canonical, prerendered URLs (ADR 0015). Events have no
-  // timestamp of their own — they live inside the edition doc — so the parent
-  // edition's update time is the honest `lastModified`.
+  // Events have no timestamp of their own; they use the parent edition's.
   const eventEntries = eventParams.map(({ year, slug }) =>
     entry(eventHref(Number(year), slug), lastMod(editionUpdatedByYear.get(year)), 'yearly', 0.5),
   )
 
-  // The editions index dates itself by its freshest member.
   const editionsListLastMod = newest(editions.map((e) => e._updatedAt))
 
   const bellerEntries = beller

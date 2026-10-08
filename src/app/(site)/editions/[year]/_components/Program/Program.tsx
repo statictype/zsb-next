@@ -22,9 +22,7 @@ const s = program()
 function ProgramFrame({ children, ...aria }: { children: ReactNode } & AriaAttributes) {
   return (
     <section className={section()} {...aria}>
-      {/* Zero-size anchor, past the section's own top padding — a shared link
-          scrolls here instead of landing on blank padding. Nav clearance
-          comes from the page shell's `scroll-padding-top` (globals.css). */}
+      {/* Nav clearance comes from `scroll-padding-top` in globals.css. */}
       <div id={PROGRAM_SECTION_ID} />
       <HashScroller id={PROGRAM_SECTION_ID} />
       <Container>{children}</Container>

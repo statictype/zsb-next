@@ -67,8 +67,8 @@ export function EventModalLoadingChrome({ children }: { children: ReactNode }) {
   )
 }
 
-// Only the `@modal` slot renders this, and it only fills on a soft navigation
-// from the edition page — so there is always an entry of ours to pop.
+// Only the `@modal` slot renders this, so history always holds an entry of
+// ours to pop.
 export function EventModal({
   events,
   slug: initialSlug,

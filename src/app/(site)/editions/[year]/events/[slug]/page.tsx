@@ -24,8 +24,7 @@ export async function generateStaticParams() {
   return getAllEventParams()
 }
 
-// Renders only on a cold load: soft navigation from the program is intercepted
-// by the sibling `@modal` slot, which opens the same event as a modal instead.
+// Renders only on a cold load; soft navigation is intercepted by `@modal`.
 export default async function EventPage(props: PageProps<'/editions/[year]/events/[slug]'>) {
   const { year, slug } = await props.params
   return (

@@ -10,11 +10,7 @@ interface VisitFaqProps {
   entries: FaqEntry[]
 }
 
-/**
- * Renders the same list that feeds the `FAQPage` JSON-LD in `page.tsx`. Google
- * requires the structured Q&A to be present on the page, so the two never come
- * from separate sources.
- */
+/** Renders the list that feeds the `FAQPage` JSON-LD in `page.tsx`; Google requires that Q&A to be visible on the page. */
 export function VisitFaq({ entries }: VisitFaqProps) {
   if (entries.length === 0) return null
   const s = visitFaq()

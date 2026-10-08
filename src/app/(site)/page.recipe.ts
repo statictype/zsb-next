@@ -39,8 +39,6 @@ export const homePage = sva({
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-start',
-      // Tighter than the shared pageHero rhythm, and short of a full viewport,
-      // so the partner strip's ground shows above the fold.
       lg: {
         paddingTop: 'calc(token(sizes.nav) + token(spacing.xl) + token(spacing.md))',
         paddingBottom: 'calc(token(spacing.2xl) + token(spacing.md))',
@@ -61,13 +59,10 @@ export const homePage = sva({
       width: '100%',
       minWidth: '0',
       lg: {
-        // Runs the full width of the row, under the hero copy; the stage's own
-        // mask fades its leading slides out behind the text.
         gridColumn: '1 / -1',
         gridRow: '1',
         zIndex: '0',
-        // `width: full` would pin the box to its grid track, leaving the
-        // negative margin to shift it instead of widening it.
+        // `width: full` pins the box to its grid track, so the negative margin shifts it instead of widening it.
         width: 'auto',
         marginRight:
           'calc((min(100vw - 2 * token(spacing.gutter), token(sizes.maxWidth)) - 100vw) / 2)',
@@ -80,7 +75,6 @@ export const homePage = sva({
       lg: { gridColumn: '1', gridRow: '1', zIndex: '1', transform: 'translateY(-100px)' },
       '2xl': { transform: 'translateY(-150px)' },
     },
-    // min-content forces "Bucharest / Sculpture / Days" to wrap on whitespace.
     heroTitle: {
       animationStyle: 'enter',
       animationDelay: 'stagger',

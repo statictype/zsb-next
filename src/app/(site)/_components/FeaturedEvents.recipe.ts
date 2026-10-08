@@ -25,8 +25,6 @@ export const featuredEvents = sva({
       },
     },
 
-    // The poster frame: a portrait stage the image fills. Card owns the chrome
-    // (border, position/overflow/isolation); this sets shape + skeleton base.
     frame: {
       aspectRatio: '4 / 5',
       background: 'gray.800',
@@ -62,12 +60,9 @@ export const featuredEvents = sva({
     },
     name: {
       textStyle: 'cardTitle',
-      // Event names are sentence-case, not the uppercase default.
       textTransform: 'none',
       color: 'heading',
     },
-    // Links to the event route; inherits the heading type. Its ::after stretches
-    // the hit target over the whole frame.
     cardLink: {
       font: 'inherit',
       color: 'inherit',

@@ -11,35 +11,17 @@ import {
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import { css } from 'styled-system/css'
 
-// The share affordance shared by the program (ZSB-33) and the event detail
-// (ZSB-50): a native share sheet where the platform offers one, an inline
-// "copy link" fallback everywhere else.
-//
-// Where the device offers a native share sheet (mobile, some desktops) we use
-// it: it covers Facebook, WhatsApp, Messages and "Copy" without a button per
-// app. Everywhere else (most desktops) we copy the link to the clipboard and
-// confirm inline. Capability is read through a store whose server snapshot is
-// `false`, so the first paint — on the server and the client — is always the
-// copy-link variant and hydration stays in sync; the real value lands after.
 const subscribeNoop = () => () => {}
 const getCanShare = () => typeof navigator !== 'undefined' && typeof navigator.share === 'function'
 
 export interface ShareLink {
-  /** Click handler: share `resolveUrl()` natively, or copy it as a fallback. */
   share: () => Promise<void>
-  /** The fallback copied the link just now (clears itself after a beat). */
   copied: boolean
-  /** Button label reflecting the current capability + state. */
   label: string
-  /** Text for the call site's `role="status"` region — '' while idle. Kept
-   *  here so both share buttons word the outcome the same way. */
   status: string
-  /** Icon matching the label. */
   Icon: RemixiconComponentType
 }
 
-// `resolveUrl` is read at click time, so callers can hand back the live URL
-// (e.g. `window.location.href`) without re-running the hook on every change.
 export function useShareLink(
   resolveUrl: () => string,
   labels: Pick<
@@ -50,7 +32,6 @@ export function useShareLink(
   const canNativeShare = useSyncExternalStore(subscribeNoop, getCanShare, () => false)
   const [outcome, setOutcome] = useState<'idle' | 'copied' | 'failed'>('idle')
 
-  // Clear the confirmation (or the failure) after a beat.
   useEffect(() => {
     if (outcome === 'idle') return
     const id = window.setTimeout(() => setOutcome('idle'), 2000)
@@ -63,17 +44,12 @@ export function useShareLink(
       try {
         await navigator.share({ title: document.title, url })
         return
-      } catch {
-        // The user dismissed the sheet, or the platform refused — fall through
-        // to copying so the action still does something useful.
-      }
+      } catch {}
     }
     try {
       await navigator.clipboard.writeText(url)
       setOutcome('copied')
     } catch {
-      // Clipboard blocked (insecure context / denied permission). Say so —
-      // a button that does nothing and reports nothing reads as broken.
       setOutcome('failed')
     }
   }
@@ -102,7 +78,6 @@ export function useShareLink(
   }
 }
 
-// Copied — settle into the highlight "confirmed" accent used across the board.
 export const shareCopied = css({
   color: 'highlight',
   borderColor: 'highlight',

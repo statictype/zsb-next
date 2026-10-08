@@ -1,22 +1,10 @@
-/* =====================================================
-   GLOBALS — cascade-layer order, @property, reset/base.
-
-   All design tokens live in `panda.config.ts` (OKLCH theme, type/space scales,
-   etc.) and are emitted by Panda as `--colors-*` / `--fonts-*` / … custom
-   properties; the element reset below reads them directly.
-   ===================================================== */
-
-/* Cascade-layer order — declared here (globals.css is imported before
-   panda.css) so Panda's recipes/utilities (later layers) override the element
-   base styles below. Unlayered rules outrank ALL layers, so the reset must be
-   layered or it beats every Panda padding/margin. */
-/* Panda's PostCSS plugin injects its full output into every file whose @layer
+/* Declared here because globals.css is imported before panda.css, so Panda's
+   later layers override the element base styles. Unlayered rules outrank all
+   layers, so the reset must be layered. */
+/* Panda's PostCSS plugin injects its output into every file whose @layer
    statement lists all of its layers; listing all five here emits it twice. */
 @layer reset, base;
 
-/* ---- Reset + base element styles ----
-   Wrapped in @layer base so Panda recipes/utilities win over them. The body
-   ground (background/ink/type) is owned by Panda globalCss. */
 @layer base {
   *,
   *::before,
@@ -28,9 +16,6 @@
 
   html {
     scroll-behavior: smooth;
-    /* Clears the fixed nav on anchor-jump/scrollIntoView targets sitewide —
-       the "page shell" nav-scroll allowance the calc audit's anchor sites
-       rely on instead of a per-element scroll-margin calc. */
     scroll-padding-top: var(--sizes-nav);
   }
 
@@ -59,7 +44,6 @@
     border-radius: 0;
   }
 
-  /* Hide layout footer on fullpage-scroll pages (they include their own footer as a section) */
   [data-fullpage] ~ footer {
     display: none;
   }

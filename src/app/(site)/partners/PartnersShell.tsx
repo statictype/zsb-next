@@ -100,8 +100,6 @@ export function PartnersShell({
         </Container>
       </section>
 
-      {/* No contact email in settings would mean a broken `mailto:` — hide
-            the ask entirely rather than render a CTA that goes nowhere. */}
       {contactEmail && (
         <section className={cx(section(), styles.partnerCta)}>
           <Center className={styles.partnerCtaInner} flexDirection="column" gap="2xl">

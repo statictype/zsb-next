@@ -36,9 +36,6 @@ export function HomeShell({ view, editions, upcoming, featured, artistCount }: H
   return (
     <main>
       {upcoming ? (
-        // Hero switch leads with the Upcoming edition (ZSB-44). It has no
-        // photography of its own yet, so the last edition's slideshow + CTA are
-        // kept as a compact "from the last edition" side card.
         <section id="home" className={cx(styles.panel, styles.hero)}>
           <HStack
             className={styles.heroRail}

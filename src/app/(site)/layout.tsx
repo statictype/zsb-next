@@ -29,9 +29,6 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/',
   },
-  // iOS standalone ("add to home screen") presentation. The icon itself comes
-  // from src/app/apple-icon.png (Next file convention); the manifest is linked
-  // automatically from src/app/manifest.ts.
   appleWebApp: {
     capable: true,
     title: 'ZSB',
