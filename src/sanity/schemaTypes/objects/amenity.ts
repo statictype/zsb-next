@@ -1,10 +1,6 @@
 import { defineField, defineType } from 'sanity'
 
-/**
- * Visit-page amenity. The icon key drives which Remix icon the
- * renderer picks (mapping lives in VisitSection). Keeping the icon
- * set fixed prevents editors from picking icons we can't render.
- */
+/** The icon key selects the Remix icon; the mapping lives in VisitSection. */
 const AMENITY_ICONS = [
   { title: 'Wheelchair access', value: 'wheelchair' },
   { title: 'Parking', value: 'parking' },

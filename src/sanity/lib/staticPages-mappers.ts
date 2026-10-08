@@ -19,13 +19,6 @@ import type {
 } from '@/types/edition'
 
 type AboutPageRaw = NonNullable<ABOUT_PAGE_QUERY_RESULT>
-/**
- * The About page as the route renders it (ADR 0013): a *total* view-model. The
- * data layer normalizes here so the Shell is a pure renderer — text coalesced to
- * `''`, lists to `[]`, and only the genuinely-optional members (images, SEO)
- * left absent. A missing singleton is a 404, not an empty render, so this never
- * represents "no page".
- */
 export interface AboutView {
   hero: { title: string; lead: string }
   manifestoTitle: string
@@ -43,7 +36,6 @@ export interface AboutView {
   metaDescription?: string
 }
 type PartnersPageRaw = NonNullable<PARTNERS_PAGE_QUERY_RESULT>
-/** The Partners page as a total view-model (see `AboutView`). */
 export interface PartnersView {
   hero: { title: string; lead: string }
   eventTitle: string
@@ -62,8 +54,6 @@ export interface PartnersView {
 }
 export type VisitPage = NonNullable<VISIT_PAGE_QUERY_RESULT>
 type PrivacyPageRaw = NonNullable<PRIVACY_PAGE_QUERY_RESULT>
-/** The Privacy page as a total view-model (see `AboutView`). `body` is Portable
- *  Text; an empty doc renders the static "change your mind" block alone. */
 export interface PrivacyView {
   hero: { title: string; lead: string }
   body: NonNullable<PrivacyPageRaw['body']>
@@ -72,8 +62,6 @@ export interface PrivacyView {
   metaDescription?: string
 }
 
-/** Reshape a raw About singleton into the total view-model the page renders
- *  (ADR 0013). */
 export function normalizeAbout(raw: AboutPageRaw): AboutView {
   return {
     hero: {
@@ -172,7 +160,6 @@ function mapTransport(raw: VisitPage['transport']): TransportRoute[] {
   return out
 }
 
-/** Project a VisitPage into the runtime shape VisitSection renders. */
 export function mapVisit(page: VisitPage): VisitData {
   return {
     venueName: page.venueName ?? [],

@@ -24,17 +24,13 @@ import type {
 
 export type SanityEdition = NonNullable<EDITION_BY_YEAR_QUERY_RESULT>
 
-// Words of the event name kept in an auto-derived slug — enough to disambiguate
-// while staying short ("opening-of-the-main-exhibition" → first five).
 const SLUG_NAME_WORDS = 5
 
-// `d-MMM` lowercased from an ISO date: "2025-09-12" → "12-sep".
 function dateSlugPart(iso: string): string {
   const token = dayToken(iso)
   return token ? `${token.day}-${token.month.toLowerCase()}` : slugify(iso)
 }
 
-// The minimal shape slug derivation needs from a raw event.
 export interface EventSlugInput {
   slug?: string | null
   name: string
@@ -42,17 +38,12 @@ export interface EventSlugInput {
   venue: { slug?: string | null; name: string }
 }
 
-// The auto-derived event slug — date · venue · shortened name (ADR 0015). Uses
-// the venue's own `slug` (e.g. "cfp") when set, else its slugified name.
 function deriveEventSlug(e: EventSlugInput): string {
   const venuePart = slugify(e.venue.slug ?? e.venue.name)
   const namePart = slugify(e.name).split('-').filter(Boolean).slice(0, SLUG_NAME_WORDS).join('-')
   return [dateSlugPart(e.startDate), venuePart, namePart].filter(Boolean).join('-')
 }
 
-// Make every slug unique within the edition so a path-keyed route resolves to
-// exactly one event: append -2/-3… on collision (an editor's override is taken
-// as-is first, the counter is the deterministic tiebreaker).
 function uniqueEventSlugs(bases: string[]): string[] {
   const used = new Set<string>()
   return bases.map((base) => {
@@ -65,11 +56,8 @@ function uniqueEventSlugs(bases: string[]): string[] {
 }
 
 /**
- * Every event's final slug, in order — editor override (slugified) first,
- * else the auto-derived one, deduped across the edition. The one
- * implementation of ADR 0015's slug rule: `mapEvents` stamps its output onto
- * the mapped events, and everything downstream (routes, static params,
- * `findEvent`) reads the stamped slug rather than re-deriving.
+ * Final slug of every event, deduped across the edition. `mapEvents` stamps these onto
+ * the mapped events; routes, static params and `findEvent` read the stamped slug.
  */
 export function deriveEventSlugs(events: EventSlugInput[]): string[] {
   return uniqueEventSlugs(events.map((e) => (e.slug ? slugify(e.slug) : deriveEventSlug(e))))
@@ -172,10 +160,6 @@ function rowOrgs(row: SanityOrgRow): SanityOrg[] {
   return row.organization ? [row.organization] : []
 }
 
-// `type` is the block a row belongs to: `partner` is credited by logo, falling
-// back to the name list; `primary` adds a team credit line and so is never
-// listed by name twice; `secondary` is the team block alone, which is what
-// keeps the aegis row's logo out of the wall.
 export function mapCredits(rows: SanityEdition['credits']): EditionCredits {
   const marks: MarkedPartner[] = []
   const named: string[] = []
@@ -276,11 +260,8 @@ export function mapEditionSummary(raw: EDITION_SUMMARIES_QUERY_RESULT[number]): 
   })
 }
 
-// Fields below are marked nullable by TypeGen because the schema makes
-// them optional for `upcoming` editions, but EDITION_BY_YEAR_QUERY only
-// returns `published` editions where Sanity's conditional validation has
-// enforced them as required. The empty-string / empty-array fallbacks
-// are belt-and-suspenders for an unexpected dataset shape.
+// TypeGen marks these nullable (optional for `upcoming` editions). EDITION_BY_YEAR_QUERY
+// returns only `published` editions, where they are required.
 export function mapEdition(raw: SanityEdition): Edition {
   const dateRange = composeDateRange(raw)
   const artists = raw.artists ?? []
@@ -304,7 +285,6 @@ export function mapEdition(raw: SanityEdition): Edition {
       highlight: raw.manifesto?.highlight ?? '',
       body: raw.manifesto?.body ?? '',
     },
-    // Older docs predate the field; a missing value means "has a program" (ADR 0018).
     hasProgram: raw.hasProgram ?? true,
     artists,
     events,

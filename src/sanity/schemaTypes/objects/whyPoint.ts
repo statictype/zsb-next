@@ -1,11 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
 
-/**
- * Partners-page "Why Sculpture" point. Same shape as pillar but kept
- * separate so the editor sees a context-specific label in the array
- * editor ("Why Sculpture point", not generic "Item").
- */
 export const whyPoint = defineType({
   name: 'whyPoint',
   title: 'Why Sculpture point',

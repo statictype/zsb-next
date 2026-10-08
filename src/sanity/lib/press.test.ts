@@ -3,8 +3,6 @@ import { flattenKit } from '@/sanity/lib/press-mappers'
 
 type RawKit = Parameters<typeof flattenKit>[0]
 
-// Minimal raw press-kit edition — only the fields flattenKit reads; the cast
-// keeps fixtures small without reconstructing the full generated query type.
 function kit(fields: Record<string, unknown>): RawKit[number] {
   return fields as unknown as RawKit[number]
 }

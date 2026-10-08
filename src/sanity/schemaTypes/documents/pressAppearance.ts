@@ -1,12 +1,7 @@
 import { defineField, defineType } from 'sanity'
 import { LinkIcon } from '@/sanity/icons'
 
-/**
- * Press coverage of ZSB — a single article, video, or audio segment.
- * `medium` is the editorial content type; the icon next to each row
- * is derived from the URL host (youtube/vimeo/soundcloud) with a
- * medium-based fallback for other outlets.
- */
+/** The row icon is derived from the URL host, falling back to `medium`. */
 const APPEARANCE_MEDIA = [
   { title: 'Article', value: 'article' },
   { title: 'Video', value: 'video' },

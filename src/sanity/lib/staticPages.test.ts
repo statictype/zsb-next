@@ -8,8 +8,6 @@ import {
   type VisitPage,
 } from '@/sanity/lib/staticPages-mappers'
 
-// buildFaq / mapVisit only read a handful of fields off the page; the cast
-// keeps fixtures small without reconstructing the full generated query type.
 function page(fields: Record<string, unknown>): VisitPage {
   return fields as unknown as VisitPage
 }
@@ -109,7 +107,7 @@ describe('normalizeAbout', () => {
     expect(view.pillars).toEqual([])
     expect(view.curatorLetter).toEqual([])
     expect(view.carousel).toEqual([])
-    expect(view.carouselEyebrow).toBe('From the archive') // the real default lives in the layer
+    expect(view.carouselEyebrow).toBe('From the archive')
     expect('placeImage' in view).toBe(false)
     expect('metaDescription' in view).toBe(false)
   })

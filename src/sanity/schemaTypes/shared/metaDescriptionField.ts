@@ -1,12 +1,5 @@
 import { defineField } from 'sanity'
 
-/**
- * Optional per-document meta description (the `<meta name="description">` /
- * `og:description` summary shown in search results and social previews). When
- * set it overrides the page's hardcoded default; when empty the frontend falls
- * back to that default (or, for editions, the truncated manifesto). Pass
- * `group` to slot it into a document's field groups.
- */
 export function metaDescriptionField(options?: { group?: string; required?: boolean }) {
   const required = options?.required ?? false
   return defineField({
@@ -18,9 +11,6 @@ export function metaDescriptionField(options?: { group?: string; required?: bool
     type: 'text',
     rows: 3,
     ...(options?.group ? { group: options.group } : {}),
-    // Two rules at different severities: presence is a hard error (when
-    // required), while the length cap is a soft warning — Google truncates
-    // around 160 characters but an editor may have a reason to run long.
     validation: (rule) => {
       const lengthWarning = rule
         .max(160)

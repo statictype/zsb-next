@@ -25,7 +25,6 @@ type RawCredits = Parameters<typeof mapCredits>[0]
 type RawEdition = Parameters<typeof mapEdition>[0]
 type RawSummary = Parameters<typeof mapEditionSummary>[0]
 
-// A well-formed Sanity asset ref so the image adapters can build a CDN URL.
 const ASSET = { asset: { _ref: 'image-abc123def456-1200x800-jpg' }, alt: 'an alt' }
 
 const logoWithAspect = (aspectRatio: number) => ({
@@ -35,8 +34,6 @@ const logoWithAspect = (aspectRatio: number) => ({
 
 const LOGO = logoWithAspect(1.5)
 
-// Minimal raw event — only the fields the mapper reads; the cast keeps
-// fixtures small without reconstructing the full generated query type.
 function ev(fields: Record<string, unknown> = {}) {
   return {
     _key: `k-${JSON.stringify(fields).length}`,
@@ -53,10 +50,9 @@ function events(...items: ReturnType<typeof ev>[]): RawEvents {
   return items as unknown as RawEvents
 }
 
-describe('mapEvents — slug derivation (ADR 0015)', () => {
+describe('mapEvents — slug derivation', () => {
   it('derives date · venue · shortened-name slugs', () => {
     const [event] = mapEvents(events(ev({ name: 'Opening of the Main Exhibition Hall Tonight' })))!
-    // Name capped at five words; venue falls back to its slugified name.
     expect(event?.slug).toBe('15-may-cfp-opening-of-the-main-exhibition')
   })
 
@@ -97,7 +93,7 @@ describe('mapEvents — slug derivation (ADR 0015)', () => {
   })
 })
 
-describe('mapEvents — venue rollup stamp (ZSB-65)', () => {
+describe('mapEvents — venue rollup stamp', () => {
   it('stamps the venue itself when it has no parent', () => {
     const [event] = mapEvents(events(ev({ venue: { name: 'Galeria Simeza' } })))!
     expect(event?.venue.rollUp).toEqual({
@@ -303,8 +299,6 @@ describe('mapCredits — the team block', () => {
   })
 })
 
-// Minimal raw edition; mapEdition's empty-string/array fallbacks are the
-// belt-and-suspenders contract for fields TypeGen marks nullable.
 function rawEdition(fields: Record<string, unknown> = {}): RawEdition {
   return {
     year: 2026,
@@ -399,9 +393,6 @@ describe('mapEditionSummary', () => {
   })
 })
 
-// The slugs `mapEvents` stamps are the only event identity — static params
-// enumerate them and `findEvent` resolves them, so the loop must close on the
-// same mapped objects (ADR 0015, D4).
 describe('event slug round trip — derive then resolve', () => {
   const edition = mapEdition(
     rawEdition({

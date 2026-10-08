@@ -10,17 +10,9 @@ interface ReferencingEdition {
   status: 'announced' | 'live' | null
 }
 
-// Published editions only — drafts would duplicate rows and only matter while
-// an edition is being edited.
 const QUERY = `*[_type == "edition" && references($id) && !(_id in path("drafts.**"))]
   | order(year desc){ _id, year, status }`
 
-/**
- * Read-only block on the `artist` form listing the editions that reference this
- * artist — the reverse of `edition.artists[]`. Rendered as a synthetic field so
- * it sits in the form (below the "Used on N pages" panel) instead of a separate
- * view tab. Fetched once per mount via `client.fetch`; refresh to re-read.
- */
 export function ArtistEditionsField() {
   const client = useClient({ apiVersion })
   const id = (useFormValue(['_id']) as string | undefined)?.replace(/^drafts\./, '')

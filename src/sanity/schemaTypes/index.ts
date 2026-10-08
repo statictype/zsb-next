@@ -30,7 +30,6 @@ import { transportRoute } from '@/sanity/schemaTypes/objects/transportRoute'
 import { whyPoint } from '@/sanity/schemaTypes/objects/whyPoint'
 
 export const schemaTypes: SchemaTypeDefinition[] = [
-  // Singletons
   siteSettings,
   homepage,
   aboutPage,
@@ -39,18 +38,15 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   pressPage,
   privacyPage,
   galeriaBeller,
-  // Documents
   artist,
   work,
   edition,
   organization,
   pressAppearance,
   pressRelease,
-  // Program & venues
   venue,
   eventType,
   venueType,
-  // Objects
   amenity,
   creditOrg,
   creditOrgList,
