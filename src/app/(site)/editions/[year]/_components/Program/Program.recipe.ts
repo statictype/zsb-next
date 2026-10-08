@@ -8,6 +8,11 @@ const past = {
   '&[data-past=true]:hover': { opacity: 1 },
 } as const
 
+const ring = {
+  borderColor: 'transparent',
+  '&::before': { opacity: 1 },
+} as const
+
 export const program = sva({
   slots: [
     'layout',
@@ -207,8 +212,19 @@ export const program = sva({
       },
     },
     archive: {
+      position: 'relative',
       border: 'hairline',
       transition: 'interactive',
+      _before: {
+        content: '""',
+        layerStyle: 'gradientBorder',
+        inset: 'calc(token(borderWidths.hairline) * -1)',
+        padding: 'token(borderWidths.hairline)',
+      },
+      '&:has([data-part=trigger]:focus-visible)::before': { animationStyle: 'gradientBorder' },
+      '&[data-state=closed]:has([data-part=trigger]:focus-visible)': ring,
+      '&[data-state=closed] [data-part=trigger]:focus-visible': { outline: 'none' },
+      '&[data-state=open]:has([data-part=trigger]:focus-visible)': { borderColor: 'gray.700' },
       '& [data-part=trigger]': {
         padding: 'lg',
         alignItems: 'center',
@@ -221,26 +237,26 @@ export const program = sva({
         textDecoration: 'none',
       },
       '& [data-part=indicator]': {
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 'touch',
-        height: 'touch',
-        border: 'hairline',
         color: 'heading',
-        transition: 'interactive',
+        transition: 'develop',
       },
-      '&:has([data-part=trigger]:hover), &:has([data-part=trigger]:focus-visible)': {
-        borderColor: 'action',
+      '& [data-part=trigger]:focus-visible [data-part=indicator]': { translate: '0 3px' },
+      '& [data-part=trigger][data-state=open]:focus-visible [data-part=indicator]': {
+        translate: '0 -3px',
       },
-      '& [data-part=trigger]:hover [data-part=indicator], & [data-part=trigger]:focus-visible [data-part=indicator]':
-        {
-          borderColor: 'action',
-          color: 'action',
-        },
       '& [data-part=content]': {
         paddingInline: 'lg',
         paddingBottom: 'lg',
+      },
+      '& [data-part=content]:not([hidden])': { animationStyle: 'arrive' },
+      '@media (hover: hover)': {
+        '&:has([data-part=trigger]:hover)::before': { animationStyle: 'gradientBorder' },
+        '&[data-state=closed]:has([data-part=trigger]:hover)': ring,
+        '&[data-state=open]:has([data-part=trigger]:hover)': { borderColor: 'gray.700' },
+        '& [data-part=trigger]:hover [data-part=indicator]': { translate: '0 3px' },
+        '& [data-part=trigger][data-state=open]:hover [data-part=indicator]': {
+          translate: '0 -3px',
+        },
       },
     },
   },
