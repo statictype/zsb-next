@@ -3,9 +3,6 @@ import { expect, test } from '@playwright/test'
 
 test.describe('site smoke', () => {
   test('2021 edition renders its archive link and is error-clean', async ({ page }) => {
-    // 2021 is the inaugural online-only edition — now a Sanity `edition` like
-    // every other year (migrated in ZSB-20, ADR 0018). It has no program; its
-    // off-site archive renders via the ExternalGallery "Open the Archive" link.
     const errors = trackErrors(page)
     const response = await page.goto('/editions/2021')
     expect(response?.status()).toBe(200)
@@ -40,8 +37,6 @@ test.describe('site smoke', () => {
   })
 
   test('studio route loads', async ({ page }) => {
-    // The embedded Sanity Studio boots client-side; we only assert the route
-    // serves and the app shell mounts, not the full editor.
     const response = await page.goto('/studio')
     expect(response?.status()).toBeLessThan(400)
     await expect(page.locator('#sanity, [data-sanity], body').first()).toBeVisible()

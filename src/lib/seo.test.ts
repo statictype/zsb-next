@@ -2,9 +2,8 @@ import { describe, expect, it, vi } from 'vitest'
 import { rollUpVenue } from '@/lib/venues'
 import type { CalendarEvent, Edition, EditionJsonLd } from '@/types/edition'
 
-// seo.ts imports the live data layer at module load; defineLive() throws
-// outside React Server Components, and the functions under test are pure and
-// never touch it. Stub the module so the import resolves.
+// seo.ts imports the data layer at module load, and defineLive() throws outside
+// React Server Components.
 vi.mock('@/sanity/lib/live', () => ({
   getDynamicFetchOptions: async () => ({ perspective: 'published' }),
 }))
@@ -18,8 +17,6 @@ import {
   visitFaqJsonLd,
 } from '@/lib/seo'
 
-// A minimal event at a venue. `parent` sets the bigger place it sits inside (a
-// studio inside CFP) — which is what the JSON-LD rolls Places up to.
 function event(venueName: string, parent?: string): CalendarEvent {
   return {
     key: `${venueName}-${parent ?? ''}`,
@@ -71,8 +68,6 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
   }
 }
 
-// editionEventJsonLd reads only the EditionJsonLd slice, so its fixture
-// constructs only those fields — never a whole Edition.
 function makeEditionJsonLd(overrides: Partial<EditionJsonLd> = {}): EditionJsonLd {
   return {
     year: 2024,
@@ -113,8 +108,6 @@ describe('editionEventJsonLd', () => {
   it('emits one distinct Place per top-level venue, as an array when multi-site', () => {
     const ld = editionEventJsonLd(
       makeEditionJsonLd({
-        // Two events roll up to CFP (one directly, one via a sub-venue), one to
-        // a partner venue → two distinct Places.
         events: [
           event('Combinatul Fondului Plastic'),
           event('Studio 3', 'Combinatul Fondului Plastic'),
@@ -173,13 +166,12 @@ describe('editionMetadata', () => {
   })
 
   it('falls back to the manifesto body, truncated on a word boundary', () => {
-    const body = `${'word '.repeat(60)}END`.trim() // > 155 chars
-    // No metaDescription on the fixture → the manifesto-body fallback applies.
+    const body = `${'word '.repeat(60)}END`.trim()
     const meta = editionMetadata(makeEdition({ manifesto: { title: 't', highlight: 'h', body } }))
     const description = meta.description as string
     expect(description.length).toBeLessThanOrEqual(156)
     expect(description.endsWith('…')).toBe(true)
-    expect(description).not.toContain('  ') // cut at a space, no dangling double space
+    expect(description).not.toContain('  ')
   })
 })
 

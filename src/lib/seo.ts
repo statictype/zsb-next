@@ -14,7 +14,7 @@ import type {
 } from '@/types/edition'
 import type { GaleriaBeller } from '@/types/galeria-beller'
 
-// Undefined lets Next fall back to the root opengraph-image route.
+// Returning undefined lets Next fall back to the root opengraph-image route.
 function shareImages(image: ShareImage | undefined): NonNullable<Metadata['openGraph']>['images'] {
   if (!image) return undefined
   return [
@@ -34,8 +34,7 @@ export function pageMetadata(args: {
     ...(args.title !== undefined && { title: args.title }),
     description,
     alternates: { canonical: args.path },
-    // A page-level openGraph replaces the inherited one wholesale, so the
-    // global fields have to be restated whenever the image is overridden.
+    // A page-level openGraph replaces the inherited one, so global fields are restated.
     ...(images && {
       openGraph: {
         siteName: SITE_NAME,
@@ -60,8 +59,6 @@ interface MakePageMetadataConfig {
   robots?: Metadata['robots']
 }
 
-// Caches nothing and hides no render `'use cache'` boundary — keep it that way
-// (ADR 0012).
 export function makePageMetadata(
   fetcher: (options: DynamicFetchOptions) => Promise<PageMetaFields | null>,
   { title, path, description = SITE_DESCRIPTION, robots }: MakePageMetadataConfig,
@@ -128,8 +125,6 @@ export function editionEventJsonLd(edition: EditionJsonLd) {
   const start = edition.dateStart
   const end = edition.dateEnd
 
-  // ZSB is multi-site. `rollUp` is the shared venue key: the program filters
-  // group by it too, so the two can't disagree.
   const eventPlaces = edition.events.map((e) => e.venue.rollUp.name)
   const venueNames = [...new Set(eventPlaces.filter(Boolean))]
   const placeNames = venueNames.length > 0 ? venueNames : [edition.venueLine || 'Bucharest']
@@ -148,7 +143,6 @@ export function editionEventJsonLd(edition: EditionJsonLd) {
     '@type': 'Event',
     name: `${SITE_NAME} ${edition.year} — ${theme}`,
     description: edition.manifesto.body,
-    // Effectively required for Google Event rich results.
     ...(start && { startDate: start }),
     ...(end && { endDate: end }),
     eventStatus: 'https://schema.org/EventScheduled',
@@ -227,8 +221,7 @@ export interface FaqEntry {
   answer: string
 }
 
-// Google requires every Q&A here to be visible on the page, so callers must
-// pass the same list the visible FAQ renders from — never a separate copy.
+// Google requires every Q&A to be visible on the page; pass the list the visible FAQ renders from.
 export function visitFaqJsonLd(entries: FaqEntry[]) {
   return {
     '@context': 'https://schema.org',

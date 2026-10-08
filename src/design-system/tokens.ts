@@ -235,9 +235,6 @@ export const semanticTokens = {
     banner: { value: '200' },
     overlay: { value: '1000' },
     modal: { value: '1010' },
-    // Above the banner, below every dialog. The mobile menu draws its own close
-    // control inside its dialog (`dialogToggle`), so this never has to outrank
-    // the modal layer — and must not, or it lands on other dialogs' controls.
     navToggle: { value: '300' },
     lightboxFlip: { value: '1020' },
     draftBadge: { value: '1030' },

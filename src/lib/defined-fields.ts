@@ -1,12 +1,3 @@
-// Build an object with genuinely-optional fields without the
-// `...(x ? { x } : {})` spread dance that `exactOptionalPropertyTypes` forces.
-// Pass every field as a flat literal — including the nullable ones straight from
-// a Sanity projection — and `definedFields` drops the keys whose value is `null`
-// or `undefined`, narrowing the type so the survivors are present. Falsy-but-real
-// values (`''`, `0`, `false`, `[]`) are kept: this is for *semantically optional*
-// fields (an event's image, a ticket URL), not for the data layer's soft-fail
-// normalization (strings → `''`, arrays → `[]`), which the mappers do directly.
-
 type IsNullable<V> = undefined extends V ? true : null extends V ? true : false
 
 export type DefinedFields<T> = {

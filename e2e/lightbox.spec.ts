@@ -1,10 +1,8 @@
 import { expect, test } from '@playwright/test'
 
-// Regression: the lightbox arrows must navigate, not dismiss, after a soft
-// navigation. Caller-chosen Dialog ids duplicated across Next's kept-alive
-// (Activity-hidden) routes once made Zag track a stale node as the dialog
-// content, so clicks inside the open dialog dismissed it as "outside" —
-// which is why this journey soft-navigates twice before opening the lightbox.
+// Dialog ids duplicated across Next's kept-alive (Activity-hidden) routes made Zag track
+// a stale node, so clicks inside the open dialog dismissed it. Hence two soft
+// navigations before opening the lightbox.
 
 test('edition gallery lightbox arrows survive a soft navigation', async ({ page }) => {
   await page.goto('/')

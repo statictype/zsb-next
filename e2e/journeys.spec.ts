@@ -8,14 +8,6 @@ import {
 } from '@e2e/helpers'
 import { expect, test } from '@playwright/test'
 
-// User-journey coverage for the pages reworked in the Panda migration. These are
-// deliberately a black box: assertions go through accessible roles/names, text,
-// URLs, and interaction outcomes — never slot names, generated class names,
-// `data-*` internals, or computed styles — so a slot/component refactor can't
-// break them while real regressions still surface.
-
-// ---- Tier 1: every migrated route renders and is error-clean ----------------
-
 const ROUTES = ['/', '/about', '/editions', '/partners', '/press', '/privacy', '/artists']
 
 test.describe('routes render', () => {
@@ -25,7 +17,6 @@ test.describe('routes render', () => {
       const response = await page.goto(route)
       expect(response?.status(), `${route} status`).toBe(200)
 
-      // A non-empty <h1> proves the page composed (not a blank/crashed render).
       const h1 = page.getByRole('heading', { level: 1 }).first()
       await expect(h1).toBeVisible()
       await expect(h1).not.toBeEmpty()
@@ -35,8 +26,6 @@ test.describe('routes render', () => {
     })
   }
 })
-
-// ---- Tier 2: navigation flows over the routing contract ---------------------
 
 test.describe('navigation', () => {
   test('the homepage links through to an edition page', async ({ page }) => {
@@ -71,8 +60,6 @@ test.describe('navigation', () => {
     await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible()
   })
 })
-
-// ---- Tier 3: key interactions (behavioral) ----------------------------------
 
 test.describe('cookie consent', () => {
   test('the banner dismisses on Accept and stays dismissed after reload', async ({ page }) => {
@@ -131,12 +118,10 @@ test.describe('program', () => {
     await dismissCookies(page)
     await openFullProgram(page)
 
-    // The program renders responsive layout variants; click the first event
-    // link that's actually visible, not the first in DOM order (may be hidden).
+    // The program renders responsive variants; the first link in DOM order may be hidden.
     const eventLink = page.locator('a[href*="/events/"]:visible').first()
     await eventLink.scrollIntoViewIfNeeded()
     await eventLink.click()
-    // The routed modal (ADR 0015): a dialog over the edition + the event URL.
     await expect(page).toHaveURL(/\/events\//)
     const dialog = page.getByRole('dialog')
     await expect(dialog).toBeVisible()
@@ -163,8 +148,7 @@ test.describe('program', () => {
     expect(response?.status()).toBe(200)
     await dismissCookies(page)
 
-    // A hard load misses the `@modal` interception and renders the event route
-    // itself: the name is the page's <h1>, and there is no dialog.
+    // A hard load misses the `@modal` interception and renders the event route itself.
     await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible()
     await expect(page.getByRole('dialog')).toHaveCount(0)
 
@@ -186,7 +170,7 @@ test.describe('program', () => {
 
     const reset = filters.getByRole('button', { name: /^reset$/i })
     const chip = filters.getByRole('checkbox').first()
-    // Count only visible event links — the program renders responsive variants.
+    // Count only visible links; the program renders responsive variants.
     const eventCount = () => page.locator('a[href*="/events/"]:visible').count()
 
     // Reset only exists once the filters deviate from the default.
@@ -196,7 +180,6 @@ test.describe('program', () => {
     await chip.press('Space')
     await expect(chip).not.toBeChecked()
     await expect(reset).toBeVisible()
-    // A single facet never *adds* events to the program.
     await expect.poll(eventCount).toBeLessThanOrEqual(before)
 
     await reset.click()
