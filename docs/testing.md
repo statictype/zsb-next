@@ -1,108 +1,56 @@
-# How we test
+# Testing
 
-A lean, modern setup that protects the logic that breaks silently and the pages
-that must never render broken — without a heavy maintenance bill. We test what's
-risky and **deliberately skip what isn't**.
+## Layers
 
-## The layers
+| Layer | Tool | Scope |
+|---|---|---|
+| Types | `pnpm typecheck`, Sanity TypeGen | The whole codebase |
+| Unit | Vitest, node environment | Pure logic: date math, content mappers, name sorting, SEO and JSON-LD builders, program filters |
+| Component | Vitest, jsdom, Testing Library | Components with behavior (accordion, dialog, carousel, lightbox, navigation, program board), asserted through what the user sees |
+| End to end | Playwright, Chromium | Route rendering and user journeys against a production build |
 
-1. **Type safety** — `pnpm typecheck` (`tsc`) + Sanity TypeGen. The first gate.
-2. **Unit** — [Vitest](https://vitest.dev). The core of the strategy: pure logic
-   (edition date math, content mappers, name sorting, SEO / JSON-LD builders).
-3. **Component** — Vitest + React Testing Library, jsdom. Only components that
-   carry real behaviour, tested by what the user sees — never markup snapshots.
-4. **E2E smoke** — [Playwright](https://playwright.dev). A thin suite that proves
-   "the site is up and renders" against a production build.
-5. **CI** — GitHub Actions gates every PR (`.github/workflows/ci.yml`).
+Not tested: presentational components without logic, framework routing, live Sanity responses (the data layer is mocked), markup snapshots, coverage percentage.
 
-### What we deliberately don't test
+## Layout and naming
 
-Presentational components with no logic; framework/routing internals; live Sanity
-or the network (the data layer is mocked); exhaustive snapshots or a coverage %.
-
-## Where tests live
-
-- **Co-located** next to the source — `format-utils.test.ts` beside
-  `format-utils.ts`, `Carousel.test.tsx` beside `Carousel.tsx`. Same convention as
-  the co-located `Component.recipe.ts`.
-- File extension picks the environment:
-  - `*.test.ts` → **unit**, node environment.
-  - `*.test.tsx` → **component**, jsdom + RTL (`vitest.setup.ts`).
-- **E2E** is separate: `e2e/*.spec.ts` (different runner + a real server).
+Tests sit next to the source: `format-utils.test.ts` beside `format-utils.ts`. The extension selects the environment: `*.test.ts` runs in node, `*.test.tsx` in jsdom with `vitest.setup.ts`. Playwright specs are in `e2e/*.spec.ts`.
 
 ## Running
 
 ```bash
-pnpm test            # unit + component, once (CI mode)
-pnpm test:watch      # unit + component, watch mode
-pnpm test:e2e        # Playwright smoke (builds + starts the app)
-
-# Handy filters
-pnpm exec vitest run --project unit         # just the node project
-pnpm exec vitest run --project component    # just the jsdom project
-pnpm exec vitest run src/lib/seo.test.ts    # a single file
+pnpm test                                     # unit and component, once
+pnpm test:watch
+pnpm exec vitest run --project unit           # node project only
+pnpm exec vitest run --project component      # jsdom project only
+pnpm exec vitest run src/lib/seo.test.ts      # one file
+pnpm test:e2e                                 # Playwright
 ```
 
-## Unit / component setup (`vitest.config.ts`)
+`pnpm test:e2e` runs `pnpm build && pnpm start` unless a server is already listening on port 3000 (override with `PORT`). Under `CI` it runs `pnpm start` only, because the workflow builds first. The build and the runtime need the Sanity variables from `.env.example`.
 
-Two Vitest **projects** (`unit` node, `component` jsdom) under one config. Notable
-pieces, each there for a reason:
+## Vitest setup
 
-- **Vite's native `resolve.tsconfigPaths`** resolves the `@/*` alias;
-  **`@vitejs/plugin-react`** enables JSX for component tests.
-- **No React Compiler in tests.** It's a build-time optimization; components
-  behave correctly without it, and tests exercise behaviour, not compiler output.
-- **`server-only` / `client-only` are aliased** to `test/empty-module.ts` so the
-  data-layer modules import under the runner (they throw outside Next's bundler).
-- **Dummy Sanity env** is set in `test.env` so importing the data layer (which
-  routes through `src/sanity/env.ts`, and that throws on missing vars) doesn't
-  blow up. `urlFor` just builds CDN URLs from these; tests assert shape.
-- **The live data layer is mocked, not hit.** `src/sanity/lib/live.ts` calls
-  `defineLive()` at module load, which throws outside React Server Components.
-  Tests for modules that transitively import it (`seo.ts`, `staticPages.ts`)
-  `vi.mock('…/live', …)` — the functions under test are pure and never call it.
-- **Explicit imports, no globals** — `import { describe, it, expect } from 'vitest'`.
-  jest-dom matchers come from `vitest.setup.ts`.
+`vitest.config.ts` defines two projects, `unit` and `component`, under one config.
 
-### Seeded tests (the pattern to copy)
+- Path aliases come from `resolve.tsconfigPaths`. `@vitejs/plugin-react` handles JSX. The React Compiler is not applied in tests.
+- `server-only` and `client-only` resolve to `test/empty-module.ts`, because they throw outside the Next.js bundler.
+- `test.env` sets dummy Sanity variables, because `src/sanity/env.ts` throws when they are missing.
+- `src/sanity/lib/live.ts` calls `defineLive()` at import, which throws outside React Server Components. Tests of modules that import it, such as `seo.ts` and `staticPages.ts`, mock it with `vi.mock`.
+- Tests import `describe`, `it` and `expect` from `vitest`; there are no globals. jest-dom matchers load from `vitest.setup.ts`.
 
-| File | Covers |
-|---|---|
-| `src/lib/format-utils.test.ts` | surname sort key |
-| `src/lib/edition-dates.test.ts` | date-range formatting + date-line composition |
-| `src/lib/seo.test.ts` | Event / breadcrumb / FAQ / org / press JSON-LD, edition metadata |
-| `src/sanity/lib/staticPages.test.ts` | `buildFaq`, `mapVisit` (Sanity → render shape) |
-| `src/components/ui/Accordion/Accordion.test.tsx` | single/multiple behavior + mounted content |
-| `src/components/ui/Checkbox/Checkbox.test.tsx` | controlled boolean interaction |
-| `src/components/ui/Collapsible/Collapsible.test.tsx` | labels, mounted content, closed default |
-| `src/components/ui/Dialog/Dialog.test.tsx` | labeling, Escape dismissal, focus restoration |
-| `src/components/Carousel/Carousel.test.tsx` | stage/rail controls, autoplay policy, reduced motion |
+## Playwright
 
-## E2E smoke (`playwright.config.ts`, `e2e/smoke.spec.ts`)
+`smoke.spec.ts` checks that routes render. `journeys.spec.ts` and `lightbox.spec.ts` cover event dismissal, mobile-navigation focus, program filtering, cookie consent, carousel drag versus click, and the lightbox.
 
-- Runs against a **production build**. Locally the config self-builds
-  (`pnpm build && pnpm start`) or reuses a dev server already on `:3000`; in CI it
-  only `pnpm start`s (the workflow builds first). Override the port with `PORT`.
-- **`smoke.spec.ts`** keeps route rendering broad. **`journeys.spec.ts`** covers
-  route-aware event dismissal, mobile-navigation focus behavior, filtering,
-  cookie consent, and Carousel drag-versus-click through accessible public UI.
-- **Error guard:** uncaught `pageerror`s always fail; `console.error`s fail too,
-  minus a small ignore list. Notably, `<SanityLive>` opens a live-content SSE that
-  the browser CORS-blocks on any origin not in the Studio's allowlist (CI, preview
-  ports) — benign, so it's filtered by its request URL.
+`trackErrors` and `expectErrorClean` in `e2e/helpers.ts` fail a test on any uncaught page error or `console.error`, except for a short ignore list: framework chatter, the `<SanityLive>` event stream that the browser blocks on origins missing from the Sanity CORS allowlist, and `/_next/image` requests that fail on a cold image cache.
 
-## CI (`.github/workflows/ci.yml`)
+## CI
 
-On every PR (and pushes to `main`), two jobs:
+`.github/workflows/ci.yml` runs on pull requests and on pushes to `main`.
 
-1. **`check`** — lint → `format:check` → `pnpm test` (unit + component).
-2. **`build-e2e`** — `pnpm build`, then `pnpm test:e2e`. Reads its build env
-   from Actions secrets (the vars in `.env.example`).
+1. `check`: `pnpm lint`, `pnpm format:check`, `pnpm test`.
+2. `build-e2e`: `pnpm typegen`, then a diff check that `sanity.types.ts` is unchanged, `pnpm build`, and `pnpm test:e2e`. The Sanity variables come from repository secrets, so the job fails without them.
 
-**Types are checked by `pnpm build`, not a standalone `tsc`** — Next generates the
-route types (`PageProps` etc.) during `build`/`dev`/`next typegen`, so
-`tsc --noEmit` alone fails on a fresh checkout. `pnpm typecheck` stays for local
-use, where a running `pnpm dev` has already generated those types.
+CI type-checks through `pnpm build`. Next.js generates the route types (`PageProps`) during `build` and `dev`, so `tsc --noEmit` alone fails on a fresh checkout until one of them has run.
 
-The format-only pre-commit hook (`.githooks/pre-commit`) is unchanged — it
-formats staged files with Biome and is independent of the test gate.
+The pre-commit hook in `.githooks/pre-commit` formats staged files with Biome.
