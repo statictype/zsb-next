@@ -1,17 +1,4 @@
-/**
- * Import organizations into Sanity from the existing edition credit rows.
- *
- * Sources:
- *   - Logoed credit rows (`logo` set) → one org with logo + alt + the row's `value` as name.
- *   - `type: 'partner'` credit rows → split the row's `value` by newlines; each line is a name-only org.
- *
- * Idempotent: stable `_id` of `org-<slug>`. Re-runs only create missing docs.
- * Logo assets are uploaded once per org (skipped if the org already exists).
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-import-organizations.ts          # apply
- *   pnpm exec tsx scripts/sanity-import-organizations.ts --dry    # preview, no writes
- */
+/** Usage: pnpm exec tsx scripts/sanity-import-organizations.ts [--dry]. */
 
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -21,36 +8,20 @@ import { getEdition, getEditionSummaries } from '@/sanity/lib/editions'
 if (typeof process.loadEnvFile === 'function') {
   try {
     process.loadEnvFile('.env.local')
-  } catch {
-    // .env.local is optional
-  }
+  } catch {}
 }
 
 const dryRun = process.argv.includes('--dry')
 
-/**
- * Manual dedup of name variants that slug-based dedup can't catch
- * (translation pairs, word-order swaps, typos, abbreviations).
- * Maps `alias slug` → `canonical slug`.
- */
 const ALIASES: Record<string, string> = {
-  // Romanian → English translation pair of the parent body UAPR
   'union-of-visual-artists-of-romania': 'uapr',
-  // International rebrand of "Institutul Liszt"
   'institutul-liszt': 'liszt-institute',
-  // "SENAT Gallery" → "Galeria SENAT" (most-recent / Romanian form wins)
   'senat-gallery': 'galeria-senat',
-  // "UNA Gallery" → "UNAgaleria"
   'una-gallery': 'unagaleria',
-  // "Galeria The Institute" → "The Institute"
   'galeria-the-institute': 'the-institute',
-  // Word order swap; the official name is "Institutul Național al Patrimoniului"
   'national-heritage-institute': 'national-institute-of-heritage',
-  // Typo in the 2022 source data
   'combnat-ro': 'combinat-ro',
-  // Abbreviation → full name
   'h-d-u': 'h-d-u-cultural-association',
-  // Romanian abbreviation UNARTE → "Universitatea Națională de Arte București"
   'national-university-of-arts-bucharest': 'unarte',
 }
 
@@ -99,8 +70,6 @@ async function collect(): Promise<Map<string, CollectedOrg>> {
     bySlug.set(slug, entry)
   }
 
-  // Every edition, announced included — an announced edition's credits are
-  // just as importable as a live one's.
   const editions = await getEditionSummaries({ perspective: 'published' })
   for (const { year } of editions) {
     const edition = await getEdition(year, { perspective: 'published' })

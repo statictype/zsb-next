@@ -1,25 +1,4 @@
-/**
- * Type the free-text `edition.dateTape` into `dateStart` / `dateEnd` /
- * `venueLine` (Step 6 #2).
- *
- * The four live editions' `dateTape` strings have no consistent format
- * ("16–18 April 2022" vs "16.04-11.05", separator "·" vs "///"), so instead of
- * parsing we apply an explicit per-year map — deterministic for this fixed set.
- * The legacy `dateTape` value is left in place (the schema field is removed in
- * the contract phase); the runtime composes the hero string from the typed
- * fields, falling back to `dateTape` until then.
- *
- * Run order: AFTER the expand commit is deployed. No frontend downtime — the
- * mapper prefers the typed fields when present and falls back otherwise.
- *
- * Idempotent: only patches editions in the map that don't yet have `dateStart`.
- * `raw` perspective catches published docs and any `drafts.` versions (each
- * keyed by its own `year`).
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-migrate-datetape.ts        # apply
- *   pnpm exec tsx scripts/sanity-migrate-datetape.ts --dry  # preview
- */
+/** Usage: pnpm exec tsx scripts/sanity-migrate-datetape.ts [--dry]. */
 
 import '@scripts/_load-env'
 
@@ -27,7 +6,6 @@ import { createClient } from '@sanity/client'
 
 const VENUE = 'Combinatul Fondului Plastic'
 
-// Explicit per-year map (ISO YYYY-MM-DD). Source: the existing dateTape values.
 const DATE_MAP: Record<number, { dateStart: string; dateEnd: string; venueLine: string }> = {
   2022: { dateStart: '2022-04-16', dateEnd: '2022-04-18', venueLine: VENUE },
   2023: { dateStart: '2023-04-18', dateEnd: '2023-04-29', venueLine: VENUE },
@@ -63,7 +41,6 @@ async function main() {
   })
 
   const years = Object.keys(DATE_MAP).map(Number)
-  // Only editions in the map that haven't been typed yet.
   const targets = await client.fetch<EditionDoc[]>(
     `*[_type == "edition" && year in $years && !defined(dateStart)]{ _id, year, dateStart }`,
     { years },

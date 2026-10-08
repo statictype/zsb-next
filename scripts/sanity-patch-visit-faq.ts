@@ -1,16 +1,4 @@
-/**
- * Seed the Visit page's editorial FAQ (`visitPage.faq`) with the two entries
- * the derived hours/location Q&As can't cover: what the venue is, and whether
- * it's open outside the event. The opening-hours and location FAQ entries are
- * NOT stored here — they're derived from the existing fields at render time.
- *
- * Idempotent: skips if `faq` is already set (re-run with --force to overwrite).
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-patch-visit-faq.ts          # apply
- *   pnpm exec tsx scripts/sanity-patch-visit-faq.ts --dry    # preview
- *   pnpm exec tsx scripts/sanity-patch-visit-faq.ts --force  # overwrite existing
- */
+/** Usage: pnpm exec tsx scripts/sanity-patch-visit-faq.ts [--dry] [--force]. */
 
 import '@scripts/_load-env'
 

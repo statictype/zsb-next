@@ -1,19 +1,4 @@
-/**
- * One-off migration: rename pressAppearance.type → pressAppearance.medium.
- *
- * Old enum mixed platform (youtube/vimeo/soundcloud) with medium
- * (article/tv); see ADR or commit history for the split. This script:
- *   - Finds pressAppearance docs that still carry the old `type` field
- *     and have no `medium` set
- *   - Sets medium from a fixed mapping (audio/video/article)
- *   - Unsets `type`
- *
- * Idempotent: docs that already have `medium` set are skipped.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-migrate-press-appearance-medium.ts          # apply
- *   pnpm exec tsx scripts/sanity-migrate-press-appearance-medium.ts --dry    # preview
- */
+/** Usage: pnpm exec tsx scripts/sanity-migrate-press-appearance-medium.ts [--dry]. */
 
 import '@scripts/_load-env'
 

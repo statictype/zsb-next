@@ -1,20 +1,4 @@
-/**
- * Contract step of the about-page "manifesto" rename.
- *
- * Unsets the legacy `notFestivalTitle` / `notFestivalBody` fields once the
- * renamed schema/query is live and the expand step
- * (sanity-migrate-manifesto-rename.ts) has copied their values onto
- * `manifestoTitle` / `manifestoBody`. Run this AFTER the new code is deployed —
- * until then, the old fields are the live frontend's source, so dropping them
- * early would blank the About page.
- *
- * Idempotent: only targets docs that still carry a legacy field. `raw`
- * perspective catches the published doc and any `drafts.` version.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-migrate-drop-notfestival-fields.ts --dry
- *   pnpm exec tsx scripts/sanity-migrate-drop-notfestival-fields.ts
- */
+/** Usage: pnpm exec tsx scripts/sanity-migrate-drop-notfestival-fields.ts [--dry]. */
 
 import '@scripts/_load-env'
 
@@ -54,7 +38,6 @@ async function main() {
   )
 
   const plan = docs.map((d) => {
-    // GROQ projects missing fields as `null` (not `undefined`) — test nullish.
     const paths: string[] = []
     if (d.notFestivalTitle != null) paths.push('notFestivalTitle')
     if (d.notFestivalBody != null) paths.push('notFestivalBody')

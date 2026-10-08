@@ -1,23 +1,4 @@
-/**
- * Convert `creditText.value` (newline-joined string) into a `names[]` array
- * (Step 6 #4).
- *
- * For every `edition.credits[_type == "creditText"]` item that has a `value`
- * and no `names` yet, split `value` on newlines (trimmed, empties dropped) into
- * a `names` array. The legacy `value` is left in place as a safety net — the
- * schema field (and, if desired, the data) is removed in the contract phase.
- * The runtime mapper already prefers `names` and joins with "\n", so the
- * rendered credits are unchanged.
- *
- * Run order: AFTER the expand commit is deployed. No frontend downtime.
- *
- * Idempotent: only targets creditText rows that have `value` but no non-empty
- * `names`. `raw` perspective catches published docs and any `drafts.` versions.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-migrate-credittext-names.ts        # apply
- *   pnpm exec tsx scripts/sanity-migrate-credittext-names.ts --dry  # preview
- */
+/** Usage: pnpm exec tsx scripts/sanity-migrate-credittext-names.ts [--dry]. */
 
 import '@scripts/_load-env'
 

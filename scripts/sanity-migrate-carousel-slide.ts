@@ -1,24 +1,4 @@
-/**
- * Collapse the five legacy carousel slide types into the unified
- * `carouselSlide` (ADR 0010, Step 6 #1).
- *
- * For every `edition.carousel[]` item whose `_type` is one of the legacy
- * `slide*` types, set `layout` (derived from `_type`) and rename `_type` to
- * `carouselSlide`. `images` is left untouched.
- *
- * Run order: AFTER the expand commit is deployed (the query/mapper already
- * dual-read `layout`, so reachable editions render correctly before, during,
- * and after this patch). Frontend has no downtime.
- *
- * Idempotent: only targets items still on a legacy `_type`; already-migrated
- * `carouselSlide` items are skipped, so re-runs are no-ops.
- * Uses the `raw` perspective so published docs and any `drafts.` versions are
- * both caught.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-migrate-carousel-slide.ts        # apply
- *   pnpm exec tsx scripts/sanity-migrate-carousel-slide.ts --dry  # preview
- */
+/** Usage: pnpm exec tsx scripts/sanity-migrate-carousel-slide.ts [--dry]. */
 
 import '@scripts/_load-env'
 

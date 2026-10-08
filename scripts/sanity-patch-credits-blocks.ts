@@ -1,24 +1,4 @@
-/**
- * Move the funder credits out of the team block and into the logo wall.
- *
- * The edition page reads `creditRow.type` as the block a row belongs to:
- * `partner` rows are credited by logo, `secondary` rows by name, `primary` rows
- * by both. "Supported by" (Ministry of Culture) is a logo credit, not a team
- * line, so it becomes `partner`. 2022 credits the Municipality of Bucharest as
- * free text with no organization to hang a logo on; this creates that
- * organization and swaps the text row for a reference to it. Both are flagged
- * `lead`, which draws their logos larger than the rest of the wall.
- *
- * It also moves "Under the Aegis of" to sit directly after the organizer, so the
- * team block's rows of three read Organizer · Aegis · Curator, then the rest.
- * Both blocks run in this array's order; editors set it by dragging.
- *
- * Idempotent: each edition is rewritten only when its credits actually change.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-patch-credits-blocks.ts --dry
- *   pnpm exec tsx scripts/sanity-patch-credits-blocks.ts
- */
+/** Usage: pnpm exec tsx scripts/sanity-patch-credits-blocks.ts [--dry]. */
 
 import '@scripts/_load-env'
 
@@ -29,15 +9,11 @@ const MUNICIPALITY_NAME = 'Municipality of Bucharest'
 const MUNICIPALITY_SLUG = 'municipality-of-bucharest'
 const MINISTRY_ID = 'org-ministry-of-culture'
 
-// The Sculpture Branch is credited under the UAP wordmark its parent body owns,
-// so carrying its own copy put the same mark in the wall twice.
 const BRANCH_ID = 'org-sculpture-branch'
 
 const AEGIS_LABEL = 'Under the Aegis of'
 const ORGANIZER_LABEL = 'Organizer'
 
-// 2021 ran online only and credits no partners at all, so its page has no logo
-// wall — the schools that partner every other edition were not part of it.
 const YEARS_WITHOUT_PARTNERS = [2021]
 
 interface Reference {

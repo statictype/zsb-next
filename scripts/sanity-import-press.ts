@@ -1,29 +1,8 @@
-/**
- * Import press content into Sanity.
- *
- *   pressAppearance — coverage of ZSB across outlets (TV, radio, articles)
- *   pressRelease    — official press releases per edition (PDF uploads)
- *
- * Sources from the original `src/data/press-appearances.ts` and
- * `src/data/press-releases.ts` (recovered from git history).
- *
- * Idempotent: looks up existing docs by `url` (appearances) or by
- * `title + edition` (releases) and skips them.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-import-press.ts                # apply all
- *   pnpm exec tsx scripts/sanity-import-press.ts --dry          # preview
- *   pnpm exec tsx scripts/sanity-import-press.ts --only appearances
- *   pnpm exec tsx scripts/sanity-import-press.ts --only releases
- */
+/** Usage: pnpm exec tsx scripts/sanity-import-press.ts [--dry] [--only appearances|releases]. */
 
 import '@scripts/_load-env'
 
 import { createClient, type SanityClient } from '@sanity/client'
-
-// ---------------------------------------------------------------------------
-// Appearances
-// ---------------------------------------------------------------------------
 
 type AppearanceMedium = 'article' | 'video' | 'audio'
 
@@ -102,19 +81,11 @@ async function importAppearances(client: SanityClient, dryRun: boolean): Promise
   }
 }
 
-// ---------------------------------------------------------------------------
-// Releases (stub — wire up when PDFs exist)
-// ---------------------------------------------------------------------------
-
 async function importReleases(_client: SanityClient, _dryRun: boolean): Promise<void> {
   console.log(
     '\nSkipping releases: no PDF source configured. Add PDFs (local path or Sanity asset) and a builder here.',
   )
 }
-
-// ---------------------------------------------------------------------------
-// main
-// ---------------------------------------------------------------------------
 
 async function main() {
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID

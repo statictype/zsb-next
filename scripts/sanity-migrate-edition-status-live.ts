@@ -1,24 +1,4 @@
-/**
- * Rename the `edition.status` value "published" → "live".
- *
- * Why: "published" collided with Sanity's own document publish/draft state
- * (a published document could still be an "upcoming" edition). The schema now
- * offers `upcoming | live`; this migrates the stored value on existing docs so
- * the Studio radio shows a valid selection and the required-when-live
- * validation keeps working.
- *
- * Frontend safety: the public edition route matches `status != "upcoming"`
- * (not `== "live"`), so editions stay reachable before, during, and after this
- * migration — there is no deploy/migrate ordering window. This patch is purely
- * for Studio correctness and stored-value hygiene.
- *
- * Idempotent: only targets docs still on "published", so re-runs are no-ops.
- * Uses the `raw` perspective so both published docs and any drafts are caught.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-migrate-edition-status-live.ts        # apply
- *   pnpm exec tsx scripts/sanity-migrate-edition-status-live.ts --dry  # preview
- */
+/** Usage: pnpm exec tsx scripts/sanity-migrate-edition-status-live.ts [--dry]. */
 
 import '@scripts/_load-env'
 
@@ -51,7 +31,6 @@ async function main() {
     perspective: 'raw',
   })
 
-  // `raw` perspective catches published docs and any "drafts." versions.
   const targets = await client.fetch<EditionDoc[]>(
     `*[_type == "edition" && status == "published"]{ _id, year, status }`,
   )

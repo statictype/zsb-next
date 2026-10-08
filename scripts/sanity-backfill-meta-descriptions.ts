@@ -1,30 +1,9 @@
-/**
- * Backfill `metaDescription` on the page singletons with the descriptions that
- * used to be hardcoded in the page files. After this runs, the CMS is the sole
- * source of those descriptions (the field is required in the schema and the
- * code defaults are removed).
- *
- * Editions are intentionally NOT included — their description derives from the
- * manifesto at render time, which stays accurate, so `metaDescription` remains
- * an optional override there.
- *
- * Idempotent: skips a singleton that already has `metaDescription` set
- * (re-run with --force to overwrite).
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-backfill-meta-descriptions.ts          # apply
- *   pnpm exec tsx scripts/sanity-backfill-meta-descriptions.ts --dry    # preview
- *   pnpm exec tsx scripts/sanity-backfill-meta-descriptions.ts --force  # overwrite
- */
+/** Usage: pnpm exec tsx scripts/sanity-backfill-meta-descriptions.ts [--dry] [--force]. */
 
 import '@scripts/_load-env'
 
 import { createClient } from '@sanity/client'
 
-// The canonical meta description for each page singleton. Mostly the strings
-// previously hardcoded in the page files; homepage was rewritten to drop the
-// inaccurate "open-air museum / transforming the city" claim (the work is
-// largely indoor).
 const DESCRIPTIONS: Record<string, string> = {
   homepage:
     'Bucharest Sculpture Days is Romania’s annual contemporary sculpture event — discover editions, artists, and exhibitions across Bucharest since 2021.',

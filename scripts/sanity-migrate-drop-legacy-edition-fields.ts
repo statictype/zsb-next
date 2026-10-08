@@ -1,21 +1,4 @@
-/**
- * Drop the orphaned legacy fields left behind by the Step 6 migrations:
- * `edition.dateTape` and `edition.credits[_type == "creditText"].value`.
- *
- * Those fields were superseded by `dateStart`/`dateEnd`/`venueLine` and
- * `names[]` respectively. The earlier migrations only *added* the new fields
- * (keeping the old values as a rollback safety net); the contract commit
- * removed them from the schema and queries. This script unsets the now-unused
- * stored values so raw queries / dataset exports don't carry stale duplicates.
- *
- * Safe to run any time after the contract deploy — the frontend reads none of
- * these fields. Idempotent: only targets docs that still carry a legacy value.
- * `raw` perspective catches published docs and any `drafts.` versions.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-migrate-drop-legacy-edition-fields.ts        # apply
- *   pnpm exec tsx scripts/sanity-migrate-drop-legacy-edition-fields.ts --dry  # preview
- */
+/** Usage: pnpm exec tsx scripts/sanity-migrate-drop-legacy-edition-fields.ts [--dry]. */
 
 import '@scripts/_load-env'
 

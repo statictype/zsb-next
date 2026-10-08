@@ -1,41 +1,4 @@
-/**
- * M2 / ZSB-51 — migrate the old "Locations" list into events (2022–2025).
- *
- * The program→events migration (ZSB-37, sibling script) built events only from
- * `program.blocks` + `program.films`. It NEVER read the old `venues[]`
- * (Locations) field — so the partner / solo / student / open-studio shows that
- * lived only there are missing, the Courtyard "Outdoor Installations" was dropped
- * every year, and the main exhibitions sit on the generic CFP instead of the
- * galleries inside it. This script reads `venues[]` and fixes that.
- *
- * The venue documents already exist (ZSB-37 created all 15). This script does
- * NOT create venues — it references them, and only patches two links:
- * Nicodim → partOf CFP, and a flag to verify Sector 1's name/type by hand.
- *
- * Strategy — match & re-point, non-destructive (ZSB-51 decision B):
- *   For each `venues[]` entry (name=`program`, venue from `name`/`group`, type
- *   from `subgroup`):
- *     • If an existing event matches by name AND is still on the default CFP
- *       venue → re-point it to the specific gallery (+ full-edition dates for a
- *       durational show). This is the main exhibition's first gallery.
- *     • Otherwise → create the event, keyed `loc-<year>-<entryKey>` so re-runs
- *       are idempotent and human edits are never clobbered (create-once).
- *   The main exhibition therefore ends up at EVERY CFP gallery that lists it
- *   (e.g. 2023 re#situăriafective → SENAT + The Institute + IOMO), each spanning
- *   the full edition window, type Exhibition (there is no "Main Exhibition" type).
- *
- * Coarse / best-effort: Locations carries no dates or descriptions, so durational
- * shows get the full edition window and a placeholder description, and every
- * judgement call is FLAGGED for a human — it fabricates nothing precise.
- *
- * Idempotent: created events are create-once (skipped if their key exists);
- * re-points fire only while the matched event is still on CFP. Re-runs are a
- * no-op. `raw` perspective so published + any `drafts.` copies are both seen.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-migrate-locations-to-events.ts --dry   # preview, no writes
- *   pnpm exec tsx scripts/sanity-migrate-locations-to-events.ts         # apply
- */
+/** Usage: pnpm exec tsx scripts/sanity-migrate-locations-to-events.ts [--dry]. */
 
 import '@scripts/_load-env'
 
@@ -43,7 +6,6 @@ import { createClient } from '@sanity/client'
 
 const YEARS = [2022, 2023, 2024, 2025] as const
 
-// ── Existing venue ids (created by ZSB-37; see sanity-migrate-program-to-events) ─
 const CFP = 'venue-cfp'
 const V = {
   cfp: CFP,
@@ -60,7 +22,6 @@ const V = {
   hdu: 'venue-hdu',
 } as const
 
-// ── Event type ids (existing taxonomy) ───────────────────────────────────────
 const T = {
   exhibition: 'event-type-exhibition',
   talk: 'event-type-talk',
@@ -70,11 +31,8 @@ const T = {
   opening: 'event-type-opening',
 } as const
 
-// ── Mapping the lossy Locations strings ──────────────────────────────────────
 const norm = (s: string | null | undefined) => (s ?? '').trim().toLowerCase()
 
-// Locations `name` → venue id. The most specific signal; covers every name seen
-// in the 2022–2025 data.
 const NAME_TO_VENUE: Record<string, string> = {
   'senat gallery': V.senat,
   'galeria senat': V.senat,
@@ -87,7 +45,7 @@ const NAME_TO_VENUE: Record<string, string> = {
   'una gallery': V.una,
   unagaleria: V.una,
   'sector 1': V.sector1,
-  'sector 21': V.sector1, // in case the data uses "21"; same doc, flagged below
+  'sector 21': V.sector1,
   artsafe: V.artsafe,
   'galeria simeza': V.simeza,
   'nicodim gallery': V.nicodim,
@@ -95,14 +53,12 @@ const NAME_TO_VENUE: Record<string, string> = {
   'h.d.u. cultural center': V.hdu,
 }
 
-// Fallback when the `name` is generic (e.g. "Main Hall") — map by `group`.
 const GROUP_TO_VENUE: Record<string, string> = {
   'una gallery': V.una,
   'galeria simeza': V.simeza,
-  'combinatul fondului plastic': CFP, // last resort — specific gallery unknown
+  'combinatul fondului plastic': CFP,
 }
 
-// Locations `subgroup` → event type id.
 const SUBGROUP_TO_TYPE: Record<string, string> = {
   'main exhibition': T.exhibition,
   'partner exhibition': T.exhibition,
@@ -114,8 +70,6 @@ const SUBGROUP_TO_TYPE: Record<string, string> = {
   'open doors': T.openStudio,
 }
 
-// Existing main-exhibition event names that differ from the Locations `program`
-// (the title was localised). Locations program (normalised) → existing event name.
 const PROGRAM_ALIAS: Record<string, string> = {
   '#celălaltcorp': '#theotherbody',
   'monuments in bucharest': 'Monuments in Bucharest: From Becoming to Protection',
@@ -123,7 +77,6 @@ const PROGRAM_ALIAS: Record<string, string> = {
 
 const DURATIONAL = new Set<string>([T.exhibition, T.openStudio])
 
-// ── Source shapes ────────────────────────────────────────────────────────────
 interface Location {
   _key: string
   group?: string | null
@@ -146,16 +99,12 @@ interface RawEdition {
   eventDates?: Array<{ startDate?: string | null; endDate?: string | null }> | null
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
 function ref(id: string, key?: string): Record<string, string> {
   return { _type: 'reference', _ref: id, ...(key ? { _key: key } : {}) }
 }
 
 const short = (id: string) => id.replace('venue-', '')
 
-// The canonical name to use for an event built from this program (an alias maps
-// a localised Locations title to the existing event's name, so the main
-// exhibition reads the same across all its galleries).
 const canonicalName = (program: string) => PROGRAM_ALIAS[norm(program)] ?? program
 
 function mapVenue(loc: Location): { id: string; confident: boolean } {
@@ -167,14 +116,12 @@ function mapVenue(loc: Location): { id: string; confident: boolean } {
 }
 
 function mapType(loc: Location): { id: string; fallback: boolean } {
-  // A documentary/screening programme is films, whatever the subgroup says.
   if (/screening|documentary/i.test(loc.program ?? '')) return { id: T.film, fallback: true }
   const t = SUBGROUP_TO_TYPE[norm(loc.subgroup)]
   if (t) return { id: t, fallback: false }
   return { id: T.exhibition, fallback: true }
 }
 
-// Does an existing event name match this Locations program (exact or via alias)?
 function nameMatches(eventName: string, program: string): boolean {
   const p = norm(program)
   if (norm(eventName) === p) return true
@@ -182,7 +129,6 @@ function nameMatches(eventName: string, program: string): boolean {
   return alias ? norm(eventName) === norm(alias) : false
 }
 
-/** [start, end] full edition window: the edition's own dates, else min/max of events. */
 function editionWindow(ed: RawEdition): { start: string; end: string } | null {
   let start: string | null = ed.dateStart ?? null
   let end: string | null = ed.dateEnd ?? null
@@ -206,7 +152,6 @@ interface BuiltEvent {
   featured: boolean
 }
 
-// ── Main ─────────────────────────────────────────────────────────────────────
 async function main() {
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
   const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
@@ -231,7 +176,6 @@ async function main() {
   const tx = client.transaction()
   let opCount = 0
 
-  // ── Phase 0: venue-tree fixes ──────────────────────────────────────────────
   const nicodim = await client.fetch<{ partOf: string | null } | null>(
     `*[_id == $id][0]{ "partOf": partOf._ref }`,
     { id: V.nicodim },
@@ -247,7 +191,6 @@ async function main() {
     'Verify venue "Sector 1": confirm its name ("Sector 21"?) and type — it is `artist-studio` but hosts the main exhibition (likely a gallery). Fix in Studio.',
   )
 
-  // ── Phase 1: editions → events from venues[] (Locations) ────────────────────
   const editions = await client.fetch<RawEdition[]>(
     `*[_type == "edition" && year in $years]{
       _id, year, dateStart, dateEnd,
@@ -301,9 +244,6 @@ async function main() {
           `ZSB ${ed.year}: type guessed (${type.id.replace('event-type-', '')}) for "${program}" (subgroup ${loc.subgroup ?? '—'})`,
         )
 
-      // Match an existing (non-loc) event by name (or alias). The first match
-      // for the main exhibition gets re-pointed off CFP to this gallery; a match
-      // already on a specific venue is left alone (it's correct, or close enough).
       const match = existing.find(
         (e) => !e._key.startsWith('loc-') && !claimed.has(e._key) && nameMatches(e.name, program),
       )
@@ -327,7 +267,6 @@ async function main() {
         continue
       }
 
-      // No match (a later gallery of the main, or a genuinely missing show) → create.
       const name = canonicalName(program)
       const key = `loc-${ed.year}-${loc._key}`
       if (existingKeys.has(key)) {

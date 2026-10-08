@@ -16,13 +16,10 @@ for file in "$INPUT_DIR"/*.{jpg,jpeg,png,JPG,JPEG,PNG}; do
   for size in "${SIZES[@]}"; do
     echo "Processing $filename at ${size}px..."
 
-    # Resize with sips (macOS built-in)
     sips -Z "$size" "$file" --out "/tmp/temp_resize.jpg" 2>/dev/null
 
-    # Convert to WebP
     cwebp -q $QUALITY -m 6 "/tmp/temp_resize.jpg" -o "$OUTPUT_DIR/${name}-${size}.webp"
 
-    # Also create optimized JPEG fallback
     sips -s format jpeg -s formatOptions $QUALITY "/tmp/temp_resize.jpg" --out "$OUTPUT_DIR/${name}-${size}.jpg" 2>/dev/null
   done
 done

@@ -1,23 +1,4 @@
-/**
- * Expand step of the about-page "manifesto" rename (was the "Not a festival"
- * section).
- *
- * Copies the legacy `notFestivalTitle` / `notFestivalBody[]` values onto the new
- * single-paragraph `manifestoTitle` / `manifestoBody` fields, WITHOUT removing
- * the old ones. Run this BEFORE the renamed schema/query deploys, so the live
- * (old) frontend keeps reading `notFestival*` through the deploy window —
- * zero-downtime expand/contract. The contract step
- * (sanity-migrate-drop-notfestival-fields.ts) unsets the legacy fields once the
- * new code is live.
- *
- * The body is now a single paragraph: the live doc holds a one-entry array, so
- * we take `notFestivalBody[0]`. Idempotent: only patches docs missing a new
- * field. `raw` perspective catches the published doc and any `drafts.` version.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-migrate-manifesto-rename.ts --dry
- *   pnpm exec tsx scripts/sanity-migrate-manifesto-rename.ts
- */
+/** Usage: pnpm exec tsx scripts/sanity-migrate-manifesto-rename.ts [--dry]. */
 
 import '@scripts/_load-env'
 
@@ -60,8 +41,6 @@ async function main() {
 
   const plan = docs
     .map((d) => {
-      // GROQ projects missing fields as `null` (not `undefined`), so test
-      // nullish — only copy when the new field is empty and the old one exists.
       const set: Record<string, string> = {}
       if (d.manifestoTitle == null && d.notFestivalTitle != null) {
         set.manifestoTitle = d.notFestivalTitle

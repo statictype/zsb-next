@@ -1,30 +1,4 @@
-/**
- * M2 / ZSB-37 — move the 2022–2025 program & venues out of the old format
- * (`program.blocks` + `program.films` + `program.sftfBanner`, `venues[]`) into
- * the new event/venue model (ADR 0014): `eventType` / `venueType` / `venue`
- * documents + each edition's nested `events[]` + a `programCallout`.
- *
- * Coarse / best-effort, because the old data is lossy (free-text dates, no
- * per-event venue, no addresses). The script does what it can deterministically
- * and FLAGS every gap for a human to finish in Studio — it never fabricates an
- * address or a precise time. New fields are written ALONGSIDE the old ones,
- * which stay dormant until the calendar ships and are removed in ZSB-38.
- *
- * What it writes:
- *   1. Taxonomy — 3 `venueType` + 6 `eventType` documents (stable ids).
- *   2. Venues — ~15 `venue` documents; CFP's galleries/courtyard/studios carry
- *      `partOf: CFP` (ZSB-32 roll-up). Addresses/map links left empty.
- *   3. Editions — for 2022–2025, a best-effort `events[]` and `programCallout`.
- *
- * Idempotent: taxonomy + venues use stable `_id`s and are created only when
- * missing; an edition is patched only when it has no `events` (events) /
- * `programCallout` yet. Re-runs are a no-op. `raw` perspective so published and
- * any `drafts.` copies are both seen.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-migrate-program-to-events.ts --dry   # preview, no writes
- *   pnpm exec tsx scripts/sanity-migrate-program-to-events.ts         # apply
- */
+/** Usage: pnpm exec tsx scripts/sanity-migrate-program-to-events.ts [--dry]. */
 
 import '@scripts/_load-env'
 
@@ -32,7 +6,6 @@ import { createClient } from '@sanity/client'
 
 const YEARS = [2022, 2023, 2024, 2025] as const
 
-// ── Taxonomy (locked with the user) ─────────────────────────────────────────
 const VENUE_TYPES = [
   { _id: 'venue-type-partner-venue', title: 'Partner venue', slug: 'partner-venue' },
   { _id: 'venue-type-partner-gallery', title: 'Partner gallery', slug: 'partner-gallery' },
@@ -48,7 +21,6 @@ const EVENT_TYPES = [
   { _id: 'event-type-exhibition', title: 'Exhibition', slug: 'exhibition' },
 ] as const
 
-// ── Venues (canonical set; names deduped to the team's existing org choices) ──
 const CFP = 'venue-cfp'
 interface VenueSeed {
   _id: string
@@ -78,7 +50,6 @@ const VENUES: VenueSeed[] = [
   },
   { _id: 'venue-courtyard', name: 'Courtyard', type: 'venue-type-partner-venue', partOf: CFP },
   { _id: 'venue-unagaleria', name: 'UNAgaleria', type: 'venue-type-partner-gallery', partOf: CFP },
-  // ⚠ best-effort type — confirm in Studio
   { _id: 'venue-sector-1', name: 'Sector 1', type: 'venue-type-artist-studio', partOf: CFP },
   {
     _id: 'venue-studio-zidaru',
@@ -98,7 +69,6 @@ const VENUES: VenueSeed[] = [
     type: 'venue-type-artist-studio',
     partOf: CFP,
   },
-  // ⚠ best-effort type — confirm in Studio
   { _id: 'venue-artsafe', name: 'ArtSafe', type: 'venue-type-partner-venue', partOf: CFP },
   { _id: 'venue-galeria-simeza', name: 'Galeria Simeza', type: 'venue-type-partner-gallery' },
   { _id: 'venue-nicodim-gallery', name: 'Nicodim Gallery', type: 'venue-type-partner-gallery' },
@@ -107,23 +77,18 @@ const VENUES: VenueSeed[] = [
 ]
 const VENUE_NAME = new Map(VENUES.map((v) => [v._id, v.name]))
 
-// ── Mapping tables for the lossy bits ────────────────────────────────────────
-
-// Old `block.location` free-text → venue id (normalized: lowercased, trimmed).
 const LOCATION_TO_VENUE: Record<string, string> = {
-  'combinatul fondului plastic': CFP, // parent — specific gallery unknown, so flagged
+  'combinatul fondului plastic': CFP,
   unagaleria: 'venue-unagaleria',
   'una gallery': 'venue-unagaleria',
 }
 
-// 2025 "Studio Visit" blocks carry the artist in the description → studio venue.
 const STUDIO_BY_ARTIST: Array<[RegExp, string]> = [
   [/zidaru/i, 'venue-studio-zidaru'],
   [/ana zoe pop/i, 'venue-studio-ana-zoe-pop'],
   [/pentelescu/i, 'venue-studio-pentelescu'],
 ]
 
-// A film whose note names a venue → that venue (`${year}|${title}`).
 const FILM_VENUE_OVERRIDE: Record<string, string> = {
   '2025|About Portraits #3': 'venue-gallery-studio-76',
 }
@@ -155,7 +120,6 @@ const MONTHS: Record<string, number> = {
   dec: 12,
 }
 
-// ── Source shapes (raw program data) ─────────────────────────────────────────
 interface Block {
   type: string
   title: string
@@ -184,7 +148,6 @@ interface RawEdition {
   hasCallout: boolean
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
 function iso(year: number, month: number, day: number): string {
   return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
 }
@@ -193,7 +156,6 @@ function monthNum(name: string): number | undefined {
   return MONTHS[name.toLowerCase().replace(/\.$/, '')]
 }
 
-/** The calendar day halfway between two ISO dates (rounded down to a day). */
 function midpoint(startIso: string, endIso: string): string {
   const mid = new Date(
     (Date.parse(`${startIso}T00:00:00Z`) + Date.parse(`${endIso}T00:00:00Z`)) / 2,
@@ -208,12 +170,7 @@ interface ParsedDates {
   commaList: boolean
 }
 
-/**
- * Parse the small set of free-text date formats in the old data:
- *   "April 16—18, 2022" · "April 18, 2022" · "April 26—May 11, 2025" · "Apr 13"
- * Multi-date lists ("April 18, 22, 29") keep the first day and set `commaList`.
- * Year falls back to the edition's year when the string omits one (films).
- */
+/** Free-text date formats accepted: "April 16—18, 2022", "April 18, 2022", "April 26—May 11, 2025", "Apr 13". */
 function parseDates(raw: string, fallbackYear: number): ParsedDates {
   let s = raw.trim().replace(/[—–]/g, '-')
   let year = fallbackYear
@@ -240,19 +197,18 @@ function parseDates(raw: string, fallbackYear: number): ParsedDates {
   if (parts.length < 2) return { startDate, ok: true, commaList }
 
   const right = parts[1] ?? ''
-  const rm = right.match(/^([A-Za-z.]+)\s+(\d{1,2})/) // "May 11"
+  const rm = right.match(/^([A-Za-z.]+)\s+(\d{1,2})/)
   if (rm) {
     const endMonth = monthNum(rm[1] ?? '')
     if (endMonth)
       return { startDate, endDate: iso(year, endMonth, Number(rm[2])), ok: true, commaList }
   }
-  const rd = right.match(/(\d{1,2})/) // bare "18" → same month
+  const rd = right.match(/(\d{1,2})/)
   if (rd) return { startDate, endDate: iso(year, startMonth, Number(rd[1])), ok: true, commaList }
 
   return { startDate, ok: true, commaList }
 }
 
-/** Old block type (+ format) → eventType id(s). `fallback` flags a guess. */
 function mapEventTypes(type: string, format?: string | null): { ids: string[]; fallback: boolean } {
   switch (type) {
     case 'Main Exhibition':
@@ -278,7 +234,7 @@ function inferBlockVenue(block: Block): { venueId: string; confident: boolean } 
   const loc = block.location?.trim().toLowerCase()
   if (loc && LOCATION_TO_VENUE[loc]) {
     const id = LOCATION_TO_VENUE[loc]
-    return { venueId: id, confident: id !== CFP } // CFP parent = specific space unknown
+    return { venueId: id, confident: id !== CFP }
   }
   if (block.title === 'Studio Visit' && block.description) {
     for (const [re, id] of STUDIO_BY_ARTIST) {
@@ -292,7 +248,6 @@ function ref(id: string, key?: string): Record<string, string> {
   return { _type: 'reference', _ref: id, ...(key ? { _key: key } : {}) }
 }
 
-// ── Build one edition's events[] from its raw program ────────────────────────
 interface BuiltEvent {
   _type: 'event'
   _key: string
@@ -329,10 +284,6 @@ function buildEvents(ed: RawEdition): { events: BuiltEvent[]; notes: string[] } 
     const { venueId, confident } = inferBlockVenue(block)
     if (!confident) notes.push(`venue defaulted to ${VENUE_NAME.get(venueId)} for "${block.title}"`)
 
-    // A multi-day run only makes sense for an exhibition or open-studio. A talk
-    // /workshop/opening that "spans" the festival inherited the span as a
-    // placeholder date — collapse it to a mid-festival single day for a sane
-    // default and flag so a reviewer can set the real date.
     const spanOk = ids.includes('event-type-exhibition') || ids.includes('event-type-open-studio')
     let evStart = startDate
     let evEnd = endDate
@@ -389,7 +340,6 @@ function buildEvents(ed: RawEdition): { events: BuiltEvent[]; notes: string[] } 
   return { events, notes }
 }
 
-// ── Main ─────────────────────────────────────────────────────────────────────
 async function main() {
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
   const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
@@ -412,7 +362,6 @@ async function main() {
   })
   const reviews: string[] = []
 
-  // ── Phase 1+2: seed taxonomy + venues (one transaction) ────────────────────
   const seedIds = await client.fetch<string[]>(`*[_type in ["venueType","eventType","venue"]]._id`)
   const existing = new Set(seedIds)
   const seedTx = client.transaction()
@@ -473,7 +422,6 @@ async function main() {
     console.log('  ✓ committed')
   }
 
-  // ── Phase 3: editions → events[] + programCallout ──────────────────────────
   const editions = await client.fetch<RawEdition[]>(
     `*[_type == "edition" && year in $years]{
       _id, year,
@@ -528,7 +476,6 @@ async function main() {
     console.log(`\n✓ Patched ${edPatched} edition document(s).`)
   }
 
-  // ── Review report ──────────────────────────────────────────────────────────
   if (reviews.length) {
     console.log(`\n── Needs human review (${reviews.length}) ──`)
     for (const r of reviews) console.log(`  ⚠ ${r}`)

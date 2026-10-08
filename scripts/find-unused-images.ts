@@ -1,56 +1,26 @@
-/**
- * Find unused images in public/img/ by scanning all source files for references.
- *
- * Usage:
- *   npx tsx scripts/find-unused-images.ts
- *   npx tsx scripts/find-unused-images.ts --json     # output as JSON
- *   npx tsx scripts/find-unused-images.ts --delete   # delete unused files (dry-run by default)
- *   npx tsx scripts/find-unused-images.ts --delete --confirm  # actually delete
- *
- * How it works:
- *   1. Collect every image file under public/img/
- *   2. For responsive images (e.g. foo-1200.webp), derive the basePath (foo)
- *   3. Scan all source files (.ts .tsx .css .json) for /img/... references
- *   4. A file is "used" if its basePath (or full path) appears anywhere in source
- *   5. Report unused files, grouped by basePath for responsive sets
- */
+/** Usage: pnpm images:unused [--json] [--delete [--confirm]]. --delete without --confirm is a dry run. */
 
 import { readdirSync, readFileSync, statSync, unlinkSync } from 'fs'
 import { dirname, extname, join, relative } from 'path'
 import { fileURLToPath } from 'url'
 
-// Resolve __dirname for both ESM and CJS contexts
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-// ---------------------------------------------------------------------------
-// Config
-// ---------------------------------------------------------------------------
-
 const ROOT = join(__dirname, '..')
 const PUBLIC_IMG = join(ROOT, 'public/img')
-const SRC_DIRS = [join(ROOT, 'src'), join(ROOT, 'public')] // also scan public for HTML/JSON
+const SRC_DIRS = [join(ROOT, 'src'), join(ROOT, 'public')]
 
 const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif', '.svg', '.tiff'])
 const SOURCE_EXTS = new Set(['.ts', '.tsx', '.js', '.jsx', '.css', '.json', '.html', '.md'])
 
-// Regex to detect responsive width suffix: only matches known responsive widths
-// (avoids false matches on files like tile-1.png, poster-zsb-2022.jpg, DSF0201.jpg)
 const RESPONSIVE_SUFFIX =
   /^(.+)-(300|320|400|480|600|768|800|960|1024|1200|1280|1440|1600|1700|1920|2048|2560)\.(jpg|jpeg|png|webp|gif|avif)$/i
 
-// ---------------------------------------------------------------------------
-// Step 1: collect all image files
-// ---------------------------------------------------------------------------
-
 interface ImageFile {
-  /** Absolute path on disk */
   absPath: string
-  /** URL path as used in code: /img/2025/optimized/foo-1200.webp */
   urlPath: string
-  /** For responsive images: /img/2025/optimized/foo — otherwise same as urlPath minus ext */
   basePath: string
-  /** True if the file name contains a responsive width suffix */
   isResponsive: boolean
 }
 
@@ -83,16 +53,10 @@ function collectImageFiles(): ImageFile[] {
         isResponsive: true,
       }
     }
-    // Non-responsive: strip extension for basePath so we can also catch
-    // references like /img/partners/UAPR (without .png)
     const basePath = urlPath.replace(/\.[^.]+$/, '')
     return { absPath, urlPath, basePath, isResponsive: false }
   })
 }
-
-// ---------------------------------------------------------------------------
-// Step 2: collect all source file contents and extract /img/ mentions
-// ---------------------------------------------------------------------------
 
 function collectSourceRefs(): Set<string> {
   const refs = new Set<string>()
@@ -107,17 +71,14 @@ function collectSourceRefs(): Set<string> {
     }
 
     for (const file of sourceFiles) {
-      // Skip the image files themselves (don't count a file as its own reference)
       if (file.startsWith(PUBLIC_IMG)) continue
 
       const content = readFileSync(file, 'utf-8')
       let m: RegExpExecArray | null
       IMG_PATTERN.lastIndex = 0
       while ((m = IMG_PATTERN.exec(content)) !== null) {
-        // Strip query params and trailing punctuation
         const ref = m[0].replace(/[?#].*$/, '').replace(/[.,;:!]+$/, '')
         refs.add(ref)
-        // Also add without extension, in case file is referenced both ways
         const noExt = ref.replace(/\.[^./]+$/, '')
         if (noExt !== ref) refs.add(noExt)
       }
@@ -127,16 +88,9 @@ function collectSourceRefs(): Set<string> {
   return refs
 }
 
-// ---------------------------------------------------------------------------
-// Step 3: determine which files are unused
-// ---------------------------------------------------------------------------
-
 function isUsed(img: ImageFile, refs: Set<string>): boolean {
-  // Direct match of full URL path
   if (refs.has(img.urlPath)) return true
-  // Match by basePath (handles both responsive and direct-without-ext references)
   if (refs.has(img.basePath)) return true
-  // For non-responsive files: also check if the full path without ext matches
   if (!img.isResponsive) {
     const withoutExt = img.urlPath.replace(/\.[^.]+$/, '')
     if (refs.has(withoutExt)) return true
@@ -144,12 +98,7 @@ function isUsed(img: ImageFile, refs: Set<string>): boolean {
   return false
 }
 
-// ---------------------------------------------------------------------------
-// Step 4: group & report
-// ---------------------------------------------------------------------------
-
 interface UnusedGroup {
-  /** The basePath shared by all variants, e.g. /img/2025/optimized/foo */
   basePath: string
   files: string[]
   totalBytes: number
@@ -166,7 +115,6 @@ function groupUnused(unused: ImageFile[]): UnusedGroup[] {
     group.files.push(img.urlPath)
     group.totalBytes += statSync(img.absPath).size
   }
-  // Sort by basePath for readability
   return [...groups.values()].sort((a, b) => a.basePath.localeCompare(b.basePath))
 }
 
@@ -175,10 +123,6 @@ function fmtBytes(bytes: number): string {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
   return `${(bytes / 1024 / 1024).toFixed(2)} MB`
 }
-
-// ---------------------------------------------------------------------------
-// Main
-// ---------------------------------------------------------------------------
 
 const args = process.argv.slice(2)
 const outputJson = args.includes('--json')

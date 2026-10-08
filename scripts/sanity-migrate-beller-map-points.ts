@@ -1,12 +1,4 @@
-/**
- * Copy the Galeria Beller map points (harta-beller data/points.json) into `galeriaBeller.mapPoints`.
- * Writes to the draft `drafts.galeriaBeller`; an editor publishes it in Studio.
- * Run after the mapPoint schema is deployed. Stops if the target already has map points.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-migrate-beller-map-points.ts --dry  # preview
- *   pnpm exec tsx scripts/sanity-migrate-beller-map-points.ts        # apply
- */
+/** Usage: pnpm exec tsx scripts/sanity-migrate-beller-map-points.ts [--dry]. */
 
 import '@scripts/_load-env'
 

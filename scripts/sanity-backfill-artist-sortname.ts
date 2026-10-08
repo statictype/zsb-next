@@ -1,20 +1,4 @@
-/**
- * Backfill `sortName` on artist documents so they sort by surname while
- * still displaying first-name-first (the Name field is unchanged).
- *
- * Default key is surname-first: "Andreea Eftene" → "Eftene Andreea",
- * computed by `surnameSortKey` from src/lib/format-utils.ts (relative
- * import — scripts stay free of the `@/` path alias).
- *
- * Idempotent: skips any document that already has `sortName` set, so manual
- * overrides (particles, double surnames, collectives) are preserved on re-run.
- * Operates on published documents (default perspective); a draft with no
- * published version must be patched separately by its "drafts." id.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-backfill-artist-sortname.ts        # apply
- *   pnpm exec tsx scripts/sanity-backfill-artist-sortname.ts --dry  # preview
- */
+/** Usage: pnpm exec tsx scripts/sanity-backfill-artist-sortname.ts [--dry]. */
 
 import '@scripts/_load-env'
 
@@ -41,8 +25,6 @@ async function main() {
   const dryRun = process.argv.includes('--dry')
   const client = createClient({ projectId, dataset, apiVersion, token, useCdn: false })
 
-  // Published documents only (default perspective). A draft with no published
-  // version won't appear here; patch those by their "drafts." id if needed.
   const artists = await client.fetch<ArtistDoc[]>(`*[_type == "artist"]{ _id, name, sortName }`)
   console.log(`Fetched ${artists.length} artist document(s).`)
 

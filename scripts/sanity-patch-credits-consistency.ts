@@ -1,21 +1,4 @@
-/**
- * Credit-ledger corrections, in one pass:
- *
- * 1. "Under the Aegis of" — the edition page used to hard-code an #ISDay row in
- *    `Credits.tsx`, which duplicated the row 2021 already carried in the CMS.
- *    The component now renders credits only; this adds the missing row to every
- *    edition that lacks it, typed so it lands in the team block.
- * 2. Rosters the CMS had dropped, from the editions' own press releases.
- * 3. Names spelled two ways across editions are canonicalised to one spelling.
- * 4. `organization.kind` backfilled — galleries are credited by name, not logo.
- * 5. The Sculpture Branch logo alt repeated another organization's alt ("UAPR").
- *
- * Idempotent: each step targets only documents that still need it.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-patch-credits-consistency.ts --dry
- *   pnpm exec tsx scripts/sanity-patch-credits-consistency.ts
- */
+/** Usage: pnpm exec tsx scripts/sanity-patch-credits-consistency.ts [--dry]. */
 
 import '@scripts/_load-env'
 
@@ -26,8 +9,6 @@ const AEGIS_CENTER = 'org-international-sculpture-center'
 const AEGIS_LABEL = 'Under the Aegis of'
 const AEGIS_KEY = 'credit-aegis'
 
-// The aegis credit reads as a role, not a partnership: `secondary` is what puts
-// a row in the team block, where it is credited by name rather than by logo.
 const AEGIS_TYPE = 'secondary'
 
 const GALLERY_ORGS = [
@@ -56,8 +37,6 @@ const ORG_NAME_FIXES: Record<string, string> = {
   'org-ferma-de-arta': 'Ferma de Artă',
 }
 
-// Rosters taken from the edition's own press release, where the CMS list had
-// dropped a partner.
 const REQUIRED_MEMBERS: { year?: number; label: string; orgIds: string[] }[] = [
   { label: AEGIS_LABEL, orgIds: [AEGIS_ORG] },
   { year: 2024, label: 'Cultural Partners', orgIds: ['org-doi-joi', 'org-sl-jazzing'] },

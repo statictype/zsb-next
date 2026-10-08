@@ -1,20 +1,4 @@
-/**
- * ZSB-54 — backfill `slug` on existing venue documents.
- *
- * Event URLs are slug-keyed (`events/[slug]`, ADR 0015); the venue segment uses
- * the venue's own `slug` field when set, else falls back to its slugified name.
- * This gives every existing venue a slug up front so editors can shorten it
- * (e.g. "combinatul-fondului-plastic" → "cfp") rather than starting from blank.
- *
- * Non-destructive + idempotent: venues that already carry a `slug` are skipped,
- * so re-runs are a no-op and a human-shortened slug is never clobbered. Slugs are
- * made unique across venues (a `-2`/`-3` suffix on collision). `raw` perspective
- * so published + any `drafts.` copies are both seen and patched.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-backfill-venue-slugs.ts --dry   # preview, no writes
- *   pnpm exec tsx scripts/sanity-backfill-venue-slugs.ts         # apply
- */
+/** Usage: pnpm exec tsx scripts/sanity-backfill-venue-slugs.ts [--dry]. */
 
 import '@scripts/_load-env'
 
@@ -51,8 +35,6 @@ async function main() {
     `*[_type == "venue"]{ _id, name, slug } | order(name asc)`,
   )
 
-  // Reserve slugs already taken (by venues that have one) so backfilled slugs
-  // stay unique against them and each other.
   const used = new Set<string>()
   for (const v of venues) {
     if (v.slug?.current) used.add(v.slug.current)
