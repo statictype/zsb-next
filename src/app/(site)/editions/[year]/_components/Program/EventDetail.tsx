@@ -29,8 +29,6 @@ function NewTab({ labels }: { labels: ProgramLabels }) {
   )
 }
 
-// Returns the split and the action row as siblings, so `EventModal` and
-// `EventView` can each place them as their own rows.
 export function EventDetail({
   event,
   shell,

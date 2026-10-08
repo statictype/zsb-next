@@ -1,12 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { TagIcon } from '@/sanity/icons'
 
-// A team-managed event category (Opening, Talk, Workshop, Film…). Events hold
-// an array of references to these (an event can carry more than one). Stored as
-// documents rather than an enum so the team can extend the list without a
-// developer and the program filters have a canonical list to enumerate —
-// ADR 0014. The `slug` is the stable key the filter URL state uses, so renaming
-// the title later doesn't break a shared link.
 export const eventType = defineType({
   name: 'eventType',
   title: 'Event type',

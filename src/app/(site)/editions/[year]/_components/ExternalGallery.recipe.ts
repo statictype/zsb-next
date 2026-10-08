@@ -14,7 +14,6 @@ export const externalGallery = sva({
   ],
   base: {
     section: {
-      // rhythm comes from `section()` in the component.
       position: 'relative',
     },
 

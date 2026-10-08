@@ -27,9 +27,6 @@ interface Entry {
   years: string[]
 }
 
-/** The name cloud's years are a hover bubble on pointer devices. Where there is
- *  no hover, this reads them off the server-rendered list items instead and
- *  shows them in a sheet on tap. */
 export function NameCloudSheet({ children }: { children: ReactNode }) {
   const [entry, setEntry] = useState<Entry | null>(null)
   const [shown, setShown] = useState<Entry | null>(null)
@@ -41,7 +38,6 @@ export function NameCloudSheet({ children }: { children: ReactNode }) {
   )
   const styles = nameCloudSheet()
 
-  // Keep the sheet's content through the exit transition once entry goes null.
   if (entry !== null && entry !== shown) setShown(entry)
 
   useEffect(() => {
@@ -92,8 +88,7 @@ export function NameCloudSheet({ children }: { children: ReactNode }) {
     <div ref={rootRef} className={styles.root} data-name-cloud-tap={coarsePointer || undefined}>
       {children}
       {coarsePointer && (
-        // The years are already announced inline beside every name, so the
-        // sheet is a second rendering of content assistive tech has read.
+        // Years are already announced inline beside each name.
         <div className={styles.panel} data-open={isOpen || undefined} aria-hidden="true">
           <div className={styles.inner}>
             <div className={styles.head}>

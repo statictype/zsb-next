@@ -9,11 +9,8 @@ export type { LivePerspective }
 export const { sanityFetch, SanityLive } = defineLive({
   client,
   serverToken: readToken,
-  // Browser token is exposed to the client in draft / live-preview mode.
-  // Must be read-only and scoped to viewer access.
+  // Exposed to the client in draft mode; must be a read-only viewer token.
   browserToken: readToken,
-  // Forces every sanityFetch call to pass perspective + stega so we never
-  // silently render drafts in production or strip stega in draft mode.
   strict: true,
 })
 
@@ -21,17 +18,9 @@ export interface DynamicFetchOptions {
   perspective: LivePerspective
 }
 
-/** The published-perspective default: build time, and every request outside
- *  draft mode. The one place this literal is declared — everything else
- *  that needs an explicit "give me the public content" fetch imports it. */
 export const PUBLISHED: DynamicFetchOptions = { perspective: 'published' }
 
-/**
- * Resolve the perspective for a request. Must be called OUTSIDE any
- * `'use cache'` boundary (it reads draftMode + cookies, which are request
- * data). The resolved options are passed into cached helpers as
- * serializable props so the cache can key on them.
- */
+/** Call outside any `'use cache'` boundary: it reads draftMode and cookies. */
 export async function getDynamicFetchOptions(): Promise<DynamicFetchOptions> {
   const { isEnabled: isDraftMode } = await draftMode()
   if (!isDraftMode) {
@@ -43,22 +32,10 @@ export async function getDynamicFetchOptions(): Promise<DynamicFetchOptions> {
 }
 
 /**
- * Bridge from resolved {@link DynamicFetchOptions} to `sanityFetch`: the single
- * place perspective is threaded onto a query. Call from inside a fetcher's
- * `'use cache'` body — this helper is intentionally NOT cached itself, so the
- * cache boundary (and its tags) stays on the named fetcher.
- *
- * Mirrors `sanityFetch`'s `<const QueryString>` generic so the literal query
- * string keeps resolving to its generated result type instead of collapsing to
- * `unknown`. `stega` is always `false` — there is no click-to-edit visual
- * editing in this app, so stega-encoded output is never wanted; `strict: true`
- * on `defineLive()` still requires the field on the underlying `sanityFetch`
- * call, so it's hardcoded here rather than threaded through our own options.
- *
- * `tags` (declared with the query in `queries.ts`) are appended to the cache
- * entry's `cacheTag()` call. Without them the entry carries only opaque
- * per-query sync tags, which the revalidation webhook's type-level tags can
- * never match — the webhook channel exists only through these.
+ * Call inside a fetcher's `'use cache'` body; this helper is not cached itself.
+ * `stega` is false because the app has no visual editing.
+ * `tags` are appended to `cacheTag()`; without them the revalidation webhook's
+ * type-level tags never match the cache entry.
  */
 export interface TaggedQuery<QueryString extends string> {
   query: QueryString

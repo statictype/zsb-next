@@ -23,7 +23,6 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title('Content')
     .items([
-      // Singletons — pinned at top
       singletonListItem(S, 'siteSettings', 'Site settings').icon(CogIcon),
       singletonListItem(S, 'homepage', 'Homepage').icon(HomeIcon),
       singletonListItem(S, 'aboutPage', 'About').icon(InfoOutlineIcon),
@@ -34,7 +33,6 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      // Editions — primary content
       S.documentTypeListItem('edition').title('Editions').icon(ImageIcon),
 
       S.divider(),
@@ -43,9 +41,6 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      // Program & venues — venues are reused across editions (events
-      // reference them); the type lists are the team-managed taxonomies. See
-      // ADR 0014.
       S.documentTypeListItem('venue').title('Venues').icon(PinIcon),
       S.listItem()
         .id('programTypes')
@@ -62,8 +57,6 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      // Press — appearances + releases. Kit assets live on each Edition
-      // (under "Press kit"), not here.
       S.listItem()
         .id('press')
         .title('Press')
@@ -79,16 +72,10 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      // People & organizations referenced from editions and press. The
-      // editions that reference an artist show up in the document's
-      // "Used on N pages" panel (see the `artist` location resolver).
       S.documentTypeListItem('artist').title('Artists').icon(UsersIcon),
       S.documentTypeListItem('work').title('Works').icon(CubeIcon),
       S.documentTypeListItem('organization').title('Organizations').icon(CaseIcon),
 
-      // Anything else the schema adds that isn't a singleton or pressed-up
-      // above — singletons and explicitly-pinned types are filtered to
-      // avoid duplicate entries.
       ...S.documentTypeListItems().filter((item) => {
         const id = item.getId()
         if (!id) return false

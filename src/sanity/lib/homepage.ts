@@ -19,8 +19,6 @@ import type { EditionSummary, HeroImage, PartnerLogo, ShareImage } from '@/types
 
 type RawHomepage = NonNullable<HOMEPAGE_QUERY_RESULT>
 
-/** The homepage as a total view-model (see `AboutView`): hero text coalesced to
- *  `''`, the slideshow always an array, only the CTA year + SEO left optional. */
 export interface HomeView {
   heroTitle: string
   heroLead: string
@@ -33,8 +31,6 @@ export interface HomeView {
   metaDescription?: string
 }
 
-// Drop slides with no asset, resolve the rest to `{ src, alt, position }`
-// (+ LQIP blur when the projection fetched it).
 function mapSlideshow(slides: RawHomepage['slideshow']): HeroImage[] {
   const out: HeroImage[] = []
   for (const slide of slides ?? []) {
@@ -50,10 +46,7 @@ function mapSlideshow(slides: RawHomepage['slideshow']): HeroImage[] {
   return out
 }
 
-/**
- * Cached fetch of the homepage singleton, normalized to a total view-model.
- * `null` only when the doc is absent — the route turns that into `notFound()`.
- */
+/** `null` only when the document is absent. */
 export async function getHomepage(options: DynamicFetchOptions): Promise<HomeView | null> {
   'use cache'
   const raw = await queryData(HOMEPAGE, options)
@@ -63,9 +56,7 @@ export async function getHomepage(options: DynamicFetchOptions): Promise<HomeVie
 export interface HomeData {
   view: HomeView
   editions: EditionSummary[]
-  /** Set when the hero switch leads with Upcoming and a next edition exists. */
   upcoming: EditionSummary | null
-  /** Newest live edition's featured events; past ones hidden client-side. */
   featured: FeaturedEvents | undefined
   artistCount: number
 }

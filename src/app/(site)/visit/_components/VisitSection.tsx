@@ -19,8 +19,7 @@ import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { Amenity, IconKey, TransportRoute, VisitData } from '@/types/edition'
 
-// Fixed icon set mirrored from the amenity schema. Editors pick an
-// icon key; this is the renderer-side mapping.
+// Keys mirror the amenity icon options in the Sanity schema.
 const ICONS: Record<IconKey, RemixiconComponentType> = {
   wheelchair: RiWheelchairLine,
   parking: RiParkingBoxLine,

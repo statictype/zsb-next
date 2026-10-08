@@ -1,11 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { SITE_DESCRIPTION, SITE_NAME } from '@/lib/constants'
 
-// Web app manifest — drives "add to home screen" / installed-PWA presentation.
-// theme_color / background_color mirror the dark brand canvas (see globals.css
-// --canvas). Icons are generated from src/app/icon.svg by
-// scripts/generate-app-icons.ts; the dark full-bleed background satisfies the
-// maskable safe zone, so each size is offered for both "any" and "maskable".
+// Icons are generated from src/app/icon.svg by scripts/generate-app-icons.ts.
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: SITE_NAME,

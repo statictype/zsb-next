@@ -12,9 +12,6 @@ import type { PrivacyView } from '@/sanity/lib/staticPages'
 
 const styles = privacyPage()
 
-/** The `link` markDef exactly as PRIVACY_PAGE_QUERY projects it (via
- *  `PrivacyView['body']`), so the mark component reads typegen output instead
- *  of casting. */
 type PrivacyLinkMark = NonNullable<PrivacyView['body'][number]['markDefs']>[number]
 
 const portableTextComponents: PortableTextComponents = {

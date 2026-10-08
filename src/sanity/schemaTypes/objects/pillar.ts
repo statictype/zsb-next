@@ -1,11 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
 
-/**
- * About-page pillar: numbered short essay. The number is derived from
- * the array index at render time so editors don't have to keep them
- * in sync if the order changes.
- */
 export const pillar = defineType({
   name: 'pillar',
   title: 'Pillar',

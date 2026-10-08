@@ -6,7 +6,6 @@ export const visitFaq = sva({
     section: { borderTop: 'hairline' },
     list: { maxWidth: 'measure' },
     answer: {
-      // Editorial answers may contain intentional line breaks.
       whiteSpace: 'pre-line',
     },
   },

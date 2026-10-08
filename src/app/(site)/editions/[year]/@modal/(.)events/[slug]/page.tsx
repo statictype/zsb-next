@@ -7,8 +7,6 @@ import { findEvent } from '@/types/edition'
 
 export const instant = false
 
-// `(.)` intercepts the sibling `events/[slug]` segment, so a soft navigation
-// renders here over the mounted edition. Hard loads hit the real route.
 export default async function InterceptedEventModal(
   props: PageProps<'/editions/[year]/events/[slug]'>,
 ) {

@@ -1,20 +1,4 @@
-/**
- * Convert partner logo source files and attach them to their `organization`
- * documents, so the homepage partner strip has something to render.
- *
- * PDF and Illustrator sources are rasterised with Ghostscript (`pngalpha`,
- * 600 dpi) because the supplied files are vector with no transparent PNG or SVG
- * equivalent; flat sources that ship on a white ground are keyed to
- * transparency. Every source is then trimmed to its ink and capped at 1200px on
- * the long edge.
- *
- * Idempotent: re-running re-uploads the asset and re-patches the same
- * documents. It never creates an organization — all of them already exist.
- *
- * Usage:
- *   pnpm exec tsx scripts/sanity-upload-organization-logos.ts --dry
- *   pnpm exec tsx scripts/sanity-upload-organization-logos.ts
- */
+/** Usage: pnpm exec tsx scripts/sanity-upload-organization-logos.ts [--dry]. Requires Ghostscript (`gs`). */
 
 import { execFileSync } from 'node:child_process'
 import { mkdtempSync, rmSync } from 'node:fs'
@@ -26,9 +10,7 @@ import sharp from 'sharp'
 if (typeof process.loadEnvFile === 'function') {
   try {
     process.loadEnvFile('.env.local')
-  } catch {
-    // .env.local is optional
-  }
+  } catch {}
 }
 
 const dryRun = process.argv.includes('--dry')
@@ -41,13 +23,10 @@ const SOURCE_ROOT = '../content v2/partner logos'
 
 interface LogoSource {
   orgId: string
-  /** Path relative to `root`, or to `SOURCE_ROOT` when that is omitted. */
   file: string
   alt: string
   root?: string
-  /** Source is flat artwork on a white ground; key that ground to alpha. */
   keyWhite?: boolean
-  /** Source is a white-ink variant; invert it for the light credits ground. */
   invert?: boolean
 }
 

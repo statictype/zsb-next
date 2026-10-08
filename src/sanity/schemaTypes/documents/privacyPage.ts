@@ -24,9 +24,6 @@ export const privacyPage = defineType({
       of: [
         defineArrayMember({
           type: 'block',
-          // Privacy is the ONE place in this project that uses Portable
-          // Text — see ADR 0007. Keep the surface narrow: H2 for
-          // sections, body for paragraphs, the standard marks.
           styles: [
             { title: 'Body', value: 'normal' },
             { title: 'Section heading (H2)', value: 'h2' },

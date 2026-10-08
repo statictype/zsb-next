@@ -33,9 +33,6 @@ export const locations = {
     resolve: () => ({ locations: [{ title: 'Galeria Beller', href: GALERIA_BELLER_PATH }] }),
   }),
   siteSettings: defineLocations({
-    // Site settings affect every page; the footer is the most visible
-    // surface, so we point editors at the homepage where they can see
-    // both the footer and the social links in context.
     select: { _id: '_id' },
     resolve: () => ({
       locations: [{ title: 'Footer (home)', href: '/' }],

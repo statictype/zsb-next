@@ -1,6 +1,6 @@
 ---
 name: Bucharest Sculpture Days
-description: An exhibition catalogue on a black ground — monochrome plates, two inks, hairline rules.
+description: Design tokens and rules for Bucharest Sculpture Days.
 colors:
   black: "oklch(0% 0 0)"
   white: "#fff"
@@ -159,24 +159,16 @@ Source of truth: `src/design-system/tokens.ts`, `preset.ts`, `recipes/`. This fi
 
 ## Overview
 
-**Creative North Star: "The Exhibition Catalogue"**
+The site is dark by default: black ground, white headings, gray-400 body text.
 
-The site is an exhibition catalogue on a black ground. Dela Gothic One and the two inks are the cover: loud, and used on few objects. The interior is hairline rules, uppercase labels, a 60ch measure, monochrome plates, and exact credits. Test for any surface: would it fit inside a well-made exhibition catalogue?
-
-There is no signature graphic device. The devices are the hairline, the square corner, and the plate. Marginalia (construction lines, index stamps, scaffold rules) was tried and removed.
-
-**Key Characteristics:**
-
-- Black ground. White headings, gray-400 body.
-- Two inks with a fixed role split: magenta acts, chartreuse marks.
-- One display face, set without tracking, uppercase except on edition themes and the manifesto.
+- Two inks with fixed roles: magenta acts, chartreuse marks.
+- One display face, Dela Gothic One, set without tracking and in uppercase except on edition themes and the manifesto.
 - Square corners. 1px hairlines separate surfaces.
-- Photography is greyscale at rest and gains colour on hover.
+- Photography is greyscale at rest and gains color on hover.
 - Every size and space step is a `clamp()`.
+- There is no decorative graphic device beyond hairlines, square corners and photographic plates.
 
-Not: a SaaS page (rounded cards, stacked shadows, pastel gradients), a municipal culture site (civic blue, logo wall above the fold), a luxury art-fair site (thin serif, beige), a ticketing site (countdowns, stock crowd photos), or brutalist (system fonts, unstyled borders).
-
-**Open: the ground rule.** Light ground is used on 5 surfaces (edition credits, About, artists banner, Partners, partner strip); everything else is dark. No principle decides which. The edition page is the evidence for the decision.
+Light ground (`data-ground="light"`) is used on five surfaces: edition credits, About, the artists banner, Partners and the partner strip. Everything else is dark.
 
 ## Colors
 
@@ -192,7 +184,7 @@ Two chromatic inks, black, white, and one gray ramp (hue 345, chroma 0.005).
 
 ### Neutral
 
-Components use role tokens. The `ground` maps (`recipes/ground.ts`) set each role per ground.
+Components use role tokens. Each role token resolves per ground: the `_groundLight` condition in `tokens.ts` matches `[data-ground=light] &`.
 
 | Role | Dark ground | Light ground |
 |---|---|---|
@@ -210,7 +202,7 @@ Components use role tokens. The `ground` maps (`recipes/ground.ts`) set each rol
 
 **The Ink Area Rule.** Magenta may fill a field (a banner, a CTA band, a caption band). Chartreuse fills nothing larger than a control: a dot, a tab, a badge, a short rule.
 
-**The Role Token Rule.** Components address `surface` / `heading` / `body` / `muted` / `divider` / `action` / `highlight`, never a raw gray step. A ground is set by spreading a ground map, never by hand-assigning a background.
+**The Role Token Rule.** Components address `surface` / `heading` / `body` / `muted` / `divider` / `action` / `highlight`, never a raw gray step. A ground is set with `data-ground`, never by assigning a background by hand.
 
 ## Typography
 
@@ -301,7 +293,7 @@ Every rectangle has 90° corners. `pill` and `circle` exist for objects that are
 
 ## Motion
 
-Motion acknowledges a pointer, explains a change of state or place, or loops to say an object is live. Timing values are in `.impeccable/design.json`.
+Motion acknowledges a pointer, explains a change of state or place, or loops to say an object is live.
 
 **CSS.** A call site names a verb; `preset.ts` is the only file that writes a duration or easing.
 
@@ -351,7 +343,7 @@ Six variants. Square, uppercase label type, sized by `size` (`sm` / `md` / `lg` 
 
 ### Cards
 
-A transparent hairline box on the dark ground; the recipe spreads the dark ground map, so contents need no ground-specific styles. `interactive` cards change border colour to magenta on hover, nothing else. The gradient ring is used on the primary button and the featured program card only.
+A transparent hairline box on the dark ground. `interactive` cards change border colour to magenta on hover, nothing else. The gradient ring is used on the primary button and the featured program card only.
 
 ### Badges
 
@@ -401,7 +393,7 @@ A plate has a subject, not a scene. Its crop is chosen. Adjacent plates share on
 
 ### Do:
 
-- **Do** address colour through role tokens and a `ground` map.
+- **Do** address colour through role tokens and `data-ground`.
 - **Do** set type with `<Text variant="…">` or a `textStyle`.
 - **Do** keep corners square.
 - **Do** separate surfaces with a 1px hairline.

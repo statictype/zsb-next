@@ -3,13 +3,8 @@ import { type ReactNode, Suspense } from 'react'
 import { type DynamicFetchOptions, getDynamicFetchOptions, PUBLISHED } from '@/sanity/lib/live'
 
 interface DraftAwareProps {
-  /**
-   * Renders the page's cached leaf for the given fetch options. Keep the
-   * `'use cache'` directive inside this leaf component, lexically in the page —
-   * don't lift it here, so it's never closed over by the harness.
-   */
+  // Keep the `'use cache'` directive inside the page's leaf component, not in DraftAware.
   cached: (options: DynamicFetchOptions) => ReactNode
-  /** Shown while the draft-mode fetch streams in (the cached leaf rendered empty). */
   fallback: ReactNode
 }
 

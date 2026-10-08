@@ -1,65 +1,55 @@
-# ZSB — Zilele Sculpturii București
+# Bucharest Sculpture Days
 
-Website for **Bucharest Sculpture Days**, an annual contemporary sculpture event in Bucharest. Built with Next.js 16 (App Router), React 19, TypeScript, and Sanity as the CMS.
+Website for Bucharest Sculpture Days (ZSB), an annual contemporary sculpture event in Bucharest, live at [sculpturedays.com](https://sculpturedays.com). It publishes each edition's theme, artists, credits and a filterable day-by-day program, with a shareable page and Open Graph card for every event. Editors manage all content in a Sanity Studio embedded in the same app at `/studio`.
 
-## Setup
+## How it works
 
-Requires Node.js 24.x (see `.nvmrc`; matches Vercel's Project Settings default) and pnpm.
+Content lives in one Sanity dataset. Pages are React Server Components that fetch it through a GROQ layer in `src/sanity/lib/`: each fetcher runs a query, then a mapper turns the result into the view-model the components render (for example `Edition` in `src/types/edition.ts`). Absent values are resolved in the mapper, so components receive total data.
 
-```bash
-pnpm install
-pnpm dev          # Development server on localhost:3000
-```
+Pages are cached with Next.js `cacheComponents` and invalidated by a Sanity webhook, with `<SanityLive />` refreshing open tabs. Previewable routes split into a dynamic half that resolves draft mode and a cached half. [`docs/cms.md`](docs/cms.md) covers both, and [`CONTEXT.md`](CONTEXT.md) defines the domain terms: edition status, events and their URLs, Latest and Upcoming.
 
-## Scripts
+`src/app/(beller)/` is a second root layout for a Romanian-language landing page, `/galeria-beller`, with its own Sanity singleton.
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start development server |
-| `pnpm build` | Production build (also serves as the type-check) |
-| `pnpm start` | Serve production build |
-| `pnpm typecheck` | `tsc --noEmit` |
-| `pnpm lint` / `pnpm lint:fix` | ESLint (`./src`) |
-| `pnpm format` / `pnpm format:check` | Biome format (formatting only; linter disabled) |
-| `pnpm test` | Vitest unit and component tests |
-| `pnpm test:e2e` | Playwright journeys against a built app |
-| `pnpm images:unused` | Find unused images in `public/img/` (add `:json` for JSON output) |
+## Stack
 
-## Project Structure
+Next.js 16 (App Router, React Compiler), React 19, TypeScript, Panda CSS, Sanity (Studio and `next-sanity`), GSAP for the carousel and lightbox, Vitest with Testing Library, Playwright, Biome and ESLint. Fonts are Dela Gothic One and Montserrat. Analytics are Google Analytics (after cookie consent) and Umami; both are optional.
 
-```
+`styled-components` is in `package.json` only because `sanity` and `@sanity/ui` require it as a peer dependency.
+
+## Documentation
+
+- [`docs/development.md`](docs/development.md): setup, environment variables, scripts
+- [`docs/cms.md`](docs/cms.md): Sanity schema, fetching, caching, revalidation
+- [`docs/testing.md`](docs/testing.md): test layers, setup, CI
+- [`CONTEXT.md`](CONTEXT.md): domain vocabulary
+- [`DESIGN.md`](DESIGN.md): design tokens and component rules
+
+## Project structure
+
+```text
 src/
   app/
-    (site)/             # Route group — every public page
-      page.tsx          # Homepage
-      editions/         # Editions index + [year]/ dynamic pages
-      artists/          # All-artists page
-      about/ visit/ partners/ press/ privacy/
-      layout.tsx        # Site chrome (Footer, CookieBanner, JsonLd, SanityLive)
-    studio/[[...tool]]/ # Embedded Sanity Studio at /studio
-    api/                # draft-mode enable/disable, revalidate/tag (Sanity webhook)
-    layout.tsx          # Bare HTML shell + fonts + root metadata
-    globals.css         # Cascade-layer order + element reset
-    sitemap.ts, robots.ts
-  components/           # Product components and site-shaped UI primitives
-  design-system/        # Internal Panda preset (tokens, patterns, shared recipes)
-  sanity/               # Studio config, schemaTypes, structure, GROQ queries, fetchers
-  data/editions/        # index.ts gateway (every edition lives in Sanity)
-  lib/                  # constants, seo, hooks, date/format utils
-  types/                # Shared TypeScript types (Edition, ImageData)
-scripts/                # Image + Sanity migration/seed utilities
-docs/                   # Current operational docs (CMS architecture, testing)
-../zsb-wiki/            # Historical prompts, audits, plans, notes, and raw archives
+    (site)/          Public pages, shared layout, one directory per route
+    (beller)/        Galeria Beller landing page and /artists/<slug> profiles (own root layout)
+    studio/          Embedded Sanity Studio
+    api/             Draft-mode toggles and the revalidation webhook
+  components/        Shared components; ui/ holds the primitives
+  design-system/     Panda preset: tokens, patterns, recipes
+  sanity/            Studio config, schema, GROQ queries, fetchers, mappers
+  lib/               Constants, SEO and JSON-LD builders, date and format helpers
+  types/             Runtime types such as Edition
+scripts/             Image tooling, app icon generation, organization logo upload
+e2e/                 Playwright specs
+docs/                CMS and testing guides
 ```
 
-## Key Concepts
+Component styles live next to each component in `*.recipe.ts` files.
 
-- **Editions** — Sanity is the source of truth; **every** year is an `edition` document rendered via the dynamic route `editions/[year]/`, with no static edition files left (2021, the online-only year, was migrated into Sanity in ZSB-20). See [`docs/cms.md`](docs/cms.md).
-- **CMS** — Sanity Studio is embedded at `/studio` in this same app. Schema, GROQ, and the components that read them change in one PR. Run `pnpm typegen` after schema/query changes and commit `sanity.types.ts`. (`styled-components` in `package.json` exists only because `sanity`/`@sanity/ui` still require it as a peer dependency — the app itself never imports it.)
-- **Image system** — images authored in Sanity are served from Sanity's asset CDN via `urlFor()` (`src/sanity/lib/image.ts`), the single path for all content (editions, homepage, static pages). A missing CMS image falls back to a neutral **local** placeholder (`src/lib/placeholder.ts` → `public/img/placeholder.jpg`); singleton image fields are `required()`, so on a seeded dataset the placeholder never shows. `ImageData` is `{ src, alt }`.
-- **Design system** — Panda CSS owns styling; site-shaped primitives such as `Accordion`, `Dialog`, and `Carousel` own their interaction behavior. The internal preset at `src/design-system/preset.ts` owns tokens, shared patterns, and reusable recipes; `panda.config.ts` retains app extraction/build configuration. Product styling stays co-located in `Component.recipe.ts` files. Prefer semantic role tokens (`canvas`, `heading`, `body`, `action`, …) over raw `gray.*`.
-- **Fonts** — Dela Gothic One (display) and Montserrat (body), loaded via `next/font/google`.
+## Known limitations
 
-## Deployment & content updates
+- The site is English only, except `/galeria-beller`, which is Romanian.
+- `/artists` is a name index. `/artists/<slug>` profiles exist only for artists with `work` documents and use the Galeria Beller layout.
 
-Hosted on Vercel at [sculpturedays.com](https://sculpturedays.com). Pages are served from Next 16's cache (`cacheComponents`), so a published Sanity edit reaches prod via a webhook (`/api/revalidate/tag`) that busts the relevant cache tags — not on a timer. If a publish doesn't show in prod, check the webhook delivery log in sanity.io/manage. Environment variables (Sanity project/dataset/tokens, `SANITY_REVALIDATE_SECRET`) are documented in [`docs/cms.md`](docs/cms.md).
+## License
+
+No license file is present. All rights reserved by default.

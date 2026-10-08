@@ -5,9 +5,6 @@ import { metaDescriptionField } from '@/sanity/schemaTypes/shared/metaDescriptio
 import { ogImageField } from '@/sanity/schemaTypes/shared/ogImageField'
 import { isSubstringOf } from '@/sanity/schemaTypes/shared/substringValidator'
 
-// Conditional required: an `upcoming` edition can be saved with only
-// year, status, and theme set; everything else is filled in over time
-// and only enforced when the editor flips status to `live`.
 function requiredWhenLive(value: unknown, context: { document?: unknown }): true | string {
   const status = (context.document as { status?: string } | undefined)?.status
   if (status !== 'live') return true
@@ -82,8 +79,6 @@ export const edition = defineType({
       type: 'string',
       group: 'hero',
     }),
-    // The hero date line, composed by the renderer from the typed fields below
-    // (dates + venue line), with a single canonical format + glyph.
     defineField({
       name: 'dateStart',
       title: 'Start date',
@@ -115,7 +110,6 @@ export const edition = defineType({
       group: 'hero',
       validation: (rule) => rule.custom(requiredWhenLive),
     }),
-    // Alt is required whenever an image is actually uploaded, regardless of edition status.
     imageFieldWithAlt({
       name: 'heroImage',
       title: 'Hero image',
@@ -189,10 +183,6 @@ export const edition = defineType({
       validation: (rule) => rule.custom(requiredWhenLive).unique(),
     }),
 
-    // Whether this edition has a program at all (ADR 0018). The inaugural 2021
-    // online-only year has none; turning this off hides the program fields below
-    // and the page renders no program block. Defaults on for every physical
-    // edition; existing editions were backfilled to `true`.
     defineField({
       name: 'hasProgram',
       title: 'Has a program',
@@ -203,9 +193,6 @@ export const edition = defineType({
       initialValue: true,
     }),
 
-    // The new events-and-venues model (ADR 0014). Events are nested here, one
-    // list per edition; the program, filters and featured all read from this
-    // list.
     defineField({
       name: 'events',
       title: 'Events',
@@ -217,8 +204,6 @@ export const edition = defineType({
       of: [defineArrayMember({ type: 'event' })],
     }),
 
-    // The SFTF ("Sculptors for the Future") callout, lifted out of the old
-    // program so it survives that format's removal (ADR 0014).
     defineField({
       name: 'programCallout',
       title: 'Program callout',

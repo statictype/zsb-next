@@ -38,7 +38,6 @@ export const checkbox = defineSlotRecipe({
         outline: 'focus',
         outlineOffset: 'focusInset',
       },
-      // Not 0.6: that read 4.22:1 against the resting gray.
       '& [data-checkbox-count]': {
         opacity: 0.7,
         fontVariantNumeric: 'tabular-nums',
@@ -58,7 +57,6 @@ export const checkbox = defineSlotRecipe({
       opacity: 0.5,
       transition: 'interactive',
       ':hover > &': { opacity: 0.8 },
-      // The only slot that fills, so the state survives a hover.
       'input:checked + &': {
         opacity: 1,
         background: 'action',

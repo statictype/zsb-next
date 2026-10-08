@@ -10,19 +10,11 @@ import {
 } from '@program/program-filters'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-// Filter state lives in the URL as real search params (ZSB-54): read with
-// `useSearchParams`, written with `router.replace`. The program renders inside
-// a Suspense boundary in the cached edition body, so reading the params on the
-// client keeps the edition route partial-prerendered rather than fully dynamic.
-// Sharing (ZSB-33) just reads the URL; the event detail is its own route now
-// (ADR 0015), not a query param, so nothing here has to preserve it.
-
 export interface UseProgramFilters {
   filters: ProgramFilters
   toggleVenue: (slug: string) => void
   toggleType: (slug: string) => void
   setShowPast: (value: boolean) => void
-  /** Restore the default — every option selected, past at its default. */
   reset: () => void
 }
 
@@ -37,9 +29,6 @@ export function useProgramFilters(filterOptions: ProgramFilterOptions): UseProgr
   const venueSlugs = filterOptions.venues.map((o) => o.slug)
   const typeSlugs = filterOptions.types.map((o) => o.slug)
 
-  // Write the next filter state to the URL (replacing, no scroll jump);
-  // `useSearchParams` re-reads once it lands. The URL itself is built by the
-  // pure `filterUrl`, tested beside the codec.
   const commit = (next: ProgramFilters) =>
     router.replace(filterUrl(pathname, search, next), { scroll: false })
 

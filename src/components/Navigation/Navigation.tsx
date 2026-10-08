@@ -10,11 +10,6 @@ import { NavLinks, NavLinksList } from '@/components/Navigation/NavLinks'
 const s = navigation()
 const desktopLinkClass = cx(s.navLink, s.desktopNavLink)
 
-/**
- * Server shell — logo + desktop nav wrapper. Mounted once in `(site)/layout.tsx`;
- * interactivity lives in the client leaves: `NavLinks` (pathname → current
- * state) and `MobileMenu` (toggle + Dialog).
- */
 export function Navigation() {
   const logo = (
     <Image

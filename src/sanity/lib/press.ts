@@ -15,7 +15,6 @@ export type { PressPageView } from '@/sanity/lib/press-mappers'
 export type { PressAppearance } from '@/types/edition'
 export type PressRelease = PRESS_RELEASES_QUERY_RESULT[number]
 
-// Raw fields are schema-required (non-null) except excerpt.
 function mapPressAppearance(raw: PRESS_APPEARANCES_QUERY_RESULT[number]): PressAppearance {
   return { ...raw, excerpt: raw.excerpt ?? '' }
 }
@@ -39,11 +38,6 @@ export async function getPressReleases(options: DynamicFetchOptions): Promise<Pr
   return await queryData(PRESS_RELEASES, options)
 }
 
-/**
- * The press page's media-kit strip: each edition's cover photo + poster
- * flattened into year-tagged strip items, reshaped here (ADR 0013) so the page
- * renders them directly. Skips editions with no year or no assets.
- */
 export async function getEditionsPressKit(
   options: DynamicFetchOptions,
 ): Promise<MediaKitStripItem[]> {

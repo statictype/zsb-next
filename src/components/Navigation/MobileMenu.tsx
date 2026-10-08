@@ -14,9 +14,6 @@ import { Dialog } from '@/components/ui/Dialog/Dialog'
 const navigationToggle = sva({
   slots: ['toggle', 'dialogToggle'],
   base: {
-    // Hamburger — the <button> is the full touch-size surface (transparent); the
-    // visible mark is a smaller dark box drawn by ::before, so the tap target
-    // stays generous while the chrome reads compact.
     toggle: {
       flexDirection: 'column',
       gap: 'xs',

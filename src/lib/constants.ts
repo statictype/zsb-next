@@ -1,15 +1,10 @@
 export const SITE_URL = 'https://sculpturedays.com'
 export const SITE_NAME = 'Bucharest Sculpture Days'
 
-// Global meta-description safety net. Per-page descriptions are authored in
-// Sanity (required on every page singleton); this generic line is only used if
-// a singleton document is somehow missing at render time.
 export const SITE_DESCRIPTION =
   'Bucharest Sculpture Days is Romania’s annual platform for contemporary sculpture, presenting exhibitions, artists, and events at venues across Bucharest.'
 
-// Editions that have taken place, shown as the "N editions" count on the
-// homepage banner and the /artists table. Hand-maintained: Sanity also holds
-// editions that are announced but have not happened yet.
+// Hand-maintained: Sanity also holds editions that have not happened yet.
 export const EDITIONS_HELD = 5
 
 export const CONSENT_COOKIE = 'zsb_consent'

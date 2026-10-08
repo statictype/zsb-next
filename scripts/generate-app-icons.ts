@@ -1,27 +1,10 @@
-/**
- * Generates the PWA / Apple touch icons from the canonical monogram in
- * `src/app/icon.svg` (the favicon source). Single source of truth: if the logo
- * changes, re-run this script rather than hand-editing the PNGs.
- *
- *   pnpm exec tsx scripts/generate-app-icons.ts
- *
- * Output (committed):
- *   - src/app/apple-icon.png   180×180  Apple touch icon (Next file convention)
- *   - public/icon-192.png      192×192  PWA manifest icon
- *   - public/icon-512.png      512×512  PWA manifest icon
- *
- * Treatment: the pink monogram trimmed to its ink bounds and optically centered
- * on the brand canvas (#0e0b10) with even padding — matching the "dark tile,
- * pink mark" identity (favicon + default OG card). The full-bleed dark
- * background also satisfies the maskable safe-zone, so the manifest icons are
- * declared `purpose: "any maskable"`.
- */
+/** Usage: pnpm exec tsx scripts/generate-app-icons.ts */
 import { readFile } from 'node:fs/promises'
 import sharp from 'sharp'
 
 const CANVAS = '#0e0b10'
 const MARK = '#ec008c'
-const PAD_RATIO = 0.3 // total padding; ~15% inset each side (within maskable safe zone)
+const PAD_RATIO = 0.3
 
 async function markSvg(): Promise<Buffer> {
   const raw = await readFile(new URL('../src/app/icon.svg', import.meta.url), 'utf8')

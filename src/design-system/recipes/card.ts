@@ -1,13 +1,5 @@
 import { defineRecipe } from '@/design-system/define-recipe'
 
-/**
- * Card — the one unified card (ZSB-71).
- * Every card on the site is the same object: a hairline-bordered surface — ZSB's
- * signature is that hairline box. `interactive` adds the single normalized
- * hover shared by all cards (the hairline warms to the accent + a small lift).
- * The shell owns chrome + that hover; title-colour shifts and image zoom stay
- * consumer concerns. Backs editions / events / editions-nav / gallery cards.
- */
 export const card = defineRecipe({
   jsx: ['Card'],
   className: 'card',
@@ -24,8 +16,6 @@ export const card = defineRecipe({
     border: 'hairline',
   },
   variants: {
-    /** The one hover every card shares: the hairline warms to the accent.
-     *  GPU-safe (border-color only — no lift). */
     interactive: {
       true: {
         pressable: 'fill',

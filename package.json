@@ -2,6 +2,24 @@
   "name": "zsb-next",
   "version": "0.1.0",
   "private": true,
+  "description": "Website for Bucharest Sculpture Days, an annual contemporary sculpture event in Bucharest, with an embedded Sanity Studio.",
+  "homepage": "https://sculpturedays.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/statictype/zsb-next.git"
+  },
+  "bugs": {
+    "url": "https://github.com/statictype/zsb-next/issues"
+  },
+  "keywords": [
+    "nextjs",
+    "react",
+    "typescript",
+    "sanity",
+    "panda-css",
+    "sculpture",
+    "bucharest"
+  ],
   "engines": {
     "node": "24.x"
   },

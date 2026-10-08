@@ -1,13 +1,5 @@
 import { defineSlotRecipe } from '@/design-system/define-recipe'
 
-/**
- * Navigation — co-located slot recipe.
- *
- * Floating logo + pill menu, no top bar. Desktop navigation is a plain nav;
- * mobile placement lives inside the shared fullscreen Dialog. Active state is
- * visual `data-active`; exact page state also gets semantic
- * `aria-current="page"`.
- */
 export const navigation = defineSlotRecipe({
   className: 'nav',
   jsx: ['Navigation', 'MobileMenu'],
@@ -45,9 +37,7 @@ export const navigation = defineSlotRecipe({
         top: '32px',
         right: 'gutter',
         gap: '0',
-        // Match the logo's z-index so the menu paints above positioned hero
-        // content (home/edition heroes are `position: relative`; without this
-        // they paint over the z-auto nav and hide the links).
+        // Same z-index as the logo: positioned hero content would otherwise paint over the links.
         zIndex: 'nav',
       },
       lg: { top: '40px' },
@@ -67,9 +57,6 @@ export const navigation = defineSlotRecipe({
       background: 'black',
       border: 'hairline',
       transition: 'interactive',
-      // Label roll — the muted label exits up while an identical pink copy
-      // enters from below, clipped by a mask snug to the line box so nothing
-      // leaks into the link's padding.
       '& [data-nav-mask]': { display: 'block', overflow: 'hidden' },
       '& [data-nav-label]': {
         '--nav-roll-offset': '110%',

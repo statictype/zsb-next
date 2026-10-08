@@ -1,7 +1,5 @@
-// Keep this free of React / DOM / `server-only` imports: it is unit-tested
-// directly. Filtering and the past/upcoming split run in the browser because
-// the edition page is cached — "what's past" is the visitor's clock, not the
-// build's.
+// Keep free of React, DOM and `server-only` imports: unit-tested directly.
+// Filtering runs in the browser because the edition page is cached.
 
 import { PROGRAM_LABELS } from '@program/program-labels'
 import {
@@ -15,17 +13,14 @@ import {
 } from '@/lib/edition-dates'
 import type { CalendarEvent, Lang } from '@/types/edition'
 
-// `null` means every option is selected, and serializes to no URL param at all
-// — which is also what makes a shared link survive the option list changing.
-// `[]` means none.
+// `null` means every option is selected and serializes to no URL param; `[]`
+// means none.
 export type FilterSelection = string[] | null
 
 export function isSelected(selection: FilterSelection, slug: string): boolean {
   return selection === null || selection.includes(slug)
 }
 
-// `allSlugs` is the canonical order; the result is filtered through it, which
-// also drops slugs no longer in the edition.
 export function toggleSelection(
   selection: FilterSelection,
   slug: string,
@@ -41,8 +36,6 @@ export function toggleSelection(
 export interface ProgramFilters {
   venues: FilterSelection
   types: FilterSelection
-  /** Tri-state: `null` follows the edition default, so a shared link can pin
-   *  an explicit choice without freezing the default for everyone else. */
   showPast: boolean | null
 }
 
@@ -59,9 +52,7 @@ export interface ProgramFilterOptions {
   types: FilterOption[]
 }
 
-// Chips key on `venue.rollUp`, stamped in the data layer, so a studio inside
-// CFP filters under CFP — and so these chips and the JSON-LD Places can't
-// disagree about which venues exist.
+// Chips key on `venue.rollUp`, the same field the JSON-LD Places use.
 
 function hasUpcomingEvents(events: CalendarEvent[], todayIso: string): boolean {
   return events.some((e) => !isPastEvent(e, todayIso))
@@ -71,9 +62,6 @@ function hasPastEvents(events: CalendarEvent[], todayIso: string): boolean {
   return events.some((e) => isPastEvent(e, todayIso))
 }
 
-// Defaults to hiding past events, except on a finished edition, where that
-// would leave the program empty. `todayIso === null` is the null-clock
-// convention (`lib/today.ts`): before the clock resolves, hide nothing.
 function resolveShowPast(
   filters: ProgramFilters,
   events: CalendarEvent[],
@@ -106,8 +94,6 @@ export function computeFilterOptions(events: CalendarEvent[]): ProgramFilterOpti
   }
 }
 
-// The time-independent half of the filter, shared by `applyFilters` and the
-// headline count.
 function matchesFilters(event: CalendarEvent, filters: ProgramFilters): boolean {
   const { venues, types } = filters
   if (venues !== null && !venues.includes(event.venue.rollUp.slug)) return false
@@ -144,8 +130,7 @@ function parseList(value: string | null): string[] {
     .filter(Boolean)
 }
 
-// A present param, even empty, is an explicit selection; an absent one is the
-// all-selected default.
+// A present param, even empty, is an explicit selection.
 export function parseFilters(search: string): ProgramFilters {
   const params = new URLSearchParams(search)
   const past = params.get(PARAM_PAST)
@@ -161,7 +146,6 @@ function setSelection(params: URLSearchParams, key: string, selection: FilterSel
   else params.set(key, selection.join(','))
 }
 
-// `base` preserves unrelated params already on the URL.
 function serializeFilters(filters: ProgramFilters, base = ''): string {
   const params = new URLSearchParams(base)
   setSelection(params, PARAM_VENUE, filters.venues)
@@ -171,7 +155,6 @@ function serializeFilters(filters: ProgramFilters, base = ''): string {
   return params.toString()
 }
 
-// Collapses to the bare pathname at the default, so the clean URL is canonical.
 export function filterUrl(pathname: string, search: string, next: ProgramFilters): string {
   const query = serializeFilters(next, search)
   return query ? `${pathname}?${query}` : pathname
@@ -199,7 +182,6 @@ interface Schedule {
 export interface ProgramView extends Schedule {
   visible: CalendarEvent[]
   upcoming: number
-  /** `upcoming` narrowed by the venue/type selection. */
   upcomingMatching: number
   past: number
   showPast: boolean
@@ -261,18 +243,13 @@ function buildSchedule(events: CalendarEvent[], clock: string | null, lang: Lang
   return { ongoing, days }
 }
 
-// Board reading order, and the sequence the event panel steps through.
-// Deliberately unfiltered: filters are client state on the edition URL and
-// never reach an event route, so a neighbour derived from them would differ
-// between a soft navigation and the same link opened cold.
+// Unfiltered: filters never reach an event route, so filtered neighbours
+// would differ between a soft navigation and a cold load.
 export function programOrder(events: CalendarEvent[]): CalendarEvent[] {
   const { ongoing, days } = buildSchedule(events, null, 'en')
   return [...ongoing.map((run) => run.event), ...days.flatMap((day) => day.events)]
 }
 
-// Before the clock resolves everything counts as upcoming and no past
-// affordance shows, which matches the prerendered shell and avoids an
-// "X of Y" flash on hydration.
 export function deriveProgramView(
   events: CalendarEvent[],
   filters: ProgramFilters,
@@ -306,8 +283,8 @@ export function deriveProgramView(
     }
   }
 
-  // Judged on the whole edition, never the filtered subset: filtering to
-  // past-only on a live edition must not flip the board into archive mode.
+  // Judged on the whole edition: filtering to past-only on a live edition
+  // must not flip the board into archive mode.
   const [, editionEnd] = editionWindow(events)
   const ended = todayIso !== null && editionEnd !== null && todayIso > editionEnd
   const { ongoing, days } = buildSchedule(visible, ended ? null : todayIso, lang)

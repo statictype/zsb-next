@@ -12,8 +12,6 @@ import type { CalendarEvent, EventVenue } from '@/types/edition'
 vi.mock('next/navigation', async () => (await import('@program/program-fakes')).fakeNavigation())
 vi.mock('@/lib/use-today-iso', async () => (await import('@program/program-fakes')).fakeClock())
 
-// Same production-shaped event factory as program-filters.test.ts: only the
-// fields the board renders, the venue rollup stamped with the real rule.
 function ev(
   partial: Partial<Omit<CalendarEvent, 'venue'>> &
     Pick<CalendarEvent, 'key' | 'startDate'> & { venue?: Omit<EventVenue, 'rollUp'> },

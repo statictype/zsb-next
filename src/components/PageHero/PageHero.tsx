@@ -4,7 +4,6 @@ import { pageHero } from '@/components/PageHero/PageHero.recipe'
 
 interface PageHeroProps {
   title: ReactNode
-  /** Optional standfirst below the title. */
   lead?: ReactNode
   flush?: boolean
 }

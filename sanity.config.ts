@@ -31,13 +31,10 @@ export default defineConfig({
   ],
   schema: { types: schemaTypes },
   document: {
-    // Singletons can't be deleted / unpublished / duplicated.
     actions: (prev, { schemaType }) =>
       isSingletonType(schemaType)
         ? prev.filter((action) => !LOCKED_SINGLETON_ACTIONS.has(action.action ?? ''))
         : prev,
-    // Hide singletons from the global "Create new" menu so editors can't
-    // make a second instance.
     newDocumentOptions: (prev, { creationContext }) =>
       creationContext.type === 'global'
         ? prev.filter((opt) => !(SINGLETON_TYPES as readonly string[]).includes(opt.templateId))

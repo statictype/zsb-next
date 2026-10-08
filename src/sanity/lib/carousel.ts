@@ -15,14 +15,11 @@ function asLayout(value: string | null | undefined): CarouselLayout | undefined 
     : undefined
 }
 
-/** A raw carousel image as projected by GROQ (`{ caption, image }`). */
 interface RawCarouselImage {
   caption?: string | null
   image: SanityImageField
 }
 
-/** A raw `carouselSlide`, loosely typed so any query projecting
- *  `{ layout, images[]{ caption, image } }` can feed the mapper. */
 interface RawCarouselSlide {
   layout?: string | null
   images?: RawCarouselImage[] | null
@@ -32,12 +29,7 @@ function mapCarouselImage(item: RawCarouselImage): CarouselImage {
   return { image: requireImageData(item.image, 'carousel image'), caption: item.caption ?? '' }
 }
 
-/**
- * Map raw `carouselSlide` documents into the runtime `CarouselSlide[]` the
- * <Carousel> renders. Drops slides whose layout is unknown or whose image
- * count doesn't match the layout (ADR 0010). Shared by the editions and the
- * about page; consumers render on `.length > 0`.
- */
+/** Drops slides whose layout is unknown or whose image count does not match the layout. */
 export function mapCarousel(
   slides: readonly RawCarouselSlide[] | null | undefined,
 ): CarouselSlide[] {

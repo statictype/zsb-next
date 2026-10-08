@@ -43,7 +43,6 @@ const selected = {
     borderColor: 'highlight',
     color: 'black',
     boxShadow: 'litEdge',
-    // The unpressed roll copy is `action`, which is 1.16:1 on the fill.
     '& [data-btn-copy]': { color: 'black' },
   },
 } as const
@@ -90,8 +89,6 @@ export const button = defineRecipe({
           '&::before': { opacity: 0 },
           '& [data-btn-copy]': { color: 'white' },
         },
-        // Sits on the border box at the border's own width, and the resting
-        // edge fades out under it, so the edge travels instead of thickening.
         _before: {
           content: '""',
           layerStyle: 'gradientBorder',
@@ -177,7 +174,6 @@ export const button = defineRecipe({
       },
     },
   },
-  // The chrome-less variants are sizeless — neutralize the default size.
   compoundVariants: [
     { variant: 'link', css: { padding: '0', gap: '0', fontSize: 'inherit' } },
     { variant: 'plain', css: { padding: '0', gap: '0', fontSize: 'inherit' } },

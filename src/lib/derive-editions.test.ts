@@ -1,9 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { type DerivableEdition, deriveEditions } from '@/lib/derive-editions'
 
-// A few editions around a known "today" of 2026-03-01:
-//   2024 / 2025 — past;  2026 — future (run-up);  2021 — online, no dateStart.
-const e2021: DerivableEdition = { year: 2021 } // online-only, dateless
+const e2021: DerivableEdition = { year: 2021 }
 const e2024: DerivableEdition = { year: 2024, dateStart: '2024-09-12' }
 const e2025: DerivableEdition = { year: 2025, dateStart: '2025-09-11' }
 const e2026: DerivableEdition = { year: 2026, dateStart: '2026-09-10' }

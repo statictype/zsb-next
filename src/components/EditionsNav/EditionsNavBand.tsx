@@ -23,14 +23,11 @@ export type EditionEntry = Pick<
   'year' | 'theme' | 'themeHighlight' | 'status' | 'href'
 >
 
-// The band stays mounted under the intercepted event route
-// (`editions/[year]/@modal/(.)events/[slug]`), where the pathname is a
-// descendant of the edition being viewed rather than the edition itself.
+// Also mounted under `editions/[year]/@modal/(.)events/[slug]`, where the pathname is below the edition's.
 function isSectionActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`)
 }
 
-/** `pathname: null` renders without current state — it is the Suspense fallback. */
 export function EditionsNavBandList({
   editions,
   pathname,

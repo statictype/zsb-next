@@ -3,15 +3,8 @@ import { slugify } from '@/lib/slugify'
 import { CalendarIcon } from '@/sanity/icons'
 import { imageFieldWithAlt } from '@/sanity/schemaTypes/shared/imageFieldWithAlt'
 
-// The building block of the program. Events are nested in the edition (one list
-// per edition), not standalone documents — an event has no life outside its
-// edition (ADR 0014). Each event does get a canonical deep link at
-// /editions/[year]/events/[slug], with the `slug` field below either
-// editor-set or derived at read time (ADR 0015).
-// Timing is a Bucharest-local `startDate` + optional
-// `startTime` (only when the time matters) + optional `endTime` + optional
-// `endDate`; we store no UTC instants. "Ongoing" (multi-day) and "past vs upcoming" are
-// *derived* by the renderer, never stored here.
+// Times are Bucharest-local; no UTC instants are stored. "Ongoing" and "past vs upcoming"
+// are derived by the renderer.
 export const event = defineType({
   name: 'event',
   title: 'Event',

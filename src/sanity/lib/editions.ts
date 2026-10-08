@@ -31,13 +31,7 @@ export interface FeaturedEvents {
   events: CalendarEvent[]
 }
 
-/**
- * The homepage featured spotlight's source (ZSB-44): the `featured`-marked events
- * of the newest **live** edition (its routes are reachable, unlike an announced
- * one). `undefined` when there's no live physical edition or nothing is marked.
- * Picking the edition is the yearly-tier server decision; `FeaturedSpotlight`
- * hides past events client-side (daily tier, `lib/today.ts`).
- */
+/** Featured events of the newest live edition; `undefined` when none is live or none is marked. */
 export async function getFeaturedEvents(
   list: EditionSummary[],
   options: DynamicFetchOptions,
@@ -50,24 +44,13 @@ export async function getFeaturedEvents(
   return featured.length ? { year: edition.year, events: featured } : undefined
 }
 
-/**
- * Live edition years as route params — the generateStaticParams enumeration
- * shared by the edition page and its opengraph-image route. Published-only:
- * static params don't preview drafts.
- */
 export async function getAllEditionYearParams(): Promise<{ year: string }[]> {
   'use cache'
   const list = await getEditionSummaries(PUBLISHED)
   return list.filter((e) => e.status === 'live').map((e) => ({ year: String(e.year) }))
 }
 
-/**
- * Every (year, slug) pair for every event across every edition — the
- * generateStaticParams enumeration shared by the event route and its
- * opengraph-image route (ADR 0015). Reads the slugs `mapEvents` stamped on the
- * same cached per-year editions the pages prerender from, so the enumerated
- * paths and the pages' own event identities cannot diverge.
- */
+/** Reads the slugs `mapEvents` stamped on the cached per-year editions the pages prerender from. */
 export async function getAllEventParams(): Promise<{ year: string; slug: string }[]> {
   'use cache'
   const years = await getAllEditionYearParams()
@@ -80,10 +63,6 @@ export async function getAllEventParams(): Promise<{ year: string; slug: string 
   return perYear.flat()
 }
 
-/**
- * Update timestamps for the sitemap, in one query. Published-only — the
- * sitemap never previews drafts.
- */
 export async function getSitemapMetadata() {
   'use cache'
   return queryData(SITEMAP, PUBLISHED)

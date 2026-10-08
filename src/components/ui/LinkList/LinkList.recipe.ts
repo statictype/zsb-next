@@ -3,7 +3,6 @@ import { sva } from 'styled-system/css'
 export const linkList = sva({
   slots: ['list', 'item', 'link', 'year', 'body', 'title', 'subtitle', 'excerpt', 'tags', 'arrow'],
   base: {
-    // List margins/padding are already zeroed by the base reset.
     list: { listStyle: 'none', borderBottom: 'hairline' },
     item: { borderTop: 'hairline' },
     link: {
@@ -13,8 +12,6 @@ export const linkList = sva({
       gap: { base: 'sm', md: 'md' },
       paddingBlock: 'lg',
       paddingInline: 'sm',
-      // The hover indent rides transform (not padding) so it composites
-      // instead of relayouting the row.
       transition: 'develop',
       '&:hover, &:focus-visible': { transform: 'translateX(token(spacing.md))' },
       _focusVisible: { outline: 'none' },

@@ -4,7 +4,6 @@ import { marquee } from '@/components/Marquee/Marquee.recipe'
 interface MarqueeProps {
   count: number
   gap?: 'xl' | '2xl'
-  /** The `<li>` items. Rendered four times so a run narrower than the viewport still loops seam-free. */
   children: ReactNode
 }
 

@@ -8,7 +8,6 @@ import { accordion } from 'styled-system/recipes'
 
 export interface AccordionItem {
   id: string
-  /** Phrasing content for the button. Use `triggerHeading` for heading semantics. */
   trigger: ReactNode
   content: ReactNode
   meta?: ReactNode

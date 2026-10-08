@@ -34,7 +34,6 @@ export const visitFacts = sva({
       md: { flexDirection: 'row', gap: 'xl' },
     },
     value: {
-      // Joined multi-line values (opening hours) render their own '\n' breaks.
       whiteSpace: 'pre-line',
       fontVariantNumeric: 'tabular-nums',
     },

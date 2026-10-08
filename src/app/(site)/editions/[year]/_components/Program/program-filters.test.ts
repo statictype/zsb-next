@@ -13,9 +13,6 @@ import type { CalendarEvent, EventVenue } from '@/types/edition'
 
 const CFP = 'Combinatul Fondului Plastic'
 
-// Minimal event factory — only the fields the filter logic touches. The venue's
-// rolled-up identity is stamped with the real rule so the filter/match tests
-// run against production-shaped data (ZSB-65).
 function ev(
   partial: Partial<Omit<CalendarEvent, 'venue'>> &
     Pick<CalendarEvent, 'key' | 'startDate'> & { venue?: Omit<EventVenue, 'rollUp'> },

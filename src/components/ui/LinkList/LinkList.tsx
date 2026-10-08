@@ -19,8 +19,6 @@ export function LinkList({
 interface LinkListItemProps {
   year: ReactNode
   title: ReactNode
-  /** Which of the two carries the row: the title, or the year with the title
-   *  demoted to a label under it. */
   emphasis?: 'title' | 'year'
   href?: string | undefined
   excerpt?: ReactNode

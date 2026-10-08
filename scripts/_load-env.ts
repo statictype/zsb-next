@@ -1,13 +1,6 @@
-/**
- * Side-effect module: load `.env.local` before any other import is evaluated.
- *
- * Must be the FIRST import in any script that needs env vars at module-init
- * time (e.g. `src/sanity/env.ts` reads the Sanity vars at evaluation).
- */
+/** Must be the first import in a script: `src/sanity/env.ts` reads env vars when it is evaluated. */
 if (typeof process.loadEnvFile === 'function') {
   try {
     process.loadEnvFile('.env.local')
-  } catch {
-    // .env.local is optional
-  }
+  } catch {}
 }

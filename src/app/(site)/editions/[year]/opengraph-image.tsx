@@ -3,11 +3,7 @@ import { BRAND, loadOgFonts, loadOgLogo, OG_CONTENT_TYPE, OG_SIZE, ogImageSrc } 
 import { getAllEditionYearParams, getEdition } from '@/sanity/lib/editions'
 import { PUBLISHED } from '@/sanity/lib/live'
 
-// Per-edition share card. If the editor set a Custom share image it's rendered
-// full-bleed (they designed it); otherwise the hero photo gets a gradient scrim
-// with the ZSB logo, year, theme, and dates — the branded fallback. The edition
-// metadata intentionally sets no openGraph.images, so this route is the single
-// source of the edition's social image (no duplication with the default card).
+// The edition metadata sets no openGraph.images; this route is the sole source.
 
 export const alt = 'Bucharest Sculpture Days — edition share image.'
 export const size = OG_SIZE
@@ -21,7 +17,6 @@ export default async function Image({ params }: { params: Promise<{ year: string
   const { year } = await params
   const edition = await getEdition(Number(year), PUBLISHED)
 
-  // Editor override: render their designed image, cropped to fill 1200×630.
   if (edition?.ogImage) {
     return new ImageResponse(
       <div style={{ display: 'flex', width: '100%', height: '100%' }}>
@@ -67,8 +62,6 @@ export default async function Image({ params }: { params: Promise<{ year: string
         />
       )}
 
-      {/* Full-size column anchored to the bottom; the gradient doubles as the
-          scrim so logo + theme + dates stay grouped and bottom-aligned. */}
       <div
         style={{
           position: 'absolute',

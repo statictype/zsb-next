@@ -81,7 +81,6 @@ export const editionCard = sva({
     },
     head: { minWidth: '0', display: 'flex', flexDirection: 'column', gap: 'xs' },
     title: { fontVariantNumeric: 'tabular-nums' },
-    // Themes are single hashtag words with no wrap opportunity of their own.
     theme: { overflowWrap: 'anywhere' },
     prefix: {
       color: 'muted',

@@ -42,10 +42,6 @@ function NavLinkLabel({ label, context }: { label: string; context: 'desktop' | 
   )
 }
 
-/**
- * Pure link list. `pathname: null` renders without current state — used as the
- * Suspense fallback so the static shell carries the links themselves.
- */
 export function NavLinksList({
   pathname,
   className,
@@ -73,11 +69,8 @@ export function NavLinksList({
   })
 }
 
-/**
- * Under cacheComponents, usePathname() is runtime data when the route's params
- * aren't known at build time — always mount this under <Suspense> with a
- * `<NavLinksList pathname={null}>` fallback, or fallback-shell prerenders fail.
- */
+// usePathname() is runtime data under cacheComponents; mount under <Suspense> with a
+// `<NavLinksList pathname={null}>` fallback or fallback-shell prerenders fail.
 export function NavLinks(props: NavLinksProps) {
   const pathname = usePathname()
   return <NavLinksList pathname={pathname} {...props} />

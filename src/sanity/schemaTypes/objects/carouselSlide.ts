@@ -37,9 +37,6 @@ const carouselImageMember = defineArrayMember({
   },
 })
 
-// One slide type (ADR 0010): a `layout` enum plus a length-validated `images`
-// array whose required count is derived from the chosen layout. Replaced the
-// five legacy per-layout slide types after the carousel-collapse migration.
 const CAROUSEL_LAYOUTS = [
   { title: 'Full (1 image)', value: 'full', count: 1 },
   { title: 'Duo (2 images)', value: 'duo', count: 2 },

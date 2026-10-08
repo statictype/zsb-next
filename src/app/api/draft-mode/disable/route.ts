@@ -5,9 +5,7 @@ export async function GET(request: Request) {
   const mode = await draftMode()
   mode.disable()
 
-  // Honor a redirect target if present; otherwise send the editor back to /.
-  // Same-site paths only — an absolute URL (or a scheme-relative `//host`)
-  // in ?slug would make this an open redirect.
+  // Same-site paths only; an absolute or scheme-relative (`//host`) ?slug would be an open redirect.
   const url = new URL(request.url)
   const to = url.searchParams.get('slug') ?? '/'
   const safeTo = to.startsWith('/') && !to.startsWith('//') ? to : '/'

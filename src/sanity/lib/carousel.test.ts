@@ -8,7 +8,7 @@ function img(n: number) {
   }
 }
 
-describe('mapCarousel (ADR 0010)', () => {
+describe('mapCarousel', () => {
   it('returns [] for missing or empty input', () => {
     expect(mapCarousel(null)).toEqual([])
     expect(mapCarousel(undefined)).toEqual([])

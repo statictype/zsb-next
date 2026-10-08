@@ -28,7 +28,7 @@ Bucharest Sculpture Days (ZSB) is a platform for sculpture in Bucharest. Its mos
 2. Establish enough credibility to attract partners and funding.
 3. Keep a permanent public record of every edition.
 
-No single one of these outranks the others. Attendance to date has been organic, with no large sponsorship and no advertising budget, so sharing is the only growth mechanism available. Individual events are therefore first-class shareable objects — each has its own URL, opens as a modal over the calendar or as a full page on direct load, and has its own Open Graph card — on the expectation that people sharing an event they are going to is what brings the next visitor. That is the bet the architecture is placed on, not a measured result.
+No single one of these outranks the others. Attendance to date has been organic, with no large sponsorship and no advertising budget, so sharing is the only growth mechanism available. Individual events are therefore shareable: each has its own URL, opens as a modal over the program or as a full page on direct load, and has its own Open Graph card.
 
 ## Positioning
 
@@ -43,24 +43,22 @@ ZSB is a platform for sculpture, with emphasis on the artists. The facts behind 
 
 - Editions are annual. The edition page goes live about a month before the event; the event lasts about a month.
 - All content lives in Sanity and is edited in the Studio embedded at `/studio`. One production dataset.
-- Domain vocabulary is defined in `CONTEXT.md`: Edition, edition status (`announced` / `live`), Event, Venue, Event type / Venue type, Calendar, Ongoing, Latest & Upcoming.
+- Domain vocabulary is defined in `CONTEXT.md`: Edition, edition status (`announced` / `live`), Event, Venue, Event type / Venue type, Program, Ongoing, Latest & Upcoming.
 - Production cache invalidation runs through a Sanity webhook.
 
 ## Capabilities and Constraints
 
-Existing surfaces: homepage, editions index, `/editions/YYYY` edition page with day-by-day calendar (venue and type filters, hide-past default, separate Ongoing area), individually shareable event pages, all-artists list, About, Visit (venues), Partners, Press, Privacy, plus sitemap, robots, JSON-LD, and Sanity draft mode.
+Existing surfaces: homepage, editions index, `/editions/YYYY` edition page with day-by-day program (venue and type filters, hide-past default, separate Ongoing area), individually shareable event pages, all-artists list, About, Visit (venues), Partners, Press, Privacy, plus sitemap, robots, JSON-LD, and Sanity draft mode.
 
 - **Editions accumulate.** Every past edition stays reachable at `/editions/YYYY`. The archive is not prunable.
-- **Terminology.** ZSB is a *platform* that includes events. Never *just an event*, never a *festival*. The annual programme is an event; ZSB is not. The About page makes the point explicitly.
 - **Content is Sanity-editable** and mostly is today; full editability is the goal. This is a direction, not a mandate to overcomplicate schema or UI in its name.
 - **Language.** The site is English only (`lang="en"`, all CMS copy in English). Romanian is a planned future requirement, not scheduled. New work should not make a bilingual model harder, but no localization layer is committed.
 - **Planned, not built — artist detail pages.** Two jobs at once: a professional profile a sculptor can point to, and a discovery surface for commissions. Constraint: initially only work shown at ZSB is available, plus an optional link to the artist's own site if they have one.
 
 ## Brand Commitments
 
-- Name: Bucharest Sculpture Days. Short form: ZSB. Domain: `sculpturedays.com`. The Romanian name, Zilele Sculpturii București, lives in metadata for discoverability, not in visible copy.
-- "Platform" is a description, not a second name. There is one name — Bucharest Sculpture Days, short form ZSB. First mention on a page is "Bucharest Sculpture Days (ZSB)"; ZSB thereafter and wherever space is tight.
-- ZSB is described as "a platform for sculpture in Bucharest". The claim is carried by what the site shows — the youth award, open studios, debates, screenings — never by a second name competing with the first. Never "festival", in prose, naming, or copy.
+- Naming rules (one name, "platform" as description only, never "festival") are in `CONTEXT.md`. Domain: `sculpturedays.com`.
+- ZSB is described as "a platform for sculpture in Bucharest". The claim is carried by what the site shows: the youth award, open studios, debates, screenings.
 - Editions are named with a `#` hashtag convention. Copy such as "Five #" is intentional.
 
 ## Evidence on Hand
@@ -78,6 +76,6 @@ Not on hand, and not to be invented: testimonials, sponsorship or funding claims
 
 1. **Two modes, one site.** During the edition window, answer what/when/where for a visitor. The rest of the year, build partner credibility and show the artists.
 2. **Artists are the subject.** Sculptors are the reason the platform exists, not a credit line under the work.
-3. **Every event is shareable.** Individual addressability and a correct share card are a feature, not a nicety — organic reach is the distribution channel.
+3. **Every event is shareable.** Individual addressability and a correct share card are a requirement — organic reach is the distribution channel.
 4. **Credibility comes from real material.** Only genuine press, partners, photography, and figures.
 5. **The archive is permanent.** Editions accumulate; nothing is retired.

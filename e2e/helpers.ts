@@ -1,24 +1,18 @@
 import { expect, type Page } from '@playwright/test'
 
-// Console noise we tolerate: framework/devtools chatter and third-party scripts
-// that aren't our bug. Uncaught exceptions (pageerror) are never tolerated.
 const IGNORED_CONSOLE = [
   /React DevTools/i,
   /\[Fast Refresh\]/i,
   /favicon/i,
-  // <SanityLive> opens a live-content SSE to Sanity's API; the browser
-  // CORS-blocks it on origins not in the Studio's allowlist (CI, preview ports).
+  // <SanityLive> opens a live-content SSE that the browser CORS-blocks on origins
+  // outside the Studio allowlist (CI, preview ports).
   /api\.sanity\.io\/.+\/data\/live\/events/i,
   /Access-Control-Allow-Origin/i,
-  // Next's image optimizer (`/_next/image`) re-fetches every original from
-  // Sanity when its on-disk cache is cold (fresh build / cleared `.next`) and
-  // can time out on a slow upstream, surfacing as a 400 resource error. That's
-  // an environmental/caching condition, not an app bug — CI always starts cold,
-  // so we tolerate it here. Uncaught exceptions (pageerror) stay strict.
+  // `/_next/image` re-fetches originals from Sanity on a cold cache and can time out,
+  // surfacing as a 400. CI always starts with a cold cache.
   /\/_next\/image/i,
 ]
 
-/** Collect uncaught exceptions and (non-ignored) console errors for a page. */
 export function trackErrors(page: Page): string[] {
   const errors: string[] = []
   page.on('pageerror', (err) => errors.push(`pageerror: ${err.message}`))
@@ -32,16 +26,10 @@ export function trackErrors(page: Page): string[] {
   return errors
 }
 
-/** Assert the page produced no uncaught exceptions or unexpected console errors. */
 export function expectErrorClean(errors: string[]): void {
   expect(errors, `unexpected page errors:\n${errors.join('\n')}`).toEqual([])
 }
 
-/**
- * Dismiss the cookie-consent banner if it's showing, via its Accept button.
- * Drives the real UI (accessible name) so it stays valid through a refactor;
- * used to clear the overlay before exercising other interactions.
- */
 export async function dismissCookies(page: Page): Promise<void> {
   const accept = page
     .getByRole('region', { name: /we use cookies/i })
@@ -52,12 +40,6 @@ export async function dismissCookies(page: Page): Promise<void> {
   }
 }
 
-/**
- * The href of the first link to a specific edition *page* (`/editions/{year}`),
- * ignoring the index (`/editions`) and event sub-routes (`/editions/{year}/
- * events/...`). Lets navigation tests click a deterministic target instead of a
- * DOM-order `.first()` that can land on a nav/index link. Null if none present.
- */
 export async function firstEditionHref(page: Page): Promise<string | null> {
   return page.locator('a[href]').evaluateAll((els) => {
     const hit = els
@@ -67,18 +49,13 @@ export async function firstEditionHref(page: Page): Promise<string | null> {
   })
 }
 
-/**
- * Past editions fold their program — filters *and* the event board — behind a
- * shared Collapsible ("Browse the full program"). Open it so the program
- * is interactable. A no-op on live/upcoming editions, which render expanded.
- */
+// Past editions fold the program behind a "Browse the full program" collapsible; live editions render it expanded.
 export async function openFullProgram(page: Page): Promise<void> {
   const toggle = page.getByRole('button', { name: /browse the full program/i }).first()
   const eventLink = page.locator('a[href*="/events/"]:visible').first()
 
-  // Cache Components can stream the Program after the document's load event.
-  // Wait for either an already-expanded program or its archive toggle instead
-  // of treating an immediate `isVisible() === false` as proof that no toggle exists.
+  // Cache Components can stream the Program after the load event, so an immediate
+  // `isVisible() === false` does not prove there is no toggle.
   await expect
     .poll(async () => {
       if (await eventLink.isVisible().catch(() => false)) return 'expanded'
@@ -93,12 +70,7 @@ export async function openFullProgram(page: Page): Promise<void> {
   }
 }
 
-/**
- * Find an edition whose page renders a program of events, by following the
- * `/editions/{year}` → `/editions/{year}/events/{slug}` route contract (ADR
- * 0015) rather than any markup. Returns the edition URL, or null if the dataset
- * has no edition with an announced program (program journeys then skip).
- */
+// Returns null when no edition has an announced program; program journeys then skip.
 export async function findEditionWithEvents(page: Page): Promise<string | null> {
   await page.goto('/editions')
   const years: string[] = await page
@@ -112,7 +84,6 @@ export async function findEditionWithEvents(page: Page): Promise<string | null> 
         ),
       ),
     )
-  // Cap the crawl — newest editions come first, so a program shows up fast.
   for (const url of years.slice(0, 6)) {
     await page.goto(url)
     if ((await page.locator('a[href*="/events/"]').count()) > 0) return url

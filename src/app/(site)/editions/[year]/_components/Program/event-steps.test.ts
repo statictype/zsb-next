@@ -8,8 +8,6 @@ import type { CalendarEvent, EventVenue } from '@/types/edition'
 const CFP = 'Combinatul Fondului Plastic'
 const SCOPE = editionProgramScope(2026)
 
-// Mirrors the factory in program-filters.test.ts — only the fields the step
-// derivation touches, with the venue stamped by the real roll-up rule.
 function ev(
   partial: Partial<Omit<CalendarEvent, 'venue'>> &
     Pick<CalendarEvent, 'key' | 'startDate'> & { venue?: Omit<EventVenue, 'rollUp'> },
@@ -26,8 +24,6 @@ function ev(
   }
 }
 
-// Deliberately shuffled: Sanity hands back the editor's array order, so the
-// derivation has to impose board order rather than trust the input.
 const events = [
   ev({ key: 'thu-late', startDate: '2026-04-16', startTime: '19:00' }),
   ev({ key: 'run-b', startDate: '2026-04-12', endDate: '2026-04-30' }),
@@ -36,7 +32,6 @@ const events = [
   ev({ key: 'wed', startDate: '2026-04-15' }),
 ]
 
-// Board order: the Ongoing runs by start date, then the day-by-day list.
 const ORDER = ['run-a', 'run-b', 'wed', 'thu-early', 'thu-late']
 
 describe('eventSteps', () => {

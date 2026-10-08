@@ -20,9 +20,6 @@ import type { ShareImage, VisitData } from '@/types/edition'
 
 export type { AboutView, PartnersView, PrivacyView } from '@/sanity/lib/staticPages-mappers'
 
-/** The visit page reshaped to what the route renders (ADR 0013): the venue
- *  section + merged FAQ derived here, with the metadata fields kept top-level so
- *  the singleton can still back `generateMetadata` (ZSB-66). */
 export interface VisitPageData {
   metaDescription: VisitPage['metaDescription']
   ogImage?: ShareImage
@@ -30,15 +27,7 @@ export interface VisitPageData {
   faq: FaqEntry[]
 }
 
-/**
- * Each fetcher follows the standard 3-layer pattern: caller resolves
- * perspective outside the cache boundary, fetcher caches the mapped
- * result. A fetcher returns null when its singleton is absent — the route turns
- * that into `notFound()` (a missing page singleton is a 404, not an empty
- * render). A present singleton is normalized into a *total* view-model by the
- * mappers in `staticPages-mappers.ts` (which stay dependency-free of the live
- * data layer, so their tests need no mocking) so the page is a pure renderer.
- */
+/** Mappers in `staticPages-mappers.ts` must not import the live data layer, so their tests need no mocks. */
 
 export async function getAboutPage(options: DynamicFetchOptions): Promise<AboutView | null> {
   'use cache'
