@@ -20,7 +20,7 @@ An edition theme keeps the curator's language (`#celălaltcorp`). An edition has
 
 One year of the event, modelled as `Edition` in `src/types/edition.ts`: hero, manifesto, theme and artists, credits, and an optional program. `hasProgram` gates the program section. A year without a program, such as the online-only 2021, renders a link to its external photo gallery instead (`EXTERNAL_GALLERY_BY_YEAR` in `edition-content.tsx`). Online-only is not a separate type.
 
-Every edition is an `edition` document in Sanity. `src/sanity/lib/editions.ts` is the gateway: `getEdition` fetches and maps one edition, `getEditionSummaries` returns every edition's summary. The route `src/app/(site)/editions/[year]/` renders the result.
+Every edition is an `edition` document in Sanity; [`docs/cms.md`](docs/cms.md) describes the fetching gateway.
 
 ### Edition status
 

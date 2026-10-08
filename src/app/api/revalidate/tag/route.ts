@@ -10,20 +10,7 @@ interface WebhookPayload {
   tags: string[]
 }
 
-/**
- * Sanity webhook target. Configure a GROQ-powered webhook in sanity.io/manage with:
- *
- *   Filter:     _type in ["edition", "artist", "work", "organization", "venue",
- *               "venueType", "eventType", "siteSettings", "homepage",
- *               "aboutPage", "partnersPage", "visitPage", "privacyPage",
- *               "pressPage", "pressAppearance", "pressRelease", "galeriaBeller"]
- *               (every document type in the schema; a missing type fires no webhook)
- *   Projection: { "tags": [_type, _type + ":" + _id] }
- *   Secret:     SANITY_REVALIDATE_SECRET (also set as a Vercel env var)
- *
- * The type-level tags only match cache entries because each cached fetcher
- * subscribes to them via its query's `tags` (see `queries.ts`).
- */
+/** Sanity webhook target. Filter, projection and secret are configured at sanity.io/manage; see docs/cms.md. */
 export async function POST(req: NextRequest) {
   try {
     const { isValidSignature, body } = await parseBody<WebhookPayload>(

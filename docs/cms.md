@@ -36,9 +36,6 @@ src/sanity/
     singleton.ts                  SINGLETON_TYPES and the structure helper
     presentation.ts               Document-to-URL mapping for the Presentation tool
     image.ts                      urlFor and image mappers
-src/app/api/
-  draft-mode/{enable,disable}     Presentation tool toggles draft mode
-  revalidate/tag                  Sanity webhook target
 ```
 
 ## Schema conventions
@@ -111,13 +108,7 @@ If a publish does not appear in production, check the webhook delivery log first
 
 ## Environment variables
 
-| Variable | Read by |
-|---|---|
-| `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `NEXT_PUBLIC_SANITY_API_VERSION` | `src/sanity/env.ts`; the app throws on import if one is missing |
-| `SANITY_API_READ_TOKEN` | `src/sanity/lib/token.ts`; draft mode and live content |
-| `SANITY_REVALIDATE_SECRET` | The revalidation webhook |
-| `SANITY_API_WRITE_TOKEN` | `scripts/` only |
-| `NEXT_PUBLIC_ZSB_TODAY` | `src/lib/today.ts`; local preview only |
+Listed in [`development.md`](development.md#environment-variables). `src/sanity/env.ts` and `src/sanity/lib/token.ts` throw on import if a required Sanity variable is missing.
 
 ## Editions
 
