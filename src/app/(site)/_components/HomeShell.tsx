@@ -10,7 +10,6 @@ import { EditionTheme } from '@/components/EditionTheme/EditionTheme'
 import { Figure } from '@/components/Figure/Figure'
 import { PartnerBadge } from '@/components/PartnerBadge/PartnerBadge'
 import { PartnerStrip } from '@/components/PartnerStrip/PartnerStrip'
-import { Badge } from '@/components/ui/Badge/Badge'
 import { Button } from '@/components/ui/Button/Button'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import { editionHref } from '@/lib/edition-href'
@@ -138,30 +137,9 @@ export function HomeShell({ view, editions, upcoming, featured, artistCount }: H
             </dl>
           </div>
           <ol className={styles.editionsWall}>
-            {list.map((edition) => {
-              const live = edition.status === 'live'
-              const theme = live ? (
-                <EditionTheme
-                  as="span"
-                  size="cell"
-                  interactive
-                  className={styles.editionThemeRow}
-                  theme={edition.theme}
-                  themeHighlight={edition.themeHighlight}
-                />
-              ) : (
-                <EditionTheme
-                  as="span"
-                  size="cell"
-                  muted
-                  accent="none"
-                  className={styles.editionThemeRow}
-                  theme={edition.theme}
-                  themeHighlight={edition.themeHighlight}
-                />
-              )
-              const body = (
-                <>
+            {list.map((edition) => (
+              <li key={edition.year}>
+                <Link className={styles.editionTile} href={edition.href}>
                   <div className={styles.editionPlate}>
                     <Figure
                       image={edition.thumbImage ?? edition.heroImage}
@@ -173,30 +151,23 @@ export function HomeShell({ view, editions, upcoming, featured, artistCount }: H
                     <Text as="span" variant="cardTitle">
                       <span className={styles.editionPrefix}>ZSB</span> {edition.year}
                     </Text>
-                    {theme}
+                    <EditionTheme
+                      as="span"
+                      size="cell"
+                      interactive
+                      className={styles.editionThemeRow}
+                      theme={edition.theme}
+                      themeHighlight={edition.themeHighlight}
+                    />
                     <span className={styles.editionLines}>
                       <Text as="span" variant="label">
-                        {live ? editionFactLine(edition) : editionDates(edition)}
+                        {editionFactLine(edition)}
                       </Text>
-                      {!live && <Badge>Coming soon</Badge>}
                     </span>
                   </div>
-                </>
-              )
-              return (
-                <li key={edition.year}>
-                  {live ? (
-                    <Link className={styles.editionTile} href={edition.href}>
-                      {body}
-                    </Link>
-                  ) : (
-                    <div className={styles.editionTile} aria-disabled="true">
-                      {body}
-                    </div>
-                  )}
-                </li>
-              )
-            })}
+                </Link>
+              </li>
+            ))}
           </ol>
         </div>
       </section>
@@ -226,11 +197,10 @@ function editionFactLine(edition: EditionSummary) {
 }
 
 function editionTotals(editions: EditionSummary[], artistCount: number) {
-  const live = editions.filter((edition) => edition.status === 'live')
   const sum = (kind: 'artists' | 'events') =>
-    live.reduce((total, edition) => total + factCount(edition, kind), 0)
+    editions.reduce((total, edition) => total + factCount(edition, kind), 0)
   return [
-    { label: 'Editions', value: live.length },
+    { label: 'Editions', value: editions.length },
     { label: 'Artists', value: artistCount },
     { label: 'Events', value: sum('events') },
   ]

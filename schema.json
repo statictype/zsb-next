@@ -4862,23 +4862,6 @@
         },
         "optional": false
       },
-      "status": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "union",
-          "of": [
-            {
-              "type": "string",
-              "value": "announced"
-            },
-            {
-              "type": "string",
-              "value": "live"
-            }
-          ]
-        },
-        "optional": false
-      },
       "theme": {
         "type": "objectAttribute",
         "value": {
@@ -4891,7 +4874,7 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "themeGloss": {
         "type": "objectAttribute",
@@ -4973,7 +4956,7 @@
             }
           }
         },
-        "optional": true
+        "optional": false
       },
       "thumbImage": {
         "type": "objectAttribute",
@@ -5039,25 +5022,25 @@
               "value": {
                 "type": "string"
               },
-              "optional": true
+              "optional": false
             },
             "highlight": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"
               },
-              "optional": true
+              "optional": false
             },
             "body": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"
               },
-              "optional": true
+              "optional": false
             }
           }
         },
-        "optional": true
+        "optional": false
       },
       "themeSection": {
         "type": "objectAttribute",

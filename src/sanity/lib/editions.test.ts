@@ -303,9 +303,11 @@ function rawEdition(fields: Record<string, unknown> = {}): RawEdition {
   return {
     year: 2026,
     theme: 'Theme',
+    themeHighlight: 'Theme',
     dateStart: '2026-05-10',
     dateEnd: '2026-05-20',
     heroImage: ASSET,
+    manifesto: { title: 'Forms that hold', highlight: 'hold', body: 'Body' },
     ...fields,
   } as unknown as RawEdition
 }
@@ -319,7 +321,7 @@ describe('mapEdition', () => {
     const edition = mapEdition(rawEdition())
     expect(edition.year).toBe(2026)
     expect(edition.dateLine).toBe('10–20 May 2026')
-    expect(edition.manifesto).toEqual({ title: '', highlight: '', body: '' })
+    expect(edition.manifesto).toEqual({ title: 'Forms that hold', highlight: 'hold', body: 'Body' })
     expect(edition.artists).toEqual([])
     expect(edition.credits.teamNames).toEqual([])
     expect(edition.events).toEqual([])
@@ -423,9 +425,9 @@ describe('event slug round trip — derive then resolve', () => {
 describe('edition gateway — composition over the summaries', () => {
   const OPTIONS = { perspective: 'published' as const }
   const summaries = [
-    rawSummary({ year: 2027, status: 'announced', dateStart: '2027-05-10', dateEnd: '2027-05-20' }),
-    rawSummary({ year: 2026, status: 'live' }),
-    rawSummary({ year: 2021, status: 'live', dateStart: null, dateEnd: null }),
+    rawSummary({ year: 2027, dateStart: '2027-05-10', dateEnd: '2027-05-20' }),
+    rawSummary({ year: 2026 }),
+    rawSummary({ year: 2021, dateStart: null, dateEnd: null }),
   ]
 
   const list = summaries.map(mapEditionSummary)
@@ -435,30 +437,33 @@ describe('edition gateway — composition over the summaries', () => {
     table.set(EDITION_SUMMARIES.query, () => summaries)
   })
 
-  it('sources featured events from the newest live edition, not the newest edition', async () => {
+  it('sources featured events from the newest edition', async () => {
     const fetched: unknown[] = []
     table.set(EDITION_BY_YEAR.query, (params) => {
       fetched.push(params?.year)
       return rawEdition({
-        year: 2026,
+        year: 2027,
         events: events(ev({ _key: 'a', featured: true }), ev({ _key: 'b' })),
       })
     })
     const featured = await getFeaturedEvents(list, OPTIONS)
-    expect(fetched).toEqual([2026])
-    expect(featured?.year).toBe(2026)
+    expect(fetched).toEqual([2027])
+    expect(featured?.year).toBe(2027)
     expect(featured?.events.map((e) => e.key)).toEqual(['a'])
   })
 
-  it('returns nothing when no edition is live, without fetching one', async () => {
-    const announced = [mapEditionSummary(rawSummary({ year: 2027, status: 'announced' }))]
+  it('returns nothing when there is no edition, without fetching one', async () => {
     table.set(EDITION_BY_YEAR.query, () => {
       throw new Error('must not fetch')
     })
-    expect(await getFeaturedEvents(announced, OPTIONS)).toBeUndefined()
+    expect(await getFeaturedEvents([], OPTIONS)).toBeUndefined()
   })
 
-  it('enumerates live years only as route params', async () => {
-    expect(await getAllEditionYearParams()).toEqual([{ year: '2026' }, { year: '2021' }])
+  it('enumerates every year as route params', async () => {
+    expect(await getAllEditionYearParams()).toEqual([
+      { year: '2027' },
+      { year: '2026' },
+      { year: '2021' },
+    ])
   })
 })

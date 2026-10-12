@@ -1,4 +1,4 @@
-import { Badge, Card, Flex, Spinner, Stack, Text } from '@sanity/ui'
+import { Card, Flex, Spinner, Stack, Text } from '@sanity/ui'
 import { useEffect, useState } from 'react'
 import { useClient, useFormValue } from 'sanity'
 import { IntentLink } from 'sanity/router'
@@ -7,11 +7,10 @@ import { apiVersion } from '@/sanity/env'
 interface ReferencingEdition {
   _id: string
   year: number | null
-  status: 'announced' | 'live' | null
 }
 
 const QUERY = `*[_type == "edition" && references($id) && !(_id in path("drafts.**"))]
-  | order(year desc){ _id, year, status }`
+  | order(year desc){ _id, year }`
 
 export function ArtistEditionsField() {
   const client = useClient({ apiVersion })
@@ -68,11 +67,6 @@ export function ArtistEditionsField() {
                 ZSB {edition.year ?? '—'}
               </IntentLink>
             </Text>
-            {edition.status ? (
-              <Badge tone={edition.status === 'live' ? 'positive' : 'caution'} fontSize={0}>
-                {edition.status === 'live' ? 'Live' : 'Announced'}
-              </Badge>
-            ) : null}
           </Flex>
         </Card>
       ))}

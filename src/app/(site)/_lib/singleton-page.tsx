@@ -85,7 +85,7 @@ const PAGES = {
   }),
   editions: defineSingleton({
     load: async (options) => ({
-      editions: (await getEditionSummaries(options)).filter((e) => e.status === 'live'),
+      editions: await getEditionSummaries(options),
     }),
     Shell: EditionsListShell,
     generateMetadata: async () =>

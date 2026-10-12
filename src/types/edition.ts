@@ -236,7 +236,6 @@ export interface EditionSummary {
   theme: string
   themeHighlight: string
   themeBody: string
-  status: 'announced' | 'live'
   href: string
   dateStart?: string
   dateLine: string

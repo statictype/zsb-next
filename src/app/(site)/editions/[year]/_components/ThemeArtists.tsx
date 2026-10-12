@@ -13,6 +13,7 @@ interface ThemeArtistsProps {
 
 export function ThemeArtists({ edition }: ThemeArtistsProps) {
   const { year, theme, artists, carousel } = edition
+  if (carousel.length === 0 && artists.length === 0) return null
 
   return (
     <section className={cx(section(), styles.section)}>

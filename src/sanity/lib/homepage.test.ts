@@ -33,8 +33,8 @@ describe('getHomeData', () => {
     table.clear()
     table.set(HOMEPAGE.query, () => ({ heroTitle: 'Hello' }))
     table.set(EDITION_SUMMARIES.query, () => [
-      summary({ year: 2027, status: 'announced', dateStart: '2027-05-10', dateEnd: '2027-05-20' }),
-      summary({ year: 2026, status: 'live' }),
+      summary({ year: 2027, dateStart: '2027-05-10', dateEnd: '2027-05-20' }),
+      summary({ year: 2026 }),
     ])
     table.set(EDITION_BY_YEAR.query, () => null)
     table.set(ARTIST_INDEX.query, () => [])

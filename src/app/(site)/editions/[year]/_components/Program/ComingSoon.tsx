@@ -8,7 +8,12 @@ export interface SocialLink {
   href: string
 }
 
-export function ComingSoon({ socials }: { socials: SocialLink[] }) {
+interface ComingSoonProps {
+  socials: SocialLink[]
+  artistsAnnounced: boolean
+}
+
+export function ComingSoon({ socials, artistsAnnounced }: ComingSoonProps) {
   return (
     <section className={section()} aria-labelledby="program-heading">
       <Container>
@@ -18,8 +23,9 @@ export function ComingSoon({ socials }: { socials: SocialLink[] }) {
           </SectionHeading>
           <Divider />
           <Text as="p" variant="lead" maxWidth="measure">
-            Talks, openings, exhibitions and workshops across the city are being finalised. The full
-            program lands here soon.
+            {artistsAnnounced
+              ? 'Talks, openings, exhibitions and workshops across the city are being finalised. The full program will be published here closer to the opening, so check back soon.'
+              : 'Talks, openings, exhibitions and workshops across the city are being finalised. The full program and the list of artists will be published here closer to the opening, so check back soon.'}
           </Text>
           {socials.length > 0 && (
             <Stack gap="md" alignItems="flex-start">

@@ -6,7 +6,7 @@ Website for Bucharest Sculpture Days (ZSB), an annual contemporary sculpture eve
 
 Content lives in one Sanity dataset. Pages are React Server Components that fetch it through a GROQ layer in `src/sanity/lib/`: each fetcher runs a query, then a mapper turns the result into the view-model the components render (for example `Edition` in `src/types/edition.ts`). Absent values are resolved in the mapper, so components receive total data.
 
-Pages are cached with Next.js `cacheComponents` and invalidated by a Sanity webhook, with `<SanityLive />` refreshing open tabs. Previewable routes split into a dynamic half that resolves draft mode and a cached half. [`docs/cms.md`](docs/cms.md) covers both, and [`CONTEXT.md`](CONTEXT.md) defines the domain terms: edition status, events and their URLs, Latest and Upcoming.
+Pages are cached with Next.js `cacheComponents` and invalidated by a Sanity webhook, with `<SanityLive />` refreshing open tabs. Previewable routes split into a dynamic half that resolves draft mode and a cached half. [`docs/cms.md`](docs/cms.md) covers both, and [`CONTEXT.md`](CONTEXT.md) defines the domain terms: editions and teasers, events and their URLs, Latest and Upcoming.
 
 `src/app/(beller)/` is a second root layout for a Romanian-language landing page, `/galeria-beller`, with its own Sanity singleton.
 
