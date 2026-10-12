@@ -1,8 +1,8 @@
-import type { GALERIA_BELLER_QUERY_RESULT } from '@/../sanity.types'
 import { artistHref } from '@/lib/artist-href'
 import { definedFields } from '@/lib/defined-fields'
 import { mapCredits, mapEvents } from '@/sanity/lib/editions-mappers'
 import { imageSize, type SanityImageField, toImageData, toShareImage } from '@/sanity/lib/image'
+import type { GALERIA_BELLER_QUERY_RESULT } from '@/sanity/types'
 import type { ArtistListItem } from '@/types/edition'
 import type { BellerFact, BellerImage, BellerPressKit, GaleriaBeller } from '@/types/galeria-beller'
 

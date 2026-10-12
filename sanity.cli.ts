@@ -9,11 +9,14 @@ export default defineCliConfig({
     ...(dataset ? { dataset } : {}),
   },
   autoUpdates: true,
+  schemaExtraction: {
+    path: './src/sanity/schema.json',
+  },
   typegen: {
     enabled: true,
     path: './src/**/*.{ts,tsx}',
-    schema: 'schema.json',
-    generates: './sanity.types.ts',
+    schema: './src/sanity/schema.json',
+    generates: './src/sanity/types.ts',
     overloadClientMethods: true,
   },
 })

@@ -1,6 +1,5 @@
 import 'server-only'
 
-import type { PRESS_APPEARANCES_QUERY_RESULT, PRESS_RELEASES_QUERY_RESULT } from '@/../sanity.types'
 import { type DynamicFetchOptions, queryData } from '@/sanity/lib/live'
 import { flattenKit, normalizePressPage, type PressPageView } from '@/sanity/lib/press-mappers'
 import {
@@ -9,6 +8,7 @@ import {
   PRESS_PAGE,
   PRESS_RELEASES,
 } from '@/sanity/lib/queries'
+import type { PRESS_APPEARANCES_QUERY_RESULT, PRESS_RELEASES_QUERY_RESULT } from '@/sanity/types'
 import type { MediaKitStripItem, PressAppearance } from '@/types/edition'
 
 export type { PressPageView } from '@/sanity/lib/press-mappers'

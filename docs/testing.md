@@ -13,7 +13,7 @@ Not tested: presentational components without logic, framework routing, live San
 
 ## Layout and naming
 
-Tests sit next to the source: `format-utils.test.ts` beside `format-utils.ts`. The extension selects the environment: `*.test.ts` runs in node, `*.test.tsx` in jsdom with `vitest.setup.ts`. Playwright specs are in `e2e/*.spec.ts`.
+Tests sit next to the source: `format-utils.test.ts` beside `format-utils.ts`. The extension selects the environment: `*.test.ts` runs in node, `*.test.tsx` in jsdom with `test/setup.ts`. Playwright specs are in `e2e/*.spec.ts`.
 
 ## Running
 
@@ -36,7 +36,7 @@ pnpm test:e2e                                 # Playwright
 - `server-only` and `client-only` resolve to `test/empty-module.ts`, because they throw outside the Next.js bundler.
 - `test.env` sets dummy Sanity variables, because `src/sanity/env.ts` throws when they are missing.
 - `src/sanity/lib/live.ts` calls `defineLive()` at import, which throws outside React Server Components. Tests of modules that import it, such as `seo.ts` and `staticPages.ts`, mock it with `vi.mock`.
-- Tests import `describe`, `it` and `expect` from `vitest`; there are no globals. jest-dom matchers load from `vitest.setup.ts`.
+- Tests import `describe`, `it` and `expect` from `vitest`; there are no globals. jest-dom matchers load from `test/setup.ts`.
 
 ## Playwright
 
@@ -49,7 +49,7 @@ pnpm test:e2e                                 # Playwright
 `.github/workflows/ci.yml` runs on pull requests and on pushes to `main`.
 
 1. `check`: `pnpm lint`, `pnpm format:check`, `pnpm test`.
-2. `build-e2e`: `pnpm typegen`, then a diff check that `sanity.types.ts` is unchanged, `pnpm build`, and `pnpm test:e2e`. The Sanity variables come from repository secrets, so the job fails without them.
+2. `build-e2e`: `pnpm typegen`, then a diff check that `src/sanity/types.ts` is unchanged, `pnpm build`, and `pnpm test:e2e`. The Sanity variables come from repository secrets, so the job fails without them.
 
 CI type-checks through `pnpm build`. Next.js generates the route types (`PageProps`) during `build` and `dev`, so `tsc --noEmit` alone fails on a fresh checkout until one of them has run.
 

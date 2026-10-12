@@ -3,30 +3,6 @@ import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
 import { afterEach, vi } from 'vitest'
 
-class ResizeObserverStub {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-}
-
-class IntersectionObserverStub {
-  readonly root = null
-  readonly rootMargin = '0px'
-  readonly thresholds = [0]
-
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-  takeRecords() {
-    return []
-  }
-}
-
-Object.defineProperty(globalThis, 'ResizeObserver', { value: ResizeObserverStub, writable: true })
-Object.defineProperty(globalThis, 'IntersectionObserver', {
-  value: IntersectionObserverStub,
-  writable: true,
-})
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
   value: vi.fn().mockImplementation((query: string) => ({
@@ -42,14 +18,6 @@ Object.defineProperty(window, 'matchMedia', {
 })
 Object.defineProperty(HTMLElement.prototype, 'scrollTo', { value: vi.fn(), writable: true })
 Object.defineProperty(HTMLElement.prototype, 'scrollBy', { value: vi.fn(), writable: true })
-Object.defineProperty(HTMLElement.prototype, 'setPointerCapture', {
-  value: vi.fn(),
-  writable: true,
-})
-Object.defineProperty(HTMLElement.prototype, 'releasePointerCapture', {
-  value: vi.fn(),
-  writable: true,
-})
 
 const dialogOpeners = new WeakMap<HTMLDialogElement, Element | null>()
 

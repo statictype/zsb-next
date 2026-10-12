@@ -40,7 +40,7 @@ The site is at `http://localhost:3000` and the Studio at `http://localhost:3000/
 | `pnpm lint` / `pnpm lint:fix` | ESLint on `src/` |
 | `pnpm format` / `pnpm format:check` | Biome formatter on `src/` |
 | `pnpm test`, `pnpm test:e2e` | Vitest and Playwright; see [`testing.md`](testing.md) |
-| `pnpm typegen` | Regenerate `schema.json` and `sanity.types.ts` after schema or GROQ changes |
+| `pnpm typegen` | Regenerate `src/sanity/schema.json` and `src/sanity/types.ts` after schema or GROQ changes |
 | `pnpm images:unused` | List files in `public/img/` that nothing references (`images:unused:json` for JSON) |
 
 Tests: [`testing.md`](testing.md). Sanity schema, scripts and webhook setup: [`cms.md`](cms.md).
