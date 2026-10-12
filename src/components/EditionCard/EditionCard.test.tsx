@@ -16,7 +16,6 @@ describe('EditionCard', () => {
     ],
     heroImage: { src: '/img/hero.jpg', alt: 'Hero' },
     href: '/editions/2026',
-    status: 'live',
     dateLine: '10–20 May',
   }
 

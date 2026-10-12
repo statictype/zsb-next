@@ -93,10 +93,6 @@ export const editionsNav = sva({
           boxShadow: 'litEdge',
         },
       },
-      announced: {
-        cell: { cursor: 'default' },
-        year: { color: 'body' },
-      },
     },
   },
   defaultVariants: { status: 'live' },

@@ -41,9 +41,9 @@ ZSB is a platform for sculpture, with emphasis on the artists. The facts behind 
 
 ## Operating Context
 
-- Editions are annual. The edition page goes live about a month before the event; the event lasts about a month.
+- Editions are annual. An edition page can be published early as a teaser with only the hero and manifesto; the full program goes up about a month before the event. The event lasts about a month.
 - All content lives in Sanity and is edited in the Studio embedded at `/studio`. One production dataset.
-- Domain vocabulary is defined in `CONTEXT.md`: Edition, edition status (`announced` / `live`), Event, Venue, Event type / Venue type, Program, Ongoing, Latest & Upcoming.
+- Domain vocabulary is defined in `CONTEXT.md`: Edition, Teaser, Event, Venue, Event type / Venue type, Program, Ongoing, Latest & Upcoming.
 - Production cache invalidation runs through a Sanity webhook.
 
 ## Capabilities and Constraints

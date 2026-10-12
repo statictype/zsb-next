@@ -203,7 +203,7 @@ export const ARTISTS = { query: ARTISTS_QUERY, tags: ['artist'] }
 
 const ARTIST_INDEX_QUERY = defineQuery(`
   *[_type == "artist" && defined(slug.current)
-    && _id in *[_type == "edition" && status == "live"].artists[]._ref]
+    && _id in *[_type == "edition"].artists[]._ref]
     | order(coalesce(sortName, name) asc){ _id, name }
 `)
 
@@ -213,7 +213,7 @@ const ARTIST_CLOUD_QUERY = defineQuery(`
   {
     "artists": *[_type == "artist" && defined(slug.current)]
       | order(coalesce(sortName, name) asc){ _id, name },
-    "editions": *[_type == "edition" && status == "live" && defined(year)]{
+    "editions": *[_type == "edition" && defined(year)]{
       year,
       "refs": artists[]._ref
     }
@@ -252,7 +252,7 @@ export const ARTIST_PAGE_SLUGS = { query: ARTIST_PAGE_SLUGS_QUERY, tags: ['artis
 
 const SITEMAP_QUERY = defineQuery(`
   {
-    "editions": *[_type == "edition" && defined(year) && status == "live"]
+    "editions": *[_type == "edition" && defined(year)]
       | order(year desc){ year, _updatedAt },
     "pages": *[_id in ["homepage", "aboutPage", "visitPage", "partnersPage", "pressPage", "privacyPage", "galeriaBeller"]]{
       _id,
@@ -284,7 +284,6 @@ const EDITION_SUMMARIES_QUERY = defineQuery(`
     theme,
     themeHighlight,
     "themeBody": themeSection.body,
-    status,
     dateStart,
     dateEnd,
     hasProgram,
@@ -299,7 +298,7 @@ const EDITION_SUMMARIES_QUERY = defineQuery(`
 export const EDITION_SUMMARIES = { query: EDITION_SUMMARIES_QUERY, tags: ['edition'] }
 
 const EDITION_BY_YEAR_QUERY = defineQuery(`
-  *[_type == "edition" && year == $year && status == "live"][0] {
+  *[_type == "edition" && year == $year][0] {
     _id,
     year,
     theme,

@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
 }
 
 /**
- * Re-fetches the pages composed from many document types, plus every live
+ * Re-fetches the pages composed from many document types, plus every
  * edition page when an edition changed. Bodies are read to completion so the
  * render that refills the cache is not aborted. Runs inside `after()`.
  */
@@ -49,9 +49,7 @@ async function warmAffectedPages(origin: string, tags: string[]) {
     const paths = ['/', '/visit', '/editions', GALERIA_BELLER_PATH]
     if (tags.some((tag) => tag === 'edition' || tag.startsWith('edition:'))) {
       const rows = await client.fetch(EDITION_SUMMARIES.query)
-      for (const row of rows) {
-        if (row.status === 'live') paths.push(editionHref(row.year))
-      }
+      for (const row of rows) paths.push(editionHref(row.year))
     }
     await Promise.allSettled(
       paths.map(async (path) => {

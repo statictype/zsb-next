@@ -20,22 +20,17 @@ An edition theme keeps the curator's language (`#celălaltcorp`). An edition has
 
 One year of the event, modelled as `Edition` in `src/types/edition.ts`: hero, manifesto, theme and artists, credits, and an optional program. `hasProgram` gates the program section. A year without a program, such as the online-only 2021, renders a link to its external photo gallery instead (`EXTERNAL_GALLERY_BY_YEAR` in `edition-content.tsx`). Online-only is not a separate type.
 
-Every edition is an `edition` document in Sanity; [`docs/cms.md`](docs/cms.md) describes the fetching gateway.
+Every edition is an `edition` document in Sanity; [`docs/cms.md`](docs/cms.md) describes the fetching gateway. A published edition document has a page at `/editions/YYYY` and links from the homepage and the editions nav. There is no separate status.
 
-### Edition status
+### Teaser
 
-`status` is `'announced'` or `'live'`.
-
-- An announced edition has a theme but no page yet. The homepage editions list shows it as a "Coming soon" row without a link.
-- A live edition has a viewable `/editions/YYYY` page and appears as a link. Curators set it to live when the program is final.
-
-`live` is distinct from Sanity's own published and draft states. A document can be published while its edition is announced. Every reachability check tests `status == "live"`, so an unknown value is treated as not linkable.
+An edition published before its program and artists are final. It requires only the year, theme, theme highlight, hero image and manifesto. Its page shows the hero and manifesto, then the program section's coming-soon block, which asks visitors to check back for the program and, while no artists are listed, the artist list.
 
 ## Artist
 
 A person who has shown work at the event, stored once as an `artist` document and referenced from `edition.artists`. An artist's editions are read back through the reverse reference (`ArtistEditionsField` in the Studio).
 
-An artist is public when a live edition lists them. `ARTIST_INDEX_QUERY` selects artists whose `_id` is referenced by a live edition, so an artist listed only on an announced edition does not appear until that edition goes live. The `/artists` table and the homepage banner's artist count use the same set. The query subscribes to the `edition` tag as well as `artist`.
+An artist is public when a published edition lists them. `ARTIST_INDEX_QUERY` selects artists whose `_id` is referenced by an edition. The `/artists` table and the homepage banner's artist count use the same set. The query subscribes to the `edition` tag as well as `artist`.
 
 The "N editions" figure next to those artists is `EDITIONS_HELD` in `src/lib/constants.ts`. It counts editions that have taken place and is updated by hand after an edition runs.
 
@@ -79,7 +74,7 @@ Two derived editions. Latest is the most recent edition that has taken place. Up
 
 Each surface chooses what to show:
 
-- The homepage editions list shows a link for `live` editions and a "Coming soon" row for any other status.
+- The homepage editions list links every edition.
 - The home hero leads with Latest or with Upcoming, switched in the homepage document. When Upcoming leads, Latest appears as a compact secondary block.
-- Homepage featured events are the events marked featured on the newest live edition, with past events hidden. The edition must be live because an announced edition's page returns 404.
+- Homepage featured events are the events marked featured on the newest edition, with past events hidden. A teaser has no events, so the homepage shows none while the newest edition is a teaser.
 - An edition's program shows the day-by-day list when the edition has events, and a coming-soon block otherwise. A finished edition shows a recap with social links and a collapsed archive.

@@ -42,11 +42,10 @@ export const homepage = defineType({
     defineField({
       name: 'heroCtaEdition',
       title: 'CTA target — edition',
-      description: 'Which edition the CTA links to. Usually the most recent live one.',
+      description: 'Which edition the CTA links to. Usually the most recent one.',
       type: 'reference',
       to: [{ type: 'edition' }],
       group: 'hero',
-      options: { filter: 'status == "live"' },
       validation: (rule) =>
         rule.custom((value, context) => {
           const label = (context.parent as { heroCtaLabel?: string } | undefined)?.heroCtaLabel

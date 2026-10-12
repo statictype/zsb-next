@@ -13,15 +13,11 @@ const styles = editionsNav()
 const STATUS_BADGE = {
   live: null,
   current: 'Viewing',
-  announced: 'Soon',
 } as const
 
 type CellStatus = keyof typeof STATUS_BADGE
 
-export type EditionEntry = Pick<
-  EditionSummary,
-  'year' | 'theme' | 'themeHighlight' | 'status' | 'href'
->
+export type EditionEntry = Pick<EditionSummary, 'year' | 'theme' | 'themeHighlight' | 'href'>
 
 // Also mounted under `editions/[year]/@modal/(.)events/[slug]`, where the pathname is below the edition's.
 function isSectionActive(pathname: string, href: string): boolean {
@@ -42,11 +38,7 @@ export function EditionsNavBandList({
         <div className={styles.grid}>
           {editions.map((edition) => {
             const status: CellStatus =
-              edition.status !== 'live'
-                ? 'announced'
-                : pathname !== null && isSectionActive(pathname, edition.href)
-                  ? 'current'
-                  : 'live'
+              pathname !== null && isSectionActive(pathname, edition.href) ? 'current' : 'live'
             const statusBadge = STATUS_BADGE[status]
             const {
               cell,
@@ -73,7 +65,7 @@ export function EditionsNavBandList({
                     </span>
                   </p>
                   {statusBadge ? (
-                    <Badge tone={status === 'announced' ? 'muted' : 'highlight'} className={tag}>
+                    <Badge tone="highlight" className={tag}>
                       {statusBadge}
                     </Badge>
                   ) : null}
@@ -84,8 +76,6 @@ export function EditionsNavBandList({
                       as="span"
                       size="cell"
                       interactive={rolls}
-                      muted={status === 'announced'}
-                      accent={status === 'announced' ? 'none' : 'highlight'}
                       theme={edition.theme}
                       themeHighlight={edition.themeHighlight}
                       className={themeClass}
@@ -105,7 +95,7 @@ export function EditionsNavBandList({
                 </p>
               </>
             )
-            return status !== 'announced' ? (
+            return (
               <Link
                 key={edition.year}
                 href={edition.href}
@@ -114,10 +104,6 @@ export function EditionsNavBandList({
               >
                 {body}
               </Link>
-            ) : (
-              <div key={edition.year} className={cell}>
-                {body}
-              </div>
             )
           })}
         </div>

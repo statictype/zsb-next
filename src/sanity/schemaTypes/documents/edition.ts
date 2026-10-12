@@ -5,15 +5,6 @@ import { metaDescriptionField } from '@/sanity/schemaTypes/shared/metaDescriptio
 import { ogImageField } from '@/sanity/schemaTypes/shared/ogImageField'
 import { isSubstringOf } from '@/sanity/schemaTypes/shared/substringValidator'
 
-function requiredWhenLive(value: unknown, context: { document?: unknown }): true | string {
-  const status = (context.document as { status?: string } | undefined)?.status
-  if (status !== 'live') return true
-  if (value === undefined || value === null) return 'Required when status is Live'
-  if (typeof value === 'string' && !value.trim()) return 'Required when status is Live'
-  if (Array.isArray(value) && value.length === 0) return 'Required when status is Live'
-  return true
-}
-
 export const edition = defineType({
   name: 'edition',
   title: 'Edition',
@@ -39,23 +30,6 @@ export const edition = defineType({
       validation: (rule) => rule.required().integer().min(2021).max(2100),
     }),
     defineField({
-      name: 'status',
-      title: 'Status',
-      description:
-        'Announced editions show on the homepage with a "Coming soon" badge instead of a link. Switch to Live once the edition page is ready and should be reachable. ("Live" is distinct from Sanity\'s own publish/draft state — a published document can still be an Announced edition.)',
-      type: 'string',
-      group: 'hero',
-      options: {
-        list: [
-          { title: 'Announced', value: 'announced' },
-          { title: 'Live', value: 'live' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'announced',
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
       name: 'theme',
       title: 'Theme',
       description: 'Hashtag for the edition, e.g. "#celălaltcorp"',
@@ -69,7 +43,7 @@ export const edition = defineType({
       description: 'Substring of the theme to emphasize visually',
       type: 'string',
       group: 'hero',
-      validation: (rule) => rule.custom(requiredWhenLive).custom(isSubstringOf('theme', 'theme')),
+      validation: (rule) => rule.required().custom(isSubstringOf('theme', 'theme')),
     }),
     defineField({
       name: 'themeGloss',
@@ -85,7 +59,6 @@ export const edition = defineType({
       type: 'date',
       group: 'hero',
       options: { dateFormat: 'DD MMMM YYYY' },
-      validation: (rule) => rule.custom(requiredWhenLive),
     }),
     defineField({
       name: 'dateEnd',
@@ -94,7 +67,7 @@ export const edition = defineType({
       group: 'hero',
       options: { dateFormat: 'DD MMMM YYYY' },
       validation: (rule) =>
-        rule.custom(requiredWhenLive).custom((end, context) => {
+        rule.custom((end, context) => {
           const start = (context.parent as { dateStart?: string } | undefined)?.dateStart
           if (typeof end === 'string' && typeof start === 'string' && end < start) {
             return 'End date must be on or after the start date'
@@ -108,14 +81,13 @@ export const edition = defineType({
       description: 'Venue shown after the dates, e.g. "Combinatul Fondului Plastic"',
       type: 'string',
       group: 'hero',
-      validation: (rule) => rule.custom(requiredWhenLive),
     }),
     imageFieldWithAlt({
       name: 'heroImage',
       title: 'Hero image',
       group: 'hero',
       altNoun: 'a hero image',
-      validation: (rule) => rule.custom(requiredWhenLive),
+      validation: (rule) => rule.required(),
     }),
     imageFieldWithAlt({
       name: 'thumbImage',
@@ -130,28 +102,28 @@ export const edition = defineType({
       title: 'Manifesto',
       type: 'object',
       group: 'manifesto',
-      validation: (rule) => rule.custom(requiredWhenLive),
+      validation: (rule) => rule.required(),
       fields: [
         defineField({
           name: 'title',
           title: 'Title',
           description: 'Short manifesto phrase, e.g. "Forms that hold, not dominate"',
           type: 'string',
-          validation: (rule) => rule.custom(requiredWhenLive),
+          validation: (rule) => rule.required(),
         }),
         defineField({
           name: 'highlight',
           title: 'Highlight',
           description: 'Substring of the title to emphasize (may also be appended text)',
           type: 'string',
-          validation: (rule) => rule.custom(requiredWhenLive),
+          validation: (rule) => rule.required(),
         }),
         defineField({
           name: 'body',
           title: 'Body',
           type: 'text',
           rows: 6,
-          validation: (rule) => rule.custom(requiredWhenLive),
+          validation: (rule) => rule.required(),
         }),
       ],
     }),
@@ -161,7 +133,6 @@ export const edition = defineType({
       title: 'Theme section',
       type: 'object',
       group: 'theme',
-      validation: (rule) => rule.custom(requiredWhenLive),
       fields: [
         defineField({
           name: 'body',
@@ -169,7 +140,6 @@ export const edition = defineType({
           description: 'Longer prose for the theme section. Renders as one paragraph.',
           type: 'text',
           rows: 8,
-          validation: (rule) => rule.custom(requiredWhenLive),
         }),
       ],
     }),
@@ -180,7 +150,7 @@ export const edition = defineType({
       type: 'array',
       group: 'artists',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'artist' }] })],
-      validation: (rule) => rule.custom(requiredWhenLive).unique(),
+      validation: (rule) => rule.unique(),
     }),
 
     defineField({
@@ -280,7 +250,6 @@ export const edition = defineType({
         defineArrayMember({ type: 'creditOrgList' }),
         defineArrayMember({ type: 'creditText' }),
       ],
-      validation: (rule) => rule.custom(requiredWhenLive),
     }),
     ogImageField({ group: 'social' }),
     metaDescriptionField({ group: 'social' }),

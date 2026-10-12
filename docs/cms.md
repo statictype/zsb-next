@@ -14,7 +14,7 @@ Content is stored in Sanity. The Studio is embedded in this app at `/studio`, so
 | Footer contact details and social links | Singleton `siteSettings` |
 | `/galeria-beller` (Romanian landing page) | Singleton `galeriaBeller` |
 | Artist profile works | `work` documents |
-| Homepage editions list | Derived from `edition` documents and their `status` |
+| Homepage editions list | Derived from `edition` documents |
 | Footer and navigation labels | Hard-coded in `Footer.tsx` and `Navigation.tsx` |
 
 ## Files
@@ -92,7 +92,7 @@ Each cached fetch carries two kinds of tag:
 - Sync tags, added by `sanityFetch`, which `<SanityLive />` uses for open tabs.
 - Type tags, from the `tags` array exported with each query in `queries.ts`. A query lists every document type it reads, including types reached through `->`. The webhook matches only these. A query missing a type tag is never invalidated by publishes of that type.
 
-The webhook target `/api/revalidate/tag` verifies the signature with `SANITY_REVALIDATE_SECRET`, calls `revalidateTag(tag, { expire: 0 })` for each tag in the `{ tags: string[] }` body, then fetches `/`, `/visit`, `/editions`, `/galeria-beller` and, if an edition changed, each live edition page, so the next visitor gets a cache hit. It returns 401 for a bad signature and 400 for a missing `tags` array.
+The webhook target `/api/revalidate/tag` verifies the signature with `SANITY_REVALIDATE_SECRET`, calls `revalidateTag(tag, { expire: 0 })` for each tag in the `{ tags: string[] }` body, then fetches `/`, `/visit`, `/editions`, `/galeria-beller` and, if an edition changed, each edition page, so the next visitor gets a cache hit. It returns 401 for a bad signature and 400 for a missing `tags` array.
 
 Configure the webhook at sanity.io/manage under API, Webhooks:
 
@@ -112,7 +112,7 @@ Listed in [`development.md`](development.md#environment-variables). `src/sanity/
 
 ## Editions
 
-`getEdition(year, options)` and `getEditionSummaries(options)` in `src/sanity/lib/editions.ts` are the gateway. The live-year list, the homepage list, archive cards, and the Latest and Upcoming derivation read the summaries. A new year is an `edition` document; no code change is needed.
+`getEdition(year, options)` and `getEditionSummaries(options)` in `src/sanity/lib/editions.ts` are the gateway. The year list, the homepage list, archive cards, and the Latest and Upcoming derivation read the summaries. A new year is an `edition` document; no code change is needed.
 
 Event URL slugs come from `deriveEventSlugs` in `editions-mappers.ts`. An editor-supplied `slug` wins. Otherwise the slug is the start date, the venue slug (or slugified name) and the first five words of the event name. Duplicates within an edition get `-2`, `-3`, and so on. Routes read the slug stamped by `mapEvents` and do not recompute it.
 

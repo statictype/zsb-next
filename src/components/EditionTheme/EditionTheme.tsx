@@ -16,10 +16,6 @@ interface EditionThemeProps {
 
   interactive?: boolean
 
-  accent?: 'highlight' | 'none'
-
-  muted?: boolean
-
   className?: string | undefined
 }
 
@@ -30,11 +26,9 @@ export function EditionTheme({
   as: Tag = 'h2',
   size,
   interactive = false,
-  accent = 'highlight',
-  muted = false,
   className,
 }: EditionThemeProps) {
-  const styles = editionTheme({ size, interactive, accent, muted })
+  const styles = editionTheme({ size, interactive })
   return (
     <Tag className={cx(styles.heading, className)}>
       {/* The space keeps the accessible name from fusing lead and theme. */}

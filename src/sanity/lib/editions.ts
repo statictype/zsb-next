@@ -31,14 +31,14 @@ export interface FeaturedEvents {
   events: CalendarEvent[]
 }
 
-/** Featured events of the newest live edition; `undefined` when none is live or none is marked. */
+/** Featured events of the newest edition; `undefined` when there is none or none is marked. */
 export async function getFeaturedEvents(
   list: EditionSummary[],
   options: DynamicFetchOptions,
 ): Promise<FeaturedEvents | undefined> {
-  const newestLive = list.find((e) => e.status === 'live')
-  if (!newestLive) return undefined
-  const edition = await getEdition(newestLive.year, options)
+  const newest = list[0]
+  if (!newest) return undefined
+  const edition = await getEdition(newest.year, options)
   if (!edition) return undefined
   const featured = edition.events.filter((e) => e.featured)
   return featured.length ? { year: edition.year, events: featured } : undefined
@@ -47,7 +47,7 @@ export async function getFeaturedEvents(
 export async function getAllEditionYearParams(): Promise<{ year: string }[]> {
   'use cache'
   const list = await getEditionSummaries(PUBLISHED)
-  return list.filter((e) => e.status === 'live').map((e) => ({ year: String(e.year) }))
+  return list.map((e) => ({ year: String(e.year) }))
 }
 
 /** Reads the slugs `mapEvents` stamped on the cached per-year editions the pages prerender from. */

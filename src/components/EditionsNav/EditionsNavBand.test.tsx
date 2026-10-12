@@ -7,21 +7,18 @@ const editions: EditionEntry[] = [
     year: 2027,
     theme: 'open field',
     themeHighlight: 'field',
-    status: 'announced',
     href: '/editions/2027',
   },
   {
     year: 2026,
     theme: 'the weight of light',
     themeHighlight: 'light',
-    status: 'live',
     href: '/editions/2026',
   },
   {
     year: 2025,
     theme: 'soft ground',
     themeHighlight: 'ground',
-    status: 'live',
     href: '/editions/2025',
   },
 ]
@@ -57,15 +54,7 @@ describe('EditionsNavBandList', () => {
   it('renders without current state when the pathname is unknown', () => {
     render(<EditionsNavBandList editions={editions} pathname={null} />)
 
-    expect(screen.getAllByRole('link')).toHaveLength(2)
+    expect(screen.getAllByRole('link')).toHaveLength(3)
     expect(screen.queryByText('Viewing')).toBeNull()
-  })
-
-  it('renders announced editions as inert "Soon" cells', () => {
-    render(<EditionsNavBandList editions={editions} pathname="/editions/2026" />)
-
-    expect(screen.getByText('Soon')).toBeInTheDocument()
-    expect(screen.queryByRole('link', { name: /ZSB 2027/ })).toBeNull()
-    expect(screen.getByText('field')).toBeInTheDocument()
   })
 })

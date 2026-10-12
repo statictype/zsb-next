@@ -243,9 +243,8 @@ export function mapEditionSummary(raw: EDITION_SUMMARIES_QUERY_RESULT[number]): 
   return definedFields({
     year: raw.year,
     theme: raw.theme,
-    themeHighlight: raw.themeHighlight ?? '',
+    themeHighlight: raw.themeHighlight,
     themeBody: raw.themeBody ?? '',
-    status: raw.status === 'live' ? ('live' as const) : ('announced' as const),
     href: editionHref(raw.year),
     dateStart: raw.dateStart ?? undefined,
     dateLine: composeDateLine(raw),
@@ -260,8 +259,6 @@ export function mapEditionSummary(raw: EDITION_SUMMARIES_QUERY_RESULT[number]): 
   })
 }
 
-// TypeGen marks these nullable (optional for `upcoming` editions). EDITION_BY_YEAR_QUERY
-// returns only `published` editions, where they are required.
 export function mapEdition(raw: SanityEdition): Edition {
   const dateRange = composeDateRange(raw)
   const artists = raw.artists ?? []
@@ -269,7 +266,7 @@ export function mapEdition(raw: SanityEdition): Edition {
   return definedFields({
     year: raw.year,
     theme: raw.theme,
-    themeHighlight: raw.themeHighlight ?? '',
+    themeHighlight: raw.themeHighlight,
     themeGloss: raw.themeGloss || undefined,
     dateRange,
     dateLine: composeDateLine(raw),
@@ -281,9 +278,9 @@ export function mapEdition(raw: SanityEdition): Edition {
     ogImage: toImageData(raw.ogImage),
     metaDescription: raw.metaDescription,
     manifesto: {
-      title: raw.manifesto?.title ?? '',
-      highlight: raw.manifesto?.highlight ?? '',
-      body: raw.manifesto?.body ?? '',
+      title: raw.manifesto.title,
+      highlight: raw.manifesto.highlight,
+      body: raw.manifesto.body,
     },
     hasProgram: raw.hasProgram ?? true,
     artists,

@@ -33,20 +33,9 @@ export const editionTheme = sva({
       },
     },
     interactive: {
-      false: {},
+      false: { highlight: { color: 'highlight' } },
       true: { highlight: { 'a:hover &, a:focus-visible &': { color: 'action' } } },
     },
-    accent: {
-      highlight: {},
-      none: {},
-    },
-    muted: {
-      true: { heading: { color: 'muted' } },
-      false: {},
-    },
   },
-  compoundVariants: [
-    { interactive: false, accent: 'highlight', css: { highlight: { color: 'highlight' } } },
-  ],
-  defaultVariants: { interactive: false, accent: 'highlight', muted: false },
+  defaultVariants: { interactive: false },
 })

@@ -71,7 +71,7 @@ export async function CachedEdition({
             <Program scope={editionProgramScope(edition.year)} events={events} />
           </Suspense>
         ) : (
-          <ComingSoon socials={socials} />
+          <ComingSoon socials={socials} artistsAnnounced={edition.artists.length > 0} />
         ))}
 
       {externalGallery && <ExternalGallery gallery={externalGallery} />}
