@@ -76,5 +76,5 @@ Each surface chooses what to show:
 
 - The homepage editions list links every edition.
 - The home hero leads with Latest or with Upcoming, switched in the homepage document. When Upcoming leads, Latest appears as a compact secondary block.
-- Homepage featured events are the events marked featured on the newest edition, with past events hidden. A teaser has no events, so the homepage shows none while the newest edition is a teaser.
+- Homepage featured events are the events marked featured on the newest edition, with past events hidden.
 - An edition's program shows the day-by-day list when the edition has events, and a coming-soon block otherwise. A finished edition shows a recap with social links and a collapsed archive.
