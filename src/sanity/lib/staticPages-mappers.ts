@@ -1,13 +1,13 @@
+import { definedFields } from '@/lib/defined-fields'
+import type { FaqEntry } from '@/lib/seo'
+import { mapCarousel } from '@/sanity/lib/carousel'
+import { toImageData, toShareImage } from '@/sanity/lib/image'
 import type {
   ABOUT_PAGE_QUERY_RESULT,
   PARTNERS_PAGE_QUERY_RESULT,
   PRIVACY_PAGE_QUERY_RESULT,
   VISIT_PAGE_QUERY_RESULT,
-} from '@/../sanity.types'
-import { definedFields } from '@/lib/defined-fields'
-import type { FaqEntry } from '@/lib/seo'
-import { mapCarousel } from '@/sanity/lib/carousel'
-import { toImageData, toShareImage } from '@/sanity/lib/image'
+} from '@/sanity/types'
 import type {
   Amenity,
   CarouselSlide,

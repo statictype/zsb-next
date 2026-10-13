@@ -1,13 +1,13 @@
 import type { PortableTextBlock } from '@portabletext/react'
+import { ONLINE_EDITION_YEARS } from '@/lib/constants'
+import { definedFields } from '@/lib/defined-fields'
+import { imageSize, toImageData } from '@/sanity/lib/image'
 import type {
   ARTIST_CLOUD_QUERY_RESULT,
   ARTIST_PAGE_QUERY_RESULT,
   LocaleBlock,
   LocaleString,
-} from '@/../sanity.types'
-import { ONLINE_EDITION_YEARS } from '@/lib/constants'
-import { definedFields } from '@/lib/defined-fields'
-import { imageSize, toImageData } from '@/sanity/lib/image'
+} from '@/sanity/types'
 import type { ArtistCloud, ArtistPage, ArtistTier, Bilingual, WorkImage } from '@/types/edition'
 
 const TIERS = [1, 2, 3, 4, 5] as const satisfies readonly ArtistTier[]

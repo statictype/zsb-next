@@ -1,6 +1,6 @@
-import type { EDITIONS_PRESS_KIT_QUERY_RESULT, PRESS_PAGE_QUERY_RESULT } from '@/../sanity.types'
 import { definedFields } from '@/lib/defined-fields'
 import { toShareImage } from '@/sanity/lib/image'
+import type { EDITIONS_PRESS_KIT_QUERY_RESULT, PRESS_PAGE_QUERY_RESULT } from '@/sanity/types'
 import type { MediaKitStripItem, ShareImage } from '@/types/edition'
 
 type PressPageRaw = NonNullable<PRESS_PAGE_QUERY_RESULT>

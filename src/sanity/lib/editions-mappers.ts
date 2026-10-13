@@ -1,8 +1,4 @@
 import type { SanityImageSource } from '@sanity/image-url'
-import type {
-  EDITION_BY_YEAR_QUERY_RESULT,
-  EDITION_SUMMARIES_QUERY_RESULT,
-} from '@/../sanity.types'
 import { definedFields } from '@/lib/defined-fields'
 import { composeDateLine, composeDateRange, composeDateSpan, dayToken } from '@/lib/edition-dates'
 import { editionHref } from '@/lib/edition-href'
@@ -10,6 +6,7 @@ import { slugify } from '@/lib/slugify'
 import { rollUpVenue } from '@/lib/venues'
 import { mapCarousel } from '@/sanity/lib/carousel'
 import { requireImageData, type SanityImageField, toImageData, urlFor } from '@/sanity/lib/image'
+import type { EDITION_BY_YEAR_QUERY_RESULT, EDITION_SUMMARIES_QUERY_RESULT } from '@/sanity/types'
 import type {
   CalendarEvent,
   CreditGroup,

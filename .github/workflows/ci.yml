@@ -43,9 +43,9 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm typegen
-      - run: pnpm exec biome check --write sanity.types.ts
+      - run: pnpm exec biome check --write src/sanity/types.ts
       - name: Committed types match the schema
-        run: git diff --exit-code sanity.types.ts
+        run: git diff --exit-code src/sanity/types.ts
       - run: pnpm build
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:e2e
