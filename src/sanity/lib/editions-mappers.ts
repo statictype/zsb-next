@@ -219,12 +219,12 @@ export function mapCredits(rows: SanityEdition['credits']): EditionCredits {
 
 export function editionFacts({
   dates,
-  venue,
+  venue = '',
   artistCount,
   eventCount,
 }: {
   dates: string
-  venue: string
+  venue?: string
   artistCount: number
   eventCount: number
 }): EditionFact[] {
@@ -247,7 +247,6 @@ export function mapEditionSummary(raw: EDITION_SUMMARIES_QUERY_RESULT[number]): 
     dateLine: composeDateLine(raw),
     facts: editionFacts({
       dates: composeDateSpan(raw),
-      venue: raw.hasProgram === false ? (raw.venueLine ?? '') : '',
       artistCount: raw.artistCount ?? 0,
       eventCount: raw.eventCount ?? 0,
     }),
@@ -279,7 +278,6 @@ export function mapEdition(raw: SanityEdition): Edition {
       highlight: raw.manifesto.highlight,
       body: raw.manifesto.body,
     },
-    hasProgram: raw.hasProgram ?? true,
     artists,
     events,
     carousel: mapCarousel(raw.carousel),

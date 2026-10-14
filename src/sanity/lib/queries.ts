@@ -286,7 +286,6 @@ const EDITION_SUMMARIES_QUERY = defineQuery(`
     "themeBody": themeSection.body,
     dateStart,
     dateEnd,
-    hasProgram,
     venueLine,
     "artistCount": count(artists),
     "eventCount": count(events),
@@ -312,7 +311,6 @@ const EDITION_BY_YEAR_QUERY = defineQuery(`
     ogImage,
     metaDescription,
     manifesto,
-    hasProgram,
     "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },
     events[] {
       _key,

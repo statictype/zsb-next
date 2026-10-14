@@ -16,19 +16,18 @@ import type { DynamicFetchOptions } from '@/sanity/lib/live'
 import { getSiteSettings } from '@/sanity/lib/settings'
 import type { ExternalGalleryData } from '@/types/edition'
 
-const EXTERNAL_GALLERY_BY_YEAR: Record<number, ExternalGalleryData> = {
-  2021: {
-    tag: 'Online Archive',
-    title: 'Walk the Digital Field',
-    highlight: 'Digital Field',
-    description:
-      'The 2021 exhibition lives where it was born, entirely online. Browse the full archive: ninety sculptors, presented without hierarchy.',
-    linkLabel: 'Open the Archive',
-    href: 'https://filialadesculptura.work/artists',
-  },
+const ONLINE_ARCHIVE_YEAR = 2021
+
+const ONLINE_ARCHIVE: ExternalGalleryData = {
+  tag: 'Online Archive',
+  title: 'Walk the Digital Field',
+  highlight: 'Digital Field',
+  description:
+    'The 2021 exhibition lives where it was born, entirely online. Browse the full archive: ninety sculptors, presented without hierarchy.',
+  linkLabel: 'Open the Archive',
+  href: 'https://filialadesculptura.work/artists',
 }
 
-// Shared by the edition route and the per-event route.
 export async function CachedEdition({
   year,
   options,
@@ -43,10 +42,9 @@ export async function CachedEdition({
     notFound()
   }
 
-  const events = edition.events
-  const hasEvents = events.length > 0
-  const externalGallery = EXTERNAL_GALLERY_BY_YEAR[edition.year]
-  const socials = edition.hasProgram && !hasEvents ? await socialLinks(options) : []
+  const { events } = edition
+  const isOnlineArchive = edition.year === ONLINE_ARCHIVE_YEAR
+  const socials = events.length === 0 && !isOnlineArchive ? await socialLinks(options) : []
 
   return (
     <main className={css({ minHeight: 'svh' })}>
@@ -63,18 +61,17 @@ export async function CachedEdition({
 
       <ThemeArtists edition={edition} />
 
-      {edition.hasProgram &&
-        (hasEvents ? (
-          // Keeps `useSearchParams` in the program from making the route fully
-          // dynamic.
-          <Suspense fallback={null}>
-            <Program scope={editionProgramScope(edition.year)} events={events} />
-          </Suspense>
-        ) : (
-          <ComingSoon socials={socials} artistsAnnounced={edition.artists.length > 0} />
-        ))}
-
-      {externalGallery && <ExternalGallery gallery={externalGallery} />}
+      {events.length > 0 ? (
+        // Keeps `useSearchParams` in the program from making the route fully
+        // dynamic.
+        <Suspense fallback={null}>
+          <Program scope={editionProgramScope(edition.year)} events={events} />
+        </Suspense>
+      ) : isOnlineArchive ? (
+        <ExternalGallery gallery={ONLINE_ARCHIVE} />
+      ) : (
+        <ComingSoon socials={socials} artistsAnnounced={edition.artists.length > 0} />
+      )}
 
       <Credits credits={edition.credits} title="Partners" />
     </main>

@@ -5080,13 +5080,6 @@
         },
         "optional": true
       },
-      "hasProgram": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "boolean"
-        },
-        "optional": true
-      },
       "events": {
         "type": "objectAttribute",
         "value": {
@@ -5104,36 +5097,6 @@
             "rest": {
               "type": "inline",
               "name": "event"
-            }
-          }
-        },
-        "optional": true
-      },
-      "programCallout": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "object",
-          "attributes": {
-            "tag": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              },
-              "optional": false
-            },
-            "title": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              },
-              "optional": false
-            },
-            "description": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string"
-              },
-              "optional": false
             }
           }
         },

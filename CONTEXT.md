@@ -18,7 +18,7 @@ An edition theme keeps the curator's language (`#celălaltcorp`). An edition has
 
 ## Edition
 
-One year of the event, modelled as `Edition` in `src/types/edition.ts`: hero, manifesto, theme and artists, credits, and an optional program. `hasProgram` gates the program section. A year without a program, such as the online-only 2021, renders a link to its external photo gallery instead (`EXTERNAL_GALLERY_BY_YEAR` in `edition-content.tsx`). Online-only is not a separate type.
+One year of the event, modelled as `Edition` in `src/types/edition.ts`: hero, manifesto, theme and artists, credits, and a program. The program section shows the edition's events. An edition with no events shows the coming-soon block, except the online-only 2021, which shows a link to its external photo gallery instead (`ONLINE_ARCHIVE` in `edition-content.tsx`). Online-only is not a separate type.
 
 Every edition is an `edition` document in Sanity; [`docs/cms.md`](docs/cms.md) describes the fetching gateway. A published edition document has a page at `/editions/YYYY` and links from the homepage and the editions nav. There is no separate status.
 
@@ -77,4 +77,4 @@ Each surface chooses what to show:
 - The homepage editions list links every edition.
 - The home hero leads with Latest or with Upcoming, switched in the homepage document. When Upcoming leads, Latest appears as a compact secondary block.
 - Homepage featured events are the events marked featured on the newest edition, with past events hidden.
-- An edition's program shows the day-by-day list when the edition has events, and a coming-soon block otherwise. A finished edition shows a recap with social links and a collapsed archive.
+- An edition's program shows the day-by-day list when the edition has events, and a coming-soon block otherwise. A finished edition shows a recap and a collapsed archive.
