@@ -337,11 +337,6 @@ describe('mapEdition', () => {
     expect(mapEdition(rawEdition({ venueLine: 'CFP' })).dateRange).toBe('10–20 May 2026')
   })
 
-  it('defaults hasProgram to true for docs predating the field, honours an explicit false', () => {
-    expect(mapEdition(rawEdition()).hasProgram).toBe(true)
-    expect(mapEdition(rawEdition({ hasProgram: false })).hasProgram).toBe(false)
-  })
-
   it('derives the facts from the date range, the venue line, and the mapped lists', () => {
     const edition = mapEdition(rawEdition({ venueLine: 'CFP', artists: [{ _id: 'a', name: 'A' }] }))
     expect(edition.facts).toEqual([
@@ -375,21 +370,9 @@ function rawSummary(fields: Record<string, unknown> = {}): RawSummary {
 }
 
 describe('mapEditionSummary', () => {
-  it('leaves the venue out of the facts for an edition with a program', () => {
-    expect(mapEditionSummary(rawSummary({ hasProgram: true })).facts).toEqual([
+  it('leaves the venue out of the facts', () => {
+    expect(mapEditionSummary(rawSummary({ venueLine: 'Online', eventCount: null })).facts).toEqual([
       { kind: 'dates', text: '10–20 May' },
-      { kind: 'artists', count: 44 },
-      { kind: 'events', count: 13 },
-    ])
-  })
-
-  it('includes the venue in the facts for an edition without a program', () => {
-    const card = mapEditionSummary(
-      rawSummary({ hasProgram: false, venueLine: 'Online', eventCount: null }),
-    )
-    expect(card.facts).toEqual([
-      { kind: 'dates', text: '10–20 May' },
-      { kind: 'venue', text: 'Online' },
       { kind: 'artists', count: 44 },
     ])
   })

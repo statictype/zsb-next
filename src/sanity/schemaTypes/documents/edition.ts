@@ -154,55 +154,13 @@ export const edition = defineType({
     }),
 
     defineField({
-      name: 'hasProgram',
-      title: 'Has a program',
-      description:
-        'Leave on for editions with events. Turn off for editions that have no program at all (e.g. the online-only 2021) — the program fields and the page section are then hidden.',
-      type: 'boolean',
-      group: 'program',
-      initialValue: true,
-    }),
-
-    defineField({
       name: 'events',
       title: 'Events',
       description:
         "This edition's program as a list of events. Order doesn't matter — the program sorts by date.",
       type: 'array',
       group: 'program',
-      hidden: ({ document }) => document?.hasProgram === false,
       of: [defineArrayMember({ type: 'event' })],
-    }),
-
-    defineField({
-      name: 'programCallout',
-      title: 'Program callout',
-      description:
-        'Optional edition-level banner above the program — e.g. the "Sculptors for the Future" educational-program callout.',
-      type: 'object',
-      group: 'program',
-      hidden: ({ document }) => document?.hasProgram === false,
-      fields: [
-        defineField({
-          name: 'tag',
-          title: 'Tag',
-          type: 'string',
-          validation: (rule) => rule.required(),
-        }),
-        defineField({
-          name: 'title',
-          title: 'Title',
-          type: 'string',
-          validation: (rule) => rule.required(),
-        }),
-        defineField({
-          name: 'description',
-          title: 'Description',
-          type: 'text',
-          rows: 3,
-          validation: (rule) => rule.required(),
-        }),
-      ],
     }),
 
     defineField({

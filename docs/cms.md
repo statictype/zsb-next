@@ -116,8 +116,6 @@ Listed in [`development.md`](development.md#environment-variables). `src/sanity/
 
 Event URL slugs come from `deriveEventSlugs` in `editions-mappers.ts`. An editor-supplied `slug` wins. Otherwise the slug is the start date, the venue slug (or slugified name) and the first five words of the event name. Duplicates within an edition get `-2`, `-3`, and so on. Routes read the slug stamped by `mapEvents` and do not recompute it.
 
-`hasProgram` defaults to `true` when absent.
-
 ## Previewing clock-sensitive and unpublished states
 
 Some surfaces render only during the event window, or only when documents exist that the dataset does not have.

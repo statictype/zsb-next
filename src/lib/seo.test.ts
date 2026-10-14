@@ -53,7 +53,6 @@ function makeEdition(overrides: Partial<Edition> = {}): Edition {
       { _id: 'artist-1', name: 'Mircea Roman' },
       { _id: 'artist-2', name: 'Ana Rus' },
     ],
-    hasProgram: true,
     events: [event('Combinatul Fondului Plastic'), event('Partner Venues')],
     carousel: [],
     credits: {

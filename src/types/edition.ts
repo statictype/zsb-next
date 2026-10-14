@@ -217,8 +217,6 @@ export interface Edition {
   venueLine: string
   manifesto: ManifestoData
   artists: ArtistListItem[]
-  // With no events, an edition with `hasProgram` true renders the coming-soon block.
-  hasProgram: boolean
   events: CalendarEvent[]
   carousel: CarouselSlide[]
   credits: EditionCredits
