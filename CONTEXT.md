@@ -18,13 +18,13 @@ An edition theme keeps the curator's language (`#celălaltcorp`). An edition has
 
 ## Edition
 
-One year of the event, modelled as `Edition` in `src/types/edition.ts`: hero, manifesto, theme and artists, credits, and a program. The program section shows the edition's events. An edition with no events shows the coming-soon block, except the online-only 2021, which shows a link to its external photo gallery instead (`ONLINE_ARCHIVE` in `edition-content.tsx`). Online-only is not a separate type.
+One year of the event, modelled as `Edition` in `src/types/edition.ts`: hero (which carries the manifesto), theme and artists, credits, and a program. The program section shows the edition's events. An edition with no events shows the coming-soon block, except the online-only 2021, which shows a link to its external photo gallery instead (`ONLINE_ARCHIVE` in `edition-content.tsx`). Online-only is not a separate type.
 
 Every edition is an `edition` document in Sanity; [`docs/cms.md`](docs/cms.md) describes the fetching gateway. A published edition document has a page at `/editions/YYYY` and links from the homepage and the editions nav. There is no separate status.
 
 ### Teaser
 
-An edition published before its program and artists are final. It requires only the year, theme, theme highlight, hero image and manifesto. Its page shows the hero and manifesto, then the program section's coming-soon block, which asks visitors to check back for the program and, while no artists are listed, the artist list.
+An edition published before its program and artists are final. It requires only the year, theme, theme highlight, hero image and manifesto. Its page shows the hero, then the program section's coming-soon block, which asks visitors to check back for the program and, while no artists are listed, the artist list.
 
 ## Artist
 

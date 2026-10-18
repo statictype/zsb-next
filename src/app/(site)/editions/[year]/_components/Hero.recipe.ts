@@ -2,25 +2,35 @@ import { sva } from 'styled-system/css'
 
 export const hero = sva({
   slots: [
+    'fold',
     'hero',
     'inner',
+    'intro',
     'mast',
+    'facts',
+    'fact',
+    'body',
     'plate',
     'image',
     'thumb',
-    'ledger',
-    'row',
-    'rowLabel',
-    'rowValue',
+    'marquee',
+    'marqueeItem',
+    'marqueeText',
+    'srOnly',
   ],
   base: {
+    fold: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '80svh',
+      minHeight: 'fit-content',
+      _portraitPhone: { height: 'auto' },
+    },
     hero: {
       layerStyle: 'pageHero',
       paddingInline: 'gutter',
       position: 'relative',
-      height: 'heroFold',
-      minHeight: 'fit-content',
-      _portraitPhone: { height: 'auto' },
+      flex: '1',
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
@@ -34,11 +44,37 @@ export const hero = sva({
       marginInline: 'auto',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'space-between',
       gap: '2xl',
     },
 
+    intro: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'lg',
+    },
     mast: { margin: '0', animationStyle: 'enter' },
+    facts: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      columnGap: 'lg',
+      rowGap: 'sm',
+      margin: '0',
+      padding: '0',
+      listStyle: 'none',
+      animationStyle: 'enter',
+      animationDelay: 'stagger',
+    },
+    fact: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'xs',
+    },
+    body: {
+      margin: '0',
+      maxWidth: 'measure',
+      animationStyle: 'enter',
+      animationDelay: 'stagger',
+    },
 
     plate: {
       position: 'absolute',
@@ -63,29 +99,19 @@ export const hero = sva({
       _portraitPhone: { display: 'block' },
     },
 
-    ledger: {
-      margin: '0',
-      width: 'fit-content',
-      maxWidth: 'narrowColumn',
+    marquee: {
+      display: 'flex',
+      paddingBlock: 'xs',
+      background: 'white',
       animationStyle: 'enter',
       animationDelay: 'stagger',
-      _portraitPhone: { width: '100%' },
     },
-    row: {
-      display: 'grid',
-      gridTemplateColumns: '64px minmax(0, 1fr)',
-      columnGap: 'md',
-      alignItems: 'baseline',
-      paddingBlock: 'sm',
-      paddingRight: 'md',
-      borderBottomStyle: 'solid',
-      borderBottomWidth: 'hairline',
-      borderBottomColor: 'color-mix(in srgb, currentColor 40%, transparent)',
-      _last: { borderBottomWidth: '0' },
-      _portraitPhone: { paddingRight: '0' },
+    marqueeItem: { color: 'black' },
+    marqueeText: {
+      fontSize: { base: 'sm', md: 'base', lg: 'md' },
+      whiteSpace: 'nowrap',
     },
-    rowLabel: { margin: '0' },
-    rowValue: { margin: '0', overflowWrap: 'anywhere' },
+    srOnly: { layerStyle: 'srOnly' },
   },
   variants: {
     ink: {
@@ -102,16 +128,6 @@ export const hero = sva({
       center: { image: { objectPosition: 'right center' } },
       bottom: { image: { objectPosition: 'right bottom' } },
     },
-    ruled: {
-      true: {
-        hero: {
-          borderBottomStyle: 'solid',
-          borderBottomWidth: 'hairline',
-          borderBottomColor: 'gray.200',
-        },
-      },
-      false: {},
-    },
   },
-  defaultVariants: { ink: 'white', align: 'center', ruled: false },
+  defaultVariants: { ink: 'white', align: 'center' },
 })

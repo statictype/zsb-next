@@ -50,15 +50,12 @@ export const HOMEPAGE = { query: HOMEPAGE_QUERY, tags: ['homepage', 'edition', '
 const ABOUT_PAGE_QUERY = defineQuery(`
   *[_id == "aboutPage"][0]{
     hero,
-    manifestoTitle,
-    manifestoBody,
     pillars[] {
       _key,
       label,
       body,
       image{ ..., "lqip": asset->metadata.lqip }
     },
-    placeImage{ ..., "lqip": asset->metadata.lqip },
     carouselEyebrow,
     carousel[] {
       layout,

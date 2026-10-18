@@ -21,8 +21,6 @@ import type {
 type AboutPageRaw = NonNullable<ABOUT_PAGE_QUERY_RESULT>
 export interface AboutView {
   hero: { title: string; lead: string }
-  manifestoTitle: string
-  manifestoBody: string
   pillars: Array<{ label: string; body: string; image?: ImageData }>
   carouselEyebrow: string
   carousel: CarouselSlide[]
@@ -30,7 +28,6 @@ export interface AboutView {
   curatorName: string
   curatorRole: string
   curatorLetter: string[]
-  placeImage?: ImageData
   curatorPortrait?: ImageData
   ogImage?: ShareImage
   metaDescription?: string
@@ -68,8 +65,6 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
       title: raw.hero?.title ?? '',
       lead: raw.hero?.lead ?? '',
     },
-    manifestoTitle: raw.manifestoTitle ?? '',
-    manifestoBody: raw.manifestoBody ?? '',
     pillars: (raw.pillars ?? []).map((p) => ({
       label: p.label,
       body: p.body,
@@ -82,7 +77,6 @@ export function normalizeAbout(raw: AboutPageRaw): AboutView {
     curatorLetter: (raw.curatorLetter ?? []).filter(Boolean),
     carousel: mapCarousel(raw.carousel),
     ...definedFields({
-      placeImage: toImageData(raw.placeImage),
       curatorPortrait: toImageData(raw.curatorPortrait),
       ogImage: toShareImage(raw.ogImage),
       metaDescription: raw.metaDescription,

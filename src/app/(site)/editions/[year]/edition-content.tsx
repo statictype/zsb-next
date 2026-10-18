@@ -8,7 +8,6 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { css } from 'styled-system/css'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
-import { Manifesto } from '@/components/Manifesto/Manifesto'
 import { editionProgramScope } from '@/lib/edition-href'
 import { editionBreadcrumbJsonLd, editionEventJsonLd } from '@/lib/seo'
 import { getEdition } from '@/sanity/lib/editions'
@@ -52,12 +51,6 @@ export async function CachedEdition({
       <JsonLd data={editionBreadcrumbJsonLd(edition)} />
 
       <Hero edition={edition} />
-
-      <Manifesto
-        title={edition.manifesto.title}
-        body={edition.manifesto.body}
-        accent={edition.manifesto.highlight}
-      />
 
       <ThemeArtists edition={edition} />
 

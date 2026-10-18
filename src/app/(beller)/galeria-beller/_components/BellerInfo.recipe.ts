@@ -1,6 +1,6 @@
 import { sva } from 'styled-system/css'
 
-export const manifesto = sva({
+export const bellerInfo = sva({
   slots: ['split', 'title', 'body'],
   base: {
     split: {

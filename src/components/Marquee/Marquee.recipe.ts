@@ -35,6 +35,7 @@ export const marquee = sva({
   },
   variants: {
     gap: {
+      lg: { run: { gap: 'lg', paddingRight: 'lg', _motionReduce: { paddingRight: '0' } } },
       xl: { run: { gap: 'xl', paddingRight: 'xl', _motionReduce: { paddingRight: '0' } } },
       '2xl': { run: { gap: '2xl', paddingRight: '2xl', _motionReduce: { paddingRight: '0' } } },
     },

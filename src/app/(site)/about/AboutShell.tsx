@@ -4,7 +4,6 @@ import { Container, Stack, Text } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { GalleryCarousel } from '@/components/Carousel/GalleryCarousel'
 import { Figure } from '@/components/Figure/Figure'
-import { Manifesto } from '@/components/Manifesto/Manifesto'
 import { PageHero } from '@/components/PageHero/PageHero'
 import { SectionHeading } from '@/components/ui/SectionHeading/SectionHeading'
 import type { AboutView } from '@/sanity/lib/staticPages'
@@ -16,10 +15,7 @@ const PILLAR_SIZES = '(min-width: 2024px) 864px, (min-width: 1024px) 48vw, 100vw
 export function AboutShell({ view }: { view: AboutView }) {
   const {
     hero,
-    manifestoTitle,
-    manifestoBody,
     pillars,
-    placeImage,
     carousel,
     carouselEyebrow,
     curatorHeadline,
@@ -32,22 +28,14 @@ export function AboutShell({ view }: { view: AboutView }) {
   return (
     <main>
       <PageHero flush title={hero.title} lead={hero.lead} />
-      <figure className={styles.plateFrame}>
-        <Figure image={placeImage} sizes="100vw" preload className={styles.plateImg} />
-        {placeImage?.alt && (
-          <Text as="figcaption" variant="caption" color="muted" className={styles.plateCredit}>
-            {placeImage.alt}
-          </Text>
-        )}
-      </figure>
-      <Manifesto ground="dark" title={manifestoTitle} body={manifestoBody} />
       {carousel.length > 0 && (
-        <section className={section({ rhythm: 'none' })}>
+        <section className={cx(section({ rhythm: 'none' }), styles.carousel)}>
           <GalleryCarousel
             id="about-gallery"
             label="Archive photo carousel"
             slides={carousel}
             eyebrow={carouselEyebrow}
+            preload
           />
         </section>
       )}
