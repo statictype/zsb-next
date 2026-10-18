@@ -53,11 +53,9 @@ export const editionCard = sva({
     image: {
       objectFit: 'cover',
       background: 'gray.900',
-      filter: 'token(assets.color)',
       transform: 'scale(1.01)',
       transition: 'develop',
       'article:has([data-card-link]:hover) &, article:has([data-card-link]:focus-visible) &': {
-        filter: 'token(assets.colorHover)',
         transform: 'scale(1.05)',
       },
     },

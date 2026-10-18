@@ -164,7 +164,7 @@ The site is dark by default: black ground, white headings, gray-400 body text.
 - Two inks with fixed roles: magenta acts, chartreuse marks.
 - One display face, Dela Gothic One, set without tracking and in uppercase except on edition themes and the manifesto.
 - Square corners. 1px hairlines separate surfaces.
-- Photography is greyscale at rest and gains color on hover.
+- Photography shows in its original colour.
 - Every size and space step is a `clamp()`.
 - There is no decorative graphic device beyond hairlines, square corners and photographic plates.
 
@@ -300,7 +300,7 @@ Motion acknowledges a pointer, explains a change of state or place, or loops to 
 | Verb | Duration / easing | Job |
 |---|---|---|
 | `interactive` | 200ms, `feedback` spring (no overshoot) | hovers, colour and border changes |
-| `develop` | 300ms, `motion` spring (3.1% overshoot) | the image develop, label roll, slide dimming, clip-path reveals |
+| `develop` | 300ms, `motion` spring (3.1% overshoot) | image hover scale, label roll, slide dimming, clip-path reveals |
 
 Entrances: `enter` (600ms: default 30px rise, `fade`, `zoom` from 1.06) for the page arriving; `arrive` (300ms: 12px rise, `fade`) for content over an existing page. One entrance per route, at the top, offset by one 80ms `stagger` step. Scroll position never triggers an entrance.
 
@@ -379,15 +379,12 @@ Panel: 540px (760px at `md`), black, hairline edge, `modal` shadow, over `surfac
 
 ### Photography
 
-- **Rest:** `mono` (greyscale with brightness 1.08 and contrast 1.06 to offset the darkening).
-- **Interactive:** `monoHover` (70% colour) on program, featured-event, and media-kit plates; `monoReveal` (full colour) in mono galleries. Both on the `develop` verb.
-- **Colour at rest:** edition cards (`color`, `colorHover` and 1.05 scale on hover), the edition hero (`color`), the theme artists gallery (`treatment="color"`), and the homepage slideshow (ungraded).
+- **Rest:** ungraded. No image carries a CSS filter.
+- **Interactive:** program, featured-event, and media-kit plates scale to 1.03–1.04 on hover; edition cards scale to 1.05. All on the `develop` verb.
 - **Logos:** `grayscaleFull`.
-- **Scrim:** `stageScrim` behind the About slideshow controls. A scrim keeps its density; the image is brightened, not the scrim thinned.
+- **Scrim:** `stageScrim` behind the About slideshow controls. A scrim keeps its density.
 
 A plate has a subject, not a scene. Its crop is chosen. Adjacent plates share one grade. No snapshots, phone frames, or crowd photos.
-
-**The Develop Rule.** Every image is greyscale at rest; an interactive image gains colour on hover. The colour surfaces are exempt because they show artists' work or represent an edition. Editors decide the split by placement: work goes in the theme artists gallery, documentation goes elsewhere.
 
 ## Do's and Don'ts
 
@@ -398,7 +395,6 @@ A plate has a subject, not a scene. Its crop is chosen. Adjacent plates share on
 - **Do** keep corners square.
 - **Do** separate surfaces with a 1px hairline.
 - **Do** name a motion verb instead of writing transition longhands.
-- **Do** ship photography greyscale at rest.
 - **Do** make depth on black with light: inset white hairlines, the gradient ring, a scrim.
 - **Do** hold running text to 60ch.
 - **Do** make full-bleed media square below `md`.

@@ -35,7 +35,6 @@ interface GalleryCarouselProps {
   label: string
   slides: GallerySlide[]
   eyebrow?: string | undefined
-  treatment: 'mono' | 'color'
   preload?: boolean
   className?: string | undefined
 }
@@ -45,11 +44,10 @@ export function GalleryCarousel({
   label,
   slides,
   eyebrow,
-  treatment,
   preload = false,
   className,
 }: GalleryCarouselProps) {
-  const styles = galleryCarousel({ treatment })
+  const styles = galleryCarousel()
 
   return (
     <LightboxGallery

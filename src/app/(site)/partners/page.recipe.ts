@@ -31,7 +31,7 @@ export const partnersPage = sva({
       objectPosition: { base: 'right center', md: 'center' },
     },
     plateImg: {
-      layerStyle: 'coverMono',
+      objectFit: 'cover',
     },
     eventSpread: {
       display: 'grid',

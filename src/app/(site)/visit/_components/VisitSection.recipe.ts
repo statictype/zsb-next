@@ -17,7 +17,7 @@ export const visitImageFrame = sva({
         alignSelf: 'stretch',
       },
     },
-    image: { layerStyle: 'coverMono', background: 'gray.900' },
+    image: { objectFit: 'cover', background: 'gray.900' },
   },
 })
 

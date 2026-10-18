@@ -146,13 +146,6 @@ export const tokens = {
     dialogPanelWide: { value: '760px' },
   },
   assets: {
-    mono: { value: 'grayscale(1) brightness(1.08) contrast(1.06)' },
-    monoHover: { value: 'grayscale(0.3) brightness(1.08) contrast(1.06)' },
-    monoReveal: { value: 'grayscale(0) brightness(1.08) contrast(1.06)' },
-
-    color: { value: 'brightness(1.1) contrast(1)' },
-    colorHover: { value: 'brightness(1) contrast(1.1)' },
-
     grayscaleFull: { value: 'grayscale(1)' },
   },
   letterSpacings: {
@@ -431,12 +424,6 @@ export const textStyles = {
 export const layerStyles = {
   sectionInner: {
     value: { maxWidth: 'maxWidth', marginInline: 'auto', paddingInline: 'gutter' },
-  },
-  coverMono: {
-    value: {
-      objectFit: 'cover',
-      filter: 'token(assets.mono)',
-    },
   },
 
   pageHero: {

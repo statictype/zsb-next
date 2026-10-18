@@ -46,7 +46,6 @@ export const hero = sva({
       zIndex: '0',
       overflow: 'hidden',
       background: 'gray.900',
-      filter: 'token(assets.color)',
       _portraitPhone: {
         position: 'relative',
         inset: 'auto',

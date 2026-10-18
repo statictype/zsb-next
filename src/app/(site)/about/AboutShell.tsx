@@ -48,7 +48,6 @@ export function AboutShell({ view }: { view: AboutView }) {
             label="Archive photo carousel"
             slides={carousel}
             eyebrow={carouselEyebrow}
-            treatment="mono"
           />
         </section>
       )}
