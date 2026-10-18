@@ -153,19 +153,5 @@ export const galleryCarousel = sva({
       },
       full: { slide: { gridTemplateColumns: 'calc(var(--slide-h) * 1.5)' } },
     },
-    treatment: {
-      mono: {
-        item: {
-          '& img': { filter: 'token(assets.mono)' },
-          '&:hover, &:focus-visible': { '& img': { filter: 'token(assets.monoReveal)' } },
-        },
-      },
-      color: {
-        item: {
-          '& img': { filter: 'token(assets.color)' },
-        },
-      },
-    },
   },
-  defaultVariants: { treatment: 'mono' },
 })

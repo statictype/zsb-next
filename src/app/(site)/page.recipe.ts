@@ -143,10 +143,8 @@ export const homePage = sva({
     },
     editionImage: {
       objectFit: 'cover',
-      filter: 'token(assets.color)',
       transition: 'develop',
       'a:hover &, a:focus-visible &': {
-        filter: 'token(assets.colorHover)',
         transform: 'scale(1.05)',
       },
     },

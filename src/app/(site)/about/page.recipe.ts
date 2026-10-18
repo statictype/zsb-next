@@ -48,7 +48,7 @@ export const aboutPage = sva({
       aspectRatio: { base: '1 / 1', md: '16 / 9', lg: '3 / 2' },
     },
     pillarImg: {
-      layerStyle: 'coverMono',
+      objectFit: 'cover',
     },
     pillarBody: {
       gridArea: 'body',
@@ -76,7 +76,7 @@ export const aboutPage = sva({
       },
     },
     plateImg: {
-      layerStyle: 'coverMono',
+      objectFit: 'cover',
       background: 'gray.900',
     },
     plateCredit: {
@@ -128,7 +128,7 @@ export const aboutPage = sva({
       border: 'hairline',
     },
     authorPhotoImg: {
-      layerStyle: 'coverMono',
+      objectFit: 'cover',
     },
     authorCaption: {
       alignSelf: 'stretch',

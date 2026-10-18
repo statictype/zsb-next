@@ -70,7 +70,7 @@ export const program = sva({
       _hover: {
         borderColor: 'transparent',
         '&::before': { opacity: 1, animationStyle: 'gradientBorder' },
-        '& img': { filter: 'token(assets.monoHover)', transform: 'scale(1.03)' },
+        '& img': { transform: 'scale(1.03)' },
         '& a': { color: 'action' },
       },
       ...past,
@@ -82,7 +82,6 @@ export const program = sva({
       background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: 'token(assets.mono)',
         transition: 'develop',
       },
     },
@@ -150,7 +149,7 @@ export const program = sva({
       _first: { borderTop: 'none' },
       _hover: {
         '& a': { color: 'action' },
-        '& img': { filter: 'token(assets.monoHover)', transform: 'scale(1.03)' },
+        '& img': { transform: 'scale(1.03)' },
       },
       xl: {
         '@media (hover: hover) and (pointer: fine)': {
@@ -191,7 +190,6 @@ export const program = sva({
       background: 'gray.800',
       '& img': {
         objectFit: 'cover',
-        filter: 'token(assets.mono)',
         transition: 'develop',
       },
       xl: {

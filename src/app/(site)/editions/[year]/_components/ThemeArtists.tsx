@@ -23,7 +23,6 @@ export function ThemeArtists({ edition }: ThemeArtistsProps) {
           label="Edition photo gallery"
           slides={carousel}
           eyebrow={theme}
-          treatment="color"
         />
       )}
 
