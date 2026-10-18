@@ -23,7 +23,7 @@ export const hero = sva({
       flexDirection: 'column',
       height: '80svh',
       minHeight: 'fit-content',
-      _portraitPhone: { height: 'auto' },
+      lgDown: { height: 'auto' },
     },
     hero: {
       layerStyle: 'pageHero',
@@ -81,26 +81,27 @@ export const hero = sva({
       zIndex: '0',
       overflow: 'hidden',
       background: 'gray.900',
-      _portraitPhone: {
+      lgDown: {
         position: 'relative',
         inset: 'auto',
-        aspectRatio: '1 / 1',
+        aspectRatio: '16 / 9',
         marginBottom: 'xl',
       },
+      smDown: { aspectRatio: '1 / 1' },
     },
     image: {
       objectFit: 'cover',
-      _portraitPhone: { display: 'none' },
+      lgDown: { display: 'none' },
     },
     thumb: {
       objectFit: 'cover',
       display: 'none',
-      _portraitPhone: { display: 'block' },
+      lgDown: { display: 'block' },
     },
 
     marquee: {
       display: 'flex',
-      paddingBlock: 'xs',
+      paddingBlock: 'sm',
       background: 'white',
       animationStyle: 'enter',
       animationDelay: 'stagger',
@@ -127,7 +128,7 @@ export const hero = sva({
       black: {
         inner: {
           color: 'black',
-          _portraitPhone: { color: 'white' },
+          lgDown: { color: 'white' },
         },
       },
       white: { inner: { color: 'white' } },

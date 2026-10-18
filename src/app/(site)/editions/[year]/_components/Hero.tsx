@@ -4,13 +4,12 @@ import { css, cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Marquee } from '@/components/Marquee/Marquee'
-import { portraitPhoneQuery } from '@/design-system/tokens'
 import { formatDateRange } from '@/lib/edition-dates'
 import type { Edition } from '@/types/edition'
 
 // Only one of the two is ever displayed; the other is asked for at 1px.
-const HERO_SIZES = `${portraitPhoneQuery} 1px, 100vw`
-const THUMB_SIZES = `${portraitPhoneQuery} 100vw, 1px`
+const HERO_SIZES = '(max-width: 1023px) 1px, 100vw'
+const THUMB_SIZES = '(max-width: 1023px) 100vw, 1px'
 
 const HERO_INK_BY_YEAR: Record<number, 'black' | 'white'> = {
   2022: 'black',
