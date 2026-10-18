@@ -21,13 +21,18 @@ export function dateParts(iso: string): { y: number; m: number; d: number } | un
   return { y, m, d }
 }
 
-export function formatDateRange(startIso: string, endIso: string): string | undefined {
+export function formatDateRange(
+  startIso: string,
+  endIso: string,
+  { withYear = true }: { withYear?: boolean } = {},
+): string | undefined {
   const s = dateParts(startIso)
   const e = dateParts(endIso)
   if (!s || !e) return undefined
-  if (s.y === e.y && s.m === e.m && s.d === e.d) return `${s.d} ${MONTHS[s.m - 1]} ${s.y}`
-  if (s.y === e.y && s.m === e.m) return `${s.d}–${e.d} ${MONTHS[s.m - 1]} ${s.y}`
-  if (s.y === e.y) return `${s.d} ${MONTHS[s.m - 1]} – ${e.d} ${MONTHS[e.m - 1]} ${e.y}`
+  const year = withYear ? ` ${e.y}` : ''
+  if (s.y === e.y && s.m === e.m && s.d === e.d) return `${s.d} ${MONTHS[s.m - 1]}${year}`
+  if (s.y === e.y && s.m === e.m) return `${s.d}–${e.d} ${MONTHS[s.m - 1]}${year}`
+  if (s.y === e.y) return `${s.d} ${MONTHS[s.m - 1]} – ${e.d} ${MONTHS[e.m - 1]}${year}`
   return `${s.d} ${MONTHS[s.m - 1]} ${s.y} – ${e.d} ${MONTHS[e.m - 1]} ${e.y}`
 }
 

@@ -45,6 +45,16 @@ describe('formatDateRange', () => {
     expect(formatDateRange('2024-12-30', '2025-01-02')).toBe('30 December 2024 – 2 January 2025')
   })
 
+  it('drops the year within one year when asked, keeps it across years', () => {
+    expect(formatDateRange('2022-04-16', '2022-04-18', { withYear: false })).toBe('16–18 April')
+    expect(formatDateRange('2024-04-16', '2024-05-11', { withYear: false })).toBe(
+      '16 April – 11 May',
+    )
+    expect(formatDateRange('2024-12-30', '2025-01-02', { withYear: false })).toBe(
+      '30 December 2024 – 2 January 2025',
+    )
+  })
+
   it('returns undefined when either date is malformed', () => {
     expect(formatDateRange('2024-04-16', 'nope')).toBeUndefined()
     expect(formatDateRange('', '2024-04-18')).toBeUndefined()

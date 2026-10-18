@@ -56,7 +56,7 @@ export const hero = sva({
     facts: {
       display: 'flex',
       flexWrap: 'wrap',
-      columnGap: 'lg',
+      columnGap: 'md',
       rowGap: 'sm',
       margin: '0',
       padding: '0',
@@ -71,7 +71,7 @@ export const hero = sva({
     },
     body: {
       margin: '0',
-      maxWidth: 'measure',
+      maxWidth: '50ch',
       animationStyle: 'enter',
       animationDelay: 'stagger',
     },
@@ -106,7 +106,20 @@ export const hero = sva({
       animationStyle: 'enter',
       animationDelay: 'stagger',
     },
-    marqueeItem: { color: 'black' },
+    marqueeItem: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'md',
+      color: 'black',
+      _after: {
+        content: '""',
+        flexShrink: '0',
+        width: '8px',
+        height: '8px',
+        borderRadius: 'circle',
+        background: 'action',
+      },
+    },
     marqueeText: {
       fontSize: { base: 'sm', md: 'base', lg: 'md' },
       whiteSpace: 'nowrap',

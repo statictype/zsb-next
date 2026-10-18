@@ -3,7 +3,7 @@ import { marquee } from '@/components/Marquee/Marquee.recipe'
 
 interface MarqueeProps {
   count: number
-  gap?: 'lg' | 'xl' | '2xl'
+  gap?: 'md' | 'lg' | 'xl' | '2xl'
   secondsPerItem?: number
   children: ReactNode
 }

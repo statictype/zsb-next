@@ -5,6 +5,7 @@ import { Text } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Marquee } from '@/components/Marquee/Marquee'
 import { portraitPhoneQuery } from '@/design-system/tokens'
+import { formatDateRange } from '@/lib/edition-dates'
 import type { Edition } from '@/types/edition'
 
 // Only one of the two is ever displayed; the other is asked for at 1px.
@@ -32,7 +33,10 @@ interface HeroFact {
 }
 
 interface HeroProps {
-  edition: Pick<Edition, 'year' | 'theme' | 'heroImage' | 'thumbImage' | 'facts' | 'manifesto'>
+  edition: Pick<
+    Edition,
+    'year' | 'theme' | 'heroImage' | 'thumbImage' | 'dateStart' | 'dateEnd' | 'facts' | 'manifesto'
+  >
 }
 
 export function Hero({ edition }: HeroProps) {
@@ -41,13 +45,15 @@ export function Hero({ edition }: HeroProps) {
   const align = HERO_ALIGN_BY_YEAR[year] ?? 'center'
   const styles = hero({ ink, align })
 
-  const facts = edition.facts.flatMap((fact): HeroFact[] => {
-    if (fact.kind === 'dates')
-      return [{ key: 'dates', label: 'Dates', value: fact.text, icon: RiCalendarLine }]
-    if (fact.kind === 'venue')
-      return [{ key: 'venue', label: 'Venue', value: fact.text, icon: RiMapPinLine }]
-    return []
-  })
+  const dates = formatDateRange(edition.dateStart, edition.dateEnd, { withYear: false })
+  const facts: HeroFact[] = [
+    ...(dates ? [{ key: 'dates', label: 'Dates', value: dates, icon: RiCalendarLine }] : []),
+    ...edition.facts.flatMap((fact): HeroFact[] =>
+      fact.kind === 'venue'
+        ? [{ key: 'venue', label: 'Venue', value: fact.text, icon: RiMapPinLine }]
+        : [],
+    ),
+  ]
 
   const marqueeItems = [
     { key: 'manifesto', label: 'Manifesto', value: manifesto.title },
@@ -98,7 +104,7 @@ export function Hero({ edition }: HeroProps) {
       </header>
 
       <div className={styles.marquee}>
-        <Marquee count={marqueeItems.length} gap="lg" secondsPerItem={MARQUEE_SECONDS_PER_ITEM}>
+        <Marquee count={marqueeItems.length} gap="md" secondsPerItem={MARQUEE_SECONDS_PER_ITEM}>
           {marqueeItems.map(({ key, label, value }) => (
             <li key={key} className={styles.marqueeItem}>
               <span className={styles.srOnly}>{label}: </span>
