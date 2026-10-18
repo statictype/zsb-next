@@ -2,25 +2,34 @@ import { sva } from 'styled-system/css'
 
 export const hero = sva({
   slots: [
+    'fold',
     'hero',
     'inner',
+    'intro',
     'mast',
+    'facts',
+    'fact',
+    'body',
     'plate',
     'image',
     'thumb',
-    'ledger',
-    'row',
-    'rowLabel',
-    'rowValue',
+    'marquee',
+    'marqueeItem',
+    'srOnly',
   ],
   base: {
+    fold: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '80svh',
+      minHeight: 'fit-content',
+      lgDown: { height: 'auto' },
+    },
     hero: {
       layerStyle: 'pageHero',
       paddingInline: 'gutter',
       position: 'relative',
-      height: 'heroFold',
-      minHeight: 'fit-content',
-      _portraitPhone: { height: 'auto' },
+      flex: '1',
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
@@ -34,11 +43,37 @@ export const hero = sva({
       marginInline: 'auto',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'space-between',
       gap: '2xl',
     },
 
+    intro: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'lg',
+    },
     mast: { margin: '0', animationStyle: 'enter' },
+    facts: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      columnGap: 'md',
+      rowGap: 'sm',
+      margin: '0',
+      padding: '0',
+      listStyle: 'none',
+      animationStyle: 'enter',
+      animationDelay: 'stagger',
+    },
+    fact: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'xs',
+    },
+    body: {
+      margin: '0',
+      maxWidth: '50ch',
+      animationStyle: 'enter',
+      animationDelay: 'stagger',
+    },
 
     plate: {
       position: 'absolute',
@@ -46,53 +81,54 @@ export const hero = sva({
       zIndex: '0',
       overflow: 'hidden',
       background: 'gray.900',
-      _portraitPhone: {
+      lgDown: {
         position: 'relative',
         inset: 'auto',
-        aspectRatio: '1 / 1',
+        aspectRatio: '16 / 9',
         marginBottom: 'xl',
       },
+      smDown: { aspectRatio: '1 / 1' },
     },
     image: {
       objectFit: 'cover',
-      _portraitPhone: { display: 'none' },
+      lgDown: { display: 'none' },
     },
     thumb: {
       objectFit: 'cover',
       display: 'none',
-      _portraitPhone: { display: 'block' },
+      lgDown: { display: 'block' },
     },
 
-    ledger: {
-      margin: '0',
-      width: 'fit-content',
-      maxWidth: 'narrowColumn',
+    marquee: {
+      display: 'flex',
+      paddingBlock: 'sm',
+      background: 'white',
       animationStyle: 'enter',
       animationDelay: 'stagger',
-      _portraitPhone: { width: '100%' },
     },
-    row: {
-      display: 'grid',
-      gridTemplateColumns: '64px minmax(0, 1fr)',
-      columnGap: 'md',
-      alignItems: 'baseline',
-      paddingBlock: 'sm',
-      paddingRight: 'md',
-      borderBottomStyle: 'solid',
-      borderBottomWidth: 'hairline',
-      borderBottomColor: 'color-mix(in srgb, currentColor 40%, transparent)',
-      _last: { borderBottomWidth: '0' },
-      _portraitPhone: { paddingRight: '0' },
+    marqueeItem: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'md',
+      color: 'black',
+      whiteSpace: 'nowrap',
+      _after: {
+        content: '""',
+        flexShrink: '0',
+        width: '8px',
+        height: '8px',
+        borderRadius: 'circle',
+        background: 'action',
+      },
     },
-    rowLabel: { margin: '0' },
-    rowValue: { margin: '0', overflowWrap: 'anywhere' },
+    srOnly: { layerStyle: 'srOnly' },
   },
   variants: {
     ink: {
       black: {
         inner: {
           color: 'black',
-          _portraitPhone: { color: 'white' },
+          lgDown: { color: 'white' },
         },
       },
       white: { inner: { color: 'white' } },
@@ -102,16 +138,6 @@ export const hero = sva({
       center: { image: { objectPosition: 'right center' } },
       bottom: { image: { objectPosition: 'right bottom' } },
     },
-    ruled: {
-      true: {
-        hero: {
-          borderBottomStyle: 'solid',
-          borderBottomWidth: 'hairline',
-          borderBottomColor: 'gray.200',
-        },
-      },
-      false: {},
-    },
   },
-  defaultVariants: { ink: 'white', align: 'center', ruled: false },
+  defaultVariants: { ink: 'white', align: 'center' },
 })

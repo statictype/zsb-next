@@ -102,13 +102,10 @@ describe('normalizeAbout', () => {
   it('coalesces text to "" and lists to [], leaves genuine optionals absent', () => {
     const view = normalizeAbout(raw({}))
     expect(view.hero).toEqual({ title: '', lead: '' })
-    expect(view.manifestoTitle).toBe('')
-    expect(view.manifestoBody).toBe('')
     expect(view.pillars).toEqual([])
     expect(view.curatorLetter).toEqual([])
     expect(view.carousel).toEqual([])
     expect(view.carouselEyebrow).toBe('From the archive')
-    expect('placeImage' in view).toBe(false)
     expect('metaDescription' in view).toBe(false)
   })
 
@@ -116,15 +113,11 @@ describe('normalizeAbout', () => {
     const view = normalizeAbout(
       raw({
         hero: { title: 'About', lead: 'Lead.' },
-        manifestoTitle: 'Not a festival',
-        manifestoBody: 'One paragraph.',
         pillars: [{ label: 'A', body: 'b' }],
         metaDescription: 'desc',
       }),
     )
     expect(view.hero.title).toBe('About')
-    expect(view.manifestoTitle).toBe('Not a festival')
-    expect(view.manifestoBody).toBe('One paragraph.')
     expect(view.pillars).toEqual([{ label: 'A', body: 'b' }])
     expect(view.metaDescription).toBe('desc')
   })

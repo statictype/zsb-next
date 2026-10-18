@@ -11,7 +11,6 @@ export const aboutPage = defineType({
   icon: InfoOutlineIcon,
   groups: [
     { name: 'hero', title: 'Hero', default: true },
-    { name: 'manifesto', title: 'Manifesto' },
     { name: 'pillars', title: 'Pillars' },
     { name: 'carousel', title: 'Carousel' },
     { name: 'curator', title: 'Curator letter' },
@@ -27,39 +26,14 @@ export const aboutPage = defineType({
     }),
 
     defineField({
-      name: 'manifestoTitle',
-      title: 'Title',
-      description: 'The big left-column heading (e.g. "Not a festival").',
-      type: 'string',
-      group: 'manifesto',
-      validation: (rule) => rule.required().max(40),
-    }),
-    defineField({
-      name: 'manifestoBody',
-      title: 'Body',
-      description: 'The single intro paragraph beside the title.',
-      type: 'text',
-      rows: 3,
-      group: 'manifesto',
-      validation: (rule) => rule.required(),
-    }),
-
-    defineField({
       name: 'pillars',
       title: 'Pillars',
       description:
-        'Numbered short essays under the prose section. Numbers (01, 02, …) are derived from the order of the list — no need to type them.',
+        'Numbered short essays under the carousel. Numbers (01, 02, …) are derived from the order of the list — no need to type them.',
       type: 'array',
       group: 'pillars',
       of: [defineArrayMember({ type: 'pillar' })],
       validation: (rule) => rule.required().min(1).max(6),
-    }),
-    imageFieldWithAlt({
-      name: 'placeImage',
-      title: 'Place image',
-      description: 'Wide image under the pillars (the venue / context shot).',
-      group: 'pillars',
-      validation: (rule) => rule.required(),
     }),
 
     defineField({
@@ -75,7 +49,7 @@ export const aboutPage = defineType({
       name: 'carousel',
       title: 'Carousel',
       description:
-        'Optional gallery strip between the project section and the pillars. Each slide picks a layout (full / duo / trio / featured) and the matching number of images.',
+        'Optional gallery strip under the hero. Each slide picks a layout (full / duo / trio / featured) and the matching number of images.',
       type: 'array',
       group: 'carousel',
       of: [defineArrayMember({ type: 'carouselSlide' })],

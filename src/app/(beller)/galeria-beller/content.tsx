@@ -1,4 +1,5 @@
 import { BellerHero } from '@beller/_components/BellerHero'
+import { BellerInfo } from '@beller/_components/BellerInfo'
 import { BellerMap } from '@beller/_components/BellerMap'
 import { BellerPressKit } from '@beller/_components/BellerPressKit'
 import { SectionViews } from '@beller/_components/SectionViews'
@@ -11,7 +12,6 @@ import { Container, Divider } from 'styled-system/jsx'
 import { section } from 'styled-system/recipes'
 import { ArtistRoster } from '@/components/ArtistRoster/ArtistRoster'
 import { JsonLd } from '@/components/JsonLd/JsonLd'
-import { Manifesto } from '@/components/Manifesto/Manifesto'
 import { BELLER_SECTION_IDS, bellerProgramScope } from '@/lib/galeria-beller-href'
 import { bellerEventJsonLd } from '@/lib/seo'
 import { getGaleriaBeller } from '@/sanity/lib/galeria-beller'
@@ -28,7 +28,7 @@ export async function CachedBeller({ options }: { options: DynamicFetchOptions }
       <BellerHero page={page} />
 
       <div id={BELLER_SECTION_IDS.info} data-section-view="info" />
-      <Manifesto title={page.info.title} body={page.info.body} ground="dark" />
+      <BellerInfo title={page.info.title} body={page.info.body} />
 
       <Container>
         <Divider />
