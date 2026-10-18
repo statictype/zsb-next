@@ -15,7 +15,6 @@ export const hero = sva({
     'thumb',
     'marquee',
     'marqueeItem',
-    'marqueeText',
     'srOnly',
   ],
   base: {
@@ -111,6 +110,7 @@ export const hero = sva({
       alignItems: 'center',
       gap: 'md',
       color: 'black',
+      whiteSpace: 'nowrap',
       _after: {
         content: '""',
         flexShrink: '0',
@@ -119,10 +119,6 @@ export const hero = sva({
         borderRadius: 'circle',
         background: 'action',
       },
-    },
-    marqueeText: {
-      fontSize: { base: 'sm', md: 'base', lg: 'md' },
-      whiteSpace: 'nowrap',
     },
     srOnly: { layerStyle: 'srOnly' },
   },

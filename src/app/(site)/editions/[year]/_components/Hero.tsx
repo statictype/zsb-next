@@ -1,5 +1,5 @@
 import { hero } from '@edition-components/Hero.recipe'
-import { type RemixiconComponentType, RiCalendarLine, RiMapPinLine } from '@remixicon/react'
+import { RiCalendarLine, RiMapPinLine } from '@remixicon/react'
 import { css, cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
@@ -25,17 +25,17 @@ const HERO_ALIGN_BY_YEAR: Record<number, 'top' | 'center' | 'bottom'> = {
 
 const MARQUEE_SECONDS_PER_ITEM = 10
 
-interface HeroFact {
-  key: string
-  label: string
-  value: string
-  icon: RemixiconComponentType
-}
-
 interface HeroProps {
   edition: Pick<
     Edition,
-    'year' | 'theme' | 'heroImage' | 'thumbImage' | 'dateStart' | 'dateEnd' | 'facts' | 'manifesto'
+    | 'year'
+    | 'theme'
+    | 'heroImage'
+    | 'thumbImage'
+    | 'dateStart'
+    | 'dateEnd'
+    | 'venueLine'
+    | 'manifesto'
   >
 }
 
@@ -45,19 +45,18 @@ export function Hero({ edition }: HeroProps) {
   const align = HERO_ALIGN_BY_YEAR[year] ?? 'center'
   const styles = hero({ ink, align })
 
-  const dates = formatDateRange(edition.dateStart, edition.dateEnd, { withYear: false })
-  const facts: HeroFact[] = [
-    ...(dates ? [{ key: 'dates', label: 'Dates', value: dates, icon: RiCalendarLine }] : []),
-    ...edition.facts.flatMap((fact): HeroFact[] =>
-      fact.kind === 'venue'
-        ? [{ key: 'venue', label: 'Venue', value: fact.text, icon: RiMapPinLine }]
-        : [],
-    ),
-  ]
+  const facts = [
+    {
+      label: 'Dates',
+      value: formatDateRange(edition.dateStart, edition.dateEnd, { withYear: false }) ?? '',
+      icon: RiCalendarLine,
+    },
+    { label: 'Venue', value: edition.venueLine, icon: RiMapPinLine },
+  ].filter((fact) => fact.value)
 
   const marqueeItems = [
-    { key: 'manifesto', label: 'Manifesto', value: manifesto.title },
-    { key: 'theme', label: 'Theme', value: theme },
+    { label: 'Manifesto', value: manifesto.title },
+    { label: 'Theme', value: theme },
   ]
 
   return (
@@ -85,8 +84,8 @@ export function Hero({ edition }: HeroProps) {
               ZSB {year}
             </Text>
             <ul className={styles.facts}>
-              {facts.map(({ key, label, value, icon: Icon }) => (
-                <li key={key} className={styles.fact}>
+              {facts.map(({ label, value, icon: Icon }) => (
+                <li key={label} className={styles.fact}>
                   <Icon size={16} aria-hidden />
                   <span className={styles.srOnly}>{label}: </span>
                   <Text as="span" variant="caption" color="currentColor">
@@ -105,10 +104,10 @@ export function Hero({ edition }: HeroProps) {
 
       <div className={styles.marquee}>
         <Marquee count={marqueeItems.length} gap="md" secondsPerItem={MARQUEE_SECONDS_PER_ITEM}>
-          {marqueeItems.map(({ key, label, value }) => (
-            <li key={key} className={styles.marqueeItem}>
+          {marqueeItems.map(({ label, value }) => (
+            <li key={label} className={styles.marqueeItem}>
               <span className={styles.srOnly}>{label}: </span>
-              <Text as="span" variant="cardTitle" color="black" className={styles.marqueeText}>
+              <Text as="span" variant="cardTitle" color="black">
                 {value}
               </Text>
             </li>
