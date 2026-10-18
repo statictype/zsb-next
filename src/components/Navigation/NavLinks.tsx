@@ -12,6 +12,8 @@ export const NAV_ITEMS = [
   { label: 'Visit', href: '/visit' },
 ] as const
 
+const THRESHOLD_INKS = ['gray', 'burn', 'dodge'] as const
+
 function isExactPage(pathname: string, href: string): boolean {
   return pathname === href
 }
@@ -30,7 +32,7 @@ function NavLinkLabel({ label, context }: { label: string; context: 'desktop' | 
   const { pending } = useLinkStatus()
   useReportPending(pending)
 
-  return (
+  const roll = (
     <span data-nav-mask>
       <NavigationLabel context={context} data-nav-label>
         {label}
@@ -39,6 +41,22 @@ function NavLinkLabel({ label, context }: { label: string; context: 'desktop' | 
         </NavigationLabel>
       </NavigationLabel>
     </span>
+  )
+
+  if (context === 'mobile') return roll
+
+  return (
+    <>
+      {THRESHOLD_INKS.map((ink) => (
+        <span key={ink} data-ink={ink} aria-hidden>
+          {roll}
+        </span>
+      ))}
+      <span data-ink="invert">{roll}</span>
+      <span data-ink="accent" aria-hidden>
+        {roll}
+      </span>
+    </>
   )
 }
 
