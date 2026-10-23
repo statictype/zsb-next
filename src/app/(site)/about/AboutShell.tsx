@@ -53,10 +53,10 @@ export function AboutShell({ view }: { view: AboutView }) {
                     />
                   </div>
                   <Stack gap="lg" className={styles.pillarBody}>
-                    <Text as="h2" variant="detailTitle">
+                    <Text as="h2" variant="heading">
                       {pillar.label}
                     </Text>
-                    <Text as="p" variant="lead" className={styles.pillarText}>
+                    <Text as="p" variant="body" className={styles.pillarText}>
                       {pillar.body}
                     </Text>
                   </Stack>
