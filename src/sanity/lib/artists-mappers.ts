@@ -1,14 +1,16 @@
 import type { PortableTextBlock } from '@portabletext/react'
+import { artistHref } from '@/lib/artist-href'
 import { ONLINE_EDITION_YEARS } from '@/lib/constants'
 import { definedFields } from '@/lib/defined-fields'
-import { imageSize, toImageData } from '@/sanity/lib/image'
+import { type SanityImageField, toImageData } from '@/sanity/lib/image'
+import type { ARTIST_CLOUD_QUERY_RESULT, ARTIST_PROFILE_QUERY_RESULT } from '@/sanity/types'
 import type {
-  ARTIST_CLOUD_QUERY_RESULT,
-  ARTIST_PAGE_QUERY_RESULT,
-  LocaleBlock,
-  LocaleString,
-} from '@/sanity/types'
-import type { ArtistCloud, ArtistPage, ArtistTier, Bilingual, WorkImage } from '@/types/edition'
+  ArtistCloud,
+  ArtistProfile,
+  ArtistTier,
+  CreditedImage,
+  ProfileWork,
+} from '@/types/edition'
 
 const TIERS = [1, 2, 3, 4, 5] as const satisfies readonly ArtistTier[]
 
@@ -58,54 +60,72 @@ export function mapArtistCloud(raw: ARTIST_CLOUD_QUERY_RESULT): ArtistCloud {
   }
 }
 
-function bilingual<T>(ro: T | undefined, en: T | undefined, empty: T): Bilingual<T> {
-  return {
-    ro: ro !== undefined ? { lang: 'ro', value: ro } : { lang: 'en', value: en ?? empty },
-    en: en !== undefined ? { lang: 'en', value: en } : { lang: 'ro', value: ro ?? empty },
-  }
-}
-
-function text(value: string | undefined): string | undefined {
+function text(value: string | null | undefined): string | undefined {
   return value?.trim() ? value : undefined
 }
 
-function localeString(value: LocaleString | null): Bilingual<string> | undefined {
-  const ro = text(value?.ro)
-  const en = text(value?.en)
-  return ro === undefined && en === undefined ? undefined : bilingual(ro, en, '')
+type PortableTextValue = NonNullable<ARTIST_PROFILE_QUERY_RESULT>['bio']
+
+function blocks(value: PortableTextValue): PortableTextBlock[] {
+  return (value ?? []).map((block) => ({ ...block, children: block.children ?? [] }))
 }
 
-function blocks(value: LocaleBlock['ro']): PortableTextBlock[] | undefined {
-  if (!value?.length) return undefined
-  return value.map((block) => ({ ...block, children: block.children ?? [] }))
+type CreditedField = SanityImageField & {
+  credit?: string | null
+  hotspot?: { x?: number; y?: number } | null
 }
 
-function localeBlock(value: LocaleBlock | null): Bilingual<PortableTextBlock[]> {
-  return bilingual(blocks(value?.ro), blocks(value?.en), [])
+function focus(hotspot: CreditedField['hotspot']): string | undefined {
+  if (hotspot?.x === undefined || hotspot.y === undefined) return undefined
+  return `${Math.round(hotspot.x * 100)}% ${Math.round(hotspot.y * 100)}%`
 }
 
-export function mapArtistPage(raw: ARTIST_PAGE_QUERY_RESULT): ArtistPage | null {
+function creditedImage(field: CreditedField | null | undefined): CreditedImage | undefined {
+  const data = toImageData(field)
+  if (!data) return undefined
+  return definedFields({ ...data, credit: text(field?.credit), focus: focus(field?.hotspot) })
+}
+
+export function mapArtistProfile(raw: ARTIST_PROFILE_QUERY_RESULT): ArtistProfile | null {
   if (!raw) return null
-  return definedFields({
+  const works = raw.works.flatMap((work): ProfileWork[] => {
+    if (work.edition === null) return []
+    return [
+      definedFields({
+        id: work._id,
+        edition: work.edition,
+        title: text(work.title) ?? 'Untitled',
+        material: text(work.material),
+        dimensions: text(work.dimensions),
+        year: text(work.year),
+        description: blocks(work.description),
+        with: work.creators.flatMap((creator) =>
+          creator._id !== raw._id && creator.slug
+            ? [{ name: creator.name, href: artistHref(creator.slug) }]
+            : [],
+        ),
+        images: (work.images ?? []).flatMap((image) => {
+          const data = creditedImage(image)
+          return data ? [data] : []
+        }),
+      }),
+    ]
+  })
+  const profile = definedFields({
     name: raw.name,
     slug: raw.slug,
-    portrait: toImageData(raw.portrait),
-    bio: localeBlock(raw.bio),
-    works: raw.works.flatMap((work) => {
-      if (work.key === null) return []
-      return definedFields({
-        key: work.key,
-        title: localeString(work.title) ?? bilingual<string>(undefined, undefined, `${work.key}`),
-        material: localeString(work.material),
-        dimensions: text(work.dimensions ?? undefined),
-        year: text(work.year ?? undefined),
-        description: localeBlock(work.description),
-        images: (work.images ?? []).flatMap((image): WorkImage[] => {
-          const data = toImageData(image)
-          const size = imageSize(image)
-          return data ? [{ ...data, aspectRatio: size ? size.width / size.height : 1 }] : []
-        }),
-      })
-    }),
+    discipline: text(raw.discipline),
+    portrait: creditedImage(raw.portrait),
+    bio: blocks(raw.bio),
+    links: (raw.externalLinks ?? []).map(({ label, url }) => ({ label, url })),
+    editions: raw.editions,
+    works,
   })
+  return hasProfileContent(profile) ? profile : null
+}
+
+export function hasProfileContent(
+  profile: Pick<ArtistProfile, 'portrait' | 'bio' | 'works'>,
+): boolean {
+  return profile.portrait !== undefined || profile.bio.length > 0 || profile.works.length > 0
 }

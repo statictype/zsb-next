@@ -34,6 +34,14 @@ An artist is public when a published edition lists them. `ARTIST_INDEX_QUERY` se
 
 The "N editions" figure next to those artists is `EDITIONS_HELD` in `src/lib/constants.ts`. It counts editions that have taken place and is updated by hand after an edition runs.
 
+### Artist profile
+
+`/artists/<slug>`. An artist has a profile when a published edition lists them and they have an English bio, a portrait, or at least one work. `ARTIST_PROFILE_PARAMS_QUERY` selects that set; the edition roster links a name only when the same condition holds. Artists with a name only, such as most 2021–2023 artists, get a profile as soon as one of those fields is filled in.
+
+### Work
+
+A `work` document with an `edition` reference is a work shown at that edition. It appears on the profile of its `artist` and of every artist in `collaborators`. A work with a `key` and no `edition` is a Galeria Beller work; it appears only on the Beller page and map.
+
 ## Program
 
 ### Event

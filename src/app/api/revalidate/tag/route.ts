@@ -1,10 +1,11 @@
 import { revalidateTag } from 'next/cache'
 import { after, type NextRequest, NextResponse } from 'next/server'
 import { parseBody } from 'next-sanity/webhook'
+import { artistHref } from '@/lib/artist-href'
 import { editionHref } from '@/lib/edition-href'
 import { GALERIA_BELLER_PATH } from '@/lib/galeria-beller-href'
 import { client } from '@/sanity/lib/client'
-import { EDITION_SUMMARIES } from '@/sanity/lib/queries'
+import { ARTIST_PROFILE_PARAMS, EDITION_SUMMARIES } from '@/sanity/lib/queries'
 
 interface WebhookPayload {
   tags: string[]
@@ -41,7 +42,8 @@ export async function POST(req: NextRequest) {
 
 /**
  * Re-fetches the pages composed from many document types, plus every
- * edition page when an edition changed. Bodies are read to completion so the
+ * edition page when an edition changed and every artist profile when an
+ * artist or work changed. Bodies are read to completion so the
  * render that refills the cache is not aborted. Runs inside `after()`.
  */
 async function warmAffectedPages(origin: string, tags: string[]) {
@@ -50,6 +52,10 @@ async function warmAffectedPages(origin: string, tags: string[]) {
     if (tags.some((tag) => tag === 'edition' || tag.startsWith('edition:'))) {
       const rows = await client.fetch(EDITION_SUMMARIES.query)
       for (const row of rows) paths.push(editionHref(row.year))
+    }
+    if (tags.some((tag) => tag === 'artist' || tag === 'work')) {
+      const rows = await client.fetch(ARTIST_PROFILE_PARAMS.query)
+      for (const row of rows) paths.push(artistHref(row.slug))
     }
     await Promise.allSettled(
       paths.map(async (path) => {

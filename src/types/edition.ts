@@ -169,33 +169,42 @@ export interface ArtistCloud {
 
 export type Lang = 'ro' | 'en'
 
-export interface LangText<T> {
-  lang: Lang
-  value: T
+export interface CreditedImage extends ImageData {
+  credit?: string
+  focus?: string
 }
 
-export type Bilingual<T> = Record<Lang, LangText<T>>
-
-export interface WorkImage extends ImageData {
-  aspectRatio: number
+export interface ArtistLink {
+  name: string
+  href: string
 }
 
-export interface ArtistWork {
-  key: number
-  title: Bilingual<string>
-  material?: Bilingual<string>
+export interface ExternalLink {
+  label: string
+  url: string
+}
+
+export interface ProfileWork {
+  id: string
+  edition: number
+  title: string
+  material?: string
   dimensions?: string
   year?: string
-  description: Bilingual<PortableTextBlock[]>
-  images: WorkImage[]
+  description: PortableTextBlock[]
+  with: ArtistLink[]
+  images: CreditedImage[]
 }
 
-export interface ArtistPage {
+export interface ArtistProfile {
   name: string
   slug: string
-  portrait?: ImageData
-  bio: Bilingual<PortableTextBlock[]>
-  works: ArtistWork[]
+  discipline?: string
+  portrait?: CreditedImage
+  bio: PortableTextBlock[]
+  links: ExternalLink[]
+  editions: number[]
+  works: ProfileWork[]
 }
 
 export interface Edition {

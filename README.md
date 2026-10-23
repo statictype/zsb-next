@@ -1,6 +1,6 @@
 # Bucharest Sculpture Days
 
-Website for Bucharest Sculpture Days (ZSB), an annual contemporary sculpture event in Bucharest, live at [sculpturedays.com](https://sculpturedays.com). It publishes each edition's theme, artists, credits and a filterable day-by-day program, with a shareable page and Open Graph card for every event. Editors manage all content in a Sanity Studio embedded in the same app at `/studio`.
+Website for Bucharest Sculpture Days (ZSB), an annual contemporary sculpture event in Bucharest, live at [sculpturedays.com](https://sculpturedays.com). It publishes each edition's theme, artists, credits and a filterable day-by-day program, with a shareable page and Open Graph card for every event, plus a profile for every artist shown since 2024. Editors manage all content in a Sanity Studio embedded in the same app at `/studio`.
 
 ## How it works
 
@@ -30,7 +30,7 @@ Next.js 16 (App Router, React Compiler), React 19, TypeScript, Panda CSS, Sanity
 src/
   app/
     (site)/          Public pages, shared layout, one directory per route
-    (beller)/        Galeria Beller landing page and /artists/<slug> profiles (own root layout)
+    (beller)/        Galeria Beller landing page (own root layout)
     studio/          Embedded Sanity Studio
     api/             Draft-mode toggles and the revalidation webhook
   components/        Shared components; ui/ holds the primitives
@@ -48,7 +48,7 @@ Component styles live next to each component in `*.recipe.ts` files.
 ## Known limitations
 
 - The site is English only, except `/galeria-beller`, which is Romanian.
-- `/artists` is a name index. `/artists/<slug>` profiles exist only for artists with `work` documents and use the Galeria Beller layout.
+- `/artists` is a name index and does not link to the profiles yet.
 
 ## License
 

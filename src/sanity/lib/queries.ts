@@ -219,33 +219,49 @@ const ARTIST_CLOUD_QUERY = defineQuery(`
 
 export const ARTIST_CLOUD = { query: ARTIST_CLOUD_QUERY, tags: ['artist', 'edition'] }
 
-const ARTIST_PAGE_QUERY = defineQuery(`
+const ARTIST_PROFILE_QUERY = defineQuery(`
   *[_type == "artist" && slug.current == $slug
-    && count(*[_type == "work" && artist._ref == ^._id && defined(key)]) > 0][0]{
+    && _id in *[_type == "edition"].artists[]._ref][0]{
+    _id,
     name,
     "slug": slug.current,
-    portrait{ asset, alt, "lqip": asset->metadata.lqip },
-    bio,
-    "works": *[_type == "work" && artist._ref == ^._id && defined(key)] | order(key asc){
-      key,
-      title,
-      material,
+    discipline,
+    portrait{ asset, alt, credit, hotspot, "lqip": asset->metadata.lqip },
+    "bio": bio.en,
+    externalLinks[]{ label, url },
+    "editions": *[_type == "edition" && ^._id in artists[]._ref] | order(year desc).year,
+    "works": *[_type == "work" && defined(edition)
+      && (artist._ref == ^._id || ^._id in collaborators[]._ref)]
+      | order(edition->year desc, _createdAt asc){
+      _id,
+      "edition": edition->year,
+      "title": title.en,
+      "material": material.en,
       dimensions,
       year,
-      description,
-      images[]{ asset, alt, "lqip": asset->metadata.lqip }
+      "description": description.en,
+      "creators": [artist->{ _id, name, "slug": slug.current }]
+        + coalesce(collaborators[]->{ _id, name, "slug": slug.current }, []),
+      images[]{ asset, alt, credit, hotspot, "lqip": asset->metadata.lqip }
     }
   }
 `)
 
-export const ARTIST_PAGE = { query: ARTIST_PAGE_QUERY, tags: ['artist', 'work'] }
+export const ARTIST_PROFILE = { query: ARTIST_PROFILE_QUERY, tags: ['artist', 'work', 'edition'] }
 
-const ARTIST_PAGE_SLUGS_QUERY = defineQuery(`
+const ARTIST_PROFILE_PARAMS_QUERY = defineQuery(`
   *[_type == "artist" && defined(slug.current)
-    && count(*[_type == "work" && artist._ref == ^._id && defined(key)]) > 0].slug.current
+    && _id in *[_type == "edition"].artists[]._ref
+    && (count(bio.en) > 0 || defined(portrait.asset)
+      || count(*[_type == "work" && defined(edition)
+        && (artist._ref == ^._id || ^._id in collaborators[]._ref)]) > 0)
+  ] | order(slug.current asc){ "slug": slug.current, _updatedAt }
 `)
 
-export const ARTIST_PAGE_SLUGS = { query: ARTIST_PAGE_SLUGS_QUERY, tags: ['artist', 'work'] }
+export const ARTIST_PROFILE_PARAMS = {
+  query: ARTIST_PROFILE_PARAMS_QUERY,
+  tags: ['artist', 'work', 'edition'],
+}
 
 const SITEMAP_QUERY = defineQuery(`
   {
@@ -308,7 +324,15 @@ const EDITION_BY_YEAR_QUERY = defineQuery(`
     ogImage,
     metaDescription,
     manifesto,
-    "artists": artists[]->{_id, name, sortName} | order(coalesce(sortName, name) asc){ _id, name },
+    "artists": artists[]->{
+      _id,
+      name,
+      sortName,
+      "slug": slug.current,
+      "hasProfile": count(bio.en) > 0 || defined(portrait.asset)
+        || count(*[_type == "work" && defined(edition)
+          && (artist._ref == ^._id || ^._id in collaborators[]._ref)]) > 0
+    } | order(coalesce(sortName, name) asc){ _id, name, slug, hasProfile },
     events[] {
       _key,
       "slug": slug.current,
@@ -363,7 +387,7 @@ const EDITION_BY_YEAR_QUERY = defineQuery(`
 
 export const EDITION_BY_YEAR = {
   query: EDITION_BY_YEAR_QUERY,
-  tags: ['edition', 'artist', 'eventType', 'venue', 'organization'],
+  tags: ['edition', 'artist', 'work', 'eventType', 'venue', 'organization'],
 }
 
 const GALERIA_BELLER_QUERY = defineQuery(`
@@ -378,9 +402,7 @@ const GALERIA_BELLER_QUERY = defineQuery(`
     "artists": artists[]->{
       _id,
       name,
-      sortName,
-      "slug": slug.current,
-      "hasPage": defined(slug.current) && count(*[_type == "work" && artist._ref == ^._id && defined(key)]) > 0
+      sortName
     } | order(coalesce(sortName, name) asc),
     events[] {
       _key,

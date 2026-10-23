@@ -337,6 +337,21 @@ describe('mapEdition', () => {
     expect(mapEdition(rawEdition({ venueLine: 'CFP' })).dateRange).toBe('10–20 May 2026')
   })
 
+  it('links roster names only for artists with a profile', () => {
+    const edition = mapEdition(
+      rawEdition({
+        artists: [
+          { _id: 'a', name: 'Călin Dan', slug: 'calin-dan', hasProfile: true },
+          { _id: 'b', name: 'Name Only', slug: 'name-only', hasProfile: null },
+        ],
+      }),
+    )
+    expect(edition.artists).toEqual([
+      { _id: 'a', name: 'Călin Dan', href: '/artists/calin-dan' },
+      { _id: 'b', name: 'Name Only' },
+    ])
+  })
+
   it('derives the facts from the date range, the venue line, and the mapped lists', () => {
     const edition = mapEdition(rawEdition({ venueLine: 'CFP', artists: [{ _id: 'a', name: 'A' }] }))
     expect(edition.facts).toEqual([

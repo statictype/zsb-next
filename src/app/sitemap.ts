@@ -1,7 +1,9 @@
 import type { MetadataRoute } from 'next'
+import { artistHref } from '@/lib/artist-href'
 import { SITE_URL } from '@/lib/constants'
 import { editionHref, eventHref } from '@/lib/edition-href'
 import { bellerEventHref, GALERIA_BELLER_PATH } from '@/lib/galeria-beller-href'
+import { getArtistProfileParams } from '@/sanity/lib/artists'
 import { getAllEventParams, getSitemapMetadata } from '@/sanity/lib/editions'
 import { getGaleriaBeller } from '@/sanity/lib/galeria-beller'
 import { PUBLISHED } from '@/sanity/lib/live'
@@ -31,10 +33,11 @@ function entry(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [meta, eventParams, beller] = await Promise.all([
+  const [meta, eventParams, beller, artists] = await Promise.all([
     getSitemapMetadata(),
     getAllEventParams(),
     getGaleriaBeller(PUBLISHED),
+    getArtistProfileParams(),
   ])
 
   // SITEMAP_QUERY.editions is filtered to `== "live"`, the same gate as the edition page.
@@ -50,6 +53,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Events have no timestamp of their own; they use the parent edition's.
   const eventEntries = eventParams.map(({ year, slug }) =>
     entry(eventHref(Number(year), slug), lastMod(editionUpdatedByYear.get(year)), 'yearly', 0.5),
+  )
+
+  const artistEntries = artists.map(({ slug, _updatedAt }) =>
+    entry(artistHref(slug), lastMod(_updatedAt), 'yearly', 0.5),
   )
 
   const editionsListLastMod = newest(editions.map((e) => e._updatedAt))
@@ -68,6 +75,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry('/editions', editionsListLastMod, 'yearly', 0.8),
     ...editionEntries,
     ...eventEntries,
+    ...artistEntries,
     entry('/visit', updatedAt('visitPage'), 'yearly', 0.7),
     entry('/partners', updatedAt('partnersPage'), 'yearly', 0.5),
     entry('/press', updatedAt('pressPage'), 'monthly', 0.6),
