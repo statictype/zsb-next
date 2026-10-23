@@ -30,9 +30,9 @@ export const aboutPage = sva({
       '&:first-child': { borderTop: 'none', paddingTop: '0' },
       '&:last-child': { paddingBottom: '0' },
       lg: {
-        gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
+        gridTemplateColumns: '1fr 1fr',
         gridTemplateAreas: '"body plate"',
-        columnGap: 'xl',
+        columnGap: '2xl',
         alignItems: 'center',
         '&:nth-child(even)': { gridTemplateAreas: '"plate body"' },
       },
