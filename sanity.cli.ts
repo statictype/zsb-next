@@ -8,7 +8,9 @@ export default defineCliConfig({
     ...(projectId ? { projectId } : {}),
     ...(dataset ? { dataset } : {}),
   },
-  autoUpdates: true,
+  deployment: {
+    autoUpdates: true,
+  },
   schemaExtraction: {
     path: './src/sanity/schema.json',
   },
