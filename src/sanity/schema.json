@@ -2438,12 +2438,20 @@
           "type": "string"
         }
       },
+      "edition": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "edition.reference"
+        },
+        "optional": true
+      },
       "key": {
         "type": "objectAttribute",
         "value": {
           "type": "number"
         },
-        "optional": false
+        "optional": true
       },
       "artist": {
         "type": "objectAttribute",
@@ -2452,6 +2460,28 @@
           "name": "artist.reference"
         },
         "optional": false
+      },
+      "collaborators": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "artist.reference"
+            }
+          }
+        },
+        "optional": true
       },
       "title": {
         "type": "objectAttribute",
@@ -2530,6 +2560,13 @@
                 "optional": true
               },
               "alt": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "credit": {
                 "type": "objectAttribute",
                 "value": {
                   "type": "string"
@@ -2662,6 +2699,13 @@
               "optional": true
             },
             "alt": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "credit": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"

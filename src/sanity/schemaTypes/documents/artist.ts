@@ -41,6 +41,7 @@ export const artist = defineType({
       name: 'portrait',
       title: 'Portrait',
       altNoun: 'a portrait',
+      credit: true,
       altDescription: 'Describe the portrait for screen readers and SEO.',
     }),
     defineField({

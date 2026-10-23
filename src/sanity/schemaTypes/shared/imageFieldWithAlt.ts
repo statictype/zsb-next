@@ -8,13 +8,22 @@ interface ImageFieldWithAltOptions {
   altDescription?: string
   altNoun?: string
   hotspot?: boolean
+  credit?: boolean
   group?: string
   /** Presence validation for the image. The nested alt-required check always applies independently. */
   validation?: (rule: ImageRule) => ImageRule
 }
 
 export function imageFieldWithAlt(opts: ImageFieldWithAltOptions) {
-  const { name, title, description, altDescription, altNoun = 'an image', hotspot = true } = opts
+  const {
+    name,
+    title,
+    description,
+    altDescription,
+    altNoun = 'an image',
+    hotspot = true,
+    credit = false,
+  } = opts
 
   return defineField({
     name,
@@ -36,6 +45,16 @@ export function imageFieldWithAlt(opts: ImageFieldWithAltOptions) {
             return true
           }),
       }),
+      ...(credit
+        ? [
+            defineField({
+              name: 'credit',
+              title: 'Credit',
+              description: 'Photographer or source, e.g. "Photo: Roald Aron".',
+              type: 'string',
+            }),
+          ]
+        : []),
     ],
     ...(opts.validation ? { validation: opts.validation } : {}),
   })

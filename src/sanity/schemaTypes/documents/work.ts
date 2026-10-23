@@ -10,16 +10,27 @@ export const work = defineType({
   icon: CubeIcon,
   fields: [
     defineField({
+      name: 'edition',
+      title: 'Edition',
+      description: 'The ZSB edition that showed this work. Leave empty for Galeria Beller works.',
+      type: 'reference',
+      to: [{ type: 'edition' }],
+    }),
+    defineField({
       name: 'key',
       title: 'Number',
-      description:
-        'Catalog number. QR codes link to the artist page with ?w=<number>, so it cannot change after publishing.',
+      description: 'Galeria Beller map number. It cannot change after publishing.',
       type: 'number',
+      hidden: ({ document, value }) => value === undefined && Boolean(document?.['edition']),
       validation: (rule) =>
         rule
-          .required()
           .integer()
           .min(1)
+          .custom((key, context) =>
+            key === undefined && !context.document?.['edition']
+              ? 'Required when the work has no edition'
+              : true,
+          )
           .custom(async (key, context) => {
             if (key === undefined) return true
             const id = context.document?._id.replace(/^drafts\./, '') ?? ''
@@ -39,6 +50,14 @@ export const work = defineType({
       type: 'reference',
       to: [{ type: 'artist' }],
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'collaborators',
+      title: 'Collaborators',
+      description: 'Other artists credited on a joint work.',
+      type: 'array',
+      of: [defineArrayMember({ type: 'reference', to: [{ type: 'artist' }] })],
+      validation: (rule) => rule.unique(),
     }),
     defineField({
       name: 'title',
@@ -93,17 +112,40 @@ export const work = defineType({
                   return true
                 }),
             }),
+            defineField({
+              name: 'credit',
+              title: 'Credit',
+              description: 'Photographer, e.g. "Photo: Roald Aron".',
+              type: 'string',
+            }),
           ],
         }),
       ],
       validation: (rule) => rule.min(1).warning('The artist page shows no image for this work'),
     }),
   ],
-  orderings: [{ title: 'Number', name: 'keyAsc', by: [{ field: 'key', direction: 'asc' }] }],
+  orderings: [
+    { title: 'Number', name: 'keyAsc', by: [{ field: 'key', direction: 'asc' }] },
+    {
+      title: 'Edition',
+      name: 'editionDesc',
+      by: [
+        { field: 'edition.year', direction: 'desc' },
+        { field: 'key', direction: 'asc' },
+      ],
+    },
+  ],
   preview: {
-    select: { key: 'key', title: 'title.ro', artist: 'artist.name', media: 'images.0' },
-    prepare({ key, title, artist, media }) {
-      return { title: `${key ?? '?'}. ${title ?? 'Untitled'}`, subtitle: artist, media }
+    select: {
+      key: 'key',
+      year: 'edition.year',
+      title: 'title.en',
+      artist: 'artist.name',
+      media: 'images.0',
+    },
+    prepare({ key, year, title, artist, media }) {
+      const prefix = year ? `${year} ·` : `${key ?? '?'}.`
+      return { title: `${prefix} ${title ?? 'Untitled'}`, subtitle: artist, media }
     },
   },
 })
