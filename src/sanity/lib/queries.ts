@@ -221,12 +221,12 @@ export const ARTIST_CLOUD = { query: ARTIST_CLOUD_QUERY, tags: ['artist', 'editi
 
 const ARTIST_PAGE_QUERY = defineQuery(`
   *[_type == "artist" && slug.current == $slug
-    && count(*[_type == "work" && artist._ref == ^._id]) > 0][0]{
+    && count(*[_type == "work" && artist._ref == ^._id && defined(key)]) > 0][0]{
     name,
     "slug": slug.current,
     portrait{ asset, alt, "lqip": asset->metadata.lqip },
     bio,
-    "works": *[_type == "work" && artist._ref == ^._id] | order(key asc){
+    "works": *[_type == "work" && artist._ref == ^._id && defined(key)] | order(key asc){
       key,
       title,
       material,
@@ -242,7 +242,7 @@ export const ARTIST_PAGE = { query: ARTIST_PAGE_QUERY, tags: ['artist', 'work'] 
 
 const ARTIST_PAGE_SLUGS_QUERY = defineQuery(`
   *[_type == "artist" && defined(slug.current)
-    && count(*[_type == "work" && artist._ref == ^._id]) > 0].slug.current
+    && count(*[_type == "work" && artist._ref == ^._id && defined(key)]) > 0].slug.current
 `)
 
 export const ARTIST_PAGE_SLUGS = { query: ARTIST_PAGE_SLUGS_QUERY, tags: ['artist', 'work'] }
@@ -380,7 +380,7 @@ const GALERIA_BELLER_QUERY = defineQuery(`
       name,
       sortName,
       "slug": slug.current,
-      "hasPage": defined(slug.current) && count(*[_type == "work" && artist._ref == ^._id]) > 0
+      "hasPage": defined(slug.current) && count(*[_type == "work" && artist._ref == ^._id && defined(key)]) > 0
     } | order(coalesce(sortName, name) asc),
     events[] {
       _key,

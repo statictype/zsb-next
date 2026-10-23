@@ -91,8 +91,9 @@ export function mapArtistPage(raw: ARTIST_PAGE_QUERY_RESULT): ArtistPage | null 
     slug: raw.slug,
     portrait: toImageData(raw.portrait),
     bio: localeBlock(raw.bio),
-    works: raw.works.map((work) =>
-      definedFields({
+    works: raw.works.flatMap((work) => {
+      if (work.key === null) return []
+      return definedFields({
         key: work.key,
         title: localeString(work.title) ?? bilingual<string>(undefined, undefined, `${work.key}`),
         material: localeString(work.material),
@@ -104,7 +105,7 @@ export function mapArtistPage(raw: ARTIST_PAGE_QUERY_RESULT): ArtistPage | null 
           const size = imageSize(image)
           return data ? [{ ...data, aspectRatio: size ? size.width / size.height : 1 }] : []
         }),
-      }),
-    ),
+      })
+    }),
   })
 }

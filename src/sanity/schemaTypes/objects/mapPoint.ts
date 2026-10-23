@@ -88,7 +88,7 @@ export const mapPoint = defineType({
       hidden: ({ parent }) => !isWork(parent),
       options: {
         filter: ({ document }) => ({
-          filter: 'artist._ref in $artists',
+          filter: 'artist._ref in $artists && !defined(edition)',
           params: {
             artists: ((document['artists'] ?? []) as { _ref?: string }[]).flatMap((a) =>
               a._ref ? [a._ref] : [],
