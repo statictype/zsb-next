@@ -5,7 +5,6 @@ import { JsonLd } from '@/components/JsonLd/JsonLd'
 import { artistJsonLd, artistMetadata } from '@/lib/seo'
 import { getArtistProfile, getArtistProfileParams } from '@/sanity/lib/artists'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
-import { getSiteSettings } from '@/sanity/lib/settings'
 
 export async function generateStaticParams() {
   return (await getArtistProfileParams()).map(({ slug }) => ({ slug }))
@@ -29,16 +28,13 @@ export default async function ArtistPage(props: PageProps<'/artists/[slug]'>) {
 }
 
 async function ArtistBody({ slug, options }: { slug: string; options: DynamicFetchOptions }) {
-  const [artist, settings] = await Promise.all([
-    getArtistProfile(slug, options),
-    getSiteSettings(options),
-  ])
+  const artist = await getArtistProfile(slug, options)
   if (!artist) notFound()
 
   return (
     <main>
       <JsonLd data={artistJsonLd(artist)} />
-      <ArtistProfile artist={artist} contactEmail={settings?.contactEmail ?? undefined} />
+      <ArtistProfile artist={artist} />
     </main>
   )
 }
