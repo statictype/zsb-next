@@ -4,6 +4,7 @@ export const artistProfile = sva({
   slots: [
     'root',
     'plate',
+    'plateLogo',
     'plateFrame',
     'plateImage',
     'plateImageHidden',
@@ -15,6 +16,7 @@ export const artistProfile = sva({
     'intro',
     'bio',
     'actions',
+    'works',
     'srOnly',
     'facts',
     'term',
@@ -40,6 +42,19 @@ export const artistProfile = sva({
         paddingBlock: 'lg',
       },
     },
+    plateLogo: {
+      display: 'none',
+      lg: {
+        display: 'flex',
+        position: 'absolute',
+        top: '[calc(24px - token(sizes.nav))]',
+        left: 'gutter',
+        width: '56px',
+        height: '56px',
+        zIndex: 'nav',
+      },
+      xl: { width: '60px', height: '60px' },
+    },
     plateFrame: {
       position: 'relative',
       overflow: 'hidden',
@@ -60,7 +75,6 @@ export const artistProfile = sva({
       minHeight: '[2.75em]',
       paddingTop: 'sm',
       paddingInline: 'gutter',
-      lg: { paddingInline: '0' },
     },
     column: {
       paddingInline: 'gutter',
@@ -101,6 +115,7 @@ export const artistProfile = sva({
       alignItems: 'center',
       gap: 'md',
     },
+    works: { scrollMarginTop: 'token(sizes.nav)' },
     srOnly: { layerStyle: 'srOnly' },
     facts: {
       display: 'grid',
@@ -166,10 +181,10 @@ export const artistProfile = sva({
         root: {
           lg: {
             display: 'grid',
-            gridTemplateColumns: '5fr 7fr',
+            gridTemplateColumns: '1fr 1fr',
             columnGap: '3xl',
             alignItems: 'start',
-            paddingInline: 'gutter',
+            paddingRight: 'gutter',
           },
         },
         column: {

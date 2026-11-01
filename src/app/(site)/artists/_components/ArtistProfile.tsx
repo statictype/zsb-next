@@ -2,22 +2,25 @@
 
 import { artistProfile } from '@artists-components/ArtistProfile.recipe'
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
-import { RiArrowRightUpLine } from '@remixicon/react'
+import { RiArrowDownLine, RiArrowRightUpLine } from '@remixicon/react'
+import Link from 'next/link'
 import { Fragment, type RefObject, useEffect, useId, useRef, useState } from 'react'
 import { cx } from 'styled-system/css'
 import { Text } from 'styled-system/jsx'
 import { Figure } from '@/components/Figure/Figure'
 import { Lightbox, useLightbox } from '@/components/Lightbox/Lightbox'
+import { Logo } from '@/components/Navigation/Logo'
 import { Button } from '@/components/ui/Button/Button'
 import { SITE_NAME } from '@/lib/constants'
 import { editionHref } from '@/lib/edition-href'
 import type { CreditedImage, ArtistProfile as Profile, ProfileWork } from '@/types/edition'
 
-const PLATE_SIZES = '(min-width: 1024px) 42vw, 100vw'
+const PLATE_SIZES = '(min-width: 1024px) 50vw, 100vw'
 const MIDLINE = '-50% 0px -50% 0px'
 const DESKTOP = '(min-width: 1024px)'
 const PORTRAIT_FOCUS = 'center 25%'
 const WORK_FOCUS = 'center'
+const WORKS_ANCHOR = 'works'
 const EDITION_LIST = new Intl.ListFormat('en', { type: 'conjunction' })
 
 const paragraphs: PortableTextComponents = {
@@ -101,6 +104,7 @@ export function ArtistProfile({ artist }: ArtistProfileProps) {
   const [reached, setReached] = useState(0)
   const worksId = useId()
   const hasBio = artist.bio.length > 0
+  const showWorksLink = hasBio && artist.works.length > 0
   const styles = artistProfile({ withPlate: plates.length > 0 })
 
   if (active > reached) setReached(active)
@@ -109,6 +113,9 @@ export function ArtistProfile({ artist }: ArtistProfileProps) {
     <div ref={root} className={styles.root}>
       {plates.length > 0 && (
         <figure className={styles.plate}>
+          <Link href="/" data-logo-dock className={styles.plateLogo}>
+            <Logo />
+          </Link>
           <div className={styles.plateFrame}>
             {plates.map(
               (plate, index) =>
@@ -157,8 +164,16 @@ export function ArtistProfile({ artist }: ArtistProfileProps) {
                 <PortableText value={artist.bio} components={paragraphs} />
               </div>
             )}
-            {artist.links.length > 0 && (
+            {(showWorksLink || artist.links.length > 0) && (
               <div className={styles.actions}>
+                {showWorksLink && (
+                  <Button asChild variant="secondary" size="sm">
+                    <a href={`#${WORKS_ANCHOR}`}>
+                      See works
+                      <RiArrowDownLine size={14} />
+                    </a>
+                  </Button>
+                )}
                 {artist.links.map((link) => (
                   <Button key={link.url} asChild variant="secondary" size="sm">
                     <a href={link.url} target="_blank" rel="noreferrer noopener">
@@ -173,7 +188,7 @@ export function ArtistProfile({ artist }: ArtistProfileProps) {
         </header>
 
         {artist.works.length > 0 && (
-          <section aria-labelledby={worksId}>
+          <section id={WORKS_ANCHOR} aria-labelledby={worksId} className={styles.works}>
             <h2 id={worksId} className={styles.srOnly}>
               Works shown at {SITE_NAME}
             </h2>
