@@ -1,4 +1,3 @@
-import { artistHref } from '@/lib/artist-href'
 import { definedFields } from '@/lib/defined-fields'
 import { mapCredits, mapEvents } from '@/sanity/lib/editions-mappers'
 import { imageSize, type SanityImageField, toImageData, toShareImage } from '@/sanity/lib/image'
@@ -23,13 +22,7 @@ function toBellerImage(field: SanityImageField | null | undefined): BellerImage 
 }
 
 function mapArtists(raw: SanityGaleriaBeller['artists']): ArtistListItem[] {
-  return (raw ?? []).map((a) =>
-    definedFields({
-      _id: a._id,
-      name: a.name,
-      href: a.hasPage && a.slug ? artistHref(a.slug) : undefined,
-    }),
-  )
+  return (raw ?? []).map((a) => ({ _id: a._id, name: a.name }))
 }
 
 function mapPressKit(raw: SanityGaleriaBeller['pressKit']): BellerPressKit | undefined {

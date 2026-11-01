@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { artistTier, formatEditionYears, mapArtistCloud } from '@/sanity/lib/artists-mappers'
+import {
+  artistTier,
+  formatEditionYears,
+  mapArtistCloud,
+  mapArtistProfile,
+} from '@/sanity/lib/artists-mappers'
 
 type Raw = Parameters<typeof mapArtistCloud>[0]
 
@@ -107,5 +112,92 @@ describe('mapArtistCloud', () => {
     ).cloud
     expect(ana).toEqual({ _id: 'id-Ana', name: 'Ana', years: [2021, 2022, 2024], tier: 5 })
     expect(bogdan?.tier).toBe(3)
+  })
+})
+
+type RawProfile = NonNullable<Parameters<typeof mapArtistProfile>[0]>
+type RawWork = RawProfile['works'][number]
+
+const PATATICS = { _id: 'artist-patatics', name: 'Alexandru Patatics', slug: 'alexandru-patatics' }
+const LILIENFELD = {
+  _id: 'artist-lilienfeld',
+  name: 'Cristina Lilienfeld',
+  slug: 'cristina-lilienfeld',
+}
+
+function work(fields: Partial<RawWork> = {}): RawWork {
+  return {
+    _id: 'work-1',
+    edition: 2025,
+    title: 'DryLandscape',
+    material: null,
+    dimensions: null,
+    year: null,
+    description: null,
+    creators: [PATATICS],
+    images: null,
+    ...fields,
+  }
+}
+
+function profile(fields: Partial<RawProfile> = {}): RawProfile {
+  return {
+    _id: PATATICS._id,
+    name: PATATICS.name,
+    slug: PATATICS.slug,
+    discipline: null,
+    portrait: null,
+    bio: null,
+    externalLinks: null,
+    editions: [2025],
+    works: [work()],
+    ...fields,
+  }
+}
+
+describe('mapArtistProfile', () => {
+  it('returns null for an artist with no bio, portrait or work', () => {
+    expect(mapArtistProfile(profile({ works: [] }))).toBeNull()
+  })
+
+  it('lists the other creators of a joint work, from either side', () => {
+    const joint = work({ creators: [PATATICS, LILIENFELD] })
+    const own = mapArtistProfile(profile({ works: [joint] }))
+    const collaborator = mapArtistProfile(
+      profile({ ...LILIENFELD, works: [joint], bio: null, portrait: null }),
+    )
+    expect(own?.works[0]?.with).toEqual([
+      { name: 'Cristina Lilienfeld', href: '/artists/cristina-lilienfeld' },
+    ])
+    expect(collaborator?.works[0]?.with).toEqual([
+      { name: 'Alexandru Patatics', href: '/artists/alexandru-patatics' },
+    ])
+  })
+
+  it('omits blank text fields and keeps image credits and hotspot focus', () => {
+    const mapped = mapArtistProfile(
+      profile({
+        discipline: '  ',
+        works: [
+          work({
+            dimensions: '45 × 27 × 25 cm',
+            images: [
+              {
+                asset: { _ref: 'image-abc-1200x800-jpg', _type: 'reference' },
+                alt: 'Photo',
+                credit: 'Photo: Roald Aron',
+                hotspot: { _type: 'sanity.imageHotspot', x: 0.5, y: 0.25, width: 0.4, height: 0.4 },
+                lqip: null,
+              },
+            ],
+          }),
+        ],
+      }),
+    )
+    expect(mapped?.discipline).toBeUndefined()
+    expect(mapped?.works[0]?.dimensions).toBe('45 × 27 × 25 cm')
+    expect(mapped?.works[0]?.material).toBeUndefined()
+    expect(mapped?.works[0]?.images[0]?.credit).toBe('Photo: Roald Aron')
+    expect(mapped?.works[0]?.images[0]?.focus).toBe('50% 25%')
   })
 })

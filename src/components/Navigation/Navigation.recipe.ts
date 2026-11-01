@@ -24,7 +24,11 @@ export const navigation = defineSlotRecipe({
       zIndex: 'nav',
       display: 'flex',
       md: { top: '24px', width: 'touch', height: 'touch' },
-      lg: { width: '56px', height: '56px' },
+      lg: {
+        width: '56px',
+        height: '56px',
+        'body:has([data-logo-dock]) &': { visibility: 'hidden' },
+      },
       xl: { width: '60px', height: '60px' },
     },
     logoImg: { width: '100%', height: '100%', objectFit: 'contain', display: 'block' },

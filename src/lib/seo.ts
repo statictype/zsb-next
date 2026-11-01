@@ -1,4 +1,6 @@
+import { toPlainText } from '@portabletext/react'
 import type { Metadata } from 'next'
+import { artistHref } from '@/lib/artist-href'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/constants'
 import { editionWindow } from '@/lib/edition-dates'
 import { editionHref, eventHref } from '@/lib/edition-href'
@@ -6,6 +8,7 @@ import { bellerEventHref, GALERIA_BELLER_PATH } from '@/lib/galeria-beller-href'
 import { OG_IMAGE_SIZE } from '@/sanity/lib/image'
 import { type DynamicFetchOptions, getDynamicFetchOptions } from '@/sanity/lib/live'
 import type {
+  ArtistProfile,
   CalendarEvent,
   Edition,
   EditionJsonLd,
@@ -117,6 +120,45 @@ export function eventMetadata(year: number, event: CalendarEvent): Metadata {
       url: path,
     },
     alternates: { canonical: path },
+  }
+}
+
+function listYears(years: number[]): string {
+  const sorted = [...years].sort((a, b) => a - b)
+  const last = sorted.pop()
+  return sorted.length > 0 ? `${sorted.join(', ')} and ${last}` : String(last ?? '')
+}
+
+export function artistDescription(artist: ArtistProfile): string {
+  const firstParagraph = artist.bio[0]
+  if (firstParagraph) return truncate(toPlainText([firstParagraph]), 155)
+  const role = artist.discipline ? `, ${artist.discipline.toLowerCase()}` : ''
+  return `${artist.name}${role}. Shown at ${SITE_NAME} ${listYears(artist.editions)}.`
+}
+
+// No images: the artist route's opengraph-image supplies them.
+export function artistMetadata(artist: ArtistProfile): Metadata {
+  const description = artistDescription(artist)
+  const path = artistHref(artist.slug)
+  return {
+    title: artist.name,
+    description,
+    openGraph: { title: artist.name, description, type: 'profile', url: path },
+    alternates: { canonical: path },
+  }
+}
+
+export function artistJsonLd(artist: ArtistProfile) {
+  const sameAs = artist.links.map((link) => link.url)
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: artist.name,
+    url: `${SITE_URL}${artistHref(artist.slug)}`,
+    description: artistDescription(artist),
+    ...(artist.discipline && { knowsAbout: artist.discipline.split(', ') }),
+    ...(artist.portrait && { image: artist.portrait.src }),
+    ...(sameAs.length > 0 && { sameAs }),
   }
 }
 

@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import { cx } from 'styled-system/css'
 import { navigation } from 'styled-system/recipes'
+import { Logo } from '@/components/Navigation/Logo'
 import { MobileMenu } from '@/components/Navigation/MobileMenu'
 import { NavigationProgress } from '@/components/Navigation/NavigationProgress'
 import { NavLinks, NavLinksList } from '@/components/Navigation/NavLinks'
@@ -11,17 +11,7 @@ const s = navigation()
 const desktopLinkClass = cx(s.navLink, s.desktopNavLink)
 
 export function Navigation() {
-  const logo = (
-    <Image
-      src="/img/logo_ZSB.svg"
-      alt="ZSB Logo"
-      width={60}
-      height={60}
-      className={s.logoImg}
-      unoptimized
-      preload
-    />
-  )
+  const logo = <Logo />
 
   return (
     <>

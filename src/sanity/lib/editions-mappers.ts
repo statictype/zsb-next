@@ -1,4 +1,5 @@
 import type { SanityImageSource } from '@sanity/image-url'
+import { artistHref } from '@/lib/artist-href'
 import { definedFields } from '@/lib/defined-fields'
 import { composeDateLine, composeDateRange, composeDateSpan, dayToken } from '@/lib/edition-dates'
 import { editionHref } from '@/lib/edition-href'
@@ -257,7 +258,13 @@ export function mapEditionSummary(raw: EDITION_SUMMARIES_QUERY_RESULT[number]): 
 
 export function mapEdition(raw: SanityEdition): Edition {
   const dateRange = composeDateRange(raw)
-  const artists = raw.artists ?? []
+  const artists = (raw.artists ?? []).map((artist) =>
+    definedFields({
+      _id: artist._id,
+      name: artist.name,
+      href: artist.hasProfile === true && artist.slug ? artistHref(artist.slug) : undefined,
+    }),
+  )
   const events = mapEvents(raw.events)
   return definedFields({
     year: raw.year,

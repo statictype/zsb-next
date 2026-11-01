@@ -15,8 +15,8 @@ function raw(fields: Partial<Record<keyof Raw, unknown>> = {}): Raw {
     info: { title: 'Titlu', body: 'Text' },
     programIntro: null,
     artists: [
-      { _id: 'a', name: 'Alin Carpen', sortName: null, slug: 'alin-carpen', hasPage: true },
-      { _id: 'b', name: 'Fără Lucrări', sortName: null, slug: 'fara-lucrari', hasPage: false },
+      { _id: 'a', name: 'Alin Carpen', sortName: null },
+      { _id: 'b', name: 'Fără Lucrări', sortName: null },
     ],
     events: null,
     credits: null,
@@ -29,10 +29,10 @@ function raw(fields: Partial<Record<keyof Raw, unknown>> = {}): Raw {
 }
 
 describe('mapGaleriaBeller', () => {
-  it('links only artists that have a page', () => {
+  it('lists artists by name, without links', () => {
     const { artists } = mapGaleriaBeller(raw())
     expect(artists).toEqual([
-      { _id: 'a', name: 'Alin Carpen', href: '/artists/alin-carpen' },
+      { _id: 'a', name: 'Alin Carpen' },
       { _id: 'b', name: 'Fără Lucrări' },
     ])
   })

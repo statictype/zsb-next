@@ -53,7 +53,8 @@ export const artist = defineType({
     defineField({
       name: 'bio',
       title: 'Bio',
-      description: 'Shown on the artist page. Only artists with at least one work have a page.',
+      description:
+        'Shown on the artist profile. An artist in a published edition has a profile once they have a bio, a portrait or a work.',
       type: 'localeBlock',
     }),
     defineField({

@@ -1,9 +1,15 @@
 import 'server-only'
 
-import { mapArtistCloud, mapArtistPage } from '@/sanity/lib/artists-mappers'
+import { mapArtistCloud, mapArtistProfile } from '@/sanity/lib/artists-mappers'
 import { type DynamicFetchOptions, PUBLISHED, queryData } from '@/sanity/lib/live'
-import { ARTIST_CLOUD, ARTIST_INDEX, ARTIST_PAGE, ARTIST_PAGE_SLUGS } from '@/sanity/lib/queries'
-import type { ArtistCloud, ArtistListItem, ArtistPage } from '@/types/edition'
+import {
+  ARTIST_CLOUD,
+  ARTIST_INDEX,
+  ARTIST_PROFILE,
+  ARTIST_PROFILE_PARAMS,
+} from '@/sanity/lib/queries'
+import type { ARTIST_PROFILE_PARAMS_QUERY_RESULT } from '@/sanity/types'
+import type { ArtistCloud, ArtistListItem, ArtistProfile } from '@/types/edition'
 
 /** Published perspective only, so the result stays statically cacheable. */
 export async function getArtistIndex(): Promise<ArtistListItem[]> {
@@ -17,15 +23,15 @@ export async function getArtistCloud(): Promise<ArtistCloud> {
   return mapArtistCloud(raw)
 }
 
-export async function getArtistPage(
+export async function getArtistProfile(
   slug: string,
   options: DynamicFetchOptions,
-): Promise<ArtistPage | null> {
+): Promise<ArtistProfile | null> {
   'use cache'
-  return mapArtistPage(await queryData(ARTIST_PAGE, options, { slug }))
+  return mapArtistProfile(await queryData(ARTIST_PROFILE, options, { slug }))
 }
 
-export async function getArtistPageSlugs(): Promise<string[]> {
+export async function getArtistProfileParams(): Promise<ARTIST_PROFILE_PARAMS_QUERY_RESULT> {
   'use cache'
-  return await queryData(ARTIST_PAGE_SLUGS, PUBLISHED)
+  return await queryData(ARTIST_PROFILE_PARAMS, PUBLISHED)
 }

@@ -22,7 +22,7 @@ Three audiences are constant across both modes:
 
 ## Product Purpose
 
-Bucharest Sculpture Days (ZSB) is a platform for sculpture in Bucharest. Its most visible part is an annual contemporary sculpture event; it also runs a youth award, open studios, talks, and film screenings. It exists to promote sculpture as a practice in Romania, where the profession is in decline. The site carries three jobs at once:
+Bucharest Sculpture Days (ZSB) is a platform for sculpture in Bucharest. Its most visible part is an annual contemporary sculpture event that includes exhibitions, open studios, talks, and film screenings. It also runs a youth award. It exists to promote sculpture as a practice in Romania, where the profession is in decline. The site carries three jobs at once:
 
 1. Get people to the events of the current edition.
 2. Establish enough credibility to attract partners and funding.
@@ -69,8 +69,6 @@ Real material the site can use as proof:
 - **Named partners and venues** — real organizations, galleries, and venues that hosted editions (`venue`, `partnersPage`).
 - **Photography archive** — substantial real photography of works, artists, and venues from past editions. **Not yet tagged** by artist, work, or edition, so artist pages cannot depend on tagged imagery yet.
 - **Attendance figures** — real numbers from past editions exist.
-
-Not on hand, and not to be invented: testimonials, sponsorship or funding claims, awards, benchmarks, visitor quotes.
 
 ## Product Principles
 
